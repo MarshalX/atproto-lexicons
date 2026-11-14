@@ -1,0 +1,61 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "The featured keeper's answer for one week: a note to quote in the post (text, may be empty) or decline: true for 'not this time'. Writes pet.trezy.featureReply/<week> into the caller's repo. Refuses unless the caller is that week's keeper and the post has not gone out yet.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "decline": {
+              "type": "boolean"
+            },
+            "text": {
+              "maxGraphemes": 140,
+              "maxLength": 1400,
+              "type": "string"
+            },
+            "week": {
+              "maxLength": 8,
+              "type": "string"
+            }
+          },
+          "required": [
+            "week"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "error": {
+              "knownValues": [
+                "not-authenticated",
+                "missing-week",
+                "not-yours",
+                "closed",
+                "too-long",
+                "save-failed"
+              ],
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            },
+            "week": {
+              "description": "Present only on success.",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "pet.trezy.replyToFeature",
+  "lexicon": 1
+}

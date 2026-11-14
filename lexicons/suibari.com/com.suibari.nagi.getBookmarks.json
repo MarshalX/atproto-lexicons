@@ -1,0 +1,64 @@
+{
+  "id": "com.suibari.nagi.getBookmarks",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "items",
+            "hasMore"
+          ],
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "unknown"
+              }
+            },
+            "cursor": {
+              "type": "string"
+            },
+            "hasMore": {
+              "type": "boolean"
+            },
+            "botActor": {
+              "type": "unknown"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "q": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "lang": {
+            "type": "string",
+            "knownValues": [
+              "ja",
+              "en"
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "maximum": 30,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "folderId": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

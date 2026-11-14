@@ -1,0 +1,23 @@
+{
+  "id": "app.rocksky.equalizer.deletePreset",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "parameters": {
+        "type": "params",
+        "required": [
+          "rkey"
+        ],
+        "properties": {
+          "rkey": {
+            "type": "string",
+            "description": "Record key of the preset to delete."
+          }
+        }
+      },
+      "description": "Delete one of the authenticated user's equalizer presets."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

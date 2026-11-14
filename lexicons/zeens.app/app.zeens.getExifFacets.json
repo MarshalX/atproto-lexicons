@@ -1,0 +1,28 @@
+{
+  "id": "app.zeens.getExifFacets",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "make": {
+            "type": "string",
+            "description": "Optional substring match on exif.make. Used when listing models/lenses for a chosen make."
+          },
+          "models": {
+            "type": "string",
+            "description": "Optional comma-separated list of exact exif.model values to restrict lens/aperture/focal facets. Takes precedence over make."
+          }
+        }
+      },
+      "description": "Aggregate distinct EXIF facet values (makes, models, lenses, apertures, focal lengths, camera/lens gear with counts) across all app.zeens.postMeta records. Powers the search UI's cascading filters and popular-gear chips without needing any client-side aggregation.",
+      "target_collection": "app.zeens.postMeta"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,43 @@
+{
+  "id": "app.rocksky.song.matchSong",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "ref": "app.rocksky.song.defs#songViewDetailed",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "title",
+          "artist"
+        ],
+        "properties": {
+          "isrc": {
+            "type": "string",
+            "description": "Optional International Standard Recording Code (ISRC) to anchor the match"
+          },
+          "mbId": {
+            "type": "string",
+            "description": "Optional MusicBrainz recording ID to anchor the match"
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the song to retrieve"
+          },
+          "artist": {
+            "type": "string",
+            "description": "The artist of the song to retrieve"
+          }
+        }
+      },
+      "description": "Matches a song against Rocksky’s music database and external metadata providers to resolve the best canonical track, artist, and album"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

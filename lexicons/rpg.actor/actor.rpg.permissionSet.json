@@ -1,0 +1,42 @@
+{
+  "id": "actor.rpg.permissionSet",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "RPG Actor — Core Character Access",
+      "detail": "Read and write your character stats, sprite, master record, and generator configuration",
+      "permissions": [
+        {
+          "type": "permission",
+          "resource": "repo",
+          "collection": [
+            "actor.rpg.stats"
+          ]
+        },
+        {
+          "type": "permission",
+          "resource": "repo",
+          "collection": [
+            "actor.rpg.sprite"
+          ]
+        },
+        {
+          "type": "permission",
+          "resource": "repo",
+          "collection": [
+            "actor.rpg.master"
+          ]
+        },
+        {
+          "type": "permission",
+          "resource": "repo",
+          "collection": [
+            "actor.rpg.generator"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

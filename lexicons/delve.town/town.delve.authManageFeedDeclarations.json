@@ -1,0 +1,28 @@
+{
+  "id": "town.delve.authManageFeedDeclarations",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Manage Hosted Feeds",
+      "detail": "Configure feed generator declaration records.",
+      "title:lang": {},
+      "detail:lang": {},
+      "permissions": [
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "town.delve.feed.generator"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

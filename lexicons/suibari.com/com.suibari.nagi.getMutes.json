@@ -1,0 +1,40 @@
+{
+  "id": "com.suibari.nagi.getMutes",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "actors",
+            "tags"
+          ],
+          "properties": {
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "actors": {
+              "type": "array",
+              "items": {
+                "type": "unknown"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "自分がミュートしているユーザーとハッシュタグの一覧。ミュートは非公開情報なので、認証した本人の分だけを返す。"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

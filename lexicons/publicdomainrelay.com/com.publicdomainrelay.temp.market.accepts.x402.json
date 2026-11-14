@@ -1,0 +1,36 @@
+{
+  "id": "com.publicdomainrelay.temp.market.accepts.x402",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "bid",
+          "signatures"
+        ],
+        "properties": {
+          "bid": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong reference to the winning bid record (com.publicdomainrelay.temp.market.bid) whose bids.x402 payment terms are being accepted."
+          },
+          "payload": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong reference to the bid's payment terms record being accepted (for example a com.publicdomainrelay.temp.market.bids.x402)."
+          },
+          "signatures": {
+            "ref": "network.attested.signature#signatures",
+            "type": "ref",
+            "description": "badge.blue attestations over this acceptance. Must include the requester's inline signature, attached at creation; the bidder's receipts.x402 remote attestation completes the bilateral agreement."
+          }
+        }
+      },
+      "description": "The requester's acceptance of a bid's x402 payment terms. Minted before settling payment and passed (by AT-URI + CID) to the x402 GET endpoint named in the bids.x402 url; the bidder resolves it, verifies payment, and mints a com.publicdomainrelay.temp.market.receipts.x402 in response."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

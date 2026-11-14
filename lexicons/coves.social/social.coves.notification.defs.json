@@ -1,0 +1,249 @@
+{
+  "id": "social.coves.notification.defs",
+  "defs": {
+    "reason": {
+      "type": "string",
+      "description": "The kind of activity that produced the notification. Other reasons may be added later.",
+      "knownValues": [
+        "postReply",
+        "commentReply",
+        "mention",
+        "upvote"
+      ]
+    },
+    "preferences": {
+      "type": "object",
+      "required": [
+        "postReply",
+        "commentReply",
+        "mention",
+        "upvote"
+      ],
+      "properties": {
+        "upvote": {
+          "type": "boolean",
+          "description": "Receive upvote group notifications."
+        },
+        "mention": {
+          "type": "boolean",
+          "description": "Receive mentions in posts and comments."
+        },
+        "postReply": {
+          "type": "boolean",
+          "description": "Receive replies to your posts."
+        },
+        "commentReply": {
+          "type": "boolean",
+          "description": "Receive replies to your comments."
+        }
+      },
+      "description": "Notification reasons enabled for the authenticated account."
+    },
+    "notificationView": {
+      "type": "object",
+      "required": [
+        "reason",
+        "sortAt",
+        "isRead",
+        "rootPost"
+      ],
+      "properties": {
+        "author": {
+          "ref": "social.coves.actor.defs#profileView",
+          "type": "ref"
+        },
+        "isRead": {
+          "type": "boolean"
+        },
+        "reason": {
+          "ref": "#reason",
+          "type": "ref"
+        },
+        "record": {
+          "type": "object",
+          "required": [
+            "uri",
+            "cid"
+          ],
+          "properties": {
+            "cid": {
+              "type": "string",
+              "format": "cid"
+            },
+            "uri": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "labels": {
+              "ref": "com.atproto.label.defs#selfLabels",
+              "type": "ref",
+              "description": "Self-labels the referenced record's author applied; absent when none or when the reference has a status."
+            },
+            "status": {
+              "type": "string",
+              "description": "Read-time status when the record is unavailable: deleted by its author, removed by its community's moderators, or removed by the server admin.",
+              "knownValues": [
+                "deleted",
+                "removedByModerator",
+                "removedByServerAdmin"
+              ]
+            },
+            "excerpt": {
+              "type": "string",
+              "description": "The first 1,000 graphemes of the triggering record's text; absent when the record has a status.",
+              "maxGraphemes": 1000
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "datetime"
+            },
+            "thumbnail": {
+              "type": "string",
+              "format": "uri",
+              "description": "Preview image URL for a post (link-card thumbnail or first image), served through the AppView's image proxy; never set for comments or references with a status."
+            },
+            "thumbnailAlt": {
+              "type": "string",
+              "maxLength": 10000,
+              "description": "Alt text of the image in thumbnail, from the post author's first image; set only alongside an image post's thumbnail, never for link-card thumbnails.",
+              "maxGraphemes": 1000
+            }
+          }
+        },
+        "sortAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "subject": {
+          "type": "object",
+          "required": [
+            "uri",
+            "cid"
+          ],
+          "properties": {
+            "cid": {
+              "type": "string",
+              "format": "cid"
+            },
+            "uri": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "labels": {
+              "ref": "com.atproto.label.defs#selfLabels",
+              "type": "ref",
+              "description": "Self-labels the referenced record's author applied; absent when none or when the reference has a status."
+            },
+            "status": {
+              "type": "string",
+              "description": "Read-time status when the subject is unavailable: deleted by its author, removed by its community's moderators, or removed by the server admin.",
+              "knownValues": [
+                "deleted",
+                "removedByModerator",
+                "removedByServerAdmin"
+              ]
+            },
+            "preview": {
+              "type": "string",
+              "description": "The post's title, or the first 1,000 graphemes of the post body or comment text when there is no title; absent when the reference has a status."
+            },
+            "thumbnail": {
+              "type": "string",
+              "format": "uri",
+              "description": "Preview image URL for a post (link-card thumbnail or first image), served through the AppView's image proxy; never set for comments or references with a status."
+            },
+            "thumbnailAlt": {
+              "type": "string",
+              "maxLength": 10000,
+              "description": "Alt text of the image in thumbnail, from the post author's first image; set only alongside an image post's thumbnail, never for link-card thumbnails.",
+              "maxGraphemes": 1000
+            }
+          }
+        },
+        "rootPost": {
+          "type": "object",
+          "required": [
+            "uri",
+            "cid"
+          ],
+          "properties": {
+            "cid": {
+              "type": "string",
+              "format": "cid"
+            },
+            "uri": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "stats": {
+              "ref": "social.coves.community.post.defs#postStats",
+              "type": "ref",
+              "description": "The root post's stats (votes, score and comment count); present only when the root post has no status."
+            },
+            "title": {
+              "type": "string",
+              "maxLength": 3000,
+              "maxGraphemes": 300
+            },
+            "author": {
+              "ref": "social.coves.community.post.defs#authorView",
+              "type": "ref",
+              "description": "The root post's author; present only when the root post has no status."
+            },
+            "labels": {
+              "ref": "com.atproto.label.defs#selfLabels",
+              "type": "ref",
+              "description": "Self-labels the referenced record's author applied; absent when none or when the reference has a status."
+            },
+            "status": {
+              "type": "string",
+              "description": "Read-time status when the root post is unavailable: deleted by its author, removed by its community's moderators, or removed by the server admin.",
+              "knownValues": [
+                "deleted",
+                "removedByModerator",
+                "removedByServerAdmin"
+              ]
+            },
+            "community": {
+              "ref": "social.coves.community.post.defs#communityRef",
+              "type": "ref"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "datetime",
+              "description": "When the root post was created; present only when the root post has no status."
+            },
+            "thumbnail": {
+              "type": "string",
+              "format": "uri",
+              "description": "Preview image URL for a post (link-card thumbnail or first image), served through the AppView's image proxy; never set for comments or references with a status."
+            },
+            "thumbnailAlt": {
+              "type": "string",
+              "maxLength": 10000,
+              "description": "Alt text of the image in thumbnail, from the post author's first image; set only alongside an image post's thumbnail, never for link-card thumbnails.",
+              "maxGraphemes": 1000
+            }
+          }
+        },
+        "upvoteCount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Qualifying upvotes from accounts on this network plus the item's bridged upvote total from federated platforms"
+        },
+        "recentUpvoters": {
+          "type": "array",
+          "items": {
+            "ref": "social.coves.actor.defs#profileView",
+            "type": "ref"
+          },
+          "maxLength": 3,
+          "description": "Up to 3 most recent qualifying voters on this network, newest first; absent when there are none, for example when every upvote is bridged. Newest is by when this AppView indexed the vote, not the vote record's createdAt."
+        }
+      },
+      "description": "One notification in the authenticated account's list."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

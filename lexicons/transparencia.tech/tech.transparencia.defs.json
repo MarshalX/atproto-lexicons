@@ -1,0 +1,359 @@
+{
+  "id": "tech.transparencia.defs",
+  "defs": {
+    "claim": {
+      "type": "object",
+      "required": [
+        "text"
+      ],
+      "properties": {
+        "text": {
+          "type": "string",
+          "maxLength": 2048,
+          "description": "The claim statement.",
+          "maxGraphemes": 512
+        },
+        "confidence": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "Confidence that this is a verifiable factual claim (decimal string 0-1)."
+        }
+      },
+      "description": "A factual claim or assertion extracted from content."
+    },
+    "person": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 512,
+          "description": "Full name of the person.",
+          "maxGraphemes": 128
+        },
+        "role": {
+          "type": "string",
+          "maxLength": 1024,
+          "description": "Role, title, or position (e.g., 'Presidente de México').",
+          "maxGraphemes": 256
+        },
+        "entityId": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Persistent identifier for cross-article entity linking (e.g., Wikidata QID like Q615, or a canonical slug)."
+        },
+        "relevance": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "How central this person is to the article.",
+          "knownValues": [
+            "primary",
+            "secondary",
+            "mentioned"
+          ]
+        },
+        "sentiment": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "How the content portrays this person.",
+          "knownValues": [
+            "positive",
+            "negative",
+            "neutral",
+            "mixed"
+          ]
+        },
+        "entityIdType": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Identifier system used for entityId, so consumers know how to resolve it.",
+          "knownValues": [
+            "wikidata",
+            "isni",
+            "orcid",
+            "viaf",
+            "other"
+          ]
+        },
+        "sentimentScore": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "Numeric sentiment score as a decimal string. 0.0 = extremely negative, 0.5 = neutral, 1.0 = extremely positive."
+        },
+        "sentimentReasoning": {
+          "type": "string",
+          "maxLength": 2048,
+          "description": "Explanation of why this sentiment was assigned.",
+          "maxGraphemes": 512
+        }
+      },
+      "description": "A person mentioned in content, with optional role and sentiment analysis."
+    },
+    "location": {
+      "type": "object",
+      "required": [
+        "name",
+        "lat",
+        "lng"
+      ],
+      "properties": {
+        "lat": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Latitude as a decimal string (AT Protocol does not support floats). Example: '19.4326'."
+        },
+        "lng": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Longitude as a decimal string. Example: '-99.1332'."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 512,
+          "description": "Place name (city, landmark, state, etc.).",
+          "maxGraphemes": 128
+        },
+        "state": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "State, province, or administrative region.",
+          "maxGraphemes": 64
+        },
+        "country": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Full country name (e.g. 'México', 'United States').",
+          "maxGraphemes": 64
+        },
+        "relevance": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "How central this location is to the content.",
+          "knownValues": [
+            "primary",
+            "mentioned"
+          ]
+        },
+        "countryCode": {
+          "type": "string",
+          "maxLength": 2,
+          "description": "ISO 3166-1 alpha-2 country code (e.g. 'MX', 'US')."
+        }
+      },
+      "description": "A geographic location referenced in content. Coordinates use WGS 84 (EPSG:4326)."
+    },
+    "organization": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 512,
+          "description": "Organization name (e.g., 'Apple', 'Gobierno de México', 'FIFA').",
+          "maxGraphemes": 128
+        },
+        "role": {
+          "type": "string",
+          "maxLength": 1024,
+          "description": "Role in the story (e.g., 'defendant', 'sponsor', 'regulator').",
+          "maxGraphemes": 256
+        },
+        "sector": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Industry sector.",
+          "knownValues": [
+            "technology",
+            "finance",
+            "healthcare",
+            "energy",
+            "government",
+            "media",
+            "retail",
+            "automotive",
+            "real-estate",
+            "education",
+            "sports",
+            "entertainment",
+            "food-beverage",
+            "telecommunications",
+            "manufacturing",
+            "non-profit",
+            "legal",
+            "beauty-fashion",
+            "agriculture",
+            "transportation",
+            "defense",
+            "other"
+          ],
+          "maxGraphemes": 64
+        },
+        "ticker": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Stock ticker symbol if publicly traded (e.g., 'AAPL', 'BIMBOA.MX')."
+        },
+        "entityId": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Persistent identifier for cross-article entity linking (e.g., Wikidata QID like Q478214, LEI, or a canonical slug)."
+        },
+        "relevance": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "How central this organization is to the article.",
+          "knownValues": [
+            "primary",
+            "secondary",
+            "mentioned"
+          ]
+        },
+        "sentiment": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "How the content portrays this organization.",
+          "knownValues": [
+            "positive",
+            "negative",
+            "neutral",
+            "mixed"
+          ]
+        },
+        "entityIdType": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Identifier system used for entityId, so consumers know how to resolve it.",
+          "knownValues": [
+            "wikidata",
+            "lei",
+            "openfigi",
+            "opencorporates",
+            "sec-cik",
+            "isni",
+            "other"
+          ]
+        },
+        "sentimentScore": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "Numeric sentiment score as a decimal string. 0.0 = extremely negative, 0.5 = neutral, 1.0 = extremely positive."
+        },
+        "sentimentReasoning": {
+          "type": "string",
+          "maxLength": 2048,
+          "description": "Explanation of why this sentiment was assigned.",
+          "maxGraphemes": 512
+        }
+      },
+      "description": "An organization, company, or brand mentioned in content."
+    },
+    "structuredRef": {
+      "type": "object",
+      "required": [
+        "type",
+        "value"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Optional URL to the referenced entity."
+        },
+        "type": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "What kind of reference this is.",
+          "knownValues": [
+            "legislation",
+            "regulation",
+            "court-case",
+            "stock-ticker",
+            "index",
+            "commodity",
+            "product",
+            "brand",
+            "sports-team",
+            "sports-league",
+            "sports-event",
+            "academic-paper",
+            "patent",
+            "government-program",
+            "treaty",
+            "other"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "maxLength": 1024,
+          "description": "The reference value (e.g., 'Ley General de Salud Art. 73', 'AAPL', 'Liga MX').",
+          "maxGraphemes": 256
+        }
+      },
+      "description": "A typed reference to an external entity (law, stock, product, team, etc.)."
+    },
+    "timelineEntry": {
+      "type": "object",
+      "required": [
+        "event",
+        "startDate"
+      ],
+      "properties": {
+        "event": {
+          "type": "string",
+          "maxLength": 1024,
+          "description": "Description of what happened.",
+          "maxGraphemes": 256
+        },
+        "endDate": {
+          "type": "string",
+          "format": "datetime",
+          "description": "End date/time in ISO 8601 format. Only for date ranges (e.g., a presidential term). Omit for point-in-time events."
+        },
+        "startDate": {
+          "type": "string",
+          "format": "datetime",
+          "description": "Start date/time in ISO 8601 format (e.g., '2026-04-04T00:00:00.000Z'). For approximate dates, use the first day of the period."
+        }
+      },
+      "description": "A chronological event mentioned in content."
+    },
+    "economicIndicator": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Indicator name (e.g., 'PIB', 'inflación', 'tipo de cambio').",
+          "maxGraphemes": 64
+        },
+        "value": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "The reported value as a string (e.g., '2.3%', '$17.45')."
+        },
+        "direction": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Trend direction if mentioned.",
+          "knownValues": [
+            "up",
+            "down",
+            "stable",
+            "unknown"
+          ]
+        }
+      },
+      "description": "An economic data point mentioned in content."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Shared type definitions for TransparencIA lexicons."
+}

@@ -1,0 +1,18 @@
+{
+  "id": "io.atcr.repo.private",
+  "defs": {
+    "main": {
+      "key": "any",
+      "name": "Private container repository",
+      "type": "space",
+      "collections": [
+        "io.atcr.repo.page",
+        "io.atcr.manifest",
+        "io.atcr.tag"
+      ],
+      "description": "One sailor's private container repository. The sailor is the space authority and the only writer; the AppView writes on their behalf through their OAuth session. Reads are decided by the AppView as the space's managing app: the owner and the crew of the hold the repository's images live on are admitted, everyone else is refused. The page, manifest and tag records of a private repository live here instead of in the sailor's public repo, so the repository leaves no trace on the firehose."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

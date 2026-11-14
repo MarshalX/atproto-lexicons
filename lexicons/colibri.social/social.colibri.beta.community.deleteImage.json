@@ -1,0 +1,71 @@
+{
+  "id": "social.colibri.beta.community.deleteImage",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request is missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The requesting user lacks the community.manage permission."
+        },
+        {
+          "name": "CommunityNotFound",
+          "description": "No community exists with that DID."
+        },
+        {
+          "name": "CredentialsUnavailable",
+          "description": "The AppView's stored credentials for this community are missing or unusable."
+        },
+        {
+          "name": "UpstreamFailure",
+          "description": "A PDS or third-party call the AppView depends on failed."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "community"
+          ],
+          "properties": {
+            "community": {
+              "ref": "social.colibri.beta.community.defs#communityView",
+              "type": "ref",
+              "description": "The community with the image cleared."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "community",
+          "kind"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "description": "Which image to clear.",
+            "knownValues": [
+              "picture",
+              "banner"
+            ]
+          },
+          "community": {
+            "type": "string",
+            "format": "did",
+            "description": "The community to clear the image on."
+          }
+        }
+      },
+      "description": "Clears a community's picture or banner. Idempotent: clearing an image that was never set succeeds. The blob itself is left in the community's repo rather than deleted, so an older record revision still resolves."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

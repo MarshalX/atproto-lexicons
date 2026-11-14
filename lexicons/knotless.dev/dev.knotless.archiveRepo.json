@@ -1,0 +1,63 @@
+{
+  "id": "dev.knotless.archiveRepo",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "repo"
+          ],
+          "properties": {
+            "repo": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+            },
+            "unarchive": {
+              "type": "boolean",
+              "description": "True to unarchive it, making it writable again. Absent is false."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository."
+        },
+        {
+          "name": "InvalidRequest",
+          "description": "It is already archived, or already not."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The account logged in is not the repository's owner."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "archivedAt": {
+              "type": "string",
+              "format": "datetime",
+              "description": "When it was archived; absent once unarchived."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Sets or drops `archivedAt` on the repository's dev.knotless.repo record, as `knotless repo archive` does. While it is archived, pushes and commits to it are refused, and so is anything more said about it, and runners leave it. Its owner can, logged in to this appview's web pages: the appview writes with the session it keeps for that account, which the pages' session cookie names. For an organization's repository, so can an admin who joined it, logged in to the pages or with a service token from their own PDS for this method: the appview's gateway, which the organization delegated its writes to, writes as the organization."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Archives a repository, making it read only, or unarchives it."
+}

@@ -1,0 +1,144 @@
+{
+  "id": "site.mochott.comic.series",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "title",
+          "banner",
+          "poster",
+          "description",
+          "createdAt",
+          "categories",
+          "format"
+        ],
+        "properties": {
+          "title": {
+            "type": "array",
+            "items": {
+              "ref": "site.mochott.comic.defs#localizedTitle",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "minLength": 1,
+            "description": "Title, one entry per language."
+          },
+          "banner": {
+            "type": "blob",
+            "accept": [
+              "image/jpeg",
+              "image/png",
+              "image/webp",
+              "image/avif"
+            ],
+            "maxSize": 4194304,
+            "description": "Banner image, 3:1."
+          },
+          "format": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Reading format.",
+            "knownValues": [
+              "vertical",
+              "page",
+              "strip"
+            ]
+          },
+          "labels": {
+            "refs": [
+              "com.atproto.label.defs#selfLabels"
+            ],
+            "type": "union",
+            "description": "Self-labels (content warnings)."
+          },
+          "poster": {
+            "type": "blob",
+            "accept": [
+              "image/jpeg",
+              "image/png"
+            ],
+            "maxSize": 4194304,
+            "description": "Share image, 1.91:1."
+          },
+          "status": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Publication status.",
+            "knownValues": [
+              "ongoing",
+              "completed",
+              "hiatus",
+              "cancelled"
+            ]
+          },
+          "chapters": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 5000,
+            "description": "Ordered site.mochott.comic.chapter records."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the series was created."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the series was last updated."
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "ref": "site.mochott.comic.defs#category",
+              "type": "ref"
+            },
+            "maxLength": 3,
+            "minLength": 1,
+            "description": "Categories, most relevant first."
+          },
+          "sequential": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT URI of the canonical work.sequential record this record accompanies. Same record key. Omitted only when the work exists solely in this namespace."
+          },
+          "description": {
+            "type": "array",
+            "items": {
+              "ref": "site.mochott.comic.defs#localizedShortDescription",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "minLength": 1,
+            "description": "Short description, one entry per language."
+          },
+          "nativeLanguage": {
+            "type": "string",
+            "format": "language",
+            "description": "Language the series was created in; the fallback language."
+          },
+          "readingDirection": {
+            "type": "string",
+            "maxLength": 16,
+            "description": "Horizontal reading direction.",
+            "knownValues": [
+              "ltr",
+              "rtl"
+            ]
+          }
+        }
+      },
+      "description": "A comic series."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 2,
+  "description": "A comic series on mochott. Written beside the work.sequential.series of the same record key as a complete copy: every field needed to reproduce the series, with references rewritten to site.mochott.comic."
+}

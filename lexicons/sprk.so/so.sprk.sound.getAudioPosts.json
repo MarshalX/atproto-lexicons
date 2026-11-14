@@ -1,0 +1,58 @@
+{
+  "id": "so.sprk.sound.getAudioPosts",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "posts"
+          ],
+          "properties": {
+            "audio": {
+              "ref": "so.sprk.sound.defs#audioView",
+              "type": "ref"
+            },
+            "posts": {
+              "type": "array",
+              "items": {
+                "ref": "so.sprk.feed.defs#postView",
+                "type": "ref"
+              }
+            },
+            "cursor": {
+              "type": "string"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "uri"
+        ],
+        "properties": {
+          "uri": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Audio AT-URI to find referencing posts for."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Get a list of posts that use a given audio (by AT-URI)."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

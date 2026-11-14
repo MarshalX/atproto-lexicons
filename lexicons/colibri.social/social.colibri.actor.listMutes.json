@@ -1,0 +1,53 @@
+{
+  "id": "social.colibri.actor.listMutes",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "Missing, malformed, or unverifiable service auth."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "mutes"
+          ],
+          "properties": {
+            "mutes": {
+              "type": "array",
+              "items": {
+                "ref": "lex:social.colibri.actor.listMutes#mute",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Lists the subjects the authenticated user has muted."
+    },
+    "mute": {
+      "type": "object",
+      "required": [
+        "uri",
+        "subject"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the mute record."
+        },
+        "subject": {
+          "type": "string",
+          "description": "The muted subject (a DID)."
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

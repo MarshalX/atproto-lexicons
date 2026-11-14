@@ -1,0 +1,40 @@
+{
+  "id": "so.sprk.authCreatePosts",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Create Spark Posts",
+      "detail": "Create Spark posts, replies, stories, audio records, and upload media, but can not update or delete them.",
+      "title:lang": {},
+      "detail:lang": {},
+      "permissions": [
+        {
+          "lxm": [
+            "so.sprk.video.getJobStatus",
+            "so.sprk.video.getUploadLimits",
+            "so.sprk.video.uploadVideo"
+          ],
+          "type": "permission",
+          "resource": "rpc",
+          "inheritAud": true
+        },
+        {
+          "type": "permission",
+          "action": [
+            "create"
+          ],
+          "resource": "repo",
+          "collection": [
+            "so.sprk.feed.post",
+            "so.sprk.feed.reply",
+            "so.sprk.feed.threadgate",
+            "so.sprk.sound.audio",
+            "so.sprk.story.post"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,59 @@
+{
+  "id": "work.sequential.slice",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "chapter",
+          "images"
+        ],
+        "properties": {
+          "alt": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#localizedAlt",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "description": "Localized alt text for the slice: describes the art and transcribes the dialogue, captions and sound effects."
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#localizedImage",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "minLength": 1,
+            "description": "Localized final images for this slice."
+          },
+          "chapter": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the parent chapter. Use the DID form (at://did:...), not a handle."
+          },
+          "versions": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#version",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "description": "Other versions of the slice's artwork, such as production stages or alternate treatments. AppViews may let readers peel back stages or switch between versions."
+          },
+          "aspectRatio": {
+            "ref": "work.sequential.defs#aspectRatio",
+            "type": "ref",
+            "description": "The aspect ratio of the slice."
+          }
+        }
+      },
+      "description": "A slice of a vertically formatted comic."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

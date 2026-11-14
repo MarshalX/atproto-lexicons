@@ -1,0 +1,18 @@
+{
+  "id": "at.turtleme.game.castSpot",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "output": {
+        "schema": {
+          "ref": "at.turtleme.game.defs#state",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "Stand over a fishing spot. Casting at one that has not yet wandered off does not move it, the same way setting a net that is already out does not restart it. When a spot leaves is drawn from the moment it arrived, so the page and turtle meat work out the same answer and neither has to tell the other. Requires an atproto service auth token addressed to did:web:turtleme.at#turtle_game and naming this method, so a token issued for one call cannot be spent on another."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

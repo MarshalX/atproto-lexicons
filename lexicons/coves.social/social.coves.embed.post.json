@@ -1,0 +1,39 @@
+{
+  "id": "social.coves.embed.post",
+  "defs": {
+    "main": {
+      "type": "object",
+      "required": [
+        "post"
+      ],
+      "properties": {
+        "post": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref",
+          "description": "Strong reference to the embedded post (includes URI and CID)"
+        }
+      },
+      "description": "Embedded reference to another post (quoted post)"
+    },
+    "view": {
+      "type": "object",
+      "required": [
+        "post"
+      ],
+      "properties": {
+        "post": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref",
+          "description": "Strong reference to the embedded post (includes URI and CID)"
+        },
+        "resolved": {
+          "type": "unknown",
+          "description": "Resolved data for the referenced post (e.g., a hydrated Bluesky post), or an unavailable marker with a user-facing message. For a removed Coves subject, the embed resolves to nothing beyond the strongRef: no resolved object, copied body, or media; social.coves.community.post.get on that strongRef returns the tombstone."
+        }
+      },
+      "description": "View of a quoted-post embed as served by the AppView, optionally enriched with resolved post data"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

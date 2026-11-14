@@ -1,0 +1,28 @@
+{
+  "id": "app.rocksky.player.defs",
+  "defs": {
+    "playbackQueueViewDetailed": {
+      "type": "object",
+      "properties": {
+        "tracks": {
+          "type": "array",
+          "items": {
+            "ref": "app.rocksky.song.defs.songViewBasic",
+            "type": "ref"
+          }
+        }
+      }
+    },
+    "currentlyPlayingViewDetailed": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The title of the currently playing track"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

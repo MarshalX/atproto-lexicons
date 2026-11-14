@@ -1,0 +1,31 @@
+{
+  "id": "garden.sylvanus.gardener",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "properties": {
+          "garden": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The garden record (garden.sylvanus.garden)."
+          },
+          "subject": {
+            "type": "string",
+            "format": "did",
+            "description": "The gardener."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Someone a garden's owner added as a gardener, in the owner's account."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

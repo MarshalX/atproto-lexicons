@@ -1,0 +1,101 @@
+{
+  "id": "ai.syui.rse.user",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "character",
+          "item",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "item": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "cp",
+                "rare",
+                "cid",
+                "unique"
+              ],
+              "properties": {
+                "cp": {
+                  "type": "integer",
+                  "description": "Item power"
+                },
+                "id": {
+                  "type": "integer",
+                  "description": "Item type ID"
+                },
+                "cid": {
+                  "type": "string",
+                  "description": "Unique item instance ID"
+                },
+                "rare": {
+                  "type": "integer",
+                  "description": "Rarity level"
+                },
+                "unique": {
+                  "type": "boolean",
+                  "description": "Unique item flag"
+                }
+              }
+            }
+          },
+          "character": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "cp",
+                "rare",
+                "cid",
+                "unique"
+              ],
+              "properties": {
+                "cp": {
+                  "type": "integer",
+                  "description": "Character power"
+                },
+                "id": {
+                  "type": "integer",
+                  "description": "Character type ID"
+                },
+                "cid": {
+                  "type": "string",
+                  "description": "Unique character instance ID"
+                },
+                "rare": {
+                  "type": "integer",
+                  "description": "Rarity level"
+                },
+                "unique": {
+                  "type": "boolean",
+                  "description": "Unique character flag"
+                }
+              }
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "User character and item collection"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

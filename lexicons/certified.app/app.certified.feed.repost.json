@@ -1,0 +1,41 @@
+{
+  "id": "app.certified.feed.repost",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "via": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Optional strong reference to the record through which the subject was encountered, typically another app.certified.feed.repost. Lets AppViews trace repost chains and credit the account that surfaced the subject. Mirrors the optional `via` field on app.bsky.feed.repost; the referenced record may conform with any lexicon."
+          },
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong reference to the record being reposted. May be a record of any lexicon (e.g. an activity or a collection)."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Client-declared timestamp when this record was originally created."
+          },
+          "signatures": {
+            "ref": "app.certified.signature.defs#list",
+            "type": "ref",
+            "description": "Optional cryptographic signatures attesting to this record's content."
+          }
+        }
+      },
+      "description": "Record representing a 'repost' of an existing record, surfacing it to the reposter's followers. The subject is pinned by CID, so the repost refers to the version the reposter saw, not to later edits. Schema-compatible with app.bsky.feed.repost."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

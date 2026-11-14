@@ -1,0 +1,59 @@
+{
+  "id": "app.standard-reader.labeler.service",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "did",
+          "serviceEndpoint",
+          "createdAt"
+        ],
+        "properties": {
+          "did": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the labeler — the `src` on its labels (and whose key signs them)."
+          },
+          "avatar": {
+            "type": "blob",
+            "accept": [
+              "image/png",
+              "image/jpeg",
+              "image/svg+xml"
+            ],
+            "maxSize": 1000000
+          },
+          "policies": {
+            "ref": "app.standard-reader.labeler.defs#labelerPolicies",
+            "type": "ref"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000,
+            "maxGraphemes": 300
+          },
+          "displayName": {
+            "type": "string",
+            "maxLength": 640,
+            "maxGraphemes": 64
+          },
+          "serviceEndpoint": {
+            "type": "string",
+            "format": "uri",
+            "description": "Origin serving this labeler's com.atproto.label.queryLabels / subscribeLabels."
+          }
+        }
+      },
+      "description": "Registers a Standard Reader labeler. This record is the single source of truth for a labeler: its identity, where to reach its label server, how it presents, and its label-value definitions. Indexed off the network like any other record (the owner of the record is the labeler's author); the label server itself only answers com.atproto.label.queryLabels / subscribeLabels."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

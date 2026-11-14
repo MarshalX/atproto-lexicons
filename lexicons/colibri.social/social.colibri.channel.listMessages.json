@@ -1,0 +1,60 @@
+{
+  "id": "social.colibri.channel.listMessages",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "InvalidRequest",
+          "description": "A parameter or body field was missing or malformed."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "messages"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "messages": {
+              "type": "array",
+              "items": {
+                "ref": "lex:social.colibri.channel.defs#message",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "channel"
+        ],
+        "properties": {
+          "all": {
+            "type": "boolean",
+            "description": "Include hidden (moderated) messages."
+          },
+          "limit": {
+            "type": "integer"
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "channel": {
+            "type": "string",
+            "format": "at-uri"
+          }
+        }
+      },
+      "description": "Lists messages in a channel, newest first, paginated."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

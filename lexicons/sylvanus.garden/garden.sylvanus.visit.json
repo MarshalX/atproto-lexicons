@@ -1,0 +1,30 @@
+{
+  "id": "garden.sylvanus.visit",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "properties": {
+          "live": {
+            "type": "boolean",
+            "description": "Visited live (someone was hosting it) rather than its copy."
+          },
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The garden record visited, and its version then."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "A visit to a Sylvanus garden, in the visitor's own account, written when they arrive."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

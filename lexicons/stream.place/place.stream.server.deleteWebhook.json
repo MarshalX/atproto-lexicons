@@ -1,0 +1,52 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Delete an existing webhook.",
+      "errors": [
+        {
+          "description": "The specified webhook was not found.",
+          "name": "WebhookNotFound"
+        },
+        {
+          "description": "The authenticated user does not have access to this webhook.",
+          "name": "Unauthorized"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "id": {
+              "description": "The ID of the webhook to delete.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "success": {
+              "description": "Whether the webhook was successfully deleted.",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "success"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": null,
+      "type": "procedure"
+    }
+  },
+  "id": "place.stream.server.deleteWebhook",
+  "lexicon": 1
+}

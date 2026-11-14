@@ -1,0 +1,55 @@
+{
+  "id": "org.tangled.git.setDefaultBranch",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "repo",
+            "branch"
+          ],
+          "properties": {
+            "repo": {
+              "type": "string",
+              "format": "did",
+              "description": "DID of the repository"
+            },
+            "branch": {
+              "type": "string",
+              "maxLength": 244,
+              "description": "Branch name without the refs/heads/ prefix"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri",
+            "cid"
+          ],
+          "properties": {
+            "cid": {
+              "type": "string",
+              "format": "cid",
+              "description": "Version of the refs record after the move"
+            },
+            "uri": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The repository's org.tangled.git.refs record"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Set the default branch of this repository"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

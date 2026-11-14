@@ -1,0 +1,64 @@
+{
+  "id": "dev.knotless.awaitSpaceWrites",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "cursor",
+            "writes"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string",
+              "maxLength": 64,
+              "description": "Where this answer ended: the cursor to ask from next."
+            },
+            "missed": {
+              "type": "boolean",
+              "description": "Set when `cursor` was none, or of no place the appview remembers, as after it restarted: any space may have been written to since."
+            },
+            "writes": {
+              "type": "array",
+              "items": {
+                "ref": "#write",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "cursor": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Where the last answer ended. With none, the answer says only where things are now."
+          }
+        }
+      },
+      "description": "The spaces written to since `cursor`, of the private repositories whose owners invited the caller (dev.knotless.inviteRunner), as their authorities told the appview (com.atproto.space.notifyWrite): nothing written in a space reaches the firehose. Answers as soon as there is one, or with none after a while, to be asked again from the cursor it gives. A write told of is only a reason to look: the caller reads the space itself, as a member. Requires a service token from the caller's PDS, audience the appview's DID, for this method."
+    },
+    "write": {
+      "type": "object",
+      "required": [
+        "space"
+      ],
+      "properties": {
+        "space": {
+          "type": "string",
+          "maxLength": 512,
+          "description": "The space, as `at://<owner>/space/dev.knotless.space/<name>`."
+        }
+      },
+      "description": "A space written to."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A runner's ask of the appview for the private repositories written to, as soon as one is."
+}

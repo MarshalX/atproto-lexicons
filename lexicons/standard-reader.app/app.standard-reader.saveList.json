@@ -1,0 +1,34 @@
+{
+  "id": "app.standard-reader.saveList",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "list"
+          ],
+          "properties": {
+            "list": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "List AT-URI"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "description": "Add another reader publication list to this app."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

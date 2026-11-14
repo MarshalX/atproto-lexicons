@@ -1,0 +1,38 @@
+{
+  "id": "dev.knotless.getRepo",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository, revision, path or record."
+        }
+      ],
+      "output": {
+        "schema": {
+          "ref": "dev.knotless.defs#repoViewDetailed",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "repo"
+        ],
+        "properties": {
+          "repo": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The repository's dev.knotless.repo record. Its authority may be a handle; a name the repository had before, or an owner it moved from with its agreement, finds it under the name it has now."
+          }
+        }
+      },
+      "description": "A repository, under the name it has now: its record, its default branch, and how many pulls and issues are open. No authentication needed; asked as an account, with a service token or the pages' session cookie, a private repository it is a member of is read too, and the answer is that account's alone."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A repository, with what its pages show above themselves."
+}

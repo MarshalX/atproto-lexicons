@@ -1,0 +1,115 @@
+{
+  "id": "social.colibri.actor.profile",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "$type": {
+            "type": "string",
+            "format": "nsid",
+            "description": "The type of the record."
+          },
+          "theme": {
+            "ref": "lex:social.colibri.actor.profile#theme",
+            "type": "ref",
+            "description": "Colibri-only profile theming. Always sourced from this record regardless of syncBluesky."
+          },
+          "avatar": {
+            "type": "blob",
+            "accept": [
+              "image/jpeg",
+              "image/png",
+              "image/gif",
+              "image/webp"
+            ],
+            "description": "The user's avatar image."
+          },
+          "banner": {
+            "type": "blob",
+            "accept": [
+              "image/jpeg",
+              "image/png",
+              "image/gif",
+              "image/webp"
+            ],
+            "description": "The user's profile banner image."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 2560,
+            "description": "The user's profile description / bio.",
+            "maxGraphemes": 256
+          },
+          "displayName": {
+            "type": "string",
+            "maxLength": 640,
+            "description": "The user's display name.",
+            "maxGraphemes": 64
+          },
+          "syncBluesky": {
+            "type": "boolean",
+            "default": false,
+            "description": "When true, the AppView serves displayName/avatar/banner/description from the user's app.bsky.actor.profile record (Bluesky stays the live source); these mirrored fields may be omitted here."
+          },
+          "preferredBadge": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Label value of the badge the user chose to display as their primary badge. Absent means automatic (highest-priority badge)."
+          },
+          "presenceService": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the AppView authorized to emit off-protocol presence (status, typing, voice) for this user via Humming. A receiving AppView MUST drop any Hum about this user whose authenticated origin does not equal this value. Absent means the user has not opted into cross-instance presence."
+          }
+        }
+      },
+      "description": "A Colibri-specific user profile. Singleton record on the user's own repo, kept separate from app.bsky.actor.profile so Colibri never needs write access to the Bluesky record."
+    },
+    "theme": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "gradient": {
+          "ref": "lex:social.colibri.actor.profile#themeGradient",
+          "type": "ref",
+          "description": "Two-color gradient profile theme."
+        },
+        "accentColor": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "Accent color as a #rrggbb hex string."
+        },
+        "bannerColor": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "Solid fallback banner color as #rrggbb, used when no banner image is set."
+        }
+      },
+      "description": "Colibri-only profile theming."
+    },
+    "themeGradient": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "primary": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "Primary gradient color as #rrggbb."
+        },
+        "secondary": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "Secondary gradient color as #rrggbb."
+        }
+      },
+      "description": "Two-color gradient profile theme."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 2
+}

@@ -1,0 +1,28 @@
+{
+  "id": "so.sprk.authManageFeedDeclarations",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Manage Spark Feed Declarations",
+      "detail": "Configure Spark feed generator declaration records.",
+      "title:lang": {},
+      "detail:lang": {},
+      "permissions": [
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "so.sprk.feed.generator"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

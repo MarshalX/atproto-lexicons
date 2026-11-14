@@ -1,0 +1,34 @@
+{
+  "id": "app.zeens.getCollectionsContaining",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "viewer",
+          "subject"
+        ],
+        "properties": {
+          "viewer": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the requester (collections owner)."
+          },
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the post or article."
+          }
+        }
+      },
+      "description": "For a viewer, list which of their own collections (private + public) currently contain a given subject URI. Each match includes the parent collection's name, rkey, and visibility. Used by the 'Add to collection' modal to show which boxes are already checked, and by the post-detail page to render a 'part of collection' pill (public collections only).",
+      "target_collection": "app.zeens.collectionItem"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,75 @@
+{
+  "id": "dev.knotless.compactRepo",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "repo"
+          ],
+          "properties": {
+            "repo": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The account logged in is not the repository's owner."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "packs",
+            "folded",
+            "claims"
+          ],
+          "properties": {
+            "refs": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "How many records of deleted refs were dropped, each left with no target by a client from before a delete removed them."
+            },
+            "packs": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "How many packs it had."
+            },
+            "claims": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "How many old claims were dropped."
+            },
+            "folded": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "How many of them were folded into one."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Repacks what the repository's refs reach into one dev.knotless.pack and deletes the packs it replaces, as `knotless repo compact` does, with claims a day old. Packs younger than the grace period stay. Its owner can, logged in to this appview's web pages: the appview writes with the session it keeps for that account, which the pages' session cookie names. For an organization's repository, so can an admin who joined it, logged in to the pages or with a service token from their own PDS for this method: the appview's gateway, which the organization delegated its writes to, writes as the organization."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Folds a repository's packs into one."
+}

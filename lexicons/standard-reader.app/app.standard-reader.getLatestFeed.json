@@ -1,0 +1,48 @@
+{
+  "id": "app.standard-reader.getLatestFeed",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "ref": "app.standard-reader.defs#cursorPageDocuments",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [],
+        "properties": {
+          "did": {
+            "type": "string",
+            "format": "did"
+          },
+          "limit": {
+            "type": "integer",
+            "default": 20,
+            "maximum": 50,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string",
+            "maxLength": 8192
+          },
+          "filter": {
+            "type": "string",
+            "default": "subscriptions",
+            "maxLength": 32,
+            "knownValues": [
+              "all",
+              "subscriptions",
+              "unread"
+            ]
+          }
+        }
+      },
+      "description": "Chronological feed of indexed articles with optional filter."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

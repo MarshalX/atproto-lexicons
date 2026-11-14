@@ -1,0 +1,36 @@
+{
+  "id": "space.zelk.actor.profile",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt"
+        ],
+        "properties": {
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "graphSource": {
+            "type": "string",
+            "description": "Deprecated: the follow graph is always space.zelk.graph.follow. Ignored.",
+            "knownValues": [
+              "bsky",
+              "zelk"
+            ]
+          },
+          "showPopfeed": {
+            "type": "boolean",
+            "description": "Deprecated: Popfeed activity is always shown (zelk.tv writes to Popfeed too). Ignored."
+          }
+        }
+      },
+      "description": "Marks an account as onboarded on zelk.tv. Display name and avatar come from app.bsky.actor.profile."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

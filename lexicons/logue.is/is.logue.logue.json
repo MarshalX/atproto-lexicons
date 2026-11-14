@@ -1,0 +1,74 @@
+{
+  "id": "is.logue.logue",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "publication"
+        ],
+        "properties": {
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 1280,
+              "maxGraphemes": 128
+            },
+            "description": "Array of strings used to tag or categorize the document. Avoid prepending tags with hashtags."
+          },
+          "startedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp when the logue was started."
+          },
+          "coverImage": {
+            "type": "blob",
+            "accept": [
+              "image/*"
+            ],
+            "maxSize": 2000000,
+            "description": "Image to used for cover image. Less than 2MB is size, 5:1 aspect ratio is recommended"
+          },
+          "finishedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp when the logue was marked as finished."
+          },
+          "publication": {
+            "type": "string",
+            "format": "at-uri",
+            "required": true,
+            "description": "Weak reference to a `site.standard.publication` compatible record."
+          },
+          "coverImageAspectRatio": {
+            "ref": "#aspectRatio",
+            "type": "ref"
+          }
+        }
+      }
+    },
+    "aspectRatio": {
+      "type": "object",
+      "required": [
+        "width",
+        "height"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "description": "width:height represents an aspect ratio. It may be approximate, and may not correspond to absolute dimensions in any given unit."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,46 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "An Opnshelf profile record",
+      "key": "literal:self",
+      "record": {
+        "properties": {
+          "avatar": {
+            "accept": [
+              "image/jpeg",
+              "image/png",
+              "image/webp"
+            ],
+            "description": "Profile photo stored in the user's PDS",
+            "maxSize": 5242880,
+            "type": "blob"
+          },
+          "createdAt": {
+            "description": "Record creation timestamp",
+            "format": "datetime",
+            "type": "string"
+          },
+          "displayName": {
+            "description": "Display name shown in Opnshelf",
+            "maxLength": 64,
+            "type": "string"
+          },
+          "updatedAt": {
+            "description": "Record update timestamp",
+            "format": "datetime",
+            "type": "string"
+          }
+        },
+        "required": [
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "xyz.opnshelf.profile",
+  "lexicon": 1
+}

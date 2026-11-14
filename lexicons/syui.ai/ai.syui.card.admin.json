@@ -1,0 +1,136 @@
+{
+  "id": "ai.syui.card.admin",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "gacha",
+          "card",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "card": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "character",
+                "name",
+                "text",
+                "cp",
+                "effect"
+              ],
+              "properties": {
+                "cp": {
+                  "type": "string",
+                  "description": "CP type (status, time, damage)"
+                },
+                "id": {
+                  "type": "integer",
+                  "description": "Card ID"
+                },
+                "key": {
+                  "type": "string",
+                  "description": "Key binding (R1, L1, Y, X, etc.)"
+                },
+                "name": {
+                  "type": "object",
+                  "required": [
+                    "ja",
+                    "en"
+                  ],
+                  "properties": {
+                    "en": {
+                      "type": "string"
+                    },
+                    "ja": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "text": {
+                  "type": "object",
+                  "required": [
+                    "ja",
+                    "en"
+                  ],
+                  "properties": {
+                    "en": {
+                      "type": "string"
+                    },
+                    "ja": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "effect": {
+                  "type": "string",
+                  "description": "Effect type (status, fly, mode, damage)"
+                },
+                "character": {
+                  "type": "integer",
+                  "description": "Associated character ID"
+                }
+              }
+            },
+            "description": "Card master data"
+          },
+          "gacha": {
+            "type": "object",
+            "required": [
+              "pickup",
+              "rate",
+              "pool"
+            ],
+            "properties": {
+              "pool": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "description": "Card IDs available in gacha pool"
+              },
+              "rate": {
+                "type": "object",
+                "required": [
+                  "pickup",
+                  "rare"
+                ],
+                "properties": {
+                  "rare": {
+                    "type": "integer",
+                    "description": "1/n for rare:1 rate (10 = 10%), rare:2 = 1/(n*10), rare:3 = 1/(n*100)"
+                  },
+                  "pickup": {
+                    "type": "integer",
+                    "description": "1/n for pickup rate (100 = 1%)"
+                  }
+                }
+              },
+              "pickup": {
+                "type": "integer",
+                "description": "Pickup card ID"
+              }
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Card game configuration and master data (admin only)"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

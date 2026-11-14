@@ -1,0 +1,184 @@
+{
+  "id": "fm.plyr.stg.track",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "title",
+          "artist",
+          "fileType",
+          "createdAt"
+        ],
+        "properties": {
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 50
+            },
+            "maxLength": 20,
+            "description": "Creator-applied tags. An empty array explicitly clears all tags."
+          },
+          "album": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Album name this track belongs to."
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 256,
+            "minLength": 1,
+            "description": "The title of the track."
+          },
+          "artist": {
+            "type": "string",
+            "maxLength": 256,
+            "minLength": 1,
+            "description": "The artist name (display name of the uploader)."
+          },
+          "labels": {
+            "refs": [
+              "com.atproto.label.defs#selfLabels"
+            ],
+            "type": "union",
+            "description": "Creator-applied content warnings using global ATProto label values."
+          },
+          "audioUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the audio file. Optional when audioBlob is present."
+          },
+          "duration": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Duration in seconds."
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "ref": "#featuredArtist",
+              "type": "ref"
+            },
+            "maxLength": 10,
+            "description": "Featured artists on this track."
+          },
+          "fileType": {
+            "type": "string",
+            "maxLength": 16,
+            "minLength": 1,
+            "description": "Audio file format extension (e.g., mp3, wav, flac)."
+          },
+          "imageUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to cover artwork image."
+          },
+          "audioBlob": {
+            "type": "blob",
+            "accept": [
+              "audio/*"
+            ],
+            "maxSize": 104857600,
+            "description": "Audio file stored on the user's PDS. When present, this is the canonical source; audioUrl is the CDN fallback."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp when the track was uploaded."
+          },
+          "audioSpace": {
+            "type": "string",
+            "format": "uri",
+            "description": "URI of the artist-owned protected audio record in a permissioned Space. Protected BlobRefs live in that record, never in this public record."
+          },
+          "audioFileId": {
+            "type": "string",
+            "description": "Content hash used for a protected audio playback copy."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 5000,
+            "description": "Track description (liner notes, show notes, etc.)."
+          },
+          "supportGate": {
+            "ref": "#supportGate",
+            "type": "ref",
+            "description": "If set, this track requires viewer to be a supporter of the artist via atprotofans."
+          },
+          "downloadPolicy": {
+            "type": "string",
+            "description": "Download permission through the publishing application, independent of audio location.",
+            "knownValues": [
+              "open",
+              "ask",
+              "supporters",
+              "off"
+            ]
+          },
+          "originalFileId": {
+            "type": "string",
+            "description": "Content hash of the original audio."
+          },
+          "originalFileType": {
+            "type": "string",
+            "description": "Original audio file extension."
+          },
+          "originalAudioBlob": {
+            "type": "blob",
+            "accept": [
+              "audio/*"
+            ],
+            "maxSize": 104857600,
+            "description": "Original audio retained in the protected audio record alongside a playback rendition."
+          }
+        }
+      },
+      "description": "A music track published to the AT Protocol network."
+    },
+    "supportGate": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The type of support required to access this content.",
+          "knownValues": [
+            "any"
+          ]
+        }
+      },
+      "description": "Configuration for supporter-gated content."
+    },
+    "featuredArtist": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "The DID of the featured artist. Canonical, stable identifier."
+        },
+        "handle": {
+          "type": "string",
+          "format": "handle",
+          "description": "DEPRECATED snapshot — mutable, may be stale. Resolve from `did` instead. Older records include this; new records may omit it."
+        },
+        "displayName": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "DEPRECATED snapshot — mutable, may be stale. Resolve from `did` instead. Older records include this; new records may omit it."
+        }
+      },
+      "description": "A featured artist on a track. Identified by DID — the canonical, immutable identifier. handle and displayName are legacy denormalized snapshots; readers should resolve fresh metadata from the DID rather than trusting these fields."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

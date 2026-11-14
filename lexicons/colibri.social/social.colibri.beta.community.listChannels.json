@@ -1,0 +1,57 @@
+{
+  "id": "social.colibri.beta.community.listChannels",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request is missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The requesting user lacks permission to view this community's channels."
+        },
+        {
+          "name": "CommunityNotFound",
+          "description": "No community exists with that DID."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "channels"
+          ],
+          "properties": {
+            "channels": {
+              "type": "array",
+              "items": {
+                "ref": "social.colibri.beta.community.defs#channelView",
+                "type": "ref"
+              },
+              "description": "The community's channels."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "community"
+        ],
+        "properties": {
+          "community": {
+            "type": "string",
+            "format": "did",
+            "description": "The community to list channels of."
+          }
+        }
+      },
+      "description": "Lists a community's channels as a flat list, for clients that do not need the category grouping."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

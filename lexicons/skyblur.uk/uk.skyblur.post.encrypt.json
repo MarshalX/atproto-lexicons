@@ -1,0 +1,47 @@
+{
+  "id": "uk.skyblur.post.encrypt",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "body",
+            "password"
+          ],
+          "properties": {
+            "body": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "body"
+          ],
+          "properties": {
+            "body": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          }
+        },
+        "encoding": "application/json",
+        "description": "Returns the encrypted result."
+      },
+      "description": "Encrypting the post."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

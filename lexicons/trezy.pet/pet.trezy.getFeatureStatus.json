@@ -1,0 +1,87 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "current": {
+      "properties": {
+        "pet": {
+          "format": "at-uri",
+          "type": "string"
+        },
+        "petName": {
+          "description": "Absent when the pet's name can't be read — its trezy_pet_pets row is missing or hasn't caught up with the feature record yet. Requiring it would fail response validation and turn a valid answer into a 500 on that lag.",
+          "type": "string"
+        },
+        "replied": {
+          "type": "boolean"
+        },
+        "week": {
+          "maxLength": 8,
+          "type": "string"
+        }
+      },
+      "required": [
+        "week",
+        "pet",
+        "replied"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "The caller's own Pet of the Week state: consent, the account-wide interaction count, this week's pick and the last posted feature. ⚠ IT ONLY EVER DESCRIBES THE CALLER; there is no parameter that names anybody else.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "consenting": {
+              "type": "boolean"
+            },
+            "current": {
+              "ref": "#current",
+              "type": "ref"
+            },
+            "error": {
+              "knownValues": [
+                "not-authenticated"
+              ],
+              "type": "string"
+            },
+            "interactions": {
+              "description": "Account-wide, not per pet.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "lastPosted": {
+              "ref": "#posted",
+              "type": "ref"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
+      "type": "query"
+    },
+    "posted": {
+      "properties": {
+        "post": {
+          "format": "at-uri",
+          "type": "string"
+        },
+        "week": {
+          "maxLength": 8,
+          "type": "string"
+        }
+      },
+      "required": [
+        "week",
+        "post"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "pet.trezy.getFeatureStatus",
+  "lexicon": 1
+}

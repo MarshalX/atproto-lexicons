@@ -1,0 +1,200 @@
+{
+  "id": "at.atmosynth.arrangement",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "tempo",
+          "tracks",
+          "createdAt"
+        ],
+        "properties": {
+          "keys": {
+            "type": "array",
+            "items": {
+              "ref": "at.atmosynth.defs#keyPoint",
+              "type": "ref"
+            },
+            "maxLength": 1024,
+            "description": "The key map: the first point at 0, each later than the one before. Optional: absent says no key, which is an arrangement's to leave unsaid."
+          },
+          "loop": {
+            "ref": "#loopRange",
+            "type": "ref",
+            "description": "The range its creator loops over while working on it. Optional: absent is no loop range. A reader that does not loop, such as a renderer, ignores it: an arrangement played through is played once, from start to end."
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 128
+            },
+            "maxLength": 32,
+            "description": "Freely created tags, lower-cased on write."
+          },
+          "meter": {
+            "type": "array",
+            "items": {
+              "ref": "at.atmosynth.defs#meterPoint",
+              "type": "ref"
+            },
+            "maxLength": 1024,
+            "description": "The meter map: the first point at 0, each later one on a bar line of the meter before it. Optional: absent is 4/4 throughout."
+          },
+          "parts": {
+            "type": "array",
+            "items": {
+              "ref": "#includedPart",
+              "type": "ref"
+            },
+            "maxLength": 64,
+            "description": "Parts other people wrote for this arrangement, in their own repositories, which its creator has included. An included part is heard as it is now; a part its writer has since deleted is no longer heard."
+          },
+          "tempo": {
+            "type": "array",
+            "items": {
+              "ref": "at.atmosynth.defs#tempoPoint",
+              "type": "ref"
+            },
+            "maxLength": 1024,
+            "minLength": 1,
+            "description": "The tempo map: the first point at 0, each later than the one before. One point is an arrangement at one tempo. A player that is a host with a clock of its own, a DAW, plays at its tempo instead."
+          },
+          "length": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Where the arrangement ends, in ticks. Optional: absent ends it with its last clip."
+          },
+          "tracks": {
+            "type": "array",
+            "items": {
+              "ref": "at.atmosynth.defs#track",
+              "type": "ref"
+            },
+            "maxLength": 256,
+            "minLength": 1,
+            "description": "The tracks, in the order they are shown. One of them is the bus `master`, which every track reaches in the end and which alone goes to the speakers."
+          },
+          "license": {
+            "ref": "at.atmosynth.defs#license",
+            "type": "ref"
+          },
+          "lineage": {
+            "type": "array",
+            "items": {
+              "ref": "at.atmosynth.defs#lineage",
+              "type": "ref"
+            },
+            "maxLength": 64,
+            "description": "Where the arrangement came from: the arrangement it was forked from, the patch it was made of, and every record anything in it was imported from, so its credits are complete without reading anything else."
+          },
+          "markers": {
+            "type": "array",
+            "items": {
+              "ref": "at.atmosynth.defs#marker",
+              "type": "ref"
+            },
+            "maxLength": 1024,
+            "description": "Named moments, in order of `at`."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000
+          },
+          "openToParts": {
+            "type": "boolean",
+            "description": "Whether parts offered to this arrangement and not yet included are shown to everybody, rather than to its creator alone. Anybody may write a part naming any arrangement in their own repository; this only decides what the arrangement's own page lists. Optional: absent is its creator alone, and only `true` is written."
+          }
+        }
+      },
+      "description": "An arrangement, held in its creator's own repository."
+    },
+    "partMix": {
+      "type": "object",
+      "required": [
+        "track"
+      ],
+      "properties": {
+        "to": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "The id of the bus in this arrangement the track goes to, in place of the part's own `to`."
+        },
+        "strip": {
+          "ref": "at.atmosynth.defs#strip",
+          "type": "ref"
+        },
+        "track": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1,
+          "description": "The id of the track in the part."
+        }
+      },
+      "description": "The arrangement creator's mix of one track of an included part."
+    },
+    "loopRange": {
+      "type": "object",
+      "required": [
+        "start",
+        "end"
+      ],
+      "properties": {
+        "on": {
+          "type": "boolean",
+          "description": "Whether the loop is on. Optional: absent is off, and only `true` is written."
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Where the range ends, in ticks: after `start`."
+        },
+        "start": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Where the range starts, in ticks."
+        }
+      },
+      "description": "A range of the timeline, in ticks, played over and over while the loop is on."
+    },
+    "includedPart": {
+      "type": "object",
+      "required": [
+        "part"
+      ],
+      "properties": {
+        "mix": {
+          "type": "array",
+          "items": {
+            "ref": "#partMix",
+            "type": "ref"
+          },
+          "maxLength": 32,
+          "description": "The arrangement's creator's mix of the part's tracks, which stands in place of the part's own strips and destinations wherever it names a track. A track it does not name is heard as the part writes it."
+        },
+        "part": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref",
+          "description": "The part, and the version of it that was included. The part is heard as it is now; the version says what the arrangement's creator agreed to, so a change since can be shown to them."
+        }
+      },
+      "description": "One part this arrangement includes, and how its creator mixes it."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "An arrangement: tracks of clips over one timeline, mixed through busses into a master, with the tempo, the meter and the key it is counted in. Its instruments and effects are patches held inside it whole, and what it took from other people's records it holds as copies that remember where they came from. Parts that other people wrote for it in their own repositories are included by address."
+}

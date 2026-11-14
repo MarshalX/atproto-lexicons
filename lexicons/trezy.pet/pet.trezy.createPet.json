@@ -1,0 +1,69 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "name": {
+              "description": "The pet's name. Basic Latin only for now: letters, digits, spaces and . , ! ? ' - and nothing else. ⚠ THE LEXICON CANNOT EXPRESS THAT — atproto lexicons have no pattern facet — so createPet.lua is where it is enforced and where the reasoning lives. In short: the leaderboard is public, which makes an unrestricted name string an attack surface (right-to-left overrides, stacking combining marks, zero-width impersonation) rather than a preference; and the two pixel faces disagree about the remaining punctuation, so anything outside this set renders one character in a different typeface mid-word. Leading and trailing whitespace is trimmed and internal runs are collapsed to a single space BEFORE the name is signed and stored.",
+              "maxLength": 64,
+              "minLength": 1,
+              "type": "string"
+            },
+            "species": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "species",
+            "name"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "active": {
+              "description": "Whether the new pet went straight onto the stage, or is waiting because the player is already at activePetCap. ABSENT when the server could not tell — never guess it, and never default it to true: a client that says 'it's on the stage!' about a pet that is not there sends the player looking for it. Only active pets earn, so this is the difference between a purchase that starts paying immediately and one that does not.",
+              "type": "boolean"
+            },
+            "createdAt": {
+              "format": "datetime",
+              "type": "string"
+            },
+            "error": {
+              "description": "Present instead of uri/createdAt when the pet was not created for an expected reason. A stable machine code the client branches on — add codes, never rename them.",
+              "knownValues": [
+                "unknown-species",
+                "missing-name",
+                "invalid-name",
+                "name-too-long",
+                "cannot-afford",
+                "not-purchasable",
+                "definitions-unavailable"
+              ],
+              "type": "string"
+            },
+            "message": {
+              "description": "A sentence to show the player, accompanying `error`. Free to reword; do not branch on it.",
+              "type": "string"
+            },
+            "uri": {
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "pet.trezy.createPet",
+  "lexicon": 1
+}

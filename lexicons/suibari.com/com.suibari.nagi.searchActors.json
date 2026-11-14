@@ -1,0 +1,56 @@
+{
+  "id": "com.suibari.nagi.searchActors",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "actors"
+          ],
+          "properties": {
+            "actors": {
+              "type": "array",
+              "items": {
+                "type": "unknown"
+              },
+              "maxLength": 20
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "q"
+        ],
+        "properties": {
+          "q": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "mode": {
+            "type": "string",
+            "default": "hybrid",
+            "description": "exact=handle/displayName の語彙一致のみ / semantic=プロフィール埋め込みの近傍のみ(語彙一致ヒットは除外・相対しきい値で足切り) / hybrid=両者を1本にまとめた従来の挙動(タイプアヘッド用)。",
+            "knownValues": [
+              "exact",
+              "semantic",
+              "hybrid"
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "default": 10,
+            "maximum": 20,
+            "minimum": 1
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

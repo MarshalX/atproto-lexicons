@@ -1,0 +1,66 @@
+{
+  "id": "dev.knotless.listSteps",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository, or this appview keeps no index, so it keeps no steps."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "steps"
+          ],
+          "properties": {
+            "steps": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#stepView",
+                "type": "ref"
+              }
+            },
+            "cursor": {
+              "type": "string",
+              "description": "Absent on the last page."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "q": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Only steps whose name starts with this."
+          },
+          "repo": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Only the steps of this repository, by its dev.knotless.repo record. Its authority may be a handle."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string",
+            "maxLength": 512,
+            "description": "Where the page before ended."
+          }
+        }
+      },
+      "description": "The shared steps the appview has indexed, from dev.knotless.release records of packages named `@step/<name>` whose one file is a step file, each at its latest version, in the order of their names: everyone's, one repository's, or those whose name starts with `q`. A step of an account, repository or release taken down is left out. No authentication; responses are not personalized."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "The shared steps repositories publish, for workflows to use."
+}

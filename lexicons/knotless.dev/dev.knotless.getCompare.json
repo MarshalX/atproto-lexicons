@@ -1,0 +1,70 @@
+{
+  "id": "dev.knotless.getCompare",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository, or no such branch on either."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "heads"
+          ],
+          "properties": {
+            "heads": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#repoViewBasic",
+                "type": "ref"
+              },
+              "description": "The repositories a pull can come from: this one first, then its forks the index knows, oldest first."
+            },
+            "changes": {
+              "ref": "dev.knotless.defs#changesView",
+              "type": "ref",
+              "description": "What the branch brings in, given one."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "repo"
+        ],
+        "properties": {
+          "base": {
+            "type": "string",
+            "maxLength": 1024,
+            "description": "The branch to merge into; the default branch if not given."
+          },
+          "head": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The repository the branch is on: this one, if not given, or a fork of it."
+          },
+          "repo": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The repository to merge into: its dev.knotless.repo record. Its authority may be a handle."
+          },
+          "branch": {
+            "type": "string",
+            "maxLength": 1024,
+            "description": "The branch to bring in. Without one, only the repositories are answered."
+          }
+        }
+      },
+      "description": "The repositories a pull into a repository can come from, itself and its forks, and, given a branch, what that branch has since it left the base, as a pull from it would show. No authentication; responses are not personalized."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "What a pull from a branch would bring into a repository, before it is opened."
+}

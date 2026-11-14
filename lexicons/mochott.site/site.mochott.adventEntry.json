@@ -1,0 +1,61 @@
+{
+  "id": "site.mochott.adventEntry",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "calendar",
+          "day",
+          "createdAt"
+        ],
+        "properties": {
+          "day": {
+            "type": "integer",
+            "maximum": 31,
+            "minimum": 1,
+            "description": "1-based day of the calendar."
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "The post written for this day when it is not an AT Protocol record. Accepted only when the calendar allows external posts."
+          },
+          "plan": {
+            "type": "string",
+            "maxLength": 1000,
+            "description": "What the participant plans to write about, shown before the post is published.",
+            "maxGraphemes": 100
+          },
+          "article": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The post written for this day: a site.mochott.article or site.standard.document record."
+          },
+          "calendar": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The site.mochott.adventCalendar record this entry joins."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp when the day was claimed."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp when the entry was last updated."
+          }
+        }
+      },
+      "description": "Record in the participant's repo claiming a day of a site.mochott.adventCalendar."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 1,
+  "description": "A participant's claim of one day of an advent calendar, and later the post written for it."
+}

@@ -1,0 +1,58 @@
+{
+  "id": "com.suibari.nagi.getChannels",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "channels",
+            "hasMore"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "hasMore": {
+              "type": "boolean"
+            },
+            "channels": {
+              "type": "array",
+              "items": {
+                "type": "unknown"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "view": {
+            "type": "string",
+            "default": "trend",
+            "description": "trend=過去5日以内に主・bot以外の投稿がある公開一覧 / list=認証ユーザーが参加中 / mine=認証ユーザーが作成",
+            "knownValues": [
+              "trend",
+              "list",
+              "mine"
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

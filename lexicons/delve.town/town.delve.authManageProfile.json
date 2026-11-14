@@ -1,0 +1,30 @@
+{
+  "id": "town.delve.authManageProfile",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Manage profile",
+      "detail": "Update profile data, as well as status and public chat visibility.",
+      "title:lang": {},
+      "detail:lang": {},
+      "permissions": [
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "town.delve.actor.profile",
+            "town.delve.actor.status",
+            "town.delve.notification.declaration"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

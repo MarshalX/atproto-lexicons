@@ -1,0 +1,203 @@
+{
+  "id": "rsvp.atmo.space.defs",
+  "defs": {
+    "appPolicy": {
+      "type": "object",
+      "required": [
+        "mode",
+        "apps"
+      ],
+      "properties": {
+        "apps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "mode": {
+          "type": "string",
+          "description": "'allow' = default-allow with apps[] as denylist; 'deny' = default-deny with apps[] as allowlist.",
+          "knownValues": [
+            "allow",
+            "deny"
+          ]
+        }
+      }
+    },
+    "spaceView": {
+      "type": "object",
+      "required": [
+        "uri",
+        "ownerDid",
+        "type",
+        "key",
+        "serviceDid",
+        "createdAt"
+      ],
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "type": {
+          "type": "string",
+          "format": "nsid"
+        },
+        "ownerDid": {
+          "type": "string",
+          "format": "did"
+        },
+        "appPolicy": {
+          "ref": "#appPolicy",
+          "type": "ref",
+          "description": "Owner-only"
+        },
+        "createdAt": {
+          "type": "integer"
+        },
+        "serviceDid": {
+          "type": "string"
+        },
+        "appPolicyRef": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "memberListRef": {
+          "type": "string",
+          "format": "at-uri"
+        }
+      }
+    },
+    "inviteView": {
+      "type": "object",
+      "required": [
+        "tokenHash",
+        "spaceUri",
+        "kind",
+        "perms",
+        "usedCount",
+        "createdBy",
+        "createdAt"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "knownValues": [
+            "join",
+            "read",
+            "read-join"
+          ]
+        },
+        "note": {
+          "type": "string"
+        },
+        "perms": {
+          "type": "string",
+          "knownValues": [
+            "read",
+            "write"
+          ]
+        },
+        "maxUses": {
+          "type": "integer"
+        },
+        "spaceUri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "createdAt": {
+          "type": "integer"
+        },
+        "createdBy": {
+          "type": "string",
+          "format": "did"
+        },
+        "expiresAt": {
+          "type": "integer"
+        },
+        "revokedAt": {
+          "type": "integer"
+        },
+        "tokenHash": {
+          "type": "string"
+        },
+        "usedCount": {
+          "type": "integer"
+        }
+      }
+    },
+    "memberView": {
+      "type": "object",
+      "required": [
+        "did",
+        "perms",
+        "addedAt"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "perms": {
+          "type": "string",
+          "description": "'write' implies 'read'. Space owner is always implicit write.",
+          "knownValues": [
+            "read",
+            "write"
+          ]
+        },
+        "addedAt": {
+          "type": "integer"
+        },
+        "addedBy": {
+          "type": "string",
+          "format": "did"
+        }
+      }
+    },
+    "recordView": {
+      "type": "object",
+      "required": [
+        "spaceUri",
+        "collection",
+        "authorDid",
+        "rkey",
+        "record",
+        "createdAt"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid"
+        },
+        "rkey": {
+          "type": "string"
+        },
+        "record": {
+          "type": "unknown"
+        },
+        "spaceUri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "authorDid": {
+          "type": "string",
+          "format": "did"
+        },
+        "createdAt": {
+          "type": "integer"
+        },
+        "collection": {
+          "type": "string",
+          "format": "nsid"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Shared types for permissioned-space XRPC methods."
+}

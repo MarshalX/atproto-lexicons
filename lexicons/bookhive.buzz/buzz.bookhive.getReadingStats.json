@@ -1,0 +1,194 @@
+{
+  "id": "buzz.bookhive.getReadingStats",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "stats",
+            "availableYears",
+            "year"
+          ],
+          "properties": {
+            "year": {
+              "type": "integer"
+            },
+            "stats": {
+              "ref": "buzz.bookhive.getReadingStats#readingStats",
+              "type": "ref"
+            },
+            "availableYears": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "handle"
+        ],
+        "properties": {
+          "year": {
+            "type": "integer",
+            "maximum": 2100,
+            "minimum": 2000,
+            "description": "The year to fetch stats for. Defaults to current year."
+          },
+          "handle": {
+            "type": "string",
+            "description": "The user handle or DID"
+          }
+        }
+      },
+      "description": "Get reading statistics for a user for a given year."
+    },
+    "genreStat": {
+      "type": "object",
+      "required": [
+        "genre",
+        "count"
+      ],
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "genre": {
+          "type": "string"
+        }
+      }
+    },
+    "bookSummary": {
+      "type": "object",
+      "required": [
+        "hiveId",
+        "title",
+        "authors"
+      ],
+      "properties": {
+        "cover": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "hiveId": {
+          "type": "string"
+        },
+        "rating": {
+          "type": "integer"
+        },
+        "authors": {
+          "type": "string"
+        },
+        "pageCount": {
+          "type": "integer"
+        },
+        "thumbnail": {
+          "type": "string"
+        }
+      }
+    },
+    "readingStats": {
+      "type": "object",
+      "required": [
+        "booksCount",
+        "ratingDistribution",
+        "topGenres"
+      ],
+      "properties": {
+        "pagesRead": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "topGenres": {
+          "type": "array",
+          "items": {
+            "ref": "buzz.bookhive.getReadingStats#genreStat",
+            "type": "ref"
+          }
+        },
+        "booksCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "longestBook": {
+          "ref": "buzz.bookhive.getReadingStats#bookSummary",
+          "type": "ref"
+        },
+        "shortestBook": {
+          "ref": "buzz.bookhive.getReadingStats#bookSummary",
+          "type": "ref"
+        },
+        "averageRating": {
+          "type": "integer",
+          "description": "Average rating * 10 (e.g. 42 = 4.2 stars)"
+        },
+        "lastBookOfYear": {
+          "ref": "buzz.bookhive.getReadingStats#bookSummary",
+          "type": "ref"
+        },
+        "firstBookOfYear": {
+          "ref": "buzz.bookhive.getReadingStats#bookSummary",
+          "type": "ref"
+        },
+        "mostPopularBook": {
+          "ref": "buzz.bookhive.getReadingStats#bookSummary",
+          "type": "ref"
+        },
+        "averagePageCount": {
+          "type": "integer"
+        },
+        "leastPopularBook": {
+          "ref": "buzz.bookhive.getReadingStats#bookSummary",
+          "type": "ref"
+        },
+        "ratingDistribution": {
+          "ref": "buzz.bookhive.getReadingStats#ratingDistribution",
+          "type": "ref"
+        }
+      }
+    },
+    "ratingDistribution": {
+      "type": "object",
+      "required": [
+        "one",
+        "two",
+        "three",
+        "four",
+        "five"
+      ],
+      "properties": {
+        "one": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "two": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "five": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "four": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "three": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

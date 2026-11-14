@@ -1,0 +1,45 @@
+{
+  "id": "com.suibari.nagi.updateSeen",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "seenAt"
+          ],
+          "properties": {
+            "seenAt": {
+              "type": "string",
+              "format": "datetime"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "updated"
+          ],
+          "properties": {
+            "updated": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "encoding": "application/json"
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

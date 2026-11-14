@@ -1,0 +1,334 @@
+{
+  "id": "social.coves.community.post.defs",
+  "defs": {
+    "postView": {
+      "type": "object",
+      "required": [
+        "uri",
+        "cid",
+        "author",
+        "record",
+        "community",
+        "createdAt",
+        "indexedAt"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid"
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "embed": {
+          "refs": [
+            "social.coves.embed.images",
+            "social.coves.embed.images#view",
+            "social.coves.embed.video",
+            "social.coves.embed.video#view",
+            "social.coves.embed.external",
+            "social.coves.embed.external#view",
+            "social.coves.embed.post",
+            "social.coves.embed.post#view"
+          ],
+          "type": "union",
+          "description": "Embedded content from the post record. Untransformed embeds keep their record types; when the AppView rewrites blob references to URLs or resolves quoted posts, it serves the corresponding #view type."
+        },
+        "stats": {
+          "ref": "#postStats",
+          "type": "ref"
+        },
+        "author": {
+          "ref": "#authorView",
+          "type": "ref"
+        },
+        "record": {
+          "type": "unknown",
+          "description": "The actual post record (text, image, video, etc.)"
+        },
+        "status": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "This post's per-community admission status. Present on an accepted post, and on an author's own view of their non-accepted posts; omitted from a public postView of a legacy/bridged row. Optional.",
+          "knownValues": [
+            "pending",
+            "accepted",
+            "pending_reacceptance",
+            "rejected",
+            "removed"
+          ]
+        },
+        "viewer": {
+          "ref": "#viewerState",
+          "type": "ref"
+        },
+        "editedAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "language": {
+          "type": "string",
+          "format": "language"
+        },
+        "community": {
+          "ref": "#communityRef",
+          "type": "ref"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "indexedAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When this post was indexed by the AppView"
+        },
+        "acceptanceUri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the community acceptance record that admitted this post. Present only while an acceptance stands. Optional."
+        }
+      }
+    },
+    "postStats": {
+      "type": "object",
+      "required": [
+        "upvotes",
+        "downvotes",
+        "score",
+        "commentCount"
+      ],
+      "properties": {
+        "score": {
+          "type": "integer",
+          "description": "Calculated score (upvotes - downvotes)"
+        },
+        "upvotes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "downvotes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "tagCounts": {
+          "type": "unknown",
+          "description": "Map of tag name to the number of community members who applied it (e.g., {\"insightful\": 12})"
+        },
+        "shareCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "commentCount": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "authorView": {
+      "type": "object",
+      "required": [
+        "did",
+        "handle"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "avatar": {
+          "type": "string",
+          "format": "uri"
+        },
+        "handle": {
+          "type": "string",
+          "format": "handle"
+        },
+        "reputation": {
+          "type": "integer",
+          "description": "Author's reputation in the community"
+        },
+        "displayName": {
+          "type": "string",
+          "maxLength": 1280,
+          "maxGraphemes": 128
+        }
+      }
+    },
+    "blockedPost": {
+      "type": "object",
+      "required": [
+        "uri",
+        "blocked"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "author": {
+          "ref": "#blockedAuthor",
+          "type": "ref"
+        },
+        "blocked": {
+          "type": "boolean",
+          "const": true
+        },
+        "blockedBy": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "What caused the block. The AppView emits only 'author' (the viewer blocked the post's author). 'community' is reserved and not emitted — a community block mutes aggregate feeds, not permalinks. 'moderator' is not emitted either; removals are served as removedPost.",
+          "knownValues": [
+            "author",
+            "community",
+            "moderator"
+          ]
+        },
+        "community": {
+          "ref": "#blockedCommunity",
+          "type": "ref"
+        }
+      },
+      "description": "Post is hidden from this viewer because the viewer blocked its author. Community blocks mute aggregate feeds only and never produce this member (permalinks stay reachable); moderator removals are served as removedPost."
+    },
+    "removedPost": {
+      "type": "object",
+      "required": [
+        "uri",
+        "removed"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "code": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "The community's removal decision code (e.g. rule-violation, spam, off-topic)."
+        },
+        "removed": {
+          "type": "boolean",
+          "const": true
+        }
+      },
+      "description": "Post was removed by its own community's moderators. Served as a tombstone carrying the removal code — distinct from notFoundPost (which is indistinguishable from 'never existed') so a client can explain the takedown to the author."
+    },
+    "viewerState": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 640,
+            "maxGraphemes": 64
+          },
+          "description": "Tags applied by the viewer to this post"
+        },
+        "vote": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Viewer's vote on this post",
+          "knownValues": [
+            "up",
+            "down"
+          ]
+        },
+        "saved": {
+          "type": "boolean"
+        },
+        "voteUri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "savedUri": {
+          "type": "string",
+          "format": "at-uri"
+        }
+      }
+    },
+    "communityRef": {
+      "type": "object",
+      "required": [
+        "did",
+        "name"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 63
+        },
+        "avatar": {
+          "type": "string",
+          "format": "uri"
+        },
+        "handle": {
+          "type": "string",
+          "format": "handle",
+          "description": "Current handle resolved from DID"
+        },
+        "origin": {
+          "type": "string",
+          "maxLength": 253,
+          "description": "Instance this community actually lives on (hostname only, e.g. lemmy.world). Validated by the AppView at index time."
+        }
+      }
+    },
+    "notFoundPost": {
+      "type": "object",
+      "required": [
+        "uri",
+        "notFound"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "notFound": {
+          "type": "boolean",
+          "const": true
+        }
+      },
+      "description": "Post was not found (deleted, never indexed, or invalid URI)"
+    },
+    "blockedAuthor": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        }
+      },
+      "description": "Minimal author info for blocked posts"
+    },
+    "blockedCommunity": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 63
+        }
+      },
+      "description": "Minimal community info for blocked posts"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

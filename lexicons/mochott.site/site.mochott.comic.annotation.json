@@ -1,0 +1,63 @@
+{
+  "id": "site.mochott.comic.annotation",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "x",
+          "y",
+          "text",
+          "createdAt"
+        ],
+        "properties": {
+          "x": {
+            "type": "integer",
+            "maximum": 10000,
+            "minimum": 0,
+            "description": "Ten-thousandths of the image width from the left."
+          },
+          "y": {
+            "type": "integer",
+            "maximum": 10000,
+            "minimum": 0,
+            "description": "Ten-thousandths of the image height from the top."
+          },
+          "text": {
+            "type": "array",
+            "items": {
+              "ref": "site.mochott.comic.defs#localizedText",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "minLength": 1,
+            "description": "Note text, one entry per language."
+          },
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT URI of the page, slice or strip."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the note was created."
+          },
+          "sequential": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT URI of the canonical work.sequential record this record accompanies. Same record key. Omitted only when the work exists solely in this namespace."
+          }
+        }
+      },
+      "description": "A note pinned to a point on comic artwork."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 1,
+  "description": "A creator note pinned to a point on a page, slice or strip; a copy of the work.sequential.feed.annotation of the same record key."
+}

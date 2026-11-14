@@ -1,0 +1,60 @@
+{
+  "id": "social.colibri.beta.channel.delete",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "channel"
+          ],
+          "properties": {
+            "channel": {
+              "type": "string",
+              "format": "space-ref",
+              "description": "The channel to delete."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request has no valid service auth."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The requesting user lacks the channel.delete permission."
+        },
+        {
+          "name": "ChannelNotFound",
+          "description": "No channel matches the given space reference."
+        },
+        {
+          "name": "CredentialsUnavailable",
+          "description": "The AppView cannot act as the community because its stored credentials are missing or unusable."
+        },
+        {
+          "name": "PdsUnavailable",
+          "description": "The community's PDS is unreachable or the AppView has no administrative access to it."
+        },
+        {
+          "name": "UpstreamFailure",
+          "description": "The community's PDS failed while deleting the channel's space."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "description": "Deletes a channel's space. Messages members wrote in it stay in their own repos and become unreadable to everyone but their authors."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

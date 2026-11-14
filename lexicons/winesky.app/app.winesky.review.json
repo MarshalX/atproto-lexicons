@@ -1,0 +1,112 @@
+{
+  "id": "app.winesky.review",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "text",
+          "createdAt",
+          "reviewId",
+          "reviewDate"
+        ],
+        "properties": {
+          "post": {
+            "ref": "#strongRef",
+            "type": "ref"
+          },
+          "text": {
+            "type": "string",
+            "maxLength": 10000,
+            "maxGraphemes": 5000
+          },
+          "drink": {
+            "ref": "app.winesky.collectionItem#drink",
+            "type": "ref"
+          },
+          "rating": {
+            "type": "integer",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "imageSet": {
+            "ref": "#strongRef",
+            "type": "ref"
+          },
+          "reviewId": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "followUpTo": {
+            "ref": "#strongRef",
+            "type": "ref"
+          },
+          "references": {
+            "type": "array",
+            "items": {
+              "ref": "#reference",
+              "type": "ref"
+            },
+            "maxLength": 400
+          },
+          "reviewDate": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "A structured, machine-readable wine review record. Created when a user publishes a wine review to Bluesky."
+    },
+    "reference": {
+      "type": "object",
+      "required": [
+        "byteStart",
+        "byteEnd"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 2048
+        },
+        "review": {
+          "ref": "#strongRef",
+          "type": "ref"
+        },
+        "byteEnd": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "byteStart": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "strongRef": {
+      "type": "object",
+      "required": [
+        "cid",
+        "atUri"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid"
+        },
+        "atUri": {
+          "type": "string",
+          "format": "at-uri"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

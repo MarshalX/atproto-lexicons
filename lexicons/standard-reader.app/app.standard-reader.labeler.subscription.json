@@ -1,0 +1,69 @@
+{
+  "id": "app.standard-reader.labeler.subscription",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "labeler",
+          "createdAt"
+        ],
+        "properties": {
+          "labels": {
+            "type": "array",
+            "items": {
+              "ref": "#labelPref",
+              "type": "ref"
+            },
+            "description": "Per-label visibility overrides for this labeler's label values."
+          },
+          "enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether this labeler's labels are applied while reading. `false` keeps the subscription (and its per-label preferences) but stops the labeler acting here — for a labeler the reader wants on another app but not this one. Absent means enabled."
+          },
+          "labeler": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the labeler service being subscribed to."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the reader subscribed to the labeler."
+          }
+        }
+      },
+      "description": "Subscribes the reader to a labeler service (like adding a Bluesky moderation service). Presence of the record means subscribed; deleting it unsubscribes. The rkey is derived from the labeler DID so each labeler maps to a single record. Successor to app.standard-reader.labelerSubscription, nested under the labeler NSID group."
+    },
+    "labelPref": {
+      "type": "object",
+      "required": [
+        "val",
+        "visibility"
+      ],
+      "properties": {
+        "val": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "The label value this preference applies to."
+        },
+        "visibility": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "ignore = show normally; warn = content warning / blur; hide = filter out.",
+          "knownValues": [
+            "ignore",
+            "warn",
+            "hide"
+          ]
+        }
+      },
+      "description": "How the reader wants a single label value from this labeler treated."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

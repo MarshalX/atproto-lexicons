@@ -1,0 +1,70 @@
+{
+  "id": "dev.knotless.deleteAccountData",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "did"
+          ],
+          "properties": {
+            "did": {
+              "type": "string",
+              "format": "did",
+              "description": "The account whose data goes: the one asking, named again so that no call deletes it by mistake."
+            },
+            "limit": {
+              "type": "integer",
+              "default": 400,
+              "maximum": 1000,
+              "minimum": 1,
+              "description": "The most records and spaces to delete in this call."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account asks, or the pages' session for it has ended."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The account asking is not the one named."
+        },
+        {
+          "name": "RecordsRemain",
+          "description": "Asked with a service token while the account's PDS still holds knotless records: delete them first."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "deleted",
+            "done"
+          ],
+          "properties": {
+            "done": {
+              "type": "boolean",
+              "description": "Whether nothing is left: the appview has then forgotten the account, and logged it out."
+            },
+            "deleted": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "How many records and spaces this call deleted."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Deletes the asking account's knotless data a part at a time, as `knotless account delete-data` does: first the spaces of its private repositories, then each public repository as dev.knotless.deleteRepo deletes one, then whatever is left in its dev.knotless.* collections. Asked by the pages' session cookie, it deletes with the session the appview keeps for the account, up to `limit` records and spaces a call, and answers whether it is done; the pages ask again until it is, and a run cut short carries on where it stopped. Once nothing is left, the appview drops what it indexed from the account, as for one deleted at its PDS, keeping its takedowns and reports about it, and ends the account's sessions here, the pages' and MCP's, logging the browser out. Asked with a service token, as the command line asks once it has deleted the records itself, it deletes nothing, and forgets the account only once its PDS holds no knotless records. The atproto account itself, and other apps' records in it, are untouched. Only the account itself can ask."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Deletes every knotless record from the asking account, then has the appview forget it."
+}

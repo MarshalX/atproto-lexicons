@@ -1,0 +1,37 @@
+{
+  "id": "social.dracome.permissions",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Full Dracome Functionality",
+      "detail": "Track your reads, post reviews, curate lists, and connect on the open social web with readers, authors, bloggers, and publishers, then discover personalized recommendations.",
+      "permissions": [
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "social.dracome.library.acquisition",
+            "social.dracome.library.goal",
+            "social.dracome.library.marker",
+            "social.dracome.library.review",
+            "social.dracome.library.state",
+            "social.dracome.library.collection",
+            "social.dracome.library.collection.item",
+            "social.dracome.actor.profile",
+            "social.dracome.actor.featuredEditions",
+            "social.dracome.contributor.profile",
+            "social.dracome.catalog.submission.work",
+            "social.dracome.catalog.submission.edition"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,163 @@
+{
+  "id": "social.dracome.catalog.submission.work",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "title",
+          "contributors",
+          "createdAt"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 1024,
+            "description": "Primary title of the work."
+          },
+          "genres": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 64,
+              "knownValues": [
+                "romance",
+                "romantic_comedy",
+                "contemporary_romance",
+                "workplace_romance",
+                "wholesome_clean_romance",
+                "college_university_romance",
+                "historical_romance",
+                "western_rural_romance",
+                "love_triangle_romance",
+                "unlikely_lovers_romance",
+                "romantic_suspense",
+                "sports_romance",
+                "uniform_romance",
+                "medical_romance",
+                "rich_famous_romance",
+                "polyamory_romance",
+                "fantasy_paranormal_romance",
+                "time_travel_romance",
+                "dark_romance",
+                "bad_boy_bad_girl_romance",
+                "erotic_romance",
+                "fantasy",
+                "science_fiction",
+                "crime_mystery",
+                "thriller_suspense",
+                "horror",
+                "biography",
+                "history",
+                "self_help",
+                "young_adult",
+                "childrens",
+                "reference",
+                "religion_spirituality"
+              ]
+            },
+            "maxLength": 8,
+            "description": "Optional controlled list of genres, including subgenres. Known values form a controlled vocabulary that may grow; consumers MUST tolerate unknown values. Free-text subject tags are in the subjects field instead."
+          },
+          "coverUri": {
+            "type": "string",
+            "format": "uri",
+            "description": "Optional URL to a cover image for the work, hosted by the submitter. Runtime validation MUST restrict this to https:// URLs."
+          },
+          "subjects": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 512
+            },
+            "maxLength": 32,
+            "description": "Optional free-text subject and topic tags."
+          },
+          "subtitle": {
+            "type": "string",
+            "maxLength": 1024,
+            "description": "Optional secondary title."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "ISO 8601 UTC timestamp with trailing Z when this record was created."
+          },
+          "sourceUri": {
+            "type": "string",
+            "format": "uri",
+            "description": "Optional URL to this work's page on the submitter's own site."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Optional ISO 8601 UTC timestamp with trailing Z when this record was last updated by republishing."
+          },
+          "derivedFrom": {
+            "ref": "#derivedFromRef",
+            "type": "ref",
+            "description": "Optional reference to the record this submission's data was derived from (e.g., a pub.byline.book record for Byline submissions). Carries no meaning to Dracome's ingestion; exists for downstream consumers to walk provenance."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 8192,
+            "description": "Optional free-text description or summary of the work."
+          },
+          "identifiers": {
+            "type": "array",
+            "items": {
+              "ref": "social.dracome.work.defs#catalogIdentifier",
+              "type": "ref"
+            },
+            "maxLength": 16,
+            "description": "Optional external identifiers (ISBN, Open Library key, etc.), plus the submitter's proprietary identifier (e.g. bylinePub, dracomeKey)."
+          },
+          "contributors": {
+            "type": "array",
+            "items": {
+              "ref": "social.dracome.contributor.defs#creditedContributor",
+              "type": "ref"
+            },
+            "maxLength": 64,
+            "minLength": 1,
+            "description": "Required ordered list of credited contributors with roles, each carrying a resolvable profile reference."
+          },
+          "firstPublicationDate": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Optional original publication date of the work, at whatever precision is known (e.g., year only, or full date)."
+          }
+        }
+      },
+      "description": "A submission record carrying candidate catalog data for a work, published by a trusted submitter to their own PDS. Repeatable; a submitter may create, update, or delete work-submission records over time."
+    },
+    "derivedFromRef": {
+      "type": "object",
+      "required": [
+        "uri"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid",
+          "description": "Optional content hash at time of derivation; informational only, detects drift."
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the referenced record."
+        },
+        "nsid": {
+          "type": "string",
+          "format": "nsid",
+          "description": "Optional NSID of the referenced record's lexicon (e.g. 'pub.byline.book'); informational, since source shapes vary per trusted app."
+        }
+      },
+      "description": "A reference to the upstream record this submission's data was derived from. For Byline submissions, this points to the author's own pub.byline.book record. For direct Dracome submissions, derivedFrom is absent."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

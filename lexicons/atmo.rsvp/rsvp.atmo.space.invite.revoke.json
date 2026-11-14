@@ -1,0 +1,52 @@
+{
+  "id": "rsvp.atmo.space.invite.revoke",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "spaceUri",
+            "tokenHash"
+          ],
+          "properties": {
+            "spaceUri": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "tokenHash": {
+              "type": "string"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "NotFound"
+        },
+        {
+          "name": "Forbidden"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "ok"
+          ],
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Revoke an invite. Owner only. Invites are identified by their tokenHash (visible in list output)."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

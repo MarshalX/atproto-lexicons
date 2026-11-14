@@ -1,0 +1,83 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "forgery": {
+      "properties": {
+        "cause": {
+          "description": "The reason as a sentence, composed here so every copy of it agrees and none of them is written by the accused's own browser.",
+          "type": "string"
+        },
+        "noticedAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "reason": {
+          "maxLength": 64,
+          "type": "string"
+        },
+        "uri": {
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "cause",
+        "uri",
+        "reason",
+        "noticedAt"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "Every record of this account's that an ingest guard refused, one entry each, with the reason written out. Reads `trezy_pet_rejections`, which the guards fill as forged records arrive on the firehose — so this is a report of what was already stopped, not a check performed now. Nothing here changes what the account may do: the refusal happened at ingest and the ledger never saw the record.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "error": {
+              "description": "Present instead of a report when there is none to give. `rejections-unavailable` means the store could not be read — which must NOT be shown as 'no forgeries', because an unreadable table would otherwise clear somebody's record by accident.",
+              "knownValues": [
+                "rejections-unavailable"
+              ],
+              "type": "string"
+            },
+            "forgeries": {
+              "description": "Empty for the overwhelming majority of accounts, and an empty array is the successful answer rather than an absence.",
+              "items": {
+                "ref": "#forgery",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "message": {
+              "type": "string"
+            },
+            "subject": {
+              "description": "Whose report this is — echoed so a caller that omitted `did` learns which account answered.",
+              "format": "did",
+              "type": "string"
+            }
+          },
+          "required": [
+            "subject",
+            "forgeries"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "did": {
+            "description": "Whose forgeries to report. Defaults to the caller. ⚠ ANY DID MAY BE ASKED ABOUT, DELIBERATELY. The whole purpose of this data is to be published — `pet.trezy.shameOnYou` puts it in a public repo moments later — so treating it as a secret in transit while broadcasting it afterwards would be theatre. It also lets the server that writes the public record verify the claim for itself rather than believing a client that says 'shame this DID'.",
+            "format": "did",
+            "type": "string"
+          }
+        },
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "pet.trezy.getForgeries",
+  "lexicon": 1
+}

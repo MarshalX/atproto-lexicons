@@ -1,0 +1,80 @@
+{
+  "id": "dev.knotless.revertPull",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "repo",
+            "pull"
+          ],
+          "properties": {
+            "pull": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The merged dev.knotless.pull record."
+            },
+            "repo": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+            },
+            "reason": {
+              "type": "string",
+              "maxLength": 10000,
+              "description": "Why, said in the revert's body.",
+              "maxGraphemes": 1000
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        },
+        {
+          "name": "UpstreamFailure",
+          "description": "It did not revert, as the reason says: the pull is not merged, undoing it conflicts, or the account may not revert it."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri",
+            "branch",
+            "commit"
+          ],
+          "properties": {
+            "uri": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The new dev.knotless.pull record, which brings the revert in."
+            },
+            "branch": {
+              "type": "string",
+              "description": "The branch holding the revert, without refs/heads/."
+            },
+            "commit": {
+              "type": "string",
+              "description": "The revert's commit, in hex."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Reverts a merged pull as `knotless pull revert` does, as the account logged in to this appview's web pages, with the session the appview keeps for it: one commit undoing what its merge brought in, on a new branch revert/<the pull's record key> cut from its target branch as it is now, and a pull of that branch into the target branch, which this answers. Nothing merges: the revert is a pull like any other. Refused on a pull that is not merged, when undoing it conflicts with what the branch took since, and to anyone but the repository's owner and collaborators. Requires the session cookie the pages' login sets."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Reverts a merged pull as the account logged in to this appview's pages."
+}

@@ -1,0 +1,28 @@
+{
+  "id": "app.rocksky.rockbox.getAudioSettings",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "ref": "app.rocksky.rockbox.defs#settingsView",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "did": {
+            "type": "string",
+            "format": "at-identifier",
+            "description": "DID or handle of the user whose settings to fetch. Required for unauthenticated requests."
+          }
+        }
+      },
+      "description": "Get Rockbox audio settings. If `did` is provided the request is public; otherwise an auth token is required and the caller's own settings are returned."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,150 @@
+{
+  "id": "site.mochott.comic.chapter",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "series",
+          "createdAt",
+          "covers"
+        ],
+        "properties": {
+          "tags": {
+            "type": "array",
+            "items": {
+              "ref": "site.mochott.comic.defs#tag",
+              "type": "ref"
+            },
+            "maxLength": 10,
+            "description": "Free-form tags."
+          },
+          "pages": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 1000,
+            "description": "Ordered site.mochott.comic.page records."
+          },
+          "title": {
+            "type": "array",
+            "items": {
+              "ref": "site.mochott.comic.defs#localizedTitle",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "description": "Chapter title or number, one entry per language."
+          },
+          "topic": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "Slug of the mochott writing topic (投稿のお題) this work participates in."
+          },
+          "covers": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 500,
+            "minLength": 1,
+            "description": "Ordered site.mochott.comic.cover records; the first is primary."
+          },
+          "labels": {
+            "refs": [
+              "com.atproto.label.defs#selfLabels"
+            ],
+            "type": "union",
+            "description": "Self-labels for this chapter or strip alone. work.sequential only labels whole series; mochott applies these in addition to the series labels."
+          },
+          "series": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT URI of the parent site.mochott.comic.series."
+          },
+          "slices": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 1000,
+            "description": "Ordered site.mochott.comic.slice records."
+          },
+          "status": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Publication status.",
+            "knownValues": [
+              "ongoing",
+              "completed",
+              "hiatus",
+              "cancelled"
+            ]
+          },
+          "credits": {
+            "type": "array",
+            "items": {
+              "ref": "site.mochott.comic.defs#credit",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "description": "People who worked on the chapter."
+          },
+          "category": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "mochott platform category slug, used to list the work alongside articles."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Publish date of the chapter."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the chapter was last updated."
+          },
+          "sequential": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT URI of the canonical work.sequential record this record accompanies. Same record key. Omitted only when the work exists solely in this namespace."
+          },
+          "description": {
+            "type": "array",
+            "items": {
+              "ref": "site.mochott.comic.defs#localizedDescription",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "description": "Chapter description, one entry per language."
+          },
+          "spreadStart": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Where page 1 sits in a two-page view. 'latter' (the default when absent) puts page 1 in the second slot of the first spread, facing the cover or standing alone, so spreads are pages 2–3, 4–5…; 'former' pairs pages 1–2, 3–4…. Readers showing one page at a time ignore it.",
+            "knownValues": [
+              "latter",
+              "former"
+            ]
+          },
+          "minisiteCategory": {
+            "ref": "site.mochott.comic.defs#minisiteCategory",
+            "type": "ref",
+            "description": "Category of the work within a mochott minisite."
+          }
+        }
+      },
+      "description": "A chapter in a comic series."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 3,
+  "description": "A chapter of a comic series on mochott. Written beside the work.sequential.chapter of the same record key as a complete copy that also holds mochott extensions."
+}

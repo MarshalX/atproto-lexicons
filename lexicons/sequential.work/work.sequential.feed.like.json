@@ -1,0 +1,31 @@
+{
+  "id": "work.sequential.feed.like",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the work.sequential.chapter or work.sequential.strip being liked. AppViews ignore likes of any other record. Use the DID form (at://did:...), not a handle."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "The date and time the like was created."
+          }
+        }
+      },
+      "description": "Record declaring a like of a chapter or strip. Delete it to unlike."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

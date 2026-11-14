@@ -1,0 +1,24 @@
+{
+  "id": "app.userinput.checkedNotifications",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "checkedAt"
+        ],
+        "properties": {
+          "checkedAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Singleton (rkey 'self') marking when the user last checked their notifications."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

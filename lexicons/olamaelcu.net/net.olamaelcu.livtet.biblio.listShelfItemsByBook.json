@@ -1,0 +1,68 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "errors": [
+        {
+          "description": "The book is not an AT-URI or the DID is malformed.",
+          "name": "InvalidRequest"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "items": {
+              "items": {
+                "ref": "net.olamaelcu.livtet.biblio.defs#shelfItemView",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "book": {
+            "description": "AT-URI of the book whose shelf memberships to read.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "cursor": {
+            "description": "Opaque pagination cursor.",
+            "type": "string"
+          },
+          "did": {
+            "description": "DID of the reader whose shelves to search.",
+            "format": "did",
+            "type": "string"
+          },
+          "limit": {
+            "default": 50,
+            "description": "Maximum number of shelfItem records to return.",
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "book",
+          "did"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "List the custom-shelf membership records for one book in one reader's repo.",
+  "id": "net.olamaelcu.livtet.biblio.listShelfItemsByBook",
+  "lexicon": 1
+}

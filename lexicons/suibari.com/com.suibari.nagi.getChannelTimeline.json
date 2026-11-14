@@ -1,0 +1,46 @@
+{
+  "id": "com.suibari.nagi.getChannelTimeline",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "ref": "com.suibari.nagi.getTimeline#output",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "uri"
+        ],
+        "properties": {
+          "uri": {
+            "type": "string"
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "filter": {
+            "type": "string",
+            "default": "posts",
+            "description": "media returns image-bearing posts one row each (no conversation grouping), for the media grid.",
+            "knownValues": [
+              "posts",
+              "media"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

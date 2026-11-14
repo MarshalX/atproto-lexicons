@@ -1,0 +1,47 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "A rarity tier and its base price, published in the game's own repo (did:plc:ollch4g7tes2reb5eceiwuol). No prices live in code at all, so repricing is publishing a record. Only records from that DID are ever read — record.index:pet.trezy.tier refuses the rest, and a forged tier reprices every species in it at once.",
+      "key": "any",
+      "record": {
+        "properties": {
+          "color": {
+            "description": "Hex, for the shop and anywhere else a tier is shown. Optional because nothing reads it yet; it is here so adding it later does not mean re-publishing every record.",
+            "maxLength": 32,
+            "type": "string"
+          },
+          "displayName": {
+            "maxLength": 64,
+            "type": "string"
+          },
+          "id": {
+            "description": "Matches the `tier` on a species record. Renaming one orphans every species pointing at it, and an orphaned species is unpriceable rather than cheap — createPet refuses the sale.",
+            "maxLength": 64,
+            "type": "string"
+          },
+          "price": {
+            "description": "The base price in coins for species in this tier. Safe to change at any time, including downward: the ledger stores the price actually paid, never a live lookup.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "rank": {
+            "description": "Sort order, ascending by value. Leaves gaps for tiers inserted later.",
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "displayName",
+          "price",
+          "rank"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "pet.trezy.tier",
+  "lexicon": 1
+}

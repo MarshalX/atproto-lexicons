@@ -1,0 +1,61 @@
+{
+  "id": "com.publicdomainrelay.temp.gateway.deleteCompute",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "receiptUri",
+            "receiptCid"
+          ],
+          "properties": {
+            "receiptCid": {
+              "type": "string",
+              "format": "cid",
+              "description": "CID of the receipt record."
+            },
+            "receiptUri": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "AT-URI of the receipt record from the winning bidder."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "InvalidRequest"
+        },
+        {
+          "name": "AuthRequired"
+        },
+        {
+          "name": "NotFound"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "ok"
+          ],
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "error": {
+              "type": "string"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Tear down a compute resource identified by its receipt. Gateway submits a market.event with a compute.events.vm.delete payload to the winning bidder."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

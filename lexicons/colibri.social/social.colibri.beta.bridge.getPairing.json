@@ -1,0 +1,50 @@
+{
+  "id": "social.colibri.beta.bridge.getPairing",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request is missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "PairingNotFound",
+          "description": "The code does not exist, has expired, or was already used."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "pairing"
+          ],
+          "properties": {
+            "pairing": {
+              "ref": "social.colibri.beta.bridge.defs#pairingView",
+              "type": "ref",
+              "description": "The pending pairing."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "code"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "The pairing code."
+          }
+        }
+      },
+      "description": "Describes a pending pairing code so an admin can see which bridge they are about to connect."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

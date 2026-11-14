@@ -1,0 +1,50 @@
+{
+  "id": "dev.knotless.getCheckImage",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "InvalidRequest",
+          "description": "`uri` names no dev.knotless.check record."
+        },
+        {
+          "name": "NotFound",
+          "description": "No such repository, check, or picture of the check."
+        }
+      ],
+      "output": {
+        "encoding": "*/*"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "repo",
+          "uri",
+          "cid"
+        ],
+        "properties": {
+          "cid": {
+            "type": "string",
+            "format": "cid",
+            "description": "The picture's blob."
+          },
+          "uri": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The dev.knotless.check record, by a runner the repository names."
+          },
+          "repo": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The repository's dev.knotless.repo record. Its authority may be a handle; a name the repository had before, or an owner it moved from with its agreement, finds it under the name it has now."
+          }
+        }
+      },
+      "description": "A picture a check made, from its runner's PDS: only one the check names, of a repository by a runner it names. Served so that a browser never runs it as a page, and the same for good. No authentication; responses are not personalized."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A picture a check made."
+}

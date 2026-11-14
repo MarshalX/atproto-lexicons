@@ -1,0 +1,34 @@
+{
+  "id": "at.turtleme.game.strike",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "offset"
+          ],
+          "properties": {
+            "offset": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Milliseconds into the cast at which the strike was thrown, by the caller's own clock, which it sets from the elapsed time the cast replied with. One ahead of the run's elapsed time is refused, as is one far enough behind it that the caller cannot have been watching the bar."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "ref": "at.turtleme.game.defs#state",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "Strike at the marker. The caller says how far into the cast the finger came down, in milliseconds, and nothing else: where the marker was at that moment, which of the run's windows it had laid down on the way, how wide that window is and where the sliver sits in it are all worked out by turtle meat from the run's own seed and the clock it started on. The moment itself is the one thing no server can see, and it is held between the run's elapsed time, past which nothing has happened yet, and the splash still playing over the last strike. Requires an atproto service auth token addressed to did:web:turtleme.at#turtle_game and naming this method, so a token issued for one call cannot be spent on another."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

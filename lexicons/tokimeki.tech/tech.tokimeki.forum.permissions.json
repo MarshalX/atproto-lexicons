@@ -1,0 +1,91 @@
+{
+  "id": "tech.tokimeki.forum.permissions",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "tokimeki-space",
+      "detail": "Read and write in tokimeki-space servers you belong to (including polls attached to threads), create your own servers, and keep your tokimeki-space display profile.",
+      "title:lang": {
+        "ja": "tokimeki-space"
+      },
+      "description": "Requested by the tokimeki-space app as `include:tech.tokimeki.forum.permissions`. Image blobs are requested separately (blob:image/*).",
+      "detail:lang": {
+        "ja": "参加している tokimeki-space サーバーの読み書き(スレッドの投票を含む)、自分のサーバーの作成、tokimeki-space の表示プロフィールの保存を許可します。"
+      },
+      "permissions": [
+        {
+          "type": "permission",
+          "action": [
+            "read",
+            "create",
+            "update",
+            "delete"
+          ],
+          "manage": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "space",
+          "authority": "*",
+          "spaceType": "tech.tokimeki.forum.server",
+          "collection": [
+            "tech.tokimeki.forum.profile",
+            "tech.tokimeki.forum.channel",
+            "tech.tokimeki.forum.thread",
+            "tech.tokimeki.forum.message",
+            "tech.tokimeki.forum.vote",
+            "tech.tokimeki.forum.reaction",
+            "tech.tokimeki.forum.hide",
+            "tech.tokimeki.forum.role",
+            "tech.tokimeki.poll.poll",
+            "tech.tokimeki.poll.vote"
+          ]
+        },
+        {
+          "type": "permission",
+          "action": [
+            "read",
+            "create",
+            "update",
+            "delete"
+          ],
+          "manage": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "space",
+          "authority": "*",
+          "spaceType": "tech.tokimeki.forum.public",
+          "collection": [
+            "tech.tokimeki.forum.profile",
+            "tech.tokimeki.forum.channel",
+            "tech.tokimeki.forum.thread",
+            "tech.tokimeki.forum.message",
+            "tech.tokimeki.forum.vote",
+            "tech.tokimeki.forum.reaction",
+            "tech.tokimeki.forum.hide",
+            "tech.tokimeki.forum.role",
+            "tech.tokimeki.poll.poll",
+            "tech.tokimeki.poll.vote"
+          ]
+        },
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "tech.tokimeki.forum.actor"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

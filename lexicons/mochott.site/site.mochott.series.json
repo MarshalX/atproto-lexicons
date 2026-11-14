@@ -1,0 +1,66 @@
+{
+  "id": "site.mochott.series",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "title",
+          "slug",
+          "status",
+          "createdAt"
+        ],
+        "properties": {
+          "slug": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "URL slug of the series, unique per author. Lowercase letters, numbers, hyphens, and underscores."
+          },
+          "title": {
+            "type": "string",
+            "description": "Display title of the series.",
+            "maxGraphemes": 200
+          },
+          "status": {
+            "type": "string",
+            "description": "Publication status of the series.",
+            "knownValues": [
+              "ongoing",
+              "completed"
+            ]
+          },
+          "articles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "description": "Ordered list of article record URIs included in the series."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp when the series was created."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp when the series was last updated."
+          },
+          "description": {
+            "type": "string",
+            "description": "Optional description of the series.",
+            "maxGraphemes": 1000
+          }
+        }
+      },
+      "description": "Record describing a series (serial publication) of articles owned by the account author."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 1,
+  "description": "A series record. Represents an ordered collection of articles published as a serial."
+}

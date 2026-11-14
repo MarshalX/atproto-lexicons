@@ -1,0 +1,54 @@
+{
+  "id": "is.currents.feed.getUnsortedSaves",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "saves"
+          ],
+          "properties": {
+            "saves": {
+              "type": "array",
+              "items": {
+                "ref": "is.currents.feed.defs#saveView",
+                "type": "ref"
+              }
+            },
+            "cursor": {
+              "type": "string"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "actor"
+        ],
+        "properties": {
+          "actor": {
+            "type": "string",
+            "format": "at-identifier",
+            "description": "DID or handle of the actor whose unsorted saves to list."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "List an actor's unsorted saves — saves that belong to no collection and live only on the actor's profile. Auth is optional; if provided, viewer-specific state is included in the returned save views."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

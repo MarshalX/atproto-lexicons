@@ -1,0 +1,92 @@
+{
+  "id": "work.sequential.strip",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "series",
+          "createdAt",
+          "images"
+        ],
+        "properties": {
+          "tags": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#tag",
+              "type": "ref"
+            },
+            "maxLength": 10,
+            "description": "Free-form tags for this strip."
+          },
+          "title": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#localizedTitle",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "description": "Localized strip title or number."
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#localizedImage",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "minLength": 1,
+            "description": "Localized final images for this strip."
+          },
+          "panels": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#panel",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "description": "Panels in this strip, in reading order. Alt text for strips lives on panels."
+          },
+          "series": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the parent series. Use the DID form (at://did:...), not a handle."
+          },
+          "credits": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#credit",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "description": "The credits for the people who worked on this strip."
+          },
+          "versions": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#version",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "description": "Other versions of the strip's artwork, such as production stages or alternate treatments. AppViews may let readers peel back stages or switch between versions."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "The date and time the strip was published. Strips are ordered by this date. Drafts are kept by the AppView and only written to the repo when published."
+          },
+          "aspectRatio": {
+            "ref": "work.sequential.defs#aspectRatio",
+            "type": "ref",
+            "description": "The aspect ratio of the strip."
+          }
+        }
+      },
+      "description": "A comic strip in a series. Strips belong directly to a series, without chapters, and are ordered by createdAt."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,34 @@
+{
+  "id": "app.userinput.authFull",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "user input",
+      "detail": "Create discussions and replies, vote, and manage your spaces and moderation.",
+      "permissions": [
+        {
+          "type": "permission",
+          "resource": "repo",
+          "collection": [
+            "app.userinput.space",
+            "app.userinput.discussion",
+            "app.userinput.reply",
+            "app.userinput.upvote",
+            "app.userinput.downvote",
+            "app.userinput.status",
+            "app.userinput.member",
+            "app.userinput.pin",
+            "app.userinput.hide",
+            "app.userinput.ban",
+            "app.userinput.checkedNotifications",
+            "app.userinput.visited",
+            "app.userinput.lock",
+            "app.userinput.edit"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

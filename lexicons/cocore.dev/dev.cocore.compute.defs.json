@@ -1,0 +1,131 @@
+{
+  "id": "dev.cocore.compute.defs",
+  "defs": {
+    "tier": {
+      "type": "string",
+      "description": "Confidentiality tier of a unit of work — whether the prompt was provably handled only inside a measured, signed binary the owner cannot read. Distinct from `trustLevel` (which describes how the environment is attested) because a hardware-attested machine can still run a best-effort engine. A verifier MUST recompute this from evidence and never trust a self-asserted value. `attested-confidential` REQUIRES, in addition to a verified Apple attestation bound to the signing key: (1) a signing key proven Secure-Enclave-RESIDENT and non-exportable via a bound Apple App Attest object — an MDA-freshness binding is INSUFFICIENT because it does not prove the private key cannot leave the host, so a software key with a genuine MDA chain is portable to any machine (the 2026-07-05 spoof; see ADR-0003); (2) a known-good measured `cdHash`; (3) the hardened-runtime posture booleans (sip && hardenedRuntime && libraryValidation && !getTaskAllow && secureBoot); and (4) a fresh enclave-signed session key. Anything weaker is `best-effort`. Absent is equivalent to `best-effort` for pre-2026-06 readers.",
+      "knownValues": [
+        "attested-confidential",
+        "best-effort"
+      ]
+    },
+    "money": {
+      "type": "object",
+      "required": [
+        "amount",
+        "currency"
+      ],
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Integer minor units (e.g. cents for USD)."
+        },
+        "currency": {
+          "type": "string",
+          "maxLength": 8,
+          "minLength": 2,
+          "description": "Uppercase currency code: `CC` for co/core credits, or an ISO 4217 code."
+        }
+      },
+      "description": "An amount of value, in integer minor units of a named currency. No floats. ISO 4217 codes are preferred; uppercase three-or-more-letter codes are accepted for non-fiat (e.g. XBT, XSAT, USDC)."
+    },
+    "tokenRate": {
+      "type": "object",
+      "required": [
+        "inputPricePerMTok",
+        "outputPricePerMTok",
+        "currency"
+      ],
+      "properties": {
+        "currency": {
+          "type": "string",
+          "maxLength": 8,
+          "minLength": 2,
+          "description": "Uppercase currency code: `CC` for co/core credits, or an ISO 4217 code."
+        },
+        "inputPricePerMTok": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Integer minor units per 1,000,000 input tokens."
+        },
+        "outputPricePerMTok": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Integer minor units per 1,000,000 output tokens."
+        }
+      },
+      "description": "A model-agnostic per-token rate. Same shape as modelPrice without modelId. Used by an exchange to express a uniform rate that applies across providers/models. A receipt's price.amount is auditable against this rate as roughly `inputPricePerMTok * tokens.in / 1e6 + outputPricePerMTok * tokens.out / 1e6`, modulo a small floor for very short jobs."
+    },
+    "modelPrice": {
+      "type": "object",
+      "required": [
+        "modelId",
+        "inputPricePerMTok",
+        "outputPricePerMTok",
+        "currency"
+      ],
+      "properties": {
+        "modelId": {
+          "type": "string",
+          "maxLength": 256
+        },
+        "currency": {
+          "type": "string",
+          "maxLength": 8,
+          "minLength": 2,
+          "description": "Uppercase currency code: `CC` for co/core credits, or an ISO 4217 code."
+        },
+        "inputPricePerMTok": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Integer minor units per 1,000,000 input tokens."
+        },
+        "outputPricePerMTok": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Integer minor units per 1,000,000 output tokens."
+        }
+      },
+      "description": "A provider's offered price for a single model."
+    },
+    "trustLevel": {
+      "type": "string",
+      "description": "How strongly the provider's environment is attested. `hardware-attested` means a verified Apple attestation (MDA chain or App Attest object) binds a genuine Apple device to the signing key; `self-attested` is a software key with no such chain. NOTE: `hardware-attested` alone does NOT imply the signing key is non-exportable — an MDA chain bound via freshness code attests the device that vouched for the PUBLIC key, not that the PRIVATE key is Secure-Enclave-resident. Key non-exportability is required only for the `attested-confidential` tier (see #tier) and is proven only by App Attest.",
+      "knownValues": [
+        "self-attested",
+        "hardware-attested"
+      ]
+    },
+    "tokenCounts": {
+      "type": "object",
+      "required": [
+        "in",
+        "out"
+      ],
+      "properties": {
+        "in": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "out": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "description": "Token counts associated with a unit of work."
+    },
+    "settlementStatus": {
+      "type": "string",
+      "description": "Lifecycle state of a settlement record.",
+      "knownValues": [
+        "settled",
+        "refunded",
+        "disputed"
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Shared type definitions for dev.cocore.compute.* records."
+}

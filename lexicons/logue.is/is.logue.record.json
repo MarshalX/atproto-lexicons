@@ -1,0 +1,25 @@
+{
+  "id": "is.logue.record",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "document"
+        ],
+        "properties": {
+          "document": {
+            "type": "string",
+            "format": "at-uri",
+            "required": true,
+            "description": "Weak reference to a `site.standard.document` compatible record."
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

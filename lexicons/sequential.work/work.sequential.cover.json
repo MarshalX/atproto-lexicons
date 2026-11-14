@@ -1,0 +1,74 @@
+{
+  "id": "work.sequential.cover",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "chapter",
+          "images"
+        ],
+        "properties": {
+          "alt": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#localizedAlt",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "description": "Localized alt text for the cover: describes the art and transcribes the title, cover text and any lettering."
+          },
+          "label": {
+            "type": "string",
+            "maxLength": 1000,
+            "description": "Name distinguishing this cover from others on the chapter (e.g. 'Cover A', 'Cover B', '1:25 Incentive').",
+            "maxGraphemes": 100
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#localizedImage",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "minLength": 1,
+            "description": "Localized final images for this cover."
+          },
+          "chapter": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the parent chapter. Use the DID form (at://did:...), not a handle."
+          },
+          "credits": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#credit",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "description": "The credits for the people who worked on this cover, when they differ from the chapter's."
+          },
+          "versions": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#version",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "description": "Other versions of the cover's artwork, such as production stages or alternate treatments. AppViews may let readers peel back stages or switch between versions."
+          },
+          "aspectRatio": {
+            "ref": "work.sequential.defs#aspectRatio",
+            "type": "ref",
+            "description": "The aspect ratio of the cover."
+          }
+        }
+      },
+      "description": "A cover for a chapter. A chapter may have several covers: a primary cover and any number of variants."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

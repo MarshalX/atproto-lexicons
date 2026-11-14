@@ -1,0 +1,40 @@
+{
+  "id": "app.chavatar.authManageAvatar",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Manage avatars",
+      "detail": "Allows uploading, deleting, and rotating avatars.",
+      "permissions": [
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "delete",
+            "update"
+          ],
+          "resource": "repo",
+          "collection": [
+            "app.chavatar.avatar",
+            "app.chavatar.settings",
+            "app.chavatar.settings.executor",
+            "app.chavatar.state",
+            "app.chavatar.schedules"
+          ]
+        }
+      ],
+      "title:langs": {
+        "fr": "Gère vos avatars.",
+        "ja": "アバターを管理します",
+        "pt-BR": "Gerencie seu avatar."
+      },
+      "detail:langs": {
+        "fr": "Permet de télécharger, de supprimer et de faire pivoter les avatars.",
+        "ja": "アバターのアップロード、削除、ローテーション設定を許可します",
+        "pt-BR": "Permite carregar, excluir e girar avatares."
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

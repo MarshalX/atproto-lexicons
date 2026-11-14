@@ -1,0 +1,96 @@
+{
+  "id": "social.colibri.message",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "text",
+          "createdAt",
+          "channel"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 2048,
+            "description": "The message content."
+          },
+          "$type": {
+            "type": "string",
+            "format": "nsid",
+            "description": "The type of the record."
+          },
+          "edited": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether this message has been edited."
+          },
+          "facets": {
+            "type": "array",
+            "items": {
+              "ref": "lex:social.colibri.richtext.facet",
+              "type": "ref"
+            },
+            "description": "Annotations of sections of the text."
+          },
+          "parent": {
+            "type": "string",
+            "format": "record-key",
+            "description": "The record key of a message this message is replying to."
+          },
+          "channel": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The channel this message was sent in."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the message was sent."
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "ref": "lex:social.colibri.message#attachment",
+              "type": "ref"
+            },
+            "description": "An array of attachment objects for this message."
+          },
+          "suppressedEmbeds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "URLs from this message's link facets whose embed the author has chosen not to display. Only the author writes this; moderator suppression is recorded separately in the community's moderation log."
+          }
+        }
+      },
+      "description": "A message sent in a channel on Colibri"
+    },
+    "attachment": {
+      "type": "object",
+      "required": [
+        "blob"
+      ],
+      "properties": {
+        "blob": {
+          "type": "blob",
+          "description": "The attached file."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "The original filename."
+        }
+      },
+      "description": "A file attached to a message."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 3,
+  "description": "A message sent in a channel on Colibri."
+}

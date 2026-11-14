@@ -1,0 +1,175 @@
+:root {
+  color-scheme: light;
+
+  --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  --page-width: 1240px;
+  --gutter: 48px;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  --bg: #F5F8FC;
+  --surface: #FFFFFF;
+  --surface-2: #EEF3F9;
+  --border: #DCE3EE;
+  --border-strong: #C3CEDD;
+  --ink: #0A1628;
+  --muted: #44546B;
+  --faint: #5A6A81;
+  --nav-muted: #34445A;
+
+  --accent: #0B6BDB;
+  --on-accent: #FFFFFF;
+  --accent-text: #0A66D1;
+  --link: #0A60C4;
+  --accent-soft: #E1ECFC;
+  --accent-soft-ink: #0750A8;
+  --mark-bg: #FFE074;
+  --mark-ink: #2A1F00;
+
+  --theme-color: #CFE2FF;
+  --hero-bg: linear-gradient(180deg, #CFE2FF 0%, #E4EFFF 45%, #F5F8FC 100%);
+  --decor: rgba(11, 107, 219, 0.16);
+  --chip-bg: rgba(255, 255, 255, 0.8);
+  --chip-border: #D3E1F4;
+  --search-bg: #FFFFFF;
+  --search-border: #B9D1F2;
+
+  --full: #12793F;
+  --partial: #975500;
+  --unsupported: #B42318;
+  --ok: #12793F;
+  --ok-bg: #E5F5EC;
+  --ok-border: #A9DDBF;
+
+  --shadow-card: 0 1px 2px rgba(10, 22, 40, 0.05), 0 8px 24px rgba(10, 22, 40, 0.06);
+  --shadow-search: 0 2px 4px rgba(10, 40, 90, 0.06), 0 24px 60px rgba(10, 60, 140, 0.16);
+  --shadow-search-active: 0 0 0 5px rgba(11, 107, 219, 0.16), 0 24px 60px rgba(10, 60, 140, 0.16);
+  --shadow-code: 0 1px 2px rgba(10, 22, 40, 0.1), 0 24px 60px rgba(10, 40, 90, 0.22);
+  --shadow-menu: 0 12px 32px rgba(10, 22, 40, 0.14), 0 2px 6px rgba(10, 22, 40, 0.06);
+  --shadow-selected: 0 1px 2px rgba(10, 22, 40, 0.1), 0 0 0 1px #DCE3EE;
+  --ring: 0 0 0 4px rgba(11, 107, 219, 0.16);
+  --menu-hover: #EEF3F9;
+  --code-edge: #0A1322;
+  --sdk-edge: #030711;
+
+  --record-ink: #0750A8;
+  --record-bg: #E1ECFC;
+  --record-bar: #2F7FE6;
+  --query-ink: #05665C;
+  --query-bg: #DAF3EE;
+  --query-bar: #13A08B;
+  --procedure-ink: #9A4200;
+  --procedure-bg: #FCE9DA;
+  --procedure-bar: #E07A2F;
+  --subscription-ink: #5A33B6;
+  --subscription-bg: #EDE6FB;
+  --subscription-bar: #7E55DD;
+  --other-ink: #44546B;
+  --other-bg: #EBF0F6;
+  --other-bar: #C3CEDD;
+
+  --code-bg: #0A1322;
+  --code-bar: #0D1729;
+  --code-rule: #1B2840;
+  --code-border: #26375A;
+  --code-ink: #DCE5F3;
+  --code-muted: #7F92B0;
+  --code-gutter: #5B6E8F;
+  --code-keyword: #C9A8FF;
+  --code-string: #A5E3B5;
+  --code-function: #FFD58F;
+  --code-class: #8CCBFF;
+  --code-hot: rgba(76, 157, 255, 0.1);
+  --code-hot-edge: #4C9DFF;
+  --code-ok: #5AD58A;
+
+  --sdk-bg: #030711;
+  --sdk-tile: #060C18;
+  --sdk-ink: #E8EEF8;
+  --sdk-muted: #A3B2C9;
+  --sdk-accent: #4C9DFF;
+  --sdk-on-accent: #03101F;
+  --sdk-icon: #62AAFF;
+  --sdk-star: #F2C14E;
+  --sponsor: #EA4AAA;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg: #050A14;
+  --surface: #0A111F;
+  --surface-2: #0D1626;
+  --border: #1A2740;
+  --border-strong: #2A3B5C;
+  --ink: #E8EEF8;
+  --muted: #A3B2C9;
+  --faint: #8495AF;
+  --nav-muted: #B4C3DA;
+
+  --accent: #4C9DFF;
+  --on-accent: #03101F;
+  --accent-text: #62AAFF;
+  --link: #7AB8FF;
+  --accent-soft: #0F2340;
+  --accent-soft-ink: #A3CEFF;
+  --mark-bg: #5C4A0C;
+  --mark-ink: #FFF0BF;
+
+  --theme-color: #0E2650;
+  --hero-bg: linear-gradient(180deg, #0E2650 0%, #0A1833 40%, #050A14 100%);
+  --decor: rgba(122, 184, 255, 0.16);
+  --chip-bg: rgba(10, 17, 31, 0.72);
+  --chip-border: #24365A;
+  --search-bg: #0A111F;
+  --search-border: #2A3B5C;
+
+  --full: #5AD58A;
+  --partial: #F0B44A;
+  --unsupported: #FF8F85;
+  --ok: #5AD58A;
+  --ok-bg: #0C2A1B;
+  --ok-border: #1E5A3A;
+
+  --shadow-card: 0 12px 32px rgba(0, 0, 0, 0.35);
+  --shadow-search: 0 2px 4px rgba(0, 0, 0, 0.3), 0 24px 60px rgba(0, 0, 0, 0.45);
+  --shadow-search-active: 0 0 0 5px rgba(76, 157, 255, 0.22), 0 24px 60px rgba(0, 0, 0, 0.45);
+  --shadow-code: 0 0 0 1px rgba(76, 157, 255, 0.1), 0 30px 80px rgba(0, 0, 0, 0.55);
+  --shadow-menu: 0 16px 40px rgba(0, 0, 0, 0.55);
+  --shadow-selected: 0 0 0 1px #2A3B5C;
+  --ring: 0 0 0 4px rgba(76, 157, 255, 0.22);
+  --menu-hover: #15213A;
+  --code-edge: #1A2740;
+  --sdk-edge: #1A2740;
+
+  --record-ink: #A3CEFF;
+  --record-bg: #0F2340;
+  --record-bar: #4C9DFF;
+  --query-ink: #79E0CF;
+  --query-bg: #0A2A28;
+  --query-bar: #2EC4AD;
+  --procedure-ink: #FFB683;
+  --procedure-bg: #33210F;
+  --procedure-bar: #F59A55;
+  --subscription-ink: #CBB4FF;
+  --subscription-bg: #231B40;
+  --subscription-bar: #A585FF;
+  --other-ink: #A3B2C9;
+  --other-bg: #131E31;
+  --other-bar: #3A4D73;
+}
+
+[data-kind='record'] { --kind-ink: var(--record-ink); --kind-bg: var(--record-bg); --kind-bar: var(--record-bar); }
+[data-kind='query'] { --kind-ink: var(--query-ink); --kind-bg: var(--query-bg); --kind-bar: var(--query-bar); }
+[data-kind='procedure'] { --kind-ink: var(--procedure-ink); --kind-bg: var(--procedure-bg); --kind-bar: var(--procedure-bar); }
+[data-kind='subscription'] { --kind-ink: var(--subscription-ink); --kind-bg: var(--subscription-bg); --kind-bar: var(--subscription-bar); }
+[data-kind='other'] { --kind-ink: var(--other-ink); --kind-bg: var(--other-bg); --kind-bar: var(--other-bar); }
+
+[data-status='full'] { --status: var(--full); }
+[data-status='partial'] { --status: var(--partial); }
+[data-status='unsupported'] { --status: var(--unsupported); }
+
+@media (max-width: 719px) {
+  :root { --gutter: 20px; }
+}

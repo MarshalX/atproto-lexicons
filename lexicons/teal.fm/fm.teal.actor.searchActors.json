@@ -1,0 +1,57 @@
+{
+  "id": "fm.teal.actor.searchActors",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "actors"
+          ],
+          "properties": {
+            "actors": {
+              "type": "array",
+              "items": {
+                "ref": "fm.teal.actor.defs#miniProfileView",
+                "type": "ref"
+              }
+            },
+            "cursor": {
+              "type": "string",
+              "description": "Cursor for pagination"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "q"
+        ],
+        "properties": {
+          "q": {
+            "type": "string",
+            "maxLength": 640,
+            "description": "The search query",
+            "maxGraphemes": 128
+          },
+          "limit": {
+            "type": "integer",
+            "maximum": 25,
+            "minimum": 1,
+            "description": "The maximum number of actors to return"
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Cursor for pagination"
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "This lexicon is in a not officially released state. It is subject to change. | Searches for actors based on profile contents."
+}

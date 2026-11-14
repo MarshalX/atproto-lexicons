@@ -1,0 +1,45 @@
+{
+  "id": "net.anisota.feed.hand",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt"
+        ],
+        "properties": {
+          "list": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Optional: the net.anisota.feed.list this hand files to by default. The hand does not draw cards from the list; it is where 'file' sends them."
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Display name. Absent on the default hand, which the client names."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the hand was created."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the hand was last renamed or re-tied."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 300,
+            "description": "Optional description of what this hand is for."
+          }
+        }
+      },
+      "description": "A hand: posts drawn aside to act on later. On the card table it is the tray along the bottom edge and the place a card lands when it is dragged down. Membership is net.anisota.feed.listItem records whose `list` is this record's AT-URI, exactly as for net.anisota.feed.list, so a hand and a list hold cards the same way and a card moves between them by re-pointing its item. The record at rkey `self` is the default hand every account has; other hands use tid keys. Readers of net.anisota.feed.list never surface hands, and readers of this collection show `self` first. The repo is public, as every collection here is."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

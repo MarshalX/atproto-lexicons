@@ -1,0 +1,36 @@
+{
+  "id": "at.postgame.badge",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "badgeId",
+          "createdAt"
+        ],
+        "properties": {
+          "badgeId": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "Unique identifier for the badge type, used as the record key. Badge types and their criteria are defined by the postgame system"
+          },
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Optional AT-URI of the record that triggered this badge (e.g. the game entry)"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the badge was earned"
+          }
+        }
+      },
+      "description": "A badge earned by a user, awarded by the postgame system based on activity"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

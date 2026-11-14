@@ -1,0 +1,65 @@
+{
+  "id": "app.standard-reader.labeler.defs",
+  "defs": {
+    "labelerView": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "avatar": {
+          "type": "string",
+          "format": "uri"
+        },
+        "policies": {
+          "ref": "#labelerPolicies",
+          "type": "ref"
+        },
+        "indexedAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 3000,
+          "maxGraphemes": 300
+        },
+        "displayName": {
+          "type": "string",
+          "maxLength": 640,
+          "maxGraphemes": 64
+        }
+      }
+    },
+    "labelerPolicies": {
+      "type": "object",
+      "required": [
+        "labelValues"
+      ],
+      "properties": {
+        "labelValues": {
+          "type": "array",
+          "items": {
+            "ref": "com.atproto.label.defs#labelValue",
+            "type": "ref"
+          },
+          "description": "The label values which this labeler publishes. May include global or custom (labeler-defined) values."
+        },
+        "labelValueDefinitions": {
+          "type": "array",
+          "items": {
+            "ref": "com.atproto.label.defs#labelValueDefinition",
+            "type": "ref"
+          },
+          "description": "Label values created by this labeler and scoped exclusively to it. Each value provides its own meaning and behaviors."
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

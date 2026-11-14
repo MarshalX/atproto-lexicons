@@ -1,0 +1,46 @@
+{
+  "id": "com.suibari.nagi.getCardNews",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "items"
+          ],
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "unknown"
+              },
+              "description": "新着順。cardGet は検証済みの実際に引いた時刻、zenkatsu は索引時刻で並ぶ。"
+            },
+            "cursor": {
+              "type": "string"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 30,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "全肯定カードのニュース。R以上のドローと、ゼンカツ！のハイライトを時系列で混ぜて返す。ゼンカツを全件流すとニュースの約8割がゼンカツになり、見せたいレアドローが埋もれるため、ハイライトだけを載せる。公開情報なので未認証でも読める。"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

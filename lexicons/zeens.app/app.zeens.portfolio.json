@@ -1,0 +1,339 @@
+{
+  "id": "app.zeens.portfolio",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "enabled",
+          "createdAt"
+        ],
+        "properties": {
+          "gap": {
+            "type": "integer",
+            "maximum": 32,
+            "minimum": 0,
+            "description": "Gap in pixels between photos. Allowed 0, 4, 8, 16, 24, 32. Default 8."
+          },
+          "hero": {
+            "ref": "#heroBlock",
+            "type": "ref",
+            "description": "The home page's hero — the owner's own photos across the top. ABSENT DOES NOT MEAN NO HERO: the render path falls back to the owner's 6 most-liked photos as a square grid, so a portfolio has a hero without its owner picking one. Present means they chose the photos themselves."
+          },
+          "home": {
+            "ref": "#homePage",
+            "type": "ref",
+            "description": "Optional plain-text heading + paragraph shown ABOVE the home page's existing content (the collection card grid, or homeCollection's photos when one is set). Absent means the home page renders exactly as it did before this field existed, so no portfolio changes without its owner acting."
+          },
+          "menu": {
+            "ref": "#menuSettings",
+            "type": "ref",
+            "description": "How the navigation menu renders. Absent means the default: the home page shows the owner's collections."
+          },
+          "about": {
+            "ref": "#aboutPage",
+            "type": "ref",
+            "description": "Optional About page (alice.zeens.app/about). Absent, or present with enabled=false, means the portfolio has no About page and no About entry in its rail."
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 120,
+            "description": "Custom site title shown in the portfolio rail (free text, e.g. 'Ro', 'Alice Photography'). Falls back to the user's profile display name when absent."
+          },
+          "layout": {
+            "type": "string",
+            "description": "Photo layout applied to every collection shown in the portfolio. 'single' = one full-width column; 'grid' = uniform columns; 'masonry' = variable-height columns.",
+            "knownValues": [
+              "single",
+              "grid",
+              "masonry"
+            ]
+          },
+          "columns": {
+            "type": "integer",
+            "maximum": 4,
+            "minimum": 2,
+            "description": "Column count for grid/masonry layouts. Allowed 2-4. Default 3."
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether the public site is live. When false, the subdomain 404s even if reserved."
+          },
+          "palette": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Id of the chosen color palette (each has a light+dark variant, defined app-side, e.g. 'mono'). Independent of typography. Unknown/absent falls back to the default at render time. (Legacy records may carry a bundled 'theme' field instead; read paths migrate it.)"
+          },
+          "socials": {
+            "ref": "#socialsVisibility",
+            "type": "ref",
+            "description": "Which of the owner's profile social links the public site shows. ABSENT MEANS SHOW ALL — every portfolio created before this field keeps showing every link with no migration."
+          },
+          "tagline": {
+            "type": "string",
+            "maxLength": 2000,
+            "description": "One-line tagline for the site. Mirrored onto site.standard.publication.description, since the portfolio IS the publication — this is the line other standard.site readers show under the name.",
+            "maxGraphemes": 200
+          },
+          "featured": {
+            "ref": "#featuredBlock",
+            "type": "ref",
+            "description": "Hand-picked photos under a heading the owner chooses, shown on the home page below the hero. Independent of any collection. Absent means no section."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "subdomain": {
+            "type": "string",
+            "maxLength": 63,
+            "description": "The chosen subdomain slug (the 'alice' in alice.zeens.app). Lowercase DNS-safe label; uniqueness + reserved-word validation happen at write time and are mirrored into the PB portfolio_slugs table. Absent until the user picks one."
+          },
+          "appearance": {
+            "type": "string",
+            "description": "Light/dark appearance. 'auto' (default) follows the visitor's system preference; 'light'/'dark' force the theme's respective palette.",
+            "knownValues": [
+              "auto",
+              "light",
+              "dark"
+            ]
+          },
+          "typography": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Id of the chosen typography pairing (font choice, defined app-side, e.g. 'space-grotesk'). Independent of palette. Unknown/absent falls back to the default at render time."
+          },
+          "app.zeens.v": {
+            "type": "integer",
+            "description": "Zeens marker so the firehose / lua filters can identify our records."
+          },
+          "collections": {
+            "type": "array",
+            "items": {
+              "ref": "#collectionRef",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "description": "Ordered list of the collections shown in the portfolio menu. Each entry references an app.zeens.collection record on the same repo. Array order is the menu order."
+          },
+          "homeCollection": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "DEPRECATED. AT-URI of a collection rendered inline as the portfolio's home page. Superseded by the portfolio's own home page (see `home`): the editor no longer offers this, and new records should not set it. Still honoured on read so existing sites don't change appearance, and the editor lets an owner who has it set turn it off."
+          }
+        }
+      },
+      "description": "Configuration for a user's public Portfolio site (e.g. alice.zeens.app). One per user, keyed 'self'. A portfolio is a curated list of the user's COLLECTIONS, displayed beautifully: it holds the subdomain, a theme + layout/columns/gap applied to every collection, the ordered list of collection AT-URIs to show, and an optional home collection. Collections own their own title/subtitle/description/photos/slug, which the portfolio reuses; the site header comes from the user's profile. Stored on the user's own PDS so the site is portable and user-owned; PocketBase only mirrors {subdomain -> did} for host routing + uniqueness. Rendered publicly only when `enabled` is true."
+    },
+    "homePage": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "string",
+          "maxLength": 2000,
+          "description": "Home page paragraph, rendered with preserved line breaks."
+        },
+        "heading": {
+          "type": "string",
+          "maxLength": 120,
+          "description": "Home page heading. When present it supplies the page's <h1>, and a home collection's own title renders as <h2> so the page keeps exactly one top-level heading."
+        }
+      },
+      "description": "Plain-text intro shown at the top of the portfolio home page. Deliberately NOT rich text: it renders into a public page, so a markup format would need sanitising and carry XSS surface. Mirrors how collections store their description."
+    },
+    "aboutLink": {
+      "type": "object",
+      "required": [
+        "title",
+        "url"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Destination URL. https only."
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 60,
+          "description": "Link label, e.g. 'Buy prints'."
+        }
+      },
+      "description": "One titled external link on the About page. Readers MUST re-validate `url` and accept only https: the record lives on the owner's PDS and any client can write it, so the value reaches an href untrusted. Writers upgrade a typed http:// to https:// rather than storing insecure links."
+    },
+    "aboutPage": {
+      "type": "object",
+      "required": [
+        "enabled"
+      ],
+      "properties": {
+        "body": {
+          "type": "string",
+          "maxLength": 4000,
+          "description": "About text, rendered with preserved line breaks."
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "ref": "#aboutLink",
+            "type": "ref"
+          },
+          "maxLength": 8,
+          "description": "Titled external links shown as one horizontal row above the About photo grid (e.g. 'Buy prints', 'My Instagram'). Distinct from the profile socials in the rail: those are platform accounts, these are anything the owner wants to point at."
+        },
+        "photos": {
+          "type": "array",
+          "items": {
+            "ref": "#aboutPhoto",
+            "type": "ref"
+          },
+          "maxLength": 6,
+          "description": "Photos chosen from the owner's own posts, in display order. Rendered as a grid below the About text: one photo full width, two side by side, three or more in three columns (six fills a 3x2 grid). Only the first image of a multi-image post is shown."
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether the About page exists and appears in the rail."
+        },
+        "heading": {
+          "type": "string",
+          "maxLength": 120,
+          "description": "Page heading, also used as the rail's label for it. Defaults to 'About' when absent."
+        },
+        "useProfileAvatar": {
+          "type": "boolean",
+          "description": "Show the owner's live profile avatar as the portrait. Opt-in: absent means false, so a portrait never appears on the public page unless the owner asked for it."
+        }
+      },
+      "description": "The portfolio's About page. Plain text, like #homePage. The owner's portrait is NOT stored here: `useProfileAvatar` is a flag and the avatar is resolved from the profile at render time, so it tracks their Zeens avatar with no copy to go stale."
+    },
+    "heroBlock": {
+      "type": "object",
+      "required": [
+        "mode",
+        "photos"
+      ],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "description": "'single' = one full-width photo; 'carousel' = a swipeable run of them; 'grid' = all of them as a grid. Unknown/absent reads as 'single'.",
+          "knownValues": [
+            "single",
+            "carousel",
+            "grid"
+          ]
+        },
+        "photos": {
+          "type": "array",
+          "items": {
+            "ref": "#aboutPhoto",
+            "type": "ref"
+          },
+          "maxLength": 6,
+          "description": "Photos chosen from the owner's own posts, in display order. Only the first image of a multi-image post is used."
+        }
+      },
+      "description": "A page hero: the owner's photos across the top of a page. One def serves all three arrangements because they are the same data seen differently. A hero with no photos is dropped on write rather than stored empty — an absent hero falls back to the owner's most-liked photos, which is a better empty state than a blank band."
+    },
+    "aboutPhoto": {
+      "type": "object",
+      "required": [
+        "uri",
+        "cid"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "description": "CID of the referenced post at pick time."
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of an app.zeens.post / app.bsky.feed.post record on the owner's repo."
+        }
+      },
+      "description": "A reference to one of the owner's own posts, used wherever a block stores picked photos — the About page, page heroes, and Featured Work. Named for its first use; kept under that name because renaming a def would orphan the records already pointing at it."
+    },
+    "menuSettings": {
+      "type": "object",
+      "properties": {
+        "homeCollections": {
+          "type": "boolean",
+          "description": "Whether the home page shows the owner's collections. ABSENT MEANS TRUE. When on, the home page shows the 3 most recently updated as a row linking through to the Galleries page that lists the rest. Lives here rather than on #homePage because it concerns the collections, not the home text, and an all-empty homePage is dropped from the record."
+        }
+      },
+      "description": "Navigation menu appearance. Its one property defaults to the behaviour that predates this def, so an absent `menu` never changes how a portfolio renders. Records written before the template took over navigation may still carry `icons` and `collections`; both axes were retired and readers ignore them."
+    },
+    "collectionRef": {
+      "type": "object",
+      "required": [
+        "collection"
+      ],
+      "properties": {
+        "collection": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of an app.zeens.collection record on the owner's repo."
+        }
+      },
+      "description": "A reference to one of the user's collections, in menu order."
+    },
+    "featuredBlock": {
+      "type": "object",
+      "required": [
+        "photos"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "maxLength": 60,
+          "description": "Section heading. ABSENT MEANS 'Featured Work' — the default lives in the render path, so it is not frozen into every record."
+        },
+        "photos": {
+          "type": "array",
+          "items": {
+            "ref": "#aboutPhoto",
+            "type": "ref"
+          },
+          "maxLength": 12,
+          "description": "Photos chosen from the owner's own posts, in display order."
+        }
+      },
+      "description": "Featured work: photos picked directly rather than through a collection. The heading is the owner's own — 'Featured Work' is one gallery's word for it and 'Selected' or 'Latest' is another's."
+    },
+    "socialsVisibility": {
+      "type": "object",
+      "required": [
+        "mode"
+      ],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "description": "'all' (also the meaning of an absent socials field) shows every link; 'selected' shows only the platforms in `shown`; 'none' hides the block entirely, website included.",
+          "knownValues": [
+            "all",
+            "selected",
+            "none"
+          ]
+        },
+        "shown": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "maxLength": 32,
+          "description": "Platform ids to show when mode is 'selected'. Ignored for other modes."
+        },
+        "website": {
+          "type": "boolean",
+          "description": "Whether the profile website link is shown. Absent means true."
+        }
+      },
+      "description": "Controls which profile social links the public portfolio shows. Filtering is applied server-side AFTER the Bluesky link is synthesised from the owner's handle, so hiding Bluesky works even though it is not stored on the profile record."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,65 @@
+{
+  "id": "is.currents.content.defs",
+  "defs": {
+    "imageView": {
+      "type": "object",
+      "required": [
+        "blobCid",
+        "imageUrl"
+      ],
+      "properties": {
+        "alt": {
+          "type": "string",
+          "description": "Alt text describing the image for accessibility. Absent if none was provided."
+        },
+        "width": {
+          "type": "integer",
+          "description": "Width of the image in pixels. Absent if unknown."
+        },
+        "height": {
+          "type": "integer",
+          "description": "Height of the image in pixels. Absent if unknown."
+        },
+        "blobCid": {
+          "type": "string",
+          "format": "cid",
+          "description": "CID of the saved image blob."
+        },
+        "imageUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "CDN URL of the image, resolved server-side from the blob reference."
+        },
+        "attribution": {
+          "ref": "#attribution",
+          "type": "ref"
+        },
+        "dominantColor": {
+          "type": "string",
+          "description": "Hex color code of the most dominant color, for placeholder rendering. Absent if unknown."
+        }
+      }
+    },
+    "attribution": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 2000
+        },
+        "credit": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "license": {
+          "type": "string",
+          "maxLength": 500
+        }
+      },
+      "description": "Optional provenance metadata for an image content item."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

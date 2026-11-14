@@ -1,0 +1,34 @@
+{
+  "id": "games.gamesgamesgamesgames.authAdmin",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Cartridge Admin",
+      "detail": "Review contributions, manage redirects, and refresh caches.",
+      "permissions": [
+        {
+          "type": "permission",
+          "resource": "repo",
+          "collection": [
+            "games.gamesgamesgamesgames.contributionPatch",
+            "games.gamesgamesgamesgames.contributionReview",
+            "games.gamesgamesgamesgames.contributionVerification",
+            "games.gamesgamesgamesgames.redirect"
+          ]
+        },
+        {
+          "lxm": [
+            "games.gamesgamesgamesgames.putPopularity",
+            "games.gamesgamesgamesgames.refreshCaches",
+            "games.gamesgamesgamesgames.reviewContribution"
+          ],
+          "type": "permission",
+          "resource": "rpc",
+          "inheritAud": true
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

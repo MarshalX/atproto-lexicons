@@ -1,0 +1,127 @@
+{
+  "id": "social.coves.embed.images",
+  "defs": {
+    "main": {
+      "type": "object",
+      "required": [
+        "images"
+      ],
+      "properties": {
+        "images": {
+          "type": "array",
+          "items": {
+            "ref": "#image",
+            "type": "ref"
+          },
+          "maxLength": 8,
+          "minLength": 1,
+          "description": "Set of images in the post"
+        }
+      },
+      "description": "Image set embed supporting multiple images (max 8)"
+    },
+    "view": {
+      "type": "object",
+      "required": [
+        "images"
+      ],
+      "properties": {
+        "images": {
+          "type": "array",
+          "items": {
+            "ref": "#viewImage",
+            "type": "ref"
+          },
+          "maxLength": 8,
+          "minLength": 1,
+          "description": "Set of images in the post"
+        }
+      },
+      "description": "View of an image set embed as served by the AppView; blob references are replaced with fetchable image URLs. Every #image placement in the served record resolves to an image in this view. Images without a placement render as a gallery after the body."
+    },
+    "image": {
+      "type": "object",
+      "required": [
+        "image"
+      ],
+      "properties": {
+        "alt": {
+          "type": "string",
+          "maxLength": 10000,
+          "description": "Alt text for accessibility",
+          "maxGraphemes": 1000
+        },
+        "image": {
+          "type": "blob",
+          "accept": [
+            "image/png",
+            "image/jpeg",
+            "image/webp",
+            "image/gif"
+          ],
+          "maxSize": 10000000,
+          "description": "Image blob reference"
+        },
+        "aspectRatio": {
+          "ref": "#aspectRatio",
+          "type": "ref",
+          "description": "Aspect ratio for client-side rendering optimization"
+        }
+      },
+      "description": "Individual image with metadata"
+    },
+    "viewImage": {
+      "type": "object",
+      "required": [
+        "thumb",
+        "fullsize"
+      ],
+      "properties": {
+        "alt": {
+          "type": "string",
+          "maxLength": 10000,
+          "description": "Alt text for accessibility",
+          "maxGraphemes": 1000
+        },
+        "thumb": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL of the feed-sized rendering of the image"
+        },
+        "fullsize": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL of the full-sized rendering of the image"
+        },
+        "aspectRatio": {
+          "ref": "#aspectRatio",
+          "type": "ref",
+          "description": "Aspect ratio for client-side rendering optimization"
+        }
+      },
+      "description": "Individual image as served by the AppView. Both URLs address the same underlying blob and differ only in rendered size, so clients pick by context instead of resizing themselves."
+    },
+    "aspectRatio": {
+      "type": "object",
+      "required": [
+        "width",
+        "height"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Width component of aspect ratio"
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Height component of aspect ratio"
+        }
+      },
+      "description": "Image aspect ratio for client display"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

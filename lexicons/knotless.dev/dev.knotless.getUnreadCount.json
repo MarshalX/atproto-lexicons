@@ -1,0 +1,34 @@
+{
+  "id": "dev.knotless.getUnreadCount",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account asks."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "count"
+          ],
+          "properties": {
+            "count": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 0
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "How many of the notifications dev.knotless.listNotifications gives the asking account are from after it last saw them, counting at most 100. Requires authentication: a service token, or the session cookie the pages' login sets."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "How many of the asking account's notifications it has not seen."
+}

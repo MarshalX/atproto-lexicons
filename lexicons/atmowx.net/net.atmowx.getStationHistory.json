@@ -1,0 +1,166 @@
+{
+  "id": "net.atmowx.getStationHistory",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "StationNotFound",
+          "description": "No indexed station with that AT-URI."
+        },
+        {
+          "name": "RangeTooLarge",
+          "description": "raw bucket over 5000 points; narrow the range or use hour/day."
+        },
+        {
+          "name": "InvalidBucket",
+          "description": "bucket must be raw, hour, or day."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "station",
+            "bucket",
+            "series"
+          ],
+          "properties": {
+            "bucket": {
+              "type": "string"
+            },
+            "series": {
+              "type": "array",
+              "items": {
+                "ref": "net.atmowx.getStationHistory#series",
+                "type": "ref"
+              }
+            },
+            "station": {
+              "type": "string",
+              "format": "at-uri"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "station",
+          "from",
+          "to"
+        ],
+        "properties": {
+          "to": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "from": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "bucket": {
+            "type": "string",
+            "default": "raw",
+            "knownValues": [
+              "raw",
+              "hour",
+              "day"
+            ]
+          },
+          "station": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the net.atmowx.station record."
+          }
+        }
+      },
+      "description": "Time series for one station. bucket=raw returns individual readings (capped at 5000 points; narrow the range or coarsen the bucket on RangeTooLarge). hour/day buckets return UTC-aligned min/avg/max (sum for precipitation). No auth."
+    },
+    "point": {
+      "type": "object",
+      "required": [
+        "time"
+      ],
+      "properties": {
+        "avg": {
+          "ref": "net.atmowx.defs#quantity",
+          "type": "ref"
+        },
+        "max": {
+          "ref": "net.atmowx.defs#quantity",
+          "type": "ref"
+        },
+        "min": {
+          "ref": "net.atmowx.defs#quantity",
+          "type": "ref"
+        },
+        "sum": {
+          "ref": "net.atmowx.defs#quantity",
+          "type": "ref",
+          "description": "Precipitation buckets report sum instead of min/avg/max."
+        },
+        "time": {
+          "type": "string",
+          "format": "datetime",
+          "description": "Reading time (raw) or UTC bucket start (hour/day)."
+        },
+        "value": {
+          "ref": "net.atmowx.defs#quantity",
+          "type": "ref",
+          "description": "Present for bucket=raw."
+        }
+      }
+    },
+    "series": {
+      "type": "object",
+      "required": [
+        "parameter",
+        "unit",
+        "points"
+      ],
+      "properties": {
+        "unit": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "SI unit name, e.g. celsius, hectopascal, metersPerSecond, millimeters, percent, wattsPerSquareMeter."
+        },
+        "points": {
+          "type": "array",
+          "items": {
+            "ref": "net.atmowx.getStationHistory#point",
+            "type": "ref"
+          }
+        },
+        "parameter": {
+          "type": "string",
+          "maxLength": 128,
+          "knownValues": [
+            "temperature",
+            "dewPoint",
+            "relativeHumidity",
+            "pressureSeaLevel",
+            "windSpeed",
+            "windGust",
+            "windDirection",
+            "precipitationRate",
+            "precipitationDay",
+            "solarIrradiance",
+            "uvIndex",
+            "pm1",
+            "pm25",
+            "pm10",
+            "ozone",
+            "no2",
+            "so2",
+            "co"
+          ]
+        }
+      },
+      "description": "One measured parameter's series. The parameter set is open: additional parameters may be served later without a schema change."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

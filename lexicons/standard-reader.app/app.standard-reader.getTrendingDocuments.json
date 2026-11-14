@@ -1,0 +1,50 @@
+{
+  "id": "app.standard-reader.getTrendingDocuments",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "items"
+          ],
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "ref": "app.standard-reader.defs#documentView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [],
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 12,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "scope": {
+            "type": "string",
+            "default": "rail",
+            "maxLength": 32,
+            "knownValues": [
+              "rail",
+              "page"
+            ]
+          }
+        }
+      },
+      "description": "Ranked list of trending articles across the network."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

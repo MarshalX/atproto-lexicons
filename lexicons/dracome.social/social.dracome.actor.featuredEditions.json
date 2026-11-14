@@ -1,0 +1,40 @@
+{
+  "id": "social.dracome.actor.featuredEditions",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "editions",
+          "createdAt"
+        ],
+        "properties": {
+          "editions": {
+            "type": "array",
+            "items": {
+              "ref": "social.dracome.actor.defs#featuredEdition",
+              "type": "ref"
+            },
+            "maxLength": 5,
+            "description": "Ordered list of up to 5 featured edition targets."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Canonical UTC instant serialized as ISO 8601 with a trailing Z suffix, when this record was first created."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Optional canonical UTC instant serialized as ISO 8601 with a trailing Z suffix, when this record was last updated."
+          }
+        }
+      },
+      "description": "A singleton, actor-curated list of editions featured on the actor's reader profile."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

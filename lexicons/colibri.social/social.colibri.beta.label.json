@@ -1,0 +1,97 @@
+{
+  "id": "social.colibri.beta.label",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "val",
+          "createdAt"
+        ],
+        "properties": {
+          "neg": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether this record retracts an earlier label of the same value."
+          },
+          "val": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "The label value. `hidden` is enforced: the AppView withholds a hidden record instead of serving it. `moved` is enforced too: the AppView withholds the record from this space and serves it in the space named by `destination` instead, at its own record key, so it reads in the order it was written. `spoiler` and `embeds-suppressed` are display hints the AppView passes through for the client to honour.",
+            "knownValues": [
+              "hidden",
+              "spoiler",
+              "embeds-suppressed",
+              "moved"
+            ]
+          },
+          "batch": {
+            "type": "string",
+            "format": "tid",
+            "description": "Shared by every `moved` label written in one move, which is what groups a move for auditing. It does not affect the order the records read in."
+          },
+          "scope": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "URIs within the subject record the label narrows to, for values that can apply to part of a record. Absent means the whole record."
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 512,
+            "description": "Human-readable reason."
+          },
+          "subject": {
+            "ref": "#subject",
+            "type": "ref",
+            "description": "The record this label applies to."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the label was applied."
+          },
+          "destination": {
+            "type": "string",
+            "format": "space-ref",
+            "description": "Where a `moved` record is served instead of here. Honoured only on a `moved` label."
+          }
+        }
+      },
+      "description": "A label applied to a record in the same space. Permissioned content cannot be taken down by anyone but its author, so moderation of content is advisory: a reader honours the labels published by the labelers its community names."
+    },
+    "subject": {
+      "type": "object",
+      "required": [
+        "did",
+        "collection",
+        "rkey"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "DID of the repo holding the labelled record."
+        },
+        "rkey": {
+          "type": "string",
+          "format": "record-key",
+          "description": "The labelled record's key."
+        },
+        "collection": {
+          "type": "string",
+          "format": "nsid",
+          "description": "The labelled record's collection."
+        }
+      },
+      "description": "The labelled record, addressed within the space the label lives in."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

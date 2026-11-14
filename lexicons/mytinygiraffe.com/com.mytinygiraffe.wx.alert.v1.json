@@ -1,0 +1,342 @@
+{
+  "id": "com.mytinygiraffe.wx.alert.v1",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "geometry",
+          "properties",
+          "parsed"
+        ],
+        "properties": {
+          "parsed": {
+            "type": "object",
+            "properties": {
+              "area": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "One place covered by this area"
+                },
+                "description": "The original alert area split into individual locations instead of a single long string"
+              },
+              "locations": {
+                "type": "object",
+                "properties": {
+                  "cities": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "A list of cities affected by the alert, extracted from the original alert description"
+                  },
+                  "regions": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "area": {
+                          "type": "string",
+                          "description": "A description of a geographical region, such as 'northeastern Iowa'"
+                        },
+                        "counties": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          },
+                          "description": "A list of counties or county-equivalents in the region"
+                        }
+                      }
+                    }
+                  }
+                },
+                "description": "The regions and counties affected by this alert, extracted from the original alert description"
+              },
+              "description": {
+                "type": "string",
+                "description": "The original alert description parsed into Markdown, with locations moved to the locations property"
+              },
+              "instruction": {
+                "type": "string",
+                "instruction": "The original alert instruction with extraneous whitespace removed"
+              }
+            },
+            "description": "Text fields from the original alert, parsed"
+          },
+          "geometry": {
+            "type": "object",
+            "required": [
+              "type",
+              "coordinates"
+            ],
+            "properties": {
+              "type": {
+                "enum": [
+                  "Polygon",
+                  "MultiPolygon"
+                ],
+                "type": "string"
+              },
+              "coordinates": {
+                "type": "unknown",
+                "description": "A GeoJSON polygon or multipolygon. Please refer to IETF RFC 7946 for information on the GeoJSON format. To comply with the AT Proto Lexicon schema, the coordinates are floating-point numbers encoded as decimal strings."
+              }
+            },
+            "description": "GeoJSON polygon or multipolygon"
+          },
+          "properties": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The identifier of the alert message."
+              },
+              "web": {
+                "type": "string",
+                "description": "The identifier of the hyperlink associating additional information within the alert message."
+              },
+              "code": {
+                "type": "string",
+                "description": "The code denoting the special handling of the alert message."
+              },
+              "ends": {
+                "type": "string",
+                "format": "datetime",
+                "description": "The expected end time of the subject event of the alert message."
+              },
+              "note": {
+                "type": "string",
+                "description": "The text note accompanying the alert message. Per CAP spec, this should accompany alerts with a status of \"Test\".\n"
+              },
+              "sent": {
+                "type": "string",
+                "format": "datetime",
+                "description": "The time of the origination of the alert message."
+              },
+              "event": {
+                "type": "string",
+                "description": "The text denoting the type of the subject event of the alert message."
+              },
+              "onset": {
+                "type": "string",
+                "format": "datetime",
+                "description": "The expected time of the beginning of the subject event of the alert message."
+              },
+              "scope": {
+                "enum": [
+                  "Public",
+                  "Restricted",
+                  "Private"
+                ],
+                "type": "string",
+                "description": "The code denoting the intended distribution of the alert message."
+              },
+              "sender": {
+                "type": "string",
+                "description": "Email address of the NWS webmaster."
+              },
+              "status": {
+                "enum": [
+                  "Actual",
+                  "Exercise",
+                  "System",
+                  "Test",
+                  "Draft"
+                ],
+                "type": "string"
+              },
+              "expires": {
+                "type": "string",
+                "format": "datetime",
+                "description": "The expiry time of the information of the alert message."
+              },
+              "geocode": {
+                "type": "object",
+                "properties": {
+                  "UGC": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(A[KLMNRSZ]|C[AOT]|D[CE]|F[LM]|G[AMU]|I[ADLN]|K[SY]|L[ACEHMOS]|M[ADEHINOPST]|N[CDEHJMVY]|O[HKR]|P[AHKMRSWZ]|S[CDL]|T[NX]|UT|V[AIT]|W[AIVY]|[HR]I)[CZ]\\d{3}$",
+                      "description": "UGC identifier for a NWS forecast zone or county.\nThe first two letters will correspond to either a state code or marine area code (see #/components/schemas/StateTerritoryCode and #/components/schemas/MarineAreaCode for lists of valid letter combinations).\nThe third letter will be Z for public/fire zone or C for county."
+                    },
+                    "description": "A list of NWS public zone or county identifiers."
+                  },
+                  "SAME": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^\\d{6}$"
+                    },
+                    "description": "A list of SAME (Specific Area Message Encoding) codes for affected counties."
+                  }
+                },
+                "description": "Lists of codes for NWS public zones and counties affected by the alert."
+              },
+              "urgency": {
+                "enum": [
+                  "Immediate",
+                  "Expected",
+                  "Future",
+                  "Past",
+                  "Unknown"
+                ],
+                "type": "string"
+              },
+              "areaDesc": {
+                "type": "string",
+                "description": "A textual description of the area affected by the alert."
+              },
+              "category": {
+                "enum": [
+                  "Met",
+                  "Geo",
+                  "Safety",
+                  "Security",
+                  "Rescue",
+                  "Fire",
+                  "Health",
+                  "Env",
+                  "Transport",
+                  "Infra",
+                  "CBRNE",
+                  "Other"
+                ],
+                "type": "string",
+                "description": "The code denoting the category of the subject event of the alert message."
+              },
+              "headline": {
+                "type": "string",
+                "description": "The text headline of the alert message."
+              },
+              "language": {
+                "type": "string",
+                "description": "The code denoting the language of the info sub-element of the alert message."
+              },
+              "response": {
+                "enum": [
+                  "Shelter",
+                  "Evacuate",
+                  "Prepare",
+                  "Execute",
+                  "Avoid",
+                  "Monitor",
+                  "Assess",
+                  "AllClear",
+                  "None"
+                ],
+                "type": "string",
+                "description": "The code denoting the type of action recommended for the target audience.\nThis corresponds to responseType in the CAP specification.\n"
+              },
+              "severity": {
+                "enum": [
+                  "Extreme",
+                  "Severe",
+                  "Moderate",
+                  "Minor",
+                  "Unknown"
+                ],
+                "type": "string"
+              },
+              "certainty": {
+                "enum": [
+                  "Observed",
+                  "Likely",
+                  "Possible",
+                  "Unlikely",
+                  "Unknown"
+                ],
+                "type": "string"
+              },
+              "effective": {
+                "type": "string",
+                "format": "datetime",
+                "description": "The effective time of the information of the alert message."
+              },
+              "eventCode": {
+                "type": "object",
+                "description": "System-specific code identifiying the event type of the alert message The keys in this object correspond to eventCode definitions in the NWS CAP specification.\n",
+                "additionalProperties": {
+                  "type": "array",
+                  "items": {}
+                }
+              },
+              "parameters": {
+                "type": "object",
+                "description": "System-specific additional parameters associated with the alert message.\nThe keys in this object correspond to parameter definitions in the NWS CAP specification.\n",
+                "additionalProperties": {
+                  "type": "array",
+                  "items": {}
+                }
+              },
+              "references": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "An API link to the prior alert."
+                    },
+                    "sent": {
+                      "type": "string",
+                      "format": "datetime",
+                      "description": "The time the prior alert was sent."
+                    },
+                    "sender": {
+                      "type": "string",
+                      "description": "The sender of the prior alert."
+                    },
+                    "identifier": {
+                      "type": "string",
+                      "description": "The identifier of the alert message."
+                    }
+                  }
+                },
+                "description": "A list of prior alerts that this alert updates or replaces."
+              },
+              "senderName": {
+                "type": "string",
+                "description": "The text naming the originator of the alert message."
+              },
+              "description": {
+                "type": "string",
+                "description": "The text describing the subject event of the alert message."
+              },
+              "instruction": {
+                "type": "string",
+                "description": "The text describing the recommended action to be taken by recipients of the alert message.\n"
+              },
+              "messageType": {
+                "enum": [
+                  "Alert",
+                  "Update",
+                  "Cancel",
+                  "Ack",
+                  "Error"
+                ],
+                "type": "string"
+              },
+              "affectedZones": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "description": "An array of API links for zones affected by the alert. This is an API-specific extension field and is not part of the CAP specification.\n"
+              }
+            },
+            "description": "Alert properties, precisely as provided by api.weather.gov"
+          }
+        }
+      },
+      "description": "A weather alert issued by the US National Weather Service"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

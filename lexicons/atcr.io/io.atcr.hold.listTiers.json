@@ -1,0 +1,58 @@
+{
+  "id": "io.atcr.hold.listTiers",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "tiers"
+          ],
+          "properties": {
+            "tiers": {
+              "type": "array",
+              "items": {
+                "ref": "#defs/tierInfo",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "List the hold's available tiers with storage quotas (no pricing info)."
+    },
+    "tierInfo": {
+      "type": "object",
+      "required": [
+        "name",
+        "quotaBytes",
+        "quotaFormatted",
+        "scanOnPush"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Tier name."
+        },
+        "quotaBytes": {
+          "type": "integer",
+          "description": "Storage quota in bytes."
+        },
+        "scanOnPush": {
+          "type": "boolean",
+          "description": "Whether pushing triggers an immediate vulnerability scan."
+        },
+        "quotaFormatted": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Human-readable quota (e.g. '5.0 GB')."
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

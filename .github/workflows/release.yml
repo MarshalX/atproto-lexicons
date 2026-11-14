@@ -1,0 +1,93 @@
+name: Release
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'lexicons/**'
+      - 'lexicons.lock.json'
+      - 'package/pyproject.toml'
+      - 'poetry.lock'
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Publish the package to PyPI instead of fetching new lexicons.'
+        type: boolean
+        default: false
+  schedule:
+    - cron: '0 6 * * *'
+
+permissions:
+  contents: read
+
+env:
+  POETRY_VIRTUALENVS_IN_PROJECT: "true"
+
+jobs:
+  update_lexicons:
+    if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && !inputs.publish)
+    runs-on: ubuntu-24.04
+
+    environment: automation
+
+    steps:
+      - name: Checkout repository.
+        uses: actions/checkout@v5
+
+      - name: Set up the project.
+        uses: ./.github/actions/setup
+
+      - name: Fetch lexicons.
+        id: fetch
+        run: poetry run lex fetch
+
+      - name: Build and verify the package.
+        if: steps.fetch.outputs.changed == 'true'
+        run: poetry run lex build
+
+      - name: Create Pull Request.
+        if: steps.fetch.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.PAT }}
+          committer: Ilya (Marshal) <ilya@marshal.dev>
+          author: Ilya (Marshal) <ilya@marshal.dev>
+          commit-message: ${{ steps.fetch.outputs.title }}
+          body: ${{ steps.fetch.outputs.body }}
+          base: main
+          branch: update-lexicons
+          title: ${{ steps.fetch.outputs.title }}
+          assignees: MarshalX
+
+  publish:
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.publish)
+    runs-on: ubuntu-24.04
+
+    environment:
+      name: pypi
+      url: https://pypi.org/project/atproto-lexicons/
+
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout repository.
+        uses: actions/checkout@v5
+
+      - name: Set up the project.
+        uses: ./.github/actions/setup
+
+      - name: Build and verify the package.
+        run: poetry run lex build
+
+      - name: Set the calendar version.
+        run: poetry --directory package version "$(poetry run lex version)"
+
+      - name: Build distributions.
+        run: poetry --directory package build
+
+      - name: Publish a Python distribution to PyPI.
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: package/dist

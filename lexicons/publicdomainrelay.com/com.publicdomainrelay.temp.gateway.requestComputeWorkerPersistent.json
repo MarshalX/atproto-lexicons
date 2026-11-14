@@ -1,0 +1,81 @@
+{
+  "id": "com.publicdomainrelay.temp.gateway.requestComputeWorkerPersistent",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "source",
+            "denoJson"
+          ],
+          "properties": {
+            "source": {
+              "type": "string",
+              "description": "TypeScript source code for the worker."
+            },
+            "denoJson": {
+              "type": "string",
+              "description": "deno.json configuration for the worker bundle."
+            },
+            "denoLock": {
+              "type": "string",
+              "description": "Optional deno.lock for reproducible builds."
+            },
+            "bidWindowSec": {
+              "type": "integer",
+              "default": 30,
+              "description": "Seconds to wait for bids."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "InvalidRequest"
+        },
+        {
+          "name": "AuthRequired"
+        },
+        {
+          "name": "NoBidders"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string"
+            },
+            "receiptOk": {
+              "type": "boolean"
+            },
+            "executeUrl": {
+              "type": "string",
+              "format": "uri"
+            },
+            "receiptCid": {
+              "type": "string",
+              "format": "cid"
+            },
+            "receiptUri": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "workerInstanceUri": {
+              "type": "string",
+              "format": "at-uri"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Request a persistent Deno worker through the compute contract gateway. Gateway bundles source, creates workerManifest record, runs the full RFP protocol, starts the worker, and returns the worker instance ref and execute URL."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

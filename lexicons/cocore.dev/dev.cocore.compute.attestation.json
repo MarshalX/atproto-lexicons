@@ -1,0 +1,198 @@
+{
+  "id": "dev.cocore.compute.attestation",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "publicKey",
+          "encryptionPubKey",
+          "chipName",
+          "hardwareModel",
+          "serialNumberHash",
+          "osVersion",
+          "binaryHash",
+          "sipEnabled",
+          "secureBootEnabled",
+          "secureEnclaveAvailable",
+          "authenticatedRootEnabled",
+          "selfSignature",
+          "attestedAt",
+          "expiresAt"
+        ],
+        "properties": {
+          "tier": {
+            "ref": "dev.cocore.compute.defs#tier",
+            "type": "ref",
+            "description": "The provider's self-asserted confidentiality tier for work done under this attestation. ADVISORY ONLY: a verifier MUST recompute the tier from the evidence in this record (bound mdaCertChain, cdHash ∈ known-good, posture booleans) and the session handshake, and MUST NOT trust this field. Present so consumers can display the provider's claim before verifying. Optional / additive; absent equivalent to `best-effort`."
+          },
+          "cdHash": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 40,
+            "description": "Lowercase hex of the code-signing directory hash (cdhash) the OS actually enforces for the running cocore-provider binary, read from the live process (SecCodeCopySelf / SecCodeCopySigningInformation, fallback csops CS_OPS_CDHASH). This is the measured identity a confidential-tier verifier checks against the known-good set — unlike `binaryHash` it reflects exactly what library validation and `get-task-allow=false` protect. Optional / additive; absent caps the work at `best-effort`."
+          },
+          "teamId": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Apple Developer Team Identifier from the code signature of the running binary. A confidential-tier verifier pins this to the expected cocore signing team so a validly-signed but unrelated binary cannot pass. Optional / additive."
+          },
+          "chipName": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "antiDebug": {
+            "type": "boolean",
+            "description": "True iff the process denied debugger attachment at startup (PT_DENY_ATTACH). Required for `attested-confidential`. Optional / additive; absent treated as false."
+          },
+          "appAttest": {
+            "type": "object",
+            "required": [
+              "object",
+              "keyId"
+            ],
+            "properties": {
+              "keyId": {
+                "type": "bytes",
+                "maxLength": 64,
+                "description": "The App Attest key identifier (the SHA-256 of the attested public key) DCAppAttestService.generateKey returned. Verifiers cross-check this equals the credentialId in authData."
+              },
+              "object": {
+                "type": "bytes",
+                "maxLength": 16384,
+                "description": "The CBOR App Attest attestation object returned by DCAppAttestService.attestKey, as produced for `clientDataHash = sha256(publicKey)`. Contains fmt, attStmt (x5c + receipt), and authData."
+              }
+            },
+            "description": "Optional Apple App Attest evidence — the second, MDM-free path to trustLevel 'hardware-attested'. The provider's signed helper calls DCAppAttestService with `clientDataHash = sha256(publicKey)` (this record's receipt-signing key), so Apple's attestation commits to the signing key by construction. Verifiers MUST, offline: (1) CBOR-decode `object`, requiring fmt 'apple-appattest'; (2) verify the attStmt x5c chain to the embedded Apple App Attest Root CA; (3) recompute `nonce = sha256(authData || sha256(publicKey))` and require it to equal the credential certificate's nonce extension (OID 1.2.840.113635.100.8.2) — THIS is the binding to the signing key; (4) check authData's rpIdHash == sha256(App ID 'TEAMID.dev.cocore.provider'), the AAGUID is the genuine-hardware appattest value, and credentialId == sha256(attested public key) == `keyId`. A bound, valid App Attest object earns 'hardware-attested' exactly as a bound mdaCertChain does. It proves genuine, un-tampered Apple hardware holds a Secure-Enclave key bound to the signing key; it does NOT by itself prove the signing key is SE-resident nor that the running binary is honest (those are carried by the SE-backed signing identity + hardened-runtime + cdHash known-good gate, same self-measurement ceiling as the MDA path)."
+          },
+          "encScheme": {
+            "type": "string",
+            "description": "Curve/scheme for `encryptionPubKey`. 'x25519' (default when absent) = a software X25519 key, which is extractable — the operator can lift it and decrypt the prompt off-box. 'p256-ecies-se' = a Secure-Enclave-resident P-256 key where ECIES key agreement runs inside the SEP and the private key is non-extractable. REQUIRED for `attested-confidential` (ADR-0003) so the decryption key cannot leave the measured machine.",
+            "knownValues": [
+              "x25519",
+              "p256-ecies-se"
+            ]
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Receipts that strong-ref this attestation are only considered fresh if completedAt < expiresAt. Default 24h after attestedAt."
+          },
+          "osVersion": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "publicKey": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "P-256 public key (base64). MUST equal the attestationPubKey of the provider record under the signing DID."
+          },
+          "sigScheme": {
+            "type": "string",
+            "description": "How `selfSignature` (and the `enclaveSignature` of receipts that strong-ref this attestation) is produced. 'p256' (default when absent) = raw ECDSA-P256 over the canonical bytes. 'appattest-assertion' = an Apple App Attest assertion from DCAppAttestService.generateAssertion, where the App Attest key IS this record's `publicKey` (so keyId == sha256(uncompressed publicKey)) and the signed message is carried as the assertion clientDataHash = sha256(canonical bytes). REQUIRED for `attested-confidential` (ADR-0003): only assertion signing proves the private key is Secure-Enclave-resident and non-exportable; a raw p256 key with any attestation is portable to another host.",
+            "knownValues": [
+              "p256",
+              "appattest-assertion"
+            ]
+          },
+          "attestedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "binaryHash": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 64,
+            "description": "SHA-256 hex of the cocore-provider binary that produced this attestation. Back-compat measure of the whole file on disk. For trust decisions `cdHash` supersedes it: the OS enforces the code-signing cdhash, not a whole-file digest, so a verifier deciding `tier` MUST prefer `cdHash` when present and treat `binaryHash` as informational."
+          },
+          "sipEnabled": {
+            "type": "boolean"
+          },
+          "envScrubbed": {
+            "type": "boolean",
+            "description": "True iff dynamic-linker injection vectors (DYLD_*) were scrubbed from the environment at startup. Required for `attested-confidential`. Optional / additive; absent treated as false."
+          },
+          "getTaskAllow": {
+            "type": "boolean",
+            "description": "Value of the get-task-allow entitlement on the running binary. MUST be false for `attested-confidential` — a true value means another process (even the owner) can attach a debugger and read process memory, defeating confidentiality. Optional / additive; absent treated as true (the unsafe default) so a missing value never silently earns the confidential tier."
+          },
+          "mdaCertChain": {
+            "type": "array",
+            "items": {
+              "type": "bytes",
+              "maxLength": 8192
+            },
+            "maxLength": 8,
+            "description": "Optional Apple Managed Device Attestation certificate chain (DER), leaf first. One of two paths to trustLevel 'hardware-attested' (the other is `appAttest`). Verifiers MUST: (1) verify every adjacent link to the embedded Apple Enterprise Attestation Root CA, enforcing BasicConstraints (non-leaf certs are CAs, the leaf is an end-entity); and (2) BIND the chain to this record's `publicKey` by EITHER the leaf's P-256 public key EQUALLING `publicKey`, OR the Apple freshness extension (OID 1.2.840.113635.100.8.11.1) committing to it as `freshnessCode == sha256(publicKey)`. Without a binding a valid Apple chain for one device could be stapled onto an unrelated signing key, so a chain that verifies but isn't bound MUST NOT earn 'hardware-attested'."
+          },
+          "metallibHash": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 64,
+            "description": "SHA-256 hex of the precompiled Metal shader library (`mlx.metallib` or equivalent) the in-process inference engine loads at runtime. The GPU kernels that touch the plaintext live here, so a confidential verifier pins this to a known-good value alongside `cdHash`. Absent when no native engine is loaded (e.g. the subprocess/best-effort backend). Optional / additive."
+          },
+          "rdmaDisabled": {
+            "type": "boolean"
+          },
+          "engineLibHash": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 64,
+            "description": "SHA-256 hex of the dynamic library that runs the in-process inference engine (e.g. `libCoCoreMLX.dylib`). When the engine is a separately-loaded dylib rather than code statically inside the agent binary, the `cdHash` does not cover it, so a confidential verifier pins this too. Enforced library validation already blocks a different team's dylib; this additionally locks the hash within the provider team's own blessed releases. Absent when inference runs in a subprocess or fully inside the measured binary. Optional / additive."
+          },
+          "hardwareModel": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "DMI string, e.g. 'Mac15,8'."
+          },
+          "selfSignature": {
+            "type": "bytes",
+            "maxLength": 256,
+            "description": "Secure Enclave P-256 signature (DER) over a sorted-key canonical JSON of every other field in this record. Verifiers MUST reconstruct the canonical JSON byte-for-byte before checking."
+          },
+          "hardenedRuntime": {
+            "type": "boolean",
+            "description": "True iff the running binary is signed with the hardened runtime (CS_RUNTIME). Required for `attested-confidential`. Optional / additive; absent treated as false."
+          },
+          "encryptionPubKey": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "Public key (base64) a requester seals the prompt to. Its curve/scheme is given by `encScheme` (X25519 by default; a Secure-Enclave-resident P-256 key under 'p256-ecies-se'). Bound to the same device identity as `publicKey` — the selfSignature over this record authenticates it."
+          },
+          "inProcessBackend": {
+            "type": "boolean",
+            "description": "True iff inference runs INSIDE this measured, signed binary (native in-process engine) rather than in an owner-controlled subprocess/interpreter. This is THE load-bearing confidentiality property — if false, the prompt is handed to a process the attestation does not cover, so the work can never be `attested-confidential`. Optional / additive; absent treated as false."
+          },
+          "serialNumberHash": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 64,
+            "description": "SHA-256 hex of (serialNumber || providerDID). Hashed so the public record never leaks raw serials. When an mdaCertChain is present, the serialNumber MUST be the one the verified MDA leaf attests (not a self-reported value), so the hashed device identity is anchored to the chain."
+          },
+          "coreDumpsDisabled": {
+            "type": "boolean",
+            "description": "True iff core dumps were disabled at startup (RLIMIT_CORE=0), so a crash cannot spill plaintext to disk. Required for `attested-confidential`. Optional / additive; absent treated as false."
+          },
+          "libraryValidation": {
+            "type": "boolean",
+            "description": "True iff library validation is enforced (the binary will not load libraries signed by a different team / unsigned code). Closes the dylib-injection path. Required for `attested-confidential`. Optional / additive; absent treated as false."
+          },
+          "secureBootEnabled": {
+            "type": "boolean"
+          },
+          "secureEnclaveAvailable": {
+            "type": "boolean"
+          },
+          "authenticatedRootEnabled": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A snapshot of a provider machine's hardware and software state, signed by its Secure Enclave. Content-addressed: many receipts strong-ref the same attestation record until the underlying state changes (binary upgrade, OS update, key rotation)."
+}

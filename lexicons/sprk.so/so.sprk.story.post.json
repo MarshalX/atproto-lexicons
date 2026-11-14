@@ -1,0 +1,48 @@
+{
+  "id": "so.sprk.story.post",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt",
+          "media"
+        ],
+        "properties": {
+          "media": {
+            "refs": [
+              "so.sprk.media.image",
+              "so.sprk.media.video"
+            ],
+            "type": "union"
+          },
+          "sound": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref"
+          },
+          "embeds": {
+            "ref": "so.sprk.embed.defs#embeds",
+            "type": "ref"
+          },
+          "labels": {
+            "refs": [
+              "com.atproto.label.defs#selfLabels"
+            ],
+            "type": "union",
+            "description": "Self-label values for this story. Effectively content warnings."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Client-declared timestamp when this story was originally created."
+          }
+        }
+      },
+      "description": "Record containing a Spark story."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

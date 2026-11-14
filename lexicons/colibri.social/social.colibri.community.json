@@ -1,0 +1,96 @@
+{
+  "id": "social.colibri.community",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "description",
+          "categoryOrder",
+          "requiresApprovalToJoin"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "default": "New Community",
+            "maxLength": 32,
+            "minLength": 1,
+            "description": "The name of the community."
+          },
+          "$type": {
+            "type": "string",
+            "format": "nsid",
+            "description": "The type of the record."
+          },
+          "banner": {
+            "type": "blob",
+            "accept": [
+              "image/jpeg",
+              "image/png",
+              "image/gif",
+              "image/webp"
+            ],
+            "description": "A banner for the community that will be shown to users."
+          },
+          "appview": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the AppView that administers this community and acts as its off-protocol hub (Humming presence relay and voice SFU host). Written by the credential-holding AppView. Consumers that find this field absent fall back to did:web:api.colibri.social."
+          },
+          "picture": {
+            "type": "blob",
+            "accept": [
+              "image/jpeg",
+              "image/png",
+              "image/gif",
+              "image/webp"
+            ],
+            "description": "An image for the community that will be shown to users."
+          },
+          "linkEmbeds": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether link previews are displayed in this community by default. Individual channels may override this."
+          },
+          "migratedTo": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Set on a legacy community record once it has been migrated. Points at the new community record that replaces it; consumers treat this community as retired and hide it."
+          },
+          "description": {
+            "type": "string",
+            "default": "",
+            "maxLength": 256,
+            "description": "A description of the community."
+          },
+          "migratedFrom": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Set on a community created by migrating a legacy community. Points at the legacy community record this one replaces."
+          },
+          "categoryOrder": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "record-key",
+              "description": "A category in this community."
+            },
+            "description": "The order of the categories in this community."
+          },
+          "requiresApprovalToJoin": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether users can chat in this community without the owner having to create an acknowledgement record."
+          }
+        }
+      },
+      "description": "A community, or \"server\", is where users join to interact with each other on Colibri. Singleton record on the community DID's repo."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 5
+}

@@ -1,0 +1,115 @@
+{
+  "id": "com.suibari.nagi.appLinks",
+  "defs": {
+    "link": {
+      "type": "object",
+      "required": [
+        "collection",
+        "label",
+        "selection",
+        "fields"
+      ],
+      "properties": {
+        "label": {
+          "type": "string",
+          "maxLength": 640,
+          "description": "カード見出し（アプリ名相当）。",
+          "maxGraphemes": 64
+        },
+        "appUri": {
+          "type": "string",
+          "format": "uri",
+          "description": "アプリの Web サイト URL。favicon の取得元にもなる。"
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "ref": "#field",
+            "type": "ref"
+          },
+          "maxLength": 10
+        },
+        "repeat": {
+          "type": "string",
+          "maxLength": 512,
+          "description": "1レコード内で、このキーパスが指す配列の各要素を1行として展開する（例 \"cards\"）。省略時は単一表示。指定時、fields の path は配列の各要素からの相対パスになる。"
+        },
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "この連携をプロフィールに表示するか。"
+        },
+        "iconUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "アプリのアイコン（favicon）URL。連携設定時に appUri から解決して保存する。"
+        },
+        "selection": {
+          "type": "string",
+          "default": "latest",
+          "description": "表示するレコードの選び方。MVP は最新1件（latest）のみ。",
+          "knownValues": [
+            "latest"
+          ]
+        },
+        "collection": {
+          "type": "string",
+          "format": "nsid",
+          "description": "表示対象のレコード collection の NSID。"
+        }
+      }
+    },
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "links",
+          "createdAt"
+        ],
+        "properties": {
+          "links": {
+            "type": "array",
+            "items": {
+              "ref": "#link",
+              "type": "ref"
+            },
+            "maxLength": 20
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "プロフィールカードに並べる、任意の Atmosphere アプリへの連携宣言リスト。所有者本人が curate し、どの collection のどのフィールドを表示するかを定義する。公開レコード。"
+    },
+    "field": {
+      "type": "object",
+      "required": [
+        "path"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "maxLength": 512,
+          "description": "レコード本体を flatten したキーパス（例 \"trackName\" / \"embed.title\" / \"items[0].name\"）。"
+        },
+        "role": {
+          "type": "string",
+          "description": "任意の描画ヒント。省略時は表示側が値から自動判別する。",
+          "knownValues": [
+            "value",
+            "datetime",
+            "url",
+            "image"
+          ]
+        }
+      },
+      "description": "プロフィールに表示するフィールド。表示するキーパスの宣言のみを持ち、描画の役割（値/日時/リンク/画像）は表示側が値から自動判別する。"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

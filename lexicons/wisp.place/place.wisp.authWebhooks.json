@@ -1,0 +1,26 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "detail": "Create, update, and delete your webhook subscriptions.",
+      "permissions": [
+        {
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "collection": [
+            "place.wisp.v2.wh"
+          ],
+          "resource": "repo",
+          "type": "permission"
+        }
+      ],
+      "title": "Manage your wisp.place webhooks",
+      "type": "permission-set"
+    }
+  },
+  "id": "place.wisp.authWebhooks",
+  "lexicon": 1
+}

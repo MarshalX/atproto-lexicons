@@ -1,0 +1,34 @@
+{
+  "id": "app.standard-reader.unrecommendDocument",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "document"
+          ],
+          "properties": {
+            "document": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "Document AT-URI"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "description": "Remove a network like."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,49 @@
+{
+  "id": "dev.knotless.acceptTransfer",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "repo"
+          ],
+          "properties": {
+            "repo": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository."
+        },
+        {
+          "name": "InvalidRequest",
+          "description": "It was offered to no one, or to another account, or the account has a repository by that name already."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        }
+      ],
+      "output": {
+        "schema": {
+          "ref": "dev.knotless.defs#repoMade",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "Copies the repository, every branch and tag, into the account logged in to this appview's web pages, under the name its owner offered it by and with the same key, as `knotless repo accept` does: from then on it is there, and readers of the old one follow, with its pulls, issues and forks. Only the account it was offered to can. The appview writes with the session it keeps for that account."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Takes up a repository offered to the account logged in to this appview's pages."
+}

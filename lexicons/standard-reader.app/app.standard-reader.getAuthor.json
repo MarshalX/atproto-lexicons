@@ -1,0 +1,73 @@
+{
+  "id": "app.standard-reader.getAuthor",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "profile",
+            "stats",
+            "publications"
+          ],
+          "properties": {
+            "stats": {
+              "ref": "app.standard-reader.getAuthor#stats",
+              "type": "ref"
+            },
+            "profile": {
+              "ref": "app.standard-reader.defs#profileView",
+              "type": "ref"
+            },
+            "publications": {
+              "type": "array",
+              "items": {
+                "ref": "app.standard-reader.defs#publicationView",
+                "type": "ref"
+              },
+              "description": "The author's publications, owned first then featured, newest activity first. A convenience first page; use getAuthorPublications to page through the full set."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "did"
+        ],
+        "properties": {
+          "did": {
+            "type": "string",
+            "format": "did"
+          }
+        }
+      },
+      "description": "Author profile for a DID with aggregate stats and a first page of their publications."
+    },
+    "stats": {
+      "type": "object",
+      "properties": {
+        "likeCount": {
+          "type": "integer"
+        },
+        "documentCount": {
+          "type": "integer"
+        },
+        "followingCount": {
+          "type": "integer"
+        },
+        "subscriberCount": {
+          "type": "integer"
+        },
+        "publicationCount": {
+          "type": "integer"
+        }
+      },
+      "description": "Aggregate author counts shown on the profile header."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

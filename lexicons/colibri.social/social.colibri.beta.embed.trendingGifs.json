@@ -1,0 +1,64 @@
+{
+  "id": "social.colibri.beta.embed.trendingGifs",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request has no valid service auth."
+        },
+        {
+          "name": "GifsNotConfigured",
+          "description": "This AppView has no GIF provider key configured."
+        },
+        {
+          "name": "UpstreamFailure",
+          "description": "The GIF provider failed."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "gifs"
+          ],
+          "properties": {
+            "gifs": {
+              "type": "array",
+              "items": {
+                "ref": "social.colibri.beta.embed.defs#gifView",
+                "type": "ref"
+              },
+              "description": "Currently trending GIFs."
+            },
+            "cursor": {
+              "type": "string",
+              "description": "Pagination cursor for the next page."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "description": "Maximum number of GIFs to return."
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Pagination cursor from a previous call."
+          }
+        }
+      },
+      "description": "Gets trending GIFs from the GIF picker's provider."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

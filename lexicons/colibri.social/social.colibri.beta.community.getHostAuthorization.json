@@ -1,0 +1,73 @@
+{
+  "id": "social.colibri.beta.community.getHostAuthorization",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request is missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "RequestNotFound",
+          "description": "No sign-in with that request exists for the requesting user."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "status"
+          ],
+          "properties": {
+            "status": {
+              "type": "string",
+              "description": "pending until the user finishes signing in, then done or failed.",
+              "knownValues": [
+                "pending",
+                "done",
+                "failed"
+              ]
+            },
+            "failure": {
+              "type": "string",
+              "description": "Why the sign-in failed.",
+              "knownValues": [
+                "cancelled",
+                "wrongAccount",
+                "spacesUnsupported",
+                "alreadyHosts",
+                "failed"
+              ]
+            },
+            "community": {
+              "type": "string",
+              "format": "did",
+              "description": "The adopted or reconnected community, once done."
+            },
+            "signedInAs": {
+              "type": "string",
+              "description": "The account the user signed in as, when it was not the expected one."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "request"
+        ],
+        "properties": {
+          "request": {
+            "type": "string",
+            "description": "The request returned by authorizeHost."
+          }
+        }
+      },
+      "description": "Reports the outcome of a sign-in started with authorizeHost. Only the user who started it can read it."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

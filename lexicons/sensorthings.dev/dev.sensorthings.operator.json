@@ -1,0 +1,101 @@
+{
+  "id": "dev.sensorthings.operator",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "operatorName",
+          "licence",
+          "ingestionMode",
+          "account",
+          "handle",
+          "status",
+          "approvedAt"
+        ],
+        "properties": {
+          "handle": {
+            "type": "string",
+            "format": "handle",
+            "description": "Handle of the data-publishing account, e.g. examplewater.sensorthings.dev"
+          },
+          "region": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "ISO 3166 country or region code, or a human-readable area name."
+          },
+          "status": {
+            "type": "string",
+            "description": "active: ingesting. suspended: admitted but ingestion paused. migrated: the operator has moved to their own PDS and left the gateway.",
+            "knownValues": [
+              "active",
+              "suspended",
+              "migrated"
+            ]
+          },
+          "account": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the operator's data-publishing account, where their Things/Datastreams/Observations live."
+          },
+          "licence": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Open-data licence the operator publishes under. SPDX identifier (e.g. CC-BY-4.0) or a licence URL. A compatible open licence is a precondition of admission."
+          },
+          "website": {
+            "type": "string",
+            "format": "uri"
+          },
+          "approvedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the operator was admitted. This record is created at admission, so this is also the record's creation time."
+          },
+          "parameters": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 256
+            },
+            "maxLength": 64,
+            "description": "Human-readable summary of the phenomena the operator measures, for display. Authoritative mapping is on the operator's ObservedProperty records."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 2048
+          },
+          "onboardedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the operator's data first went live. Absent until go-live."
+          },
+          "operatorName": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "ingestionMode": {
+            "type": "string",
+            "description": "How the operator's data reaches the PDS: poller (we pull their OGC SensorThings server), push (they POST to the ingest gateway), or ogc (the OGC write facade).",
+            "knownValues": [
+              "poller",
+              "push",
+              "ogc"
+            ]
+          },
+          "stationCountApprox": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Approximate number of stations, for display. Not authoritative."
+          }
+        }
+      },
+      "description": "Roster entry for an approved sensor-network operator. Our attestation that an operator was admitted, under a stated open licence, at a stated time. Held in a central registry repo we control, not in the operator's own data repo, so a sovereign operator cannot rewrite their own admission status. Carries org-level facts only; contact details and operational configuration are kept in the private moderation store, not on this public record."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 1
+}

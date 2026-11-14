@@ -1,0 +1,54 @@
+{
+  "id": "rsvp.atmo.space.whoami",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotFound"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "isOwner",
+            "isMember"
+          ],
+          "properties": {
+            "perms": {
+              "type": "string",
+              "description": "Present only when the caller is a member or the owner.",
+              "knownValues": [
+                "read",
+                "write"
+              ]
+            },
+            "isOwner": {
+              "type": "boolean"
+            },
+            "isMember": {
+              "type": "boolean"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "spaceUri"
+        ],
+        "properties": {
+          "spaceUri": {
+            "type": "string",
+            "format": "at-uri"
+          }
+        }
+      },
+      "description": "Report the caller's relationship to a space: whether they are the owner, a member, and at what permission level. Useful for clients to avoid a listMembers roundtrip."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

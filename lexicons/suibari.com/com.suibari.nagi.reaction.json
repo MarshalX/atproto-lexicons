@@ -1,0 +1,68 @@
+{
+  "id": "com.suibari.nagi.reaction",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "emoji",
+          "createdAt"
+        ],
+        "properties": {
+          "emoji": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "A single Unicode emoji, or the colon-wrapped alias of the referenced Bluemoji (fallback text).",
+            "maxGraphemes": 34
+          },
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref"
+          },
+          "bluemoji": {
+            "ref": "#bluemojiRef",
+            "type": "ref"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      }
+    },
+    "bluemojiRef": {
+      "type": "object",
+      "required": [
+        "uri",
+        "cid",
+        "name"
+      ],
+      "properties": {
+        "alt": {
+          "type": "string",
+          "maxLength": 1000,
+          "maxGraphemes": 100
+        },
+        "cid": {
+          "type": "string",
+          "format": "cid"
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Colon-wrapped alias of the Bluemoji, e.g. :blobcat:. Must equal the record's emoji field."
+        }
+      },
+      "description": "Reference to a blue.moji.collection.item record. Formats are intentionally not carried here: the AppView resolves them from its own index of the source item, which is the trust anchor."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

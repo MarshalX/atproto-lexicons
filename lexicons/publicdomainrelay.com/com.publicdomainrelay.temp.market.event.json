@@ -1,0 +1,37 @@
+{
+  "id": "com.publicdomainrelay.temp.market.event",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "receipt",
+          "payload",
+          "signatures"
+        ],
+        "properties": {
+          "payload": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong reference to the domain-specific event payload record (for example a com.publicdomainrelay.temp.compute.events.vm.started, .onNetwork, or .delete)."
+          },
+          "receipt": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong reference to the receipt record this event pertains to (for example a com.publicdomainrelay.temp.market.receipt), so the counterparty can map the event back to the resource it provisioned."
+          },
+          "signatures": {
+            "ref": "network.attested.signature#signatures",
+            "type": "ref",
+            "description": "badge.blue attestations over this event. Must include the reporting party's inline signature, attached at creation, making the lifecycle claim non-repudiable — events assert facts about resources the counterparty cannot observe itself."
+          }
+        }
+      },
+      "description": "A lifecycle event reported against a receipt (e.g. a provider-opaque resource like a VM coming up, joining the network, or needing to be deleted)."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

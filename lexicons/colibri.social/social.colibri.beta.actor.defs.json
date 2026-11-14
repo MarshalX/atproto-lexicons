@@ -1,0 +1,698 @@
+{
+  "id": "social.colibri.beta.actor.defs",
+  "defs": {
+    "mute": {
+      "type": "object",
+      "required": [
+        "subject",
+        "createdAt"
+      ],
+      "properties": {
+        "subject": {
+          "refs": [
+            "#mutedActor",
+            "#mutedChannel",
+            "#mutedThread"
+          ],
+          "type": "union",
+          "closed": true,
+          "description": "What is muted. A user or a community is named by DID, a channel or a thread by its space."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the mute was created."
+        }
+      },
+      "description": "A muted subject."
+    },
+    "block": {
+      "type": "object",
+      "required": [
+        "subject",
+        "createdAt"
+      ],
+      "properties": {
+        "subject": {
+          "type": "string",
+          "format": "did",
+          "description": "The blocked user."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the block was created."
+        }
+      },
+      "description": "A blocked user."
+    },
+    "status": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "The status text. Absent for an emoji-only status."
+        },
+        "emoji": {
+          "type": "string",
+          "description": "A Unicode emoji shown beside the status."
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the status clears. The AppView stops returning the status once this time passes. Absent means it never expires."
+        },
+        "customEmoji": {
+          "ref": "social.colibri.beta.richtext.facet#customEmoji",
+          "type": "ref",
+          "description": "A custom emoji shown beside the status. Takes the place of emoji when both are present."
+        },
+        "showWhileOffline": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether a client shows the status while the user is offline."
+        }
+      },
+      "description": "A user's status line. It carries text, an emoji, or both."
+    },
+    "activity": {
+      "type": "object",
+      "required": [
+        "kind",
+        "title",
+        "source"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "description": "What sort of activity this is. A client that does not know a kind falls back to naming the source.",
+          "knownValues": [
+            "listening",
+            "playing",
+            "streaming"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "The main line: a track, a game, or a stream title."
+        },
+        "detail": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "A third line naming where the title sits, such as the album."
+        },
+        "endsAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "After this the activity is no longer current. The AppView clears it and says so, and a client treats a lapsed activity as absent."
+        },
+        "source": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "The service the activity was read from, such as 'teal.fm'."
+        },
+        "linkUri": {
+          "type": "string",
+          "format": "uri",
+          "description": "Where the activity points, such as the track's page on the service it was played from."
+        },
+        "imageUri": {
+          "type": "string",
+          "format": "uri",
+          "description": "Artwork for the activity, served by this AppView. Absent when none could be resolved."
+        },
+        "subtitle": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "The second line, such as the artist."
+        },
+        "startedAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the activity began."
+        }
+      },
+      "description": "Something the user is doing right now, read from another service they publish to. A client renders it beside their presence."
+    },
+    "controls": {
+      "type": "object",
+      "properties": {
+        "doubleTapAction": {
+          "type": "string",
+          "description": "What double tapping a message does.",
+          "knownValues": [
+            "react",
+            "editOrReply"
+          ]
+        },
+        "swipeLeftAction": {
+          "type": "string",
+          "description": "What swiping left on a message does.",
+          "knownValues": [
+            "members",
+            "reply"
+          ]
+        },
+        "doubleTapEnabled": {
+          "type": "boolean",
+          "description": "Whether double tapping a message does anything."
+        },
+        "doubleTapReactionEmoji": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "The emoji a double tap reacts with.",
+          "maxGraphemes": 1
+        }
+      },
+      "description": "Touch gestures in a channel."
+    },
+    "emojiUse": {
+      "type": "object",
+      "required": [
+        "emoji",
+        "count",
+        "lastUsed"
+      ],
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "How many times the user picked it."
+        },
+        "emoji": {
+          "type": "string",
+          "maxLength": 512,
+          "description": "A Unicode emoji, or a custom emoji's AT URI."
+        },
+        "lastUsed": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the user last picked it."
+        }
+      },
+      "description": "How often and how recently the user picked one emoji."
+    },
+    "presence": {
+      "type": "object",
+      "required": [
+        "onlineState"
+      ],
+      "properties": {
+        "voice": {
+          "ref": "#voiceState",
+          "type": "ref",
+          "description": "Where the user is connected for voice, if anywhere."
+        },
+        "status": {
+          "ref": "#status",
+          "type": "ref",
+          "description": "The user's status line."
+        },
+        "activities": {
+          "type": "array",
+          "items": {
+            "ref": "#activity",
+            "type": "ref"
+          },
+          "description": "What the user is doing right now, one entry per service they share from. Empty when the AppView has nothing current for them."
+        },
+        "onlineState": {
+          "type": "string",
+          "description": "Derived online state.",
+          "knownValues": [
+            "online",
+            "away",
+            "dnd",
+            "offline"
+          ]
+        }
+      },
+      "description": "A user's live, off-protocol state."
+    },
+    "voiceView": {
+      "type": "object",
+      "properties": {
+        "confirmJoin": {
+          "type": "boolean",
+          "description": "Whether opening a voice channel waits for the user to press join."
+        },
+        "showOwnCamera": {
+          "type": "boolean",
+          "description": "Whether the call grid shows the user's own camera."
+        },
+        "showNonVideoParticipants": {
+          "type": "boolean",
+          "description": "Whether the call grid shows participants without video."
+        }
+      },
+      "description": "Options for voice channels."
+    },
+    "leftThread": {
+      "type": "object",
+      "required": [
+        "thread",
+        "leftAt"
+      ],
+      "properties": {
+        "leftAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the user left the thread."
+        },
+        "thread": {
+          "type": "string",
+          "format": "space-ref",
+          "description": "The left thread's space."
+        }
+      },
+      "description": "A thread the user left. The user stays out of the thread's audience until someone pings them in it, they follow it again or they post in it."
+    },
+    "mutedActor": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "The muted user or community."
+        }
+      },
+      "description": "A muted user or community."
+    },
+    "voiceState": {
+      "type": "object",
+      "required": [
+        "channel"
+      ],
+      "properties": {
+        "muted": {
+          "type": "boolean",
+          "description": "Whether the user's microphone is muted, for any reason."
+        },
+        "camera": {
+          "type": "boolean",
+          "description": "Whether the user is sharing their camera."
+        },
+        "screen": {
+          "type": "boolean",
+          "description": "Whether the user is sharing their screen."
+        },
+        "channel": {
+          "type": "string",
+          "format": "space-ref",
+          "description": "The voice channel the user is connected to."
+        },
+        "deafened": {
+          "type": "boolean",
+          "description": "Whether the user has incoming audio silenced, for any reason."
+        },
+        "serverMuted": {
+          "type": "boolean",
+          "description": "Whether a moderator muted them. When this is true they cannot unmute themselves, and a client must not offer them the control."
+        },
+        "serverDeafened": {
+          "type": "boolean",
+          "description": "Whether a moderator deafened them. When this is true they cannot undeafen themselves."
+        }
+      },
+      "description": "A user's voice connection."
+    },
+    "mutedThread": {
+      "type": "object",
+      "required": [
+        "thread"
+      ],
+      "properties": {
+        "thread": {
+          "type": "string",
+          "format": "space-ref",
+          "description": "The muted thread's space."
+        }
+      },
+      "description": "A muted thread. Muting a thread silences it without leaving the channel it sits beside."
+    },
+    "preferences": {
+      "type": "object",
+      "required": [
+        "notificationLevel",
+        "communityOrder",
+        "mutes",
+        "gifFavorites"
+      ],
+      "properties": {
+        "mutes": {
+          "type": "array",
+          "items": {
+            "ref": "#mute",
+            "type": "ref"
+          },
+          "description": "Subjects the user has muted."
+        },
+        "blocks": {
+          "type": "array",
+          "items": {
+            "ref": "#block",
+            "type": "ref"
+          },
+          "description": "Users the user blocked."
+        },
+        "leftThreads": {
+          "type": "array",
+          "items": {
+            "ref": "#leftThread",
+            "type": "ref"
+          },
+          "description": "Threads the user left. A ping in a thread after leftAt brings the user back and removes its entry."
+        },
+        "gifFavorites": {
+          "type": "array",
+          "items": {
+            "ref": "social.colibri.beta.embed.defs#gifView",
+            "type": "ref"
+          },
+          "description": "GIFs saved from the picker, stored whole."
+        },
+        "composerState": {
+          "ref": "#composerState",
+          "type": "ref",
+          "description": "Emoji usage, skin tone and recent GIFs."
+        },
+        "shareActivity": {
+          "type": "boolean",
+          "description": "Whether the AppView may read what the user is listening to and show it to others."
+        },
+        "communityOrder": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "did",
+            "description": "A community."
+          },
+          "description": "Communities in preferred sidebar order."
+        },
+        "spaceModerations": {
+          "type": "array",
+          "items": {
+            "ref": "#spaceModeration",
+            "type": "ref"
+          },
+          "description": "Moderation view options the user set for single communities. A community without an entry follows clientPreferences."
+        },
+        "clientPreferences": {
+          "ref": "#clientPreferences",
+          "type": "ref",
+          "description": "Client settings that follow the user across devices."
+        },
+        "notificationLevel": {
+          "type": "string",
+          "description": "Which messages produce a notification.",
+          "knownValues": [
+            "all",
+            "mentionsAndReplies",
+            "nothing"
+          ]
+        },
+        "spaceNotifications": {
+          "type": "array",
+          "items": {
+            "ref": "#spaceNotification",
+            "type": "ref"
+          },
+          "description": "Notification levels the user set for single communities. A community without an entry follows notificationLevel."
+        }
+      },
+      "description": "The authenticated user's own settings, as the AppView currently holds them."
+    },
+    "profileView": {
+      "type": "object",
+      "required": [
+        "did",
+        "handle",
+        "displayName",
+        "isBot",
+        "syncBluesky"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "The user's DID."
+        },
+        "isBot": {
+          "type": "boolean",
+          "description": "Whether the account is labelled as an automated account."
+        },
+        "theme": {
+          "ref": "social.colibri.beta.actor.profile#theme",
+          "type": "ref",
+          "description": "Colibri-only profile theming, read from the profile record even when the mirrored fields come from Bluesky."
+        },
+        "avatar": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL of the user's avatar, served by this AppView's blob proxy."
+        },
+        "banner": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL of the user's profile banner, served by this AppView's blob proxy."
+        },
+        "bridge": {
+          "ref": "social.colibri.beta.bridge.defs#bridgedActor",
+          "type": "ref",
+          "description": "Present when this is someone on another service whose messages a bridge relays. They have no Colibri account of their own."
+        },
+        "handle": {
+          "type": "string",
+          "format": "handle",
+          "description": "The user's handle, or 'handle.invalid' when it does not resolve."
+        },
+        "presence": {
+          "ref": "#presence",
+          "type": "ref",
+          "description": "Live presence, when the AppView is tracking any."
+        },
+        "pronouns": {
+          "type": "string",
+          "description": "Resolved pronouns, taken from the profile record, or from Bluesky when the user syncs with Bluesky and set none here."
+        },
+        "description": {
+          "type": "string",
+          "description": "Resolved bio."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Resolved display name, falling back to the handle."
+        },
+        "syncBluesky": {
+          "type": "boolean",
+          "description": "Whether the mirrored profile fields come from app.bsky.actor.profile."
+        },
+        "preferredBadge": {
+          "type": "string",
+          "description": "Label value of the badge the user chose to display."
+        }
+      },
+      "description": "A Colibri user as the AppView serves them: identity, resolved profile, and presence."
+    },
+    "mutedChannel": {
+      "type": "object",
+      "required": [
+        "channel"
+      ],
+      "properties": {
+        "channel": {
+          "type": "string",
+          "format": "space-ref",
+          "description": "The muted channel's space."
+        }
+      },
+      "description": "A muted channel. Muting a channel silences it without leaving the community it belongs to."
+    },
+    "composerState": {
+      "type": "object",
+      "properties": {
+        "skinTone": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0,
+          "description": "The skin tone for emoji that support one. 0 is the default yellow."
+        },
+        "emojiUsage": {
+          "type": "array",
+          "items": {
+            "ref": "#emojiUse",
+            "type": "ref"
+          },
+          "maxLength": 50,
+          "description": "The emoji the user picks most, with counts."
+        },
+        "recentGifs": {
+          "type": "array",
+          "items": {
+            "ref": "social.colibri.beta.embed.defs#gifView",
+            "type": "ref"
+          },
+          "maxLength": 24,
+          "description": "The GIFs the user sent last, newest first, stored whole."
+        }
+      },
+      "description": "Emoji usage, skin tone and recent GIFs."
+    },
+    "spaceModeration": {
+      "type": "object",
+      "required": [
+        "community",
+        "hideModeratedMessages"
+      ],
+      "properties": {
+        "community": {
+          "type": "string",
+          "format": "did",
+          "description": "The community."
+        },
+        "hideModeratedMessages": {
+          "type": "boolean",
+          "description": "Whether messages a moderator hid stay out of view in this community."
+        }
+      },
+      "description": "Moderation view options for one community."
+    },
+    "clientPreferences": {
+      "type": "object",
+      "properties": {
+        "theme": {
+          "type": "string",
+          "description": "The color theme. system follows the operating system.",
+          "knownValues": [
+            "system",
+            "dark",
+            "light"
+          ]
+        },
+        "controls": {
+          "ref": "#controls",
+          "type": "ref",
+          "description": "Touch gestures in a channel."
+        },
+        "voiceView": {
+          "ref": "#voiceView",
+          "type": "ref",
+          "description": "Options for voice channels."
+        },
+        "experiments": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "An experiment id."
+          },
+          "maxLength": 64,
+          "description": "The experiments the user turned on."
+        },
+        "soundVolume": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0,
+          "description": "The volume of in-app sound effects such as message pings and call sounds, in percent. Absent means 100."
+        },
+        "gifLoopLimit": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 1,
+          "description": "How many times a GIF in chat plays before it pauses. Absent means no limit."
+        },
+        "blueskyClient": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "The client that Bluesky posts and profiles open in.",
+          "knownValues": [
+            "anisota",
+            "blacksky",
+            "bluesky",
+            "deer",
+            "mu",
+            "northsky",
+            "witchsky",
+            "custom"
+          ]
+        },
+        "developerMode": {
+          "type": "boolean",
+          "description": "Whether the client shows identifiers and links to inspect records."
+        },
+        "messagePreviews": {
+          "type": "boolean",
+          "description": "Whether the channel list shows the latest message under each channel name."
+        },
+        "inboxPresentation": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "How the inbox opens on desktop. popover anchors it to the inbox button, modal opens it in a large dialog.",
+          "knownValues": [
+            "popover",
+            "modal"
+          ]
+        },
+        "linkEmbedsByDefault": {
+          "type": "boolean",
+          "description": "Whether a link in a new message gets a preview by default."
+        },
+        "warnOnExternalLinks": {
+          "type": "boolean",
+          "description": "Whether opening a link to another site asks for confirmation first."
+        },
+        "hideModeratedMessages": {
+          "type": "boolean",
+          "description": "Whether messages a moderator hid stay out of view for a user who could otherwise see them. A community can override this with an entry in spaceModerations."
+        },
+        "customBlueskyClientBase": {
+          "type": "string",
+          "maxLength": 253,
+          "description": "The domain of the client used when blueskyClient is custom."
+        },
+        "dismissedLegacyCommunities": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "did",
+            "description": "A legacy community DID."
+          },
+          "maxLength": 256,
+          "description": "Legacy communities that cannot move onto spaces and that the user removed from their sidebar."
+        }
+      },
+      "description": "Client settings that follow the user across devices. Every field is optional and a client applies its own default for an absent one."
+    },
+    "spaceNotification": {
+      "type": "object",
+      "required": [
+        "community",
+        "level"
+      ],
+      "properties": {
+        "level": {
+          "type": "string",
+          "description": "Which messages in this community produce a notification.",
+          "knownValues": [
+            "all",
+            "mentionsAndReplies",
+            "nothing"
+          ]
+        },
+        "community": {
+          "type": "string",
+          "format": "did",
+          "description": "The community."
+        }
+      },
+      "description": "A notification level for one community."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

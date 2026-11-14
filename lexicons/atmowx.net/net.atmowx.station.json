@@ -1,0 +1,88 @@
+{
+  "id": "net.atmowx.station",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "location",
+          "createdAt"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "kind": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Operator class.",
+            "knownValues": [
+              "amateur",
+              "professional",
+              "official",
+              "research"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 640,
+            "description": "Human-readable station name/nickname.",
+            "maxGraphemes": 64
+          },
+          "status": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Absent means active.",
+            "knownValues": [
+              "active",
+              "inactive",
+              "retired"
+            ]
+          },
+          "hardware": {
+            "type": "object",
+            "properties": {
+              "make": {
+                "type": "string",
+                "maxLength": 128
+              },
+              "model": {
+                "type": "string",
+                "maxLength": 128
+              },
+              "firmware": {
+                "type": "string",
+                "maxLength": 128
+              }
+            }
+          },
+          "location": {
+            "ref": "net.atmowx.defs#location",
+            "type": "ref"
+          },
+          "timezone": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "IANA timezone name, e.g. America/Los_Angeles. Needed to interpret station-local accumulation resets."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 10000,
+            "maxGraphemes": 1000
+          }
+        }
+      },
+      "description": "A weather station. One account may own many stations. A station that physically relocates MUST be retired (status: retired) and a new station record created, so historical observations stay tied to the site where they were measured."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

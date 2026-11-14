@@ -1,0 +1,92 @@
+{
+  "id": "app.zeens.profile",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "bio": {
+            "type": "string",
+            "maxLength": 2560,
+            "description": "Zeens-specific bio. Replaces the Bluesky description on Zeens profile pages. Independent from app.bsky.actor.profile.description.",
+            "maxGraphemes": 256
+          },
+          "$type": {
+            "type": "string",
+            "const": "app.zeens.profile"
+          },
+          "socials": {
+            "type": "array",
+            "items": {
+              "ref": "#socialLink",
+              "type": "ref"
+            },
+            "maxLength": 6,
+            "description": "The member's profile links, in the order shown. Any https link: services Zeens recognises are stored under their platform id and drawn with that service's icon, everything else as 'link' with the site's own favicon. Capped at 6 entries; order is preserved."
+          },
+          "website": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 200,
+            "description": "LEGACY. A single personal website URL, from before profile links became one list. Readers show it as the first link; Zeens moves it into `socials` (as a 'link') and drops this field the next time the member saves. New writers should not set it."
+          }
+        }
+      },
+      "description": "Zeens-specific profile extensions. Stored on the user's own PDS so the data is portable — Zeens reads it on top of app.bsky.actor.profile to render extras like social links. The Bluesky profile (name, avatar, banner, bio) remains the canonical identity."
+    },
+    "socialLink": {
+      "type": "object",
+      "required": [
+        "platform",
+        "handle"
+      ],
+      "properties": {
+        "icon": {
+          "type": "blob",
+          "accept": [
+            "image/png"
+          ],
+          "maxSize": 65536,
+          "description": "A plain link's favicon, fetched when the link was added and re-encoded as a 64px PNG. Absent = draw a generic link mark."
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 800,
+          "description": "A plain link's site name, read from the site (og:site_name, else its page title) when the link was added. Not member-entered. Absent = show the host. Ignored for recognised services, which show the service's name.",
+          "maxGraphemes": 80
+        },
+        "handle": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "The link's full https URL. Records written before links were URL-only may hold a bare username here (user@instance for Mastodon/Pixelfed)."
+        },
+        "platform": {
+          "type": "string",
+          "description": "The service the link belongs to, detected from the URL rather than chosen. 'link' is any site Zeens does not recognise. Readers should treat an unknown value as 'link'.",
+          "knownValues": [
+            "bluesky",
+            "mastodon",
+            "pixelfed",
+            "flickr",
+            "glass",
+            "vsco",
+            "500px",
+            "behance",
+            "youtube",
+            "kofi",
+            "patreon",
+            "grain",
+            "flashes",
+            "link"
+          ]
+        }
+      },
+      "description": "One profile link."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

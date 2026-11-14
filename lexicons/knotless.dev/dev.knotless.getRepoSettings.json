@@ -1,0 +1,204 @@
+{
+  "id": "dev.knotless.getRepoSettings",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri",
+            "rules",
+            "labels",
+            "collaborators",
+            "triagers"
+          ],
+          "properties": {
+            "uri": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "Its dev.knotless.repo record, under the name it has now."
+            },
+            "gates": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#actorView",
+                "type": "ref"
+              },
+              "description": "The accounts its protected branches' rules name as gates (dev.knotless.repo#reviews), each once: for the pages to show by handle. Absent when there are none."
+            },
+            "links": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#link",
+                "type": "ref"
+              },
+              "description": "The links its pages show, in order, as its record names them."
+            },
+            "rules": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.repo#rule",
+                "type": "ref"
+              },
+              "description": "Its protected branches."
+            },
+            "labels": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.repo#label",
+                "type": "ref"
+              },
+              "description": "The labels its pulls and issues may carry."
+            },
+            "topics": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.repo#topic",
+                "type": "ref"
+              },
+              "description": "What it is about, in order, as its record names them."
+            },
+            "gateway": {
+              "type": "string",
+              "format": "did",
+              "description": "The gateway the owner delegated writes to, through which collaborators push: absent until the owner delegates."
+            },
+            "indexed": {
+              "type": "boolean",
+              "description": "Deprecated, and no longer set: knotless.dev indexes every private repository its members read there. Was, for a private repository, whether its owner let this appview keep an index of it."
+            },
+            "readers": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#actorView",
+                "type": "ref"
+              },
+              "description": "For a private repository, asked by its owner, the members who read it but do not push to it, its runners among them; absent for a public one, which anyone reads, and empty to anyone else."
+            },
+            "runners": {
+              "type": "boolean",
+              "description": "Whether it names a runner, which the merge queue needs to land it. Absent when it names none."
+            },
+            "storage": {
+              "ref": "#storageView",
+              "type": "ref",
+              "description": "Deprecated, and no longer set: dev.knotless.getRepoStorage counts it, apart, as counting reads every pack record from the PDS. Was what it takes up on its owner's PDS."
+            },
+            "transfer": {
+              "ref": "dev.knotless.defs#repoViewBasic",
+              "type": "ref",
+              "description": "Where the owner has offered to move it, if they have: the account, and the name it would have there."
+            },
+            "triagers": {
+              "type": "array",
+              "items": {
+                "ref": "#triagerView",
+                "type": "ref"
+              },
+              "description": "The accounts whose labels of some scopes count."
+            },
+            "delegated": {
+              "type": "string",
+              "format": "did",
+              "description": "The gateway its owner delegated writes to from this appview's pages (dev.knotless.delegateWrites), which sharing it for writing names as its gateway; absent until they have."
+            },
+            "description": {
+              "type": "string",
+              "description": "What the repository says it is."
+            },
+            "collaborators": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#actorView",
+                "type": "ref"
+              },
+              "description": "The accounts that may push to it."
+            },
+            "defaultBranch": {
+              "type": "string",
+              "description": "The branch its record names for HEAD, without refs/heads/."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "repo"
+        ],
+        "properties": {
+          "repo": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+          }
+        }
+      },
+      "description": "A repository's settings, read from its dev.knotless.repo record as its PDS has it now, for the pages' settings to show and change. All of it is public, as the record is."
+    },
+    "storageView": {
+      "type": "object",
+      "required": [
+        "packs",
+        "objects",
+        "bytes",
+        "blobBytes"
+      ],
+      "properties": {
+        "bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Their bytes, as git packs them."
+        },
+        "packs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "objects": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The objects in them, pack by pack: one in two packs counts twice, until compaction folds them."
+        },
+        "blobBytes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Of those, the bytes in blobs rather than inline in records."
+        }
+      },
+      "description": "A repository's packs, which hold all of its history, as `knotless repo storage` counts them."
+    },
+    "triagerView": {
+      "type": "object",
+      "required": [
+        "actor",
+        "scopes"
+      ],
+      "properties": {
+        "actor": {
+          "ref": "dev.knotless.defs#actorView",
+          "type": "ref"
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "ref": "dev.knotless.repo#scope",
+            "type": "ref"
+          },
+          "description": "The scopes of the labels it may put on."
+        }
+      },
+      "description": "An account whose labels of some scopes count on a repository."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "What a repository's owner sets: its description, links, topics and default branch, protected branches, labels, collaborators and triagers, and an offer to move it."
+}

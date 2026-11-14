@@ -1,0 +1,85 @@
+{
+  "id": "social.colibri.beta.community.transferOwnership",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "community",
+            "subject"
+          ],
+          "properties": {
+            "subject": {
+              "type": "string",
+              "format": "did",
+              "description": "The member who becomes the owner."
+            },
+            "community": {
+              "type": "string",
+              "format": "did",
+              "description": "The community whose ownership is transferred."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request is missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The caller does not hold a protected owner role in this community."
+        },
+        {
+          "name": "CommunityNotFound",
+          "description": "No community exists with that DID."
+        },
+        {
+          "name": "MemberNotFound",
+          "description": "The subject does not hold a member record in this community."
+        },
+        {
+          "name": "Banned",
+          "description": "The subject is banned from this community."
+        },
+        {
+          "name": "AlreadyOwner",
+          "description": "The subject already holds a protected owner role."
+        },
+        {
+          "name": "CredentialsUnavailable",
+          "description": "The AppView's stored credentials for this community are missing or unusable."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "owner",
+            "previousOwner"
+          ],
+          "properties": {
+            "owner": {
+              "ref": "social.colibri.beta.community.defs#memberView",
+              "type": "ref",
+              "description": "The new owner, with their updated roles."
+            },
+            "previousOwner": {
+              "ref": "social.colibri.beta.community.defs#memberView",
+              "type": "ref",
+              "description": "The caller, with their updated roles."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Hands the community's protected owner role from the caller to another member. The subject gains every protected role the caller holds, then the caller loses them. The caller keeps their other roles."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

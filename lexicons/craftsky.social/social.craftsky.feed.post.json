@@ -1,0 +1,217 @@
+{
+  "id": "social.craftsky.feed.post",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "text",
+          "sponsored",
+          "createdAt"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 20000,
+            "description": "The primary text content of the post. Plain text; rich-text annotations live in 'facets'. Craftsky allows longer posts than Bluesky (2000 graphemes vs 300) because crafters write fuller project write-ups.",
+            "maxGraphemes": 2000
+          },
+          "embed": {
+            "refs": [
+              "#quoteEmbed",
+              "app.bsky.embed.external",
+              "app.bsky.embed.video"
+            ],
+            "type": "union",
+            "description": "Optional embedded content. Open union supporting local quote embeds, standard external cards, and standard video."
+          },
+          "langs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "language"
+            },
+            "maxLength": 3,
+            "description": "Indicates human language of post primary text content."
+          },
+          "reply": {
+            "ref": "#replyRef",
+            "type": "ref",
+            "description": "If present, this post is a reply to another post."
+          },
+          "crafts": {
+            "type": "array",
+            "items": {
+              "ref": "#craft",
+              "type": "ref"
+            },
+            "maxLength": 3,
+            "description": "Optional author-supplied craft metadata for this post, independent of project.common.craftType and project.common.additionalCrafts. Order does not designate a primary craft. Reserved for future use: CraftSky currently preserves this field without using it for display, search, filtering, feeds, or discovery."
+          },
+          "facets": {
+            "type": "array",
+            "items": {
+              "ref": "app.bsky.richtext.facet",
+              "type": "ref"
+            },
+            "description": "Byte-range annotations over 'text' for mentions, links, and inline hashtags. Reuses app.bsky.richtext.facet so existing renderers Just Work. Inline hashtag facets are composer-merged into project.common.tags on project posts; see the post lexicon fields spec."
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "ref": "#image",
+              "type": "ref"
+            },
+            "maxLength": 8,
+            "description": "Images attached to the post. Top-level (not inside 'embed') — a post may carry images alongside a quote embed without needing a wrapper variant."
+          },
+          "project": {
+            "ref": "social.craftsky.project.defs#project",
+            "type": "ref",
+            "description": "If present, this post is a craft project post. Absence means it's a general social post."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Client-declared creation timestamp."
+          },
+          "sponsored": {
+            "type": "boolean",
+            "description": "Whether the author declares that this post was created with sponsorship or other commercial consideration. Disclosure metadata only; it does not affect distribution."
+          },
+          "externalImport": {
+            "ref": "#externalImport",
+            "type": "ref",
+            "description": "Optional self-asserted provenance for content created by an external-history importer. This metadata does not verify ownership of an external account or grant trust."
+          }
+        }
+      },
+      "description": "A post on Craftsky. May be a general post or a craft project post; when the optional 'project' field is present the post is a project post. The optional open embed union supports quoted records, standard external cards, and standard video."
+    },
+    "craft": {
+      "type": "object",
+      "required": [
+        "craftType"
+      ],
+      "properties": {
+        "craftType": {
+          "type": "string",
+          "maxLength": 100,
+          "minLength": 1,
+          "description": "Craft token associated with the post. knownValues are open suggestions; future bounded craft values remain valid.",
+          "knownValues": [
+            "social.craftsky.feed.defs#knitting",
+            "social.craftsky.feed.defs#crochet",
+            "social.craftsky.feed.defs#sewing",
+            "social.craftsky.feed.defs#embroidery",
+            "social.craftsky.feed.defs#quilting"
+          ],
+          "maxGraphemes": 100
+        }
+      },
+      "description": "One craft associated with a post, represented as an object so optional context can be added later."
+    },
+    "image": {
+      "type": "object",
+      "required": [
+        "image"
+      ],
+      "properties": {
+        "alt": {
+          "type": "string",
+          "maxLength": 10000,
+          "description": "Optional alt text describing the image for accessibility.",
+          "maxGraphemes": 1000
+        },
+        "image": {
+          "type": "blob",
+          "accept": [
+            "image/jpeg",
+            "image/png",
+            "image/webp"
+          ],
+          "maxSize": 2000000
+        },
+        "aspectRatio": {
+          "ref": "#aspectRatio",
+          "type": "ref",
+          "description": "Optional aspect ratio metadata for rendering."
+        }
+      },
+      "description": "An image blob with optional alt text."
+    },
+    "replyRef": {
+      "type": "object",
+      "required": [
+        "root",
+        "parent"
+      ],
+      "properties": {
+        "root": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref",
+          "description": "The root post of the thread."
+        },
+        "parent": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref",
+          "description": "The immediate parent post being replied to."
+        }
+      },
+      "description": "Reference to the parent and root posts of a thread."
+    },
+    "quoteEmbed": {
+      "type": "object",
+      "required": [
+        "record"
+      ],
+      "properties": {
+        "record": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref",
+          "description": "Strong reference to the quoted record."
+        }
+      },
+      "description": "Embed wrapping another record (typically a social.craftsky.feed.post) for a quote post."
+    },
+    "aspectRatio": {
+      "type": "object",
+      "required": [
+        "width",
+        "height"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "description": "Image aspect ratio metadata used for layout/render hints."
+    },
+    "externalImport": {
+      "type": "object",
+      "required": [
+        "source"
+      ],
+      "properties": {
+        "source": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Self-asserted source service token. The value does not verify account ownership; clients should apply source-specific behavior only to values they recognize.",
+          "knownValues": [
+            "instagram"
+          ]
+        }
+      },
+      "description": "Minimal self-asserted external-import provenance. It is display and distribution metadata only and does not verify ownership of an external account."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

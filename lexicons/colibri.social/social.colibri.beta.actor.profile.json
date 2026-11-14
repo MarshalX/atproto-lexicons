@@ -1,0 +1,110 @@
+{
+  "id": "social.colibri.beta.actor.profile",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "theme": {
+            "ref": "#theme",
+            "type": "ref",
+            "description": "Colibri-only profile theming."
+          },
+          "avatar": {
+            "type": "blob",
+            "accept": [
+              "image/jpeg",
+              "image/png",
+              "image/gif",
+              "image/webp"
+            ],
+            "description": "Avatar image."
+          },
+          "banner": {
+            "type": "blob",
+            "accept": [
+              "image/jpeg",
+              "image/png",
+              "image/gif",
+              "image/webp"
+            ],
+            "description": "Profile banner image."
+          },
+          "pronouns": {
+            "type": "string",
+            "maxLength": 640,
+            "description": "Free-form pronouns text. Always read from this record. When syncBluesky is set and this field is absent, the pronouns of app.bsky.actor.profile apply.",
+            "maxGraphemes": 64
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 2560,
+            "description": "Bio.",
+            "maxGraphemes": 256
+          },
+          "displayName": {
+            "type": "string",
+            "maxLength": 640,
+            "description": "Display name.",
+            "maxGraphemes": 64
+          },
+          "syncBluesky": {
+            "type": "boolean",
+            "default": false,
+            "description": "When true, displayName, description, avatar and banner are served from app.bsky.actor.profile instead of from this record."
+          },
+          "preferredBadge": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Label value of the badge to display. Absent means the highest-priority badge."
+          }
+        }
+      },
+      "description": "A Colibri profile. A public record on the user's own repo, kept separate from app.bsky.actor.profile so Colibri never needs write access to the Bluesky record."
+    },
+    "theme": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "gradient": {
+          "ref": "#themeGradient",
+          "type": "ref",
+          "description": "Two-colour gradient."
+        },
+        "accentColor": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "Accent colour as #rrggbb."
+        },
+        "bannerColor": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "Fallback banner colour as #rrggbb, used when no banner image is set."
+        }
+      },
+      "description": "Colibri-only profile theming. Always read from this record, even when syncBluesky is set."
+    },
+    "themeGradient": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "primary": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "Primary colour as #rrggbb."
+        },
+        "secondary": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "Secondary colour as #rrggbb."
+        }
+      },
+      "description": "A two-colour gradient."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

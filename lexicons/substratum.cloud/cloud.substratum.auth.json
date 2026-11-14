@@ -1,0 +1,40 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "detail": "Create, update, and delete File Orbit drives, file metadata, sharing, Places, invites, and joining your household devices on your AT Protocol identity.",
+      "permissions": [
+        {
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "collection": [
+            "cloud.substratum.filesystem.drive",
+            "cloud.substratum.filesystem.driveEntry",
+            "cloud.substratum.passport.receipt",
+            "cloud.substratum.passport.accessRemovalAck",
+            "cloud.substratum.passport.accessRemovalRequest",
+            "cloud.substratum.place.site",
+            "cloud.substratum.place.hosting",
+            "cloud.substratum.place.retirement",
+            "cloud.substratum.place.inviteOffer",
+            "cloud.substratum.place.inviteAck",
+            "cloud.substratum.place.inviteRevoke",
+            "cloud.substratum.place.joinRequest",
+            "cloud.substratum.place.joinPackage",
+            "cloud.substratum.account.browserDiagnostics",
+            "cloud.substratum.experimental.feature"
+          ],
+          "resource": "repo",
+          "type": "permission"
+        }
+      ],
+      "title": "File Orbit library",
+      "type": "permission-set"
+    }
+  },
+  "id": "cloud.substratum.auth",
+  "lexicon": 1
+}

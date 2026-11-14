@@ -1,0 +1,34 @@
+{
+  "id": "dev.knotless.getEmails",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account asks."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "count"
+          ],
+          "properties": {
+            "count": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "How many addresses it claims."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "How many addresses the asking account's dev.knotless.emails record claims. The record keeps each only as a hash, salted with the account's DID, so no one, the appview included, can list them. Requires authentication: a service token, or the session cookie the pages' login sets."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "How many email addresses the asking account claims as its."
+}

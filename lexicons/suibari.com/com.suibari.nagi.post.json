@@ -1,0 +1,288 @@
+{
+  "id": "com.suibari.nagi.post",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "text",
+          "createdAt"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 30000,
+            "maxGraphemes": 3000
+          },
+          "embed": {
+            "refs": [
+              "#images",
+              "#video",
+              "#gallery",
+              "#quote"
+            ],
+            "type": "union"
+          },
+          "langs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "language"
+            },
+            "maxLength": 3
+          },
+          "reply": {
+            "ref": "#replyRef",
+            "type": "ref"
+          },
+          "facets": {
+            "type": "array",
+            "items": {
+              "ref": "app.bsky.richtext.facet",
+              "type": "ref"
+            }
+          },
+          "labels": {
+            "ref": "com.atproto.label.defs#selfLabels",
+            "type": "ref"
+          },
+          "channel": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref"
+          },
+          "kossori": {
+            "type": "boolean"
+          },
+          "botSilent": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "crosspost": {
+            "ref": "#crosspost",
+            "type": "ref",
+            "description": "Bluesky に同時投稿したコピー。Nagi 上で返信・引用したとき、Bluesky 側でも同じコピーへ続けるのに使う。"
+          },
+          "linkCards": {
+            "type": "array",
+            "items": {
+              "ref": "#linkCard",
+              "type": "ref"
+            },
+            "maxLength": 4
+          },
+          "silentReply": {
+            "type": "boolean",
+            "description": "true の返信は直接の返信先へ通知しない。返信以外では効果を持たない。"
+          },
+          "cwRestricted": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "image": {
+      "type": "object",
+      "required": [
+        "image",
+        "alt"
+      ],
+      "properties": {
+        "alt": {
+          "type": "string",
+          "maxLength": 10000,
+          "maxGraphemes": 1000
+        },
+        "image": {
+          "type": "blob",
+          "accept": [
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+            "image/gif"
+          ],
+          "maxSize": 2000000
+        },
+        "aspectRatio": {
+          "ref": "app.bsky.embed.defs#aspectRatio",
+          "type": "ref"
+        },
+        "contentWarning": {
+          "type": "boolean"
+        }
+      }
+    },
+    "quote": {
+      "type": "object",
+      "required": [
+        "record"
+      ],
+      "properties": {
+        "video": {
+          "ref": "#video",
+          "type": "ref",
+          "description": "images と併用できる（画像4枚＋動画1本まで）。引用付きで画像と動画を混ぜるときは #gallery ではなくここに持つ。"
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "ref": "#image",
+            "type": "ref"
+          },
+          "maxLength": 4,
+          "minLength": 1
+        },
+        "record": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref"
+        }
+      }
+    },
+    "video": {
+      "type": "object",
+      "required": [
+        "video"
+      ],
+      "properties": {
+        "alt": {
+          "type": "string",
+          "maxLength": 10000,
+          "maxGraphemes": 1000
+        },
+        "video": {
+          "type": "blob",
+          "accept": [
+            "video/mp4"
+          ],
+          "maxSize": 300000000
+        },
+        "aspectRatio": {
+          "ref": "app.bsky.embed.defs#aspectRatio",
+          "type": "ref"
+        },
+        "contentWarning": {
+          "type": "boolean"
+        }
+      },
+      "description": "video.bsky.app で変換した mp4。再生は同サービスの HLS を使う。"
+    },
+    "images": {
+      "type": "object",
+      "required": [
+        "images"
+      ],
+      "properties": {
+        "images": {
+          "type": "array",
+          "items": {
+            "ref": "#image",
+            "type": "ref"
+          },
+          "maxLength": 4,
+          "minLength": 1
+        }
+      }
+    },
+    "gallery": {
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "refs": [
+              "#image",
+              "#video"
+            ],
+            "type": "union"
+          },
+          "maxLength": 5,
+          "minLength": 1
+        }
+      },
+      "description": "画像と動画を1投稿に混ぜるための embed。app.bsky.embed.gallery と同じく型付き item の union 配列で持つ。現状は画像4枚・動画1本まで。順序はレコードに残すが、ビューは画像→動画の順で返す。画像だけ・動画だけの投稿は #images / #video を使う。"
+    },
+    "linkCard": {
+      "type": "object",
+      "required": [
+        "uri",
+        "title"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 2048
+        },
+        "thumb": {
+          "type": "blob",
+          "accept": [
+            "image/jpeg",
+            "image/png",
+            "image/webp"
+          ],
+          "maxSize": 1000000
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 3000,
+          "maxGraphemes": 300
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 10000,
+          "maxGraphemes": 1000
+        }
+      }
+    },
+    "replyRef": {
+      "type": "object",
+      "required": [
+        "root",
+        "parent"
+      ],
+      "properties": {
+        "root": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref"
+        },
+        "parent": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref"
+        }
+      }
+    },
+    "crosspost": {
+      "type": "object",
+      "required": [
+        "root",
+        "tail"
+      ],
+      "properties": {
+        "root": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref",
+          "description": "コピーの先頭の app.bsky.feed.post。"
+        },
+        "tail": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref",
+          "description": "長い投稿を分割したときの末尾。分割していなければ root と同じ。"
+        },
+        "threadRoot": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref",
+          "description": "このコピー自体が返信のとき、Bluesky 上のスレッドの先頭。"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

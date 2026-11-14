@@ -1,0 +1,61 @@
+{
+  "id": "site.mochott.comic.list",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "title",
+          "createdAt"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 1000,
+            "description": "Chapters or strips (work.sequential.* AT URIs) in reading order."
+          },
+          "title": {
+            "type": "array",
+            "items": {
+              "ref": "site.mochott.comic.defs#localizedTitle",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "minLength": 1,
+            "description": "List title, one entry per language."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the list was created."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the list was last updated."
+          },
+          "description": {
+            "type": "array",
+            "items": {
+              "ref": "site.mochott.comic.defs#localizedDescription",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "description": "List description, one entry per language."
+          }
+        }
+      },
+      "description": "A reading list of comics."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 1,
+  "description": "A reading list of comic chapters and strips from any creator. Written together with work.sequential.graph.list under the same record key."
+}

@@ -1,0 +1,139 @@
+{
+  "id": "ai.syui.egg",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "character",
+          "stage",
+          "issuedAt",
+          "createdAt"
+        ],
+        "properties": {
+          "sig": {
+            "type": "string",
+            "description": "Issuer signature over did|character.id|issuedAt. Empty in v0 (client-only)"
+          },
+          "care": {
+            "type": "object",
+            "required": [
+              "feedCount",
+              "petCount"
+            ],
+            "properties": {
+              "petCount": {
+                "type": "integer",
+                "description": "Total pets"
+              },
+              "feedCount": {
+                "type": "integer",
+                "description": "Total feeds (gates evolution)"
+              },
+              "lastFedAt": {
+                "type": "string",
+                "format": "datetime"
+              },
+              "lastPetAt": {
+                "type": "string",
+                "format": "datetime"
+              }
+            },
+            "description": "Raising state"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "n"
+              ],
+              "properties": {
+                "n": {
+                  "type": "integer",
+                  "description": "Count"
+                },
+                "id": {
+                  "type": "integer",
+                  "description": "Item type ID"
+                }
+              }
+            },
+            "description": "Collected items the creature picked up (ids defined by the client config)"
+          },
+          "stage": {
+            "type": "integer",
+            "description": "0=egg, 1=baby, 2=adult, -1=discarded (grave)"
+          },
+          "issuer": {
+            "type": "string",
+            "format": "did",
+            "description": "Issuer DID"
+          },
+          "issuedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the egg was issued"
+          },
+          "character": {
+            "type": "object",
+            "required": [
+              "id",
+              "cid",
+              "rare",
+              "unique",
+              "cp"
+            ],
+            "properties": {
+              "cp": {
+                "type": "integer",
+                "description": "Character power. Grows randomly while raising"
+              },
+              "id": {
+                "type": "integer",
+                "description": "Character type ID (ai.syui.rse.admin character[].id)"
+              },
+              "cid": {
+                "type": "string",
+                "description": "Character name (species), e.g. kitsune"
+              },
+              "rare": {
+                "type": "integer",
+                "description": "Rarity level"
+              },
+              "unique": {
+                "type": "boolean",
+                "description": "Issuer-granted unique character (shows the special egg)"
+              }
+            },
+            "description": "Same entry shape as ai.syui.rse.user character[]"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "evolvedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Set when evolved"
+          },
+          "hatchedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Set when hatched (issuedAt + hatchHours)"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "aiegg — one egg per account, hatched and raised on the SNS. 1-account 1-egg, random species, 1-count (discarding leaves a permanent grave). Stage is derived from timestamps client-side; the stored value is a cache."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

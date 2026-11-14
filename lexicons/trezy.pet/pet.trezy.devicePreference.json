@@ -1,0 +1,49 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "key": "any",
+      "record": {
+        "description": "One device that has been given its own text style, keyed by a device id. ⚠ A ROW EXISTS ONLY FOR A DEVICE THE PLAYER HAS DELIBERATELY OVERRIDDEN. Writing one for every device somebody signs in on would build a presence log — how many devices they own and when each was last awake — for no benefit, since a device with no override needs nothing remembered about it. Few rows, each one something the player chose, is also what makes the device list short enough to be worth reading.",
+        "properties": {
+          "fingerprint": {
+            "description": "A hash of a few coarse, stable device traits, used ONLY to re-find this row after the browser's local storage has been cleared — see src/lib/device.ts. ⚠ IT IS BEST-EFFORT AND MUST NEVER BE TREATED AS AN IDENTITY. It is matched only when exactly one row matches, because two identical phones on one account produce the same hash and silently merging them would change the typeface on a device the player never touched.",
+            "maxLength": 64,
+            "type": "string"
+          },
+          "label": {
+            "description": "A coarse, human-readable name for the device list — \"Chrome on macOS\", never a full user-agent string. Somebody cleaning up stale entries has to be able to tell which row is their old phone; unlabelled rows make the delete button unanswerable. Coarse on purpose: browser family and platform family only, which is enough to recognise and too little to single anybody out.",
+            "maxLength": 60,
+            "type": "string"
+          },
+          "lastSeenAt": {
+            "description": "When this device last opened the game, so a stale row can be recognised and deleted. This is the one genuinely time-revealing field in the game, which is why it exists only for overridden devices and only inside the space.",
+            "format": "datetime",
+            "type": "string"
+          },
+          "typeMode": {
+            "description": "Required here, unlike on the account row: a device row IS the override, so one without a mode says nothing and should have been deleted instead.",
+            "knownValues": [
+              "pixel",
+              "softer",
+              "system"
+            ],
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "datetime",
+            "type": "string"
+          }
+        },
+        "required": [
+          "typeMode",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "pet.trezy.devicePreference",
+  "lexicon": 1
+}

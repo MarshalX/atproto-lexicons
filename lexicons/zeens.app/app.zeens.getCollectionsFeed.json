@@ -1,0 +1,33 @@
+{
+  "id": "app.zeens.getCollectionsFeed",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "q": {
+            "type": "string",
+            "description": "Search term matched against collection name (preferred) then description."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 36,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Browse all public collections across users, ordered by most recent item activity (newest item indexed_at). Only collections with at least 3 items are returned (MIN_ITEMS in getCollectionsFeed.lua). Optional `q` filters by name (preferred) then description text.",
+      "target_collection": "app.zeens.collection"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

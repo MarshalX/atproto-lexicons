@@ -1,0 +1,40 @@
+{
+  "id": "town.delve.unspecced.getSuggestedStarterPacks",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "starterPacks"
+          ],
+          "properties": {
+            "starterPacks": {
+              "type": "array",
+              "items": {
+                "ref": "town.delve.graph.defs#starterPackView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 10,
+            "maximum": 25,
+            "minimum": 1
+          }
+        }
+      },
+      "description": "Get a list of suggested starterpacks"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

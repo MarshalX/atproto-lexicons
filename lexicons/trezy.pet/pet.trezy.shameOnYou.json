@@ -1,0 +1,88 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "error": {
+      "description": "One refused record.",
+      "properties": {
+        "cause": {
+          "description": "What was wrong, as a sentence rather than a code. ⚠ COMPOSED SERVER-SIDE. The ingest guards store a machine reason — `invalid-signature`, `replay` — and turning that into English in a client would put the accusation's wording in the hands of the accused.",
+          "maxLength": 320,
+          "type": "string"
+        },
+        "noticedAt": {
+          "description": "When this particular record was refused.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "reason": {
+          "description": "The machine code behind `cause`, kept so a reader can group or count without parsing English. NOT an enum: a guard that learns a new refusal should not need every reader redeployed before it can say so.",
+          "knownValues": [
+            "invalid-signature",
+            "missing-signature",
+            "tampered",
+            "replay",
+            "duplicate",
+            "malformed",
+            "not-the-publisher",
+            "procedure-only",
+            "unchecked"
+          ],
+          "maxLength": 64,
+          "type": "string"
+        },
+        "uri": {
+          "description": "The record that was refused. It is a real address in the offender's repo, so the claim can be checked rather than taken on trust — and it stays checkable after they delete it, because the URI is the evidence of what was attempted.",
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "cause",
+        "uri"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "A note that somebody was caught forging records. Written in TWO places for two different reasons: one copy in the game's own repo, keyed by the offender's DID, which they cannot delete and which is the durable account; and one copy in the offender's repo, which they can delete the moment they notice — and noticing is the point of that one. Neither is a punishment. Nothing in the game reads these records or behaves differently because one exists; the forged records were already refused at ingest, so the ledger was never wrong. This is the game saying it saw.",
+      "key": "any",
+      "record": {
+        "properties": {
+          "errors": {
+            "description": "Every refused record, one entry each. An array rather than one record per forgery so a repeat offender accumulates a growing list at a stable address instead of littering a collection — and so the whole history is legible in one read.",
+            "items": {
+              "ref": "#error",
+              "type": "ref"
+            },
+            "minLength": 1,
+            "type": "array"
+          },
+          "message": {
+            "description": "The sentence a person reads. Written by the server so both copies say the same thing, and so it cannot be softened by a client.",
+            "maxLength": 640,
+            "type": "string"
+          },
+          "noticedAt": {
+            "description": "When this note was last written. NOT when the forgery happened — each entry carries its own time — because the note is rewritten in place as more turn up.",
+            "format": "datetime",
+            "type": "string"
+          },
+          "subject": {
+            "description": "Whose forgeries these are. Carried in the body as well as being the rkey on the game's copy, because the copy in the offender's own repo has no rkey to read it from — and a record that names its subject can be quoted without its address.",
+            "format": "did",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subject",
+          "message",
+          "errors",
+          "noticedAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "pet.trezy.shameOnYou",
+  "lexicon": 1
+}

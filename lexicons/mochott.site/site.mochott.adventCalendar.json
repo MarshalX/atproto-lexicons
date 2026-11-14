@@ -1,0 +1,94 @@
+{
+  "id": "site.mochott.adventCalendar",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "title",
+          "slug",
+          "startDate",
+          "dayCount",
+          "createdAt"
+        ],
+        "properties": {
+          "slug": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "URL slug of the calendar, unique per owner. Lowercase letters, numbers, hyphens, and underscores."
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 1000,
+            "description": "Display title of the calendar.",
+            "maxGraphemes": 100
+          },
+          "dayCount": {
+            "type": "integer",
+            "maximum": 31,
+            "minimum": 1,
+            "description": "Number of days. Day N falls on startDate + (N - 1) days."
+          },
+          "timeZone": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "IANA time zone that day boundaries follow. Defaults to Asia/Tokyo."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp when the calendar was created."
+          },
+          "startDate": {
+            "type": "string",
+            "maxLength": 10,
+            "description": "Calendar date of day 1 in the calendar's time zone, formatted YYYY-MM-DD."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp when the calendar was last updated."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 10000,
+            "description": "Optional description of the calendar.",
+            "maxGraphemes": 1000
+          },
+          "slotsPerDay": {
+            "type": "integer",
+            "maximum": 5,
+            "minimum": 1,
+            "description": "How many participants can take the same day. Defaults to 1."
+          },
+          "allowExternal": {
+            "type": "boolean",
+            "description": "Whether entries may point to posts outside site.mochott.article (site.standard.document records or plain URLs)."
+          },
+          "excludedEntries": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 500,
+            "description": "site.mochott.adventEntry record URIs the owner removed from the calendar. The entries stay in their authors' repos but are not shown and do not hold a day."
+          },
+          "maxDaysPerPerson": {
+            "type": "integer",
+            "maximum": 31,
+            "minimum": 1,
+            "description": "How many days one participant other than the owner can take. Absent means no limit."
+          }
+        }
+      },
+      "description": "Record describing an advent calendar owned by the account. Participants claim days with site.mochott.adventEntry records in their own repos."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 2,
+  "description": "An advent calendar: a run of consecutive days on which participants each publish one post."
+}

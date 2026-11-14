@@ -1,0 +1,33 @@
+{
+  "id": "site.mochott.graph.subscription",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "profile",
+          "createdAt"
+        ],
+        "properties": {
+          "profile": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT URI of the publication profile record being subscribed to."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp when the subscription was created."
+          }
+        }
+      },
+      "description": "Record indicating that the account author is subscribed to a publication. Deleting this record unsubscribes."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 1,
+  "description": "A subscription record in the social graph. Represents a user following a publication."
+}

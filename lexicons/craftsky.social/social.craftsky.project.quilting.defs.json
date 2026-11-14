@@ -1,0 +1,168 @@
+{
+  "id": "social.craftsky.project.quilting.defs",
+  "defs": {
+    "bag": {
+      "type": "token",
+      "description": "A quilted bag."
+    },
+    "rug": {
+      "type": "token",
+      "description": "A quilted rug or mat."
+    },
+    "tied": {
+      "type": "token",
+      "description": "Layers secured by tying instead of stitched quilting."
+    },
+    "tote": {
+      "type": "token",
+      "description": "A quilted tote."
+    },
+    "vest": {
+      "type": "token",
+      "description": "A quilted vest."
+    },
+    "patch": {
+      "type": "token",
+      "description": "A patch or patchwork component."
+    },
+    "pouch": {
+      "type": "token",
+      "description": "A quilted pouch or case."
+    },
+    "improv": {
+      "type": "token",
+      "description": "Improvisational piecing."
+    },
+    "jacket": {
+      "type": "token",
+      "description": "A quilted jacket."
+    },
+    "pillow": {
+      "type": "token",
+      "description": "A quilted pillow or cushion."
+    },
+    "bedding": {
+      "type": "token",
+      "description": "Quilted bedding."
+    },
+    "binding": {
+      "type": "token",
+      "description": "Quilt binding."
+    },
+    "coaster": {
+      "type": "token",
+      "description": "A quilted coaster."
+    },
+    "curtain": {
+      "type": "token",
+      "description": "A quilted curtain or window covering."
+    },
+    "longarm": {
+      "type": "token",
+      "description": "Quilted on a longarm machine."
+    },
+    "playMat": {
+      "type": "token",
+      "description": "A quilted play mat."
+    },
+    "softToy": {
+      "type": "token",
+      "description": "A quilted or patchwork soft toy."
+    },
+    "applique": {
+      "type": "token",
+      "description": "Applique work."
+    },
+    "artQuilt": {
+      "type": "token",
+      "description": "An art quilt."
+    },
+    "bedQuilt": {
+      "type": "token",
+      "description": "A quilt sized for a bed."
+    },
+    "placemat": {
+      "type": "token",
+      "description": "A quilted placemat."
+    },
+    "quiltTop": {
+      "type": "token",
+      "description": "A completed or in-progress quilt top."
+    },
+    "babyQuilt": {
+      "type": "token",
+      "description": "A quilt sized for a baby or child."
+    },
+    "miniQuilt": {
+      "type": "token",
+      "description": "A miniature quilt."
+    },
+    "potholder": {
+      "type": "token",
+      "description": "A quilted potholder or hot pad."
+    },
+    "petBedding": {
+      "type": "token",
+      "description": "Quilted pet bedding."
+    },
+    "quiltBlock": {
+      "type": "token",
+      "description": "A quilt block."
+    },
+    "throwQuilt": {
+      "type": "token",
+      "description": "A throw-sized quilt."
+    },
+    "handQuilted": {
+      "type": "token",
+      "description": "Quilted by hand."
+    },
+    "memoryQuilt": {
+      "type": "token",
+      "description": "A memory or keepsake quilt."
+    },
+    "sampleBlock": {
+      "type": "token",
+      "description": "A sample or test block."
+    },
+    "tableRunner": {
+      "type": "token",
+      "description": "A quilted table runner."
+    },
+    "traditional": {
+      "type": "token",
+      "description": "Traditional piecing."
+    },
+    "wallHanging": {
+      "type": "token",
+      "description": "A quilt intended for display on a wall."
+    },
+    "samplerQuilt": {
+      "type": "token",
+      "description": "A sampler quilt."
+    },
+    "machineQuilted": {
+      "type": "token",
+      "description": "Quilted on a domestic or sit-down sewing machine."
+    },
+    "medallionQuilt": {
+      "type": "token",
+      "description": "A medallion quilt."
+    },
+    "wholeclothQuilt": {
+      "type": "token",
+      "description": "A wholecloth quilt."
+    },
+    "englishPaperPiecing": {
+      "type": "token",
+      "description": "English paper piecing."
+    },
+    "foundationPaperPiecing": {
+      "type": "token",
+      "description": "Foundation paper piecing."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Subtype, piecing technique, and quilting method tokens for quilting projects."
+}

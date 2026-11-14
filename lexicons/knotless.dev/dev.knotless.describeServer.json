@@ -1,0 +1,74 @@
+{
+  "id": "dev.knotless.describeServer",
+  "defs": {
+    "ios": {
+      "type": "object",
+      "required": [
+        "minimumBuild"
+      ],
+      "properties": {
+        "reason": {
+          "type": "string",
+          "description": "Why it asks for it, said to whoever runs an older one."
+        },
+        "minimumBuild": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "A build number, the app's CFBundleVersion."
+        }
+      },
+      "description": "The oldest build of the iOS app the appview lets run, raised once a newer build is in people's reach. A build older shows only a way to update, and keeps doing so offline."
+    },
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "ios": {
+              "ref": "#ios",
+              "type": "ref",
+              "description": "The oldest build of the iOS app this appview lets run. Absent, it lets any run."
+            },
+            "client": {
+              "ref": "#client",
+              "type": "ref",
+              "description": "The oldest client version this appview asks for. Absent, it asks for none."
+            },
+            "runners": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.repo#runner",
+                "type": "ref"
+              },
+              "maxLength": 32,
+              "description": "The accounts a new public repository's record names in `runners` unless its owner names others: a runner this appview's operator keeps for whoever names it. Absent or empty, it names none."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "What this appview offers the clients that use it: the runners a new public repository names unless its owner names others, the oldest client version it asks for, and the oldest iOS build it lets run. No authentication; responses are not personalized."
+    },
+    "client": {
+      "type": "object",
+      "required": [
+        "minimum"
+      ],
+      "properties": {
+        "reason": {
+          "type": "string",
+          "description": "Why it asks for it, said to whoever runs an older one."
+        },
+        "minimum": {
+          "type": "string",
+          "description": "A version, as Semantic Versioning 2.0 writes one."
+        }
+      },
+      "description": "The oldest version of knotless's client the appview asks clients to be, set when an older one harms what it touches. A client older than it refuses to run, but to upgrade, until it is upgraded. The newest release is at the appview's /releases/latest."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "What an appview offers the clients that use it."
+}

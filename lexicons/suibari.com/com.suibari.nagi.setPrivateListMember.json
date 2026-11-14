@@ -1,0 +1,48 @@
+{
+  "id": "com.suibari.nagi.setPrivateListMember",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "memberDid",
+            "included"
+          ],
+          "properties": {
+            "included": {
+              "type": "boolean"
+            },
+            "memberDid": {
+              "type": "string",
+              "format": "did"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "memberDid",
+            "included"
+          ],
+          "properties": {
+            "included": {
+              "type": "boolean"
+            },
+            "memberDid": {
+              "type": "string",
+              "format": "did"
+            }
+          }
+        },
+        "encoding": "application/json"
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,60 @@
+{
+  "id": "social.colibri.beta.notification.getUnseen",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request has no valid service auth."
+        },
+        {
+          "name": "ChannelNotFound",
+          "description": "No channel matches the given space reference."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "notifications"
+          ],
+          "properties": {
+            "notifications": {
+              "type": "array",
+              "items": {
+                "ref": "social.colibri.beta.notification.defs#notificationView",
+                "type": "ref"
+              },
+              "description": "Unseen notifications raised in the given channel."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "channel"
+        ],
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "description": "Maximum number of notifications to return."
+          },
+          "channel": {
+            "type": "string",
+            "format": "space-ref",
+            "description": "The channel to get unseen notifications for."
+          }
+        }
+      },
+      "description": "Gets the requesting user's unseen notifications for one channel, used to render that channel's unread badge detail."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

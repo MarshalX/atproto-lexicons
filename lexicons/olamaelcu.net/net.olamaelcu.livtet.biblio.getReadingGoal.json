@@ -1,0 +1,45 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "errors": [
+        {
+          "description": "Could not reach the user's PDS.",
+          "name": "UpstreamUnavailable"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "goal": {
+              "ref": "net.olamaelcu.livtet.biblio.readingGoal#main",
+              "type": "ref"
+            }
+          },
+          "required": [
+            "goal"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "did": {
+            "description": "DID of the user whose reading goal to fetch.",
+            "format": "did",
+            "type": "string"
+          }
+        },
+        "required": [
+          "did"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "Fetch a user's reading goal record (net.olamaelcu.livtet.biblio.readingGoal at rkey 'current') from the user's PDS.",
+  "id": "net.olamaelcu.livtet.biblio.getReadingGoal",
+  "lexicon": 1
+}

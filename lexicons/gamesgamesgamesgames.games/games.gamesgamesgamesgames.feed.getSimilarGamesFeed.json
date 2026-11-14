@@ -1,0 +1,47 @@
+{
+  "id": "games.gamesgamesgamesgames.feed.getSimilarGamesFeed",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "feed"
+          ],
+          "properties": {
+            "feed": {
+              "type": "array",
+              "items": {
+                "ref": "games.gamesgamesgamesgames.defs#gameFeedViewItem",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "uri"
+        ],
+        "properties": {
+          "uri": {
+            "type": "string",
+            "format": "at-uri"
+          },
+          "limit": {
+            "type": "integer",
+            "default": 5,
+            "maximum": 10,
+            "minimum": 1
+          }
+        }
+      },
+      "description": "Get games similar to a given game using vector similarity."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,44 @@
+{
+  "id": "app.zeens.collectionRejection",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "collection",
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The photo that did not qualify."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "collection": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the community collection."
+          },
+          "submission": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The photographer's submission (their own collectionItem), when there was one."
+          },
+          "app.zeens.v": {
+            "type": "integer"
+          }
+        }
+      },
+      "description": "Written by a community collection's owner when a submitted photo does not qualify for it: either declined in review or removed after approval. Carries no reason; the collection's own rules are the reason. Resets the photographer's auto-approve standing."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

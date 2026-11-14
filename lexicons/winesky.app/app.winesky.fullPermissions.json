@@ -1,0 +1,36 @@
+{
+  "id": "app.winesky.fullPermissions",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "permission-set",
+      "title": "Winesky",
+      "detail": "Post and manage your wine reviews and photos, build named lists, and save wines to your collections.",
+      "permissions": [
+        {
+          "type": "permission",
+          "resource": "repo",
+          "collection": [
+            "app.winesky.review",
+            "app.winesky.imageSet",
+            "app.winesky.imageVariant",
+            "app.winesky.list",
+            "app.winesky.listItem",
+            "app.winesky.collection",
+            "app.winesky.collectionItem"
+          ]
+        },
+        {
+          "aud": "*",
+          "lxm": [
+            "app.winesky.auth.completeOAuthLogin"
+          ],
+          "type": "permission",
+          "resource": "rpc"
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

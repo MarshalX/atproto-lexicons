@@ -1,0 +1,227 @@
+{
+  "id": "app.zeens.collection",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "visibility",
+          "createdAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "Display name for the collection."
+          },
+          "rules": {
+            "type": "string",
+            "maxLength": 3000,
+            "description": "Community collections only: the theme and rules a photo has to meet. Shown on the collection page; a declined submission means the photo did not meet them."
+          },
+          "theme": {
+            "type": "string",
+            "description": "Background palette for the story layout. Default 'light'.",
+            "knownValues": [
+              "light",
+              "dark"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "Long-form display title shown in the story layout. Falls back to `name` when unset."
+          },
+          "gridGap": {
+            "type": "integer",
+            "maximum": 16,
+            "minimum": 0,
+            "description": "Gap in pixels between photos when gridLayout='grid'. Allowed: 0, 4, 8, or 16. Default 8."
+          },
+          "showExif": {
+            "type": "boolean",
+            "description": "Show each photo's camera settings (or its film stock) beneath it in the single-column story layout. Defaults to TRUE when absent: attribution is opt-out, so a record written before this field existed keeps its full caption. Only ever written as false."
+          },
+          "subtitle": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "Short tagline shown under the title in the story layout."
+          },
+          "animation": {
+            "type": "string",
+            "description": "Story-layout scroll animation. 'alternate' fades photos in from alternating sides as they enter the viewport. Respects prefers-reduced-motion. Default 'none'.",
+            "knownValues": [
+              "none",
+              "alternate"
+            ]
+          },
+          "community": {
+            "type": "boolean",
+            "description": "A community collection: owned by the Zeens account, open to submissions. Only honoured on collections in the configured community account's repo; anyone else setting it changes nothing."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "coverImage": {
+            "type": "blob",
+            "accept": [
+              "image/jpeg",
+              "image/png",
+              "image/webp"
+            ],
+            "maxSize": 4000000,
+            "description": "Legacy user-uploaded cover image, resolved against the OWNER's DID. Superseded by `coverPhoto`; still honoured for records written before it existed. Readers should prefer `coverPhoto` when both are set."
+          },
+          "coverPhoto": {
+            "ref": "#coverPhoto",
+            "type": "ref",
+            "description": "Optional pointer to one photo already in this collection, chosen by the owner as its cover. When unset, readers fall back to the most recently added photo."
+          },
+          "gridLayout": {
+            "type": "string",
+            "description": "How photos stack in the portfolio view. Both options preserve natural aspect ratio (no cropping). 'single' = one column at full width. 'grid' = masonry grid; column count + gap are controlled by `gridColumns` and `gridGap`. Default 'single'.",
+            "knownValues": [
+              "single",
+              "grid"
+            ]
+          },
+          "showCredit": {
+            "type": "boolean",
+            "description": "Show each photo's photographer credit. Defaults to TRUE when absent. Only ever written as false."
+          },
+          "visibility": {
+            "type": "string",
+            "description": "public = visible to anyone via the AppView. private = only the owner can fetch it via getCollection. Records remain readable from the user's PDS by anyone who knows the URI; treat 'private' as obscurity-level, not cryptographic.",
+            "knownValues": [
+              "public",
+              "private"
+            ]
+          },
+          "app.zeens.v": {
+            "type": "integer",
+            "description": "Zeens marker so the firehose / lua filters can identify our records."
+          },
+          "autoApprove": {
+            "type": "boolean",
+            "description": "Community collections only: approve every submission at once, whatever the photographer's standing."
+          },
+          "coverPhotos": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "uri",
+                "cid",
+                "did"
+              ],
+              "properties": {
+                "cid": {
+                  "type": "string",
+                  "description": "Image blob CID."
+                },
+                "did": {
+                  "type": "string",
+                  "format": "did"
+                },
+                "uri": {
+                  "type": "string",
+                  "format": "at-uri"
+                }
+              }
+            },
+            "maxLength": 4,
+            "description": "Community collections only: up to four photos from the collection shown together as its cover, in order. Each carries the photo's image blob cid and author DID so it resolves on the CDN, like coverPhoto."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 2000,
+            "description": "Optional long-form description shown in the story layout's left rail and used as the collection's meta description for share previews."
+          },
+          "gridColumns": {
+            "type": "integer",
+            "maximum": 3,
+            "minimum": 2,
+            "description": "Number of columns when gridLayout='grid'. Allowed: 2 or 3. Default 2."
+          },
+          "publication": {
+            "ref": "#publication",
+            "type": "ref",
+            "description": "Set once this collection has been published to the ATmosphere as a site.standard.document. Absent means never published. Cleared (and the document deleted) if the collection is later made private."
+          },
+          "showLicense": {
+            "type": "boolean",
+            "description": "Show each photo's licence label. Defaults to TRUE when absent. Only ever written as false."
+          }
+        }
+      },
+      "description": "A user-curated collection (folder) of Zeens posts and articles. Visibility controls whether anyone other than the owner can see it via the AppView. The cover is the owner's chosen `coverPhoto` when set, otherwise the most recently added item, resolved at render time."
+    },
+    "coverPhoto": {
+      "type": "object",
+      "required": [
+        "cid",
+        "did"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "description": "CID of the image blob itself, NOT of the post record."
+        },
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "DID of the photo's author, which owns the blob. May differ from the collection owner."
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the subject post the cover was picked from. Used to match the pointer against the collection's items (e.g. to clear it when that photo is removed)."
+        }
+      },
+      "description": "Pointer to one photo in the collection, used as its cover. Stores the image blob CID together with the photo's AUTHOR DID (not the collection owner's) so a cover picked from another user's photo still resolves on the CDN. Readers must ignore the pointer unless both `cid` and `did` are present."
+    },
+    "publication": {
+      "type": "object",
+      "required": [
+        "document"
+      ],
+      "properties": {
+        "site": {
+          "type": "string",
+          "description": "The document's `site`: a publication AT-URI. Collections publish INTO the owner's site.standard.publication (auto-created on first publish) because only an at:// ref renders the rich standard.site card on Bluesky. Older records may carry a plain https URL from when collections published as loose documents."
+        },
+        "document": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the site.standard.document on the owner's repo. Re-publishing reuses this record's rkey so the document is updated in place rather than duplicated."
+        },
+        "bskyPostRef": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref",
+          "description": "The Bluesky post announcing this collection, when the owner chose to announce. Kept so the announcement can be found later; it does NOT suppress re-announcing, since ticking the box is an explicit request each time."
+        },
+        "documentCid": {
+          "type": "string",
+          "format": "cid",
+          "description": "CID of the document, for the strongRef the Bluesky announcement carries."
+        },
+        "publishedAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "canonicalUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "The public address on the owner's portfolio, e.g. https://alice.zeens.app/<rkey>. The document's `site` + `path` resolve to this, and it is the host that serves the /.well-known/site.standard.publication proof. Stored so the collection page canonicalises to what the record actually says."
+        }
+      },
+      "description": "Pointer to the site.standard.document this collection publishes as, and the Bluesky post announcing it."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

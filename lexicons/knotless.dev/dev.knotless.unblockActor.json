@@ -1,0 +1,40 @@
+{
+  "id": "dev.knotless.unblockActor",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "ref": "dev.knotless.blockActor#block",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "InvalidRequest",
+          "description": "The account is the one asking, or the repository is not its own."
+        },
+        {
+          "name": "NotFound",
+          "description": "No such account."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        }
+      ],
+      "output": {
+        "schema": {
+          "ref": "dev.knotless.blockActor#blockState",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "Deletes the dev.knotless.block records of the account logged in to this appview's web pages naming the account, from all its repositories or from the one repository named, as `knotless unblock` does. Requires the session cookie the pages' login sets: the appview writes with the session it keeps for that account."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Unblocks an account as the account logged in to this appview's pages."
+}

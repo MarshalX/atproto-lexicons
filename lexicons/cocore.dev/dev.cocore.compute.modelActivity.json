@@ -1,0 +1,84 @@
+{
+  "id": "dev.cocore.compute.modelActivity",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "generatedAt",
+            "models"
+          ],
+          "properties": {
+            "models": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "modelId",
+                  "totals",
+                  "byProvider"
+                ],
+                "properties": {
+                  "totals": {
+                    "ref": "dev.cocore.defs#activityWindows",
+                    "type": "ref"
+                  },
+                  "modelId": {
+                    "type": "string"
+                  },
+                  "byProvider": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "did",
+                        "stats"
+                      ],
+                      "properties": {
+                        "did": {
+                          "type": "string",
+                          "format": "did"
+                        },
+                        "stats": {
+                          "ref": "dev.cocore.defs#activityWindows",
+                          "type": "ref"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "scanned": {
+              "type": "integer",
+              "description": "Number of indexed receipts this scan walked."
+            },
+            "scanLimit": {
+              "type": "integer",
+              "description": "Cap the scan applied (receipts are walked newest-first)."
+            },
+            "truncated": {
+              "type": "boolean",
+              "description": "True when the scan filled its cap, so older receipts exist that these totals do not include. The wider windows (week/month) are then lower bounds."
+            },
+            "generatedAt": {
+              "type": "string",
+              "format": "datetime"
+            },
+            "oldestScannedAt": {
+              "type": "string",
+              "format": "datetime",
+              "description": "Earliest receipt timestamp that contributed to any window, so a consumer can state the coverage of the counts. Absent when nothing counted."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Aggregate receipt activity per model and per time window. Walks the most-recent indexed receipts (capped at 5000), groups by `body.model`, and tallies requests + tokens across the hour/day/week/month windows, with per-provider breakdowns. The scan cap is reported back as `scanned`/`scanLimit`/`truncated` so consumers can tell an exact total from a lower bound; `oldestScannedAt` is the earliest receipt that contributed to any window."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

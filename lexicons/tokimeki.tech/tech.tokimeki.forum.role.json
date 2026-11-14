@@ -1,0 +1,41 @@
+{
+  "id": "tech.tokimeki.forum.role",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "role",
+          "createdAt"
+        ],
+        "properties": {
+          "role": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "owner = governs the community; admin = manages structure and roles below admin; mod = moderates content and membership.",
+            "knownValues": [
+              "owner",
+              "admin",
+              "mod"
+            ]
+          },
+          "subject": {
+            "type": "string",
+            "format": "did",
+            "description": "The member holding the role."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "A moderator role the community grants to a member. Written by the community account (the space authority) into its OWN repo within the server's public space, so any reader of the space can verify who may moderate (e.g. whose tech.tokimeki.forum.hide records to honour). rkey is derived from the subject DID ('m' + base32lower(sha256(did))[0:26]) so one record exists per member; delete it to revoke. Plain membership is not a record."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

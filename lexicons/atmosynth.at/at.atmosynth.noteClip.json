@@ -1,0 +1,73 @@
+{
+  "id": "at.atmosynth.noteClip",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "clip",
+          "createdAt"
+        ],
+        "properties": {
+          "clip": {
+            "ref": "at.atmosynth.defs#noteClip",
+            "type": "ref",
+            "description": "The clip, placed nowhere: it has no `at`."
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "description": "What its creator calls it."
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 128
+            },
+            "maxLength": 32,
+            "description": "Freely created tags, lower-cased on write."
+          },
+          "tempo": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "The tempo it was written at, in beats per minute from 20 to 999, as decimal text, so it can be heard as its creator heard it before it is placed in an arrangement, whose tempo it then follows. Optional: absent is 120."
+          },
+          "license": {
+            "ref": "at.atmosynth.defs#license",
+            "type": "ref"
+          },
+          "lineage": {
+            "type": "array",
+            "items": {
+              "ref": "at.atmosynth.defs#lineage",
+              "type": "ref"
+            },
+            "maxLength": 64
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "instrument": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The patch it was written for and is suggested to be played by. Optional: absent suggests nothing, and whatever instrument it is placed under plays it."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000
+          }
+        }
+      },
+      "description": "A note clip, held in its creator's own repository."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Notes published on their own — a chord progression, a bassline, a drum groove — to be taken into anybody's arrangement and played by whatever instrument it is placed under."
+}

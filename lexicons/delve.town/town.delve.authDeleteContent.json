@@ -1,0 +1,30 @@
+{
+  "id": "town.delve.authDeleteContent",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Delete content",
+      "detail": "Clean up public account history: posts, reposts, and likes.",
+      "title:lang": {},
+      "detail:lang": {},
+      "permissions": [
+        {
+          "type": "permission",
+          "action": [
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "town.delve.feed.like",
+            "town.delve.feed.post",
+            "town.delve.feed.postgate",
+            "town.delve.feed.repost",
+            "town.delve.feed.threadgate"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

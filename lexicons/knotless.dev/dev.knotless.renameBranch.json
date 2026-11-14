@@ -1,0 +1,73 @@
+{
+  "id": "dev.knotless.renameBranch",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "repo",
+            "name",
+            "to"
+          ],
+          "properties": {
+            "to": {
+              "type": "string",
+              "maxLength": 255,
+              "description": "Its new name."
+            },
+            "name": {
+              "type": "string",
+              "maxLength": 255,
+              "description": "The branch, without refs/heads/."
+            },
+            "repo": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository."
+        },
+        {
+          "name": "InvalidRequest",
+          "description": "There is no such branch, it is the default branch, the new name is taken, or the gateway refused it."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "sha": {
+              "type": "string",
+              "description": "The commit it points at, in hex, once made."
+            },
+            "name": {
+              "type": "string",
+              "description": "The branch, without refs/heads/."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Makes the new branch where the old one is, points the open pulls into the old one at the new, then deletes the old, as `knotless branch rename` does; never the default branch. As the account logged in to this appview's web pages: directly for the owner, through the repository's gateway for a collaborator, which refuses anyone else."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Renames a branch of a repository."
+}

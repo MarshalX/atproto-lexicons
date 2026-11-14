@@ -1,0 +1,325 @@
+{
+  "id": "actor.rpg.generator",
+  "defs": {
+    "eyes": {
+      "type": "object",
+      "properties": {
+        "hex": {
+          "type": "string",
+          "maxLength": 7
+        },
+        "mode": {
+          "type": "string",
+          "maxLength": 10
+        },
+        "tone": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0
+        }
+      },
+      "description": "Eye color configuration."
+    },
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "bodyType",
+          "skin",
+          "eyes",
+          "layers",
+          "createdAt"
+        ],
+        "properties": {
+          "eyes": {
+            "ref": "#eyes",
+            "type": "ref"
+          },
+          "skin": {
+            "ref": "#skin",
+            "type": "ref"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 50
+            },
+            "maxLength": 20
+          },
+          "layers": {
+            "type": "array",
+            "items": {
+              "ref": "#layer",
+              "type": "ref"
+            },
+            "maxLength": 32,
+            "description": "Ordered recolored layers, back-to-front."
+          },
+          "bodyType": {
+            "type": "string",
+            "maxLength": 20
+          },
+          "faceMode": {
+            "type": "string",
+            "description": "Whether face layers are selected intentionally. Omission is reserved for legacy records pending migration.",
+            "knownValues": [
+              "standard",
+              "faceless"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Stores the recolored layers and configuration used to rebuild a generated sprite."
+    },
+    "skin": {
+      "type": "object",
+      "properties": {
+        "hex": {
+          "type": "string",
+          "maxLength": 7
+        },
+        "mode": {
+          "type": "string",
+          "maxLength": 10
+        },
+        "tone": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0
+        }
+      },
+      "description": "Skin color configuration."
+    },
+    "layer": {
+      "type": "object",
+      "required": [
+        "id",
+        "blob"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 30
+        },
+        "blob": {
+          "type": "blob",
+          "accept": [
+            "image/png"
+          ],
+          "maxSize": 1000000
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "zSlot": {
+          "type": "integer",
+          "maximum": 30,
+          "minimum": 0,
+          "description": "Legacy all-direction draw-order slot. zSlotByDir takes precedence."
+        },
+        "colors": {
+          "ref": "#colors",
+          "type": "ref"
+        },
+        "disabled": {
+          "type": "boolean"
+        },
+        "suppress": {
+          "ref": "#suppressionRules",
+          "type": "ref"
+        },
+        "assetName": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "behindRows": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "maximum": 3,
+            "minimum": 0
+          },
+          "maxLength": 4,
+          "description": "Rows rendered behind the body. Empty explicitly means all rows render in front."
+        },
+        "layerClass": {
+          "type": "string",
+          "maxLength": 90,
+          "description": "Class assigned to this layer, such as hind.cloak."
+        },
+        "suppressAs": {
+          "ref": "#fallback",
+          "type": "ref"
+        },
+        "zSlotByDir": {
+          "type": "unknown",
+          "description": "Per-direction draw-order slots [down, left, right, up]. Entries are non-negative integers or null when the category default applies."
+        },
+        "submaskRule": {
+          "type": "string",
+          "maxLength": 24,
+          "description": "Controls which external subtractive masks may affect this layer. Omission means respect-all.",
+          "knownValues": [
+            "respect-all",
+            "ignore-all",
+            "ignore-layers-above",
+            "ignore-layers-below"
+          ]
+        },
+        "subtractMask": {
+          "type": "blob",
+          "accept": [
+            "image/png"
+          ],
+          "maxSize": 50000
+        },
+        "suppressSpecific": {
+          "type": "unknown",
+          "description": "Map from suppressor layerClass to either a structured fallback matching #fallback or a rule with default and bodyTypeAlt fallbacks. The active body-specific value takes priority over the class default, then suppressAs."
+        },
+        "submaskExclusions": {
+          "ref": "#submaskExclusions",
+          "type": "ref",
+          "description": "Target-side exceptions to submaskRule. The layers array contains exact canonical source layer IDs and the classes array contains exact source layerClass or fitClass values; matching source masks are skipped before submaskRule is evaluated. Omission or empty arrays means no source-specific exclusions."
+        }
+      },
+      "description": "A rendered generator layer and its recomposition metadata."
+    },
+    "colors": {
+      "type": "object",
+      "properties": {
+        "main": {
+          "type": "string",
+          "maxLength": 7
+        },
+        "sub1": {
+          "type": "string",
+          "maxLength": 7
+        },
+        "sub2": {
+          "type": "string",
+          "maxLength": 7
+        },
+        "sub3": {
+          "type": "string",
+          "maxLength": 7
+        }
+      },
+      "description": "Selected recolor channels."
+    },
+    "fallback": {
+      "type": "object",
+      "required": [
+        "assetName",
+        "blob"
+      ],
+      "properties": {
+        "blob": {
+          "type": "blob",
+          "accept": [
+            "image/png"
+          ],
+          "maxSize": 1000000
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "zSlot": {
+          "type": "integer",
+          "maximum": 30,
+          "minimum": 0
+        },
+        "colors": {
+          "ref": "#colors",
+          "type": "ref"
+        },
+        "assetName": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "behindRows": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "maximum": 3,
+            "minimum": 0
+          },
+          "maxLength": 4
+        },
+        "zSlotByDir": {
+          "type": "unknown"
+        },
+        "subtractMask": {
+          "type": "blob",
+          "accept": [
+            "image/png"
+          ],
+          "maxSize": 50000
+        }
+      },
+      "description": "Rendered replacement used when a layer is class-suppressed."
+    },
+    "suppressionRules": {
+      "type": "object",
+      "properties": {
+        "layers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 30
+          },
+          "maxLength": 20
+        },
+        "classes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 90
+          },
+          "maxLength": 20
+        }
+      },
+      "description": "Layer IDs and classes hidden while this layer is active."
+    },
+    "submaskExclusions": {
+      "type": "object",
+      "properties": {
+        "layers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 30
+          },
+          "maxLength": 32,
+          "description": "Exact canonical source layer IDs whose subtractive masks must be skipped."
+        },
+        "classes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 90
+          },
+          "maxLength": 64,
+          "description": "Exact source layerClass or fitClass values whose subtractive masks must be skipped."
+        }
+      },
+      "description": "Target-side exceptions for subtractive masks. List exact canonical source layer IDs in layers, or exact source layerClass or fitClass values in classes; matching source masks must not erase the target layer. Omission or empty arrays means no source-specific exclusions."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Generator metadata and decomposed layers for a sprite built with the rpg.actor sprite generator."
+}

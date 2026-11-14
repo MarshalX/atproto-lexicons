@@ -1,0 +1,76 @@
+{
+  "id": "site.mochott.comic.page",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "chapter",
+          "images"
+        ],
+        "properties": {
+          "span": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Printed pages this image covers: 2 for a spread."
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "ref": "site.mochott.comic.defs#localizedImage",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "minLength": 1,
+            "description": "Final artwork, one entry per language."
+          },
+          "panels": {
+            "type": "array",
+            "items": {
+              "ref": "site.mochott.comic.defs#panel",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "description": "Panels in reading order. Alt text for pages lives on panels."
+          },
+          "chapter": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT URI of the parent site.mochott.comic.chapter."
+          },
+          "versions": {
+            "type": "array",
+            "items": {
+              "ref": "site.mochott.comic.defs#version",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "description": "Other versions of the same artwork, such as production stages."
+          },
+          "sequential": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT URI of the canonical work.sequential record this record accompanies. Same record key. Omitted only when the work exists solely in this namespace."
+          },
+          "standalone": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, readers always show this page on its own, never beside another page in a two-page layout."
+          },
+          "aspectRatio": {
+            "ref": "site.mochott.comic.defs#aspectRatio",
+            "type": "ref",
+            "description": "Aspect ratio of the artwork."
+          }
+        }
+      },
+      "description": "A page of a comic."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 2,
+  "description": "A page of a page-format comic; a copy of the work.sequential.page of the same record key."
+}

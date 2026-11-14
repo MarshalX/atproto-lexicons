@@ -1,0 +1,108 @@
+{
+  "id": "dev.knotless.getAccountData",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "did",
+            "collections",
+            "repos",
+            "spaces"
+          ],
+          "properties": {
+            "did": {
+              "type": "string",
+              "format": "did",
+              "description": "The account."
+            },
+            "repos": {
+              "type": "array",
+              "items": {
+                "ref": "#repoData",
+                "type": "ref"
+              },
+              "description": "The account's repositories, public ones first, each by name."
+            },
+            "spaces": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "The spaces the account owns for private repositories: one for each, and one for each name a rename of one left."
+            },
+            "collections": {
+              "type": "array",
+              "items": {
+                "ref": "#collectionCount",
+                "type": "ref"
+              },
+              "description": "Each dev.knotless.* collection the account holds records in, in the order of their names."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Counts the records the asking account holds in each dev.knotless.* collection, read from its PDS rather than the index, and names its repositories, public and private, with how many other accounts push to or read each: what dev.knotless.deleteAccountData would delete, as `knotless account delete-data` lists it. A private repository's records are in its space, counted as one space. Only the account itself, logged in to this appview's web pages, can ask: the appview reads its spaces with the session it keeps for it, which the pages' session cookie names."
+    },
+    "repoData": {
+      "type": "object",
+      "required": [
+        "name",
+        "private",
+        "collaborators"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Its name, its dev.knotless.repo record's key."
+        },
+        "members": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "For a private one, the other accounts that read it, its runners left out."
+        },
+        "private": {
+          "type": "boolean",
+          "description": "Whether it is private, in a space of its own."
+        },
+        "collaborators": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The other accounts its record lets push to it."
+        }
+      },
+      "description": "One of the account's repositories, and how many other accounts it concerns."
+    },
+    "collectionCount": {
+      "type": "object",
+      "required": [
+        "collection",
+        "count"
+      ],
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "How many records it holds there."
+        },
+        "collection": {
+          "type": "string",
+          "format": "nsid",
+          "description": "The collection, as dev.knotless.issue."
+        }
+      },
+      "description": "How many records the account holds in one collection."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "What knotless data the asking account holds, before it deletes it."
+}

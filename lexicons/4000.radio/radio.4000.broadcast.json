@@ -1,0 +1,78 @@
+{
+  "id": "radio.4000.broadcast",
+  "defs": {
+    "deck": {
+      "type": "object",
+      "required": [
+        "url",
+        "positionMs",
+        "positionAt",
+        "playing"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 2048
+        },
+        "speed": {
+          "type": "integer",
+          "default": 100,
+          "maximum": 400,
+          "minimum": 25,
+          "description": "Playback rate in percent."
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 3000,
+          "maxGraphemes": 300
+        },
+        "track": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "The radio.4000.track record playing, when the media has one."
+        },
+        "playing": {
+          "type": "boolean"
+        },
+        "positionAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "positionMs": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Playback position in milliseconds at positionAt."
+        }
+      }
+    },
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "decks",
+          "updatedAt"
+        ],
+        "properties": {
+          "decks": {
+            "type": "array",
+            "items": {
+              "ref": "#deck",
+              "type": "ref"
+            },
+            "maxLength": 8
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "What a radio plays live, deck by deck. Exists only while broadcasting; updatedAt doubles as a heartbeat."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

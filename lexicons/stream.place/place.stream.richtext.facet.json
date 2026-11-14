@@ -1,0 +1,31 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Annotation of a sub-string within rich text in a livestream chat message.",
+      "properties": {
+        "features": {
+          "items": {
+            "refs": [
+              "app.bsky.richtext.facet#mention",
+              "app.bsky.richtext.facet#link"
+            ],
+            "type": "union"
+          },
+          "type": "array"
+        },
+        "index": {
+          "ref": "app.bsky.richtext.facet#byteSlice",
+          "type": "ref"
+        }
+      },
+      "required": [
+        "index",
+        "features"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "place.stream.richtext.facet",
+  "lexicon": 1
+}

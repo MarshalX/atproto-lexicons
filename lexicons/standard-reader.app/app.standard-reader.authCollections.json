@@ -1,0 +1,23 @@
+{
+  "id": "app.standard-reader.authCollections",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Standard Reader Collection Publications",
+      "detail": "Create and manage Collections within the app. A Collection is a meta publication that composes other documents along with your personal narrative.",
+      "permissions": [
+        {
+          "type": "permission",
+          "resource": "repo",
+          "collection": [
+            "app.standard-reader.collection",
+            "app.standard-reader.collectionsPublication",
+            "app.standard-reader.publicationTheme"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

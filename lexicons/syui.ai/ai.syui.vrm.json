@@ -1,0 +1,55 @@
+{
+  "id": "ai.syui.vrm",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "item",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "item": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "cp",
+                "cid"
+              ],
+              "properties": {
+                "cp": {
+                  "type": "integer",
+                  "description": "Score at acquisition"
+                },
+                "id": {
+                  "type": "integer",
+                  "description": "Crown type: 1=gold, 2=silver, 3=bronze"
+                },
+                "cid": {
+                  "type": "string",
+                  "description": "Unique instance ID"
+                }
+              }
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "VRM game score collection"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,117 @@
+{
+  "id": "org.hypercerts.vocab.tag",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "key",
+          "name",
+          "category",
+          "status",
+          "createdAt"
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "format": "record-key",
+            "maxLength": 120,
+            "description": "Stable lowercase machine identifier for this term within its publisher and category, for example boundary or mangrove. Must not contain dots, so that the recommended <category>.<key> record key remains unambiguous."
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "Human-readable display name of the term."
+          },
+          "sameAs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "maxLength": 20,
+            "description": "URIs of exactly equivalent concepts in external vocabularies, for example ENVO, IUCN GET, OSM tag conventions, or registry methodology identifiers. Exact matches only; typed broader/narrower/close mappings are a named future field."
+          },
+          "status": {
+            "type": "string",
+            "maxLength": 20,
+            "description": "Lifecycle status of the term: proposed (submitted, not yet governed), accepted (in active governed use), or deprecated (retired; see supersededBy). Values beyond the known set are permitted.",
+            "knownValues": [
+              "proposed",
+              "accepted",
+              "deprecated"
+            ]
+          },
+          "aliases": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 200
+            },
+            "maxLength": 50,
+            "description": "Alternative human-readable labels and abbreviations for search and display. Aliases carry no identity: references always point at the record, not at a label."
+          },
+          "broader": {
+            "type": "array",
+            "items": {
+              "ref": "com.atproto.repo.strongRef",
+              "type": "ref"
+            },
+            "maxLength": 20,
+            "description": "Optional references to directly broader terms, forming a polyhierarchy (a term may have several broader terms). Each referenced record must conform with org.hypercerts.vocab.tag."
+          },
+          "category": {
+            "type": "string",
+            "format": "record-key",
+            "maxLength": 50,
+            "description": "The classification axis this term belongs to, for example land-cover or zone-role. One term belongs to one category; a subject may carry tags from many categories at once. Values beyond the known set are permitted. Must not contain dots, so that the recommended <category>.<key> record key remains unambiguous.",
+            "knownValues": [
+              "zone-role",
+              "land-cover",
+              "ecosystem-type",
+              "stratum-class",
+              "tenure",
+              "methodology",
+              "outcome-class",
+              "evidence-type"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Client-declared timestamp when this record was originally created."
+          },
+          "signatures": {
+            "ref": "app.certified.signature.defs#list",
+            "type": "ref",
+            "description": "Optional cryptographic signatures attesting to this record's content."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 10000,
+            "description": "Definition and scope notes for the term, written so a reader outside the publishing organization can apply it consistently.",
+            "maxGraphemes": 1000
+          },
+          "supersededBy": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The replacement term for a deprecated term, letting consumers roll classifications forward without rewriting published records. The referenced record must conform with org.hypercerts.vocab.tag."
+          },
+          "referenceDocument": {
+            "refs": [
+              "org.hypercerts.defs#uri",
+              "org.hypercerts.defs#smallBlob"
+            ],
+            "type": "union",
+            "description": "A document defining or motivating this term, as a URI or an attached small blob."
+          }
+        }
+      },
+      "description": "A reusable vocabulary term for classifying any Hypercerts record — for example a land-cover class, a zone role, or a methodology. The vocabulary is domain-general; geospatial categories are simply its first entries. The schema carries portable term data; named vocabulary profiles decide which published terms and attachment points they recognize. Recommended record key: the deterministic form <category>.<key> (for example zone-role.site), as defined by the governing vocabulary profile; Lexicon validation cannot bind a record key to body fields, so writers and indexers enforce that agreement. A tag reference pins the specific version (CID) of the term that the referencing record classified against; consumers resolve the term's current status and supersession by its URI."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

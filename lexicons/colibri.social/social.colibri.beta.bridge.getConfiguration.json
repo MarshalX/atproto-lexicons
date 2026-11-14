@@ -1,0 +1,41 @@
+{
+  "id": "social.colibri.beta.bridge.getConfiguration",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request is missing, malformed, or unverifiable service auth."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "registrations"
+          ],
+          "properties": {
+            "registrations": {
+              "type": "array",
+              "items": {
+                "ref": "social.colibri.beta.bridge.defs#registrationView",
+                "type": "ref",
+                "description": "A registration."
+              },
+              "description": "The caller's registrations across all communities."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {}
+      },
+      "description": "Lists every registration held by the calling bridge, with its linked channels. A bridge calls this at startup and whenever a registration change reaches it."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

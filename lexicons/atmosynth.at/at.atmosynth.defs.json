@@ -1,0 +1,723 @@
+{
+  "id": "at.atmosynth.defs",
+  "defs": {
+    "key": {
+      "type": "object",
+      "required": [
+        "tonic",
+        "mode"
+      ],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "The mode. `minor` is the natural minor. A reader meeting a mode it does not know still knows the tonic.",
+          "knownValues": [
+            "major",
+            "minor",
+            "dorian",
+            "phrygian",
+            "lydian",
+            "mixolydian",
+            "locrian"
+          ]
+        },
+        "tonic": {
+          "type": "integer",
+          "maximum": 11,
+          "minimum": 0,
+          "description": "The tonic as a pitch class, 0 being C and 11 B. How it is spelt, F♯ or G♭, is the reader's to decide."
+        }
+      },
+      "description": "A key: a tonic and a mode."
+    },
+    "note": {
+      "type": "object",
+      "required": [
+        "at",
+        "hold",
+        "note"
+      ],
+      "properties": {
+        "at": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The tick of the clip this note is struck at, counted from the clip's start."
+        },
+        "bend": {
+          "type": "array",
+          "items": {
+            "ref": "#bendPoint",
+            "type": "ref"
+          },
+          "maxLength": 256,
+          "description": "How the note is bent while it is held: points in order of `at`, one to a tick, joined by straight lines, the first point's value before it and the last's after it. Optional: absent is not bent."
+        },
+        "hold": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "How many ticks it is held for. A note is cut off by the next note of its own pitch, since the same pitch overlapping itself is one voice rather than two."
+        },
+        "note": {
+          "type": "integer",
+          "maximum": 127,
+          "minimum": 0,
+          "description": "The MIDI note number. 60 is middle C."
+        },
+        "velocity": {
+          "type": "integer",
+          "maximum": 127,
+          "minimum": 1,
+          "description": "How hard it is struck, on the MIDI scale. Optional: absent is 100."
+        },
+        "probability": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "How likely it is to be struck each time it comes round, in percent, asked afresh every time. Optional: absent is every time."
+        }
+      },
+      "description": "One note of a clip: struck at a tick, held for so many, as hard and as often as it says."
+    },
+    "send": {
+      "type": "object",
+      "required": [
+        "to",
+        "level"
+      ],
+      "properties": {
+        "to": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1,
+          "description": "The id of the bus track it is sent to."
+        },
+        "tap": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Whether it leaves the track before its level and pan are applied or after. Optional: absent is `postFader`.",
+          "knownValues": [
+            "preFader",
+            "postFader"
+          ]
+        },
+        "level": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "How much, in decibels, from -96 to 6, as decimal text."
+        }
+      },
+      "description": "Some of a track's audio sent to a bus as well as to where the track goes."
+    },
+    "audio": {
+      "type": "object",
+      "required": [
+        "blob",
+        "ownerDid"
+      ],
+      "properties": {
+        "blob": {
+          "type": "blob",
+          "accept": [
+            "audio/wav",
+            "audio/flac"
+          ],
+          "maxSize": 52428800
+        },
+        "ownerDid": {
+          "type": "string",
+          "format": "did"
+        }
+      },
+      "description": "A recording, by its blob and the account holding it. In a record this service publishes it is always that record's own account, since a PDS writes a record only if every blob it names is in that account; a reader still follows `ownerDid` wherever it points."
+    },
+    "strip": {
+      "type": "object",
+      "properties": {
+        "pan": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "From -1, all left, to 1, all right, as decimal text. Optional: absent is the middle."
+        },
+        "mute": {
+          "type": "boolean",
+          "description": "Only `true` is written."
+        },
+        "solo": {
+          "type": "boolean",
+          "description": "Only `true` is written."
+        },
+        "level": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "In decibels, from -96 to 6, as decimal text; -96 is silence. Optional: absent is 0."
+        },
+        "sends": {
+          "type": "array",
+          "items": {
+            "ref": "#send",
+            "type": "ref"
+          },
+          "maxLength": 64
+        }
+      },
+      "description": "Where a track ends: its level, its pan, whether it is heard, and what it sends. A track is heard when it is not muted and, where any track of the arrangement is soloed, it is one of them."
+    },
+    "track": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1,
+          "description": "This track's name within its arrangement, for routing and automation to address. Unique in the arrangement, the tracks of every part it includes among them. `master` is the arrangement's master bus."
+        },
+        "to": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "The id of the bus this track's audio goes to. Optional: absent is `master`, and the master itself goes to the speakers and names nothing. Every track goes to one place, and nothing returns to where it came from by any `to`, send or sidechain."
+        },
+        "kind": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "`instrument` plays its note clips through its instrument; `audio` plays its audio clips; `bus` plays no clips and hears whatever names it as its `to`, a send, or both. A reader meeting a kind it does not know plays the track as silence and says so.",
+          "knownValues": [
+            "instrument",
+            "audio",
+            "bus"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 320,
+          "minLength": 1,
+          "maxGraphemes": 64
+        },
+        "strip": {
+          "ref": "#strip",
+          "type": "ref"
+        },
+        "colour": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "The colour it is drawn in, as `#rrggbb`. Decoration only: nothing is said by it alone."
+        },
+        "origin": {
+          "ref": "#origin",
+          "type": "ref"
+        },
+        "inserts": {
+          "type": "array",
+          "items": {
+            "ref": "#insert",
+            "type": "ref"
+          },
+          "maxLength": 32,
+          "description": "The effects the track's audio runs through, in order, before its strip."
+        },
+        "noteClips": {
+          "type": "array",
+          "items": {
+            "ref": "#noteClip",
+            "type": "ref"
+          },
+          "maxLength": 1024,
+          "description": "An instrument track's clips. Two clips of one track do not overlap."
+        },
+        "audioClips": {
+          "type": "array",
+          "items": {
+            "ref": "#audioClip",
+            "type": "ref"
+          },
+          "maxLength": 1024,
+          "description": "An audio track's clips. Two clips of one track do not overlap."
+        },
+        "automation": {
+          "type": "array",
+          "items": {
+            "ref": "#automationLane",
+            "type": "ref"
+          },
+          "maxLength": 256,
+          "description": "One lane to a target."
+        },
+        "instrument": {
+          "type": "unknown",
+          "description": "An instrument track's instrument: an at.atmosynth.patch record, `$type` and all, held here whole. Its note clips are played to every Keyboard block in it as the player's keys would be, and what its output stage would send to the speakers goes on into the track's inserts. Its own tempo is not heard: the arrangement's is."
+        },
+        "instrumentPresentation": {
+          "type": "unknown",
+          "description": "How `instrument` is drawn: an at.atmosynth.patchPresentation record, `$type` and all, held here whole beside it, so a patch kept as an instrument keeps its layout and its frames. Nothing heard depends on it, and a reader that only plays ignores it. Only on a track with an instrument. Optional: absent is an instrument drawn from what it says itself."
+        }
+      },
+      "description": "One row of an arrangement: an instrument playing note clips, an audio track playing audio clips, or a bus taking other tracks' audio. Each runs through its inserts in order into its strip, and on to the one place it goes. The same object stands in an arrangement, a part, and an at.atmosynth.track record of its own."
+    },
+    "insert": {
+      "type": "object",
+      "required": [
+        "id",
+        "patch"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1,
+          "description": "This insert's name within its track, for automation to address. Unique in the track."
+        },
+        "patch": {
+          "type": "unknown",
+          "description": "An at.atmosynth.patch record, `$type` and all, held here whole. It holds an input stage, which is where the track's audio arrives and, on its second output, the key its `sidechain` names."
+        },
+        "origin": {
+          "ref": "#origin",
+          "type": "ref"
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether the effect is heard. Optional: absent is on, and only `false` is written. A switched-off insert passes its input on unchanged."
+        },
+        "sidechain": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "The id of the track whose audio reaches this effect as a key: read there, never summed into what is heard. Optional: absent is no key."
+        },
+        "patchPresentation": {
+          "type": "unknown",
+          "description": "How `patch` is drawn: an at.atmosynth.patchPresentation record, `$type` and all, held here whole beside it, so the effect keeps its layout and its frames. Nothing heard depends on it, and a reader that only plays ignores it. Optional: absent is a patch drawn from what it says itself."
+        }
+      },
+      "description": "One effect in a chain: a patch that takes audio in through its input stage and passes it on through its output stage."
+    },
+    "marker": {
+      "type": "object",
+      "required": [
+        "at",
+        "name"
+      ],
+      "properties": {
+        "at": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 320,
+          "minLength": 1,
+          "maxGraphemes": 32
+        }
+      },
+      "description": "A named moment of an arrangement: Intro, Drop, the second verse."
+    },
+    "origin": {
+      "type": "object",
+      "required": [
+        "uri",
+        "cid"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid",
+          "description": "The version that was copied."
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "linked": {
+          "type": "boolean",
+          "description": "Whether this copy is still that version, unchanged. The first edit to the copy removes it, and the copy is the arrangement's own from then on, still credited to where it came from. Only `true` is written."
+        }
+      },
+      "description": "Where an inline copy was imported from, and whether it still is that record. An import is a snapshot and a link: the arrangement holds the copy, so it plays whatever becomes of the original, and the link says which version was copied, so a reader can tell when the original has since changed and offer it."
+    },
+    "license": {
+      "type": "string",
+      "maxLength": 64,
+      "description": "What its creator lets others do with a record, as the SPDX identifier of a Creative Commons licence. A record that says nothing grants nothing, which is copyright's own default: anybody wanting to use it asks its creator first. A reader meeting an identifier it does not know reads it as granting nothing it can be sure of.",
+      "knownValues": [
+        "CC0-1.0",
+        "CC-BY-4.0",
+        "CC-BY-SA-4.0",
+        "CC-BY-NC-4.0",
+        "CC-BY-NC-SA-4.0",
+        "CC-BY-ND-4.0",
+        "CC-BY-NC-ND-4.0"
+      ]
+    },
+    "lineage": {
+      "type": "object",
+      "required": [
+        "relation",
+        "creatorDid"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid",
+          "description": "The version of that record this came from. Optional: absent where it was not known."
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "Where that record is. Absent where the record is somewhere a public record may not point, such as a band: the entry is then credit, the parent's creator and the relation and nothing more."
+        },
+        "within": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Which part of that record this came from, where it was a part: a track's `id` in an arrangement, or a sequencer's instance id and a pattern as `<instanceId>/<pattern>` in a patch. Optional: absent is the whole record."
+        },
+        "relation": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "`fork`: this began as a copy of that, and changed. `import`: that was taken into this as it was — a clip from a patch's pattern, a track from somebody's arrangement. A reader meeting another value still has a parent, and should say only that this came from it.",
+          "knownValues": [
+            "fork",
+            "import"
+          ]
+        },
+        "creatorDid": {
+          "type": "string",
+          "format": "did"
+        }
+      },
+      "description": "One record this one came from, how, and its creator. Written here and not there, so it survives that record being changed or deleted."
+    },
+    "keyPoint": {
+      "type": "object",
+      "required": [
+        "at",
+        "key"
+      ],
+      "properties": {
+        "at": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The tick this key starts at. The first point is at 0, and each after it later than the one before."
+        },
+        "key": {
+          "ref": "#key",
+          "type": "ref"
+        }
+      },
+      "description": "The key from one tick on."
+    },
+    "noteClip": {
+      "type": "object",
+      "required": [
+        "length",
+        "notes"
+      ],
+      "properties": {
+        "at": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The tick of the arrangement this clip starts at. Absent in a clip that is a record of its own, which is placed nowhere until somebody places it."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 320,
+          "minLength": 1,
+          "maxGraphemes": 64
+        },
+        "glide": {
+          "ref": "at.atmosynth.patch#glide",
+          "type": "ref",
+          "description": "How the clip's notes slide into one another, as a sequencer's do. Optional: absent is no slide."
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "ref": "#note",
+            "type": "ref"
+          },
+          "maxLength": 8192,
+          "description": "The notes, each before the loop's end, or the clip's where it does not loop."
+        },
+        "swing": {
+          "ref": "at.atmosynth.patch#swing",
+          "type": "ref",
+          "description": "How the clip swings, counted in pairs from its own start. The notes stay at the ticks they are written at; the swing is applied as they are played. Optional: absent is straight."
+        },
+        "length": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "How many ticks the clip lasts. A note still held at its end is let go there."
+        },
+        "origin": {
+          "ref": "#origin",
+          "type": "ref"
+        },
+        "loopLength": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Where the clip loops: the notes from its start to this many ticks are played again and again until `length`, so one bar of a groove fills eight bars as one bar of notes. A note held past the loop's end is let go there. Optional: absent plays the notes once, over the whole length."
+        },
+        "resolution": {
+          "ref": "at.atmosynth.patch#resolution",
+          "type": "ref",
+          "description": "The grid the clip is drawn and snapped to. A guide, not part of what is played. Optional: absent is sixteenths."
+        }
+      },
+      "description": "Notes over a length of time: what an instrument track plays. The same object stands in a track, where it is placed at a tick, and in an at.atmosynth.noteClip record of its own, where it is not."
+    },
+    "audioClip": {
+      "type": "object",
+      "required": [
+        "length",
+        "audio"
+      ],
+      "properties": {
+        "at": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The tick of the arrangement this clip starts at. Absent in a clip that is a record of its own."
+        },
+        "gain": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "The clip's own gain, in decibels, from -96 to 24, as decimal text. Optional: absent is 0."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 320,
+          "minLength": 1,
+          "maxGraphemes": 64
+        },
+        "warp": {
+          "type": "array",
+          "items": {
+            "ref": "#warpMarker",
+            "type": "ref"
+          },
+          "maxLength": 1024,
+          "description": "How the recording follows the arrangement's tempo: markers in order, each later than the one before in ticks and in seconds. Between two markers the recording is stretched so that the one moment meets the one tick and the next the next; before the first and after the last the nearest pair's stretch goes on. Two markers stretch a whole loop evenly, and more correct a recording that drifts. Optional: absent plays the recording at the speed it was recorded at, from `offset`, whatever the tempo."
+        },
+        "audio": {
+          "ref": "#audio",
+          "type": "ref"
+        },
+        "fadeIn": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Ticks over which the clip rises from silence at its start. Optional: absent is none."
+        },
+        "length": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "How many ticks the clip lasts. The recording is cut off at its end."
+        },
+        "offset": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Where in the recording the clip starts, in seconds from its beginning, as decimal text. Optional: absent is the beginning. Read only where the clip has no warp markers, which say it themselves."
+        },
+        "origin": {
+          "ref": "#origin",
+          "type": "ref"
+        },
+        "fadeOut": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Ticks over which the clip falls to silence at its end. Optional: absent is none."
+        },
+        "loopLength": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Where the clip loops: what it plays from its start to this many ticks is played again and again until `length`, so a two-bar loop fills sixteen bars as one clip. Each pass starts where the clip does, at `offset` or where its warp markers place tick 0, and counts its ticks from there. The fades are the clip's, at its start and its end, and not each pass's. Optional: absent plays the recording once, over the whole length."
+        }
+      },
+      "description": "A recording over a length of time: what an audio track plays. The same object stands in a track, where it is placed at a tick, and in an at.atmosynth.audioClip record of its own, where it is not."
+    },
+    "bendPoint": {
+      "type": "object",
+      "required": [
+        "at",
+        "value"
+      ],
+      "properties": {
+        "at": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The tick of the note this point is at, counted from the note's own start in the arrangement's ticks, 960 to the beat. A bend from a patch's pattern, which counts 96, is multiplied by ten."
+        },
+        "value": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Semitones from the note's pitch, from -96 to 96, as decimal text. Upwards is positive."
+        }
+      },
+      "description": "How far from its pitch a note is at one moment of it."
+    },
+    "meterPoint": {
+      "type": "object",
+      "required": [
+        "at",
+        "timeSignature"
+      ],
+      "properties": {
+        "at": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The tick this meter starts at: 0 for the first point, and for every later one a bar line of the meter before it."
+        },
+        "timeSignature": {
+          "ref": "at.atmosynth.patch#timeSignature",
+          "type": "ref"
+        }
+      },
+      "description": "The meter from one bar line on. Every position in an arrangement is a tick rather than a bar, so a change of meter moves the bar lines and the grid and never a note."
+    },
+    "tempoPoint": {
+      "type": "object",
+      "required": [
+        "at",
+        "bpm"
+      ],
+      "properties": {
+        "at": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The tick this tempo starts at. The first point of a tempo map is at 0, and each after it later than the one before."
+        },
+        "bpm": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Beats per minute, a beat being a quarter note, from 20 to 999, written as its decimal text, as every number in these descriptions that need not be whole is."
+        },
+        "ramp": {
+          "type": "boolean",
+          "description": "Whether the tempo travels from this point to the next in a straight line, in beats per minute over ticks, rather than holding until the next point. Optional: absent is held, and only `true` is written. A ramp on the last point means nothing."
+        }
+      },
+      "description": "The tempo from one tick on."
+    },
+    "warpMarker": {
+      "type": "object",
+      "required": [
+        "at",
+        "seconds"
+      ],
+      "properties": {
+        "at": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The tick of the clip, counted from its start."
+        },
+        "seconds": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "The moment of the recording, in seconds from its beginning, as decimal text."
+        }
+      },
+      "description": "One moment of a recording pinned to one tick of its clip."
+    },
+    "stripTarget": {
+      "type": "object",
+      "required": [
+        "control"
+      ],
+      "properties": {
+        "to": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Which send, by the bus it goes to, where `control` is `send`."
+        },
+        "control": {
+          "type": "string",
+          "maxLength": 32,
+          "knownValues": [
+            "level",
+            "pan",
+            "send"
+          ]
+        }
+      },
+      "description": "Automation of a track's own strip."
+    },
+    "automationLane": {
+      "type": "object",
+      "required": [
+        "target",
+        "points"
+      ],
+      "properties": {
+        "points": {
+          "type": "array",
+          "items": {
+            "ref": "#automationPoint",
+            "type": "ref"
+          },
+          "maxLength": 8192,
+          "description": "In order of `at`, one to a tick. Before the first point the target is at the first point's value; after the last, at the last's."
+        },
+        "target": {
+          "refs": [
+            "#stripTarget",
+            "#parameterTarget"
+          ],
+          "type": "union"
+        }
+      },
+      "description": "One target's automation across the whole arrangement."
+    },
+    "automationPoint": {
+      "type": "object",
+      "required": [
+        "at",
+        "value"
+      ],
+      "properties": {
+        "at": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The tick of the arrangement, or of the track where the track is a record of its own."
+        },
+        "hold": {
+          "type": "boolean",
+          "description": "Whether the value is held until the next point, which is jumped to. Optional: absent is a straight line, and only `true` is written."
+        },
+        "value": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "The value, in the units the target is written in: decibels and the pan's -1 to 1 for a strip, and for a parameter what its patch writes it as. Between points the value travels in a straight line along the target's own scale — a parameter's as its module declares it, decibels for a level — so a cutoff swept between two points sweeps as its knob would."
+        }
+      },
+      "description": "The value a target takes at one tick."
+    },
+    "parameterTarget": {
+      "type": "object",
+      "required": [
+        "instanceId",
+        "parameterId"
+      ],
+      "properties": {
+        "insert": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "The id of the insert whose patch holds the instance. Optional: absent is the track's instrument."
+        },
+        "instanceId": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        },
+        "parameterId": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        }
+      },
+      "description": "Automation of one parameter of one instance in the track's instrument or in one of its inserts."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "What the arrangement, its tracks, its clips, its effect chains, its samples and the parts offered to it share: musical time, credit, reuse, and the objects an arrangement holds inline and every one of them also publishes as a record of its own. Time here is counted in ticks, 960 to the beat, a beat being a quarter note whatever the meter says. A patch's own patterns keep the 96 to the beat the patch description counts in, so a pattern copied into a clip is multiplied by ten and loses nothing."
+}

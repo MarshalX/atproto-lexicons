@@ -1,0 +1,55 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Unpin a pinned chat message on behalf of a streamer. Requires 'message.pin' permission. Deletes the place.stream.chat.pinnedRecord from the streamer's repo.",
+      "errors": [
+        {
+          "description": "The request lacks valid authentication credentials.",
+          "name": "Unauthorized"
+        },
+        {
+          "description": "The caller does not have permission to unpin messages for this streamer.",
+          "name": "Forbidden"
+        },
+        {
+          "description": "The streamer's OAuth session could not be found or is invalid.",
+          "name": "SessionNotFound"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "pinUri": {
+              "description": "The AT-URI of the pinned record to delete.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "streamer": {
+              "description": "The DID of the streamer.",
+              "format": "did",
+              "type": "string"
+            }
+          },
+          "required": [
+            "streamer",
+            "pinUri"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "parameters": null,
+      "type": "procedure"
+    }
+  },
+  "id": "place.stream.moderation.deletePin",
+  "lexicon": 1
+}

@@ -1,0 +1,34 @@
+{
+  "id": "work.sequential.authFull",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "permission-set",
+      "title": "Read and publish comics",
+      "detail": "Publish series, chapters, covers, pages, slices, strips and links, and subscribe, like, comment, annotate and keep reading lists.",
+      "description": "Permissions for apps that both read and publish: every work.sequential record. Image uploads need a separate blob scope.",
+      "permissions": [
+        {
+          "type": "permission",
+          "resource": "repo",
+          "collection": [
+            "work.sequential.series",
+            "work.sequential.chapter",
+            "work.sequential.cover",
+            "work.sequential.slice",
+            "work.sequential.page",
+            "work.sequential.strip",
+            "work.sequential.link",
+            "work.sequential.graph.subscription",
+            "work.sequential.graph.list",
+            "work.sequential.feed.like",
+            "work.sequential.feed.comment",
+            "work.sequential.feed.annotation"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

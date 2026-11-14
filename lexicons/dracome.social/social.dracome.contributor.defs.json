@@ -1,0 +1,80 @@
+{
+  "id": "social.dracome.contributor.defs",
+  "defs": {
+    "contributorRole": {
+      "type": "string",
+      "maxLength": 64,
+      "description": "The role a person played in creating a book. Currently only 'author' is known. Additional roles (translator, illustrator, narrator, editor, etc.) are expected to be added over time by appending to knownValues — adding a new role is an additive, backwards-compatible lexicon change, not a versioning event. Consumers MUST tolerate unknown values.",
+      "knownValues": [
+        "author"
+      ]
+    },
+    "creditedContributor": {
+      "type": "object",
+      "required": [
+        "contributor",
+        "role"
+      ],
+      "properties": {
+        "role": {
+          "ref": "#contributorRole",
+          "type": "ref",
+          "description": "The role this person held in creating this work."
+        },
+        "contributor": {
+          "ref": "#contributorProfileRef",
+          "type": "ref",
+          "description": "Reference to the credited person's profile record."
+        }
+      },
+      "description": "A person credited on a book with a specific role, carrying a resolvable profile reference. Used in submission records where a network-resolvable profile is assumed to exist."
+    },
+    "contributorIdentifier": {
+      "type": "object",
+      "required": [
+        "scheme",
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "The bare identifier value, matching Dracome's internal storage convention (e.g., GND number without URI prefix, VIAF ID without URL, Wikidata entity without prefix, OL key like OL123A)."
+        },
+        "scheme": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "The identifier scheme, lowercase like work.defs#catalogIdentifier: gnd (German National Library), viaf (Virtual International Authority File), wikidata (Wikidata entity ID), ol-author (Open Library author key).",
+          "knownValues": [
+            "gnd",
+            "viaf",
+            "wikidata",
+            "ol-author"
+          ]
+        }
+      },
+      "description": "An external identifier for a contributor from a known authority (GND, VIAF, Wikidata, or Open Library)."
+    },
+    "contributorProfileRef": {
+      "type": "object",
+      "required": [
+        "uri"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid",
+          "description": "Optional content hash of the referenced record at time of reference; informational only."
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the referenced social.dracome.contributor.profile record."
+        }
+      },
+      "description": "A dereferenceable reference to a contributor's profile record on their own PDS."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

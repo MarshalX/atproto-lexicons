@@ -1,0 +1,66 @@
+{
+  "id": "io.atcr.repo.page",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "repository",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "avatar": {
+            "type": "blob",
+            "accept": [
+              "image/png",
+              "image/jpeg",
+              "image/webp"
+            ],
+            "maxSize": 3000000,
+            "description": "Repository avatar/icon image."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Record creation timestamp"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Record last updated timestamp"
+          },
+          "repository": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "The name of the repository (e.g., 'myapp'). Must match the rkey."
+          },
+          "userEdited": {
+            "type": "boolean",
+            "description": "Whether the description was manually edited by the user. When true, auto-population from manifest annotations is skipped on push."
+          },
+          "visibility": {
+            "type": "string",
+            "default": "public",
+            "maxLength": 16,
+            "description": "Whether this repository is visible to everyone or only to the owner and the crew of the hold its images live on. Defaults to \"public\". A private repository's page, manifest and tag records live in the owner's io.atcr.repo.private space instead of their public repo.",
+            "knownValues": [
+              "public",
+              "private"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 100000,
+            "description": "Markdown README/description content for the repository page."
+          }
+        }
+      },
+      "description": "Repository page metadata including description and avatar. Users can edit this directly in their PDS to customize their repository page."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

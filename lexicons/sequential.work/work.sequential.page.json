@@ -1,0 +1,75 @@
+{
+  "id": "work.sequential.page",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "chapter",
+          "images"
+        ],
+        "properties": {
+          "span": {
+            "type": "integer",
+            "default": 1,
+            "minimum": 1,
+            "description": "Number of printed pages this image covers. 1 for a single page, 2 for a two-page spread, 3 or more for a gatefold or foldout."
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#localizedImage",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "minLength": 1,
+            "description": "Localized final images for this page."
+          },
+          "panels": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#panel",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "description": "Panels on this page, in reading order. Alt text for pages lives on panels."
+          },
+          "chapter": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the parent chapter. Use the DID form (at://did:...), not a handle."
+          },
+          "versions": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#version",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "description": "Other versions of the page's artwork, such as production stages or alternate treatments. AppViews may let readers peel back stages or switch between versions."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "The date and time the page was published. Set it when pages are released one at a time, so AppViews can index and order the page without fetching the chapter. Optional when the whole chapter is published at once; AppViews may ignore it and use the chapter's createdAt."
+          },
+          "standalone": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, readers always show this page on its own, never beside another page in a two-page layout."
+          },
+          "aspectRatio": {
+            "ref": "work.sequential.defs#aspectRatio",
+            "type": "ref",
+            "description": "The aspect ratio of the page."
+          }
+        }
+      },
+      "description": "A page of a page formatted comic."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

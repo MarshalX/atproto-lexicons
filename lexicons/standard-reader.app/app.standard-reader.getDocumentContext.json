@@ -1,0 +1,52 @@
+{
+  "id": "app.standard-reader.getDocumentContext",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "related": {
+              "type": "array",
+              "items": {
+                "ref": "app.standard-reader.defs#documentView",
+                "type": "ref"
+              }
+            },
+            "moreFrom": {
+              "type": "array",
+              "items": {
+                "ref": "app.standard-reader.defs#documentView",
+                "type": "ref"
+              }
+            },
+            "readersAlsoFollow": {
+              "type": "array",
+              "items": {
+                "ref": "app.standard-reader.defs#publicationView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "document"
+        ],
+        "properties": {
+          "document": {
+            "type": "string",
+            "format": "at-uri"
+          }
+        }
+      },
+      "description": "Deferred reading-view context: related articles, recents, social proof, citations."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

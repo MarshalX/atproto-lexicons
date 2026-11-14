@@ -1,0 +1,64 @@
+{
+  "id": "tech.tokimeki.forum.defs",
+  "defs": {
+    "image": {
+      "type": "object",
+      "required": [
+        "image",
+        "alt"
+      ],
+      "properties": {
+        "alt": {
+          "type": "string"
+        },
+        "image": {
+          "type": "blob",
+          "accept": [
+            "image/*"
+          ],
+          "maxSize": 1000000
+        },
+        "aspectRatio": {
+          "ref": "#aspectRatio",
+          "type": "ref"
+        }
+      }
+    },
+    "images": {
+      "type": "object",
+      "required": [
+        "images"
+      ],
+      "properties": {
+        "images": {
+          "type": "array",
+          "items": {
+            "ref": "#image",
+            "type": "ref"
+          },
+          "maxLength": 4
+        }
+      },
+      "description": "Image attachments. Blobs are uploaded with com.atproto.repo.uploadBlob to the author's PDS and fetched by readers with com.atproto.space.getBlob (space credential required)."
+    },
+    "aspectRatio": {
+      "type": "object",
+      "required": [
+        "width",
+        "height"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

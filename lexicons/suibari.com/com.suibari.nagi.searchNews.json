@@ -1,0 +1,74 @@
+{
+  "id": "com.suibari.nagi.searchNews",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "items",
+            "hasMore"
+          ],
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "unknown"
+              }
+            },
+            "cursor": {
+              "type": "string"
+            },
+            "hasMore": {
+              "type": "boolean"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "q"
+        ],
+        "properties": {
+          "q": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "自由文キーワード。承認済みニュースの見出しを意味検索(埋め込み)+語彙一致で検索する。"
+          },
+          "lang": {
+            "type": "string",
+            "default": "ja",
+            "knownValues": [
+              "ja",
+              "en"
+            ]
+          },
+          "mode": {
+            "type": "string",
+            "default": "hybrid",
+            "description": "exact=見出しの語彙一致のみ(新着順) / semantic=埋め込みの近傍のみ(語彙一致ヒットは除外・相対しきい値で足切り) / hybrid=両者を混ぜた従来の1本。",
+            "knownValues": [
+              "exact",
+              "semantic",
+              "hybrid"
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "default": 20,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,151 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "hydratedPet": {
+      "properties": {
+        "active": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "price": {
+          "type": "integer"
+        },
+        "retired": {
+          "type": "boolean"
+        },
+        "species": {
+          "type": "string"
+        },
+        "tier": {
+          "type": "string"
+        },
+        "totalInteractions": {
+          "type": "integer"
+        },
+        "uri": {
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "The at-uris of a player's pets, newest first, optionally filtered by state. Returns IDs only by default.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "description": "Absent if there are no more results.",
+              "type": "string"
+            },
+            "error": {
+              "description": "The type of error encountered.",
+              "knownValues": [
+                "bad-did",
+                "unknown-state",
+                "unknown-sort",
+                "unknown-direction",
+                "bad-cursor",
+                "unavailable"
+              ],
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            },
+            "pets": {
+              "description": "Sorted list of pet AT URIs.",
+              "items": {
+                "format": "at-uri",
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "records": {
+              "description": "Pet records (only present if `hydrate` is true).",
+              "items": {
+                "ref": "#hydratedPet",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "type": "string"
+          },
+          "did": {
+            "description": "Ther owner for whom to retrieve pets.",
+            "format": "did",
+            "type": "string"
+          },
+          "direction": {
+            "default": "desc",
+            "description": "Whether to sort ascending or descending.",
+            "knownValues": [
+              "asc",
+              "desc"
+            ],
+            "type": "string"
+          },
+          "hydrate": {
+            "default": false,
+            "description": "Whether to return the pet's full record.",
+            "type": "boolean"
+          },
+          "limit": {
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "sort": {
+            "default": "age",
+            "knownValues": [
+              "rarity",
+              "name",
+              "price",
+              "age",
+              "attention"
+            ],
+            "type": "string"
+          },
+          "state": {
+            "description": "Filter on state.",
+            "items": {
+              "knownValues": [
+                "active",
+                "inactive",
+                "retired"
+              ],
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "did"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "pet.trezy.getPets",
+  "lexicon": 1
+}

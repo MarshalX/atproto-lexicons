@@ -1,0 +1,29 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "detail": "Create, update, and delete your site files and settings.",
+      "permissions": [
+        {
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "collection": [
+            "place.wisp.fs",
+            "place.wisp.subfs",
+            "place.wisp.settings",
+            "place.wisp.domain"
+          ],
+          "resource": "repo",
+          "type": "permission"
+        }
+      ],
+      "title": "Manage your wisp.place sites",
+      "type": "permission-set"
+    }
+  },
+  "id": "place.wisp.authSites",
+  "lexicon": 1
+}

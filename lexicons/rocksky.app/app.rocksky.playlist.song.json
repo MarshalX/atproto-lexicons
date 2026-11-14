@@ -1,0 +1,76 @@
+{
+  "id": "app.rocksky.playlist.song",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "playlist",
+          "song",
+          "title",
+          "artist",
+          "album",
+          "albumArtist",
+          "duration",
+          "addedAt"
+        ],
+        "properties": {
+          "song": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong reference (AT-URI + CID) to the app.rocksky.song record this entry points at."
+          },
+          "album": {
+            "type": "string",
+            "maxLength": 256,
+            "minLength": 1,
+            "description": "The album the song belongs to."
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 512,
+            "minLength": 1,
+            "description": "The title of the song."
+          },
+          "artist": {
+            "type": "string",
+            "maxLength": 256,
+            "minLength": 1,
+            "description": "The artist of the song."
+          },
+          "addedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "The date and time the song was added to the playlist."
+          },
+          "duration": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "The duration of the song in milliseconds."
+          },
+          "playlist": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong reference (AT-URI + CID) to the parent app.rocksky.playlist record."
+          },
+          "albumArtUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "The URL of the album art of the song."
+          },
+          "albumArtist": {
+            "type": "string",
+            "maxLength": 256,
+            "minLength": 1,
+            "description": "The album artist of the song."
+          }
+        }
+      },
+      "description": "A song entry in a playlist. Holds a strong reference to the playlist it belongs to, a strong reference to the song record itself, and a denormalized copy of the song metadata so the entry can be rendered without dereferencing the song."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

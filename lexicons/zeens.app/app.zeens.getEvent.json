@@ -1,0 +1,33 @@
+{
+  "id": "app.zeens.getEvent",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "uri"
+        ],
+        "properties": {
+          "uri": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the app.zeens.event record."
+          },
+          "viewer": {
+            "type": "string",
+            "format": "did",
+            "description": "Viewer DID, used to report the viewer's own RSVP status."
+          }
+        }
+      },
+      "description": "Fetch a single event by AT-URI, hydrated with the organiser's profile and raw RSVP counts (going / interested) aggregated from app.zeens.rsvp records. For gated events (approvalRequired or capacityMode=waitlist) these raw counts are advisory; the SvelteKit layer overlays canonical approved/waitlisted counts from PocketBase, which Lua cannot see.",
+      "target_collection": "app.zeens.event"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

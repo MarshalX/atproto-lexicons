@@ -1,0 +1,30 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "An Opnshelf follow relationship stored on a user's PDS",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "createdAt": {
+            "description": "When the follow record was created",
+            "format": "datetime",
+            "type": "string"
+          },
+          "subjectDid": {
+            "description": "The DID of the Opnshelf user being followed",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subjectDid",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "xyz.opnshelf.follow",
+  "lexicon": 1
+}

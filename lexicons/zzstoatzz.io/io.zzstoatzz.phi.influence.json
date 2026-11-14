@@ -1,0 +1,62 @@
+{
+  "id": "io.zzstoatzz.phi.influence",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "reason",
+          "active",
+          "selectedBy",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "works": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "maxLength": 10,
+            "description": "Specific works selected for background reading, separate from the author's recent posts."
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 800,
+            "description": "What Phi wants to learn from this influence."
+          },
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "selectedBy": {
+            "type": "string",
+            "description": "Distinguishes Phi's choices from operator-provided starting influences.",
+            "knownValues": [
+              "phi",
+              "operator"
+            ]
+          }
+        }
+      },
+      "description": "An influence selected on Phi's repo. The subject pins an actor profile version; its URI contains the stable actor DID. Retired choices remain readable. Background voice material cites the exact choice and source post versions."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

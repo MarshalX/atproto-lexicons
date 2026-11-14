@@ -1,0 +1,237 @@
+{
+  "id": "social.dracome.library.defs",
+  "defs": {
+    "goalMetric": {
+      "type": "string",
+      "maxLength": 64,
+      "description": "The consumption metric a `library.goal` record targets. Fulfillment for every value is computed at read time by filtering the actor's `library.state` records that both fall within the goal's period and have status `completed`; each value differs only in what it sums/counts from that filtered set. `completed_state_count`: count of completed `library.state` records within the period. `page_count_sum`: aggregate page total of those completed records, sourcing each record's page count from `catalogSnapshot.edition.pageCount`, or from the record's own `catalogTargetCustomization` page-total override when the actor set a more accurate figure. `duration_seconds_sum`: aggregate duration in seconds of those completed records, sourcing each record's duration from `catalogSnapshot.edition.durationSeconds`, or from the record's own `catalogTargetCustomization` audiobook duration override when the actor set a more accurate figure.",
+      "knownValues": [
+        "completed_state_count",
+        "page_count_sum",
+        "duration_seconds_sum"
+      ]
+    },
+    "pageProgress": {
+      "type": "object",
+      "required": [
+        "position"
+      ],
+      "properties": {
+        "position": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Zero-based page position reached as of this progress entry."
+        }
+      },
+      "description": "Position marker for page-based reading progress."
+    },
+    "audioProgress": {
+      "type": "object",
+      "required": [
+        "positionSeconds"
+      ],
+      "properties": {
+        "positionSeconds": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Playback position in seconds reached as of this progress entry."
+        }
+      },
+      "description": "Position marker for time-based audio progress."
+    },
+    "trackingStatus": {
+      "enum": [
+        "wishlist",
+        "backlog",
+        "in_progress",
+        "paused",
+        "completed",
+        "abandoned"
+      ],
+      "type": "string",
+      "maxLength": 64,
+      "description": "Current reading-state status for a work or edition, from initial intent through completion or abandonment."
+    },
+    "acquisitionType": {
+      "type": "string",
+      "maxLength": 64,
+      "description": "How an actor came to own a specific book edition, tracked on a `library.acquisition` record.",
+      "knownValues": [
+        "review_copy",
+        "purchased",
+        "gift",
+        "giveaway",
+        "subscription",
+        "other"
+      ]
+    },
+    "chapterProgress": {
+      "type": "object",
+      "required": [
+        "position"
+      ],
+      "properties": {
+        "position": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "One-based chapter number reached as of this progress entry."
+        }
+      },
+      "description": "Position marker for chapter-based reading progress."
+    },
+    "goalFormatScope": {
+      "type": "string",
+      "maxLength": 64,
+      "description": "The format category a `library.goal` record's `formatScope` restricts fulfillment counting to. Resolved to specific `social.dracome.work.defs#editionFormat` values at read time.",
+      "knownValues": [
+        "physical",
+        "digital",
+        "audiobook"
+      ]
+    },
+    "progressLogEntry": {
+      "type": "object",
+      "required": [
+        "date"
+      ],
+      "properties": {
+        "date": {
+          "type": "string",
+          "format": "datetime",
+          "description": "Canonical UTC instant for the progress entry day, serialized as ISO 8601 with a trailing Z suffix. At most one entry per UTC calendar day should exist in the log. Frontend clients may localize this for presentation only."
+        },
+        "page": {
+          "ref": "#pageProgress",
+          "type": "ref",
+          "description": "Page-based progress recorded for this day, present when the actor tracks by page."
+        },
+        "audio": {
+          "ref": "#audioProgress",
+          "type": "ref",
+          "description": "Audio-based progress recorded for this day, present when the actor tracks by listening time."
+        },
+        "chapter": {
+          "ref": "#chapterProgress",
+          "type": "ref",
+          "description": "Chapter-based progress recorded for this day, present when the actor tracks by chapter."
+        },
+        "percentage": {
+          "ref": "#percentageProgress",
+          "type": "ref",
+          "description": "Percentage-based progress recorded for this day, present when the actor tracks by percentage."
+        }
+      },
+      "description": "Runtime validation SHOULD require at least one of page, percentage, chapter, or audio to be present."
+    },
+    "trackingProgress": {
+      "type": "object",
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "log": {
+          "type": "array",
+          "items": {
+            "ref": "#progressLogEntry",
+            "type": "ref"
+          },
+          "maxLength": 2000,
+          "description": "Ordered progress log, oldest entry first. At most one entry per UTC calendar day should be stored. Capped at 2000 entries: writers drop the oldest entries when the cap is reached."
+        },
+        "kind": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Progress dimension. text = page, chapter, or percentage tracking; audio = time-based tracking. Mirrors the workType medium but stays independent of it.",
+          "knownValues": [
+            "text",
+            "audio"
+          ]
+        }
+      },
+      "description": "An actor's progress on a work or edition, expressed either as text-based (page, chapter, or percentage) or audio-based (elapsed time) tracking."
+    },
+    "percentageProgress": {
+      "type": "object",
+      "required": [
+        "percentage"
+      ],
+      "properties": {
+        "percentage": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0,
+          "description": "Percentage of the work completed as of this progress entry, from 0 to 100."
+        }
+      },
+      "description": "Position marker for percentage-based reading progress."
+    },
+    "audioTargetCustomization": {
+      "type": "object",
+      "properties": {
+        "chapterTotal": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "User-confirmed total chapter count for this audiobook target, independent of durationSeconds — set when the actor tracks progress by chapter instead of (or in addition to) audio position."
+        },
+        "durationSeconds": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Total audio duration in seconds, as confirmed by the actor."
+        }
+      },
+      "description": "User-confirmed customization for an audio target. Runtime validation MUST require at least one of durationSeconds or chapterTotal. Both may be populated at once: an audiobook edition can carry an independent chapter total alongside its duration total."
+    },
+    "catalogTargetCustomization": {
+      "type": "object",
+      "required": [
+        "workType"
+      ],
+      "properties": {
+        "book": {
+          "ref": "#paginatedTargetCustomization",
+          "type": "ref",
+          "description": "Customization payload for a target tracked with paginated (page or chapter) progress, most commonly used for novel, poetry, non_fiction, and other text-first workType values."
+        },
+        "comic": {
+          "ref": "#paginatedTargetCustomization",
+          "type": "ref",
+          "description": "Customization payload for a target tracked with comic-style chapter progress, used for comic workType values. Comic is a distinct workType from manga (not a subset or synonym of it), even though both share the same chapter-based payload shape."
+        },
+        "manga": {
+          "ref": "#paginatedTargetCustomization",
+          "type": "ref",
+          "description": "Customization payload for a target tracked with manga-style chapter progress, used for manga workType values."
+        },
+        "workType": {
+          "ref": "social.dracome.work.defs#workType",
+          "type": "ref",
+          "description": "Structural content form of the targeted work, carried here for context. It informs, but does not literally select, which of book, audiobook, manga, or comic is populated below: the populated payload MUST match the edition's actual tracking modality (page/chapter-based, audio-duration-based, or manga/comic-chapter-based), not a literal workType lookup. For example, an audiobook recording of a novel still has workType novel while needing the audiobook-shaped payload; audio_drama itself is a comparatively rare workType value even though it always needs the same audiobook-shaped payload."
+        },
+        "audiobook": {
+          "ref": "#audioTargetCustomization",
+          "type": "ref",
+          "description": "Customization payload for a target tracked with audio-duration progress. Most commonly used for narrated audio recordings of any workType (e.g. an audiobook edition of a novel) — audio_drama is a comparatively rare workType value, not the common case, but always uses this same shape."
+        }
+      },
+      "description": "User-confirmed target-scoped customization that overrides catalog totals for this actor. Runtime validation MUST require exactly one of book, audiobook, manga, or comic to be populated, chosen based on the edition's actual tracking modality rather than a literal workType lookup: for most workType values this is book (paginated); narrated audio recordings of any workType use audiobook (audio_drama itself is a comparatively rare workType, not the common case for this payload); manga and comic each use their own respective payload, since comic is a distinct workType. The format-appropriate shape always takes precedence over workType since audio recordings of any work type need audio-shaped tracking."
+    },
+    "paginatedTargetCustomization": {
+      "type": "object",
+      "properties": {
+        "pageTotal": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "User-confirmed total page count for this work or edition, overriding catalog data when the actor knows a more accurate figure."
+        },
+        "chapterTotal": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "User-confirmed total chapter count for this work or edition, overriding catalog data when the actor knows a more accurate figure."
+        }
+      },
+      "description": "User-confirmed totals for paginated works. Runtime validation MUST require at least one of pageTotal or chapterTotal."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

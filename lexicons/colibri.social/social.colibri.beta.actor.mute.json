@@ -1,0 +1,36 @@
+{
+  "id": "social.colibri.beta.actor.mute",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "subject": {
+            "refs": [
+              "social.colibri.beta.actor.defs#mutedActor",
+              "social.colibri.beta.actor.defs#mutedChannel",
+              "social.colibri.beta.actor.defs#mutedThread"
+            ],
+            "type": "union",
+            "closed": true,
+            "description": "What is muted. A user or a community is named by DID, a channel or a thread by its space."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the mute was created."
+          }
+        }
+      },
+      "description": "A muted subject. One record per mute, so unmuting is a delete rather than a rewrite of a list."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,37 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "permissionView": {
+      "properties": {
+        "author": {
+          "description": "The streamer who granted these permissions",
+          "ref": "app.bsky.actor.defs#profileViewBasic",
+          "type": "ref"
+        },
+        "cid": {
+          "description": "Content identifier of the permission record",
+          "format": "cid",
+          "type": "string"
+        },
+        "record": {
+          "description": "The permission record itself",
+          "type": "unknown"
+        },
+        "uri": {
+          "description": "AT-URI of the permission record",
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "cid",
+        "author",
+        "record"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "place.stream.moderation.defs",
+  "lexicon": 1
+}

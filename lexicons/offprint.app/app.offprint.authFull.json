@@ -1,0 +1,25 @@
+{
+  "id": "app.offprint.authFull",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Offprint",
+      "detail": "Manage your profile, publication, and article references.",
+      "permissions": [
+        {
+          "type": "permission",
+          "resource": "repo",
+          "collection": [
+            "app.offprint.actor.profile",
+            "app.offprint.publication",
+            "app.offprint.document.article",
+            "app.offprint.component",
+            "app.offprint.page"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

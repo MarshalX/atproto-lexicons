@@ -1,0 +1,29 @@
+{
+  "id": "app.standard-reader.getLabelers",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "labelers"
+          ],
+          "properties": {
+            "labelers": {
+              "type": "array",
+              "items": {
+                "ref": "app.standard-reader.labeler.defs#labelerView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "List the labelers the calling reader is subscribed to, each resolved (the standard way) to a labeler view. Used by the Settings → Labelers page."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

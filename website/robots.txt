@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lex.atproto.blue/sitemap.xml

@@ -1,0 +1,111 @@
+{
+  "id": "app.gainforest.organization.observations.measuredTreesCluster",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "shapefile",
+          "createdAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the tree cluster/plot (e.g., 'Plot A - Riparian Zone')",
+            "maxGraphemes": 256
+          },
+          "license": {
+            "type": "string",
+            "description": "Data license",
+            "maxGraphemes": 256
+          },
+          "siteRef": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI reference to the site this cluster belongs to"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "The date and time of the creation of the record"
+          },
+          "shapefile": {
+            "ref": "org.hypercerts.defs#smallBlob",
+            "type": "ref",
+            "description": "A blob pointing to a shapefile of the measured trees cluster"
+          },
+          "dataSource": {
+            "type": "string",
+            "description": "Source of the data (e.g., 'KoBoToolbox', 'field survey')",
+            "maxGraphemes": 256
+          },
+          "measuredBy": {
+            "type": "string",
+            "description": "Person(s) who measured the trees (pipe-delimited)",
+            "maxGraphemes": 512
+          },
+          "description": {
+            "ref": "app.gainforest.common.defs#richtext",
+            "type": "ref",
+            "description": "Description of the cluster"
+          },
+          "areaSqMeters": {
+            "type": "string",
+            "description": "Area of the cluster in square meters",
+            "maxGraphemes": 32
+          },
+          "averageDbhCm": {
+            "type": "string",
+            "description": "Average diameter at breast height in cm",
+            "maxGraphemes": 16
+          },
+          "speciesCount": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of distinct species in the cluster"
+          },
+          "totalTreeCount": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Total number of measured trees in the cluster"
+          },
+          "decimalLatitude": {
+            "type": "string",
+            "description": "Centroid latitude of the cluster",
+            "maxGraphemes": 32
+          },
+          "dominantSpecies": {
+            "type": "string",
+            "description": "Most common species scientific name",
+            "maxGraphemes": 256
+          },
+          "decimalLongitude": {
+            "type": "string",
+            "description": "Centroid longitude of the cluster",
+            "maxGraphemes": 32
+          },
+          "averageHeightMeters": {
+            "type": "string",
+            "description": "Average tree height in meters",
+            "maxGraphemes": 16
+          },
+          "measurementProtocol": {
+            "type": "string",
+            "description": "Description of the measurement protocol used",
+            "maxGraphemes": 1024
+          },
+          "measurementDateRange": {
+            "type": "string",
+            "description": "Date range of measurements (ISO 8601 interval)",
+            "maxGraphemes": 64
+          }
+        }
+      },
+      "description": "A declaration of a measured trees cluster for an organization"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

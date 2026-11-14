@@ -1,0 +1,67 @@
+{
+  "id": "buzz.bookhive.updateList",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri"
+          ],
+          "properties": {
+            "uri": {
+              "type": "string",
+              "description": "AT-URI of the list to update"
+            },
+            "name": {
+              "type": "string",
+              "maxLength": 100,
+              "minLength": 1,
+              "description": "New name for the list"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "maxLength": 50
+              },
+              "description": "New tags"
+            },
+            "ordered": {
+              "type": "boolean",
+              "description": "Whether the list is ordered"
+            },
+            "description": {
+              "type": "string",
+              "maxLength": 500,
+              "description": "New description"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri",
+            "cid"
+          ],
+          "properties": {
+            "cid": {
+              "type": "string"
+            },
+            "uri": {
+              "type": "string"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Update an existing book list."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

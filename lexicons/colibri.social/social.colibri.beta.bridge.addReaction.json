@@ -1,0 +1,116 @@
+{
+  "id": "social.colibri.beta.bridge.addReaction",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "community",
+            "registration",
+            "channel",
+            "author",
+            "target",
+            "emoji"
+          ],
+          "properties": {
+            "uri": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The message being reacted to, as a record URI in the channel. Preferred over `target` when it is valid."
+            },
+            "emoji": {
+              "type": "string",
+              "maxLength": 64,
+              "description": "The reaction, as an emoji or a custom shortcode."
+            },
+            "author": {
+              "ref": "social.colibri.beta.bridge.defs#remoteAuthor",
+              "type": "ref",
+              "description": "Who reacted."
+            },
+            "target": {
+              "ref": "social.colibri.beta.defs#recordRef",
+              "type": "ref",
+              "description": "The message being reacted to."
+            },
+            "channel": {
+              "type": "string",
+              "format": "space-ref",
+              "description": "The linked channel or thread the record lives in."
+            },
+            "community": {
+              "type": "string",
+              "format": "did",
+              "description": "The community the registration belongs to."
+            },
+            "registration": {
+              "type": "string",
+              "format": "tid",
+              "description": "Record key of the registration."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request is missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "CommunityNotFound",
+          "description": "No community exists at the given DID."
+        },
+        {
+          "name": "RegistrationNotFound",
+          "description": "The community has no bridge registration with that id."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The caller is not the bridge this registration belongs to."
+        },
+        {
+          "name": "RegistrationDisabled",
+          "description": "An admin has paused this registration."
+        },
+        {
+          "name": "ChannelNotLinked",
+          "description": "The channel is not linked to this registration."
+        },
+        {
+          "name": "RateLimited",
+          "description": "The bridge sent too many requests. Retry after the interval in the response headers."
+        },
+        {
+          "name": "CredentialsUnavailable",
+          "description": "The AppView cannot act as the community because its stored credentials are missing or unusable."
+        },
+        {
+          "name": "AlreadyReacted",
+          "description": "This person already reacted to the message with the same emoji."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "rkey"
+          ],
+          "properties": {
+            "rkey": {
+              "type": "string",
+              "format": "record-key",
+              "description": "Record key of the record the community wrote."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Adds a reaction from someone on another service to a message in a linked channel. The community writes the reaction, attributed to that person."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

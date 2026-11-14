@@ -1,0 +1,33 @@
+{
+  "id": "town.delve.authManageNotifications",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Manage notifications",
+      "detail": "View and configure notifications.",
+      "title:lang": {},
+      "detail:lang": {},
+      "permissions": [
+        {
+          "lxm": [
+            "town.delve.notification.getPreferences",
+            "town.delve.notification.getUnreadCount",
+            "town.delve.notification.listActivitySubscriptions",
+            "town.delve.notification.listNotifications",
+            "town.delve.notification.putActivitySubscription",
+            "town.delve.notification.putPreferences",
+            "town.delve.notification.putPreferencesV2",
+            "town.delve.notification.registerPush",
+            "town.delve.notification.unregisterPush",
+            "town.delve.notification.updateSeen"
+          ],
+          "type": "permission",
+          "resource": "rpc",
+          "inheritAud": true
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

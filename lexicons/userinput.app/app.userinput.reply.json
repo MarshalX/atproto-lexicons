@@ -1,0 +1,41 @@
+{
+  "id": "app.userinput.reply",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "body",
+          "createdAt"
+        ],
+        "properties": {
+          "body": {
+            "type": "string",
+            "maxLength": 20000,
+            "maxGraphemes": 10000
+          },
+          "parent": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Optional parent reply, for threading."
+          },
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The discussion being replied to. Indexed by constellation at subject.uri."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "A reply on a discussion. Lives in the author's repo."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

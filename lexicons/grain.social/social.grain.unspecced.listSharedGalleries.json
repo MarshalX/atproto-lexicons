@@ -1,0 +1,70 @@
+{
+  "id": "social.grain.unspecced.listSharedGalleries",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "galleries"
+          ],
+          "properties": {
+            "galleries": {
+              "type": "array",
+              "items": {
+                "ref": "#sharedGalleryRef",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 25,
+            "maximum": 50,
+            "minimum": 1
+          }
+        }
+      },
+      "description": "Private galleries other accounts have shared with the viewer. Answered from grain's own record of who a gallery was shared with, because a space leaves no trace on a member's PDS — then confirmed against the authority, so a gallery the viewer was removed from does not appear."
+    },
+    "sharedGalleryRef": {
+      "type": "object",
+      "required": [
+        "space",
+        "skey",
+        "author"
+      ],
+      "properties": {
+        "skey": {
+          "type": "string"
+        },
+        "space": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string",
+          "format": "did"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "authorHandle": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

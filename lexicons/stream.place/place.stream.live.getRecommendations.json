@@ -1,0 +1,73 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "livestreamRecommendation": {
+      "properties": {
+        "did": {
+          "description": "The DID of the recommended streamer",
+          "format": "did",
+          "type": "string"
+        },
+        "source": {
+          "description": "Source of the recommendation",
+          "enum": [
+            "streamer",
+            "follows",
+            "host"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "did",
+        "source"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "Get the list of streamers recommended by a user",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "recommendations": {
+              "description": "Ordered list of recommendations",
+              "items": {
+                "refs": [
+                  "#livestreamRecommendation"
+                ],
+                "type": "union"
+              },
+              "type": "array"
+            },
+            "userDID": {
+              "description": "The user DID this recommendation is for",
+              "format": "did",
+              "type": "string"
+            }
+          },
+          "required": [
+            "recommendations"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "userDID": {
+            "description": "The DID of the user whose recommendations to fetch",
+            "format": "did",
+            "type": "string"
+          }
+        },
+        "required": [
+          "userDID"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "place.stream.live.getRecommendations",
+  "lexicon": 1
+}

@@ -1,0 +1,42 @@
+{
+  "id": "app.zeens.getFeaturedFeed",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "curator"
+        ],
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 36,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "curator": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the curator account that owns the featuredItem records."
+          },
+          "activeOnly": {
+            "type": "boolean",
+            "default": false,
+            "description": "When true, only active items, ordered by position (splash carousel). When false, the full archive ordered newest-featured first."
+          }
+        }
+      },
+      "description": "List admin-curated featured items from the curator repo, joined to their subject posts and hydrated with author + live engagement counts. `activeOnly=true` returns the splash set ordered by admin position; otherwise returns the full archive newest-first. `curator` is the curator account DID.",
+      "target_collection": "app.zeens.featuredItem"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

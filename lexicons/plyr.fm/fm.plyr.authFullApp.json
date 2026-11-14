@@ -1,0 +1,31 @@
+{
+  "id": "fm.plyr.authFullApp",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "manage your plyr.fm library",
+      "detail": "create, update, and delete your tracks, albums, playlists, likes, comments, and artist profile.",
+      "description": "Write access to a user's plyr.fm data. Clients request include:fm.plyr.authFullApp at sign-in and the PDS expands it into the collections this set currently lists — the set can evolve without clients changing their scope request.",
+      "permissions": [
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "fm.plyr.track",
+            "fm.plyr.like",
+            "fm.plyr.comment",
+            "fm.plyr.list",
+            "fm.plyr.actor.profile"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

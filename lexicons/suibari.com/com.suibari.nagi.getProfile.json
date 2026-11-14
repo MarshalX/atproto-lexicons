@@ -1,0 +1,73 @@
+{
+  "id": "com.suibari.nagi.getProfile",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "profile",
+            "feed"
+          ],
+          "properties": {
+            "feed": {
+              "ref": "com.suibari.nagi.getTimeline#output",
+              "type": "ref"
+            },
+            "profile": {
+              "type": "unknown"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "actor"
+        ],
+        "properties": {
+          "lang": {
+            "type": "string",
+            "default": "ja",
+            "maxLength": 2,
+            "knownValues": [
+              "ja",
+              "en"
+            ]
+          },
+          "actor": {
+            "type": "string"
+          },
+          "group": {
+            "type": "boolean",
+            "default": false,
+            "description": "Return one timeline-style conversation per thread matched by the filter, ordered by latest human activity."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "filter": {
+            "type": "string",
+            "default": "posts",
+            "knownValues": [
+              "posts",
+              "replies",
+              "media",
+              "reactions"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

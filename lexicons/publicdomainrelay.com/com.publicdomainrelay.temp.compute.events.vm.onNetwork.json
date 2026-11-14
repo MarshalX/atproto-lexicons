@@ -1,0 +1,28 @@
+{
+  "id": "com.publicdomainrelay.temp.compute.events.vm.onNetwork",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt"
+        ],
+        "properties": {
+          "address": {
+            "type": "string",
+            "description": "Address (hostname or IP) the VM is reachable at, if known."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Reports that a provisioned VM has come up on the network and is reachable (e.g. it registered its SSH key / fedproxy route and its policy engine answered)."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

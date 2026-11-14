@@ -1,0 +1,418 @@
+{
+  "id": "net.anisota.feed.lens",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "icon": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Optional Lucide icon key shown beside the name. A key the client does not recognise falls back to the default lens icon rather than rendering nothing."
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Display name for this lens. It is what the feed subtitle says the reader is looking through, so it wants to be short enough to sit in a chip."
+          },
+          "order": {
+            "ref": "#order",
+            "type": "ref",
+            "description": "How the deck is sorted once fetched and filtered. Absent leaves the feed's existing sort in place."
+          },
+          "source": {
+            "ref": "#source",
+            "type": "ref"
+          },
+          "content": {
+            "ref": "#content",
+            "type": "ref",
+            "description": "Which kinds of post reach the reader. Absent leaves every kind visible."
+          },
+          "schedule": {
+            "ref": "#schedule",
+            "type": "ref",
+            "description": "Optional daily window during which this lens takes over on its own. Absent means the lens applies only when something picks it."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When this lens was first saved"
+          },
+          "inclusion": {
+            "ref": "#inclusion",
+            "type": "ref",
+            "description": "Which posts are in the deck at all — reposts, replies, author relationship, rarity band, age, language. Absent leaves the feed's own inclusion rules alone."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When this lens was last modified. Two scheduled lenses whose windows overlap are tie-broken on this field, newest first, so an editor that lets a window overlap owes the author a warning."
+          },
+          "moderation": {
+            "ref": "#moderation",
+            "type": "ref",
+            "description": "A local overlay on the viewer's moderation preferences. Absent leaves their moderation exactly as they set it."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 300,
+            "description": "Optional description of what this lens is for — the sentence a learner reads before saving it."
+          },
+          "targetFeeds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 512
+            },
+            "maxLength": 50,
+            "description": "Feeds where this lens applies: feed generator / list at-uris, or the literal sentinel 'following' for the home timeline. Empty or absent applies everywhere. This is the same scoping vocabulary net.anisota.graph.wordlist uses, so one resolver serves both."
+          }
+        }
+      },
+      "description": "A lens — a saved, named way of seeing a feed. One record carries what kinds of post reach the reader, how hard moderation bites, which posts are included at all, what order the deck arrives in, and where and when the lens applies, so that 'which lens am I looking through' always has exactly one answer. Lenses never merge: whichever layer wins — a cast spell, the choice made on entry, a schedule window, the feed's own lens, or the standing default — supplies the whole record. Every section is optional and an absent section means 'leave that alone'; a reader must not substitute defaults for a section the record does not carry, because a defaulted section silently changes behavior the author never asked to change. Each record is complete and self-contained so it can be shared by URL and saved ('learned') into another user's PDS without depending on the author's other records, mirroring the net.anisota.observatory.layout and net.anisota.spell.custom architecture — that is why moderation.wordLists carries its words inline rather than only an rkey, since a learned lens has to work on a PDS that has never heard of the author's lists. An optional schedule makes a lens take over automatically during a daily window, resolved by the same helper the Observatory's layout schedules use."
+    },
+    "order": {
+      "type": "object",
+      "properties": {
+        "sort": {
+          "type": "string",
+          "description": "The deck sort mode, the same vocabulary the per-feed sort uses. 'default' keeps whatever order the fetch produced. A value a client does not recognise falls back to 'default' for that session and is not rewritten.",
+          "knownValues": [
+            "default",
+            "reverse-chronological",
+            "chronological",
+            "popular",
+            "shuffled"
+          ]
+        }
+      },
+      "description": "How the deck is ordered once it has been fetched and filtered. Ordering is part of the lens rather than a separate per-feed setting because a lens that changes what is fetched cannot leave the order of the result to something else."
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "knownValues": [
+            "original",
+            "learned",
+            "preset"
+          ]
+        },
+        "rootDid": {
+          "type": "string",
+          "format": "did",
+          "description": "DID of the original author at the top of the lineage."
+        },
+        "rootUri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT URI of the first author's lens — the top of the lineage — propagated to every descendant."
+        },
+        "presetId": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Identifier of the built-in preset a 'preset' lens was seeded from, kept so a later generation of that preset can find the copies it should offer to update."
+        },
+        "originalDid": {
+          "type": "string",
+          "format": "did",
+          "description": "DID of the user this lens was saved from."
+        },
+        "originalUri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT URI of the lens this copy was saved from (its immediate parent)."
+        }
+      },
+      "description": "Provenance. An 'original' lens was built here; a 'learned' lens was saved from another user, carrying a backlink to its immediate parent (originalUri/originalDid) and to the top of its lineage (rootUri/rootDid), modelled on net.anisota.spell.custom so save counts aggregate across re-shares. A 'preset' lens was seeded from one of the built-in lenses, which are free to learn and use even where building your own is not."
+    },
+    "content": {
+      "type": "object",
+      "properties": {
+        "gifs": {
+          "type": "string",
+          "description": "app.bsky.embed.external whose target is a Tenor/Giphy/.gif URL. GIFs are split out from links because 'no moving pictures' and 'no link cards' are different moods.",
+          "knownValues": [
+            "show",
+            "hide"
+          ]
+        },
+        "links": {
+          "type": "string",
+          "description": "app.bsky.embed.external that is not a GIF.",
+          "knownValues": [
+            "show",
+            "hide"
+          ]
+        },
+        "video": {
+          "type": "string",
+          "description": "app.bsky.embed.video.",
+          "knownValues": [
+            "show",
+            "hide"
+          ]
+        },
+        "images": {
+          "type": "string",
+          "description": "app.bsky.embed.images and app.bsky.embed.gallery. 'hide' removes the whole post, not the picture.",
+          "knownValues": [
+            "show",
+            "hide"
+          ]
+        },
+        "quotes": {
+          "type": "string",
+          "description": "app.bsky.embed.record pointing at a post. A recordWithMedia embed counts as a quote *and* as whatever its media is, so it goes when either is hidden; a quoted post's own media counts too, since it is on screen either way.",
+          "knownValues": [
+            "show",
+            "hide"
+          ]
+        },
+        "textPosts": {
+          "type": "string",
+          "description": "A post carrying no embed at all. 'hide' is how 'photographs only' is expressed — the inverse of text-only mode, which the old boolean could not say.",
+          "knownValues": [
+            "show",
+            "hide"
+          ]
+        },
+        "hideLinkThumbnails": {
+          "type": "boolean",
+          "description": "Drop the preview image from a link card while keeping the card. This is what text-only mode has always done, and it is kept as its own boolean rather than a treatment on 'links' because it is a decision about the picture, not about the link."
+        }
+      },
+      "description": "What kinds of post reach the reader, decided from the post's embed with no heuristics. Each type is simply shown or hidden: there is deliberately no third 'quiet' treatment that would keep the post and strip its embed, because a post is very often *about* the thing it embeds, and a card whose quote or image has been removed reads as nonsense. Removing the post is honest; hollowing it out is not. hideLinkThumbnails is the one exception and it is not a treatment — dropping a link card's preview picture leaves its title, description and destination intact, so nothing about the post becomes unreadable. Any type this record omits is left alone."
+    },
+    "schedule": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether the schedule is active. A schedule without this is inert — the resolver returns nothing for it."
+        },
+        "endTime": {
+          "type": "string",
+          "maxLength": 5,
+          "description": "Window end as 'HH:MM' (24-hour, local time)"
+        },
+        "startTime": {
+          "type": "string",
+          "maxLength": 5,
+          "description": "Window start as 'HH:MM' (24-hour, local time)"
+        },
+        "daysOfWeek": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "maximum": 6,
+            "minimum": 0
+          },
+          "maxLength": 7,
+          "description": "Days the window applies to (0 = Sunday … 6 = Saturday). Empty or absent means every day."
+        }
+      },
+      "description": "Optional daily activation window. When enabled, this lens takes over between startTime and endTime (wrapping past midnight when startTime > endTime), optionally restricted to certain days of the week. A window belongs to the day it *starts* on, so 'Friday 20:00–06:00' is one Friday-night window running into Saturday morning. This is the net.anisota.observatory.layout schedule shape rather than the word-list one, deliberately: the resolver that answers 'which of these is in its window right now' reads `enabled` and `daysOfWeek`, and a schedule written in the other shape resolves to nothing at all."
+    },
+    "inclusion": {
+      "type": "object",
+      "properties": {
+        "langs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 16
+          },
+          "maxLength": 20,
+          "description": "Language codes (as they appear in a post's record.langs) to keep. Empty or absent means any language, including posts that declare none."
+        },
+        "replies": {
+          "type": "string",
+          "description": "How much of a conversation arrives. 'topLevelAndSelfThreads' is the standing behavior: root posts plus replies an author made to themselves. 'topLevelOnly' keeps root posts alone. There is deliberately no 'all': replies to other people are dropped at fetch time, before any lens runs, so offering it here would be an option that cannot do anything. Search feeds are exempt from the reply rule so a searched-for reply still surfaces.",
+          "knownValues": [
+            "topLevelAndSelfThreads",
+            "topLevelOnly"
+          ]
+        },
+        "reposts": {
+          "type": "string",
+          "description": "Whether reposts come through. A repost is identified by its reason being app.bsky.feed.defs#reasonRepost specifically — a pinned post carries a reason too.",
+          "knownValues": [
+            "show",
+            "hide"
+          ]
+        },
+        "maxRarity": {
+          "type": "string",
+          "description": "Highest engagement band to include, exclusive at the top of the band. 'Only the quiet ones' is a real way to read, and it is the one direction the fresh-post problem does not spoil.",
+          "knownValues": [
+            "veryCommon",
+            "common",
+            "uncommon",
+            "rare",
+            "veryRare"
+          ]
+        },
+        "minRarity": {
+          "type": "string",
+          "description": "Lowest engagement band to include, inclusive, from the same thresholds the rarity icons use. Absent means no floor, and 'veryCommon' is a no-op since it is the bottom band. Worth stating plainly wherever this is edited: rarity is engagement measured at fetch time, so a post published minutes ago sits in veryCommon whatever it will grow into — a floor over a chronological feed can legitimately return almost nothing, and that reads as a broken feed unless the empty state says so.",
+          "knownValues": [
+            "veryCommon",
+            "common",
+            "uncommon",
+            "rare",
+            "veryRare"
+          ]
+        },
+        "maxAgeHours": {
+          "type": "integer",
+          "maximum": 8760,
+          "minimum": 1,
+          "description": "Nothing older than this many hours. Whole hours only — the AT Protocol data model carries integers, not floats — so a client rounds before writing."
+        },
+        "minAgeHours": {
+          "type": "integer",
+          "maximum": 8760,
+          "minimum": 1,
+          "description": "Nothing *newer* than this many hours: the day, after it has had time to settle. Stranger than a ceiling and considerably more useful."
+        },
+        "relationship": {
+          "type": "string",
+          "description": "Whose posts count. An author whose viewer state is missing — signed-out reads, public AppView hydration and some search results all omit it — is treated as unknown and is NOT hidden, because 'we could not tell' is not the same as 'not following'.",
+          "knownValues": [
+            "everyone",
+            "following",
+            "mutuals"
+          ]
+        },
+        "hideReadPosts": {
+          "type": "boolean",
+          "description": "Drop posts this reader has already been shown."
+        },
+        "describedImagesOnly": {
+          "type": "boolean",
+          "description": "Keep only posts whose images all carry alt text. A lens where the forest shows you what someone bothered to describe."
+        },
+        "hideInteractedPosts": {
+          "type": "boolean",
+          "description": "Drop posts this reader has already liked, reposted or replied to."
+        }
+      },
+      "description": "Which posts are in the deck at all, as opposed to what kind of thing they carry. Every field is an override on an existing behavior setting and an absent field leaves that setting alone. Several of these narrow the deck sharply and they stack, so a client is expected to keep paginating until the deck fills and to name the section responsible when it cannot."
+    },
+    "moderation": {
+      "type": "object",
+      "properties": {
+        "wordLists": {
+          "type": "array",
+          "items": {
+            "ref": "#wordListSnapshot",
+            "type": "ref"
+          },
+          "maxLength": 20,
+          "description": "Word lists to hold active while the lens applies, carried as inline snapshots. They combine with the viewer's own enabled lists rather than replacing them, and are deduplicated by rkey across every source so a list counted twice does not double-credit its impact."
+        },
+        "softenHides": {
+          "type": "boolean",
+          "description": "Gentle mode: when true, a real 'hide' outcome is softened to a warning so nothing silently disappears. The app reads an absent value as true, so this field only carries meaning when it is actually present — an overlay must not write it unless the lens set it."
+        },
+        "hideAllLabels": {
+          "type": "boolean",
+          "description": "The label pause: treat every label from every labeler as 'ignore' for the duration of the lens, without touching a single subscription."
+        },
+        "labelVisibility": {
+          "type": "unknown",
+          "description": "Per-label overlay keyed by label value (optionally scoped as '<labelerDid>:<label>'), each value one of 'hide', 'warn' or 'ignore'. Consulted ahead of the viewer's stored per-label preferences and never written back to them. Left as 'unknown' because the keys are an open vocabulary owned by labelers, not by this schema."
+        },
+        "globalMuteStrength": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0,
+          "description": "The master mute volume — the share of matching posts muting acts on, with the squarest matches muted first. Overrides the viewer's stored strength for the duration of the lens."
+        },
+        "mutedContentHandling": {
+          "type": "string",
+          "description": "What happens to a post muted by words: leave it visible and only count it, collapse it behind a notice, or remove it from the feed.",
+          "knownValues": [
+            "show",
+            "warn",
+            "hide"
+          ]
+        },
+        "mutedAccountsHandling": {
+          "type": "string",
+          "description": "The same three choices for a post by a muted account.",
+          "knownValues": [
+            "show",
+            "warn",
+            "hide"
+          ]
+        }
+      },
+      "description": "A local overlay on the viewer's resolved moderation preferences, in force only while this lens is active. A lens never writes Bluesky preferences: labeler subscriptions, per-label visibility and muted words live in the viewer's app.bsky.actor preferences and are shared with every other client they use, so a lens that mutated them would reach out of Anisota and change Bluesky itself. Everything here is layered client-side over the resolved preferences object and is gone the moment the lens stops applying. Labeler *subscription* is deliberately absent for the same reason: subscribing is a Bluesky-wide act, and hideAllLabels together with labelVisibility already cover every reason to want a labeler quieter inside one lens. Each field is an override; a field this record omits leaves the viewer's own setting untouched, which is why a reader must test for presence rather than read a falsy value as 'off'."
+    },
+    "wordListSnapshot": {
+      "type": "object",
+      "required": [
+        "words"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Display name, used when the viewer has no list of their own to resolve against."
+        },
+        "rkey": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Record key of the author's own list this was snapshotted from. Present only on a lens that has not left its author's repo."
+        },
+        "words": {
+          "type": "array",
+          "items": {
+            "type": "unknown"
+          },
+          "maxLength": 500,
+          "description": "The muted words, each an object shaped like a net.anisota.graph.wordlist #word ({ value, targets, actorTarget }) — never a bare string. The mute matcher skips any entry without a `.value`, so a snapshot flattened to strings on the way in is not a weaker filter, it is no filter at all, and it fails silently on exactly the learned lens that has no live list to fall back to. Left as 'unknown' items rather than a ref so the snapshot keeps travelling losslessly if the word shape gains a field."
+        },
+        "strength": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0,
+          "description": "Mute strength for this list. Absent means 100."
+        },
+        "treatment": {
+          "type": "string",
+          "description": "What this list does to a post it matches, overriding the app-wide muted-words handling. 'inherit' and absence both defer to that setting.",
+          "knownValues": [
+            "inherit",
+            "hide",
+            "warn",
+            "show"
+          ]
+        },
+        "targetFeeds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 512
+          },
+          "maxLength": 50,
+          "description": "Feeds this list is scoped to, in the same vocabulary as the record's own targetFeeds. Empty or absent applies wherever the lens does."
+        }
+      },
+      "description": "One word list carried inline, matching the value shape of the wordLists/activateList spell effect so the two are interchangeable. When rkey is present it resolves against the viewer's own live net.anisota.graph.wordlist record and that record wins, so a list the viewer already keeps stays under their control and their edits keep applying; the inline words are the fallback that makes a shared lens work on a PDS that has never had it. A learned lens strips rkey from its snapshots, because an rkey minted in another repo would otherwise resolve against — and silently hijack — whatever list the learner happens to keep under the same key."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,33 @@
+{
+  "id": "app.zeens.getCollection",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "uri"
+        ],
+        "properties": {
+          "uri": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the app.zeens.collection record."
+          },
+          "viewer": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the requester."
+          }
+        }
+      },
+      "description": "Fetch a single collection record + a recent-items preview for the cover. Returns 404 if visibility=private and viewer != owner.",
+      "target_collection": "app.zeens.collection"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

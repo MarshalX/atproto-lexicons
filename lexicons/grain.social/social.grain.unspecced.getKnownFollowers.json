@@ -1,0 +1,73 @@
+{
+  "id": "social.grain.unspecced.getKnownFollowers",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "ref": "social.grain.unspecced.getKnownFollowers#followerItem",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "actor",
+          "viewer"
+        ],
+        "properties": {
+          "actor": {
+            "type": "string",
+            "format": "at-identifier"
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 50,
+            "minimum": 1
+          },
+          "viewer": {
+            "type": "string",
+            "format": "did"
+          }
+        }
+      },
+      "description": "Get followers of a given actor that the viewer also follows."
+    },
+    "followerItem": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "handle": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

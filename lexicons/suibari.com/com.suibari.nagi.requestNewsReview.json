@@ -1,0 +1,59 @@
+{
+  "id": "com.suibari.nagi.requestNewsReview",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "subject"
+          ],
+          "properties": {
+            "subject": {
+              "ref": "com.atproto.repo.strongRef",
+              "type": "ref"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired"
+        },
+        {
+          "name": "RateLimited"
+        },
+        {
+          "name": "InvalidRecord"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "status"
+          ],
+          "properties": {
+            "status": {
+              "type": "string",
+              "knownValues": [
+                "pending",
+                "processing",
+                "approved",
+                "rejected",
+                "failed",
+                "cancelled"
+              ]
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "本人のPDSに作成したニュースレコードを受け付け、その場で掲載する。botたんのコメントは後から付く。"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

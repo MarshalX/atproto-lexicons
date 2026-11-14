@@ -1,0 +1,38 @@
+{
+  "id": "social.pinkleap.highlights",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "order",
+          "createdAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "order": {
+            "type": "integer",
+            "description": "Position in the highlight bar (ascending)."
+          },
+          "coverUri": {
+            "type": "string",
+            "description": "Optional AT-URI of a post whose media is used as cover. Falls back to first item in the linked collection."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Metadata for a named highlight shown on a user profile."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

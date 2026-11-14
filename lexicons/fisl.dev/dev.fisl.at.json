@@ -1,0 +1,60 @@
+{
+  "id": "dev.fisl.at",
+  "defs": {
+    "addr": {
+      "type": "object",
+      "required": [
+        "url"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 2048,
+          "description": "Absolute URL for the content. The scheme identifies the retrieval method."
+        },
+        "expires": {
+          "type": "string",
+          "format": "datetime",
+          "description": "Time after which this addr is no longer valid. Defaults to, and is capped by, the record's expires."
+        }
+      },
+      "description": "One location that serves the content."
+    },
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "addrs"
+        ],
+        "properties": {
+          "size": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Size of the content in bytes."
+          },
+          "addrs": {
+            "type": "array",
+            "items": {
+              "ref": "#addr",
+              "type": "ref"
+            },
+            "maxLength": 32,
+            "minLength": 1,
+            "description": "Locations that serve the content."
+          },
+          "expires": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Time after which this record is no longer valid. Ceiling for the expiry of every addr."
+          }
+        }
+      },
+      "description": "An announcement that the content identified by the DASL or BDASL CID in the record key is retrievable at one or more URLs, until an expiry time."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

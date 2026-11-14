@@ -1,0 +1,73 @@
+{
+  "id": "app.zeens.getSubjectCovers",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "covers"
+          ],
+          "properties": {
+            "covers": {
+              "type": "array",
+              "items": {
+                "ref": "#cover",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "uris"
+        ],
+        "properties": {
+          "uris": {
+            "type": "string",
+            "description": "Comma-separated AT-URIs, up to 50 (the notifications page size). Values beyond that are ignored. Mixed lexicons are expected: a notifications page holds zeen likes and collection likes together."
+          }
+        }
+      },
+      "description": "Cover thumbnails for a batch of zeen / collection URIs. Deliberately narrow -- URIs in, cover refs out -- so a notifications list can draw a preview per row without a round trip each. getCollection takes one uri and returns the whole record plus an item count; a zeen had no AppView read at all and getZeen goes to the author's PDS for every page's full text to find one cid."
+    },
+    "cover": {
+      "type": "object",
+      "required": [
+        "uri",
+        "collection"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid",
+          "description": "The cover blob. Absent when the subject has no cover image, or when a private collection's cover is withheld."
+        },
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "The repo the blob lives on, which is NOT always the subject's author -- a zeen page can hold another user's photo, and the CDN needs the owning repo."
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "title": {
+          "type": "string",
+          "description": "The zeen's title or the collection's name, for a subject with no cover to fall back on."
+        },
+        "collection": {
+          "type": "string",
+          "description": "The subject's NSID: app.zeens.zeen or app.zeens.collection. The caller draws a zeen at its 1:1.414 page ratio and a collection square."
+        }
+      },
+      "description": "One subject. Returned even when it has no cover image, so a caller can tell a subject with no picture from a URI it could not resolve."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

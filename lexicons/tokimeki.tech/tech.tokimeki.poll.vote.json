@@ -1,0 +1,37 @@
+{
+  "id": "tech.tokimeki.poll.vote",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "poll",
+          "optionIndex",
+          "createdAt"
+        ],
+        "properties": {
+          "poll": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Reference to the poll record being voted on (a public at-uri or, inside a space, the poll's space record uri)."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "optionIndex": {
+            "type": "integer",
+            "maximum": 3,
+            "minimum": 0,
+            "description": "Index of the selected option (0-3)"
+          }
+        }
+      },
+      "description": "A vote on a poll. Lives in the voter's own repo; a vote on a poll that lives inside an ATProto Space is written into the same space (the voter's permissioned repo) and refers to the poll by its space record uri. One vote per voter and poll; delete the record to withdraw."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

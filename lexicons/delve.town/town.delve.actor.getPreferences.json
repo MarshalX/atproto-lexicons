@@ -1,0 +1,34 @@
+{
+  "id": "town.delve.actor.getPreferences",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "preferences"
+          ],
+          "properties": {
+            "stored": {
+              "type": "boolean",
+              "description": "Whether the responding service holds a committed preference set for this account. Set by an AppView store; false means nothing has ever been written (or it was erased), in which case preferences is empty. Absent when served from a PDS-local store."
+            },
+            "preferences": {
+              "ref": "town.delve.actor.defs#preferences",
+              "type": "ref"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {}
+      },
+      "description": "Get private preferences attached to the current account. Expected use is synchronization between multiple devices, and import/export during account migration. Requires auth."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

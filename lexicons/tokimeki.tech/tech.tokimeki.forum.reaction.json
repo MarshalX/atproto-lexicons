@@ -1,0 +1,37 @@
+{
+  "id": "tech.tokimeki.forum.reaction",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "emoji",
+          "createdAt"
+        ],
+        "properties": {
+          "emoji": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "A single emoji (grapheme cluster).",
+            "maxGraphemes": 8
+          },
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The tech.tokimeki.forum.message or tech.tokimeki.forum.thread being reacted to."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "An emoji reaction to a message or thread. Written into the reactor's own repo within the space. rkey is derived from the subject URI and the emoji ('r' + base32lower(sha256(uri + '\\n' + emoji))[0:26]) so one reactor has at most one record per (subject, emoji)."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

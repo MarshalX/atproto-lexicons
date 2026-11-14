@@ -1,0 +1,140 @@
+{
+  "id": "at.atpcraft.server.profile",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "minecraftVersion",
+          "atpcraftVersion",
+          "signingKey",
+          "updatedAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Server display name."
+          },
+          "address": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Public address players connect to, e.g. play.example.com:25565."
+          },
+          "operator": {
+            "ref": "#operator",
+            "type": "ref"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the server account first published its descriptor."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Record update time (refreshed on every publish)."
+          },
+          "signingKey": {
+            "ref": "#signingKey",
+            "type": "ref"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 2048,
+            "description": "Free-text server description / MOTD."
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 64,
+              "knownValues": [
+                "join-gate",
+                "player-data-sync",
+                "skin-sync",
+                "labeler",
+                "rpg-actor"
+              ]
+            },
+            "maxLength": 32,
+            "description": "Enabled ATPcraft features, sorted, unique."
+          },
+          "atpcraftVersion": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "ATPcraft mod version, read at runtime from the Fabric mod metadata."
+          },
+          "minecraftVersion": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Minecraft version the server runs, read at runtime."
+          }
+        }
+      },
+      "description": "The server's self-description. Exactly one per server account; the record key is always 'self'. Written into the server account's own repo (PDS-authenticated), so no per-record signature is required."
+    },
+    "operator": {
+      "type": "object",
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "Operator's ATProto DID (the server account's own DID by default)."
+        },
+        "handle": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Operator's handle."
+        },
+        "contact": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Free-text contact (email or handle)."
+        },
+        "website": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 2048,
+          "description": "Operator/server website."
+        }
+      },
+      "description": "Optional operator/contact details for server directories and discovery."
+    },
+    "signingKey": {
+      "type": "object",
+      "required": [
+        "keyId",
+        "publicKey",
+        "alg"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Signature algorithm.",
+          "knownValues": [
+            "ed25519"
+          ]
+        },
+        "keyId": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Signing key id: first 16 base64url chars of SHA-256 over the public key. Matches the 'server' field in player endorsements."
+        },
+        "publicKey": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Base64 (standard) X.509/SPKI-encoded Ed25519 public key."
+        }
+      },
+      "description": "The server's Ed25519 endorsement public key. Consumers resolve a player record's endorsement keyId (the 'server' field) to this key to verify snapshot/skin endorsements without out-of-band key sharing."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Self-published descriptor of an ATPcraft Minecraft server, written by the server into its own repository."
+}

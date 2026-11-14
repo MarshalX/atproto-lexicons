@@ -1,0 +1,19 @@
+{
+  "id": "app.zeens.getContentFacets",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {}
+      },
+      "description": "Category and location counts for the /search discovery landing, computed with the same visibility and matching rules getPhotoFeed applies so a tile's count matches the search it links to. A category counts a post when its postMeta categories match OR the post carries the tag as a hashtag facet.",
+      "target_collection": "app.zeens.postMeta"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

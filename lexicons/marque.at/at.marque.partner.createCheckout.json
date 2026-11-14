@@ -1,0 +1,272 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "item": {
+      "properties": {
+        "autoRenew": {
+          "description": "Mark the domain to auto-renew before expiry using the user's saved payment method. Defaults to false. Auto-renewal is charged separately from this order.",
+          "type": "boolean"
+        },
+        "domain": {
+          "description": "Fully qualified domain name to register.",
+          "maxLength": 253,
+          "type": "string"
+        },
+        "whoisPrivacy": {
+          "description": "Whether to redact the registrant's details from public WHOIS. Defaults to true (privacy on) when omitted; set false to publish the registrant's contact data. Silently ignored for TLDs that do not allow it, and for TLDs whose registry redacts WHOIS regardless (see whoisPrivacyAllowed from listPricing / checkAvailability).",
+          "type": "boolean"
+        },
+        "years": {
+          "description": "Registration period in years. Defaults to the TLD minimum.",
+          "maximum": 10,
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "domain"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "Prices and validates the requested domains, ensures a registrant contact for the authenticated user, and returns a hosted checkout URL. Call this proxied through the user's PDS (atproto-proxy: did:web:marque.at#marque_registrar) with a token holding the at.marque.partnerApi permission set: the authenticated user (the JWT iss) becomes the owner of the domains and is billed by the selected payment provider. The owning DID is taken from that authenticated session, never from input. The end user completes payment on the provider's hosted page and is redirected to successUrl with an order query parameter (successUrl?order=<orderId>) on success, or to cancelUrl if they abandon. Domains are not registered until payment is confirmed; poll at.marque.partner.getOrder with the returned orderId for provisioning status, then write the at.marque.domain and at.marque.dns records into the user's repository yourself. Only new registrations are supported here (no transfers or renewals).",
+      "errors": [
+        {
+          "description": "The request is malformed: no items, too many items (max 50), or an item with an invalid domain.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "A requested domain cannot be registered: it is taken, on an unsupported TLD, or could not be verified with the registry. The message identifies the domain.",
+          "name": "Unavailable"
+        },
+        {
+          "description": "The registrant is missing a required field (including state/province where the country requires it) or is missing an extra field a specific TLD mandates. The message names what is missing.",
+          "name": "InvalidRegistrant"
+        },
+        {
+          "description": "successUrl or cancelUrl is not a valid absolute https URL.",
+          "name": "InvalidCallback"
+        },
+        {
+          "description": "paymentMethod is not stripe, paypal, or nowpayments.",
+          "name": "InvalidPaymentMethod"
+        },
+        {
+          "description": "The selected payment provider is not configured.",
+          "name": "PaymentMethodUnavailable"
+        },
+        {
+          "description": "NOWPayments was selected but the order total is below the configured crypto minimum.",
+          "name": "PaymentAmountTooLow"
+        },
+        {
+          "description": "The selected payment provider could not create a hosted checkout.",
+          "name": "PaymentProviderError"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cancelUrl": {
+              "description": "Where the payment provider redirects if the user cancels.",
+              "format": "uri",
+              "type": "string"
+            },
+            "items": {
+              "description": "Domains to register in this order, 1 to 50. Every domain must currently be available (verify with checkAvailability first); if any is unavailable or on an unsupported TLD the whole call fails.",
+              "items": {
+                "ref": "#item",
+                "type": "ref"
+              },
+              "maxLength": 50,
+              "minLength": 1,
+              "type": "array"
+            },
+            "paymentMethod": {
+              "description": "Hosted payment provider. Defaults to stripe when omitted. Use paypal for PayPal checkout or nowpayments for cryptocurrency checkout.",
+              "knownValues": [
+                "stripe",
+                "paypal",
+                "nowpayments"
+              ],
+              "type": "string"
+            },
+            "registrant": {
+              "ref": "#registrant",
+              "type": "ref"
+            },
+            "successUrl": {
+              "description": "Where the payment provider redirects after successful payment. An order parameter carrying the order id is appended.",
+              "format": "uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "items",
+            "registrant",
+            "successUrl",
+            "cancelUrl"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "checkoutUrl": {
+              "description": "Hosted checkout URL from the selected payment provider.",
+              "format": "uri",
+              "type": "string"
+            },
+            "currency": {
+              "description": "ISO 4217 currency code of subtotalCents. Currently always usd.",
+              "type": "string"
+            },
+            "orderId": {
+              "description": "Opaque order id; pass to getOrder to poll status.",
+              "type": "string"
+            },
+            "paymentMethod": {
+              "description": "Payment provider selected for this order.",
+              "knownValues": [
+                "stripe",
+                "paypal",
+                "nowpayments"
+              ],
+              "type": "string"
+            },
+            "subtotalCents": {
+              "description": "Order subtotal in cents, before provider-specific tax or conversion adjustments. The amount shown on the hosted page may be higher.",
+              "type": "integer"
+            },
+            "taxCents": {
+              "description": "Tax charged in cents. Zero when tax is calculated by the hosted provider.",
+              "type": "integer"
+            },
+            "totalCents": {
+              "description": "Checkout total in cents, including tax known when the checkout is created.",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "orderId",
+            "checkoutUrl",
+            "subtotalCents",
+            "currency",
+            "paymentMethod"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    },
+    "registrant": {
+      "description": "The person or organization that will own the domains (the WHOIS registrant). Marque creates one registrant contact from these fields and uses it as the registrant, admin, tech, and billing contact for every domain in this order. Collect these in the partner's UI; the end user never visits Marque. All names and addresses must be real and accurate. Most gTLDs require the registrant email to be verifiable, so a registry verification email may be sent to it after registration; an unverified address can cause some TLDs to suspend the domain until confirmed. Certain TLDs require extra fields beyond these (for example a tax/VAT or national ID); those orders fail with InvalidRegistrant naming the missing field, and are not yet supported through this endpoint.",
+      "properties": {
+        "city": {
+          "description": "City or locality.",
+          "maxLength": 255,
+          "type": "string"
+        },
+        "companyRegistrationNumber": {
+          "description": "Optional. Company/commercial register number. Required by some TLDs when registering to an organization (organization set).",
+          "maxLength": 64,
+          "type": "string"
+        },
+        "country": {
+          "description": "ISO 3166-1 alpha-2 country code, uppercase, e.g. US, GB, DE. Determines which address/state rules apply.",
+          "maxLength": 2,
+          "minLength": 2,
+          "type": "string"
+        },
+        "email": {
+          "description": "Registrant email. Must be a real, monitored address: registries may send a verification message here, and registry/transfer notifications go to it.",
+          "maxLength": 320,
+          "type": "string"
+        },
+        "firstName": {
+          "description": "Registrant's legal given name.",
+          "maxLength": 255,
+          "type": "string"
+        },
+        "lastName": {
+          "description": "Registrant's legal family name.",
+          "maxLength": 255,
+          "type": "string"
+        },
+        "organization": {
+          "description": "Optional. If set, the domain is registered to this organization rather than an individual. Leave empty for a personal registration.",
+          "maxLength": 255,
+          "type": "string"
+        },
+        "passportNumber": {
+          "description": "Optional. Passport or national identity document number. Required by a few ccTLDs for individual registrants.",
+          "maxLength": 64,
+          "type": "string"
+        },
+        "phoneAreaCode": {
+          "description": "Optional area/city code, for regions that use one separately from the subscriber number.",
+          "maxLength": 16,
+          "type": "string"
+        },
+        "phoneCountryCode": {
+          "description": "International calling code with a leading plus, e.g. +1 for US/CA or +44 for UK. Required.",
+          "maxLength": 8,
+          "type": "string"
+        },
+        "phoneSubscriber": {
+          "description": "Local subscriber number, digits only. Combined with phoneCountryCode (and phoneAreaCode) to form the full phone number. Required.",
+          "maxLength": 32,
+          "type": "string"
+        },
+        "socialSecurityNumber": {
+          "description": "Optional. National identification / social security number, where a TLD mandates it (e.g. certain Nordic or Latin American ccTLDs). Handle as sensitive data.",
+          "maxLength": 64,
+          "type": "string"
+        },
+        "state": {
+          "description": "State, province, or region. Required for countries that mandate one (e.g. US, CA, AU, BR); send the full name or its ISO 3166-2 code (e.g. 'California' or 'CA'). Omit for countries that do not use one.",
+          "maxLength": 255,
+          "type": "string"
+        },
+        "street": {
+          "description": "Street address including house/building number, e.g. '123 Main St'.",
+          "maxLength": 255,
+          "type": "string"
+        },
+        "taxIdType": {
+          "description": "Optional. Type of the tax identifier in taxIdValue, e.g. 'vat' for an EU VAT number or a registry-specific code. Send together with taxIdValue. Some TLDs (notably several EU ccTLDs registered to an organization) require a VAT number.",
+          "maxLength": 32,
+          "type": "string"
+        },
+        "taxIdValue": {
+          "description": "Optional. The tax identifier itself, e.g. an EU VAT number like DE123456789. Paired with taxIdType.",
+          "maxLength": 64,
+          "type": "string"
+        },
+        "zipcode": {
+          "description": "Postal/ZIP code. Required even where the country's format is loose.",
+          "maxLength": 32,
+          "type": "string"
+        }
+      },
+      "required": [
+        "firstName",
+        "lastName",
+        "email",
+        "street",
+        "city",
+        "zipcode",
+        "country",
+        "phoneCountryCode",
+        "phoneSubscriber"
+      ],
+      "type": "object"
+    }
+  },
+  "description": "Create a hosted payment checkout to register one or more domains for the calling user.",
+  "id": "at.marque.partner.createCheckout",
+  "lexicon": 1
+}

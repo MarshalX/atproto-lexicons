@@ -1,0 +1,59 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Record representing an owner-authored grant of capabilities to a member. The record key is the stable membership id from PostgreSQL. This record is the portable grant; a record written by the member must never be treated as authorization.",
+      "key": "any",
+      "record": {
+        "properties": {
+          "createdAt": {
+            "description": "When the grant was created.",
+            "format": "datetime",
+            "type": "string"
+          },
+          "member": {
+            "description": "DID of the account granted access.",
+            "format": "did",
+            "type": "string"
+          },
+          "permissions": {
+            "description": "Capabilities granted to the member. An empty list is read-only (viewer) access.",
+            "items": {
+              "knownValues": [
+                "dns.records.write",
+                "dns.nameservers.write",
+                "dns.dnssec.write",
+                "integrations.atproto.write"
+              ],
+              "type": "string"
+            },
+            "maxLength": 4,
+            "type": "array"
+          },
+          "subject": {
+            "description": "Strong reference to the owner's at.marque.team record.",
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref"
+          },
+          "updatedAt": {
+            "description": "When the grant was last updated.",
+            "format": "datetime",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subject",
+          "member",
+          "permissions",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "description": "An accepted team member grant, authored by the domain owner. Stored in the owner's repository.",
+  "id": "at.marque.team.member",
+  "lexicon": 1
+}

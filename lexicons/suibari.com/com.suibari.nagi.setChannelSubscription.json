@@ -1,0 +1,46 @@
+{
+  "id": "com.suibari.nagi.setChannelSubscription",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri",
+            "subscribed"
+          ],
+          "properties": {
+            "uri": {
+              "type": "string"
+            },
+            "subscribed": {
+              "type": "boolean"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri",
+            "subscribed"
+          ],
+          "properties": {
+            "uri": {
+              "type": "string"
+            },
+            "subscribed": {
+              "type": "boolean"
+            }
+          }
+        },
+        "encoding": "application/json"
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,65 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Record representing the member's acceptance of an owner-authored grant. Uses the same stable membership id as the owner-side at.marque.team.member record. This record is a public receipt, not a grant of authorization.",
+      "key": "any",
+      "record": {
+        "properties": {
+          "acceptedAt": {
+            "description": "When the member accepted the invitation.",
+            "format": "datetime",
+            "type": "string"
+          },
+          "domain": {
+            "description": "Fully qualified domain name this membership applies to, e.g. example.com.",
+            "maxLength": 253,
+            "type": "string"
+          },
+          "owner": {
+            "description": "DID of the domain owner.",
+            "format": "did",
+            "type": "string"
+          },
+          "permissions": {
+            "description": "Capabilities granted to the member as of acceptance. An empty list is read-only (viewer) access.",
+            "items": {
+              "knownValues": [
+                "dns.records.write",
+                "dns.nameservers.write",
+                "dns.dnssec.write",
+                "integrations.atproto.write"
+              ],
+              "type": "string"
+            },
+            "maxLength": 4,
+            "type": "array"
+          },
+          "subject": {
+            "description": "Strong reference to the owner's at.marque.team.member record.",
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref"
+          },
+          "updatedAt": {
+            "description": "When this record was last updated.",
+            "format": "datetime",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subject",
+          "owner",
+          "domain",
+          "permissions",
+          "acceptedAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "description": "An acceptance receipt for a team membership, authored by the member. Stored in the member's repository.",
+  "id": "at.marque.team.membership",
+  "lexicon": 1
+}

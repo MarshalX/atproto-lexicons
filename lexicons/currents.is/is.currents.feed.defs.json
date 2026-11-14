@@ -1,0 +1,182 @@
+{
+  "id": "is.currents.feed.defs",
+  "defs": {
+    "saveView": {
+      "type": "object",
+      "required": [
+        "uri",
+        "author",
+        "content",
+        "createdAt"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the save record."
+        },
+        "text": {
+          "type": "string",
+          "description": "Optional user-authored note attached to the save."
+        },
+        "author": {
+          "ref": "is.currents.actor.defs#profileView",
+          "type": "ref",
+          "description": "Profile view of the account that created the save."
+        },
+        "viewer": {
+          "ref": "#saveViewerState",
+          "type": "ref",
+          "description": "Viewer-specific state. Only present when the request is authenticated."
+        },
+        "content": {
+          "refs": [
+            "is.currents.content.defs#imageView"
+          ],
+          "type": "union",
+          "closed": false,
+          "description": "Content payload for this save."
+        },
+        "resaveOf": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref",
+          "description": "Strong reference to the original save record when this save is a resave."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "Creation time of the save record."
+        },
+        "originUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Original source URL associated with the saved item, if known."
+        }
+      }
+    },
+    "previewItem": {
+      "type": "object",
+      "required": [
+        "url"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "CDN preview image URL."
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Active label values on the preview image's blob, for viewer-side blur/hide."
+        }
+      }
+    },
+    "collectionView": {
+      "type": "object",
+      "required": [
+        "uri",
+        "cid",
+        "author",
+        "name",
+        "createdAt"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid",
+          "description": "CID of the collection record."
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the collection record."
+        },
+        "name": {
+          "type": "string",
+          "description": "Collection display name."
+        },
+        "author": {
+          "ref": "is.currents.actor.defs#profileView",
+          "type": "ref",
+          "description": "Profile view of the account that owns the collection."
+        },
+        "viewer": {
+          "ref": "#collectionViewerState",
+          "type": "ref",
+          "description": "Viewer-specific state. Only present when the request is authenticated."
+        },
+        "previews": {
+          "type": "array",
+          "items": {
+            "ref": "#previewItem",
+            "type": "ref"
+          },
+          "maxLength": 4,
+          "description": "Up to four preview items, each a CDN image URL plus the active label values on its blob (so clients can apply the viewer's blur/hide preferences)."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "Creation time of the collection record."
+        },
+        "saveCount": {
+          "type": "integer",
+          "description": "Number of saves currently in the collection."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional description shown with the collection."
+        },
+        "favouriteCount": {
+          "type": "integer",
+          "description": "Number of accounts that have favourited this collection."
+        }
+      }
+    },
+    "saveViewerState": {
+      "type": "object",
+      "properties": {
+        "saves": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "collectionUri",
+              "saveUri"
+            ],
+            "properties": {
+              "saveUri": {
+                "type": "string",
+                "format": "at-uri",
+                "description": "AT-URI of the viewer's save record."
+              },
+              "collectionUri": {
+                "type": "string",
+                "format": "at-uri",
+                "description": "AT-URI of the viewer collection containing this save."
+              }
+            }
+          },
+          "description": "The viewer's own saves of this item, one per collection they have saved it in."
+        }
+      },
+      "description": "Metadata about the requesting account's relationship with this save. Only present when the request is authenticated."
+    },
+    "collectionViewerState": {
+      "type": "object",
+      "properties": {
+        "favourite": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the viewer's favourite record for this collection, present only when the viewer has favourited it."
+        }
+      },
+      "description": "Metadata about the requesting account's relationship with this collection. Only present when the request is authenticated."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,38 @@
+{
+  "id": "net.anisota.feed.perception",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "text",
+          "createdAt"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 1200,
+            "description": "What the viewer sees in the blot",
+            "maxGraphemes": 300
+          },
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The inkblot record this perception is of"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the perception was written"
+          }
+        }
+      },
+      "description": "One person's perception of an inkblot — their answer to 'what do you see?'. Points at the inkblot record via a strongRef 'subject'. A social response (not a lab creation), so it lives in the feed.* namespace. In the Social Inkblot Test, a viewer's own perception is written before everyone else's perceptions of the same blot are revealed (so the first impression is uncontaminated). Perceptions are aggregated through the Constellation backlink index on '.subject.uri'. Renamed from net.anisota.lab.inkblot.perception."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

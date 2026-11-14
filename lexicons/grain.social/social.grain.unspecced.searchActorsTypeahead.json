@@ -1,0 +1,61 @@
+{
+  "id": "social.grain.unspecced.searchActorsTypeahead",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "actors": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "did"
+                ],
+                "properties": {
+                  "did": {
+                    "type": "string",
+                    "format": "did"
+                  },
+                  "avatar": {
+                    "type": "string"
+                  },
+                  "handle": {
+                    "type": "string"
+                  },
+                  "displayName": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "q"
+        ],
+        "properties": {
+          "q": {
+            "type": "string",
+            "description": "Search query"
+          },
+          "limit": {
+            "type": "integer",
+            "default": 5,
+            "maximum": 10,
+            "minimum": 1
+          }
+        }
+      },
+      "description": "Typeahead search for actors, merging bsky and grain profiles."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

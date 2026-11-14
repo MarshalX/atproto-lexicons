@@ -1,0 +1,147 @@
+{
+  "id": "social.coves.community.post.create",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "community"
+          ],
+          "properties": {
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "maxLength": 640,
+                "maxGraphemes": 64
+              },
+              "maxLength": 8,
+              "description": "User-applied topic tags"
+            },
+            "embed": {
+              "refs": [
+                "social.coves.embed.images",
+                "social.coves.embed.imagesWithAttachment",
+                "social.coves.embed.video",
+                "social.coves.embed.external",
+                "social.coves.embed.post"
+              ],
+              "type": "union",
+              "description": "Embedded media, external links, or quoted posts"
+            },
+            "langs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "language"
+              },
+              "maxLength": 3,
+              "description": "Languages used in the post content (ISO 639-1)"
+            },
+            "title": {
+              "type": "string",
+              "maxLength": 3000,
+              "description": "Post title (optional for media-only posts)",
+              "maxGraphemes": 300
+            },
+            "facets": {
+              "type": "array",
+              "items": {
+                "ref": "social.coves.richtext.facet",
+                "type": "ref"
+              },
+              "maxLength": 200,
+              "description": "Annotations for rich text (mentions, links, formatting, block structure)"
+            },
+            "labels": {
+              "ref": "com.atproto.label.defs#selfLabels",
+              "type": "ref",
+              "description": "Self-applied content labels (NSFW, spoilers, etc.)"
+            },
+            "content": {
+              "type": "string",
+              "maxLength": 500000,
+              "description": "Post content - supports rich text via facets",
+              "maxGraphemes": 50000
+            },
+            "community": {
+              "type": "string",
+              "maxLength": 320,
+              "description": "Community identifier (DID, handle, name@origin, or bare local name) of the community to post in"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "CommunityNotFound",
+          "description": "Community not found"
+        },
+        {
+          "name": "NotAuthorized",
+          "description": "User is not authorized to post in this community"
+        },
+        {
+          "name": "Banned",
+          "description": "User is banned from this community"
+        },
+        {
+          "name": "InvalidContent",
+          "description": "Post content violates community rules"
+        },
+        {
+          "name": "ContentRuleViolation",
+          "description": "Post violates community content rules (e.g., embeds not allowed, text too short)"
+        },
+        {
+          "name": "InvalidEmbed",
+          "description": "The embed does not satisfy its lexicon (social.coves.embed.*) or the embed write rules; the message describes the failure"
+        },
+        {
+          "name": "TooManyImages",
+          "description": "The embed carries more than 8 images"
+        },
+        {
+          "name": "InvalidImageFacet",
+          "description": "An #image facet breaks a placement rule: its index does not name an image of an images embed, it shares its facet with another feature, it places an index already placed, its range is empty, or its range lies inside a #code or #codeBlock range"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri",
+            "cid"
+          ],
+          "properties": {
+            "cid": {
+              "type": "string",
+              "format": "cid",
+              "description": "CID of the created post"
+            },
+            "uri": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "AT-URI of the created post"
+            },
+            "status": {
+              "type": "string",
+              "description": "The community's decision as of this response. 'accepted' means this host runs the community's admission and a community acceptance now stands for the post; 'pending' means no acceptance covers it yet - either the community is hosted elsewhere and decides for itself, or the synchronous acceptance failed and will be retried. Pending is a SUCCESS, not an error: the post exists in its author's repository either way. Optional, so a client predating the field decodes an unchanged response. knownValues rather than an enum because the vocabulary may grow, and a closed enum would make adding a status a breaking change for every generated client in the network.",
+              "knownValues": [
+                "accepted",
+                "pending"
+              ]
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Create a new post in a community"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

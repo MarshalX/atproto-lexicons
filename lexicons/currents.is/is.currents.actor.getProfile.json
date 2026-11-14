@@ -1,0 +1,82 @@
+{
+  "id": "is.currents.actor.getProfile",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "did",
+            "handle"
+          ],
+          "properties": {
+            "did": {
+              "type": "string",
+              "format": "did"
+            },
+            "avatar": {
+              "type": "string",
+              "format": "uri"
+            },
+            "banner": {
+              "type": "string",
+              "format": "uri"
+            },
+            "handle": {
+              "type": "string",
+              "format": "handle"
+            },
+            "viewer": {
+              "ref": "is.currents.actor.defs#profileViewerState",
+              "type": "ref",
+              "description": "Viewer-specific state. Only present when the request is authenticated."
+            },
+            "website": {
+              "type": "string",
+              "format": "uri"
+            },
+            "pronouns": {
+              "type": "string"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "datetime"
+            },
+            "description": {
+              "type": "string"
+            },
+            "displayName": {
+              "type": "string"
+            },
+            "followsCount": {
+              "type": "integer",
+              "description": "Number of actors this actor follows."
+            },
+            "followersCount": {
+              "type": "integer",
+              "description": "Number of actors that follow this actor."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "actor"
+        ],
+        "properties": {
+          "actor": {
+            "type": "string",
+            "format": "at-identifier",
+            "description": "DID or handle of the actor to fetch."
+          }
+        }
+      },
+      "description": "Get the detailed profile view of an actor by DID or handle."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

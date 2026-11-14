@@ -1,0 +1,146 @@
+{
+  "id": "dev.knotless.getBlame",
+  "defs": {
+    "hunk": {
+      "type": "object",
+      "required": [
+        "sha",
+        "start",
+        "count"
+      ],
+      "properties": {
+        "sha": {
+          "type": "string",
+          "description": "The commit, in hex: one of `commits`."
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "How many lines it runs for."
+        },
+        "start": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "The run's first line, counted from 1."
+        },
+        "previous": {
+          "ref": "#previous",
+          "type": "ref"
+        }
+      },
+      "description": "A run of lines one commit last changed."
+    },
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository, revision or file."
+        },
+        {
+          "name": "InvalidRequest",
+          "description": "The file is binary, or too large to blame."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "ref",
+            "path",
+            "lines",
+            "text",
+            "ranges",
+            "hunks",
+            "commits"
+          ],
+          "properties": {
+            "ref": {
+              "type": "string",
+              "description": "The ref or commit shown, as `ref` named it, less any path."
+            },
+            "path": {
+              "type": "string",
+              "description": "The file, from the root."
+            },
+            "text": {
+              "type": "string",
+              "description": "The file's text."
+            },
+            "hunks": {
+              "type": "array",
+              "items": {
+                "ref": "#hunk",
+                "type": "ref"
+              },
+              "description": "Its lines in runs, each last changed by one commit, from the first line on."
+            },
+            "lines": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "How many lines the text has."
+            },
+            "ranges": {
+              "type": "string",
+              "description": "The ranges its highlighting paints, encoded as the pages read them, as dev.knotless.getFile has them."
+            },
+            "commits": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#commitView",
+                "type": "ref"
+              },
+              "description": "Each commit a run names, once."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "repo"
+        ],
+        "properties": {
+          "ref": {
+            "type": "string",
+            "maxLength": 1024,
+            "description": "A branch, a tag or a commit, which may run on into the path, as dev.knotless.getFile takes it; the default branch if absent."
+          },
+          "path": {
+            "type": "string",
+            "maxLength": 4096,
+            "description": "A file in the tree, from its root."
+          },
+          "repo": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The repository's dev.knotless.repo record, as dev.knotless.getFile takes it."
+          }
+        }
+      },
+      "description": "Who last changed each line of a text file at a revision, as git blame finds it: the file's text, the ranges its highlighting paints, its lines in runs from the same commit, and each of those commits once. A binary file, or one over 256 KiB, is refused. No authentication needed; asked as an account, with a service token or the pages' session cookie, a private repository it is a member of is read too, and the answer is that account's alone."
+    },
+    "previous": {
+      "type": "object",
+      "required": [
+        "sha",
+        "path"
+      ],
+      "properties": {
+        "sha": {
+          "type": "string",
+          "description": "The commit's parent, in hex."
+        },
+        "path": {
+          "type": "string",
+          "description": "The file's path in that parent, from the root."
+        }
+      },
+      "description": "Where blame goes on before the run's commit: its parent, and the file's path there. Absent where the commit made the file."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Who last changed each line of a file at a revision."
+}

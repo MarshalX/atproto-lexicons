@@ -1,0 +1,51 @@
+{
+  "id": "social.colibri.beta.community.getInvitation",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "InvitationNotFound",
+          "description": "No invitation exists with that code."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "invitation",
+            "community"
+          ],
+          "properties": {
+            "community": {
+              "ref": "social.colibri.beta.community.defs#communityView",
+              "type": "ref",
+              "description": "The community the invitation leads to."
+            },
+            "invitation": {
+              "ref": "social.colibri.beta.community.defs#invitationView",
+              "type": "ref",
+              "description": "The resolved invitation."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "code"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "The invitation code to resolve."
+          }
+        }
+      },
+      "description": "Resolves an invitation code, so a client can show what it leads to before the user accepts. This is readable without membership."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

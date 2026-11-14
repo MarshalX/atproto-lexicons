@@ -1,0 +1,148 @@
+{
+  "id": "at.adsb.broadcast.subscribeEvents",
+  "defs": {
+    "info": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Operational info message name.",
+          "knownValues": [
+            "OutdatedCursor"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "maxLength": 1024,
+          "description": "Human-readable info message."
+        }
+      }
+    },
+    "main": {
+      "type": "subscription",
+      "errors": [
+        {
+          "name": "FutureCursor"
+        },
+        {
+          "name": "ConsumerTooSlow"
+        }
+      ],
+      "message": {
+        "schema": {
+          "refs": [
+            "#event",
+            "#identity",
+            "#info"
+          ],
+          "type": "union"
+        }
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "cursor": {
+            "type": "integer",
+            "description": "Not currently used for backfill. Reserved for future use."
+          }
+        }
+      },
+      "description": "Subscribe to realtime events from this receiver station."
+    },
+    "event": {
+      "type": "object",
+      "required": [
+        "seq",
+        "station",
+        "time",
+        "ops"
+      ],
+      "properties": {
+        "ops": {
+          "type": "array",
+          "items": {
+            "ref": "#broadcastOp",
+            "type": "ref"
+          },
+          "description": "List of operations in this batch."
+        },
+        "seq": {
+          "type": "integer",
+          "description": "The stream sequence number of this message."
+        },
+        "time": {
+          "type": "string",
+          "format": "datetime",
+          "description": "Timestamp of the poll cycle that produced this batch."
+        },
+        "station": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref",
+          "description": "Strong reference to the emitting receiver's at.adsb.receiver.station record."
+        }
+      },
+      "description": "A batch of operations from a single poll cycle."
+    },
+    "identity": {
+      "type": "object",
+      "required": [
+        "seq",
+        "did",
+        "time"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "DID of the station."
+        },
+        "seq": {
+          "type": "integer",
+          "description": "The stream sequence number of this message."
+        },
+        "time": {
+          "type": "string",
+          "format": "datetime",
+          "description": "Timestamp of when this identity event was produced."
+        },
+        "station": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref",
+          "description": "Strong reference to the station record."
+        }
+      },
+      "description": "Represents a station coming online or updating its identity."
+    },
+    "broadcastOp": {
+      "type": "object",
+      "required": [
+        "action",
+        "record"
+      ],
+      "properties": {
+        "action": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "The type of operation.",
+          "knownValues": [
+            "create",
+            "update",
+            "delete"
+          ]
+        },
+        "record": {
+          "type": "unknown",
+          "description": "The record payload. Shape determined by record's $type field."
+        }
+      },
+      "description": "A single operation within a broadcast event."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Ephemeral event stream from a receiver station. Emits batched aircraft operations per poll cycle. Does not write to any repository."
+}

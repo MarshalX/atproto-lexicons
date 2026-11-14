@@ -1,0 +1,70 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Create a gate (hide message) on behalf of a streamer. Requires 'hide' permission. Creates a place.stream.chat.gate record in the streamer's repository.",
+      "errors": [
+        {
+          "description": "The request lacks valid authentication credentials.",
+          "name": "Unauthorized"
+        },
+        {
+          "description": "The caller does not have permission to hide messages for this streamer.",
+          "name": "Forbidden"
+        },
+        {
+          "description": "The streamer's OAuth session could not be found or is invalid.",
+          "name": "SessionNotFound"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "messageUri": {
+              "description": "The AT-URI of the chat message to hide.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "streamer": {
+              "description": "The DID of the streamer.",
+              "format": "did",
+              "type": "string"
+            }
+          },
+          "required": [
+            "streamer",
+            "messageUri"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cid": {
+              "description": "The CID of the created gate record.",
+              "format": "cid",
+              "type": "string"
+            },
+            "uri": {
+              "description": "The AT-URI of the created gate record.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "uri",
+            "cid"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": null,
+      "type": "procedure"
+    }
+  },
+  "id": "place.stream.moderation.createGate",
+  "lexicon": 1
+}

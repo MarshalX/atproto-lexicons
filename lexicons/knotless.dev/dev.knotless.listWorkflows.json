@@ -1,0 +1,112 @@
+{
+  "id": "dev.knotless.listWorkflows",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository, or no such ref."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "ref",
+            "workflows"
+          ],
+          "properties": {
+            "ref": {
+              "type": "string",
+              "description": "The ref, in full."
+            },
+            "workflows": {
+              "type": "array",
+              "items": {
+                "ref": "#workflowView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "repo"
+        ],
+        "properties": {
+          "ref": {
+            "type": "string",
+            "maxLength": 1024,
+            "description": "A branch or a tag, by name or in full; the default branch if none."
+          },
+          "repo": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+          }
+        }
+      },
+      "description": "The workflows under .knotless/workflows at a ref of a repository, in file name order, each with what runs it there, as `knotless workflow list` lists them: which its owner may ask for by name, with variables, through dev.knotless.requestRerun. No authentication; responses are not personalized."
+    },
+    "scheduleView": {
+      "type": "object",
+      "required": [
+        "cron"
+      ],
+      "properties": {
+        "cron": {
+          "type": "string",
+          "description": "A cron expression, in UTC: minute hour day month weekday, or @hourly, @daily, @weekly, @monthly or @yearly."
+        }
+      },
+      "description": "One schedule a workflow runs on, at the default branch's tip."
+    },
+    "workflowView": {
+      "type": "object",
+      "required": [
+        "name",
+        "push",
+        "pull",
+        "asked"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "What its checks are filed as."
+        },
+        "pull": {
+          "type": "boolean",
+          "description": "A pull into the ref, a branch, runs it."
+        },
+        "push": {
+          "type": "boolean",
+          "description": "A push to the ref runs it."
+        },
+        "asked": {
+          "type": "boolean",
+          "description": "Its owner may ask for it at the ref by name: it runs on a push there, its asked trigger names the ref, or the ref is the default branch and it has a schedule."
+        },
+        "error": {
+          "type": "string",
+          "description": "Why it does not load: nothing runs it then."
+        },
+        "schedule": {
+          "type": "array",
+          "items": {
+            "ref": "#scheduleView",
+            "type": "ref"
+          },
+          "description": "The schedules it runs on at the ref, the default branch; none at any other ref."
+        }
+      },
+      "description": "A workflow at the ref, and what runs it there."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A repository's workflows at a ref, and what runs each there."
+}

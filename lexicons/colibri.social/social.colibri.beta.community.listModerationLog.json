@@ -1,0 +1,73 @@
+{
+  "id": "social.colibri.beta.community.listModerationLog",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request is missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The caller lacks the moderation.viewLog permission."
+        },
+        {
+          "name": "CommunityNotFound",
+          "description": "No community exists at the given DID."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "entries"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string",
+              "description": "Pagination cursor for the next page, if more entries exist."
+            },
+            "entries": {
+              "type": "array",
+              "items": {
+                "ref": "social.colibri.beta.community.defs#moderationView",
+                "type": "ref",
+                "description": "A moderation log entry."
+              },
+              "description": "Log entries, most recent first."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "community"
+        ],
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "description": "Maximum number of log entries to return."
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Pagination cursor from a previous response."
+          },
+          "community": {
+            "type": "string",
+            "format": "did",
+            "description": "The community to list the moderation log for."
+          }
+        }
+      },
+      "description": "Lists a community's moderation audit log."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

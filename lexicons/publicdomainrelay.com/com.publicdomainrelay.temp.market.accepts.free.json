@@ -1,0 +1,36 @@
+{
+  "id": "com.publicdomainrelay.temp.market.accepts.free",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "bid",
+          "signatures"
+        ],
+        "properties": {
+          "bid": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong reference to the winning bid record (com.publicdomainrelay.temp.market.bid) whose bids.free terms are being accepted."
+          },
+          "payload": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong reference to the bid's terms record being accepted (for example a com.publicdomainrelay.temp.market.bids.free)."
+          },
+          "signatures": {
+            "ref": "network.attested.signature#signatures",
+            "type": "ref",
+            "description": "badge.blue attestations over this acceptance. Must include the requester's inline signature, attached at creation; the bidder's receipts.free remote attestation completes the bilateral agreement."
+          }
+        }
+      },
+      "description": "The requester's acceptance of a bid's free (no-cost) terms. Minted before settling and passed (by AT-URI + CID) to the grant endpoint named in the bids.free url; the bidder resolves it and mints a com.publicdomainrelay.temp.market.receipts.free in response. The free counterpart of com.publicdomainrelay.temp.market.accepts.x402."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

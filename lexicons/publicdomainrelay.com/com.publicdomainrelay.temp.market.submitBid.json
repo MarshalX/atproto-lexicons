@@ -1,0 +1,56 @@
+{
+  "id": "com.publicdomainrelay.temp.market.submitBid",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri",
+            "cid",
+            "record"
+          ],
+          "properties": {
+            "cid": {
+              "type": "string",
+              "description": "CID of the bid record."
+            },
+            "uri": {
+              "type": "string",
+              "description": "AT-URI of the bid record."
+            },
+            "record": {
+              "ref": "com.publicdomainrelay.temp.market.bid",
+              "type": "ref",
+              "description": "The bid record itself, including a strong reference to the RFP it is for."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "InvalidRequest"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "ok"
+          ],
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Submit the AT-URI and CID of a bid record directly to the RFP issuer, bypassing the firehose. Used when the RFP includes a submitBid service DID reference. Must be called via PDS service-proxying (atproto-proxy); the receiver verifies the inter-service auth JWT and requires its issuer to be the DID that authored the referenced bid record. The receiver additionally verifies the bid's badge.blue attestations (network.attested.signature): at least one inline signature must verify against the attestation CID recomputed for the record in its authoring repository — the same durable, replayable check applied to bids discovered via the firehose, where no service-auth JWT exists."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

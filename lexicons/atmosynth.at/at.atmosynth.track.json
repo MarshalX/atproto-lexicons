@@ -1,0 +1,68 @@
+{
+  "id": "at.atmosynth.track",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "track",
+          "createdAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "description": "What its creator calls it."
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 128
+            },
+            "maxLength": 32,
+            "description": "Freely created tags, lower-cased on write."
+          },
+          "tempo": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "The tempo it was written at, in beats per minute from 20 to 999, as decimal text, so it can be heard as its creator heard it before it is placed in an arrangement, whose tempo it then follows. Optional: absent is 120."
+          },
+          "track": {
+            "ref": "at.atmosynth.defs#track",
+            "type": "ref",
+            "description": "The track. Its ticks count from its own start, which is placed at a tick of the arrangement it is taken into; its `to`, sends and sidechains name nothing yet, and are settled where it is placed."
+          },
+          "license": {
+            "ref": "at.atmosynth.defs#license",
+            "type": "ref"
+          },
+          "lineage": {
+            "type": "array",
+            "items": {
+              "ref": "at.atmosynth.defs#lineage",
+              "type": "ref"
+            },
+            "maxLength": 64
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000
+          }
+        }
+      },
+      "description": "A track, held in its creator's own repository."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "One track published on its own, to be taken into anybody's arrangement: its instrument or recordings, its clips, its effects, its mix and its automation, exactly as an arrangement holds a track."
+}

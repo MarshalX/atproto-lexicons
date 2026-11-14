@@ -1,0 +1,68 @@
+{
+  "id": "me.jgs.pix.graph",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "unit",
+          "valueType",
+          "createdAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 640,
+            "maxGraphemes": 64
+          },
+          "unit": {
+            "type": "string",
+            "maxLength": 320,
+            "maxGraphemes": 32
+          },
+          "color": {
+            "type": "string",
+            "default": "blue",
+            "maxLength": 32,
+            "knownValues": [
+              "blue",
+              "green",
+              "red",
+              "yellow",
+              "purple",
+              "gray"
+            ]
+          },
+          "hidden": {
+            "type": "boolean",
+            "default": false,
+            "description": "Hidden graphs are not served by the AppView."
+          },
+          "timezone": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "IANA time zone name. Defaults to UTC."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "valueType": {
+            "type": "string",
+            "maxLength": 32,
+            "knownValues": [
+              "int",
+              "float"
+            ]
+          }
+        }
+      },
+      "description": "A pixel graph definition. The record key is the graph ID."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

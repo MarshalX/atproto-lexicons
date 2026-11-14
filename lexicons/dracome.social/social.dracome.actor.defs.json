@@ -1,0 +1,27 @@
+{
+  "id": "social.dracome.actor.defs",
+  "defs": {
+    "featuredEdition": {
+      "type": "object",
+      "required": [
+        "catalogTarget",
+        "catalogSnapshot"
+      ],
+      "properties": {
+        "catalogTarget": {
+          "ref": "social.dracome.work.defs#catalogTarget",
+          "type": "ref",
+          "description": "The work and edition being featured."
+        },
+        "catalogSnapshot": {
+          "ref": "social.dracome.work.defs#catalogSnapshot",
+          "type": "ref",
+          "description": "Point-in-time catalog metadata for the featured edition, captured when this entry was last written."
+        }
+      },
+      "description": "A single featured edition entry: the exact target plus a portable identity snapshot captured at write time. Shared by every profile-facing featured-editions record (currently only social.dracome.actor.featuredEditions)."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

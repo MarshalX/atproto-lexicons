@@ -1,0 +1,35 @@
+{
+  "id": "social.colibri.actor.getNotificationPreference",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "Missing, malformed, or unverifiable service auth."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "level"
+          ],
+          "properties": {
+            "level": {
+              "type": "string",
+              "knownValues": [
+                "all",
+                "mentionsAndReplies"
+              ]
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Returns the authenticated user's notification level, defaulting to 'all' when they haven't set one."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

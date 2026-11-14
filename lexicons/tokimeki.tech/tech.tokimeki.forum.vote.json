@@ -1,0 +1,30 @@
+{
+  "id": "tech.tokimeki.forum.vote",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The tech.tokimeki.forum.thread or tech.tokimeki.forum.message being voted on. The cid records the version that was voted on."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "An upvote on a thread or a message. Written into the voter's own repo within the space. The record's existence is the vote; delete it to withdraw. rkey is derived from the subject URI ('v' + base32lower(sha256(uri))[0:26]) so one voter holds at most one vote per subject across edits of that subject."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

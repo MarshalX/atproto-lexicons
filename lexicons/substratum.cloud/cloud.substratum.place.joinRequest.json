@@ -1,0 +1,46 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Claimer join request published to their operator PDS containing the seal public key (ADR 92).",
+      "properties": {
+        "claimerPeerId": {
+          "type": "string"
+        },
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "expiresAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "groupId": {
+          "type": "string"
+        },
+        "placeId": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "sealPublicKey": {
+          "description": "Base64 encoded 1216-byte X-Wing seal public key.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "placeId",
+        "claimerPeerId",
+        "sealPublicKey",
+        "groupId",
+        "expiresAt",
+        "reason",
+        "createdAt"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "cloud.substratum.place.joinRequest",
+  "lexicon": 1
+}

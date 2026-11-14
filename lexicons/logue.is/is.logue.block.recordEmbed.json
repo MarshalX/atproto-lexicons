@@ -1,0 +1,22 @@
+{
+  "id": "is.logue.block.recordEmbed",
+  "defs": {
+    "main": {
+      "type": "object",
+      "required": [
+        "recordRef"
+      ],
+      "properties": {
+        "recordRef": {
+          "type": "string",
+          "format": "at-uri",
+          "required": true,
+          "description": "Weak reference to the logue record"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Embedded logue record"
+}

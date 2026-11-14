@@ -1,0 +1,49 @@
+{
+  "id": "dev.knotless.getActorStars",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "ProfileNotFound",
+          "description": "No account by that DID or handle."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "repos"
+          ],
+          "properties": {
+            "repos": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#repoView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "actor"
+        ],
+        "properties": {
+          "actor": {
+            "type": "string",
+            "format": "at-identifier",
+            "description": "The account, by DID or handle."
+          }
+        }
+      },
+      "description": "The public repositories an account starred, as the appview has indexed its dev.knotless.star records, the latest starred first. A star naming a repository the appview does not know, or one taken down, is left out. No authentication; responses are not personalized."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "The repositories an account starred."
+}

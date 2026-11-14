@@ -1,0 +1,28 @@
+{
+  "id": "tech.tokimeki.forum.server",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "name": "tokimeki-space server",
+      "type": "space",
+      "name:lang": {
+        "ja": "tokimeki-space サーバー"
+      },
+      "collections": [
+        "tech.tokimeki.forum.profile",
+        "tech.tokimeki.forum.channel",
+        "tech.tokimeki.forum.thread",
+        "tech.tokimeki.forum.message",
+        "tech.tokimeki.forum.vote",
+        "tech.tokimeki.forum.reaction",
+        "tech.tokimeki.forum.hide",
+        "tech.tokimeki.forum.role",
+        "tech.tokimeki.poll.poll",
+        "tech.tokimeki.poll.vote"
+      ],
+      "description": "A Discord-like server (guild). One space per server, anchored on the owner's DID. Channels are records in the owner's repo; messages live in each author's own repo within the space. Members may also attach tokimeki-poll polls to threads: tech.tokimeki.poll.poll and tech.tokimeki.poll.vote records live in the same space and are served by the poll AppView (poll.tokimeki.tech), which the community relays writes to."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

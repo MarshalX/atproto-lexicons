@@ -1,0 +1,66 @@
+{
+  "id": "games.gamesgamesgamesgames.feed.getUpcomingReleasesFeed",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "feed"
+          ],
+          "properties": {
+            "feed": {
+              "type": "array",
+              "items": {
+                "ref": "games.gamesgamesgamesgames.defs#gameFeedViewItem",
+                "type": "ref"
+              }
+            },
+            "cursor": {
+              "type": "string"
+            },
+            "totalCount": {
+              "type": "integer"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "to": {
+            "type": "string",
+            "description": "Upper bound date as YYYYMMDD (inclusive). Limits results to releases on or before this date."
+          },
+          "now": {
+            "type": "string",
+            "description": "Current date as YYYYMMDD. Used to determine what counts as upcoming."
+          },
+          "from": {
+            "type": "string",
+            "description": "Lower bound date as YYYYMMDD (exclusive). Overrides 'now' for the chronological mode filter."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "shuffle": {
+            "type": "boolean",
+            "default": false,
+            "description": "When true, returns a randomized subset from the near-term window instead of stable chronological order."
+          }
+        }
+      },
+      "description": "Get upcoming game releases ordered by closest release date first."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

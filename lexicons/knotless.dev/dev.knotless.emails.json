@@ -1,0 +1,35 @@
+{
+  "id": "dev.knotless.emails",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "hashes",
+          "updatedAt"
+        ],
+        "properties": {
+          "hashes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 64,
+              "minLength": 64
+            },
+            "description": "Each the lowercase hex SHA-256 of the account's DID, a newline, and the address trimmed and lowercased: salted with the DID, so the record names no address and one address hashes apart in each account that claims it."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Keyed self. Readers believe it on repositories the account owns or is a collaborator on, and in the commits a pull of its brought into a repository when merged. An account's first push claims the address git commits as there; after that it changes only when the account says."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "The email addresses an account's commits are authored as, so pages can show those commits as the account's."
+}

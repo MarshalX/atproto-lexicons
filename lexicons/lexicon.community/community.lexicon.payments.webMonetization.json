@@ -1,0 +1,30 @@
+{
+  "id": "community.lexicon.payments.webMonetization",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "address"
+        ],
+        "properties": {
+          "note": {
+            "type": "string",
+            "description": "Short, human-readable description of how this wallet is related to this account."
+          },
+          "address": {
+            "type": "string",
+            "format": "uri",
+            "description": "Wallet address."
+          }
+        }
+      },
+      "description": "Web Monetization wallet."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Web Monetization integration: https://webmonetization.org/"
+}

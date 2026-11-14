@@ -1,0 +1,347 @@
+{
+  "id": "app.zeens.zeen",
+  "defs": {
+    "link": {
+      "type": "object",
+      "required": [
+        "url"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Short text beside the mark. Falls back to the URL's host when unset."
+        },
+        "platform": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Which platform's glyph to draw beside the label (matches the ids in socialLinks.ts: 'flickr', 'vsco', 'bluesky' and so on). A free-form string rather than a closed set, so the catalogue can gain a platform without making existing records invalid; a name the renderer has no mark for falls back to a globe. Absent means a plain website."
+        }
+      },
+      "description": "DEPRECATED. Was one entry in the back cover's link row, before the colophon dropped links. Retained so older records remain valid."
+    },
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "title",
+          "pages",
+          "createdAt"
+        ],
+        "properties": {
+          "cover": {
+            "ref": "#photoRef",
+            "type": "ref",
+            "description": "The photo to show as this zeen's card in listings and as its og:image. Normally the front cover's photo, stored here so a listing needs neither to parse `pages` nor to lay anything out."
+          },
+          "pages": {
+            "type": "array",
+            "items": {
+              "ref": "#page",
+              "type": "ref"
+            },
+            "maxLength": 60,
+            "minLength": 1,
+            "description": "The zeen in reading order, first page first. Stored as authored specs rather than computed geometry: the layout engine turns these into frames at read time, so pages stay editable and re-layout when the engine improves. Capped at 60 — well past the length anyone reads in one sitting, and it bounds the record size."
+          },
+          "theme": {
+            "ref": "#theme",
+            "type": "ref",
+            "description": "Type and colour choices. Absent means the defaults (modern / neutral)."
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "Display title. Also the front cover's title unless that page overrides it."
+          },
+          "status": {
+            "type": "string",
+            "description": "'draft' = still being authored; visible only to its author, carries no engagement, and is never indexed. 'published' = readable by anyone, likeable and commentable. Absent means 'draft': a record that never said it was published should not be treated as public.",
+            "knownValues": [
+              "draft",
+              "published"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "app.zeens.v": {
+            "type": "integer",
+            "description": "Zeens marker so the firehose and lua filters can identify our records."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 2000,
+            "description": "Short summary for listings and share previews. Used as the meta description when the zeen is published."
+          },
+          "publishedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the zeen was first published. Set once and not updated by later edits, so a re-edited zeen keeps its place in reverse-chronological listings."
+          },
+          "allowDownload": {
+            "type": "boolean",
+            "description": "Whether readers other than the author may export this zeen as a PDF. Absent means false: an author who has not said otherwise has not agreed to hand out a file. The author can always export their own work, so this governs OTHER people only. It is a permission on the export endpoint, not a protection on the pages themselves, which are readable by anyone once the zeen is published."
+          },
+          "sourceCollection": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Optional provenance: the app.zeens.collection photos were seeded from. A zeen is a SNAPSHOT — later changes to that collection do not alter it."
+          }
+        }
+      },
+      "description": "A zeen: a sequence of 1:1.414 pages (ISO A-series proportion) mixing photographs and writing, published as a readable object. Pages may draw photos from a collection, from individual posts, or from the author's own uploads — a zeen is a standalone document, not a view of a collection. The AUTHORED PAGES are the artifact: layout is recomputed from them at read time, so a layout improvement reaches every existing zeen. Replaces an earlier record of this NSID that described a print-ready PDF; that shape is gone and its records are inert."
+    },
+    "page": {
+      "type": "object",
+      "required": [
+        "layout"
+      ],
+      "properties": {
+        "body": {
+          "type": "string",
+          "maxLength": 5000,
+          "description": "Running text for story and back-cover pages. Blank lines separate paragraphs. Plain text, not markdown: a zeen page is laid out to a fixed frame, and inline formatting would fight the measured geometry."
+        },
+        "align": {
+          "type": "string",
+          "description": "Horizontal alignment for this page's title and byline. Absent means left, which is what the Figma frames show. Chiefly for covers: a portrait photograph leaves the title floating against one edge, and centring settles it.",
+          "knownValues": [
+            "left",
+            "center",
+            "right"
+          ]
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "ref": "#link",
+            "type": "ref"
+          },
+          "maxLength": 6,
+          "description": "DEPRECATED and no longer written. The back cover was reduced to a photo, a name and a line about the author — a colophon is a signature, not a link tree. Kept in the lexicon so records written before that change stay valid; the renderer ignores it."
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Heading, on the layouts that have one (covers and story pages)."
+        },
+        "byline": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "The line under a cover title. Usually the author's display name, but authored rather than derived so a zeen can credit differently."
+        },
+        "layout": {
+          "type": "string",
+          "description": "Which arrangement to lay out. Named for what the page IS rather than numbered, so a reader of the record can tell what a page looks like. An unknown value falls back to 'story', which renders whatever text the page carries and drops nothing silently — which is also what happens to the four square-page layouts this set replaced (photo-portrait, photo-pair, photo-wide-over-pair, photo-grid): pages using them keep their words, and their photos stay on the record.",
+          "knownValues": [
+            "front-cover",
+            "front-cover-full",
+            "story",
+            "story-photo",
+            "photo-wide",
+            "photo-tall",
+            "photo-wide-plain",
+            "photo-portrait-plain",
+            "photo-stack",
+            "photo-quad-split",
+            "photo-quad-rows",
+            "photo-one-over-two",
+            "photo-six-grid",
+            "story-top",
+            "story-bottom",
+            "back-cover"
+          ]
+        },
+        "photos": {
+          "type": "array",
+          "items": {
+            "ref": "#photoRef",
+            "type": "ref"
+          },
+          "maxLength": 6,
+          "description": "Photos in slot order. Longer than the layout's slot count is ignored; shorter leaves slots empty. maxLength here and on every array parallel to it (slotFraming, captions, showMeta, showLocation) is the largest slot count any layout draws. It was 4 while the six-square grid drew 6, which silently dropped that page's last two photographs on save, and left its last two slots unable to carry a caption or an EXIF switch."
+        },
+        "scheme": {
+          "type": "string",
+          "description": "This page's ground and ink, as a PAIR. 'light' is a light ground with dark text, 'dark' the reverse; 'default' (or absent) follows the zeen's theme. Set per page so a dark text page can sit next to a light photo page — which is the usual way a printed zeen paces itself. A pair rather than two fields because the halves are only ever meaningful together: a light ground with light text is not a design, it is an unreadable page.",
+          "knownValues": [
+            "default",
+            "light",
+            "dark"
+          ]
+        },
+        "captions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "maxLength": 6,
+          "description": "Caption per photo slot, parallel to `photos` and keyed by SLOT rather than by photo: swapping the photo in a slot keeps the writing, and one photo can carry different words on different pages. A non-empty caption IS the switch to show one — an empty box and a hidden box mean the same thing on a page."
+        },
+        "showMeta": {
+          "type": "array",
+          "items": {
+            "type": "boolean"
+          },
+          "maxLength": 6,
+          "description": "Per-slot switch for the CAMERA SETTINGS line, parallel to `photos`. Per photo rather than per page because on a multi-photo page one frame may be worth annotating and the others not. Absent or false prints nothing. Location is a separate switch (`showLocation`): the two are different disclosures, and an author who wants to name the place has not thereby agreed to publish the lens they used, or the reverse."
+        },
+        "avatarUrl": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "The author's profile photo on the back cover, as an image-proxy path. A URL rather than a blob ref because an avatar lives on the profile record rather than being one of the author's posts: it has no post URI, no EXIF and no aspect ratio, so threading it through `photos` would mean inventing all three. Snapshotted with the rest of the colophon, so a zeen keeps the face its author had when they made it. Ignored on every other layout."
+        },
+        "bodyScale": {
+          "type": "integer",
+          "maximum": 200,
+          "minimum": 50,
+          "description": "Size of this page's RUNNING TEXT — the story body, the photo captions, or the back cover's about text — as a PERCENTAGE of the layout's own size (50 to 200, where 100 is unchanged). One field for all three because a page only ever draws one of them, and an author sizing the caption under a photograph is making the same decision as one sizing a story paragraph. Absent means 100. Stored as an integer because ATProto rejects floats. See also `titleScale` and `bylineScale`. Deliberately does NOT cover the location and camera-settings lines: those are joined on from the photograph's own record rather than authored on the page, and are already the smallest type on the sheet."
+        },
+        "titleScale": {
+          "type": "integer",
+          "maximum": 200,
+          "minimum": 50,
+          "description": "Size of this page's title, as a PERCENTAGE of the layout's own size (50 to 200, where 100 is unchanged). A percentage rather than an absolute size because type on a zeen page is measured as a fraction of the page width, so an absolute value would mean something different at every render size and break the one-page-one-coordinate-space rule the engine depends on. Absent means 100. Stored as an integer because ATProto rejects floats. See also `bylineScale`."
+        },
+        "bylineScale": {
+          "type": "integer",
+          "maximum": 200,
+          "minimum": 50,
+          "description": "Size of this page's byline, as a PERCENTAGE of the layout's own size (50 to 200, where 100 is unchanged). A percentage rather than an absolute size because type on a zeen page is measured as a fraction of the page width, so an absolute value would mean something different at every render size and break the one-page-one-coordinate-space rule the engine depends on. Absent means 100. Stored as an integer because ATProto rejects floats. See also `titleScale`."
+        },
+        "slotFraming": {
+          "type": "array",
+          "items": {
+            "ref": "#slotFrame",
+            "type": "ref"
+          },
+          "maxLength": 6,
+          "description": "Per-slot presentation, in slot order. Parallel to `photos`: entry i describes how photo i sits in its slot. Absent, or an absent entry, means the layout's own defaults, so every zeen written before this field stays correct."
+        },
+        "showLocation": {
+          "type": "array",
+          "items": {
+            "type": "boolean"
+          },
+          "maxLength": 6,
+          "description": "Per-slot switch for the LOCATION line, parallel to `photos`. Separate from `showMeta` so the place and the camera settings can be shown independently. The value shown is the free-form location the author already published on the post, never anything extracted from the file's GPS. Absent or false prints nothing."
+        }
+      },
+      "description": "One authored page. `layout` names the arrangement; `photos` fills its slots in order and `text` fills its text roles. A layout that wants more photos than are supplied simply renders fewer — a missing blob must never break the page around it."
+    },
+    "theme": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type pairing. 'modern' (Inter throughout, F5.6 for metadata) is the only one implemented; it matches what collection captions already use, so a zeen page and a collection read as one system. 'editorial' (DM Serif Display + Cascadia Mono) and 'classic' (fully serif) are reserved and need font files in BOTH woff2 and TrueType before they can render. Unknown or absent = 'modern'.",
+          "knownValues": [
+            "modern",
+            "editorial",
+            "classic"
+          ]
+        },
+        "color": {
+          "type": "string",
+          "description": "Palette: page ground, primary ink, muted ink for metadata, and the photo placeholder fill. Only 'neutral' (white ground, near-black ink) is implemented. Unknown or absent = 'neutral'.",
+          "knownValues": [
+            "neutral",
+            "cool",
+            "warm",
+            "dark"
+          ]
+        }
+      },
+      "description": "Presentation, as two INDEPENDENT axes rather than bundled styles, so any palette is available with any voice and a new face does not multiply the list. Both resolve to concrete faces and colours at layout time, so re-theming is a one-field edit that never rewrites pages. These are the ZEEN's own colours and do not follow the reader's app theme — a zeen looks the same to everyone, the way a printed object does, which is also what keeps the screen and the PDF in agreement."
+    },
+    "photoRef": {
+      "type": "object",
+      "required": [
+        "cid",
+        "did"
+      ],
+      "properties": {
+        "alt": {
+          "type": "string",
+          "maxLength": 2000,
+          "description": "Alt text, carried on the ref so the zeen stays accessible without re-fetching the source post."
+        },
+        "cid": {
+          "type": "string",
+          "format": "cid",
+          "description": "CID of the image blob itself, NOT of the post record."
+        },
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "DID of the photo's author, whose repo holds the blob."
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "Optional AT-URI of the post this photo came from, kept as provenance and so a page can link back to it."
+        },
+        "aspectRatio": {
+          "ref": "app.bsky.embed.defs#aspectRatio",
+          "type": "ref",
+          "description": "Natural dimensions, so a page can reserve the right space before the blob loads and the layout engine can crop to fill a slot without measuring."
+        }
+      },
+      "description": "A photograph, addressed so it resolves without the reader needing the post it came from. `did` is the photo's AUTHOR — which owns the blob — and is NOT necessarily the zeen's owner, because photos may be drawn from a collection holding other people's work. Readers must ignore a ref missing either `cid` or `did`."
+    },
+    "slotFrame": {
+      "type": "object",
+      "properties": {
+        "fit": {
+          "type": "string",
+          "description": "'fill' crops the photo to cover the slot; 'contain' shows the whole photograph with space around it. Absent means the layout's own choice, which differs per layout (a framed cover contains, a full-bleed one fills).",
+          "knownValues": [
+            "fill",
+            "contain"
+          ]
+        },
+        "ratio": {
+          "type": "string",
+          "description": "Aspect ratio for the slot's box. The reshaped box always fits INSIDE the space the layout gave the slot and is centred in it, so a ratio can never push a photo over text or off the page. Absent means the layout's own box.",
+          "knownValues": [
+            "1:1",
+            "4:3",
+            "3:4",
+            "3:2",
+            "2:3",
+            "5:6",
+            "6:5",
+            "2:1",
+            "1:2",
+            "16:9",
+            "9:16"
+          ]
+        },
+        "focalX": {
+          "type": "integer",
+          "maximum": 1000,
+          "minimum": 0,
+          "description": "Horizontal focal point when `fit` is 'fill', as thousandths so the value stays an integer (ATProto rejects floats). 0 = left edge, 500 = centred, 1000 = right. Absent means 500. Ignored under 'contain', where nothing is cropped."
+        },
+        "focalY": {
+          "type": "integer",
+          "maximum": 1000,
+          "minimum": 0,
+          "description": "Vertical focal point when `fit` is 'fill'. 0 = top, 500 = centred, 1000 = bottom. Absent means 500."
+        }
+      },
+      "description": "How one photo sits in its slot. Every field is optional; an empty object means the layout's defaults."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

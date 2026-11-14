@@ -1,0 +1,35 @@
+{
+  "id": "fyi.atstore.profile",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "displayName"
+        ],
+        "properties": {
+          "website": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 2048
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 4000,
+            "description": "Longer description shown in directory surfaces."
+          },
+          "displayName": {
+            "type": "string",
+            "maxLength": 640,
+            "description": "Human-readable name for the store / app."
+          }
+        }
+      },
+      "description": "AT Store app profile for discovery and TAP ingestion (Kitchen-style)."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

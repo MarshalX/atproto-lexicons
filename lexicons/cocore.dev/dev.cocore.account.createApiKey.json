@@ -1,0 +1,59 @@
+{
+  "id": "dev.cocore.account.createApiKey",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 100,
+              "minLength": 1,
+              "description": "Human-readable label so the owner can tell their keys apart."
+            },
+            "expiresAt": {
+              "type": "string",
+              "format": "datetime",
+              "description": "Optional RFC3339 expiry. Omit (or send null) for a key that never expires on its own."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "No valid session cookie or bearer key was presented."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "key",
+            "secret"
+          ],
+          "properties": {
+            "key": {
+              "ref": "dev.cocore.account.defs#apiKeyView",
+              "type": "ref"
+            },
+            "secret": {
+              "type": "string",
+              "description": "The full plaintext key (`cocore-<43 url-safe base64 chars>`). Shown exactly once; store it now."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Mint a new cocore API key for the authenticated account. Authenticate with either a console session cookie or an existing `Authorization: Bearer cocore-...` key. The full secret is returned exactly once in `secret` and is never retrievable again — only its SHA-256 hash is stored. Use the returned key to authenticate subsequent automated requests (inference, the record proxy, and these key-management methods themselves)."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,65 @@
+{
+  "id": "dev.knotless.ref",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "repo",
+          "name",
+          "generation",
+          "updatedAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 1024,
+            "description": "The full ref name, such as refs/heads/main."
+          },
+          "pack": {
+            "type": "string",
+            "format": "record-key",
+            "description": "The record key of the dev.knotless.pack holding `target`, as the move that set it knew: the pack that move wrote, or the one another ref at the same commit named. A fetch reads it rather than walking the packs. A compaction folds packs into a new one without moving refs, so a reader finding it gone walks the packs instead."
+          },
+          "repo": {
+            "type": "string",
+            "format": "tid",
+            "description": "The `key` of the dev.knotless.repo this ref belongs to."
+          },
+          "pusher": {
+            "type": "string",
+            "format": "did",
+            "description": "The account that last moved the ref, when not the repository's owner: a collaborator or runner pushing through the gateway, which sets it from the caller's verified service token. Readers credit it only while the repository names it among its collaborators or runners."
+          },
+          "target": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 40,
+            "description": "The hex object ID the ref points at. Absent only from a record a client before 0.6 left of a deleted ref; a delete now deletes the record."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the ref was made: the same as updatedAt until it first moves."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the ref last moved."
+          },
+          "generation": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Goes up by one each time the ref moves. A new ref starts at the time in milliseconds since the epoch, past any generation an earlier ref of the same name reached; records written before 0.6 started at 1."
+          }
+        }
+      },
+      "description": "Keyed `<repo key>.<ref hash>`, where the hash is the first 26 characters of the lowercase unpadded base32 SHA-256 of `name`. Written only in the same applyWrites as the dev.knotless.claim for its current generation."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "One git ref of a repository."
+}

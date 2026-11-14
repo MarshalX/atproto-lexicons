@@ -1,0 +1,68 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "drop": {
+              "description": "The rkey of a pet.trezy.foodDrop being consumed by this feed. OPTIONAL: petting carries none, and neither does a feed from the legacy button. ⚠ THE MORSEL IS DELETED ONLY AFTER THE ACTIVITY RECORD HAS SAVED, never before. Deleting first would let a refused feed take the food with it — which the player would experience as theft, with no error anywhere to explain where their morsel went.",
+              "type": "string"
+            },
+            "pet": {
+              "format": "at-uri",
+              "type": "string"
+            },
+            "type": {
+              "knownValues": [
+                "feed",
+                "pet"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "pet"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "createdAt": {
+              "format": "datetime",
+              "type": "string"
+            },
+            "error": {
+              "description": "Present instead of uri/createdAt when the interaction was refused for an expected reason. A stable machine code the client branches on — add codes, never rename them. \"asleep\" means the pet's species is inside one of its published sleep windows — see pet.trezy.gameConfig's sleepWindows. It is reported ahead of \"cooldown\" when both apply, because a cooldown countdown during a nap sends the player back to be refused again by a rule nobody mentioned.",
+              "knownValues": [
+                "invalid-type",
+                "not-your-pet",
+                "cooldown",
+                "asleep"
+              ],
+              "type": "string"
+            },
+            "message": {
+              "description": "A sentence to show the player, accompanying `error`. Free to reword; do not branch on it.",
+              "type": "string"
+            },
+            "uri": {
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "pet.trezy.createInteraction",
+  "lexicon": 1
+}

@@ -1,0 +1,66 @@
+{
+  "id": "work.sequential.feed.comment",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "text",
+          "createdAt"
+        ],
+        "properties": {
+          "lang": {
+            "type": "string",
+            "format": "language",
+            "description": "BCP-47 language tag for the text."
+          },
+          "page": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the work.sequential.page or work.sequential.slice being commented on. Must belong to the subject chapter. Omit to comment on the whole chapter, and always omit when the subject is a strip. Replies keep the page of the comment they reply to. Use the DID form (at://did:...), not a handle."
+          },
+          "text": {
+            "type": "string",
+            "maxLength": 10000,
+            "description": "The comment text.",
+            "maxGraphemes": 1000
+          },
+          "panel": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Zero-based index of the panel being commented on, in the panels of the page, or of the strip when the subject is a strip. Omit to comment on the whole page or strip. Slices have no panels. Indexes can shift when the creator re-cuts panels; AppViews ignore indexes past the last panel. Replies keep the panel of the comment they reply to."
+          },
+          "facets": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.richtext.facet",
+              "type": "ref"
+            },
+            "description": "Annotations of text: mentions, links, hashtags and styles (bold, italic, underline, strikethrough, code, spoiler)."
+          },
+          "parent": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the work.sequential.feed.comment being replied to. Omit for a top-level comment. Use the DID form (at://did:...), not a handle."
+          },
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the work.sequential.chapter or work.sequential.strip being commented on. AppViews ignore comments on any other record. Comments on a page, slice or panel still set subject to the chapter or strip, so AppViews can count a work's comments without walking pages. Replies keep the subject of the comment they reply to. Use the DID form (at://did:...), not a handle."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "The date and time the comment was created."
+          }
+        }
+      },
+      "description": "A comment on a chapter or strip, or on one of its pages, slices or panels, or a reply to another comment."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

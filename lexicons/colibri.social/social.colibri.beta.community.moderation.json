@@ -1,0 +1,16 @@
+{
+  "id": "social.colibri.beta.community.moderation",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "name": "Colibri community moderation log",
+      "type": "space",
+      "collections": [
+        "social.colibri.beta.moderation"
+      ],
+      "description": "A community's moderation audit log. Kept in its own space so it can be read by moderators without being readable by the whole membership."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

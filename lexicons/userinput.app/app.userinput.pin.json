@@ -1,0 +1,36 @@
+{
+  "id": "app.userinput.pin",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "space",
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "space": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The space the pin applies to. Indexed by constellation at space.uri."
+          },
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The discussion being pinned."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Pins a discussion to the top of a space. Only honored when authored by the space owner or a moderator. Lives in the moderator's repo."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

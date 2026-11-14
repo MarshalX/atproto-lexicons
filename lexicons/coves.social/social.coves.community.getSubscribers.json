@@ -1,0 +1,94 @@
+{
+  "id": "social.coves.community.getSubscribers",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "subscribers"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "subscribers": {
+              "type": "array",
+              "items": {
+                "ref": "#subscriberView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "community"
+        ],
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "community": {
+            "type": "string",
+            "maxLength": 320,
+            "description": "Community identifier: a DID (did:plc:...), an atProto handle (c-gaming.coves.social or gaming.coves.social), a scoped identifier with or without the ! prefix (gaming@coves.social, comicstrips@lemmy.world), or a bare name for a community on this instance (gaming)"
+          }
+        }
+      },
+      "description": "Get list of users subscribed to a community"
+    },
+    "subscriberView": {
+      "type": "object",
+      "required": [
+        "did",
+        "subscribedAt"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "avatar": {
+          "type": "string",
+          "format": "uri"
+        },
+        "handle": {
+          "type": "string",
+          "format": "handle"
+        },
+        "isMember": {
+          "type": "boolean",
+          "description": "Whether this subscriber has membership status"
+        },
+        "reputation": {
+          "type": "integer",
+          "description": "User's reputation in this community"
+        },
+        "displayName": {
+          "type": "string",
+          "maxLength": 1280,
+          "maxGraphemes": 128
+        },
+        "subscribedAt": {
+          "type": "string",
+          "format": "datetime"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

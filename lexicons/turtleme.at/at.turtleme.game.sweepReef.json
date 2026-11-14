@@ -1,0 +1,48 @@
+{
+  "id": "at.turtleme.game.sweepReef",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "patches"
+          ],
+          "properties": {
+            "netted": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "maxLength": 256,
+              "description": "Where the player's nets are. They are the player's own marks and are not kept here; they are sent because a net stops a sweep spreading, the way a flag does. Leaving them out only opens more of the caller's own board."
+            },
+            "patches": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "maxLength": 9,
+              "minLength": 1,
+              "description": "Which patches to sweep, in order. Sweeping stops at the first one that wakes the shoal."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "ref": "at.turtleme.game.defs#state",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "Sweep one patch of the reef, or the handful a chord opens, in the order given. What comes back is the patches that opened and what each one counts. While the board is still being played it also carries the covered patches the open numbers already prove safe, with what each of those counts, so a page can open one the moment it is tapped: a player could open every one of them at no risk and read the same counts. Where the shoal lies is not sent until the board is over. Sweeping a patch with a turtle under it wakes the shoal and ends the board, and only a board swept clean pays anything. Requires an atproto service auth token addressed to did:web:turtleme.at#turtle_game and naming this method, so a token issued for one call cannot be spent on another."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

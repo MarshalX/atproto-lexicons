@@ -1,0 +1,30 @@
+{
+  "id": "app.zeens.getEventFacets",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "filter": {
+            "type": "string",
+            "default": "upcoming",
+            "description": "Time window to count within. Must match the window the feed is showing, or the strip would offer a filter that returns nothing on this tab.",
+            "knownValues": [
+              "upcoming",
+              "past",
+              "all"
+            ]
+          }
+        }
+      },
+      "description": "Category and mode counts for the events filter strip, aggregated in Postgres over the whole catalog (not tallied from a page of results). Lets the client offer only filters that will actually return something. Scoped by the same time window as getEvents, so an Upcoming strip counts upcoming events.",
+      "target_collection": "app.zeens.event"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

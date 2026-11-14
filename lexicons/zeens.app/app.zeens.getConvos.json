@@ -1,0 +1,90 @@
+{
+  "id": "app.zeens.getConvos",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "convos"
+          ],
+          "properties": {
+            "allow": {
+              "enum": [
+                "off",
+                "mutuals",
+                "everyone"
+              ],
+              "type": "string"
+            },
+            "convos": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "convoId",
+                  "peerDid",
+                  "latestAt",
+                  "unread"
+                ],
+                "properties": {
+                  "unread": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "convoId": {
+                    "type": "string"
+                  },
+                  "peerDid": {
+                    "type": "string",
+                    "format": "did"
+                  },
+                  "latestAt": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "cursor": {
+              "type": "string"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "viewer"
+        ],
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 36,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "state": {
+            "enum": [
+              "inbox",
+              "requests"
+            ],
+            "type": "string",
+            "default": "inbox"
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "viewer": {
+            "type": "string",
+            "format": "did"
+          }
+        }
+      },
+      "description": "Return a viewer's conversation list (newest activity first), paginated. No message preview is returned. 'state' selects the inbox or the requests bucket."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,52 @@
+{
+  "id": "social.grain.story",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "media",
+          "aspectRatio",
+          "createdAt"
+        ],
+        "properties": {
+          "media": {
+            "type": "blob",
+            "accept": [
+              "image/*",
+              "video/*"
+            ],
+            "maxSize": 5000000
+          },
+          "labels": {
+            "refs": [
+              "com.atproto.label.defs#selfLabels"
+            ],
+            "type": "union",
+            "description": "Self-label values for this story. Effectively content warnings."
+          },
+          "address": {
+            "ref": "community.lexicon.location.address",
+            "type": "ref"
+          },
+          "location": {
+            "ref": "community.lexicon.location.hthree",
+            "type": "ref"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "aspectRatio": {
+            "ref": "social.grain.defs#aspectRatio",
+            "type": "ref"
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

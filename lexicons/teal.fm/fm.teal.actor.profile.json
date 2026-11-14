@@ -1,0 +1,86 @@
+{
+  "id": "fm.teal.actor.profile",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "properties": {
+          "avatar": {
+            "type": "blob",
+            "accept": [
+              "image/png",
+              "image/jpeg"
+            ],
+            "maxSize": 1000000,
+            "description": "Small image to be displayed next to posts from account. AKA, 'profile picture'"
+          },
+          "banner": {
+            "type": "blob",
+            "accept": [
+              "image/png",
+              "image/jpeg"
+            ],
+            "maxSize": 1000000,
+            "description": "Larger horizontal image to display behind profile view."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 2560,
+            "description": "Free-form profile description text.",
+            "maxGraphemes": 256
+          },
+          "displayName": {
+            "type": "string",
+            "maxLength": 640,
+            "maxGraphemes": 64
+          },
+          "featuredItem": {
+            "ref": "#featuredItem",
+            "type": "ref",
+            "description": "The user's most recent item featured on their profile."
+          },
+          "descriptionFacets": {
+            "type": "array",
+            "items": {
+              "ref": "app.bsky.richtext.facet",
+              "type": "ref"
+            },
+            "description": "Annotations of text in the profile description (mentions, URLs, hashtags, etc)."
+          }
+        }
+      },
+      "description": "This lexicon is in a not officially released state. It is subject to change. | A declaration of a teal.fm account profile."
+    },
+    "featuredItem": {
+      "type": "object",
+      "required": [
+        "mbid",
+        "type"
+      ],
+      "properties": {
+        "mbid": {
+          "type": "string",
+          "format": "uri",
+          "description": "The MusicBrainz ID URI of the item, formatted as mbid:<uuid>"
+        },
+        "type": {
+          "type": "string",
+          "description": "The MusicBrainz entity type of the item.",
+          "knownValues": [
+            "artist",
+            "release",
+            "recording"
+          ]
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,55 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Fertilizers previous known as agroconnect codelist CL022",
+      "key": "any",
+      "record": {
+        "properties": {
+          "composition": {
+            "items": {
+              "properties": {
+                "nutrient": {
+                  "ref": "nl.agroconnect.codelist.defs#codeType",
+                  "type": "ref"
+                },
+                "value": {
+                  "ref": "nl.agroconnect.codelist.defs#scaledValue",
+                  "type": "ref"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "fertilizerType": {
+            "enum": [
+              "organic",
+              "anorganic"
+            ],
+            "type": "string"
+          },
+          "listEntry": {
+            "ref": "nl.agroconnect.codelist.defs#listEntry",
+            "type": "ref"
+          },
+          "scaleFactor": {
+            "ref": "nl.agroconnect.codelist.defs#scaleFactor",
+            "type": "ref"
+          },
+          "unitOfMeasurement": {
+            "ref": "nl.agroconnect.codelist.defs#codeType",
+            "type": "ref"
+          }
+        },
+        "required": [
+          "listEntry"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "nl.agroconnect.codelist.fertilizer",
+  "lexicon": 1
+}

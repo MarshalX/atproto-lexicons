@@ -1,0 +1,41 @@
+{
+  "id": "so.sprk.authManageModeration",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Manage Spark Moderation",
+      "detail": "Control personal moderation settings, including blocks, mutes, and moderation-related preferences.",
+      "title:lang": {},
+      "detail:lang": {},
+      "permissions": [
+        {
+          "lxm": [
+            "so.sprk.actor.getPreferences",
+            "so.sprk.actor.putPreferences",
+            "so.sprk.graph.muteActor",
+            "so.sprk.graph.muteThread",
+            "so.sprk.graph.unmuteActor",
+            "so.sprk.graph.unmuteThread"
+          ],
+          "type": "permission",
+          "resource": "rpc",
+          "inheritAud": true
+        },
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "so.sprk.graph.block"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

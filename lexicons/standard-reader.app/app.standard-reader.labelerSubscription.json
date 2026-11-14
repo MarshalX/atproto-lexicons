@@ -1,0 +1,64 @@
+{
+  "id": "app.standard-reader.labelerSubscription",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "labeler",
+          "createdAt"
+        ],
+        "properties": {
+          "labels": {
+            "type": "array",
+            "items": {
+              "ref": "#labelPref",
+              "type": "ref"
+            },
+            "description": "Per-label visibility overrides for this labeler's label values."
+          },
+          "labeler": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the labeler service being subscribed to."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the reader subscribed to the labeler."
+          }
+        }
+      },
+      "description": "Subscribes the reader to a labeler service (like adding a Bluesky moderation service). Presence of the record means subscribed; deleting it unsubscribes. The rkey is derived from the labeler DID so each labeler maps to a single record."
+    },
+    "labelPref": {
+      "type": "object",
+      "required": [
+        "val",
+        "visibility"
+      ],
+      "properties": {
+        "val": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "The label value this preference applies to."
+        },
+        "visibility": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "ignore = show normally; warn = content warning / blur; hide = filter out.",
+          "knownValues": [
+            "ignore",
+            "warn",
+            "hide"
+          ]
+        }
+      },
+      "description": "How the reader wants a single label value from this labeler treated."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

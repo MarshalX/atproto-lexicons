@@ -1,0 +1,54 @@
+{
+  "id": "com.suibari.nagi.getSimilarNews",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "items"
+          ],
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "unknown"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "rkey"
+        ],
+        "properties": {
+          "lang": {
+            "type": "string",
+            "default": "ja",
+            "knownValues": [
+              "ja",
+              "en"
+            ]
+          },
+          "rkey": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "limit": {
+            "type": "integer",
+            "default": 4,
+            "maximum": 10,
+            "minimum": 1
+          }
+        }
+      },
+      "description": "ニュースのパーマリンクに出す「似ているニュース」。基準記事の埋め込みに近い承認済みニュースを返す。"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

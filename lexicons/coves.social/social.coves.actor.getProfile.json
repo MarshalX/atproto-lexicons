@@ -1,0 +1,32 @@
+{
+  "id": "social.coves.actor.getProfile",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "ref": "social.coves.actor.defs#profileViewDetailed",
+          "type": "ref",
+          "description": "Detailed profile view with stats and viewer state"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "actor"
+        ],
+        "properties": {
+          "actor": {
+            "type": "string",
+            "maxLength": 2048,
+            "description": "DID or handle of the user, or a bridged user's fediverse address as name@host or @name@host (e.g. alice@lemmy.world)"
+          }
+        }
+      },
+      "description": "Get a user's profile with aggregated statistics"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

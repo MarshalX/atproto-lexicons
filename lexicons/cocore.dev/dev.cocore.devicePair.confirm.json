@@ -1,0 +1,79 @@
+{
+  "id": "dev.cocore.devicePair.confirm",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "userCode",
+            "decision"
+          ],
+          "properties": {
+            "session": {
+              "type": "unknown",
+              "description": "Provider session to grant to the device; required when `decision` is `approve`."
+            },
+            "decision": {
+              "enum": [
+                "approve",
+                "deny"
+              ],
+              "type": "string"
+            },
+            "userCode": {
+              "type": "string",
+              "description": "The code the device displayed (case-insensitive)."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "InvalidRequest",
+          "description": "Missing `userCode`, an invalid `decision`, or `approve` without a `session`."
+        },
+        {
+          "name": "NotFound",
+          "description": "No pairing attempt matches the `userCode`."
+        },
+        {
+          "name": "Conflict",
+          "description": "The pairing attempt could not be approved in its current state."
+        },
+        {
+          "name": "RateLimited",
+          "description": "Too many confirm attempts from this client; retry later."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "ok",
+            "status"
+          ],
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "status": {
+              "type": "string"
+            },
+            "returnUrl": {
+              "type": "string",
+              "format": "uri",
+              "description": "Present on approval when the requester asked to be returned to an allowlisted URL."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Approve or deny a pending device-pairing attempt, identified by the `userCode` the device displayed. Called from the verification UI by a signed-in user. Approving requires the provider `session` to grant to the device. When the requester supplied an allowlisted `returnUrl` at `start`, an approval echoes it back so the verification UI can send the browser there."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

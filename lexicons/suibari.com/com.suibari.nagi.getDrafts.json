@@ -1,0 +1,72 @@
+{
+  "id": "com.suibari.nagi.getDrafts",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "drafts",
+            "limit"
+          ],
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "maximum": 30,
+              "minimum": 1
+            },
+            "drafts": {
+              "type": "array",
+              "items": {
+                "ref": "#draftSummary",
+                "type": "ref"
+              },
+              "maxLength": 30
+            }
+          }
+        },
+        "encoding": "application/json"
+      }
+    },
+    "draftSummary": {
+      "type": "object",
+      "required": [
+        "id",
+        "text",
+        "linkCardCount",
+        "createdAt",
+        "updatedAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 36
+        },
+        "text": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "linkCardCount": {
+          "type": "integer",
+          "maximum": 4,
+          "minimum": 0
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

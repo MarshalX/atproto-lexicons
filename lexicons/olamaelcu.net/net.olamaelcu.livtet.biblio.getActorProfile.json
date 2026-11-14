@@ -1,0 +1,49 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "errors": [
+        {
+          "description": "Could not reach the user's PDS.",
+          "name": "UpstreamUnavailable"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "handle": {
+              "description": "Resolved handle for the DID, if available.",
+              "type": "string"
+            },
+            "profile": {
+              "ref": "net.olamaelcu.livtet.actor.profile#main",
+              "type": "ref"
+            }
+          },
+          "required": [
+            "profile"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "did": {
+            "description": "DID of the user whose profile to fetch.",
+            "format": "did",
+            "type": "string"
+          }
+        },
+        "required": [
+          "did"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "Fetch a user's profile record (net.olamaelcu.livtet.actor.profile at rkey 'self') from the user's PDS, plus optional handle resolution.",
+  "id": "net.olamaelcu.livtet.biblio.getActorProfile",
+  "lexicon": 1
+}

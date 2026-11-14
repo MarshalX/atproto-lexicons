@@ -1,0 +1,69 @@
+{
+  "id": "dev.knotless.addEmail",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "ref": "#email",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "InvalidRequest",
+          "description": "No email address."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        }
+      ],
+      "output": {
+        "schema": {
+          "ref": "#emailState",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "Adds the address's hash to the dev.knotless.emails record of the account logged in to this appview's web pages, as `knotless account email add` does, so commits authored with it show as the account's on repositories it owns or pushes to. Requires the session cookie the pages' login sets: the appview writes with the session it keeps for that account."
+    },
+    "email": {
+      "type": "object",
+      "required": [
+        "email"
+      ],
+      "properties": {
+        "email": {
+          "type": "string",
+          "maxLength": 320,
+          "description": "The address. Case and spaces around it do not count."
+        }
+      },
+      "description": "An address, as git authors commits with it."
+    },
+    "emailState": {
+      "type": "object",
+      "required": [
+        "changed",
+        "count"
+      ],
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "How many addresses the account claims now."
+        },
+        "changed": {
+          "type": "boolean",
+          "description": "Whether it changed anything: false for an address claimed already, or, taken back, never claimed."
+        }
+      },
+      "description": "What claiming an address, or taking the claim back, did."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Claims an email address as the account logged in to this appview's pages."
+}

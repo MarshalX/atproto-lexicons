@@ -1,0 +1,108 @@
+{
+  "id": "com.suibari.nagi.getCommunityAffirmations",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "items",
+            "hasMore"
+          ],
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "ref": "#view",
+                "type": "ref"
+              }
+            },
+            "cursor": {
+              "type": "string"
+            },
+            "hasMore": {
+              "type": "boolean"
+            },
+            "botActor": {
+              "type": "unknown"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "lang"
+        ],
+        "properties": {
+          "lang": {
+            "type": "string",
+            "knownValues": [
+              "ja",
+              "en"
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "default": 10,
+            "maximum": 20,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "view": {
+      "type": "object",
+      "required": [
+        "uri",
+        "cid",
+        "summary",
+        "createdAt",
+        "reactions"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid"
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "type": "unknown"
+          }
+        },
+        "summary": {
+          "type": "string",
+          "maxLength": 320
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "linkCards": {
+          "type": "array",
+          "items": {
+            "type": "unknown"
+          }
+        },
+        "reactions": {
+          "type": "array",
+          "items": {
+            "type": "unknown"
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

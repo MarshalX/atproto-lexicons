@@ -1,0 +1,66 @@
+{
+  "id": "social.dracome.library.goal",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "metric",
+          "targetValue",
+          "periodStart",
+          "periodEnd",
+          "createdAt"
+        ],
+        "properties": {
+          "metric": {
+            "ref": "social.dracome.library.defs#goalMetric",
+            "type": "ref",
+            "description": "The consumption metric this goal targets."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Canonical UTC instant serialized as ISO 8601 with a trailing Z suffix."
+          },
+          "periodEnd": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Canonical UTC instant marking the exclusive end of the goal's period `[periodStart, periodEnd)`, serialized as ISO 8601 with a trailing Z suffix."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Canonical UTC instant serialized as ISO 8601 with a trailing Z suffix."
+          },
+          "formatScope": {
+            "ref": "social.dracome.library.defs#goalFormatScope",
+            "type": "ref",
+            "description": "Optional restriction of this goal to one format category (e.g. only audiobooks). Unset means the goal counts consumption of all formats. Only meaningful when `metric` is `completed_state_count` — never populated alongside a sum metric."
+          },
+          "periodLabel": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Optional free-text label for the goal's period (e.g. '2026 Reading Challenge'), for display only. Not used to compute the period boundaries — periodStart/periodEnd remain authoritative.",
+            "maxGraphemes": 64
+          },
+          "periodStart": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Canonical UTC instant marking the inclusive start of the goal's period, serialized as ISO 8601 with a trailing Z suffix."
+          },
+          "targetValue": {
+            "type": "integer",
+            "maximum": 3599996400,
+            "minimum": 1,
+            "description": "The target value to reach for `metric` within the goal's period. The maximum is 999,999 hours expressed in seconds (999999 * 3600) — the field is not per-metric here, so it is bounded to the widest unit's ceiling; `completed_state_count`/`page_count_sum` goals are additionally capped at 999,999."
+          }
+        }
+      },
+      "description": "A repeatable consumption-goal record for an actor, targeting a metric over a half-open time period `[periodStart, periodEnd)` (periodStart is inclusive, periodEnd is exclusive). Fulfillment progress against the goal is not stored on this record — it is computed at read time by filtering the actor's `library.state` records that fall within the period, per the metric named in `metric`."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

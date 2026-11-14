@@ -1,0 +1,62 @@
+{
+  "id": "com.suibari.nagi.getPositiveNews",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "items",
+            "hasMore"
+          ],
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "unknown"
+              }
+            },
+            "cursor": {
+              "type": "string"
+            },
+            "hasMore": {
+              "type": "boolean"
+            },
+            "recommended": {
+              "type": "array",
+              "items": {
+                "type": "unknown"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "lang": {
+            "type": "string",
+            "default": "ja",
+            "knownValues": [
+              "ja",
+              "en"
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "default": 20,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

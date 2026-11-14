@@ -1,0 +1,30 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "key": "any",
+      "record": {
+        "properties": {
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "subject": {
+            "description": "DID of the followed person.",
+            "format": "did",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subject",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "description": "A follow relationship to a person (DID), used for personalizing feeds. The rkey is the followed DID, so a person can only be followed once.",
+  "id": "net.olamaelcu.livtet.biblio.follow",
+  "lexicon": 1
+}

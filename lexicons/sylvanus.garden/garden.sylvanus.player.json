@@ -1,0 +1,25 @@
+{
+  "id": "garden.sylvanus.player",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "properties": {
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "gameVersion": {
+            "type": "string",
+            "description": "The version of the game that wrote it."
+          }
+        }
+      },
+      "description": "That an account plays Sylvanus: written once, the first time it signs in to the game, and never changed."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

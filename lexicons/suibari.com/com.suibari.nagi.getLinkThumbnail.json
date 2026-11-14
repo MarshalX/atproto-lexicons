@@ -1,0 +1,26 @@
+{
+  "id": "com.suibari.nagi.getLinkThumbnail",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "*/*"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "url"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 2048
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

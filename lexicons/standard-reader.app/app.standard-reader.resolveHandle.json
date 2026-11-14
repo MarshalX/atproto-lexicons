@@ -1,0 +1,61 @@
+{
+  "id": "app.standard-reader.resolveHandle",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "publications",
+            "source"
+          ],
+          "properties": {
+            "did": {
+              "type": "string",
+              "format": "did",
+              "nullable": true
+            },
+            "handle": {
+              "type": "string",
+              "nullable": true,
+              "maxLength": 128
+            },
+            "source": {
+              "type": "string",
+              "maxLength": 32,
+              "knownValues": [
+                "index",
+                "repo",
+                "none"
+              ]
+            },
+            "publications": {
+              "type": "array",
+              "items": {
+                "ref": "app.standard-reader.defs#publicationView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "handle"
+        ],
+        "properties": {
+          "handle": {
+            "type": "string",
+            "maxLength": 128
+          }
+        }
+      },
+      "description": "Resolve an AT Proto handle, domain, or DID to site.standard.publication previews."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,40 @@
+{
+  "id": "social.coves.community.unsubscribe",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "community"
+          ],
+          "properties": {
+            "community": {
+              "type": "string",
+              "maxLength": 320,
+              "description": "Community identifier (DID, handle, name@origin, or bare local name) of the community to unsubscribe from"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "NotSubscribed",
+          "description": "Not currently subscribed to this community"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "description": "Unsubscribe from a community. Requires authentication."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

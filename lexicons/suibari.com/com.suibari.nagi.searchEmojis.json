@@ -1,0 +1,96 @@
+{
+  "id": "com.suibari.nagi.searchEmojis",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "emojis"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "emojis": {
+              "type": "array",
+              "items": {
+                "type": "unknown"
+              }
+            },
+            "unicode": {
+              "type": "array",
+              "items": {
+                "ref": "#unicodeEmojiView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "q": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "repo": {
+            "type": "string",
+            "description": "Restrict results to a single repo (DID)."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "semantic": {
+            "type": "boolean",
+            "default": false,
+            "description": "Rank by meaning as well as name. Requires q. Returns a single page (no cursor); repo, excludeRepo and cursor are ignored."
+          },
+          "preferRepo": {
+            "type": "string",
+            "description": "With semantic, list this repo's emoji first among equally good name matches."
+          },
+          "excludeRepo": {
+            "type": "string",
+            "description": "Exclude results from a single repo (DID)."
+          },
+          "includeUnicode": {
+            "type": "boolean",
+            "default": false,
+            "description": "With semantic, also return matching Unicode emoji in `unicode`, ranked after `emojis`."
+          }
+        }
+      }
+    },
+    "unicodeEmojiView": {
+      "type": "object",
+      "required": [
+        "emoji",
+        "labelJa",
+        "labelEn"
+      ],
+      "properties": {
+        "emoji": {
+          "type": "string"
+        },
+        "labelEn": {
+          "type": "string"
+        },
+        "labelJa": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

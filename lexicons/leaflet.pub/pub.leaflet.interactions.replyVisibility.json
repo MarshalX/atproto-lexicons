@@ -1,0 +1,35 @@
+{
+  "id": "pub.leaflet.interactions.replyVisibility",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "allowed"
+        ],
+        "properties": {
+          "allowed": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 500,
+            "description": "The pub.leaflet.interactions.reply records shown on the document."
+          },
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The document whose replies this record moderates."
+          }
+        }
+      },
+      "description": "Declares which submitted replies are shown on a document. Lives in the document's repo, with a record key matching the document's."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

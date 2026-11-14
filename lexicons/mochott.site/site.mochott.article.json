@@ -1,0 +1,181 @@
+{
+  "id": "site.mochott.article",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "profile",
+          "title",
+          "createdAt"
+        ],
+        "properties": {
+          "via": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Identifier of the third-party client that wrote this record (e.g. 'tech.tokimeki'). Set only by clients other than mochott itself; mochott indexes such records, and their updates, from the firehose. Whoever rewrites the record keeps this field."
+          },
+          "path": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Custom URL path slug for the article. Used to construct human-readable URLs."
+          },
+          "slug": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "Author-chosen URL slug (lowercase letters, digits and hyphens), unique among the author's articles. Managed by mochott; third-party clients should not set it."
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 640,
+              "maxGraphemes": 64
+            },
+            "maxLength": 8,
+            "description": "Tags for categorizing the article."
+          },
+          "blobs": {
+            "type": "array",
+            "items": {
+              "ref": "site.mochott.defs#blobMetadata",
+              "type": "ref"
+            },
+            "description": "Blob references for media embedded within the article content."
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 5000,
+            "description": "Title of the article.",
+            "maxGraphemes": 500
+          },
+          "topic": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "Slug of the platform writing topic (投稿のお題) this article participates in."
+          },
+          "labels": {
+            "refs": [
+              "com.atproto.label.defs#selfLabels"
+            ],
+            "type": "union",
+            "description": "Self-label values (content warnings) for this article."
+          },
+          "content": {
+            "ref": "#tiptapDocument",
+            "type": "ref",
+            "description": "Rich text content in TipTap editor JSON format."
+          },
+          "profile": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT URI of the publication profile this article belongs to."
+          },
+          "category": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "Primary category of the article."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Publication timestamp of the article. Authors may set it to a past date (e.g. when migrating content); it is never later than the record write time."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp when the article was last updated."
+          },
+          "coverImage": {
+            "type": "blob",
+            "accept": [
+              "image/png",
+              "image/jpeg",
+              "image/webp"
+            ],
+            "maxSize": 1000000,
+            "description": "Cover image displayed at the top of the article and in previews."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "description": "Short summary or excerpt of the article, used for previews and SEO.",
+            "maxGraphemes": 3000
+          },
+          "textContent": {
+            "type": "string",
+            "maxLength": 100000,
+            "description": "Plain text representation of the article content, primarily for search indexing and text-only consumers."
+          },
+          "minisiteCategory": {
+            "ref": "#minisiteCategory",
+            "type": "ref",
+            "description": "Category of the article within a minisite. Only meaningful while the article belongs to that minisite and the minisite still defines the slug."
+          }
+        }
+      },
+      "description": "Record representing a single blog article published to a publication."
+    },
+    "tiptapDocument": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "Text content for text-type nodes."
+        },
+        "type": {
+          "type": "string",
+          "description": "Node type identifier (e.g. 'doc', 'paragraph', 'heading')."
+        },
+        "attrs": {
+          "type": "unknown",
+          "description": "Node-specific attributes."
+        },
+        "marks": {
+          "type": "array",
+          "items": {
+            "type": "unknown"
+          },
+          "description": "Inline formatting marks applied to this node."
+        },
+        "content": {
+          "type": "array",
+          "items": {
+            "type": "unknown"
+          },
+          "description": "Child nodes of this document node."
+        }
+      },
+      "description": "A TipTap editor document node. Represents a recursive tree structure for rich text content."
+    },
+    "minisiteCategory": {
+      "type": "object",
+      "required": [
+        "minisite",
+        "slug"
+      ],
+      "properties": {
+        "slug": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Slug of a category in that minisite's categories."
+        },
+        "minisite": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT URI of the site.mochott.minisite record that defines the category."
+        }
+      },
+      "description": "A reference to a category defined in a site.mochott.minisite record."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 4,
+  "description": "A blog article record. Contains rich text content, metadata, and optional media attachments."
+}

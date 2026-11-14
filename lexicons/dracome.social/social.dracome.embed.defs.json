@@ -1,0 +1,50 @@
+{
+  "id": "social.dracome.embed.defs",
+  "defs": {
+    "image": {
+      "type": "object",
+      "required": [
+        "image"
+      ],
+      "properties": {
+        "image": {
+          "type": "blob",
+          "accept": [
+            "image/*"
+          ],
+          "maxSize": 2000000,
+          "description": "Image data blob. Max 2MB (2,000,000 bytes) per image."
+        },
+        "altText": {
+          "type": "string",
+          "maxLength": 1024,
+          "description": "Optional alt-text or accessibility description for the image.",
+          "maxGraphemes": 256
+        }
+      },
+      "description": "A single image attachment."
+    },
+    "images": {
+      "type": "object",
+      "properties": {
+        "primary": {
+          "ref": "#image",
+          "type": "ref",
+          "description": "Optional primary/hero image, when one is designated. At most one primary is structurally guaranteed by this being a scalar field rather than a per-item flag."
+        },
+        "secondary": {
+          "type": "array",
+          "items": {
+            "ref": "#image",
+            "type": "ref"
+          },
+          "maxLength": 4,
+          "description": "Additional images, in display order after the primary image if one is present."
+        }
+      },
+      "description": "An optional primary/hero image plus optional additional images."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

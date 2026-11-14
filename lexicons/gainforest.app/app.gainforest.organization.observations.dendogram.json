@@ -1,0 +1,106 @@
+{
+  "id": "app.gainforest.organization.observations.dendogram",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "dendogram",
+          "createdAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name or title of the dendogram (e.g., 'Flora Phylogenetic Tree - Site A 2025')",
+            "maxGraphemes": 256
+          },
+          "siteRef": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI reference to the site this dendogram represents"
+          },
+          "treeType": {
+            "type": "string",
+            "description": "Type of tree represented in the dendogram",
+            "knownValues": [
+              "phylogenetic",
+              "phenetic",
+              "cladistic",
+              "functional-trait",
+              "other"
+            ],
+            "maxGraphemes": 64
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "The date and time of the creation of the record"
+          },
+          "dendogram": {
+            "ref": "org.hypercerts.defs#smallBlob",
+            "type": "ref",
+            "description": "An SVG of the dendogram uploaded as blob"
+          },
+          "rootTaxon": {
+            "type": "string",
+            "description": "The root taxon of the tree (e.g., 'Plantae')",
+            "maxGraphemes": 256
+          },
+          "thumbnail": {
+            "ref": "app.gainforest.common.defs#imageThumbnail",
+            "type": "ref",
+            "description": "Thumbnail preview image of the dendogram"
+          },
+          "dataSource": {
+            "type": "string",
+            "description": "Source of the sequence or trait data used in the analysis",
+            "maxGraphemes": 256
+          },
+          "taxonCount": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of taxa represented in the dendogram"
+          },
+          "description": {
+            "ref": "app.gainforest.common.defs#richtext",
+            "type": "ref",
+            "description": "Description of what this dendogram shows"
+          },
+          "taxonGroups": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "knownValues": [
+                "flora",
+                "fauna",
+                "fungi",
+                "bacteria",
+                "archaea",
+                "protista",
+                "chromista"
+              ],
+              "maxGraphemes": 64
+            },
+            "maxLength": 10,
+            "description": "Which taxonomic groups are represented in the dendogram"
+          },
+          "analysisDate": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the phylogenetic analysis was performed"
+          },
+          "analysisMethod": {
+            "type": "string",
+            "description": "Method used to generate the dendogram (e.g., 'Maximum Likelihood with RAxML', 'Neighbor-Joining')",
+            "maxGraphemes": 512
+          }
+        }
+      },
+      "description": "A declaration of a dendogram observation for an organization"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

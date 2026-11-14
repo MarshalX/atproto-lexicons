@@ -1,0 +1,56 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "A user's numeric rating for a media item (one per user per media item)",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "createdAt": {
+            "description": "Record creation timestamp",
+            "format": "datetime",
+            "type": "string"
+          },
+          "episodeNumber": {
+            "description": "Episode number for episode items",
+            "type": "integer"
+          },
+          "mediaId": {
+            "description": "TMDB movie ID or show ID",
+            "type": "string"
+          },
+          "mediaType": {
+            "description": "Media type",
+            "enum": [
+              "movie",
+              "show",
+              "season",
+              "episode"
+            ],
+            "type": "string"
+          },
+          "rating": {
+            "description": "Rating from 1 to 10 (maps to 0.5-5.0 stars)",
+            "maximum": 10,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "seasonNumber": {
+            "description": "Season number for season/episode items",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "mediaType",
+          "mediaId",
+          "rating",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "xyz.opnshelf.rating",
+  "lexicon": 1
+}

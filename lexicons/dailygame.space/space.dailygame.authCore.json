@@ -1,0 +1,35 @@
+{
+  "id": "space.dailygame.authCore",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Daily Games",
+      "detail": "Record your daily puzzle scores, game preferences, and follows in your PDS. Daily Games can only read and write space.dailygame.score, space.dailygame.profile, and space.dailygame.follow records — it cannot touch your posts, profile, follows, or anything else.",
+      "permissions": [
+        {
+          "type": "permission",
+          "resource": "repo",
+          "collection": [
+            "space.dailygame.score"
+          ]
+        },
+        {
+          "type": "permission",
+          "resource": "repo",
+          "collection": [
+            "space.dailygame.profile"
+          ]
+        },
+        {
+          "type": "permission",
+          "resource": "repo",
+          "collection": [
+            "space.dailygame.follow"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

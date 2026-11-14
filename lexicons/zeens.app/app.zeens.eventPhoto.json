@@ -1,0 +1,40 @@
+{
+  "id": "app.zeens.eventPhoto",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "event",
+          "subject",
+          "addedAt",
+          "app.zeens.v"
+        ],
+        "properties": {
+          "event": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the app.zeens.event this photo is tagged to."
+          },
+          "addedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong-ref to the photo post (app.bsky.feed.post or app.zeens.post) being tagged."
+          },
+          "app.zeens.v": {
+            "type": "integer"
+          }
+        }
+      },
+      "description": "Tags one of the author's photo posts to an app.zeens.event, written to the author's own PDS. Only permitted when the author has an app.zeens.rsvp with status 'going' to that event AND the event has already ended; both gates are enforced client- and server-side at write time. Structurally a clone of app.zeens.collectionItem. Removing a tag is a record delete. Carries the app.zeens.v marker."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

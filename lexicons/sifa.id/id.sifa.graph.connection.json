@@ -1,0 +1,71 @@
+{
+  "id": "id.sifa.graph.connection",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "origins": {
+            "type": "array",
+            "items": {
+              "ref": "#origin",
+              "type": "ref"
+            },
+            "maxLength": 5,
+            "description": "How the connection originated. Each side can independently set their own origins."
+          },
+          "subject": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the other party in the connection."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Client-declared timestamp when this connection record was created."
+          }
+        }
+      },
+      "description": "DEPRECATED, not implemented. See the top-level description. Record representing a professional connection request or acceptance. Lives in the author's PDS."
+    },
+    "origin": {
+      "type": "object",
+      "required": [
+        "type",
+        "name"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "Optional AT URI referencing the origin record (e.g. a project or event record)."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Human-readable label for the origin.",
+          "maxGraphemes": 100
+        },
+        "type": {
+          "type": "string",
+          "description": "Category of the connection origin.",
+          "knownValues": [
+            "project",
+            "event",
+            "interest"
+          ]
+        }
+      },
+      "description": "Describes how a connection originated — a shared project, event, or common interest."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "DEPRECATED, not implemented. Sifa derives a connection from two mutual id.sifa.graph.follow records rather than storing a separate record, so nothing writes or reads this collection. Retained so the NSID is not reused for something else. Original intent: A mutual professional connection request. The requester creates this record; the subject accepts by creating their own record with the requester as subject. Both records must exist for the connection to be active. Either party can delete their record to sever the connection."
+}

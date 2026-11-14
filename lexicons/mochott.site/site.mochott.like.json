@@ -1,0 +1,33 @@
+{
+  "id": "site.mochott.like",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT URI of the record being liked: a site.mochott.article, or a work.sequential.chapter or work.sequential.strip."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp when the like was created."
+          }
+        }
+      },
+      "description": "Record indicating that the account author liked an article or comic. Deleting this record removes the like."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 2,
+  "description": "A like record. Represents a user's endorsement of an article or a comic chapter or strip."
+}

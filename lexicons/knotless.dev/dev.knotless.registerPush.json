@@ -1,0 +1,60 @@
+{
+  "id": "dev.knotless.registerPush",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "token",
+            "environment"
+          ],
+          "properties": {
+            "key": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "A 32-byte AES-256-GCM key the device made, in base64. A private repository's notifications are sealed with it, for the app to open on the device; to a device without one, they name nothing."
+            },
+            "token": {
+              "type": "string",
+              "maxLength": 200,
+              "description": "The device's push token from Apple, in hexadecimal."
+            },
+            "environment": {
+              "type": "string",
+              "maxLength": 20,
+              "description": "Which of Apple's push services issued the token.",
+              "knownValues": [
+                "production",
+                "sandbox"
+              ]
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "InvalidRequest",
+          "description": "The token is not hexadecimal, the environment is not one this appview knows, or the key is not 32 bytes in base64."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is asking."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "description": "Keeps, on the appview, a device to send the asking account's notifications to, from then on. A device already registered to another account moves to this one."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Asks this appview to send the asking account's notifications to a device."
+}

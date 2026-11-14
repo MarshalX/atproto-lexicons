@@ -1,0 +1,697 @@
+{
+  "id": "social.colibri.beta.voice.defs",
+  "defs": {
+    "ack": {
+      "type": "object",
+      "required": [],
+      "properties": {},
+      "description": "Answers a heartbeat."
+    },
+    "join": {
+      "type": "object",
+      "required": [
+        "channel"
+      ],
+      "properties": {
+        "channel": {
+          "type": "string",
+          "format": "space-ref",
+          "description": "The voice channel to join."
+        }
+      },
+      "description": "Joins a voice channel. A connection must join before sending any other frame, and joining a second channel leaves the first."
+    },
+    "error": {
+      "type": "object",
+      "required": [
+        "error"
+      ],
+      "properties": {
+        "error": {
+          "type": "string",
+          "description": "Error name.",
+          "knownValues": [
+            "InvalidFrame",
+            "NotJoined",
+            "ChannelNotFound",
+            "NotVoiceChannel",
+            "Forbidden",
+            "NotFound"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable detail."
+        }
+      },
+      "description": "Something the client sent could not be acted on."
+    },
+    "leave": {
+      "type": "object",
+      "required": [],
+      "properties": {},
+      "description": "Leaves the voice channel this connection is joined to."
+    },
+    "moved": {
+      "type": "object",
+      "required": [
+        "channel"
+      ],
+      "properties": {
+        "channel": {
+          "type": "string",
+          "format": "space-ref",
+          "description": "The voice channel to join."
+        }
+      },
+      "description": "A moderator moved this client to another voice channel. The server has already removed it from the previous one. Sent only to the client it applies to."
+    },
+    "joined": {
+      "type": "object",
+      "required": [
+        "channel"
+      ],
+      "properties": {
+        "nodeId": {
+          "type": "string",
+          "description": "The node hosting the call."
+        },
+        "region": {
+          "type": "string",
+          "description": "The region of the node hosting the call."
+        },
+        "channel": {
+          "type": "string",
+          "format": "space-ref",
+          "description": "The voice channel now joined."
+        }
+      },
+      "description": "Confirms this connection has joined a voice channel."
+    },
+    "consume": {
+      "type": "object",
+      "required": [
+        "transportId",
+        "producerId",
+        "rtpCapabilities"
+      ],
+      "properties": {
+        "producerId": {
+          "type": "string",
+          "description": "The producer to consume."
+        },
+        "transportId": {
+          "type": "string",
+          "description": "The receive transport to consume on."
+        },
+        "rtpCapabilities": {
+          "type": "unknown",
+          "description": "This connection's opaque mediasoup RTP capabilities blob."
+        }
+      },
+      "description": "Starts consuming another peer's producer on a receive transport this connection created."
+    },
+    "moveNow": {
+      "type": "object",
+      "required": [],
+      "properties": {},
+      "description": "Asks the node to move the call to the chosen node right away, without waiting for the deadline."
+    },
+    "produce": {
+      "type": "object",
+      "required": [
+        "transportId",
+        "kind",
+        "rtpParameters",
+        "source"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "description": "The media kind.",
+          "knownValues": [
+            "audio",
+            "video"
+          ]
+        },
+        "source": {
+          "type": "string",
+          "description": "What this producer captures.",
+          "knownValues": [
+            "microphone",
+            "camera",
+            "screen"
+          ]
+        },
+        "transportId": {
+          "type": "string",
+          "description": "The send transport to produce on."
+        },
+        "rtpParameters": {
+          "type": "unknown",
+          "description": "The opaque mediasoup RTP parameters blob."
+        }
+      },
+      "description": "Starts producing media on a send transport this connection created."
+    },
+    "peerLeft": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "Who left."
+        }
+      },
+      "description": "A peer left the voice channel this connection is in."
+    },
+    "heartbeat": {
+      "type": "object",
+      "required": [],
+      "properties": {},
+      "description": "Keeps the connection alive. The server answers with an ack."
+    },
+    "migrateTo": {
+      "type": "object",
+      "required": [
+        "nodeId",
+        "signalingUrl",
+        "channel"
+      ],
+      "properties": {
+        "now": {
+          "type": "boolean",
+          "description": "True when a participant asked to move right away."
+        },
+        "nodeId": {
+          "type": "string",
+          "description": "The node the call moves to."
+        },
+        "channel": {
+          "type": "string",
+          "format": "space-ref",
+          "description": "The voice channel."
+        },
+        "signalingUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Base URL for voice signaling on that node."
+        }
+      },
+      "description": "The call moves to another node. Clients join the same channel there, switch their media over, and then leave this node."
+    },
+    "rttReport": {
+      "type": "object",
+      "required": [
+        "results"
+      ],
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "ref": "#rttResult",
+            "type": "ref"
+          },
+          "description": "One result per candidate."
+        }
+      },
+      "description": "Round trips this client measured to the candidates of a migrationProposal."
+    },
+    "rttResult": {
+      "type": "object",
+      "required": [
+        "nodeId"
+      ],
+      "properties": {
+        "rttMs": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Round trip in milliseconds. Absent when the node could not be reached."
+        },
+        "nodeId": {
+          "type": "string",
+          "description": "The candidate measured."
+        }
+      },
+      "description": "One measured round trip."
+    },
+    "peerJoined": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "Who joined."
+        }
+      },
+      "description": "Another peer joined the voice channel this connection is in."
+    },
+    "setSpeaking": {
+      "type": "object",
+      "required": [
+        "speaking"
+      ],
+      "properties": {
+        "speaking": {
+          "type": "boolean",
+          "description": "Whether the user is currently speaking."
+        }
+      },
+      "description": "Reports whether this connection's user is speaking, as detected on their device. Once a connection sends this, the server stops detecting speech from its audio level. The server reports false while the user is muted."
+    },
+    "disconnected": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "reason": {
+          "type": "string",
+          "description": "Why it happened. 'nodeClosed' means the node hosting the call shut down before the call could move. 'migrated' means the call moved to another node and this connection is no longer needed.",
+          "knownValues": [
+            "moderator",
+            "superseded",
+            "channelGone",
+            "forbidden",
+            "nodeClosed",
+            "migrated"
+          ]
+        }
+      },
+      "description": "The server removed this client from the voice channel. Sent only to the client it applies to."
+    },
+    "producerInfo": {
+      "type": "object",
+      "required": [
+        "producerId",
+        "did",
+        "kind"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "Who is producing this media."
+        },
+        "kind": {
+          "type": "string",
+          "description": "The media kind.",
+          "knownValues": [
+            "audio",
+            "video"
+          ]
+        },
+        "paused": {
+          "type": "boolean",
+          "description": "Whether the producer is currently paused."
+        },
+        "source": {
+          "type": "string",
+          "description": "What the producer captures.",
+          "knownValues": [
+            "microphone",
+            "camera",
+            "screen"
+          ]
+        },
+        "producerId": {
+          "type": "string",
+          "description": "The producer's identifier."
+        }
+      },
+      "description": "A media producer available to consume."
+    },
+    "setSelfState": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "muted": {
+          "type": "boolean",
+          "description": "Whether the microphone is muted."
+        },
+        "deafened": {
+          "type": "boolean",
+          "description": "Whether incoming audio is silenced."
+        }
+      },
+      "description": "Updates this connection's own mute or deafen state. An absent field leaves the current value unchanged."
+    },
+    "callElsewhere": {
+      "type": "object",
+      "required": [
+        "nodeId",
+        "signalingUrl",
+        "channel"
+      ],
+      "properties": {
+        "nodeId": {
+          "type": "string",
+          "description": "The node hosting the call."
+        },
+        "channel": {
+          "type": "string",
+          "format": "space-ref",
+          "description": "The voice channel."
+        },
+        "signalingUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Base URL for voice signaling on that node."
+        }
+      },
+      "description": "The call in the requested channel runs on another node. Clients join it there."
+    },
+    "closeProducer": {
+      "type": "object",
+      "required": [
+        "producerId"
+      ],
+      "properties": {
+        "producerId": {
+          "type": "string",
+          "description": "The producer to close."
+        }
+      },
+      "description": "Closes a producer this connection owns."
+    },
+    "resumeConsumer": {
+      "type": "object",
+      "required": [
+        "consumerId"
+      ],
+      "properties": {
+        "consumerId": {
+          "type": "string",
+          "description": "The consumer to resume."
+        }
+      },
+      "description": "Resumes a consumer this connection created, which is created paused by default."
+    },
+    "speakingUpdate": {
+      "type": "object",
+      "required": [
+        "did",
+        "speaking"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "Who this update is about."
+        },
+        "level": {
+          "type": "integer",
+          "description": "An audio level in dBFS."
+        },
+        "speaking": {
+          "type": "boolean",
+          "description": "Whether they are currently speaking."
+        }
+      },
+      "description": "A change in whether someone is currently speaking."
+    },
+    "consumerOptions": {
+      "type": "object",
+      "required": [
+        "id",
+        "producerId",
+        "kind",
+        "rtpParameters"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The consumer's identifier."
+        },
+        "kind": {
+          "type": "string",
+          "description": "The media kind.",
+          "knownValues": [
+            "audio",
+            "video"
+          ]
+        },
+        "producerId": {
+          "type": "string",
+          "description": "The producer being consumed."
+        },
+        "rtpParameters": {
+          "type": "unknown",
+          "description": "The opaque mediasoup RTP parameters blob."
+        }
+      },
+      "description": "Parameters for consuming one producer."
+    },
+    "createTransport": {
+      "type": "object",
+      "required": [
+        "direction"
+      ],
+      "properties": {
+        "direction": {
+          "type": "string",
+          "description": "Whether this transport will send or receive media.",
+          "knownValues": [
+            "send",
+            "recv"
+          ]
+        }
+      },
+      "description": "Requests a new WebRTC transport for the joined channel."
+    },
+    "producerRemoved": {
+      "type": "object",
+      "required": [
+        "producerId",
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "Whose producer this was."
+        },
+        "producerId": {
+          "type": "string",
+          "description": "The producer that closed."
+        }
+      },
+      "description": "A peer's producer closed."
+    },
+    "rtpCapabilities": {
+      "type": "object",
+      "properties": {
+        "payload": {
+          "type": "unknown",
+          "description": "The opaque mediasoup capability blob."
+        }
+      },
+      "description": "The RTP capabilities a WebRTC endpoint supports."
+    },
+    "codecUnsupported": {
+      "type": "object",
+      "required": [
+        "producerId"
+      ],
+      "properties": {
+        "producerId": {
+          "type": "string",
+          "description": "The screen share producer a viewer couldn't consume."
+        }
+      },
+      "description": "A viewer in the voice channel can't decode the video codec of this client's screen share. The client can produce the screen share again with a more widely supported codec. Sent at most once per producer, only to the client that owns it."
+    },
+    "connectTransport": {
+      "type": "object",
+      "required": [
+        "transportId",
+        "dtlsParameters"
+      ],
+      "properties": {
+        "transportId": {
+          "type": "string",
+          "description": "The transport to connect."
+        },
+        "dtlsParameters": {
+          "type": "unknown",
+          "description": "The opaque mediasoup DTLS parameters blob."
+        }
+      },
+      "description": "Completes DTLS negotiation for a transport this connection created."
+    },
+    "transportOptions": {
+      "type": "object",
+      "required": [
+        "id",
+        "iceParameters",
+        "iceCandidates",
+        "dtlsParameters"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The transport's identifier."
+        },
+        "direction": {
+          "type": "string",
+          "description": "Which side of the call this transport carries.",
+          "knownValues": [
+            "send",
+            "recv"
+          ]
+        },
+        "iceServers": {
+          "type": "array",
+          "items": {
+            "type": "unknown",
+            "description": "One opaque RTCIceServer entry."
+          },
+          "description": "STUN and TURN servers the client should use while gathering candidates. Absent when the server has none configured."
+        },
+        "iceCandidates": {
+          "type": "array",
+          "items": {
+            "type": "unknown",
+            "description": "One opaque mediasoup ICE candidate."
+          },
+          "description": "The mediasoup ICE candidates, one opaque blob per candidate. This is an array, not a single object, because that is what a WebRTC transport hands back."
+        },
+        "iceParameters": {
+          "type": "unknown",
+          "description": "The opaque mediasoup ICE parameters blob."
+        },
+        "dtlsParameters": {
+          "type": "unknown",
+          "description": "The opaque mediasoup DTLS parameters blob."
+        }
+      },
+      "description": "Parameters for creating one side of a WebRTC transport."
+    },
+    "migrationProposal": {
+      "type": "object",
+      "required": [
+        "candidates",
+        "deadline"
+      ],
+      "properties": {
+        "deadline": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the call moves without further notice."
+        },
+        "candidates": {
+          "type": "array",
+          "items": {
+            "ref": "#migrationCandidate",
+            "type": "ref"
+          },
+          "description": "Voice nodes the call can move to."
+        }
+      },
+      "description": "This node is going offline and the call has to move. Clients measure the round trip to every candidate and answer with rttReport."
+    },
+    "moderationChanged": {
+      "type": "object",
+      "required": [
+        "did",
+        "muted",
+        "deafened"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "Whose state changed."
+        },
+        "muted": {
+          "type": "boolean",
+          "description": "Whether the microphone is muted, for any reason."
+        },
+        "deafened": {
+          "type": "boolean",
+          "description": "Whether incoming audio is silenced, for any reason."
+        },
+        "serverMuted": {
+          "type": "boolean",
+          "description": "Whether a moderator muted them. When this is true the peer cannot unmute themselves."
+        },
+        "serverDeafened": {
+          "type": "boolean",
+          "description": "Whether a moderator deafened them. When this is true the peer cannot undeafen themselves."
+        }
+      },
+      "description": "A peer's mute or deafen state changed, whether they did it themselves or a moderator did it to them."
+    },
+    "getRtpCapabilities": {
+      "type": "object",
+      "required": [],
+      "properties": {},
+      "description": "Requests the router's RTP capabilities for the joined channel."
+    },
+    "migrationCandidate": {
+      "type": "object",
+      "required": [
+        "nodeId",
+        "region",
+        "signalingUrl",
+        "probeUrl"
+      ],
+      "properties": {
+        "nodeId": {
+          "type": "string",
+          "description": "Stable node identifier."
+        },
+        "region": {
+          "type": "string",
+          "description": "Region name."
+        },
+        "probeUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "A cheap URL to measure the round trip to that node."
+        },
+        "signalingUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Base URL for voice signaling on that node."
+        }
+      },
+      "description": "A voice node a call can move to."
+    },
+    "setConsumerPreference": {
+      "type": "object",
+      "required": [
+        "consumerId",
+        "spatialLayer",
+        "paused"
+      ],
+      "properties": {
+        "paused": {
+          "type": "boolean",
+          "description": "Whether the viewer wants this consumer paused, for example while its tile is off screen."
+        },
+        "consumerId": {
+          "type": "string",
+          "description": "The consumer to update."
+        },
+        "spatialLayer": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The highest spatial layer to receive, where 0 is the lowest resolution."
+        },
+        "temporalLayer": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The highest temporal layer to receive. When absent, the server uses the highest one available."
+        }
+      },
+      "description": "Sets the highest simulcast or SVC layers a consumer this connection created should receive, and whether it should receive media at all. The server picks layers within the transport's bandwidth estimate and keeps a consumer paused while deafen silences it."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

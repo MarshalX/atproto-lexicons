@@ -1,0 +1,116 @@
+{
+  "id": "at.adsb.flight.record",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "aircraft",
+          "firstSeen",
+          "lastSeen",
+          "batches",
+          "createdAt"
+        ],
+        "properties": {
+          "squawk": {
+            "type": "string",
+            "maxLength": 4,
+            "minLength": 4,
+            "description": "Transponder squawk code (e.g. '2636')."
+          },
+          "batches": {
+            "type": "array",
+            "items": {
+              "ref": "com.atproto.repo.strongRef",
+              "type": "ref"
+            },
+            "maxLength": 5760,
+            "minLength": 1,
+            "description": "Strong references to all at.adsb.receiver.sighting batch records where this aircraft appeared."
+          },
+          "aircraft": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong reference to the at.adsb.aircraft.identity record for this aircraft."
+          },
+          "callsign": {
+            "type": "string",
+            "maxLength": 8,
+            "description": "Flight callsign as broadcast (e.g. 'UAL123')."
+          },
+          "lastSeen": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When this receiver last detected the aircraft."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "firstSeen": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When this receiver first detected the aircraft."
+          },
+          "maxRangeNm": {
+            "type": "string",
+            "maxLength": 20,
+            "description": "Furthest distance to this aircraft during the sighting, in nautical miles."
+          },
+          "messageCount": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Total messages received from this aircraft by this receiver."
+          },
+          "positionCount": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of position reports received by this receiver."
+          },
+          "finalAltitudeFt": {
+            "type": "integer",
+            "description": "Barometric altitude in feet at last detection."
+          },
+          "finalHeadingDeg": {
+            "type": "string",
+            "maxLength": 10,
+            "description": "Ground track in degrees at last detection."
+          },
+          "initialAltitudeFt": {
+            "type": "integer",
+            "description": "Barometric altitude in feet at first detection."
+          },
+          "initialHeadingDeg": {
+            "type": "string",
+            "maxLength": 10,
+            "description": "Ground track in degrees at first detection."
+          },
+          "finalGroundSpeedKts": {
+            "type": "string",
+            "maxLength": 10,
+            "description": "Ground speed in knots at last detection."
+          },
+          "finalVerticalRateFpm": {
+            "type": "integer",
+            "description": "Vertical rate in feet per minute at last detection. Negative is descending."
+          },
+          "initialGroundSpeedKts": {
+            "type": "string",
+            "maxLength": 10,
+            "description": "Ground speed in knots at first detection."
+          },
+          "initialVerticalRateFpm": {
+            "type": "integer",
+            "description": "Vertical rate in feet per minute at first detection. Negative is descending."
+          }
+        }
+      },
+      "description": "A receiver's record of one aircraft's complete observed flight."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A receiver-authored record of an aircraft's transit through the receiver's coverage area. Created on departure. References all contributing batch sightings and the aircraft identity via strongRef for provenance verification."
+}

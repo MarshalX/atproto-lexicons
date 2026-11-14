@@ -1,0 +1,61 @@
+{
+  "id": "app.standard-reader.searchPublications",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "query",
+            "items"
+          ],
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "ref": "app.standard-reader.defs#publicationView",
+                "type": "ref"
+              }
+            },
+            "query": {
+              "type": "string",
+              "maxLength": 256
+            },
+            "cursor": {
+              "type": "string",
+              "nullable": true,
+              "maxLength": 8192
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "q"
+        ],
+        "properties": {
+          "q": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "limit": {
+            "type": "integer",
+            "default": 20,
+            "maximum": 50,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string",
+            "maxLength": 8192
+          }
+        }
+      },
+      "description": "Full-text search over indexed publications."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

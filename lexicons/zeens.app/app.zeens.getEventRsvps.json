@@ -1,0 +1,45 @@
+{
+  "id": "app.zeens.getEventRsvps",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "event"
+        ],
+        "properties": {
+          "event": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the app.zeens.event record."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "description": "Optional filter on RSVP status.",
+            "knownValues": [
+              "going",
+              "interested"
+            ]
+          }
+        }
+      },
+      "description": "List the ATProto RSVPs to an event, hydrated with each responder's profile. Zeens members are surfaced first. Returns raw rsvp records only; email RSVPs and organiser approval/waitlist state live in PocketBase and are merged in by the SvelteKit layer.",
+      "target_collection": "app.zeens.rsvp"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

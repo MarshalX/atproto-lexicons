@@ -1,0 +1,336 @@
+{
+  "id": "work.sequential.defs",
+  "defs": {
+    "tag": {
+      "type": "string",
+      "maxLength": 640,
+      "description": "A free-form tag, without a leading '#'.",
+      "maxGraphemes": 64
+    },
+    "rgba": {
+      "type": "object",
+      "required": [
+        "r",
+        "g",
+        "b",
+        "a"
+      ],
+      "properties": {
+        "a": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0,
+          "description": "Opacity, from 0 (fully transparent) to 100 (fully opaque)."
+        },
+        "b": {
+          "type": "integer",
+          "maximum": 255,
+          "minimum": 0
+        },
+        "g": {
+          "type": "integer",
+          "maximum": 255,
+          "minimum": 0
+        },
+        "r": {
+          "type": "integer",
+          "maximum": 255,
+          "minimum": 0
+        }
+      },
+      "description": "A color with opacity."
+    },
+    "panel": {
+      "type": "object",
+      "properties": {
+        "alt": {
+          "type": "array",
+          "items": {
+            "ref": "work.sequential.defs#localizedAlt",
+            "type": "ref"
+          },
+          "maxLength": 100,
+          "description": "Localized alt text for this panel: describes the art and transcribes the dialogue, captions and sound effects."
+        },
+        "mask": {
+          "type": "blob",
+          "accept": [
+            "image/png"
+          ],
+          "maxSize": 4194304,
+          "description": "Black and white mask of the panel's exact shape, for panels that aren't rectangles or whose art bleeds past the panel border. Covers the panel's bounds, at the same size or aspect ratio, so the bounds must enclose everything the mask shows. Ignored when bounds are omitted. White shows the art, black hides it, and grays blend for soft edges."
+        },
+        "bounds": {
+          "ref": "#bounds",
+          "type": "ref",
+          "description": "Where the panel sits on the image. Optional, so alt text can be added without mapping panel positions."
+        },
+        "background": {
+          "ref": "#rgba",
+          "type": "ref",
+          "description": "When reading panel-by-panel, fills the viewport around the panel if the panel's aspect ratio differs from the viewport's. The alpha is the opacity: 0 shows the panel with the surrounding page still visible, 100 hides the page behind a solid color so the panel stands on its own. Treated as fully transparent when omitted."
+        },
+        "transition": {
+          "type": "string",
+          "default": "none",
+          "description": "When reading panel-by-panel, how the app moves to this panel from the previous one. Played in reverse when reading backward. 'none' switches instantly, 'pan' moves the view across the image to the panel, 'fade' crossfades from the previous panel, and 'zoom' pulls back to show the whole image then pushes in to the panel. Duration is up to the AppView. AppViews treat unknown values as 'none'.",
+          "knownValues": [
+            "none",
+            "pan",
+            "fade",
+            "zoom"
+          ]
+        }
+      },
+      "description": "A panel on a page or strip. Carries the image's alt text, one description per panel, and optionally its position for panel-by-panel reading. A splash page or single-panel strip is a single panel."
+    },
+    "bounds": {
+      "type": "object",
+      "required": [
+        "x",
+        "y",
+        "width",
+        "height"
+      ],
+      "properties": {
+        "x": {
+          "type": "integer",
+          "maximum": 10000,
+          "minimum": 0
+        },
+        "y": {
+          "type": "integer",
+          "maximum": 10000,
+          "minimum": 0
+        },
+        "width": {
+          "type": "integer",
+          "maximum": 10000,
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "maximum": 10000,
+          "minimum": 1
+        }
+      },
+      "description": "A rectangle relative to an image, in ten-thousandths of the image's width and height (0-10000), with the origin at the top left."
+    },
+    "credit": {
+      "type": "object",
+      "required": [
+        "displayName",
+        "role"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "role": {
+          "type": "string",
+          "maxLength": 640,
+          "description": "The role of the credit. AppViews may define their own roles.",
+          "knownValues": [
+            "writer",
+            "penciler",
+            "inker",
+            "colorist",
+            "flats",
+            "letterer",
+            "cover",
+            "creator",
+            "editor",
+            "editorInChief",
+            "associateEditor",
+            "assistantEditor",
+            "designer",
+            "artist",
+            "translator",
+            "painter",
+            "backgrounds"
+          ],
+          "maxGraphemes": 64
+        },
+        "displayName": {
+          "type": "string",
+          "maxLength": 1000,
+          "maxGraphemes": 100
+        }
+      }
+    },
+    "version": {
+      "type": "object",
+      "required": [
+        "image",
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "maxLength": 640,
+          "description": "What this version shows. AppViews may define their own kinds.",
+          "knownValues": [
+            "thumbnails",
+            "layout",
+            "roughs",
+            "pencils",
+            "lineart",
+            "inks",
+            "flats",
+            "colors",
+            "letters"
+          ],
+          "maxGraphemes": 64
+        },
+        "image": {
+          "type": "blob",
+          "accept": [
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+            "image/avif"
+          ],
+          "maxSize": 4194304,
+          "description": "The version image."
+        }
+      },
+      "description": "Another version of the same artwork, such as a production stage (pencils, inks) or an alternate treatment (virgin, black and white)."
+    },
+    "category": {
+      "type": "string",
+      "maxLength": 640,
+      "description": "A category for a series. AppViews may define their own categories.",
+      "maxGraphemes": 64
+    },
+    "aspectRatio": {
+      "type": "object",
+      "required": [
+        "width",
+        "height"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "localizedAlt": {
+      "type": "object",
+      "required": [
+        "lang",
+        "text"
+      ],
+      "properties": {
+        "lang": {
+          "type": "string",
+          "format": "language",
+          "description": "BCP-47 language tag for this text."
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 100000,
+          "maxGraphemes": 10000
+        }
+      },
+      "description": "Localized alt text. Describes the art and transcribes the dialogue, captions and sound effects."
+    },
+    "localizedText": {
+      "type": "object",
+      "required": [
+        "lang",
+        "text"
+      ],
+      "properties": {
+        "lang": {
+          "type": "string",
+          "format": "language",
+          "description": "BCP-47 language tag for this text."
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 10000,
+          "maxGraphemes": 1000
+        },
+        "facets": {
+          "type": "array",
+          "items": {
+            "ref": "work.sequential.richtext.facet",
+            "type": "ref"
+          },
+          "description": "Annotations of this text: mentions, links, hashtags and styles (bold, italic, underline, strikethrough, code, spoiler). Ranges are into this language's text."
+        }
+      }
+    },
+    "localizedImage": {
+      "type": "object",
+      "required": [
+        "image",
+        "lang"
+      ],
+      "properties": {
+        "lang": {
+          "type": "string",
+          "format": "language",
+          "description": "BCP-47 language tag for this image (e.g. 'en', 'pt-BR')."
+        },
+        "image": {
+          "type": "blob",
+          "accept": [
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+            "image/avif"
+          ],
+          "maxSize": 4194304,
+          "description": "The localized image."
+        }
+      }
+    },
+    "localizedTitle": {
+      "type": "object",
+      "required": [
+        "lang",
+        "text"
+      ],
+      "properties": {
+        "lang": {
+          "type": "string",
+          "format": "language",
+          "description": "BCP-47 language tag for this title."
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 1000,
+          "maxGraphemes": 100
+        }
+      }
+    },
+    "localizedDescription": {
+      "type": "object",
+      "required": [
+        "lang",
+        "text"
+      ],
+      "properties": {
+        "lang": {
+          "type": "string",
+          "format": "language",
+          "description": "BCP-47 language tag for this description."
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 30000,
+          "maxGraphemes": 3000
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

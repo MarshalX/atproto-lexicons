@@ -1,0 +1,18 @@
+{
+  "id": "at.turtleme.game.setNet",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "output": {
+        "schema": {
+          "ref": "at.turtleme.game.defs#state",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "Put the drift net in the water. Setting a net that is already set does not restart it. Requires an atproto service auth token addressed to did:web:turtleme.at#turtle_game and naming this method, so a token issued for one call cannot be spent on another."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

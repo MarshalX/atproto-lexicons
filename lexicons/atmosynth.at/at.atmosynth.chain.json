@@ -1,0 +1,68 @@
+{
+  "id": "at.atmosynth.chain",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "inserts",
+          "createdAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "description": "What its creator calls it."
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 128
+            },
+            "maxLength": 32,
+            "description": "Freely created tags, lower-cased on write."
+          },
+          "inserts": {
+            "type": "array",
+            "items": {
+              "ref": "at.atmosynth.defs#insert",
+              "type": "ref"
+            },
+            "maxLength": 32,
+            "minLength": 1,
+            "description": "The effects, in the order the audio runs through them. A chain names no track, so none of its inserts carries a `sidechain`; one is chosen where it is placed."
+          },
+          "license": {
+            "ref": "at.atmosynth.defs#license",
+            "type": "ref"
+          },
+          "lineage": {
+            "type": "array",
+            "items": {
+              "ref": "at.atmosynth.defs#lineage",
+              "type": "ref"
+            },
+            "maxLength": 64
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000
+          }
+        }
+      },
+      "description": "An effect chain, held in its creator's own repository."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Effects in order, published on their own to be dropped onto anybody's track or bus."
+}

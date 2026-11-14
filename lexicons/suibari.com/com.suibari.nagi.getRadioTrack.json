@@ -1,0 +1,85 @@
+{
+  "id": "com.suibari.nagi.getRadioTrack",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "hasUnread"
+          ],
+          "properties": {
+            "track": {
+              "ref": "#track",
+              "type": "ref"
+            },
+            "hasUnread": {
+              "type": "boolean"
+            },
+            "unreadSlotKey": {
+              "type": "string"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "認証した本人の現在のbotたんラジオ曲と未読状態。"
+    },
+    "track": {
+      "type": "object",
+      "required": [
+        "slotKey",
+        "title",
+        "artist",
+        "comment",
+        "publishedAt",
+        "songUrl",
+        "thumbnailUrl"
+      ],
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "artist": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "slotKey": {
+          "type": "string"
+        },
+        "songUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "選曲した曲のページ。Last.fmまたは既存のYouTubeリンク。"
+        },
+        "videoId": {
+          "type": "string"
+        },
+        "commentEn": {
+          "type": "string"
+        },
+        "commentJa": {
+          "type": "string"
+        },
+        "sourceUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "publishedAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "thumbnailUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "曲のジャケット画像。既存のYouTube履歴では動画サムネイル。"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

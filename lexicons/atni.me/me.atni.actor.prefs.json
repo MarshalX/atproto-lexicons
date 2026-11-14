@@ -1,0 +1,28 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "A user's preferences on atnime.",
+      "key": "literal:self",
+      "record": {
+        "properties": {
+          "scoringSystemSelf": {
+            "description": "The scoring system used in your lists. Falls back to 1-10 when unset.",
+            "knownValues": [
+              "1-100",
+              "1-10",
+              "1.0-10.0",
+              "5stars",
+              "3smileys"
+            ],
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "me.atni.actor.prefs",
+  "lexicon": 1
+}

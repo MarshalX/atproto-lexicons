@@ -1,0 +1,32 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "detail": "Full access to the DNS, nameservers, and teams of your domains",
+      "detail:langs": {},
+      "permissions": [
+        {
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "collection": [
+            "at.marque.dns",
+            "at.marque.domain",
+            "at.marque.team",
+            "at.marque.team.member",
+            "at.marque.team.membership"
+          ],
+          "resource": "repo",
+          "type": "permission"
+        }
+      ],
+      "title": "Marque",
+      "title:langs": {},
+      "type": "permission-set"
+    }
+  },
+  "id": "at.marque.authFull",
+  "lexicon": 1
+}

@@ -1,0 +1,19 @@
+{
+  "id": "social.colibri.beta.community.configuration",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "name": "Colibri community settings",
+      "type": "space",
+      "collections": [
+        "social.colibri.beta.category",
+        "social.colibri.beta.community.settings",
+        "social.colibri.beta.label",
+        "social.colibri.beta.bridge.registration"
+      ],
+      "description": "A community's operational settings and its category layout."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

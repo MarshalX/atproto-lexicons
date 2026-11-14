@@ -1,0 +1,77 @@
+{
+  "id": "social.colibri.actor.listCommunities",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "Missing, malformed, or unverifiable service auth."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "communities"
+          ],
+          "properties": {
+            "communities": {
+              "type": "array",
+              "items": {
+                "ref": "lex:social.colibri.actor.listCommunities#communityView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Lists the communities the authenticated user is a member of, in their preferred sidebar order."
+    },
+    "communityView": {
+      "type": "object",
+      "required": [
+        "name",
+        "requiresApprovalToJoin"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "name": {
+          "type": "string"
+        },
+        "banner": {
+          "type": "blob"
+        },
+        "isOwner": {
+          "type": "boolean"
+        },
+        "picture": {
+          "type": "blob"
+        },
+        "isLegacy": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        },
+        "categoryOrder": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "record-key"
+          }
+        },
+        "requiresApprovalToJoin": {
+          "type": "boolean"
+        }
+      },
+      "description": "A community summary as seen from the member's perspective."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,36 @@
+{
+  "id": "to.atpota.poe.pets",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "count",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Pets so far, all time."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the first pet was saved."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "How many times you've petted Poe, the potato on atpota.to's home page. One record per account, at the record key \"self\", rewritten as the count goes up."
+}

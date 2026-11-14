@@ -1,0 +1,68 @@
+{
+  "id": "com.nerdballot.filmBallot",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "version",
+          "award",
+          "eligibilityYear",
+          "category",
+          "rankedFilms",
+          "updatedAt"
+        ],
+        "properties": {
+          "award": {
+            "type": "string",
+            "maxLength": 32,
+            "knownValues": [
+              "oscar",
+              "golden-globe"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Schema version of this record. Currently 1."
+          },
+          "category": {
+            "type": "string",
+            "maxLength": 32,
+            "knownValues": [
+              "picture",
+              "drama",
+              "musical-comedy"
+            ]
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Client time of the edit. Informational only; Nerd Ballot uses its own receipt time for deadlines."
+          },
+          "rankedFilms": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 5,
+            "description": "AT-URIs of com.nerdballot.film records, best first. No duplicates."
+          },
+          "eligibilityYear": {
+            "type": "integer",
+            "maximum": 2100,
+            "minimum": 1900,
+            "description": "Release year of the films on the ballot."
+          }
+        }
+      },
+      "description": "One record per track. The record key is {award}-{eligibilityYear}-{category}, for example oscar-2026-picture or golden-globe-2026-musical-comedy. Array order is rank order: first earns 5 points, fifth earns 1."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A voter's ranked ballot for one Nerd Ballot film track. Nerd Ballot is an unofficial community poll, not affiliated with the Academy of Motion Picture Arts and Sciences or the Golden Globes."
+}

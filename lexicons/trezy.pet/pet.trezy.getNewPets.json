@@ -1,0 +1,75 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "The pets adopted in the 7 days before asOf, for the weekly arrivals post. Live pets only: a pet retired inside the same week is not an arrival any more. ⚠ `total` IS THE TRUE COUNT AND `pets` IS ONLY WHAT FITS ON STAGE — the post's number must be how many animals arrived, not how many the renderer could draw. Carries no keeper DID and no pet name, because the post says neither — `#pet` carries `rkey` rather than the at-URI so the caller never even receives the keeper's DID, which sits in the URI's authority segment.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "pets": {
+              "items": {
+                "ref": "#pet",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "total": {
+              "description": "Every qualifying pet, including the ones beyond `limit`.",
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "pets",
+            "total"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "asOf": {
+            "description": "The moment the week is measured back from. Never the clock, so a dry run and the real run agree.",
+            "format": "datetime",
+            "type": "string"
+          },
+          "limit": {
+            "default": 24,
+            "maximum": 50,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "asOf"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    },
+    "pet": {
+      "properties": {
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "rkey": {
+          "description": "The pet's own record key, never the at-URI: the URI's authority segment is the keeper's DID, and this endpoint names no keeper.",
+          "type": "string"
+        },
+        "species": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "rkey",
+        "species",
+        "createdAt"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "pet.trezy.getNewPets",
+  "lexicon": 1
+}

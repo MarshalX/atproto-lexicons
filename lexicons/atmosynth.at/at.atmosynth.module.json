@@ -1,0 +1,523 @@
+{
+  "id": "at.atmosynth.module",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "descriptionVersion",
+          "moduleId",
+          "name",
+          "description",
+          "audioInputs",
+          "audioOutputs",
+          "midiInputs",
+          "nodes",
+          "connections",
+          "createdAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1
+          },
+          "nodes": {
+            "type": "array",
+            "items": {
+              "ref": "#node",
+              "type": "ref"
+            }
+          },
+          "moduleId": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "Stable identity shared by every published version of this module."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "automation": {
+            "type": "array",
+            "items": {
+              "ref": "#automation",
+              "type": "ref"
+            },
+            "description": "Scheduled AudioParam envelopes. Web Audio has no envelope node, so these are their own structure."
+          },
+          "forkedFrom": {
+            "ref": "#lineage",
+            "type": "ref"
+          },
+          "midiInputs": {
+            "type": "array",
+            "items": {
+              "ref": "#port",
+              "type": "ref"
+            },
+            "description": "Zero or more note inputs. A note input carries note events — what is played, and when — from any note source: a sequencer's note output, or the player, which is the on-screen keys, the computer keyboard and every MIDI device at once. \"MIDI\" is the historical name; nothing arriving here need have come from MIDI."
+          },
+          "noteSource": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "What this module emits notes by, where it is not made of Web Audio nodes at all. A note source has no `nodes` and no `connections`: it produces note events, and the behaviour that produces them is named here rather than described, because there is no vocabulary of nodes for a thing that makes no sound. `range` emits none of its own: it passes on the notes wired into its input that fall inside the range its instance names (`noteRange` on the patch's instance), each still the note of whatever played it. `transpose` and `assign` emit none of their own either: they pass on every note wired into their input at another pitch — moved by the semitones the instance names (`transpose`), or at the one note it names (`assignedNote`) — each still the note of whatever played it, and starting and stopping when it did. `oneshot` emits none of its own either: it passes on every note wired into its input lasting as many milliseconds as the instance names (`noteLength`), however long whatever played it held it — each still the note of whatever played it, at its own pitch, and starting when it did. A reader that does not know the named behaviour cannot run the module, and says so rather than guessing.",
+            "knownValues": [
+              "keyboard",
+              "sequencer",
+              "range",
+              "transpose",
+              "assign",
+              "oneshot"
+            ]
+          },
+          "parameters": {
+            "type": "array",
+            "items": {
+              "ref": "#parameter",
+              "type": "ref"
+            }
+          },
+          "versionKey": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "The record key this version is published under, repeated in the record so a reader holding only the record knows which version it is. A patch's `moduleRef.versionKey` is this value, and it is the record key a reader fetches: a record whose `versionKey` differs from its own key is pinned by the key and misdescribed by this field."
+          },
+          "audioInputs": {
+            "type": "array",
+            "items": {
+              "ref": "#port",
+              "type": "ref"
+            },
+            "description": "Zero or more individually identified audio inputs."
+          },
+          "connections": {
+            "type": "array",
+            "items": {
+              "ref": "#connection",
+              "type": "ref"
+            }
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000
+          },
+          "noteOutputs": {
+            "type": "array",
+            "items": {
+              "ref": "#port",
+              "type": "ref"
+            },
+            "description": "Zero or more note outputs. A note output carries note events — what is played, and when — rather than a signal, so it is wired to another instance's note input (`midiInputs`) rather than to an audio input. A module that declares one is a source of what is played; a module that declares none is what plays it."
+          },
+          "sampleSlots": {
+            "type": "array",
+            "items": {
+              "ref": "#sampleSlot",
+              "type": "ref"
+            }
+          },
+          "audioOutputs": {
+            "type": "array",
+            "items": {
+              "ref": "#port",
+              "type": "ref"
+            }
+          },
+          "patternSource": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "What this module chooses a sequencer's patterns by, where it is not made of Web Audio nodes at all. A pattern source emits neither sound nor notes: it is wired to a sequencer's pattern input and decides which of that sequencer's patterns is played, and when. Like a note source it has no `nodes` and no `connections`, and its behaviour is named here rather than described. A module is a note source or a pattern source, never both. A reader that does not know the named behaviour cannot run the module, and says so rather than guessing.",
+            "knownValues": [
+              "arranger",
+              "scenes"
+            ]
+          },
+          "descriptionVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Version of the module description this record follows. A reader accepts any version at or below its own."
+          }
+        }
+      },
+      "description": "A module, held in its author's own repository."
+    },
+    "node": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        },
+        "kind": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        },
+        "options": {
+          "type": "unknown",
+          "description": "The node's settings, as its kind defines them. This is an object — which is the whole of what `unknown` means here — so the data model applies inside it: a whole number is an ordinary integer, and a number that is not a whole number is carried as its decimal string, \"0.5\" rather than 0.5, because the ATproto data model has no floating-point type and a PDS refuses one. That is the one difference from the fields this description types as strings, which have nowhere to put an integer."
+        }
+      },
+      "description": "One Web Audio node. `kind` is drawn from a closed vocabulary; `options` are its construction-time settings, which are not AudioParams and cannot be modulated. A `dsp` node is the one kind made of code its author wrote in DSP JS, a subset of JavaScript that plays the same in a browser and in a DAW: its options are `code`, the source as its author wrote it, and `tail`, a switch saying that what it is handed is still heard after the note that made it has ended. Its inputs, its outputs, its parameters and the samples it reads are what the source declares (`static inputs`, `static outputs`, `static params`, `sample(\"…\")`), and nothing in the record repeats them: a connection into one of its parameters, or a `param` target, names a key of its `static params`, and a connection's `input` or `output` counts its buses. Each sample its source reads is filled through exactly one of the module's `sampleSlots`, which names the node and has the name the source reads as its `property`. A module holds at most four `dsp` nodes, each of at most 65536 bytes of source; one whose source is not DSP JS cannot be played. `audioWorklet`, the kind code was carried in before DSP JS, is no longer in the vocabulary and is refused as any unknown kind is."
+    },
+    "port": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 200
+        }
+      },
+      "description": "One individually identified audio or MIDI boundary of the module."
+    },
+    "range": {
+      "type": "object",
+      "required": [
+        "min",
+        "max"
+      ],
+      "properties": {
+        "max": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "The high bound, as its decimal form — \"20000\", \"0.5\" — because the ATproto data model has no floating-point type and a PDS refuses one. A range is numeric by definition, so a reader turns it back into a number without asking anything else."
+        },
+        "min": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "The low bound, as its decimal form — \"0.0001\", \"-1\" — because the ATproto data model has no floating-point type and a PDS refuses one. A range is numeric by definition, so a reader turns it back into a number without asking anything else."
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "node"
+      ],
+      "properties": {
+        "node": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        },
+        "output": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "target": {
+      "type": "object",
+      "required": [
+        "node"
+      ],
+      "properties": {
+        "node": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        },
+        "input": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "param": {
+          "type": "string",
+          "maxLength": 64
+        }
+      },
+      "description": "Exactly one of `input` or `param` is present. `param` is modulation: a node output reaching a named AudioParam."
+    },
+    "lineage": {
+      "type": "object",
+      "required": [
+        "uri",
+        "authorDid"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "moduleId": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "authorDid": {
+          "type": "string",
+          "format": "did"
+        }
+      },
+      "description": "The module this one was forked from, and its author."
+    },
+    "parameter": {
+      "type": "object",
+      "required": [
+        "id",
+        "label",
+        "targets"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 1
+        },
+        "range": {
+          "ref": "#range",
+          "type": "ref"
+        },
+        "scale": {
+          "type": "string",
+          "description": "How a slider or a MIDI control moves through the range. linear moves by equal differences; log moves by equal ratios, which is how a frequency is heard, so the middle of a 20 to 20000 sweep is about 632 rather than about 10000. log needs a range above zero at both ends. Absent is linear. A parameter with a closed value set has no scale.",
+          "knownValues": [
+            "linear",
+            "log"
+          ]
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "description": "A closed value set, where the parameter is not numeric. A construction option the parameter targets is given the chosen value itself; an AudioParam it targets is given the chosen value's position in this set, counting from zero, which is how a `dsp` node offers a choice its own code interprets."
+        },
+        "default": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "The value used where a patch sets none, always as text. A number is its decimal form — \"0.5\", and \"2\" for a whole one — because the ATproto data model has no floating-point type and a string is the only type that carries both a number and a word. Where this parameter declares a closed value set, it is one of those strings instead, and a label that looks like a number stays the label it is."
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "ref": "#parameterTarget",
+            "type": "ref"
+          },
+          "minLength": 1
+        }
+      },
+      "description": "A parameter the module exposes for a patch to set. Each target reaches an AudioParam, a construction option, or one field of an automation breakpoint."
+    },
+    "sampleRef": {
+      "type": "object",
+      "required": [
+        "blob",
+        "ownerDid"
+      ],
+      "properties": {
+        "blob": {
+          "type": "blob",
+          "accept": [
+            "audio/wav",
+            "audio/flac"
+          ],
+          "maxSize": 10485760
+        },
+        "ownerDid": {
+          "type": "string",
+          "format": "did"
+        }
+      },
+      "description": "A sample blob and the account that holds it."
+    },
+    "automation": {
+      "type": "object",
+      "required": [
+        "id",
+        "target",
+        "breakpoints"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "target": {
+          "ref": "#paramTarget",
+          "type": "ref"
+        },
+        "sustainAt": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Index into breakpoints where the value holds while a note is held. Absent means a one-shot."
+        },
+        "breakpoints": {
+          "type": "array",
+          "items": {
+            "ref": "#breakpoint",
+            "type": "ref"
+          },
+          "minLength": 1
+        }
+      },
+      "description": "A breakpoint envelope scheduled onto an AudioParam. Breakpoints up to and including sustainAt are scheduled on note-on; those after it on note-off."
+    },
+    "breakpoint": {
+      "type": "object",
+      "required": [
+        "time",
+        "value"
+      ],
+      "properties": {
+        "time": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Milliseconds from the trigger."
+        },
+        "curve": {
+          "type": "string",
+          "description": "How the value travels from the previous breakpoint.",
+          "knownValues": [
+            "step",
+            "linear",
+            "exponential"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "The param's value at this instant, as its decimal form — \"0.25\", \"1\" — because the ATproto data model has no floating-point type and a PDS refuses one. An automation is numeric by definition, so a reader turns it back into a number without asking anything else."
+        }
+      }
+    },
+    "connection": {
+      "type": "object",
+      "required": [
+        "from",
+        "to"
+      ],
+      "properties": {
+        "to": {
+          "ref": "#target",
+          "type": "ref"
+        },
+        "from": {
+          "ref": "#source",
+          "type": "ref"
+        }
+      },
+      "description": "An audio connection from a node output to either an audio input or a named AudioParam."
+    },
+    "sampleSlot": {
+      "type": "object",
+      "required": [
+        "id",
+        "node",
+        "property"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        },
+        "node": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "default": {
+          "ref": "#sampleRef",
+          "type": "ref"
+        },
+        "property": {
+          "type": "string",
+          "description": "What the sample feeds: `buffer` on a node that plays one sample, or, on a `dsp` node, the name its source reads the sample by.",
+          "knownValues": [
+            "buffer"
+          ]
+        }
+      },
+      "description": "A named slot a patch instance may fill with its own sample. `node` names a node in this graph and `property` the thing the sample feeds. On a `dsp` node, `property` is a name its source passes to `sample()`: each such name has exactly one slot, so two DSP JS nodes reading the same name are two slots, each filled and defaulted on its own, and a slot naming something the source never reads cannot be played."
+    },
+    "paramTarget": {
+      "type": "object",
+      "required": [
+        "node",
+        "param"
+      ],
+      "properties": {
+        "node": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        },
+        "param": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        }
+      }
+    },
+    "parameterTarget": {
+      "type": "object",
+      "properties": {
+        "node": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "field": {
+          "type": "string",
+          "description": "Which field of the breakpoint the parameter sets. `time` is milliseconds from the trigger; `duration` is milliseconds from the breakpoint before this one, so a later stage keeps its length when an earlier one is made longer, and is never set on breakpoint 0. `value` is the level travelled to. `curve` is how it travels there, and the parameter then declares a closed value set drawn from the breakpoint's own curves.",
+          "knownValues": [
+            "time",
+            "duration",
+            "value",
+            "curve"
+          ]
+        },
+        "param": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "option": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "automation": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "breakpoint": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "description": "One of: {node, param}, {node, option}, or {automation, breakpoint, field}."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A reusable synth module: Web Audio nodes wired together, with declared audio and MIDI boundaries, exposed parameters, automation and sample slots. Each published version is its own record; records sharing a moduleId form a series."
+}

@@ -1,0 +1,79 @@
+{
+  "id": "dev.knotless.listThemes",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "ProfileNotFound",
+          "description": "No account by that DID or handle."
+        },
+        {
+          "name": "NotFound",
+          "description": "This appview keeps no index, so it keeps no themes."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "themes"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string",
+              "description": "Absent on the last page."
+            },
+            "themes": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#themeView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "q": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Only themes whose name starts with this, in any case: those found by name, in its order, with no cursor."
+          },
+          "uris": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 50,
+            "description": "Only these themes, by their dev.knotless.theme URIs, as an account's added themes name them: those the appview has, in the order named, with no cursor; the other parameters are passed over."
+          },
+          "actor": {
+            "type": "string",
+            "format": "at-identifier",
+            "description": "Only this account's themes, by DID or handle."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string",
+            "maxLength": 512,
+            "description": "Where the page before ended."
+          }
+        }
+      },
+      "description": "The dev.knotless.theme records the appview has indexed, the latest made first: everyone's, or one account's; or by the start of their name. An account taken down is left out. No authentication; responses are not personalized."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Themes accounts made for knotless's pages."
+}

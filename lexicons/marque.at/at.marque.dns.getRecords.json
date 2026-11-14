@@ -1,0 +1,54 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Fetch the parsed, active DNS records for a domain from the Marque nameserver.",
+      "errors": [
+        {
+          "description": "The specified domain was not found or is not managed by Marque.",
+          "name": "NotFound"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "domain": {
+              "maxLength": 253,
+              "type": "string"
+            },
+            "records": {
+              "items": {
+                "ref": "at.marque.dns#entry",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "domain",
+            "records"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "domain": {
+            "description": "The fully qualified domain name.",
+            "maxLength": 253,
+            "type": "string"
+          }
+        },
+        "required": [
+          "domain"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "Get the active DNS records for a managed zone.",
+  "id": "at.marque.dns.getRecords",
+  "lexicon": 1
+}

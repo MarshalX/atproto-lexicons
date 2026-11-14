@@ -1,0 +1,95 @@
+{
+  "id": "app.xptracker.job.listing",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "title",
+          "company",
+          "sourceUri",
+          "createdAt"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Job title or role name."
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 128
+            },
+            "maxLength": 100,
+            "description": "Free-form skill labels for this listing."
+          },
+          "company": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Name of the hiring organization."
+          },
+          "jobType": {
+            "ref": "app.xptracker.job.defs#jobType",
+            "type": "ref"
+          },
+          "location": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Human-readable location string."
+          },
+          "postedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the job was posted on the source platform."
+          },
+          "sourceId": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Identifier from the source system for deduplication."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When this record was created on the PDS."
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the listing is expected to expire."
+          },
+          "sourceUri": {
+            "type": "string",
+            "format": "uri",
+            "description": "Canonical URL of the original job listing."
+          },
+          "provenance": {
+            "ref": "app.xptracker.job.defs#provenanceMethod",
+            "type": "ref",
+            "description": "How this record was created."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 100000,
+            "description": "Full job description or body text. Plain text preferred."
+          },
+          "publisherDid": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the publishing entity, if different from repo owner."
+          },
+          "employmentType": {
+            "ref": "app.xptracker.job.defs#employmentType",
+            "type": "ref"
+          }
+        }
+      },
+      "description": "A job listing published on the AT Protocol."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

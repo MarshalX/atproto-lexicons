@@ -1,0 +1,15 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "collections": [
+        "xyz.opnshelf.privateSettings"
+      ],
+      "key": "literal:self",
+      "title": "Opnshelf Settings",
+      "type": "space"
+    }
+  },
+  "id": "xyz.opnshelf.settings",
+  "lexicon": 1
+}

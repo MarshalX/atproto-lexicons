@@ -1,0 +1,16 @@
+{
+  "id": "fm.plyr.privateMedia",
+  "defs": {
+    "main": {
+      "key": "any",
+      "name": "plyr.fm audio",
+      "type": "space",
+      "collections": [
+        "fm.plyr.track"
+      ],
+      "description": "Artist-owned spaces for plyr.fm track records and audio, with access defined by each space."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

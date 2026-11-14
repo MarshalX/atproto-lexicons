@@ -1,0 +1,98 @@
+{
+  "id": "ai.syui.card.old",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "user",
+          "card",
+          "migratedAt"
+        ],
+        "properties": {
+          "card": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "cp",
+                "rare",
+                "cid",
+                "unique"
+              ],
+              "properties": {
+                "cp": {
+                  "type": "integer",
+                  "description": "Card power"
+                },
+                "id": {
+                  "type": "integer",
+                  "description": "Card type ID"
+                },
+                "cid": {
+                  "type": "string",
+                  "description": "Unique card instance ID"
+                },
+                "rare": {
+                  "type": "integer",
+                  "description": "Rarity level"
+                },
+                "unique": {
+                  "type": "boolean",
+                  "description": "Unique card flag"
+                }
+              }
+            }
+          },
+          "user": {
+            "type": "object",
+            "required": [
+              "username"
+            ],
+            "properties": {
+              "did": {
+                "type": "string"
+              },
+              "fav": {
+                "type": "integer"
+              },
+              "coin": {
+                "type": "integer"
+              },
+              "aiten": {
+                "type": "integer"
+              },
+              "planet": {
+                "type": "integer"
+              },
+              "username": {
+                "type": "string"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "datetime"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "datetime"
+              }
+            }
+          },
+          "checksum": {
+            "type": "string"
+          },
+          "migratedAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Migrated card data from api.syui.ai"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

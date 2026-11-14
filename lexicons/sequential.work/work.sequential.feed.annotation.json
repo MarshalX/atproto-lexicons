@@ -1,0 +1,56 @@
+{
+  "id": "work.sequential.feed.annotation",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "x",
+          "y",
+          "text",
+          "createdAt"
+        ],
+        "properties": {
+          "x": {
+            "type": "integer",
+            "maximum": 10000,
+            "minimum": 0,
+            "description": "Horizontal position of the annotation, in ten-thousandths of the image's width (0-10000), from the left."
+          },
+          "y": {
+            "type": "integer",
+            "maximum": 10000,
+            "minimum": 0,
+            "description": "Vertical position of the annotation, in ten-thousandths of the image's height (0-10000), from the top."
+          },
+          "text": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#localizedText",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "minLength": 1,
+            "description": "Localized annotation text."
+          },
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the work.sequential.page, work.sequential.slice or work.sequential.strip being annotated. AppViews ignore annotations on any other record. Use the DID form (at://did:...), not a handle."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "The date and time the annotation was created."
+          }
+        }
+      },
+      "description": "A note pinned to a point on a page, slice or strip. Anyone can write one in their own repo; AppViews decide whose annotations to show, e.g. only those from the repo that owns the subject."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

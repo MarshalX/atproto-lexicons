@@ -1,0 +1,114 @@
+{
+  "id": "com.gamethesky.deptofwar.run",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "seed",
+          "simVersion",
+          "mission",
+          "fires",
+          "score",
+          "createdAt"
+        ],
+        "properties": {
+          "why": {
+            "type": "string",
+            "maxLength": 16,
+            "description": "Advisory: how it ended — the clock ran out, the President fired you, Congress held a hearing, or you resigned.",
+            "knownValues": [
+              "survived",
+              "fired",
+              "hearing",
+              "resigned"
+            ]
+          },
+          "seed": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Which orders: a date (YYYY-MM-DD, local to the player) for the day's orders, or any other string for a training exercise. The sim seeds from the FNV-1a hash of this string."
+          },
+          "fires": {
+            "type": "string",
+            "maxLength": 200000,
+            "description": "The whole run as the only input the game takes. Comma-separated `<dtick>.<w>.<x>.<y>` entries: dtick is 60 Hz ticks since the previous entry; w is the mission's first button (Hellfire; on the deck gun the 5-inch gun; in the minefield a sweep; on the pipeline laying the next piece; in Oil Panic walking to the spot at x; in Buy It driving toward x, y; in the airdrop a jump; in Canada sliding the cannon to x; in Panama a hop toward x, y) as 0, its second (Tomahawk; the Phalanx; the deck gun; an airstrike; calling the truck; slow fencing on or off; pulling the cord; a tariff; paying the toll) as 1, and 2 to resign (the run ends on that entry); x and y are the aim point on the water in tenths of a unit. Only strikes the sim accepted are logged; a verifier refuses a log the sim would not have accepted. Example: `90.0.812.455,40.1.600.300`."
+          },
+          "score": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Advisory: the final score."
+          },
+          "ticks": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Advisory: the tick the run ended."
+          },
+          "landed": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Advisory: drug boats that reached the coast; in Cuba, landing craft that made the beach; on the deck gun, hits the ship took; in the minefield, tankers that got through; on the pipeline, tankers filled; in Oil Panic, buckets delivered; in Buy It, deeds; in the airdrop, troopers down safe; in Canada, waves cleared; in Panama, canals taken (all five locks)."
+          },
+          "struck": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Advisory: hostile targets destroyed (drug boats; in Cuba, batteries and tanks; at Hormuz, boats, launchers, radars, missiles, drones, mines and minelayers; in Venezuela, militia, or for Oil Panic the drops of oil saved; in Greenland, landmarks claimed, or troopers on a landing zone; in Canada, exports, Mounties and geese tariffed; in Panama, flags planted in the locks)."
+          },
+          "mission": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Which level: boats is Operation Boat Trip in the Florida Straits, cuba is Operation Cigar Chomp at Havana, hormuz and mines are Operation Tight Squeeze's deck gun and minefield in the Strait of Hormuz, venezuela and oilpanic are Operation Oil Change's pipeline and Oil Panic, greenland and airdrop are Operation Frozen Asset's Buy It and airdrop, canada is Operation 51st State (Tariff Invaders), panama is Operation Canal Toll (Frogger).",
+            "knownValues": [
+              "boats",
+              "cuba",
+              "hormuz",
+              "mines",
+              "venezuela",
+              "oilpanic",
+              "greenland",
+              "airdrop",
+              "canada",
+              "panama"
+            ]
+          },
+          "approval": {
+            "type": "integer",
+            "maximum": 100,
+            "minimum": 0,
+            "description": "Advisory: the President's approval at the end."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "collateral": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Advisory: things hit that were not targets (fishermen, tourists, the Coast Guard; in Cuba, cars, buses and our own landing craft; at Hormuz, tankers and fishing dhows; in Venezuela, villages, or buckets poured on the press; in Greenland, villages fenced in or landed on; in Canada, loons; in Panama, cruise ships boarded)."
+          },
+          "difficulty": {
+            "type": "string",
+            "maxLength": 16,
+            "description": "How hard the run was. A verifier must replay at the same difficulty. Absent means normal. Each difficulty has its own daily board.",
+            "knownValues": [
+              "granny",
+              "easy",
+              "normal",
+              "hard"
+            ]
+          },
+          "simVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Which rules produced these strikes. A verifier must replay under the matching version or refuse the run."
+          }
+        }
+      },
+      "description": "One mission of Dept of War, published by the player into their own repo. The record stores every strike rather than a score: the sim is deterministic, so re-running the strike log against the same seed, mission and difficulty reproduces the run exactly. Owning the record is the identity proof, and replaying it is the score proof — score and the rest are advisory and never trusted by a leaderboard."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,46 @@
+{
+  "id": "com.publicdomainrelay.temp.market.bid",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "rfp",
+          "payload",
+          "signatures"
+        ],
+        "properties": {
+          "rfp": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong reference to the rfp record (for example a com.publicdomainrelay.temp.market.rfp)."
+          },
+          "config": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong reference to any config information that needs to be processed by rfp actor prior to bid accept (for example a com.publicdomainrelay.temp.compute.config.wif.simple)."
+          },
+          "payload": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong reference to the bid record (for example a com.publicdomainrelay.temp.market.bids.x402)."
+          },
+          "signatures": {
+            "ref": "network.attested.signature#signatures",
+            "type": "ref",
+            "description": "badge.blue attestations over this bid. Must include the bidder's inline signature, attached at creation (before any accept strongRefs this record); post-hoc third-party attestations use remote network.attested.signature proof records instead, so the bid's CID stays stable."
+          },
+          "submitAccept": {
+            "type": "string",
+            "description": "Service DID reference (did:web:HOST#temp_market) of the bidder's market service. Once the requester has settled payment (via the x402 flow named in the bids.x402 payload) and minted a com.publicdomainrelay.temp.market.accept, it calls com.publicdomainrelay.temp.market.submitAccept via PDS service-proxying using this value as the atproto-proxy target to provision the resource and obtain a com.publicdomainrelay.temp.market.receipt."
+          }
+        }
+      },
+      "description": "A bid on an RFP"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

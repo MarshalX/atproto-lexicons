@@ -1,0 +1,57 @@
+{
+  "id": "com.nahdig.software",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "project",
+          "vendor",
+          "product",
+          "part"
+        ],
+        "properties": {
+          "cpes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "part": {
+            "type": "string",
+            "description": "CPE part: application, operating system, hardware.",
+            "knownValues": [
+              "a",
+              "o",
+              "h"
+            ]
+          },
+          "purls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "vendor": {
+            "type": "string",
+            "minLength": 1
+          },
+          "product": {
+            "type": "string",
+            "minLength": 1
+          },
+          "project": {
+            "ref": "com.atproto.repo.strongRef#main",
+            "type": "ref",
+            "description": "Strong reference to the software.release.project record."
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Software identity for a CPE product, linked to a release.software project and PURL/CPE aliases."
+}

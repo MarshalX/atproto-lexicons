@@ -1,0 +1,129 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "directory": {
+      "properties": {
+        "entries": {
+          "items": {
+            "ref": "#entry",
+            "type": "ref"
+          },
+          "maxLength": 500,
+          "type": "array"
+        },
+        "type": {
+          "const": "directory",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "entries"
+      ],
+      "type": "object"
+    },
+    "entry": {
+      "properties": {
+        "name": {
+          "maxLength": 255,
+          "type": "string"
+        },
+        "node": {
+          "refs": [
+            "#file",
+            "#directory",
+            "#subfs"
+          ],
+          "type": "union"
+        }
+      },
+      "required": [
+        "name",
+        "node"
+      ],
+      "type": "object"
+    },
+    "file": {
+      "properties": {
+        "base64": {
+          "description": "True if blob content is base64-encoded (used to bypass PDS content sniffing)",
+          "type": "boolean"
+        },
+        "blob": {
+          "accept": [
+            "*/*"
+          ],
+          "description": "Content blob ref",
+          "maxSize": 1000000000,
+          "type": "blob"
+        },
+        "encoding": {
+          "description": "Content encoding (e.g., gzip for compressed files)",
+          "enum": [
+            "gzip"
+          ],
+          "type": "string"
+        },
+        "mimeType": {
+          "description": "Original MIME type before compression",
+          "type": "string"
+        },
+        "type": {
+          "const": "file",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "blob"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "Virtual filesystem subtree referenced by place.wisp.fs records. When a subfs entry is expanded, its root entries are merged (flattened) into the parent directory, allowing large directories to be split across multiple records while maintaining a flat structure.",
+      "record": {
+        "properties": {
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "fileCount": {
+            "maximum": 1000,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "root": {
+            "ref": "#directory",
+            "type": "ref"
+          }
+        },
+        "required": [
+          "root",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    },
+    "subfs": {
+      "properties": {
+        "subject": {
+          "description": "AT-URI pointing to another place.wisp.subfs record for nested subtrees. When expanded, the referenced record's root entries are merged (flattened) into the parent directory, allowing recursive splitting of large directory structures.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "type": {
+          "const": "subfs",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "subject"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "place.wisp.subfs",
+  "lexicon": 1
+}

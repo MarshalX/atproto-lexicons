@@ -1,0 +1,87 @@
+{
+  "id": "social.colibri.channel",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "type",
+          "category",
+          "community"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "default": "New channel",
+            "maxLength": 32,
+            "minLength": 1,
+            "description": "The name of the channel."
+          },
+          "type": {
+            "type": "string",
+            "format": "nsid",
+            "description": "The type of the channel. Colibri provides social.colibri.channel.text, social.colibri.channel.forum, social.colibri.channel.link, and social.colibri.channel.voice."
+          },
+          "$type": {
+            "type": "string",
+            "format": "nsid",
+            "description": "The type of the record."
+          },
+          "category": {
+            "type": "string",
+            "format": "record-key",
+            "description": "The category this channel belongs to."
+          },
+          "community": {
+            "type": "string",
+            "format": "record-key",
+            "description": "The record key of the community this channel belongs to."
+          },
+          "ownerOnly": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the owner of the community is the only one allowed to post in the channel or not."
+          },
+          "linkEmbeds": {
+            "type": "boolean",
+            "description": "Whether link previews are displayed in this channel. Absent means the community default applies."
+          },
+          "description": {
+            "type": "string",
+            "default": "",
+            "maxLength": 256,
+            "description": "A description of the channel."
+          },
+          "allowedRoles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "record-key"
+            },
+            "description": "Role record-keys allowed to post in this channel. Empty/absent means no role restriction."
+          },
+          "migratedFrom": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Set on a channel created by migrating a legacy community. Points at the legacy channel record this one replaces, so message history for the old channel can be surfaced here."
+          },
+          "allowedMembers": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "did"
+            },
+            "description": "Member DIDs explicitly allowed to post in this channel, in addition to allowedRoles."
+          }
+        }
+      },
+      "description": "A channel that belongs to a category on Colibri."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 5
+}

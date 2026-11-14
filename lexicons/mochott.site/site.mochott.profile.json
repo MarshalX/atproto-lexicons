@@ -1,0 +1,136 @@
+{
+  "id": "site.mochott.profile",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "createdAt"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "External URL for the publication's website."
+          },
+          "via": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Identifier of the third-party client that wrote this record (e.g. 'tech.tokimeki'). Set only by clients other than mochott itself; mochott indexes such records from the firehose."
+          },
+          "icon": {
+            "type": "blob",
+            "accept": [
+              "image/png",
+              "image/jpeg",
+              "image/webp"
+            ],
+            "maxSize": 1000000,
+            "description": "Icon or logo image for the publication."
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 300,
+            "description": "Display name of the publication.",
+            "maxGraphemes": 100
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp when the publication was created."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000,
+            "description": "Short description of the publication, shown in listings and feeds.",
+            "maxGraphemes": 1000
+          },
+          "socialLinks": {
+            "type": "array",
+            "items": {
+              "ref": "#socialLink",
+              "type": "ref"
+            },
+            "maxLength": 20,
+            "description": "Links to the publication's accounts on other services, in display order."
+          },
+          "primaryColor": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "Primary theme color as a CSS color value (e.g. '#3b82f6')."
+          },
+          "backgroundColor": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "Background theme color as a CSS color value."
+          },
+          "standardPublication": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT URI of the site.standard.publication record the client created together with this profile. Only read when 'via' is set."
+          }
+        }
+      },
+      "description": "Profile for a mochott publication. Each account has at most one profile, stored with the fixed record key 'self'."
+    },
+    "socialLink": {
+      "type": "object",
+      "required": [
+        "platform",
+        "uri"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 2048,
+          "description": "An http(s) URL. Renderers must ignore any other scheme."
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "The name shown for a 'link'. Ignored for other platforms, which are shown by their service's name.",
+          "maxGraphemes": 30
+        },
+        "platform": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "The service the link points at. 'link' is a link with its own label and may appear more than once; every other value at most once.",
+          "knownValues": [
+            "x",
+            "instagram",
+            "threads",
+            "tiktok",
+            "youtube",
+            "github",
+            "note",
+            "zenn",
+            "qiita",
+            "pixiv",
+            "niconico",
+            "mastodon",
+            "misskey",
+            "twitch",
+            "spotify",
+            "soundcloud",
+            "bandcamp",
+            "kofi",
+            "patreon",
+            "substack",
+            "discord",
+            "facebook",
+            "website",
+            "link"
+          ]
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 4,
+  "description": "A publication profile record. Acts as a signaling record indicating the account hosts a mochott publication."
+}

@@ -1,0 +1,164 @@
+{
+  "id": "com.publicdomainrelay.temp.gateway.requestComputeVM",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "computeVm",
+            "sshPublicKey"
+          ],
+          "properties": {
+            "keepVm": {
+              "type": "boolean",
+              "default": true,
+              "description": "Skip VM teardown after contract completion."
+            },
+            "skipSsh": {
+              "type": "boolean",
+              "default": true,
+              "description": "Skip SSH session after contract. When true, returns immediately after receipt."
+            },
+            "computeVm": {
+              "ref": "com.publicdomainrelay.temp.compute.vm",
+              "type": "ref",
+              "description": "Compute VM specification (cpus, mem, disk, network, role). user_data is populated by the gateway from sshPublicKey."
+            },
+            "policyMode": {
+              "enum": [
+                "only_me",
+                "direct_network",
+                "policy_based"
+              ],
+              "type": "string",
+              "description": "Fulfillment policy mode for bidder selection."
+            },
+            "execProgram": {
+              "type": "string",
+              "default": "bash",
+              "description": "Program to execute over SSH after VM is ready."
+            },
+            "bidWindowSec": {
+              "type": "integer",
+              "default": 30,
+              "description": "Seconds to wait for bids before picking a winner."
+            },
+            "sshPublicKey": {
+              "type": "string",
+              "description": "OpenSSH public key for root SSH access to the VM."
+            },
+            "extraBidderDids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "did"
+              },
+              "description": "Additional bidder DIDs beyond relay discovery."
+            },
+            "vmReadyTimeoutSec": {
+              "type": "integer",
+              "description": "Seconds to wait for SSH readiness after provisioning."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "InvalidRequest"
+        },
+        {
+          "name": "AuthRequired"
+        },
+        {
+          "name": "NoBidders"
+        },
+        {
+          "name": "ProvisioningFailed"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "bids": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "cost": {
+                    "type": "integer"
+                  },
+                  "bidUri": {
+                    "type": "string",
+                    "format": "at-uri"
+                  },
+                  "bidderDid": {
+                    "type": "string",
+                    "format": "did"
+                  }
+                }
+              }
+            },
+            "error": {
+              "type": "string"
+            },
+            "rfpCid": {
+              "type": "string",
+              "format": "cid"
+            },
+            "rfpUri": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "vmFqdn": {
+              "type": "string"
+            },
+            "sshReady": {
+              "type": "boolean"
+            },
+            "receiptOk": {
+              "type": "boolean"
+            },
+            "winnerDid": {
+              "type": "string",
+              "format": "did"
+            },
+            "receiptCid": {
+              "type": "string",
+              "format": "cid"
+            },
+            "receiptUri": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "sshExitCode": {
+              "type": "integer"
+            },
+            "websocatUrl": {
+              "type": "string",
+              "format": "uri"
+            },
+            "winnerBidCid": {
+              "type": "string",
+              "format": "cid"
+            },
+            "winnerBidUri": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "winnerBidConfig": {
+              "type": "unknown"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Request a VM through the compute contract gateway. Gateway builds cloud-init from sshPublicKey, creates compute.vm and market.rfp records, discovers bidders, runs the full RFP protocol, submits accept, and verifies the receipt. Returns receipt refs and websocatUrl for SSH access."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

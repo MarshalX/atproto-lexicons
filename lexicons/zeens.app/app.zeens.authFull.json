@@ -1,0 +1,40 @@
+{
+  "id": "app.zeens.authFull",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Zeens",
+      "detail": "Post and manage your photos, collections, zeens, events, portfolio and messages on Zeens.",
+      "permissions": [
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "app.zeens.post",
+            "app.zeens.postMeta",
+            "app.zeens.c2pa",
+            "app.zeens.collection",
+            "app.zeens.collectionItem",
+            "app.zeens.profile",
+            "app.zeens.event",
+            "app.zeens.rsvp",
+            "app.zeens.eventPhoto",
+            "app.zeens.eventComment",
+            "app.zeens.message",
+            "app.zeens.chatPrefs",
+            "app.zeens.portfolio",
+            "app.zeens.zeen",
+            "app.zeens.scheduledPost"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

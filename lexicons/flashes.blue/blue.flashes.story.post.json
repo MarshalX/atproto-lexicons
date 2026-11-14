@@ -1,0 +1,54 @@
+{
+  "id": "blue.flashes.story.post",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "image",
+          "createdAt"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 2000,
+            "description": "Optional text overlay on the story"
+          },
+          "image": {
+            "type": "blob",
+            "accept": [
+              "image/jpeg",
+              "image/png",
+              "image/webp"
+            ],
+            "maxSize": 10485760
+          },
+          "facets": {
+            "type": "array",
+            "items": {
+              "ref": "app.bsky.richtext.facet",
+              "type": "ref"
+            },
+            "description": "Rich text facets for mentions, links, and tags"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "expiresInMinutes": {
+            "type": "integer",
+            "default": 1440,
+            "maximum": 10080,
+            "minimum": 1,
+            "description": "Number of minutes until this story expires (default: 24 hours)"
+          }
+        }
+      },
+      "description": "A story record for the Flashes app - ephemeral content that expires after a specified duration"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,58 @@
+{
+  "id": "dev.cocore.devicePair.poll",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "InvalidRequest",
+          "description": "The `deviceId` parameter is missing."
+        },
+        {
+          "name": "NotFound",
+          "description": "No pairing attempt exists for this `deviceId`."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "status"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "unknown",
+                "pending",
+                "denied",
+                "expired",
+                "consumed",
+                "session"
+              ],
+              "type": "string"
+            },
+            "session": {
+              "type": "unknown",
+              "description": "The granted provider session; present only when `status` is `session`."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "deviceId"
+        ],
+        "properties": {
+          "deviceId": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Poll a device-pairing attempt by `deviceId`. While the user has not acted, returns `pending`. On approval, returns `session` together with the granted provider session. Terminal negative states are `denied`, `expired`, and `consumed`. An unknown `deviceId` is `unknown`."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

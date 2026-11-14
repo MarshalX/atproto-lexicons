@@ -1,0 +1,72 @@
+{
+  "id": "dev.knotless.createBranch",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "repo",
+            "name"
+          ],
+          "properties": {
+            "from": {
+              "type": "string",
+              "maxLength": 255,
+              "description": "The commit, by hex, or branch it starts at: the default branch when absent."
+            },
+            "name": {
+              "type": "string",
+              "maxLength": 255,
+              "description": "The branch, without refs/heads/."
+            },
+            "repo": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository."
+        },
+        {
+          "name": "InvalidRequest",
+          "description": "The branch exists already, there is no such commit or branch to start at, or the gateway refused it."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "sha": {
+              "type": "string",
+              "description": "The commit it points at, in hex, once made."
+            },
+            "name": {
+              "type": "string",
+              "description": "The branch, without refs/heads/."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Points a new branch at a commit or branch, the default branch when none is named, as `knotless branch` does. As the account logged in to this appview's web pages: directly for the owner, through the repository's gateway for a collaborator, which refuses anyone else."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Creates a branch of a repository."
+}

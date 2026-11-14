@@ -1,0 +1,60 @@
+{
+  "id": "com.nerdballot.book",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "version",
+          "title",
+          "authors",
+          "createdAt"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 3000,
+            "maxGraphemes": 300
+          },
+          "authors": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 1000,
+              "maxGraphemes": 100
+            },
+            "maxLength": 20
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "isSample": {
+            "type": "boolean",
+            "description": "True for fake books used to test the site."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "publisher": {
+            "type": "string",
+            "maxLength": 1000,
+            "maxGraphemes": 100
+          },
+          "publicationDate": {
+            "type": "string",
+            "maxLength": 10,
+            "description": "First qualifying publication date, YYYY-MM-DD."
+          }
+        }
+      },
+      "description": "One record per work (not per edition). The record key is the work's Nerd Ballot catalog id."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A canonical work in the Nerd Ballot catalog, published by the Nerd Ballot account. Ballots reference these records by AT-URI."
+}

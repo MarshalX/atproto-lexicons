@@ -1,0 +1,58 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "A Task is the execution of one or more Operation's by a ma-machine-system.\nA 'task' consists of one ore more 'operations' that are closely related but involve different assents and resources. All combined operations need to be carried out well coordinated, to execute the task.\nFor instance, the task potato harvesting involves: one tractor pulling the potato harvester, 2 units to take care of the transport of the harvested potatoes to the barn, equipment at the barn to unload the transport units and to bring the produce in the storing place.",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "endDateTime": {
+            "description": "The date/timestamp of the ending of execution the task.",
+            "ref": "nl.agroconnect.ecrop.defs#dateTimeType",
+            "type": "ref"
+          },
+          "name": {
+            "description": "Short name of the task.",
+            "type": "string"
+          },
+          "note": {
+            "description": "Optional free-text note about the task.",
+            "type": "string"
+          },
+          "operations": {
+            "items": {
+              "ref": "nl.agroconnect.ecrop.defs#operationDetails",
+              "type": "ref"
+            },
+            "type": "array"
+          },
+          "startDateTime": {
+            "description": "The date/timestamp of beginning the execution of the task.",
+            "ref": "nl.agroconnect.ecrop.defs#dateTimeType",
+            "type": "ref"
+          },
+          "status": {
+            "ref": "nl.agroconnect.ecrop.defs#processStateType",
+            "type": "ref"
+          },
+          "thirdPartyIds": {
+            "description": "List of alternative identifiers (\\\"AKA, also-know-as\\\") with which the task is identified by third parties.",
+            "ref": "nl.agroconnect.ecrop.defs#thirdPartyIdsType",
+            "type": "ref"
+          }
+        },
+        "required": [
+          "thirdPartyIds",
+          "name",
+          "startDateTime",
+          "status",
+          "operations"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "nl.agroconnect.ecrop.task",
+  "lexicon": 1
+}

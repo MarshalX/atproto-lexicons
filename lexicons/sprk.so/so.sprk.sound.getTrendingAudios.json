@@ -1,0 +1,47 @@
+{
+  "id": "so.sprk.sound.getTrendingAudios",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "audios"
+          ],
+          "properties": {
+            "audios": {
+              "type": "array",
+              "items": {
+                "ref": "so.sprk.sound.defs#audioView",
+                "type": "ref"
+              }
+            },
+            "cursor": {
+              "type": "string"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 25,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Opaque cursor for pagination"
+          }
+        }
+      },
+      "description": "Return trending audios ranked by popularity, returning AudioViews."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

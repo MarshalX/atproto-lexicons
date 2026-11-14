@@ -1,0 +1,48 @@
+{
+  "id": "site.mochott.authFull",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "mochott blog",
+      "detail": "Write and manage your blog content on mochott: articles, comics, comments, likes, follows, series, reading lists, minisites, advent calendars, profile, page layouts, and blocks.",
+      "title:lang": {
+        "ja": "mochott ブログ"
+      },
+      "detail:lang": {
+        "ja": "mochott でのブログコンテンツの作成と管理（記事・漫画・コメント・いいね・フォロー・シリーズ・読書リスト・ミニサイト・アドベントカレンダー・プロフィール・ページのレイアウト・ブロック）"
+      },
+      "permissions": [
+        {
+          "type": "permission",
+          "resource": "repo",
+          "collection": [
+            "site.mochott.adventCalendar",
+            "site.mochott.adventEntry",
+            "site.mochott.article",
+            "site.mochott.block",
+            "site.mochott.comic.annotation",
+            "site.mochott.comic.chapter",
+            "site.mochott.comic.cover",
+            "site.mochott.comic.list",
+            "site.mochott.comic.page",
+            "site.mochott.comic.series",
+            "site.mochott.comic.slice",
+            "site.mochott.comic.strip",
+            "site.mochott.comic.subscription",
+            "site.mochott.comment",
+            "site.mochott.graph.subscription",
+            "site.mochott.layout",
+            "site.mochott.like",
+            "site.mochott.minisite",
+            "site.mochott.profile",
+            "site.mochott.series"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 4,
+  "description": "Permission set granting full access to mochott blog features. Referenced as the OAuth scope include:site.mochott.authFull."
+}

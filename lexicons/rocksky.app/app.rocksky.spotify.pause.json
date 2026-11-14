@@ -1,0 +1,11 @@
+{
+  "id": "app.rocksky.spotify.pause",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "description": "Pause the currently playing track"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

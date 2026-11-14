@@ -1,0 +1,52 @@
+{
+  "id": "com.suibari.nagi.deletePushInstallation",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "installationId",
+            "capability"
+          ],
+          "properties": {
+            "capability": {
+              "type": "string",
+              "maxLength": 128,
+              "minLength": 32
+            },
+            "installationId": {
+              "type": "string",
+              "maxLength": 36,
+              "minLength": 36
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "InvalidCapability"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "deleted"
+          ],
+          "properties": {
+            "deleted": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "encoding": "application/json"
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

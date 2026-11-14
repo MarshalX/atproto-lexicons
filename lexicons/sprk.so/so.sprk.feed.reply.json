@@ -1,0 +1,83 @@
+{
+  "id": "so.sprk.feed.reply",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt",
+          "reply"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 3000,
+            "description": "The reply text.",
+            "maxGraphemes": 300
+          },
+          "langs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "language"
+            },
+            "maxLength": 3,
+            "description": "Indicates human language of post primary text content."
+          },
+          "media": {
+            "refs": [
+              "so.sprk.media.image"
+            ],
+            "type": "union"
+          },
+          "reply": {
+            "ref": "#replyRef",
+            "type": "ref"
+          },
+          "facets": {
+            "type": "array",
+            "items": {
+              "ref": "so.sprk.richtext.facet",
+              "type": "ref"
+            },
+            "description": "Annotations of text (mentions, URLs, hashtags, etc)"
+          },
+          "labels": {
+            "refs": [
+              "com.atproto.label.defs#selfLabels"
+            ],
+            "type": "union",
+            "description": "Self-label values for this post. Effectively content warnings."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Client-declared timestamp when this post was originally created."
+          }
+        }
+      },
+      "description": "Record containing a Spark reply."
+    },
+    "replyRef": {
+      "type": "object",
+      "required": [
+        "root",
+        "parent"
+      ],
+      "properties": {
+        "root": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref"
+        },
+        "parent": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

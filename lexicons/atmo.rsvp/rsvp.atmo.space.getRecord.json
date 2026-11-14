@@ -1,0 +1,64 @@
+{
+  "id": "rsvp.atmo.space.getRecord",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotFound"
+        },
+        {
+          "name": "Forbidden"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "record"
+          ],
+          "properties": {
+            "record": {
+              "ref": "rsvp.atmo.space.defs#recordView",
+              "type": "ref"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "spaceUri",
+          "collection",
+          "author",
+          "rkey"
+        ],
+        "properties": {
+          "rkey": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string",
+            "format": "did"
+          },
+          "spaceUri": {
+            "type": "string",
+            "format": "at-uri"
+          },
+          "collection": {
+            "type": "string",
+            "format": "nsid"
+          },
+          "inviteToken": {
+            "type": "string",
+            "description": "Read-grant invite token. When supplied, replaces JWT auth for this read."
+          }
+        }
+      },
+      "description": "Get a single record from a space."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

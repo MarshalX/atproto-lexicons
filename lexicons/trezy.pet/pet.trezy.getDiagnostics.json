@@ -1,0 +1,212 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "config": {
+      "properties": {
+        "activePetCap": {
+          "type": "integer"
+        },
+        "dayLengthSeconds": {
+          "description": "The published game day length this instance is reading, in real seconds.",
+          "type": "integer"
+        },
+        "sleepWindows": {
+          "description": "How many sleep windows the published config carries, so the reader can tell a present-but-empty table from one that failed to read.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "stageMoneyCap": {
+          "type": "integer"
+        },
+        "starterGrantCap": {
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "grant": {
+      "properties": {
+        "amount": {
+          "type": "integer"
+        },
+        "grantedAt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "amount"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "Everything the server knows about the CALLER's own game state. Read-only; writes nothing.\n\nTakes no input at all, and that is the security model: with no `did` parameter there is no way to ask about anybody else, so cross-account access is impossible by construction rather than gated by a check that could later be loosened.\n\nA PROCEDURE rather than a query for one concrete reason: HappyView enforces authentication on procedures at the transport, so an unauthenticated call gets a 401 and this script never runs, and `caller_did` is therefore guaranteed to be set. A query would receive `caller_did` too — it is `string?` in the query globals — but a Lua script cannot set its own HTTP status (src/error.rs:143 maps every raise to 500), so a query could only answer an anonymous caller with a 200 carrying an error, or a 500. The 401 has to come from the transport.\n\nIt exists because diagnosing a stuck pet took an admin log, four greps and a chain of inference off two public endpoints. The ledger, the grant and the index are the three things that disagree in practice, and none of them was observable. This reports what each says and lets the reader compare, rather than deciding who is right.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "config": {
+              "description": "The caps as this instance actually reads them, not as the record on disk says.",
+              "ref": "#config",
+              "type": "ref"
+            },
+            "did": {
+              "description": "The caller, echoed back. Always the authenticated DID — there is no way to ask about another account.",
+              "type": "string"
+            },
+            "error": {
+              "description": "Reserved. Every failure this script can have is per-store and reported through `unreadable` instead, because a diagnostic that answers nothing is less useful than one that answers what it could reach and names what it could not.",
+              "knownValues": [
+                "unreadable"
+              ],
+              "type": "string"
+            },
+            "grant": {
+              "description": "The starter grant row, absent when the player never had one.",
+              "ref": "#grant",
+              "type": "ref"
+            },
+            "message": {
+              "type": "string"
+            },
+            "money": {
+              "ref": "#money",
+              "type": "ref"
+            },
+            "pets": {
+              "description": "Every row in the pet ledger for this player, retired ones included, each paired with whether the index has the matching record. A row with indexed=false is the state that made a pet invisible and unrecoverable on 2026-07-30.",
+              "items": {
+                "ref": "#pet",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "rejections": {
+              "description": "Rejection rows by reason. A stale row here is what put a false accusation in front of a player once, so seeing them matters.",
+              "items": {
+                "ref": "#reasonCount",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "sleepingInteractions": {
+              "description": "How many of the caller's activity records landed inside their species' published sleep window. A non-zero value is a bug in createInteraction or resolveFeeding — the only two things that can mint a signed activity record — and is NEVER evidence that the player forged anything. Absent, rather than zero, when the sleep config or the activity store could not be read; check `unreadable`.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "unreadable": {
+              "description": "Which stores could not be read on this call, by name: pet-ledger, pet-index, grants, wallet-record, highwater, rejections, game-config, sleep-config, sleeping-interactions. NOT cosmetic — every absent value elsewhere in this answer is ambiguous until you have read this. An unreadable pet-index would otherwise make every pet look un-indexed, which is the exact wrong conclusion to hand somebody debugging a missing pet.",
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "wallet": {
+              "ref": "#wallet",
+              "type": "ref"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    },
+    "money": {
+      "description": "The balance decomposed, so an unexpected number can be attributed instead of guessed at. balance = collected + granted - spent, and every term is reported because two of them being wrong in opposite directions looks exactly like both being right.",
+      "properties": {
+        "balance": {
+          "type": "integer"
+        },
+        "collected": {
+          "type": "integer"
+        },
+        "granted": {
+          "type": "integer"
+        },
+        "spent": {
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "type": "object"
+    },
+    "pet": {
+      "properties": {
+        "active": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "indexed": {
+          "description": "Whether happyview_records holds the record this ledger row claims. False means the game cannot see a pet it believes the player owns. ABSENT means the index could not be read, which is not the same as false — check `unreadable` before concluding anything from its absence.",
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "price": {
+          "type": "integer"
+        },
+        "retired": {
+          "type": "boolean"
+        },
+        "species": {
+          "type": "string"
+        },
+        "uri": {
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri"
+      ],
+      "type": "object"
+    },
+    "reasonCount": {
+      "properties": {
+        "count": {
+          "type": "integer"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "reason",
+        "count"
+      ],
+      "type": "object"
+    },
+    "wallet": {
+      "properties": {
+        "highwaterCollected": {
+          "description": "The high-water total, which is what a repair rebuilds from.",
+          "type": "integer"
+        },
+        "highwaterLastUpdated": {
+          "type": "string"
+        },
+        "recordCollected": {
+          "description": "The collected total the indexed wallet record carries, when there is one.",
+          "type": "integer"
+        },
+        "recordIndexed": {
+          "description": "Whether the player's pet.trezy.wallet record is in the index.",
+          "type": "boolean"
+        },
+        "recordLastUpdated": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "recordIndexed"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "pet.trezy.getDiagnostics",
+  "lexicon": 1
+}

@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  schedule:
+    # the website is rebuilt daily so the star count of the SDK it shows is at most a day old
+    - cron: '0 7 * * *'
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    runs-on: ubuntu-24.04
+
+    env:
+      POETRY_VIRTUALENVS_IN_PROJECT: "true"
+
+    steps:
+      - name: Checkout repository.
+        uses: actions/checkout@v5
+
+      - name: Set up the project.
+        uses: ./.github/actions/setup
+
+      - name: Run linter check.
+        run: poetry run ruff check --output-format=github
+
+      - name: Run code style check.
+        run: poetry run ruff format --check
+
+      - name: Check the registry and the lexicons.
+        run: poetry run lex lint
+
+      - name: Run type check.
+        run: poetry run pyrefly check --output-format=full-text-with-github
+
+      - name: Run tests.
+        run: poetry run pytest
+
+      - name: Build and verify the package.
+        run: poetry run lex build
+
+      - name: Check that the support list is up to date.
+        run: git diff --exit-code -- SUPPORTED.md supported.json
+
+      - name: Build the website.
+        run: poetry run lex site
+        env:
+          # the website shows the stars of the SDK; unauthenticated requests are rate limited on shared runners
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Upload the website.
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+
+  deploy_website:
+    if: github.event_name != 'pull_request'
+    needs: ci
+    runs-on: ubuntu-24.04
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages.
+        id: deployment
+        uses: actions/deploy-pages@v4

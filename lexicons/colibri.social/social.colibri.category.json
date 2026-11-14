@@ -1,0 +1,49 @@
+{
+  "id": "social.colibri.category",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "channelOrder",
+          "community"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "default": "New category",
+            "maxLength": 32,
+            "minLength": 1,
+            "description": "The name of the category."
+          },
+          "$type": {
+            "type": "string",
+            "format": "nsid",
+            "description": "The type of the record."
+          },
+          "community": {
+            "type": "string",
+            "format": "record-key",
+            "description": "The community this category belongs to."
+          },
+          "channelOrder": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "record-key",
+              "description": "A channel in this category."
+            },
+            "description": "The order of the channels in this category."
+          }
+        }
+      },
+      "description": "A category belongs to a community and contains multiple channels on Colibri."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 1
+}

@@ -1,0 +1,18 @@
+{
+  "id": "town.delve.ageassurance.getConfig",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "ref": "town.delve.ageassurance.defs#config",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "Returns Age Assurance configuration for use on the client."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

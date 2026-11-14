@@ -1,0 +1,62 @@
+{
+  "id": "com.gamethesky.hauntthesky.house",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "look",
+          "rows",
+          "createdAt"
+        ],
+        "properties": {
+          "cast": {
+            "type": "array",
+            "items": {
+              "ref": "com.gamethesky.hauntthesky.run#member",
+              "type": "ref"
+            },
+            "maxLength": 7,
+            "description": "The maker's own Foe Booth cast, included on purpose so everyone who plays the house meets them; each photo is a public blob in the maker's repo. Looks only. Absent, players meet their own cast."
+          },
+          "look": {
+            "type": "string",
+            "description": "Whose wallpaper, floor and dark it has: the front hall's, upstairs', or the basement's.",
+            "knownValues": [
+              "hall",
+              "upstairs",
+              "basement"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 240,
+            "description": "The house's name, 60 characters at most.",
+            "maxGraphemes": 60
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 24,
+              "minLength": 8
+            },
+            "maxLength": 20,
+            "minLength": 8,
+            "description": "The floor as rows of tiles, all the same length, 8 to 24 across and 8 to 20 down. `#` wall, `P` wall with a portrait, `W` wall with a window, `.` floor, `S` the start (one), `D` a locked door, `K` the key (at most one), `E` the stairs out (at most one), `A` rounds, `+` a medkit, `g` a ghoul, `h` a hound, `a` a ghoul that waits for the key, `T` the Thing (at most one), `V` the one you came for (at most one). The outside is all walls. A house is won by the stairs (any doors open with the key), or, with `V`, by putting the Thing down (its doors open then) and reaching `V`; everything that matters must be reachable. A reader refuses a house that breaks these."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "A haunted house somebody made in Haunt the Sky's editor and published into their own repo: one floor, its look, its name, and optionally the maker's own cast. Anyone can play it from its link; runs in it name it by a strong ref, so a house rebuilt later never changes a night already played."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

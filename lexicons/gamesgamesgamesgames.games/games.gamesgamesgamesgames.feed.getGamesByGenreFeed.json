@@ -1,0 +1,52 @@
+{
+  "id": "games.gamesgamesgamesgames.feed.getGamesByGenreFeed",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "feed"
+          ],
+          "properties": {
+            "feed": {
+              "type": "array",
+              "items": {
+                "ref": "games.gamesgamesgamesgames.defs#gameFeedViewItem",
+                "type": "ref"
+              }
+            },
+            "cursor": {
+              "type": "string"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "genre"
+        ],
+        "properties": {
+          "genre": {
+            "type": "string"
+          },
+          "limit": {
+            "type": "integer",
+            "default": 20,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Get games filtered by genre, sorted by release date descending."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

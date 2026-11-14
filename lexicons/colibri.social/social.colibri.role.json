@@ -1,0 +1,101 @@
+{
+  "id": "social.colibri.role",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "permissions",
+          "position"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 32,
+            "minLength": 1,
+            "description": "Display name of the role."
+          },
+          "$type": {
+            "type": "string",
+            "format": "nsid",
+            "description": "The type of the record."
+          },
+          "color": {
+            "type": "string",
+            "description": "Optional hex color displayed alongside the role (e.g. '#ff8800')."
+          },
+          "hoisted": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether members of this role are displayed separately in the member list."
+          },
+          "position": {
+            "type": "integer",
+            "description": "Hierarchy position. Higher values sit higher in the role hierarchy and outrank lower values."
+          },
+          "protected": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether this role is protected from modification or deletion. Set true for system-managed roles (e.g. the bootstrap 'Owner' role minted by `community.create`)."
+          },
+          "mentionable": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether `@role`-style mentions resolve to this role."
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "A namespaced permission identifier. See AppView permission catalog."
+            },
+            "description": "Permission identifiers granted by this role."
+          },
+          "channelOverrides": {
+            "type": "array",
+            "items": {
+              "ref": "lex:social.colibri.role#channelOverride",
+              "type": "ref"
+            },
+            "description": "Per-channel permission overrides for this role."
+          }
+        }
+      },
+      "description": "A named bundle of permissions assignable to community members. Lives on the community repo."
+    },
+    "channelOverride": {
+      "type": "object",
+      "required": [
+        "channel"
+      ],
+      "properties": {
+        "deny": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Permissions denied within this channel. Deny wins over base permissions and overrides allow."
+        },
+        "allow": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Permissions granted within this channel."
+        },
+        "channel": {
+          "type": "string",
+          "format": "record-key",
+          "description": "The channel this override applies to."
+        }
+      },
+      "description": "Allow / deny lists scoped to a single channel."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 2
+}

@@ -1,0 +1,42 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "A deliberation conversation for collective decision-making.",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "authRequired": {
+            "default": true,
+            "description": "Whether authentication is required to participate.",
+            "type": "boolean"
+          },
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "description": {
+            "description": "Extended description or context.",
+            "maxGraphemes": 1000,
+            "maxLength": 5000,
+            "type": "string"
+          },
+          "topic": {
+            "description": "The conversation topic or question.",
+            "maxGraphemes": 200,
+            "maxLength": 1000,
+            "type": "string"
+          }
+        },
+        "required": [
+          "topic",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "community.blacksky.assembly.conversation",
+  "lexicon": 1
+}

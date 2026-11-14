@@ -1,0 +1,30 @@
+{
+  "id": "social.colibri.beta.actor.spaceModeration",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "hideModeratedMessages",
+          "createdAt"
+        ],
+        "properties": {
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the option was set."
+          },
+          "hideModeratedMessages": {
+            "type": "boolean",
+            "description": "Whether messages a moderator hid stay out of view in this community, for a user who could otherwise see them."
+          }
+        }
+      },
+      "description": "Moderation view options for one community, overriding the ones in social.colibri.beta.actor.clientPreferences. The record key is the community's DID. Deleting the record returns the community to the global options."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

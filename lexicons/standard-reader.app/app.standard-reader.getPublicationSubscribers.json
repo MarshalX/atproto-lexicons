@@ -1,0 +1,40 @@
+{
+  "id": "app.standard-reader.getPublicationSubscribers",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "ref": "app.standard-reader.defs#cursorPageProfiles",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "publication"
+        ],
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 30,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string",
+            "maxLength": 8192
+          },
+          "publication": {
+            "type": "string",
+            "format": "at-uri"
+          }
+        }
+      },
+      "description": "Readers subscribed to a publication, most recently subscribed first, with cursor pagination."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

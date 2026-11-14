@@ -1,0 +1,49 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Say yes or no to the caller's pets being Pet of the Week. Yes writes pet.trezy.featureConsent/self into the caller's repo; no deletes it. Idempotent both ways.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "consenting": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "consenting"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "consenting": {
+              "description": "The answer now on record. Present only on success.",
+              "type": "boolean"
+            },
+            "error": {
+              "knownValues": [
+                "not-authenticated",
+                "invalid-input",
+                "save-failed"
+              ],
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "pet.trezy.setFeatureConsent",
+  "lexicon": 1
+}

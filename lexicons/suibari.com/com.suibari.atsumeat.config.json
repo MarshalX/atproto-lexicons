@@ -1,0 +1,24 @@
+{
+  "id": "com.suibari.atsumeat.config",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "hubRef"
+        ],
+        "properties": {
+          "hubRef": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      },
+      "description": "Configuration for the Atsumeat app"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

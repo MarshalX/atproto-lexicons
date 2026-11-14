@@ -1,0 +1,66 @@
+{
+  "id": "social.colibri.beta.actor.putSpaceNotification",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "community"
+          ],
+          "properties": {
+            "level": {
+              "type": "string",
+              "description": "The new level. Absent together with removeLevel returns the community to the global level.",
+              "knownValues": [
+                "all",
+                "mentionsAndReplies",
+                "nothing"
+              ]
+            },
+            "community": {
+              "type": "string",
+              "format": "did",
+              "description": "The community."
+            },
+            "removeLevel": {
+              "type": "boolean",
+              "description": "Removes the community's level so it follows the global one. Ignored when level is present."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request has no valid service auth."
+        },
+        {
+          "name": "InvalidRequest",
+          "description": "Neither level nor removeLevel is present, or level does not hold an allowed value."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "preferences"
+          ],
+          "properties": {
+            "preferences": {
+              "ref": "social.colibri.beta.actor.defs#preferences",
+              "type": "ref",
+              "description": "The requesting user's settings, after the update."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Pushes one of the requesting user's social.colibri.beta.actor.spaceNotification records to the AppView, so it takes effect immediately instead of waiting for a sync notification. The client writes or deletes the record in its own personal space first, then calls this."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

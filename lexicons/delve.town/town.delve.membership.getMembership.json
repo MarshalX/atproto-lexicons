@@ -1,0 +1,30 @@
+{
+  "id": "town.delve.membership.getMembership",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "enabled"
+          ],
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "Whether this AppView admits accounts by membership at all."
+            },
+            "membership": {
+              "ref": "town.delve.membership.defs#membership",
+              "type": "ref"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "The requesting account's standing in the town. Requires auth."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

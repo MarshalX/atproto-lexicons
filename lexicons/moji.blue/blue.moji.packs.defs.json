@@ -1,0 +1,154 @@
+{
+  "id": "blue.moji.packs.defs",
+  "defs": {
+    "packView": {
+      "type": "object",
+      "required": [
+        "uri",
+        "cid",
+        "creator",
+        "name",
+        "indexedAt"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid"
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        },
+        "avatar": {
+          "type": "string",
+          "format": "uri"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "ref": "com.atproto.label.defs#label",
+            "type": "ref"
+          }
+        },
+        "viewer": {
+          "ref": "#packViewerState",
+          "type": "ref"
+        },
+        "creator": {
+          "ref": "app.bsky.actor.defs#profileView",
+          "type": "ref"
+        },
+        "indexedAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 3000,
+          "maxGraphemes": 300
+        },
+        "packItemCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "descriptionFacets": {
+          "type": "array",
+          "items": {
+            "ref": "app.bsky.richtext.facet",
+            "type": "ref"
+          }
+        }
+      }
+    },
+    "packItemView": {
+      "type": "object",
+      "required": [
+        "uri",
+        "subject"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "subject": {
+          "ref": "blue.moji.collection.item#itemView",
+          "type": "ref"
+        }
+      }
+    },
+    "packViewBasic": {
+      "type": "object",
+      "required": [
+        "uri",
+        "cid",
+        "name"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid"
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        },
+        "avatar": {
+          "type": "string",
+          "format": "uri"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "ref": "com.atproto.label.defs#label",
+            "type": "ref"
+          }
+        },
+        "viewer": {
+          "ref": "#packViewerState",
+          "type": "ref"
+        },
+        "indexedAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "itemCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 3000,
+          "maxGraphemes": 300
+        },
+        "descriptionFacets": {
+          "type": "array",
+          "items": {
+            "ref": "blue.moji.richtext.facet",
+            "type": "ref"
+          }
+        }
+      }
+    },
+    "packViewerState": {
+      "type": "object",
+      "properties": {
+        "savedToCollection": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

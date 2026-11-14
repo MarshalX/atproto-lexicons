@@ -1,0 +1,59 @@
+{
+  "id": "work.sequential.link",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "series",
+          "url",
+          "createdAt"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "The link destination, an https URL."
+          },
+          "icon": {
+            "type": "blob",
+            "accept": [
+              "image/png",
+              "image/jpeg",
+              "image/webp"
+            ],
+            "maxSize": 100000,
+            "description": "The destination site's icon, uploaded when the link is saved."
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 320,
+            "description": "Optional label for the link. Clients can fall back to the destination's domain.",
+            "maxGraphemes": 40
+          },
+          "labels": {
+            "refs": [
+              "com.atproto.label.defs#selfLabels"
+            ],
+            "type": "union",
+            "description": "Self-label values for this link."
+          },
+          "series": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the parent series. Use the DID form (at://did:...), not a handle."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "A link shown on a series. The series record's links field sets which links are shown, and in what order. Same shape as app.bsky.actor.link, plus series."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

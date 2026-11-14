@@ -1,0 +1,37 @@
+{
+  "id": "dev.knotless.hide",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "repo",
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "repo": {
+            "ref": "dev.knotless.defs#repoRef",
+            "type": "ref",
+            "description": "The repository."
+          },
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The dev.knotless.pull, dev.knotless.issue or dev.knotless.comment to leave out."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Kept in the owner's account, keyed by a TID, one per hidden record; for a private repository, in their repo inside its space. Readers honor it only from the owner. Comments and state changes on a hidden pull or issue go with it. Accounts the owner blocks (dev.knotless.block) are left out as well, without one."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A pull, issue or comment a repository's owner hides, as app.bsky.feed.postgate detaches quotes of a post."
+}

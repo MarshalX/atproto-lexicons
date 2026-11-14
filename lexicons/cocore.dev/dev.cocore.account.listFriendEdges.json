@@ -1,0 +1,57 @@
+{
+  "id": "dev.cocore.account.listFriendEdges",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "edges",
+            "total"
+          ],
+          "properties": {
+            "edges": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "friender",
+                  "subject"
+                ],
+                "properties": {
+                  "subject": {
+                    "type": "string",
+                    "format": "did"
+                  },
+                  "friender": {
+                    "type": "string",
+                    "format": "did"
+                  }
+                }
+              }
+            },
+            "total": {
+              "type": "integer"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 5000,
+            "maximum": 20000,
+            "minimum": 1
+          }
+        }
+      },
+      "description": "Every directed trust edge in the network (friender → subject), for the explorer's friend graph. A cheap, pure edge list with no handle/avatar hydration."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

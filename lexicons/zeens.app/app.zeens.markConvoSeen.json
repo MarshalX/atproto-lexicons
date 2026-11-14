@@ -1,0 +1,47 @@
+{
+  "id": "app.zeens.markConvoSeen",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "seenAt"
+          ],
+          "properties": {
+            "seenAt": {
+              "type": "string",
+              "format": "datetime"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "viewer",
+          "convoId",
+          "seenAt"
+        ],
+        "properties": {
+          "seenAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "viewer": {
+            "type": "string",
+            "format": "did"
+          },
+          "convoId": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Advance the viewer's per-conversation seen cursor (never moves backwards). Modelled as a query to avoid the DPoP requirement on procedures; it writes internal bookkeeping, not a PDS record."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,71 @@
+{
+  "id": "at.postgame.love",
+  "defs": {
+    "game": {
+      "type": "object",
+      "required": [
+        "igdbId",
+        "title"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "maxLength": 256
+        },
+        "igdbId": {
+          "type": "integer"
+        },
+        "coverUrl": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "description": "A loved game"
+    },
+    "list": {
+      "type": "object",
+      "required": [
+        "uri",
+        "name"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 256
+        }
+      },
+      "description": "A loved list"
+    },
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "subject": {
+            "refs": [
+              "#game",
+              "#list"
+            ],
+            "type": "union"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "A game the user loved. Lists may also be loved in the future, but only games are supported today. The record key is deterministic so a subject can only be loved once: 'game-{igdbId}' for games, 'list-{rkey}' (the rkey of the at.postgame.list record) for lists"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

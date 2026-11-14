@@ -1,0 +1,133 @@
+{
+  "id": "app.gainforest.organization.donation",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "donorIdentifier",
+          "amount",
+          "currency",
+          "donatedAt",
+          "createdAt"
+        ],
+        "properties": {
+          "notes": {
+            "type": "string",
+            "description": "Additional notes",
+            "maxGraphemes": 2048
+          },
+          "amount": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Donation amount in the smallest unit of the currency (e.g., cents for USD)"
+          },
+          "purpose": {
+            "type": "string",
+            "description": "What the donation is for (e.g., 'tree planting', 'equipment', 'salaries')",
+            "maxGraphemes": 512
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code (e.g., 'USD', 'EUR', 'CELO', 'SOL')",
+            "maxGraphemes": 16
+          },
+          "donorDid": {
+            "type": "string",
+            "format": "did",
+            "description": "Donor's ATProto DID if they have an account"
+          },
+          "amountUsd": {
+            "type": "string",
+            "description": "Equivalent amount in USD at time of donation",
+            "maxGraphemes": 32
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Record creation timestamp"
+          },
+          "donatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the donation was made"
+          },
+          "donorName": {
+            "type": "string",
+            "description": "Donor name (may be anonymous)",
+            "maxGraphemes": 256
+          },
+          "receiptUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to donation receipt",
+            "maxGraphemes": 512
+          },
+          "isAnonymous": {
+            "type": "boolean",
+            "description": "Whether the donor wishes to remain anonymous"
+          },
+          "paymentMethod": {
+            "type": "string",
+            "description": "Payment method used for the donation",
+            "knownValues": [
+              "stripe",
+              "bank-transfer",
+              "celo",
+              "solana",
+              "ethereum",
+              "polygon",
+              "paypal",
+              "other"
+            ],
+            "maxGraphemes": 64
+          },
+          "donorIdentifier": {
+            "type": "string",
+            "description": "Unique identifier for the donor (DID, email hash, or anonymous token)",
+            "maxGraphemes": 256
+          },
+          "transactionHash": {
+            "type": "string",
+            "description": "Blockchain transaction hash if crypto",
+            "maxGraphemes": 256
+          },
+          "transactionType": {
+            "type": "string",
+            "description": "Type of transaction",
+            "knownValues": [
+              "fiat",
+              "crypto",
+              "grant",
+              "in-kind",
+              "other"
+            ],
+            "maxGraphemes": 32
+          },
+          "blockchainNetwork": {
+            "type": "string",
+            "description": "Blockchain network the transaction was made on",
+            "knownValues": [
+              "celo",
+              "solana",
+              "ethereum",
+              "polygon",
+              "other"
+            ],
+            "maxGraphemes": 32
+          },
+          "recipientMemberRef": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI to the member record who received funds"
+          }
+        }
+      },
+      "description": "A record of a donation or financial transaction for financial transparency"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

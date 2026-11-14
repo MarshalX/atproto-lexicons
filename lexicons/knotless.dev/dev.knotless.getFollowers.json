@@ -1,0 +1,64 @@
+{
+  "id": "dev.knotless.getFollowers",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "ProfileNotFound",
+          "description": "No account by that DID or handle."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "actors"
+          ],
+          "properties": {
+            "actors": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#actorView",
+                "type": "ref"
+              }
+            },
+            "cursor": {
+              "type": "string",
+              "description": "Absent on the last page."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "actor"
+        ],
+        "properties": {
+          "actor": {
+            "type": "string",
+            "format": "at-identifier",
+            "description": "The account, by DID or handle."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string",
+            "maxLength": 512,
+            "description": "Where the page before ended."
+          }
+        }
+      },
+      "description": "The accounts whose dev.knotless.follow records name the account, as the appview has indexed them, the latest followed first. An account taken down is left out. No authentication; responses are not personalized."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "The accounts following an account on knotless."
+}

@@ -1,0 +1,85 @@
+{
+  "id": "app.zeens.getMessages",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "messages"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "messages": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "uri",
+                  "sender",
+                  "convoId",
+                  "body",
+                  "createdAt"
+                ],
+                "properties": {
+                  "uri": {
+                    "type": "string"
+                  },
+                  "body": {
+                    "type": "string"
+                  },
+                  "sender": {
+                    "type": "string",
+                    "format": "did"
+                  },
+                  "convoId": {
+                    "type": "string"
+                  },
+                  "createdAt": {
+                    "type": "string"
+                  },
+                  "recipient": {
+                    "type": "string",
+                    "format": "did"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "viewer",
+          "convoId"
+        ],
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 36,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "viewer": {
+            "type": "string",
+            "format": "did"
+          },
+          "convoId": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Return the message history for one conversation, newest-first, paginated. Each item's body is base64-obfuscated (not encrypted); Zeens decodes it. The viewer must be a participant."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

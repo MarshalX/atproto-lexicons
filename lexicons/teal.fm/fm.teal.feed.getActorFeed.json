@@ -1,0 +1,50 @@
+{
+  "id": "fm.teal.feed.getActorFeed",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "plays"
+          ],
+          "properties": {
+            "plays": {
+              "type": "array",
+              "items": {
+                "ref": "fm.teal.feed.defs#playView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "authorDID"
+        ],
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "description": "The upper limit of tracks to get per request. Default is 20, max is 50."
+          },
+          "cursor": {
+            "type": "string",
+            "description": "The cursor to start the query from"
+          },
+          "authorDID": {
+            "type": "string",
+            "format": "did",
+            "description": "The author's DID for the play"
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "This lexicon is in a not officially released state. It is subject to change. | Retrieves multiple plays from the index or via an author's DID."
+}

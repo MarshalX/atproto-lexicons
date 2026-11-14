@@ -1,0 +1,42 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "A statement submitted to a deliberation conversation.",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "anonymous": {
+            "default": false,
+            "description": "Whether this statement was submitted anonymously (e.g., seed statements). Anonymous statements are written to a designated service DID, not the author's personal repo.",
+            "type": "boolean"
+          },
+          "conversation": {
+            "description": "Reference to the conversation this statement belongs to.",
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref"
+          },
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "text": {
+            "description": "The statement text.",
+            "maxGraphemes": 400,
+            "maxLength": 2000,
+            "type": "string"
+          }
+        },
+        "required": [
+          "conversation",
+          "text",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "community.blacksky.assembly.statement",
+  "lexicon": 1
+}

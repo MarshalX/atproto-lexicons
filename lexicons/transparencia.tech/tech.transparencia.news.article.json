@@ -1,0 +1,126 @@
+{
+  "id": "tech.transparencia.news.article",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "title",
+          "url",
+          "source",
+          "publishedAt",
+          "createdAt"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "Canonical URL of the article on the source website."
+          },
+          "guid": {
+            "type": "string",
+            "maxLength": 1024,
+            "description": "Original GUID from the RSS feed, used for deduplication."
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 200,
+              "maxGraphemes": 64
+            },
+            "maxLength": 50,
+            "description": "All categories the source attached to the article (RSS <category>, <dc:subject>, Atom <category term>, Google News <news:keywords>, JSON Feed `tags`)."
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 2048,
+            "description": "Original headline of the article as published by the source.",
+            "maxGraphemes": 512
+          },
+          "author": {
+            "type": "string",
+            "maxLength": 512,
+            "description": "Author byline as published.",
+            "maxGraphemes": 128
+          },
+          "source": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong reference to the tech.transparencia.news.source record for this outlet."
+          },
+          "content": {
+            "type": "string",
+            "maxLength": 50000,
+            "description": "Full article body when the feed provides it (RSS <content:encoded>, Atom <content>, JSON Feed `content_html` / `content_text`). Powers Postgres FTS.",
+            "maxGraphemes": 15000
+          },
+          "imageUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the article's featured image."
+          },
+          "language": {
+            "type": "string",
+            "format": "language",
+            "description": "Language of the article content (BCP-47, e.g., 'es', 'en', 'pt-BR')."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When this record was created in the AT Protocol network."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the source last edited the article (RSS <dcterms:modified>, Atom <updated> when distinct from publish time, JSON Feed `date_modified`)."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 5000,
+            "description": "Short lead / summary only. Maps to RSS <description>, Atom <summary>, JSON Feed `summary`. No fallback to the full body — that lives in `content`.",
+            "maxGraphemes": 1500
+          },
+          "publishedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the article was first published by the source."
+          },
+          "feedCategory": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "DEPRECATED — equivalent to tags[0]. Kept for backward compatibility with consumers that read it; new consumers should read `tags`. Will be removed in a future revision.",
+            "maxGraphemes": 64
+          },
+          "mediaCaption": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Caption for imageUrl when the feed provides one (Google News <image:caption>, RSS Media <media:description>).",
+            "maxGraphemes": 200
+          },
+          "originalSource": {
+            "type": "object",
+            "properties": {
+              "url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "name": {
+                "type": "string",
+                "maxLength": 256,
+                "maxGraphemes": 100
+              }
+            },
+            "description": "Set when the feed declares the article was syndicated from another outlet (RSS <source url>, <dc:source>). Distinguishes legitimate republication (e.g., OEM regional papers carrying a Sol de México story) from accidental duplicates."
+          }
+        }
+      },
+      "description": "A news article scraped from an RSS feed or website."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A news article from a media outlet, representing the raw published content before any AI enrichment."
+}

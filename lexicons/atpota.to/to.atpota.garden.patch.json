@@ -1,0 +1,80 @@
+{
+  "id": "to.atpota.garden.patch",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "cols",
+          "rows",
+          "createdAt"
+        ],
+        "properties": {
+          "cols": {
+            "type": "integer",
+            "maximum": 24,
+            "minimum": 4,
+            "description": "Plots across."
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 400,
+            "description": "What the garden is called, like \"autumn 2026\" or \"dame's garden\".",
+            "maxGraphemes": 40
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 1400,
+            "description": "A few words for visitors.",
+            "maxGraphemes": 140
+          },
+          "rows": {
+            "type": "integer",
+            "maximum": 40,
+            "minimum": 2,
+            "description": "Plots down."
+          },
+          "season": {
+            "type": "string",
+            "description": "For a seasonal patch.",
+            "knownValues": [
+              "spring",
+              "summer",
+              "autumn",
+              "winter"
+            ]
+          },
+          "opensAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Flowers can be planted from this time; without it, from createdAt."
+          },
+          "closesAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Planting ends at this time; the flowers stay, pressed, in full bloom. Without it, the garden stays open."
+          },
+          "planting": {
+            "type": "string",
+            "description": "How many flowers each account grows in the garden's open patches. \"one\": one each, staying in the plot it was planted in; planting again does nothing until it's dug up, and only an account's first flower shows. \"move\": one each, and planting again moves it (its newest flower shows). \"many\": as many as there are free plots. Without it, \"one\".",
+            "knownValues": [
+              "one",
+              "move",
+              "many"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A garden on atpota.to: a grid of plots anyone can plant a flower in. atpota.to's community patches live in its own repo, one per season; anyone can keep their own garden in theirs, by convention at record key \"self\". Flowers point at it with a strong ref. It is open from opensAt (or createdAt, without one) until closesAt, if it has one."
+}

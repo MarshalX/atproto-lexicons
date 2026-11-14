@@ -1,0 +1,43 @@
+{
+  "id": "app.zeens.rsvp",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "status",
+          "createdAt",
+          "app.zeens.v"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "'going' = intends to attend (counts toward the cap). 'interested' = soft interest, does not count toward the cap.",
+            "knownValues": [
+              "going",
+              "interested"
+            ]
+          },
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong-ref to the app.zeens.event being responded to."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "app.zeens.v": {
+            "type": "integer"
+          }
+        }
+      },
+      "description": "An RSVP to an app.zeens.event, written to the responder's own PDS. This record is the responder's declaration of intent only. The organiser's decision on a gated event (approve / decline / waitlist) is NOT stored here (the organiser cannot mutate another user's repo); it lives off-protocol in PocketBase. Email-only RSVPs from people without a PDS are tracked entirely off-protocol. Carries the app.zeens.v marker."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

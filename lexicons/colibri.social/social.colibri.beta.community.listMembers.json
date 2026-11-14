@@ -1,0 +1,77 @@
+{
+  "id": "social.colibri.beta.community.listMembers",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request is missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The requesting user lacks permission to list this community's members."
+        },
+        {
+          "name": "CommunityNotFound",
+          "description": "No community exists with that DID."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "members"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string",
+              "description": "A cursor for fetching the next page."
+            },
+            "members": {
+              "type": "array",
+              "items": {
+                "ref": "social.colibri.beta.community.defs#memberView",
+                "type": "ref"
+              },
+              "description": "The community's members."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "community"
+        ],
+        "properties": {
+          "role": {
+            "type": "string",
+            "format": "record-key",
+            "description": "Filters to members holding this role."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "description": "The maximum number of results to return."
+          },
+          "cursor": {
+            "type": "string",
+            "description": "The cursor from a previous call, for fetching the next page."
+          },
+          "community": {
+            "type": "string",
+            "format": "did",
+            "description": "The community to list members of."
+          }
+        }
+      },
+      "description": "Lists a community's admitted members."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

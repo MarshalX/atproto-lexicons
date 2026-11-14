@@ -1,0 +1,38 @@
+{
+  "id": "com.fedproxy.rbac",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "roles",
+          "policies",
+          "createdAt"
+        ],
+        "properties": {
+          "roles": {
+            "type": "unknown",
+            "description": "Map of role name → role definition. Each role defines OIDC claim constraints (aud, iss, sub) and references a policy name."
+          },
+          "policies": {
+            "type": "unknown",
+            "description": "Map of policy name → policy definition. Each policy defines a JSON Schema over com.atproto.repo.createRecord for com.fedproxy.sshPublicKey."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "custom_claims_roles_index": {
+            "type": "unknown",
+            "description": "Index mapping custom claim keys to role names for fast OIDC token validation lookup."
+          }
+        }
+      },
+      "description": "RBAC policy record granting a requester the ability to register SSH public keys under a specific fedproxy service tunnel. Roles define OIDC token claims that authorize the holder; policies define JSON Schema constraints on com.atproto.repo.createRecord for com.fedproxy.sshPublicKey records."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

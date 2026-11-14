@@ -1,0 +1,44 @@
+{
+  "id": "app.zeens.getTrending",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Pagination cursor."
+          },
+          "window": {
+            "type": "string",
+            "default": "24h",
+            "description": "Time window: 24h, 7d, 30d.",
+            "knownValues": [
+              "24h",
+              "7d",
+              "30d"
+            ]
+          },
+          "category": {
+            "type": "string",
+            "description": "Optional category filter."
+          }
+        }
+      },
+      "description": "Get trending Zeens photos ranked by engagement within a time window.",
+      "target_collection": "app.zeens.postMeta"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

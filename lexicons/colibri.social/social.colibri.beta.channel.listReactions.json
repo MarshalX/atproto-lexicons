@@ -1,0 +1,92 @@
+{
+  "id": "social.colibri.beta.channel.listReactions",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request has no valid service auth."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The requesting user may not read this channel."
+        },
+        {
+          "name": "ChannelNotFound",
+          "description": "No channel matches the given space reference."
+        },
+        {
+          "name": "MessageNotFound",
+          "description": "No message matches the given author and record key in that channel."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "reactions"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string",
+              "description": "Pagination cursor for the next page."
+            },
+            "reactions": {
+              "type": "array",
+              "items": {
+                "ref": "social.colibri.beta.channel.defs#reactionView",
+                "type": "ref"
+              },
+              "description": "Reactions to the message, aggregated by emoji."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "channel",
+          "messageAuthor",
+          "messageRkey"
+        ],
+        "properties": {
+          "emoji": {
+            "type": "string",
+            "description": "Restricts the results to reactions with this emoji."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "description": "Maximum number of reactions to return."
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Pagination cursor from a previous call."
+          },
+          "channel": {
+            "type": "string",
+            "format": "space-ref",
+            "description": "The channel the message was posted in."
+          },
+          "messageRkey": {
+            "type": "string",
+            "format": "record-key",
+            "description": "The message's record key."
+          },
+          "messageAuthor": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the repo holding the message."
+          }
+        }
+      },
+      "description": "Lists everyone who reacted to one message, for the hover card."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,235 @@
+{
+  "id": "blue.moji.collection.item",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "createdAt",
+          "formats"
+        ],
+        "properties": {
+          "alt": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "description": "Should be in the format :emoji:"
+          },
+          "copyOf": {
+            "type": "string",
+            "format": "at-uri"
+          },
+          "labels": {
+            "refs": [
+              "com.atproto.label.defs#selfLabels"
+            ],
+            "type": "union",
+            "description": "Self-label values for this emoji. Effectively content warnings."
+          },
+          "formats": {
+            "refs": [
+              "#formats_v0",
+              "#formats_v1"
+            ],
+            "type": "union",
+            "closed": false,
+            "description": "Open union to allow for future formats. #formats_v0 is deprecated: writers MUST write #formats_v1 (see RFC 0001 Adoption strategy / RFC 0005). Readers SHOULD continue to accept #formats_v0 for historical records."
+          },
+          "adultOnly": {
+            "type": "boolean",
+            "default": false
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "fallbackText": {
+            "type": "string",
+            "default": "◌",
+            "maxLength": 1
+          },
+          "stickerFormats": {
+            "refs": [
+              "#stickerFormats_v0"
+            ],
+            "type": "union",
+            "closed": false,
+            "description": "Optional full-size renditions for use as a sticker (post attachment via blue.moji.embed.sticker). Presence of this field marks the item as sticker-capable; items with only 'formats' are inline emoji."
+          }
+        }
+      },
+      "description": "A custom emoji. The record key is the canonical alias for ASCII aliases, or its RFC 3492 Punycode encoding (xn-- prefixed) for internationalised aliases; see Bluemoji RFC 0005."
+    },
+    "blob_v0": {
+      "type": "blob",
+      "maxSize": 262144,
+      "description": "Limiting blobs to 256kb because there may be many on page and these get optimised by ImgProxy anyway"
+    },
+    "blob_v1": {
+      "type": "blob",
+      "maxSize": 128000,
+      "description": "Limiting blobs to 128kb because there may be many on page and these get optimised by ImgProxy anyway"
+    },
+    "bytes_v0": {
+      "type": "bytes",
+      "maxLength": 65536,
+      "description": "64kb should be enough for anybody"
+    },
+    "itemView": {
+      "type": "object",
+      "required": [
+        "name",
+        "formats"
+      ],
+      "properties": {
+        "alt": {
+          "type": "string"
+        },
+        "cid": {
+          "type": "string",
+          "format": "cid",
+          "description": "CID of the source item record, so consumers can build a com.atproto.repo.strongRef to it (e.g. for moderation reports) without a separate lookup."
+        },
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "DID of the repo that owns this item's blobs."
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the source item record. Views need this so consumers can derive the owning DID for blob URL construction."
+        },
+        "name": {
+          "type": "string"
+        },
+        "formats": {
+          "refs": [
+            "#formats_v0",
+            "#formats_v1"
+          ],
+          "type": "union"
+        },
+        "adultOnly": {
+          "type": "boolean",
+          "default": false
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "stickerFormats": {
+          "refs": [
+            "#stickerFormats_v0"
+          ],
+          "type": "union",
+          "closed": false
+        }
+      }
+    },
+    "formats_v0": {
+      "type": "object",
+      "properties": {
+        "lottie": {
+          "ref": "#bytes_v0",
+          "type": "ref"
+        },
+        "gif_128": {
+          "ref": "#blob_v0",
+          "type": "ref"
+        },
+        "png_128": {
+          "ref": "#blob_v0",
+          "type": "ref"
+        },
+        "apng_128": {
+          "ref": "#bytes_v0",
+          "type": "ref"
+        },
+        "original": {
+          "type": "blob",
+          "accept": [
+            "image/*",
+            "application/lottie+zip"
+          ],
+          "maxSize": 1000000
+        },
+        "webp_128": {
+          "ref": "#blob_v0",
+          "type": "ref"
+        }
+      },
+      "description": "DEPRECATED. apng_128/lottie are raw Bytes (not Blob), which makes them invisible to blob-based image moderation pipelines and requires a getRecord round-trip to render. New writes MUST use #formats_v1. Retained only so existing v0 records remain readable."
+    },
+    "formats_v1": {
+      "type": "object",
+      "properties": {
+        "lottie": {
+          "ref": "#blob_v1",
+          "type": "ref"
+        },
+        "gif_128": {
+          "ref": "#blob_v1",
+          "type": "ref"
+        },
+        "png_128": {
+          "ref": "#blob_v1",
+          "type": "ref"
+        },
+        "apng_128": {
+          "ref": "#blob_v1",
+          "type": "ref"
+        },
+        "original": {
+          "type": "blob",
+          "accept": [
+            "image/*",
+            "application/lottie+zip"
+          ],
+          "maxSize": 1000000
+        },
+        "webp_128": {
+          "ref": "#blob_v1",
+          "type": "ref"
+        }
+      }
+    },
+    "blob_sticker": {
+      "type": "blob",
+      "maxSize": 512000,
+      "description": "Stickers render one-per-post at full size, so a larger budget than inline emoji is acceptable."
+    },
+    "stickerFormats_v0": {
+      "type": "object",
+      "properties": {
+        "lottie": {
+          "ref": "#blob_sticker",
+          "type": "ref"
+        },
+        "gif_512": {
+          "ref": "#blob_sticker",
+          "type": "ref"
+        },
+        "png_512": {
+          "ref": "#blob_sticker",
+          "type": "ref"
+        },
+        "apng_512": {
+          "ref": "#blob_sticker",
+          "type": "ref"
+        },
+        "webp_512": {
+          "ref": "#blob_sticker",
+          "type": "ref"
+        }
+      },
+      "description": "Full-size (up to 512×512) renditions for sharing as a sticker. Raster formats should be exactly 512px on the longest edge."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

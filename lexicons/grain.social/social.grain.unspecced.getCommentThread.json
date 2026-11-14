@@ -1,0 +1,57 @@
+{
+  "id": "social.grain.unspecced.getCommentThread",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "comments"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "comments": {
+              "type": "array",
+              "items": {
+                "ref": "social.grain.comment.defs#commentView",
+                "type": "ref"
+              }
+            },
+            "totalCount": {
+              "type": "integer"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "subject"
+        ],
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 20,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The subject URI to fetch comments for."
+          }
+        }
+      },
+      "description": "Get comments for a subject (gallery or story), sorted oldest-first with author profiles."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

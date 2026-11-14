@@ -1,0 +1,33 @@
+{
+  "id": "app.winesky.collection",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "type",
+          "createdAt"
+        ],
+        "properties": {
+          "type": {
+            "enum": [
+              "MAIN",
+              "FAVORITES"
+            ],
+            "type": "string",
+            "maxLength": 32
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "A user-owned grouping of drinks. Currently supports MAIN (drinks the user has reviewed) and FAVORITES (drinks the user has marked for later). Singleton per (DID, type) — enforced server-side at ingest, not by the lexicon."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

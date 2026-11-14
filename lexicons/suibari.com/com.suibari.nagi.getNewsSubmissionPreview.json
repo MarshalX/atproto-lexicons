@@ -1,0 +1,72 @@
+{
+  "id": "com.suibari.nagi.getNewsSubmissionPreview",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "MetadataUnavailable"
+        },
+        {
+          "name": "Duplicate"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "articleId",
+            "url",
+            "title",
+            "sourceName",
+            "sourceUrl"
+          ],
+          "properties": {
+            "url": {
+              "type": "string",
+              "format": "uri"
+            },
+            "image": {
+              "type": "string",
+              "format": "uri"
+            },
+            "title": {
+              "type": "string"
+            },
+            "articleId": {
+              "type": "string"
+            },
+            "sourceUrl": {
+              "type": "string",
+              "format": "uri"
+            },
+            "sourceName": {
+              "type": "string"
+            },
+            "publishedAt": {
+              "type": "string",
+              "format": "datetime"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "url"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 2048
+          }
+        }
+      },
+      "description": "公開記事URLから、ユーザー追加ニュース用の編集不可メタデータを取得する。"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

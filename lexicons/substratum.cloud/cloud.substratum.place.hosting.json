@@ -1,0 +1,42 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Content-owner link binding a copy set to an operator place (ADR 70).",
+      "properties": {
+        "contentOwnerDid": {
+          "format": "did",
+          "type": "string"
+        },
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "operatorDid": {
+          "format": "did",
+          "type": "string"
+        },
+        "placeId": {
+          "type": "string"
+        },
+        "role": {
+          "knownValues": [
+            "self",
+            "invited_replica"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "placeId",
+        "operatorDid",
+        "contentOwnerDid",
+        "role",
+        "createdAt"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "cloud.substratum.place.hosting",
+  "lexicon": 1
+}

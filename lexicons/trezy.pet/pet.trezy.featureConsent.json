@@ -1,0 +1,24 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "This keeper is happy for their pets to be Pet of the Week on Bluesky, with an @mention. The record existing is the yes; deleting it is the no. ⚠ PUBLIC ON PURPOSE, unlike pet.trezy.preferences: the weekly pick has to read it and cannot read a permissioned space, and agreeing to be posted about in public says nothing private. Not signed: forging your own consent is consenting, and a copy in anybody else's repo is never read.",
+      "key": "literal:self",
+      "record": {
+        "properties": {
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          }
+        },
+        "required": [
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "pet.trezy.featureConsent",
+  "lexicon": 1
+}

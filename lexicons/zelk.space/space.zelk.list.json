@@ -1,0 +1,49 @@
+{
+  "id": "space.zelk.list",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "createdAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 640,
+            "maxGraphemes": 64
+          },
+          "source": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "Where the record came from, e.g. import:letterboxd."
+          },
+          "purpose": {
+            "type": "string",
+            "description": "What the list is for. A user should have at most one watchlist.",
+            "knownValues": [
+              "watchlist",
+              "favorites",
+              "curated"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000,
+            "maxGraphemes": 300
+          }
+        }
+      },
+      "description": "A user-curated list of movies and shows (watchlist, favorites, themed list...). Items are space.zelk.list.item records pointing to it."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

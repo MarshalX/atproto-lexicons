@@ -1,0 +1,16 @@
+{
+  "id": "at.turtleme.chat.clan",
+  "defs": {
+    "main": {
+      "key": "any",
+      "name": "turtle meat clan",
+      "type": "space",
+      "collections": [
+        "at.turtleme.chat.message"
+      ],
+      "description": "A turtle meat clan: a chat channel held in an atproto permissioned space, readable only by the people its owner has let in. It is anchored on the owner's DID, and its key is the clan's name: lowercase letters, digits and hyphens, so an account can run several and a player joins one by its owner and name, as in alice.bsky.social/turtlers. Its lines are at.turtleme.chat.message records whose room is the space's own at:// URI."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

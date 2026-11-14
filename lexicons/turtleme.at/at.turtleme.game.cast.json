@@ -1,0 +1,18 @@
+{
+  "id": "at.turtleme.game.cast",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "output": {
+        "schema": {
+          "ref": "at.turtleme.game.defs#state",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "Cast out and start a run of strikes. The reply carries the seed every window of the run is drawn from, so the page can render the bar without being able to widen it or move the gold sliver. A cast while the water is still resting is refused. A cast while a run is still being played hands that run back, streak, strikes left and all, rather than starting another, so a page that lost sight of a run carries on with it and leaving a cast hanging is still not a way to fish without ever resting. A run left alone ends once the line has sat through its idle passes, and rests from that moment: a cast that finds one waits out whatever is left of that rest and no more. Requires an atproto service auth token addressed to did:web:turtleme.at#turtle_game and naming this method, so a token issued for one call cannot be spent on another."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

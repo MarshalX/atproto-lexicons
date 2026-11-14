@@ -1,0 +1,16 @@
+{
+  "id": "social.colibri.beta.community.profile",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "name": "Colibri community profile",
+      "type": "space",
+      "collections": [
+        "social.colibri.beta.community"
+      ],
+      "description": "A community's public identity: the one part of a community that can be read before joining it."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

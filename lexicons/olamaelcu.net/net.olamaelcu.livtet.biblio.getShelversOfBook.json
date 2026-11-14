@@ -1,0 +1,69 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "bookUri": {
+              "description": "The book the DIDs shelved, echoed from the request.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "cursor": {
+              "description": "Opaque pagination cursor; absent when no further DIDs are known.",
+              "type": "string"
+            },
+            "dids": {
+              "description": "Distinct DIDs, in the order their shelving record was found.",
+              "items": {
+                "format": "did",
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "bookUri",
+            "dids"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "bookUri": {
+            "description": "AT-URI of the catalog book whose shelvers to list.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "cursor": {
+            "description": "Opaque pagination cursor.",
+            "type": "string"
+          },
+          "limit": {
+            "default": 50,
+            "description": "Maximum number of distinct DIDs to return.",
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "shelvingRkey": {
+            "description": "rkey the matching bookStatus records must carry. Records derive it from the catalog edition URI (last segment after the final '/'), so it is computed from `bookUri` when omitted; pass it explicitly only to follow a non-conforming writer.",
+            "maxLength": 512,
+            "type": "string"
+          }
+        },
+        "required": [
+          "bookUri"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "List the DIDs that put a given book on one of their shelves.",
+  "id": "net.olamaelcu.livtet.biblio.getShelversOfBook",
+  "lexicon": 1
+}

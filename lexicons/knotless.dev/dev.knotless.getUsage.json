@@ -1,0 +1,482 @@
+{
+  "id": "dev.knotless.getUsage",
+  "defs": {
+    "day": {
+      "type": "object",
+      "required": [
+        "day",
+        "visitors",
+        "views",
+        "requests",
+        "errors",
+        "repos",
+        "pushes",
+        "pulls",
+        "issues",
+        "comments",
+        "checks",
+        "authors"
+      ],
+      "properties": {
+        "day": {
+          "type": "string",
+          "description": "YYYY-MM-DD."
+        },
+        "pulls": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "repos": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Repositories made, from the index."
+        },
+        "views": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Pages they drew."
+        },
+        "checks": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Check runs started."
+        },
+        "errors": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Of those, failed (5xx)."
+        },
+        "issues": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pushes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "authors": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Accounts that made a repository, pushed, or wrote in a thread."
+        },
+        "comments": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "requests": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Requests taken, but for health checks."
+        },
+        "visitors": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "People whose browsers drew a page, each once."
+        }
+      },
+      "description": "One day, in UTC."
+    },
+    "hour": {
+      "type": "object",
+      "required": [
+        "hour",
+        "requests",
+        "errors",
+        "overTwo"
+      ],
+      "properties": {
+        "hour": {
+          "type": "string",
+          "description": "The hour, as YYYY-MM-DDTHH in UTC."
+        },
+        "errors": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Of those, the ones it failed (5xx)."
+        },
+        "overTwo": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Of those, the ones that took over two seconds."
+        },
+        "requests": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "days",
+            "routes",
+            "pages",
+            "referrers",
+            "clients"
+          ],
+          "properties": {
+            "days": {
+              "type": "array",
+              "items": {
+                "ref": "#day",
+                "type": "ref"
+              },
+              "description": "Each day asked about, oldest first."
+            },
+            "hours": {
+              "type": "array",
+              "items": {
+                "ref": "#hour",
+                "type": "ref"
+              },
+              "description": "Each hour the appview took requests in, oldest first: when failures and slow answers came."
+            },
+            "pages": {
+              "type": "array",
+              "items": {
+                "ref": "#count",
+                "type": "ref"
+              },
+              "description": "Pages drawn in a browser, by the route that drew them."
+            },
+            "agents": {
+              "type": "array",
+              "items": {
+                "ref": "#count",
+                "type": "ref"
+              },
+              "description": "Requests by the User-Agent of each crawler or script, most first: the bot client, by name. At most twenty, and at most the last 30 days."
+            },
+            "events": {
+              "type": "array",
+              "items": {
+                "ref": "#event",
+                "type": "ref"
+              },
+              "description": "What the handlers saw, by name and subject."
+            },
+            "routes": {
+              "type": "array",
+              "items": {
+                "ref": "#route",
+                "type": "ref"
+              },
+              "description": "Requests by route, busiest first: the hundred busiest, and every write and every route with a request over two seconds."
+            },
+            "clients": {
+              "type": "array",
+              "items": {
+                "ref": "#count",
+                "type": "ref"
+              },
+              "description": "Requests by kind of client: browser, git, cli, bot or other."
+            },
+            "funnels": {
+              "type": "array",
+              "items": {
+                "ref": "#funnel",
+                "type": "ref"
+              },
+              "description": "Of the accounts that did one thing in the days asked, not having in the 30 days before, how many went on to another."
+            },
+            "network": {
+              "ref": "#network",
+              "type": "ref"
+            },
+            "failures": {
+              "type": "array",
+              "items": {
+                "ref": "#failure",
+                "type": "ref"
+              },
+              "description": "Why what the handlers saw failed, most often first: at most a hundred, and at most the last 30 days."
+            },
+            "referrers": {
+              "type": "array",
+              "items": {
+                "ref": "#count",
+                "type": "ref"
+              },
+              "description": "The sites that sent visitors to the pages, by host."
+            },
+            "statements": {
+              "type": "array",
+              "items": {
+                "ref": "#statement",
+                "type": "ref"
+              },
+              "description": "The index's statements that took a tenth of a slow request or more, the most time first: at most fifty, and at most the last 30 days."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "days": {
+            "type": "integer",
+            "default": 14,
+            "maximum": 400,
+            "minimum": 1,
+            "description": "How many days back, today (UTC) the last."
+          }
+        }
+      },
+      "description": "How an appview is used, day by day, for its operators: it takes a service token for this method from one of the accounts it names as its operators, or the session cookie of one logged in to its pages. What it counted itself (requests, page views, visitors by a hash forgotten each day, what its handlers saw) beside what its index says the network wrote."
+    },
+    "count": {
+      "type": "object",
+      "required": [
+        "name",
+        "n"
+      ],
+      "properties": {
+        "n": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "description": "Something, and how many times."
+    },
+    "event": {
+      "type": "object",
+      "required": [
+        "name",
+        "subject",
+        "calls",
+        "failed",
+        "meanMs",
+        "accounts"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "What it was.",
+          "knownValues": [
+            "mcp.tool",
+            "mcp.resource",
+            "mcp.signin",
+            "git.fetch",
+            "cli.version",
+            "gateway.delegated",
+            "gateway.push",
+            "gateway.commit",
+            "gateway.served"
+          ]
+        },
+        "calls": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "failed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "meanMs": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Mean milliseconds; 0 for what is not timed."
+        },
+        "subject": {
+          "type": "string",
+          "description": "Of what: the tool, the repository as asked for, the version; empty for none."
+        },
+        "accounts": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Accounts that did anything of this name in the days asked, at most the last 30, as only the signed-in are known and none is kept longer."
+        }
+      },
+      "description": "Something the handlers saw, over the days asked."
+    },
+    "route": {
+      "type": "object",
+      "required": [
+        "surface",
+        "method",
+        "route",
+        "requests",
+        "errors",
+        "meanMs",
+        "overHalf",
+        "overTwo"
+      ],
+      "properties": {
+        "route": {
+          "type": "string",
+          "description": "Its pattern, as /api/{authority}/{repo}/tree."
+        },
+        "errors": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Failed (5xx)."
+        },
+        "meanMs": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Mean milliseconds to the answer's head."
+        },
+        "method": {
+          "type": "string",
+          "description": "The HTTP method."
+        },
+        "overTwo": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Requests that took over two seconds."
+        },
+        "surface": {
+          "type": "string",
+          "description": "Where it is.",
+          "knownValues": [
+            "pages",
+            "api",
+            "git",
+            "xrpc",
+            "mcp",
+            "install",
+            "other"
+          ]
+        },
+        "overHalf": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Requests that took over half a second."
+        },
+        "requests": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "description": "A route, by the pattern it matched, and how it answered."
+    },
+    "funnel": {
+      "type": "object",
+      "required": [
+        "from",
+        "to",
+        "started",
+        "reached"
+      ],
+      "properties": {
+        "to": {
+          "type": "string",
+          "description": "An event's name."
+        },
+        "from": {
+          "type": "string",
+          "description": "An event's name."
+        },
+        "reached": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "started": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "description": "Accounts that did one thing in the days asked, not having in the 30 days before, and of them those that did the other then or within 30 days."
+    },
+    "failure": {
+      "type": "object",
+      "required": [
+        "name",
+        "subject",
+        "error",
+        "n"
+      ],
+      "properties": {
+        "n": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Times it failed so."
+        },
+        "name": {
+          "type": "string",
+          "description": "The event's name, as an event's."
+        },
+        "error": {
+          "type": "string",
+          "description": "What it answered, cut at 300 characters."
+        },
+        "subject": {
+          "type": "string",
+          "description": "Of what, as an event's."
+        }
+      },
+      "description": "Why something the handlers saw failed, and how often."
+    },
+    "network": {
+      "type": "object",
+      "required": [
+        "accounts",
+        "repos",
+        "authorsWeek",
+        "authorsMonth"
+      ],
+      "properties": {
+        "repos": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "accounts": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Accounts that ever made a repository, pushed, or wrote in a thread."
+        },
+        "authorsWeek": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Accounts that did so in the last 7 days."
+        },
+        "authorsMonth": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "And in the last 30."
+        }
+      },
+      "description": "The network as the index has it now."
+    },
+    "statement": {
+      "type": "object",
+      "required": [
+        "sql",
+        "calls",
+        "meanMs",
+        "maxMs"
+      ],
+      "properties": {
+        "sql": {
+          "type": "string",
+          "description": "As written, its whitespace closed up and cut at 500 characters, with no value it was given."
+        },
+        "calls": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Times it ran slowly."
+        },
+        "maxMs": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The longest of them, in milliseconds."
+        },
+        "meanMs": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Mean milliseconds of those runs."
+        }
+      },
+      "description": "A statement the index ran slowly, and how often."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

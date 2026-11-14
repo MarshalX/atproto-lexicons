@@ -1,0 +1,79 @@
+{
+  "id": "radio.4000.authFull",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Radio4000: manage your radio",
+      "detail": "Add, edit and remove tracks of your radio, update or delete its profile, follow other radios, broadcast what you play and chat in radio rooms. Nothing else in your account.",
+      "title:lang": {
+        "fr": "Radio4000 : gérer votre radio"
+      },
+      "detail:lang": {
+        "fr": "Ajouter, modifier et retirer les morceaux de votre radio, mettre à jour ou supprimer son profil, suivre d'autres radios, diffuser ce que vous jouez et discuter dans les salons des radios. Rien d'autre dans votre compte."
+      },
+      "permissions": [
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "radio.4000.track"
+          ]
+        },
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "radio.4000.profile"
+          ]
+        },
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "radio.4000.follow"
+          ]
+        },
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "radio.4000.broadcast"
+          ]
+        },
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "radio.4000.chat.message"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

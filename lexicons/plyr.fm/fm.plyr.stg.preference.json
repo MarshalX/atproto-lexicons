@@ -1,0 +1,53 @@
+{
+  "id": "fm.plyr.stg.preference",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "properties": {
+          "font": {
+            "enum": [
+              "comic-sans",
+              "system",
+              "mono",
+              "serif"
+            ],
+            "type": "string"
+          },
+          "scale": {
+            "enum": [
+              90,
+              100,
+              115,
+              130
+            ],
+            "type": "integer",
+            "description": "Interface scale as a percentage."
+          },
+          "theme": {
+            "enum": [
+              "system",
+              "light",
+              "dark"
+            ],
+            "type": "string"
+          },
+          "accent": {
+            "type": "string",
+            "maxLength": 7
+          },
+          "keepPlaying": {
+            "type": "boolean"
+          },
+          "playThrough": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

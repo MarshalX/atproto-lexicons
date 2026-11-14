@@ -1,0 +1,364 @@
+{
+  "id": "app.zeens.postMeta",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "post",
+          "createdAt"
+        ],
+        "properties": {
+          "exif": {
+            "ref": "#exifData",
+            "type": "ref",
+            "description": "Camera EXIF metadata extracted from the original image."
+          },
+          "film": {
+            "ref": "#filmData",
+            "type": "ref",
+            "description": "Film/analog metadata. Present when the post is marked with app.zeens.film on the underlying app.bsky.feed.post record. EXIF and film blocks can coexist."
+          },
+          "gear": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 128
+            },
+            "maxLength": 8,
+            "description": "Other equipment on a video post, typed by the creator (e.g. DJI RS 4, Rode NTG5). A video has no EXIF to read, so its camera and lens, also typed, are stored in `exif` where search and the gear facets already look."
+          },
+          "link": {
+            "ref": "#externalLink",
+            "type": "ref",
+            "description": "Optional external link attached by the creator (e.g. portfolio, print shop)."
+          },
+          "post": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the app.bsky.feed.post record this metadata belongs to."
+          },
+          "colors": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 32
+            },
+            "maxLength": 5,
+            "description": "Color tags detected on the cover image at upload: up to 3 prominent hues (red/orange/yellow/green/teal/blue/purple/pink), ranked most prominent first and de-duplicated so adjacent hues do not repeat, followed by up to 2 tone tags (warm/cool/earth/pastel). Empty when monochrome. A dark or muted photo still carries its hues, and its temperature. Used by user-built feeds and search to filter posts by color."
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "ref": "#imageMeta",
+              "type": "ref"
+            },
+            "maxLength": 4,
+            "description": "Per-image extended metadata, indexed by position in the post's app.bsky.embed.images.images array."
+          },
+          "license": {
+            "type": "string",
+            "description": "Creative Commons or rights license for the photo.",
+            "knownValues": [
+              "all-rights-reserved",
+              "cc-by",
+              "cc-by-sa",
+              "cc-by-nc",
+              "cc-by-nc-sa",
+              "cc-by-nd",
+              "cc-by-nc-nd",
+              "cc0"
+            ]
+          },
+          "palette": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 7
+            },
+            "maxLength": 8,
+            "description": "The cover image's actual colours, as #rrggbb, most prominent first. Up to eight: the largest distinct colours, plus accents — small but vivid regions a viewer notices first, which selection by area alone never surfaces. Displayed as unnamed swatches; `colors` remains what search filters on. Empty when monochrome. Absent on records written before palette extraction, which fall back to the hue buckets' stand-in colours."
+          },
+          "location": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Optional free-form location name where the photo was taken."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp when this metadata record was created."
+          },
+          "crossLink": {
+            "type": "boolean",
+            "description": "True if the creator enabled 'Cross-link to Bluesky' at upload. When set, a link to the canonical Zeens post URL was appended to the app.bsky.feed.post text, and the Zeens post page shows a 'View on Bluesky' pill (and hides the appended self-link in the rendered caption)."
+          },
+          "editCount": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of times the creator has edited this post via Zeens. Editing is capped (currently 3 edits) to discourage rewriting published photos; the edit button disables once this reaches the cap."
+          },
+          "hasBorder": {
+            "type": "boolean",
+            "description": "Deprecated — use images[].borderCrop instead."
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 64
+            },
+            "maxLength": 12,
+            "description": "Photography categories selected by the creator: up to 3 per photo in the post, so 12 for a four-photo post."
+          },
+          "colorHexes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 7
+            },
+            "maxLength": 3,
+            "description": "Deprecated — use `palette` instead. Was intended to hold the colours behind the hue tags in `colors`, positionally aligned, but was never written by any client: every record in the wild lacks it. `palette` supersedes it and is not tag-aligned."
+          },
+          "monochrome": {
+            "type": "boolean",
+            "description": "True if the cover image is black-and-white / grayscale. Detected client-side at upload by averaging HSV saturation across a downscaled bitmap (threshold 0.05). Powers the Black & White feed."
+          },
+          "locationLat": {
+            "type": "integer",
+            "maximum": 900000000,
+            "minimum": -900000000,
+            "description": "Latitude in WGS84, scaled by 1e7 (AT Protocol does not support floats). Divide by 1e7 to get decimal degrees."
+          },
+          "locationLng": {
+            "type": "integer",
+            "maximum": 1800000000,
+            "minimum": -1800000000,
+            "description": "Longitude in WGS84, scaled by 1e7 (AT Protocol does not support floats). Divide by 1e7 to get decimal degrees."
+          },
+          "noAiTraining": {
+            "type": "boolean",
+            "description": "Deprecated — use aiDeclaration instead. True if creator chose 'no-ai'."
+          },
+          "aiDeclaration": {
+            "type": "string",
+            "description": "Creator's declaration about AI involvement in this image.",
+            "knownValues": [
+              "no-ai",
+              "ai-assisted",
+              "contains-ai"
+            ]
+          },
+          "paletteShares": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "maximum": 10000,
+              "minimum": 0
+            },
+            "maxLength": 8,
+            "description": "How much of the cover image each `palette` colour covers, in basis points (1/100 of a percent), positionally aligned with `palette`. Integers because AT Protocol rejects floats; basis points rather than percent so a small accent does not round to 0. Lets a renderer size swatches by prominence. Absent on records written before it existed, which render every swatch at equal weight."
+          }
+        }
+      },
+      "description": "Extended metadata for a Zeens photo post — EXIF, categories, license, and optional external link. The rkey matches the rkey of the associated app.bsky.feed.post record."
+    },
+    "exifData": {
+      "type": "object",
+      "properties": {
+        "iso": {
+          "type": "integer",
+          "maximum": 1638400,
+          "minimum": 1,
+          "description": "ISO sensitivity value."
+        },
+        "lens": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Lens model (e.g. FE 85mm F1.4 GM)."
+        },
+        "make": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Camera manufacturer (e.g. Sony, Canon, Nikon)."
+        },
+        "model": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Camera model (e.g. A7R V, EOS R5)."
+        },
+        "shutter": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Shutter speed as a human-readable string (e.g. 1/250s)."
+        },
+        "takenAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "Date and time the photo was taken, from EXIF DateTimeOriginal."
+        },
+        "aperture": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Aperture as a human-readable string (e.g. f/1.8)."
+        },
+        "lensMake": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Lens manufacturer from EXIF LensMake (e.g. Tamron, Sigma). Often absent — many bodies omit it for third-party lenses."
+        },
+        "software": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Software used to process the image (e.g. Lightroom, Capture One)."
+        },
+        "focalLength": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Focal length as a human-readable string (e.g. 85mm)."
+        }
+      },
+      "description": "Subset of EXIF metadata relevant to photography."
+    },
+    "filmData": {
+      "type": "object",
+      "properties": {
+        "lens": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Lens the frame was shot on, typed by the creator (e.g. 50mm f/1.8 AI-S). Free text, for the same reason as `camera`."
+        },
+        "camera": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Film body the frame was shot on, typed by the creator (e.g. Nikon FM2, Pentax 67). Deliberately NOT exif.model: a film scan's EXIF describes the scanner, so this is the only trustworthy record of the camera. Free text, since no catalog of film bodies is complete."
+        },
+        "shutter": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Shutter speed as the creator wrote it (e.g. 1/250, 1/250s, 2s, B). Kept as a string rather than a number because film shutters are named in fractions and bulb, and because the value is transcribed from a dial, not measured."
+        },
+        "aperture": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Aperture as the creator wrote it (e.g. f/8, 8, f/1.4). Stored verbatim; renderers normalise the display."
+        },
+        "stockName": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Display name of the film stock at the time the post was created. Snapshotted so renames in the catalog don't change rendered post pages."
+        },
+        "stockSlug": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Canonical slug of the film stock from the Zeens catalog (e.g. portra-400). Used for joining to film_stocks for icon + filtering."
+        }
+      },
+      "description": "Film/analog photography metadata supplied by the creator. EXIF cannot capture this for film photos, and scanner EXIF is unreliable, so this is captured via the upload UI when the post is marked as film."
+    },
+    "imageMeta": {
+      "type": "object",
+      "properties": {
+        "exif": {
+          "ref": "#exifData",
+          "type": "ref",
+          "description": "EXIF for THIS image, by embed position. Multi-image posts can mix cameras/lenses; the post page shows the entry matching the visible carousel image. The record-level exif field holds the first image's data for backward compatibility (search indexing, older clients)."
+        },
+        "palette": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 7
+          },
+          "maxLength": 8,
+          "description": "Palette for THIS image, by embed position, same shape as the record-level `palette`. Photos in one post rarely share a palette, so the post page shows the entry matching the visible carousel image. The record-level field holds the COVER image's colours for backward compatibility (feed cards, search, older clients)."
+        },
+        "location": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Free-form location name for THIS image, by embed position, same shape as the record-level `location`. Present only when the creator placed the photos of a post separately. The record-level location fields then hold the first located image's place, so feeds, search and the map keep working for readers that know nothing of per-image locations."
+        },
+        "borderCrop": {
+          "ref": "#borderCrop",
+          "type": "ref",
+          "description": "Confirmed-by-user border crop, applied in grid views only."
+        },
+        "monochrome": {
+          "type": "boolean",
+          "description": "True if THIS image is black-and-white. Carried per image because a post can mix a colour frame with a monochrome one, and a monochrome image's palette is deliberately ABSENT rather than a ramp of greys: on a B&W frame every histogram cell is grey and the swatches would describe sensor noise."
+        },
+        "locationLat": {
+          "type": "integer",
+          "maximum": 900000000,
+          "minimum": -900000000,
+          "description": "Latitude of THIS image in WGS84, scaled by 1e7, as the record-level `locationLat`."
+        },
+        "locationLng": {
+          "type": "integer",
+          "maximum": 1800000000,
+          "minimum": -1800000000,
+          "description": "Longitude of THIS image in WGS84, scaled by 1e7, as the record-level `locationLng`."
+        },
+        "paletteShares": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "maximum": 10000,
+            "minimum": 0
+          },
+          "maxLength": 8,
+          "description": "Coverage of each colour in THIS image's `palette`, in basis points, positionally aligned with it. Same shape as the record-level `paletteShares`."
+        }
+      },
+      "description": "Per-image extended metadata. All fields optional."
+    },
+    "borderCrop": {
+      "type": "object",
+      "properties": {
+        "top": {
+          "type": "integer",
+          "maximum": 5000000,
+          "minimum": 0
+        },
+        "left": {
+          "type": "integer",
+          "maximum": 5000000,
+          "minimum": 0
+        },
+        "right": {
+          "type": "integer",
+          "maximum": 5000000,
+          "minimum": 0
+        },
+        "bottom": {
+          "type": "integer",
+          "maximum": 5000000,
+          "minimum": 0
+        }
+      },
+      "description": "Per-edge crop fractions (0–1) to clip a decorative border or letterbox in grid views. Stored as integers scaled by 1e7 because AT Protocol does not support floats. Divide by 1e7 to get the fraction."
+    },
+    "externalLink": {
+      "type": "object",
+      "required": [
+        "url"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 2048
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 64
+        }
+      },
+      "description": "An external URL with an optional display label."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

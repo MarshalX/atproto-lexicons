@@ -1,0 +1,49 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Grantee-signed request to revoke their own access to an asset governed by an owner-repo passport receipt.",
+      "properties": {
+        "granteeDid": {
+          "description": "DID of the grantee requesting removal (must match the repo author).",
+          "format": "did",
+          "type": "string"
+        },
+        "manifestCid": {
+          "description": "Metadata manifest CID of the asset whose access is being revoked (drive index or entry name leaf; never the file byte CID).",
+          "type": "string"
+        },
+        "ownerDid": {
+          "description": "DID of the file owner whose passport receipt governs the asset.",
+          "format": "did",
+          "type": "string"
+        },
+        "receiptUri": {
+          "description": "AT URI of the owner-repo cloud.substratum.passport.receipt record.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "requestedAt": {
+          "description": "ISO 8601 timestamp when the grantee requested removal.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "version": {
+          "description": "Schema version (e.g. '2.0.0').",
+          "type": "string"
+        }
+      },
+      "required": [
+        "version",
+        "granteeDid",
+        "ownerDid",
+        "manifestCid",
+        "receiptUri",
+        "requestedAt"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "cloud.substratum.passport.accessRemovalRequest",
+  "lexicon": 1
+}

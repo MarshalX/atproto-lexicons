@@ -1,0 +1,46 @@
+{
+  "id": "fm.plyr.stg.jamState",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "revision",
+          "trackId",
+          "cid",
+          "playing",
+          "positionMs",
+          "updatedAtMs"
+        ],
+        "properties": {
+          "cid": {
+            "type": "string",
+            "format": "cid"
+          },
+          "playing": {
+            "type": "boolean"
+          },
+          "trackId": {
+            "type": "string"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "positionMs": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "updatedAtMs": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

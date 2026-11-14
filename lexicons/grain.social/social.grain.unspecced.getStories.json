@@ -1,0 +1,41 @@
+{
+  "id": "social.grain.unspecced.getStories",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "stories"
+          ],
+          "properties": {
+            "stories": {
+              "type": "array",
+              "items": {
+                "ref": "social.grain.story.defs#storyView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "actor"
+        ],
+        "properties": {
+          "actor": {
+            "type": "string",
+            "format": "at-identifier"
+          }
+        }
+      },
+      "description": "Get a user's active stories (posted within the last 24 hours)."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

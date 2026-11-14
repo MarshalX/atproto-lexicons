@@ -1,0 +1,41 @@
+{
+  "id": "app.zeens.getCollectionItems",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "collection"
+        ],
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "viewer": {
+            "type": "string",
+            "format": "did"
+          },
+          "collection": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the parent app.zeens.collection record."
+          }
+        }
+      },
+      "description": "List items inside a collection. Returns 404 if the collection is private and viewer != owner. Items are returned newest-first by addedAt.",
+      "target_collection": "app.zeens.collectionItem"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

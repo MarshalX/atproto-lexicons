@@ -1,0 +1,51 @@
+{
+  "id": "app.userinput.edit",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "body": {
+            "type": "string",
+            "maxLength": 20000,
+            "description": "Replacement body.",
+            "maxGraphemes": 10000
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 64
+            },
+            "maxLength": 8,
+            "description": "Replacement tag values (discussion edits only), drawn from the space's tag list."
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 600,
+            "description": "Replacement title (discussion edits only).",
+            "maxGraphemes": 300
+          },
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The discussion or reply being revised. Indexed by constellation at subject.uri. The pinned cid identifies the version this edit was authored against."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "A revision of a discussion or reply, written as a sidecar that points at the original (never mutating it). Only honored when authored by the subject's own author; the newest createdAt is the live content, and the full set is the edit history. Lives in the author's repo."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,53 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Deny an incoming teleport request.",
+      "errors": [
+        {
+          "description": "The specified teleport was not found.",
+          "name": "TeleportNotFound"
+        },
+        {
+          "description": "The authenticated user is not the target of this teleport.",
+          "name": "Unauthorized"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "uri": {
+              "description": "The URI of the teleport record to deny.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "uri"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "success": {
+              "description": "Whether the teleport was successfully denied.",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "success"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": null,
+      "type": "procedure"
+    }
+  },
+  "id": "place.stream.live.denyTeleport",
+  "lexicon": 1
+}

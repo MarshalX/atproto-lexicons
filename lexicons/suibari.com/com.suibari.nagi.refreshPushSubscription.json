@@ -1,0 +1,79 @@
+{
+  "id": "com.suibari.nagi.refreshPushSubscription",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "installationId",
+            "capability",
+            "endpoint",
+            "keys"
+          ],
+          "properties": {
+            "keys": {
+              "ref": "#pushKeys",
+              "type": "ref"
+            },
+            "endpoint": {
+              "type": "string",
+              "format": "uri"
+            },
+            "capability": {
+              "type": "string",
+              "maxLength": 128,
+              "minLength": 32
+            },
+            "installationId": {
+              "type": "string",
+              "maxLength": 36,
+              "minLength": 36
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "InvalidCapability"
+        },
+        {
+          "name": "EndpointConflict"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "registered"
+          ],
+          "properties": {
+            "registered": {
+              "type": "boolean"
+            }
+          }
+        },
+        "encoding": "application/json"
+      }
+    },
+    "pushKeys": {
+      "type": "object",
+      "required": [
+        "p256dh",
+        "auth"
+      ],
+      "properties": {
+        "auth": {
+          "type": "string"
+        },
+        "p256dh": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,33 @@
+{
+  "id": "com.suibari.nagi.getPrivateList",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "members",
+            "limit"
+          ],
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 200
+            },
+            "members": {
+              "type": "array",
+              "items": {
+                "type": "unknown"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

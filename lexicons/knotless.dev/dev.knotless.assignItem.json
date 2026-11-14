@@ -1,0 +1,93 @@
+{
+  "id": "dev.knotless.assignItem",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "repo",
+            "subject",
+            "did"
+          ],
+          "properties": {
+            "did": {
+              "type": "string",
+              "format": "did",
+              "description": "The account assigned, or asked to review."
+            },
+            "repo": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+            },
+            "role": {
+              "type": "string",
+              "default": "assignee",
+              "maxLength": 64,
+              "description": "`assignee` to assign it, or `reviewer` to ask for a review of a pull.",
+              "knownValues": [
+                "assignee",
+                "reviewer"
+              ]
+            },
+            "removed": {
+              "type": "boolean",
+              "default": false,
+              "description": "True to take the account off it, or stop asking, rather than assign or ask."
+            },
+            "subject": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The dev.knotless.pull or dev.knotless.issue."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "assignees",
+            "reviewers"
+          ],
+          "properties": {
+            "assignees": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#actorView",
+                "type": "ref"
+              },
+              "description": "Those it is assigned to now."
+            },
+            "reviewers": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#actorView",
+                "type": "ref"
+              },
+              "description": "For a pull, those asked to review it now; for an issue, none."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "As `knotless pull assign`, `unassign`, `ask-review` and `unask-review` do: the repository's owner and collaborators rewrite their dev.knotless.assignment record about it, and a pull's author asks for reviews in the pull itself. A pull's author stops asking only those it asked, and a maintainer only those maintainers asked. Requires the session cookie the pages' login sets."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Assigns a pull or an issue to an account, or asks it to review a pull, or no longer, as the account logged in to this appview's pages."
+}

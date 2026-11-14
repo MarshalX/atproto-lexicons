@@ -1,0 +1,113 @@
+{
+  "id": "site.mochott.notification.defs",
+  "defs": {
+    "actorView": {
+      "type": "object",
+      "nullable": [
+        "displayName",
+        "avatar"
+      ],
+      "required": [
+        "did",
+        "handle",
+        "displayName",
+        "avatar"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "description": "DID of the account that caused the notification."
+        },
+        "avatar": {
+          "type": "string",
+          "description": "Avatar image. May be a path relative to the mochott origin (/api/image/{did}/{cid}) or an absolute URL."
+        },
+        "handle": {
+          "type": "string",
+          "description": "Handle, or \"unknown\" when the profile could not be resolved."
+        },
+        "displayName": {
+          "type": "string"
+        }
+      }
+    },
+    "notificationView": {
+      "type": "object",
+      "nullable": [
+        "documentUri",
+        "documentTitle"
+      ],
+      "required": [
+        "id",
+        "type",
+        "actor",
+        "documentUri",
+        "documentTitle",
+        "isRead",
+        "createdAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Absolute URL of the mochott page the notification opens: the article, the comic chapter, strip or series, or the subscriber's profile. Absent for imports and for works no longer indexed."
+        },
+        "type": {
+          "type": "string",
+          "knownValues": [
+            "new_article",
+            "like",
+            "subscription",
+            "comment",
+            "reply",
+            "import_completed",
+            "import_failed",
+            "new_comic",
+            "comic_like",
+            "comic_comment",
+            "comic_reply",
+            "comic_subscription"
+          ]
+        },
+        "actor": {
+          "ref": "#actorView",
+          "type": "ref"
+        },
+        "isRead": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "commentUri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "For comment, reply, comic_comment and comic_reply: the comment that caused the notification (the reply itself for replies). Absent for notifications created before it was recorded."
+        },
+        "commentText": {
+          "type": "string",
+          "description": "The content of commentUri. Absent when the comment has been deleted."
+        },
+        "documentUri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "The article, comic chapter or strip, or comic series the notification is about. Null for subscriptions and imports."
+        },
+        "documentTitle": {
+          "type": "string",
+          "description": "Title of the subject. For import_completed and import_failed it is \"<processed>|<failed>\"."
+        }
+      },
+      "description": "A notification for the requesting account. url, commentUri and commentText are only returned when the request names types or continues a keyset cursor."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 1,
+  "description": "Shared definitions for mochott notifications."
+}

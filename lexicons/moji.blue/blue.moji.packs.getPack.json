@@ -1,0 +1,59 @@
+{
+  "id": "blue.moji.packs.getPack",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "pack",
+            "items"
+          ],
+          "properties": {
+            "pack": {
+              "ref": "blue.moji.packs.defs#packView",
+              "type": "ref"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "ref": "blue.moji.packs.defs#packItemView",
+                "type": "ref"
+              }
+            },
+            "cursor": {
+              "type": "string"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "pack"
+        ],
+        "properties": {
+          "pack": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Reference (AT-URI) of the pack record to hydrate."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Gets a 'view' (with additional context) of a specified pack."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

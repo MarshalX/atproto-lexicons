@@ -1,0 +1,48 @@
+{
+  "id": "social.pinkleap.collections",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "id",
+          "source",
+          "slug",
+          "value",
+          "createdAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "slug": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 255
+            },
+            "maxLength": 255
+          },
+          "source": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Record describing a named Pinkleap collection (ordered list of post references)."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

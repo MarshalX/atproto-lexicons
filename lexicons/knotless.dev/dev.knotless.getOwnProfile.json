@@ -1,0 +1,60 @@
+{
+  "id": "dev.knotless.getOwnProfile",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account asks."
+        }
+      ],
+      "output": {
+        "schema": {
+          "ref": "#ownProfile",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "The asking account's dev.knotless.profile record, as its settings show it: only what it set on knotless, with nothing of its Bluesky profile, which stands in for each field left out (dev.knotless.getProfile shows the two together). Requires authentication: a service token, or the session cookie the pages' login sets."
+    },
+    "ownProfile": {
+      "type": "object",
+      "properties": {
+        "bot": {
+          "type": "boolean",
+          "description": "Whether the account says it is a bot. Absent when it is not."
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "ref": "dev.knotless.defs#link",
+            "type": "ref"
+          },
+          "description": "Links shown on the profile, in display order."
+        },
+        "avatar": {
+          "type": "string",
+          "format": "uri",
+          "description": "Where this appview serves the account's picture."
+        },
+        "pronouns": {
+          "type": "string",
+          "description": "Free-form pronouns text."
+        },
+        "description": {
+          "type": "string",
+          "description": "Free text about the account: its bio."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The name shown over the account's handle."
+        }
+      },
+      "description": "What an account's knotless profile holds. A field it left out is absent."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "The asking account's knotless profile, as it set it."
+}

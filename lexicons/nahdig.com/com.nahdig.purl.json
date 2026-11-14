@@ -1,0 +1,34 @@
+{
+  "id": "com.nahdig.purl",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "purl",
+          "software"
+        ],
+        "properties": {
+          "purl": {
+            "type": "string",
+            "minLength": 1
+          },
+          "software": {
+            "type": "array",
+            "items": {
+              "ref": "com.atproto.repo.strongRef#main",
+              "type": "ref"
+            },
+            "minLength": 1,
+            "description": "Strong references to com.nahdig.software records for this PURL."
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Deterministic PURL lookup record. rkey = sha256(versionless canonical purl) as lowercase hex."
+}

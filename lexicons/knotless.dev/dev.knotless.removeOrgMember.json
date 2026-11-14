@@ -1,0 +1,77 @@
+{
+  "id": "dev.knotless.removeOrgMember",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "org",
+            "member"
+          ],
+          "properties": {
+            "org": {
+              "type": "string",
+              "format": "did",
+              "description": "The organization."
+            },
+            "member": {
+              "type": "string",
+              "format": "did",
+              "description": "The account to take out."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "ref": "#removed",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "Answers where the account stood before: nothing changes for an account the organization did not invite."
+    },
+    "removed": {
+      "type": "object",
+      "required": [
+        "org",
+        "who",
+        "organization"
+      ],
+      "properties": {
+        "org": {
+          "type": "string",
+          "maxLength": 300,
+          "description": "The organization's handle, or its DID when none resolves back to it."
+        },
+        "was": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Where they stood before: invited, lapsed (invited over 7 days ago), or a public or hidden member. Absent when they were not invited.",
+          "knownValues": [
+            "invited",
+            "lapsed",
+            "public",
+            "hidden"
+          ]
+        },
+        "who": {
+          "type": "string",
+          "maxLength": 300,
+          "description": "The account's handle, or its DID when none resolves back to it."
+        },
+        "organization": {
+          "type": "boolean",
+          "description": "Whether the account is an organization."
+        }
+      },
+      "description": "What taking an account out of an organization did."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Takes a member out of an organization, or withdraws an invitation, through the gateway the organization delegated writes to, which writes as the organization: out of its records, its space and its private repositories' spaces, but for repositories shared with them on their own. The caller must be an admin of it who joined. Requires a service token from the caller's PDS, audience the gateway's DID, for this method."
+}

@@ -1,0 +1,205 @@
+{
+  "id": "ai.syui.rse.admin",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "ability",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "item": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "name",
+                "text"
+              ],
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "Item ID"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Item name"
+                },
+                "text": {
+                  "type": "object",
+                  "properties": {
+                    "en": {
+                      "type": "string",
+                      "description": "English text"
+                    },
+                    "ja": {
+                      "type": "string",
+                      "description": "Japanese text"
+                    }
+                  },
+                  "description": "Item description (localized)"
+                }
+              }
+            },
+            "description": "Item definitions"
+          },
+          "system": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "name",
+                "domain"
+              ],
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "System ID"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "System name"
+                },
+                "domain": {
+                  "type": "string",
+                  "description": "System domain (ability, unique, account, planet, origin)"
+                }
+              }
+            },
+            "description": "System definitions"
+          },
+          "ability": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "name",
+                "kind"
+              ],
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "Ability ID"
+                },
+                "kind": {
+                  "type": "string",
+                  "description": "Attribute type (consciousness, matter)"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Ability name (ai, quark, neutron, atom, sun)"
+                },
+                "color": {
+                  "type": "string",
+                  "description": "Color code (e.g., #ffd700)"
+                },
+                "level": {
+                  "type": "integer",
+                  "description": "Hierarchy level (0=fundamental)"
+                },
+                "phantom": {
+                  "type": "boolean",
+                  "description": "Whether this ability is phantom/lost"
+                },
+                "relation": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
+                  "description": "Advantage IDs"
+                },
+                "weakness": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
+                  "description": "Weakness IDs"
+                },
+                "multiplier": {
+                  "type": "integer",
+                  "description": "Damage multiplier percent (e.g., 150 = 1.5x)"
+                }
+              }
+            },
+            "description": "Ability/attribute definitions"
+          },
+          "character": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "name",
+                "ability",
+                "mode"
+              ],
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "Character ID"
+                },
+                "mode": {
+                  "type": "integer",
+                  "description": "Character mode"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Character name"
+                },
+                "ability": {
+                  "type": "integer",
+                  "description": "Ability ID reference"
+                }
+              }
+            },
+            "description": "Character definitions"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "collection": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "nsid",
+                "name"
+              ],
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "Collection ID"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Collection short name"
+                },
+                "nsid": {
+                  "type": "string",
+                  "description": "Namespaced identifier (e.g., ai.syui.card)"
+                }
+              }
+            },
+            "description": "ATProto collection definitions"
+          }
+        }
+      },
+      "description": "RSE admin configuration - abilities, characters, systems and collections"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

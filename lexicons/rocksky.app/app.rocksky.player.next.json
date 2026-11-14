@@ -1,0 +1,19 @@
+{
+  "id": "app.rocksky.player.next",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "playerId": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Play the next track in the queue"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

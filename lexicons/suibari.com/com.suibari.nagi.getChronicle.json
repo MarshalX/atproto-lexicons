@@ -1,0 +1,98 @@
+{
+  "id": "com.suibari.nagi.getChronicle",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "items",
+            "hasMore",
+            "year",
+            "revision"
+          ],
+          "properties": {
+            "year": {
+              "type": "integer",
+              "minimum": 2020
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "unknown"
+              },
+              "description": "その年の節目。古い順（日付の昇順）。同じ日に複数あるときは kind の固定優先度で決定論的に並ぶ。"
+            },
+            "cursor": {
+              "type": "string",
+              "description": "次の（より新しい）年。今年のページでは省略する。"
+            },
+            "hasMore": {
+              "type": "boolean"
+            },
+            "revision": {
+              "type": "string",
+              "maxLength": 64,
+              "description": "その年の全内容のSHA-256。表示言語や取得順序には依存しない。"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "actor"
+        ],
+        "properties": {
+          "lang": {
+            "enum": [
+              "ja",
+              "en"
+            ],
+            "type": "string",
+            "default": "ja",
+            "description": "ニュースの表示言語。en は英訳が揃っているものだけ英語になる。"
+          },
+          "actor": {
+            "type": "string",
+            "format": "did",
+            "description": "年表の持ち主。認証した DID と一致しなければならない。"
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "description": "互換性のため受理するが適用しない。既読は年単位なので必ずその年の全項目を返す。"
+          },
+          "cursor": {
+            "type": "string",
+            "description": "次に返す年（\"2025\"）。省略時は本人の起点の年（いちばん古い節目の年）を返し、ページは古い年から今年へ進む。起点の年から今年（JST 4:00区切り）までの4桁の年だけを受け付け、それ以外は400。年表は年見出しでまとまるので、ページ境界を見出し境界に一致させている。将来1年の件数が有界でなくなったら、日付とイベントIDの複合カーソルへ移すこと。"
+          }
+        }
+      },
+      "description": "自分年表。Nagi にやってきた日・botたんと出会った日・記念日カード・「はじめて」の記録・日記から抜いた出来事・そのころのニュースを、1本の時系列で返す。日記と同じく**本人だけが読む**ので、actor が認証した DID と一致しなければ 403（件数も日付も返さない）。"
+    },
+    "readYear": {
+      "type": "object",
+      "required": [
+        "year",
+        "revision"
+      ],
+      "properties": {
+        "year": {
+          "type": "integer",
+          "minimum": 2020
+        },
+        "revision": {
+          "type": "string",
+          "maxLength": 64
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

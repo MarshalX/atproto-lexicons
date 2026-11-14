@@ -1,0 +1,92 @@
+{
+  "id": "social.colibri.beta.thread.listThreads",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request has no valid service auth."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The requesting user is not a member of this community."
+        },
+        {
+          "name": "CommunityNotFound",
+          "description": "No community matches the given DID."
+        },
+        {
+          "name": "ChannelNotFound",
+          "description": "No channel matches the given space reference."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "threads"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string",
+              "description": "Pagination cursor for the next page."
+            },
+            "threads": {
+              "type": "array",
+              "items": {
+                "ref": "social.colibri.beta.thread.defs#threadView",
+                "type": "ref",
+                "description": "A thread."
+              },
+              "description": "The threads."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "community"
+        ],
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "description": "Maximum number of threads to return."
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Pagination cursor from a previous call."
+          },
+          "filter": {
+            "type": "string",
+            "default": "all",
+            "description": "Which threads to list.",
+            "knownValues": [
+              "all",
+              "unread",
+              "following"
+            ]
+          },
+          "channel": {
+            "type": "string",
+            "format": "space-ref",
+            "description": "Restrict the list to threads in one channel. Absent lists every channel's threads, which is what the community sidebar needs."
+          },
+          "community": {
+            "type": "string",
+            "format": "did",
+            "description": "The community to list threads in."
+          }
+        }
+      },
+      "description": "Lists a community's threads, most recently active first. Threads the requesting user may not read are absent rather than refused."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

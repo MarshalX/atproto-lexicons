@@ -1,0 +1,167 @@
+{
+  "id": "social.colibri.beta.role",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "permissions",
+          "position"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 32,
+            "minLength": 1,
+            "description": "Display name."
+          },
+          "badge": {
+            "refs": [
+              "#iconBadge",
+              "#imageBadge",
+              "#emojiBadge"
+            ],
+            "type": "union",
+            "description": "A small badge shown next to the names of members holding this role."
+          },
+          "color": {
+            "type": "string",
+            "maxLength": 7,
+            "description": "Hex colour as #rrggbb."
+          },
+          "default": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether every member holds this role from the moment they join. Set on the members role created with the community. A default role cannot be deleted."
+          },
+          "hoisted": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether holders are listed separately in the member list."
+          },
+          "position": {
+            "type": "integer",
+            "description": "Hierarchy position. Higher outranks lower."
+          },
+          "protected": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether this role is exempt from modification and deletion. Set on the owner role created with the community."
+          },
+          "mentionable": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether @role mentions resolve to this role."
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "A namespaced permission identifier."
+            },
+            "description": "Permissions granted by this role."
+          },
+          "channelOverrides": {
+            "type": "array",
+            "items": {
+              "ref": "#channelOverride",
+              "type": "ref"
+            },
+            "description": "Per-channel permission overrides."
+          }
+        }
+      },
+      "description": "A named bundle of permissions assignable to community members."
+    },
+    "iconBadge": {
+      "type": "object",
+      "required": [
+        "icon"
+      ],
+      "properties": {
+        "icon": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1,
+          "description": "The icon's identifier in the curated set, for example shield-check."
+        },
+        "color": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "Hex colour as #rrggbb. Absent means the role colour, or the client's default badge colour when the role has none."
+        }
+      },
+      "description": "A badge drawn from the client's curated icon set."
+    },
+    "emojiBadge": {
+      "type": "object",
+      "properties": {
+        "emoji": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "A Unicode emoji.",
+          "maxGraphemes": 1
+        },
+        "customEmoji": {
+          "ref": "social.colibri.beta.richtext.facet#customEmoji",
+          "type": "ref",
+          "description": "The record of a custom emoji."
+        }
+      },
+      "description": "A badge drawn from an emoji. Exactly one of emoji and customEmoji is set."
+    },
+    "imageBadge": {
+      "type": "object",
+      "required": [
+        "image"
+      ],
+      "properties": {
+        "image": {
+          "type": "blob",
+          "accept": [
+            "image/jpeg",
+            "image/png",
+            "image/gif",
+            "image/webp"
+          ],
+          "maxSize": 262144,
+          "description": "A square image, shown at about 16 pixels."
+        }
+      },
+      "description": "A badge drawn from an uploaded image."
+    },
+    "channelOverride": {
+      "type": "object",
+      "required": [
+        "channel"
+      ],
+      "properties": {
+        "deny": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Permissions denied within this channel. Deny beats both the base permissions and allow."
+        },
+        "allow": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Permissions granted within this channel."
+        },
+        "channel": {
+          "type": "string",
+          "format": "record-key",
+          "description": "The space key of the channel this override applies to."
+        }
+      },
+      "description": "Allow and deny lists scoped to a single channel."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

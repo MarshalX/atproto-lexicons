@@ -1,0 +1,79 @@
+{
+  "id": "social.dracome.library.review",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "catalogTarget",
+          "catalogSnapshot",
+          "rating",
+          "ratingScale",
+          "createdAt"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 40000,
+            "description": "Optional review text. When provided, must be non-empty after trimming.",
+            "maxGraphemes": 10000
+          },
+          "images": {
+            "ref": "social.dracome.embed.defs#images",
+            "type": "ref",
+            "description": "Optional attached images: an optional primary image plus up to 4 secondary images (5 total). Images are independently addable/removable."
+          },
+          "rating": {
+            "type": "integer",
+            "maximum": 20,
+            "minimum": 1,
+            "description": "Scale-relative rating value. Valid range depends on ratingScale: 1-5 for 1 (whole stars), 1-10 for 2 (half stars), 1-20 for 4 (quarter stars). Interpretation: stars = rating / ratingScale. Runtime validation MUST enforce per-scale limits."
+          },
+          "language": {
+            "type": "string",
+            "format": "language",
+            "description": "Optional language code the review text is written in, if different from or more specific than the actor's default language."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Canonical UTC instant serialized as ISO 8601 with a trailing Z suffix."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Canonical UTC instant serialized as ISO 8601 with a trailing Z suffix."
+          },
+          "reviewCopy": {
+            "type": "boolean",
+            "description": "True when the posted review discloses that the actor received or owns a review copy of this work or edition."
+          },
+          "ratingScale": {
+            "enum": [
+              1,
+              2,
+              4
+            ],
+            "type": "integer",
+            "description": "The rating granularity divisor used at write time: divide rating by this value to recover stars. 1 = whole stars, 2 = half stars, 4 = quarter stars. Reflects whichever scale was in effect the last time rating was written on this record."
+          },
+          "catalogTarget": {
+            "ref": "social.dracome.work.defs#catalogTarget",
+            "type": "ref",
+            "description": "The work and edition that this review is about. Mutable."
+          },
+          "catalogSnapshot": {
+            "ref": "social.dracome.work.defs#catalogSnapshot",
+            "type": "ref",
+            "description": "Point-in-time catalog metadata for the reviewed work or edition, captured when this record was last written. Refreshed on every update."
+          }
+        }
+      },
+      "description": "A review of one edition by an actor. Duplicate convention: the rkey is a TID minted once at first create and never changes. Several records may exist for one actor and edition (for example from out-of-band writers); consumers SHOULD treat the record with the greatest `updatedAt` (falling back to `createdAt`) as the winner and break ties by the lowest TID, ignoring the others. This is a convention, not an enforced contract: AppViews MUST tolerate a differing winner, and may see a record's catalogTarget change over time."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,89 @@
+{
+  "id": "com.suibari.nagi.translatePosts",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uris",
+            "targetLang"
+          ],
+          "properties": {
+            "uris": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "at-uri"
+              },
+              "maxLength": 50,
+              "minLength": 1,
+              "description": "訳す対象。Nagi 投稿（com.suibari.nagi.post / site.standard.document）か、ゼンカツ提出（com.suibari.nagi.zenkatsu。訳すのは作者の意図 note で、判定済みのものだけ）。"
+            },
+            "cacheOnly": {
+              "type": "boolean"
+            },
+            "targetLang": {
+              "type": "string",
+              "format": "language"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "translations",
+            "failures"
+          ],
+          "properties": {
+            "failures": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "uri",
+                  "code"
+                ],
+                "properties": {
+                  "uri": {
+                    "type": "string",
+                    "format": "at-uri"
+                  },
+                  "code": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "translations": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "uri",
+                  "text"
+                ],
+                "properties": {
+                  "uri": {
+                    "type": "string",
+                    "format": "at-uri"
+                  },
+                  "text": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

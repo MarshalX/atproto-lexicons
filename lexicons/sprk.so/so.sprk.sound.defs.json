@@ -1,0 +1,76 @@
+{
+  "id": "so.sprk.sound.defs",
+  "defs": {
+    "audioView": {
+      "type": "object",
+      "required": [
+        "uri",
+        "cid",
+        "author",
+        "coverArt",
+        "record",
+        "indexedAt"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid"
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "audio": {
+          "type": "string",
+          "format": "uri"
+        },
+        "title": {
+          "type": "string"
+        },
+        "author": {
+          "ref": "so.sprk.actor.defs#profileViewBasic",
+          "type": "ref"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "ref": "com.atproto.label.defs#label",
+            "type": "ref"
+          }
+        },
+        "record": {
+          "type": "unknown"
+        },
+        "details": {
+          "ref": "#audioDetails",
+          "type": "ref"
+        },
+        "coverArt": {
+          "type": "string",
+          "format": "uri"
+        },
+        "useCount": {
+          "type": "integer"
+        },
+        "indexedAt": {
+          "type": "string",
+          "format": "datetime"
+        }
+      }
+    },
+    "audioDetails": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "artist": {
+          "type": "string"
+        }
+      },
+      "description": "Metadata about the audio content."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

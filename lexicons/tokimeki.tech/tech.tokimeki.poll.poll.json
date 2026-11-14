@@ -1,0 +1,47 @@
+{
+  "id": "tech.tokimeki.poll.poll",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "options",
+          "createdAt",
+          "endsAt"
+        ],
+        "properties": {
+          "endsAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the poll closes for voting"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 100,
+              "maxGraphemes": 50
+            },
+            "maxLength": 4,
+            "minLength": 2,
+            "description": "Poll options (2-4 choices)"
+          },
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Reference to the post this poll is attached to. Inside a space this may be a space record uri (e.g. a forum thread) of the same space."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "A poll record. Lives in the author's own repo, either as a public record (attached to a post via embed.external and indexed from the firehose) or inside an ATProto Space (permissioned data), where the AppView is told about it with tech.tokimeki.poll.notifySpaceWrite and reads it with a space credential."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

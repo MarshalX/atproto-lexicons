@@ -1,0 +1,93 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Presentational configuration for a user's public reading room — a curated, themed view over their annotations. One per user.",
+      "key": "literal:self",
+      "record": {
+        "properties": {
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "description": {
+            "description": "Longer description of what the room collects.",
+            "maxGraphemes": 600,
+            "maxLength": 2000,
+            "type": "string"
+          },
+          "featuredUris": {
+            "description": "AT URIs of annotations pinned to the top of the room.",
+            "items": {
+              "format": "at-uri",
+              "type": "string"
+            },
+            "maxLength": 12,
+            "type": "array"
+          },
+          "showExternalBookmarks": {
+            "default": true,
+            "description": "Whether bookmarks from external services (Semble, Lichen, etc.) are shown in the room.",
+            "type": "boolean"
+          },
+          "subtitle": {
+            "description": "Tagline shown beneath the title.",
+            "maxGraphemes": 150,
+            "maxLength": 300,
+            "type": "string"
+          },
+          "theme": {
+            "description": "Visual theme for the room.",
+            "ref": "#theme",
+            "type": "ref"
+          },
+          "title": {
+            "description": "Title shown at the top of the reading room.",
+            "maxGraphemes": 100,
+            "maxLength": 200,
+            "type": "string"
+          }
+        },
+        "required": [
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    },
+    "theme": {
+      "description": "Visual theme for a reading room. Omitted fields fall back to app defaults.",
+      "properties": {
+        "accentColor": {
+          "description": "Accent color as a hex string (e.g. #3b82f6).",
+          "maxLength": 20,
+          "type": "string"
+        },
+        "backgroundColor": {
+          "description": "Page background color as a hex string (e.g. #fcfcfc).",
+          "maxLength": 20,
+          "type": "string"
+        },
+        "fontFamily": {
+          "description": "CSS font family identifier for body text.",
+          "maxLength": 100,
+          "type": "string"
+        },
+        "layout": {
+          "default": "masonry",
+          "description": "Arrangement of notes on the room page.",
+          "knownValues": [
+            "masonry",
+            "grid",
+            "list"
+          ],
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "description": "A user's public reading room configuration",
+  "id": "at.margin.readingRoom",
+  "lexicon": 1
+}

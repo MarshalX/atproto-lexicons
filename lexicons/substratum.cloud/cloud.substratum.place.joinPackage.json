@@ -1,0 +1,79 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Survivor join package published to their operator PDS containing the HPKE-wrapped mesh secrets (ADR 92).",
+      "properties": {
+        "ciphertext": {
+          "description": "Base64 encoded ciphertext.",
+          "type": "string"
+        },
+        "claimerPeerId": {
+          "type": "string"
+        },
+        "consumeBudget": {
+          "type": "integer"
+        },
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "expiresAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "groupId": {
+          "type": "string"
+        },
+        "hpkeAeadId": {
+          "description": "HPKE AEAD ID (v1 is ChaCha20-Poly1305: 0x0003).",
+          "type": "integer"
+        },
+        "hpkeKdfId": {
+          "description": "HPKE KDF ID (v1 is HKDF-SHA256: 0x0001).",
+          "type": "integer"
+        },
+        "hpkeKemId": {
+          "description": "HPKE KEM ID (v1 is X-Wing: 0x647a).",
+          "type": "integer"
+        },
+        "issuerDid": {
+          "format": "did",
+          "type": "string"
+        },
+        "issuerPlaceId": {
+          "type": "string"
+        },
+        "kemEphemeralPublicKey": {
+          "description": "Base64 encoded KEM ephemeral public key.",
+          "type": "string"
+        },
+        "placeId": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "placeId",
+        "claimerPeerId",
+        "issuerPlaceId",
+        "issuerDid",
+        "groupId",
+        "expiresAt",
+        "consumeBudget",
+        "reason",
+        "createdAt",
+        "hpkeKemId",
+        "hpkeKdfId",
+        "hpkeAeadId",
+        "kemEphemeralPublicKey",
+        "ciphertext"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "cloud.substratum.place.joinPackage",
+  "lexicon": 1
+}

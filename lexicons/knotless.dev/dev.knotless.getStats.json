@@ -1,0 +1,98 @@
+{
+  "id": "dev.knotless.getStats",
+  "defs": {
+    "day": {
+      "type": "object",
+      "required": [
+        "day",
+        "visitors",
+        "views",
+        "repos",
+        "pushes",
+        "pulls",
+        "issues",
+        "comments",
+        "checks",
+        "authors"
+      ],
+      "properties": {
+        "day": {
+          "type": "string",
+          "description": "YYYY-MM-DD."
+        },
+        "pulls": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "repos": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Repositories made, from the index."
+        },
+        "views": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Pages they drew."
+        },
+        "checks": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Check runs started."
+        },
+        "issues": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pushes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "authors": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Accounts that made a repository, pushed, or wrote in a thread."
+        },
+        "comments": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "visitors": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "People whose browsers drew a page, each once."
+        }
+      },
+      "description": "One day, in UTC, as anyone sees it."
+    },
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "days"
+          ],
+          "properties": {
+            "days": {
+              "type": "array",
+              "items": {
+                "ref": "#day",
+                "type": "ref"
+              },
+              "description": "The last 30 days, oldest first, today (UTC) the last."
+            },
+            "network": {
+              "ref": "dev.knotless.getUsage#network",
+              "type": "ref",
+              "description": "Absent where the appview keeps no index."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "What an appview shows anyone of how it is used: the network as its index has it now, and each of the last 30 days, what the network wrote in it and how many people drew its pages (by a hash forgotten each day). Its operators read the rest with dev.knotless.getUsage."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

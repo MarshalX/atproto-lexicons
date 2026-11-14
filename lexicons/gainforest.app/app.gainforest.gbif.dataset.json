@@ -1,0 +1,75 @@
+{
+  "id": "app.gainforest.gbif.dataset",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "organizationRef",
+          "gbifDatasetKey",
+          "gbifInstallationKey",
+          "createdAt"
+        ],
+        "properties": {
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp of record creation in the ATProto PDS"
+          },
+          "archiveBlob": {
+            "type": "blob",
+            "accept": [
+              "application/zip"
+            ],
+            "description": "Blob reference to the DwC-A archive ZIP. Storing as a proper blob ref prevents PDS garbage collection."
+          },
+          "datasetTitle": {
+            "type": "string",
+            "description": "Human-readable dataset title",
+            "maxGraphemes": 256
+          },
+          "archiveBlobCid": {
+            "type": "string",
+            "description": "CID of the most recently uploaded DwC-A blob",
+            "maxGraphemes": 128
+          },
+          "gbifDatasetKey": {
+            "type": "string",
+            "description": "GBIF dataset UUID returned by POST /dataset",
+            "maxGraphemes": 64
+          },
+          "gbifEndpointKey": {
+            "type": "integer",
+            "description": "GBIF endpoint integer key returned by POST /dataset/{key}/endpoint"
+          },
+          "lastPublishedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the archive was last published to GBIF"
+          },
+          "organizationRef": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the organization info record this dataset belongs to"
+          },
+          "gbifInstallationKey": {
+            "type": "string",
+            "description": "GBIF installation UUID used when creating the dataset",
+            "maxGraphemes": 64
+          },
+          "lastCrawlFinishReason": {
+            "type": "string",
+            "description": "Result of last GBIF crawl (NORMAL, ABORT, etc.)",
+            "maxGraphemes": 32
+          }
+        }
+      },
+      "description": "A GBIF dataset registration record linking a PDS organization to its GBIF dataset UUID, installation, and archive blob."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Tracks a dataset registered with GBIF via the Registry API. Links a PDS organization to its GBIF dataset UUID, installation, and archive blob."
+}

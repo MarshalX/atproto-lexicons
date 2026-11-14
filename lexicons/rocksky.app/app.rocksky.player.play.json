@@ -1,0 +1,19 @@
+{
+  "id": "app.rocksky.player.play",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "playerId": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Resume playback of the currently paused track"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

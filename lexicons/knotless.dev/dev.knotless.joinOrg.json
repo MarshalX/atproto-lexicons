@@ -1,0 +1,73 @@
+{
+  "id": "dev.knotless.joinOrg",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "org"
+          ],
+          "properties": {
+            "org": {
+              "type": "string",
+              "format": "did",
+              "description": "The organization."
+            },
+            "visibility": {
+              "type": "string",
+              "maxLength": 64,
+              "description": "Which of the caller's acceptance records counts, should they keep one in public and one in the organization's space, as they do moving it: a hidden one, if asked for; else a public one first.",
+              "knownValues": [
+                "public",
+                "hidden"
+              ]
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "org",
+            "role",
+            "visibility"
+          ],
+          "properties": {
+            "org": {
+              "type": "string",
+              "maxLength": 300,
+              "description": "The organization's handle, or its DID when none resolves back to it."
+            },
+            "role": {
+              "type": "string",
+              "maxLength": 64,
+              "description": "The caller's role in it.",
+              "knownValues": [
+                "admin",
+                "member"
+              ]
+            },
+            "visibility": {
+              "type": "string",
+              "maxLength": 64,
+              "description": "Who sees the membership: anyone, or the organization's members.",
+              "knownValues": [
+                "public",
+                "hidden"
+              ]
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Refused when the organization did not invite the caller, the caller keeps no acceptance record naming it, or the invitation lapsed."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Takes the caller into an organization that invited them, once they keep a dev.knotless.orgAcceptance record naming it, through the gateway the organization delegated writes to: names them in its public record when their acceptance record is public, and only in its space when it is in their repo there; lets them read its space and its private repositories. Called again after moving the record, it changes how the membership shows. Refused when the invitation lapsed. Requires a service token from the caller's PDS, audience the gateway's DID, for this method."
+}

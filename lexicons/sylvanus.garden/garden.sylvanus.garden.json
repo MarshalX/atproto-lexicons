@@ -1,0 +1,191 @@
+{
+  "id": "garden.sylvanus.garden",
+  "defs": {
+    "gift": {
+      "type": "object",
+      "properties": {
+        "giver": {
+          "type": "string",
+          "description": "The giver's DID, or empty when they weren't signed in."
+        },
+        "plant": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "The plant's id in the game's plants.json."
+        },
+        "givenAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "giverName": {
+          "type": "string",
+          "description": "The giver's name when they gave it."
+        }
+      },
+      "description": "A Gift in a garden: the plant, and who gave it when."
+    },
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "properties": {
+          "copy": {
+            "type": "blob",
+            "accept": [
+              "application/gzip"
+            ],
+            "maxSize": 4194304,
+            "description": "The garden copy: the whole garden, gzipped JSON."
+          },
+          "guid": {
+            "type": "string",
+            "description": "The save's guid, so the owner's game knows which of its gardens this is."
+          },
+          "name": {
+            "type": "string",
+            "description": "The garden's name, as its owner typed it."
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Tiles across."
+          },
+          "biome": {
+            "type": "string",
+            "description": "The biome's id in the game's biomes.json."
+          },
+          "gifts": {
+            "type": "array",
+            "items": {
+              "ref": "#gift",
+              "type": "ref"
+            },
+            "description": "The Gifts in the garden, which every visitor gets."
+          },
+          "rules": {
+            "ref": "#plantRules",
+            "type": "ref",
+            "description": "Who may plant, when shared. Missing means only the owner."
+          },
+          "shared": {
+            "type": "boolean",
+            "description": "Friends may garden here, under rules. Otherwise it's for visiting only."
+          },
+          "picture": {
+            "type": "blob",
+            "accept": [
+              "image/jpeg",
+              "image/png"
+            ],
+            "description": "A picture of the garden."
+          },
+          "location": {
+            "type": "string",
+            "description": "The real-world location's id within that biome."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "plantCount": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "How many plants it has, for lists of gardens."
+          },
+          "copyVersion": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "The copy file's version. A game that doesn't know it shows the garden as too new."
+          },
+          "gameVersion": {
+            "type": "string",
+            "description": "The version of the game that wrote it."
+          }
+        }
+      },
+      "description": "Keyed by the save's guid, lower case. The official account keys event gardens by their event's id."
+    },
+    "plantRules": {
+      "type": "object",
+      "properties": {
+        "allow": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "knownValues": [
+              "added",
+              "mutuals",
+              "followers",
+              "following",
+              "list",
+              "starterPack",
+              "followersOf",
+              "pastGardeners",
+              "anyone"
+            ]
+          },
+          "description": "Allow rules ticked. The owner may always plant; an empty list means only them."
+        },
+        "lists": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "at-uri"
+          },
+          "description": "For 'list': the owner's Bluesky lists."
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "For 'labelled': the moderation labels that keep an account out."
+        },
+        "keepOut": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "knownValues": [
+              "blocked",
+              "blockLists",
+              "notHere",
+              "newAccounts",
+              "labelled"
+            ]
+          },
+          "description": "Keep-out rules ticked."
+        },
+        "followersOf": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "did"
+          },
+          "description": "For 'followersOf': the accounts whose followers may plant."
+        },
+        "starterPacks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "at-uri"
+          },
+          "description": "For 'starterPack': the owner's starter packs."
+        },
+        "minAccountDays": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "For 'newAccounts': accounts younger than this many days are kept out."
+        }
+      },
+      "description": "Who may plant in a shared garden. Anyone matching an allow rule may plant unless a keep-out rule matches them; blocked accounts are always kept out. An unknown allow rule is ignored; an unknown keep-out rule keeps everyone out."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A Sylvanus garden on someone's account. The garden itself is the copy file it points to; this record stays small, for lists of gardens and visits."
+}

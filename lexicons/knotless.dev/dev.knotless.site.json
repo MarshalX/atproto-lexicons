@@ -1,0 +1,119 @@
+{
+  "id": "dev.knotless.site",
+  "defs": {
+    "file": {
+      "type": "object",
+      "required": [
+        "path",
+        "size",
+        "sha256",
+        "parts"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "maxLength": 512,
+          "minLength": 1,
+          "description": "Where it is served under the site's root: `/`-separated, with no leading `/` and no `.` or `..` segment. `x/index.html` is served at `x/` too."
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Bytes in the file."
+        },
+        "parts": {
+          "type": "array",
+          "items": {
+            "ref": "#part",
+            "type": "ref"
+          },
+          "maxLength": 1000,
+          "description": "The file, split over blobs in order, each no larger than its PDS takes. None for an empty file."
+        },
+        "sha256": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 64,
+          "description": "The lowercase hex SHA-256 of the file."
+        },
+        "contentType": {
+          "type": "string",
+          "maxLength": 255,
+          "minLength": 1,
+          "description": "The `Content-Type` it is served with, such as `text/html; charset=utf-8`, or else the type its path's extension names. Its blobs are `application/octet-stream` whatever it holds."
+        }
+      },
+      "description": "One file of a site."
+    },
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "files",
+          "createdAt"
+        ],
+        "properties": {
+          "check": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The dev.knotless.check, in its runner's account, of the run that built and deployed it. A reader trusts it only from a runner the repository names, and only once it has passed at `commit`."
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "ref": "#file",
+              "type": "ref"
+            },
+            "maxLength": 2000,
+            "minLength": 1,
+            "description": "What the site serves, by distinct paths."
+          },
+          "commit": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 40,
+            "description": "The hex object ID of the commit the files were built from."
+          },
+          "fallback": {
+            "type": "string",
+            "maxLength": 512,
+            "minLength": 1,
+            "description": "The path of a file in `files` served, with status 200, for a page no file has, as a single-page app routes in the browser: a request asking for `text/html`, or for a path whose last segment has no extension. Taken before `notFound`; anything else missing gets `notFound`."
+          },
+          "notFound": {
+            "type": "string",
+            "maxLength": 512,
+            "minLength": 1,
+            "description": "The path of a file in `files` served, with status 404, for a path no file has."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When this deploy was made."
+          }
+        }
+      },
+      "description": "Kept in the repository owner's account, keyed by the `key` of the dev.knotless.repo whose site it is, so a repository has one site. Each deploy replaces it, and the blobs only the old one named are freed. Deleting it takes the site down. Readers check every file against its `sha256`."
+    },
+    "part": {
+      "type": "object",
+      "required": [
+        "blob"
+      ],
+      "properties": {
+        "blob": {
+          "type": "blob",
+          "accept": [
+            "application/octet-stream"
+          ]
+        }
+      },
+      "description": "One blob of a file, in order."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A repository's website: the static files served at `https://<owner>.knotless.page/<repo>/`, and the commit they were built from."
+}

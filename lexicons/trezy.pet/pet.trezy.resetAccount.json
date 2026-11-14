@@ -1,0 +1,57 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Queue the erasure of everything the game knows about the caller. THE MOST DESTRUCTIVE CALL IN THE GAME AND IT CANNOT BE UNDONE — pets, money, the starter grant, the high-water mark and every record in the caller's repo.\n\nIt ENQUEUES rather than doing the work, and returns a job id to watch with pet.trezy.getResetStatus. That is not for the progress bar's sake: the erasure makes one PDS round trip PER RECORD, activity records accrue one per interaction, and XRPC scripts have an instruction limit and a request timeout that job scripts explicitly do not. Done synchronously it would work on a barely-used account and time out half way through a played one, which is the single thing this call must never do.\n\nThe two halves keep their different guarantees inside the job: the SERVER LEDGER must go, and the job reports `complete: false` if any of it survived. The caller's REPO is only attempted — a record left behind is inert, because nothing in the ledger vouches for it and the guards treat it as one the game did not write.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "confirm": {
+              "description": "Must be exactly `reset my account`. A second pair of hands on a call that destroys everything: the client asks the player to confirm, and this makes a stray or mis-wired call — an empty body, a retry of the wrong request — refuse rather than wipe somebody. It is not security; the caller could always send it. It is a guard against accident.",
+              "knownValues": [
+                "reset my account"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "confirm"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "alreadyRunning": {
+              "description": "True when a reset was ALREADY in flight and `jobId` names that one rather than a new one. Not an error: a double-press or a reload of the confirmation should land the player on the progress they already started, not on a complaint about it.",
+              "type": "boolean"
+            },
+            "error": {
+              "description": "Present instead of a job. A stable machine code.",
+              "knownValues": [
+                "not-confirmed",
+                "not-queued"
+              ],
+              "type": "string"
+            },
+            "jobId": {
+              "description": "The queued job. Watch it with pet.trezy.getResetStatus.",
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "pet.trezy.resetAccount",
+  "lexicon": 1
+}

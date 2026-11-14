@@ -1,0 +1,37 @@
+{
+  "id": "io.atcr.hold.image.config",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "manifest",
+          "configJson",
+          "createdAt"
+        ],
+        "properties": {
+          "manifest": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the manifest this config belongs to"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "RFC3339 timestamp of when the config was stored"
+          },
+          "configJson": {
+            "type": "string",
+            "maxLength": 1000000,
+            "description": "Raw OCI image config JSON blob"
+          }
+        }
+      },
+      "description": "OCI image configuration for a container manifest. Stored in the hold's embedded PDS. Record key is the manifest digest hex without the 'sha256:' prefix (deterministic, one per manifest). Contains the full OCI config JSON including history (Dockerfile commands), environment variables, entrypoint, labels, etc."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

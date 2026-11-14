@@ -1,0 +1,41 @@
+{
+  "id": "at.turtleme.game.sell",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "item",
+            "quantity"
+          ],
+          "properties": {
+            "item": {
+              "type": "string",
+              "maxLength": 64,
+              "description": "Which of the shop's lines. This counter takes fishing gear and fish, and nothing else."
+            },
+            "quantity": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "description": "How many were offered. What is actually sold comes back in the outcome."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "ref": "at.turtleme.game.defs#state",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "Sell to the shop. What it pays falls as its shelf fills, and never goes under a tenth of what the item is worth. Selling more than is held sells what is held. Requires an atproto service auth token addressed to did:web:turtleme.at#turtle_game and naming this method, so a token issued for one call cannot be spent on another."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

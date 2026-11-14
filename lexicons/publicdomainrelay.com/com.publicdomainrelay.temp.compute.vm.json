@@ -1,0 +1,68 @@
+{
+  "id": "com.publicdomainrelay.temp.compute.vm",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "cpus",
+          "mem",
+          "disk",
+          "network",
+          "role",
+          "user_data"
+        ],
+        "properties": {
+          "mem": {
+            "type": "string",
+            "description": "Memory request, e.g. '512M', '4G'."
+          },
+          "cpus": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Number of vCPUs requested."
+          },
+          "disk": {
+            "type": "string",
+            "description": "Disk request, e.g. '10G'."
+          },
+          "role": {
+            "type": "string",
+            "description": "RBAC role the compute should run under. The requester's did:plc may set this freely, so agents must use their own accounts since we scope roles under accounts."
+          },
+          "network": {
+            "type": "string",
+            "description": "Network throughput / quota, e.g. '500G'."
+          },
+          "location": {
+            "ref": "#location",
+            "type": "ref"
+          },
+          "user_data": {
+            "type": "string",
+            "description": "cloud-init user data to bootstrap the compute."
+          }
+        }
+      },
+      "description": "Descibes a virtual machine"
+    },
+    "location": {
+      "type": "object",
+      "properties": {
+        "region": {
+          "type": "string",
+          "description": "Region within the country, e.g. 'west'."
+        },
+        "country": {
+          "type": "string",
+          "description": "ISO 3166-1 alpha-3 country code or human-readable country name."
+        }
+      },
+      "description": "Geographic placement constraint for the requested compute."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

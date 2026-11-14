@@ -1,0 +1,77 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "label": {
+      "description": "Accounts carrying this label from this labeler. A node that sees a rule naming a labeler starts mirroring its matching labels.",
+      "properties": {
+        "labeler": {
+          "description": "The labeler's DID.",
+          "format": "did",
+          "type": "string"
+        },
+        "value": {
+          "description": "The label value that matches; a trailing * matches any label with that prefix.",
+          "maxLength": 128,
+          "type": "string"
+        }
+      },
+      "required": [
+        "labeler",
+        "value"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "A rule about who may chat on this streamer's streams. Rules are evaluated per streamer: when any allow rule exists, only accounts matching an allow rule may chat; accounts matching a deny rule never may. A streamer with no rules has open chat.",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "action": {
+            "description": "Whether accounts matching the subject may chat (allow) or may not (deny). Deny wins over allow.",
+            "enum": [
+              "allow",
+              "deny"
+            ],
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "Client-declared timestamp when this rule was created.",
+            "format": "datetime",
+            "type": "string"
+          },
+          "subject": {
+            "description": "Who the rule matches. Open: a node ignores subject types it does not understand.",
+            "refs": [
+              "#verifier",
+              "#label"
+            ],
+            "type": "union"
+          }
+        },
+        "required": [
+          "action",
+          "subject",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    },
+    "verifier": {
+      "description": "Accounts that hold an app.bsky.graph.verification record issued by this DID. A node that sees a rule naming a verifier starts indexing that verifier's records.",
+      "properties": {
+        "did": {
+          "description": "The verifier's DID.",
+          "format": "did",
+          "type": "string"
+        }
+      },
+      "required": [
+        "did"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "place.stream.chat.access",
+  "lexicon": 1
+}

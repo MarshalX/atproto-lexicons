@@ -1,0 +1,38 @@
+{
+  "id": "app.zeens.getChatUnreadCount",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "count"
+          ],
+          "properties": {
+            "count": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "viewer"
+        ],
+        "properties": {
+          "viewer": {
+            "type": "string",
+            "format": "did"
+          }
+        }
+      },
+      "description": "Return the total number of unread chat messages for a viewer across all accepted conversations (for the nav badge)."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

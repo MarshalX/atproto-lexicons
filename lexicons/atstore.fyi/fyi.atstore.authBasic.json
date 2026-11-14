@@ -1,0 +1,31 @@
+{
+  "id": "fyi.atstore.authBasic",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Full AT Store Access",
+      "detail": "Provides full access to AT Store profile, listings, reviews, and favorites.",
+      "permissions": [
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "fyi.atstore.profile",
+            "fyi.atstore.listing.detail",
+            "fyi.atstore.listing.review",
+            "fyi.atstore.listing.reviewReply",
+            "fyi.atstore.listing.favorite"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Permission set for AT Store write access."
+}

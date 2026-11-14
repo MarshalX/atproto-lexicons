@@ -1,0 +1,40 @@
+{
+  "id": "fm.teal.actor.profileStatus",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "completedOnboarding"
+        ],
+        "properties": {
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "The timestamp when this status was created"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "The timestamp when this status was last updated"
+          },
+          "completedOnboarding": {
+            "type": "string",
+            "description": "The onboarding completion status",
+            "knownValues": [
+              "none",
+              "profileOnboarding",
+              "playOnboarding",
+              "complete"
+            ]
+          }
+        }
+      },
+      "description": "This lexicon is in a not officially released state. It is subject to change. | A declaration of the profile status of the actor."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

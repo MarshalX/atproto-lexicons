@@ -1,0 +1,42 @@
+{
+  "id": "dev.knotless.getRepoStorage",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository."
+        },
+        {
+          "name": "UpstreamFailure",
+          "description": "Its owner's PDS could not be read."
+        }
+      ],
+      "output": {
+        "schema": {
+          "ref": "dev.knotless.getRepoSettings#storageView",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "repo"
+        ],
+        "properties": {
+          "repo": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+          }
+        }
+      },
+      "description": "What a repository's packs take up on its owner's PDS, as `knotless repo storage` counts them: counted again only once a write to the repository's packs, claims or refs is seen (for a private one, once a sync of its space finds a write there), or compaction from these pages folds them. Apart from dev.knotless.getRepoSettings, as counting reads every pack record from the PDS."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "What a repository takes up on its owner's PDS."
+}

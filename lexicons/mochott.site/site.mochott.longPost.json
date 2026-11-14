@@ -1,0 +1,29 @@
+{
+  "id": "site.mochott.longPost",
+  "defs": {
+    "main": {
+      "type": "object",
+      "required": [
+        "uri",
+        "cid"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid",
+          "description": "CID of that article record."
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT URI of the site.mochott.article holding the full text: at://{author DID}/site.mochott.article/{rkey}."
+        }
+      },
+      "description": "An extra field on an app.bsky.feed.post record, stored under the key 'site.mochott.longPost'. It means the post is the opening of a long post and the full text is the referenced article. The reference must point to a site.mochott.article in the same repository as the post (the post's author); readers must ignore it when the DID differs. The article belongs to the long post: when the post is deleted, mochott deletes the article and its site.standard.document if the author has authorized mochott (see site.mochott.account.getAuthorization)."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 2,
+  "description": "Marks a Bluesky post as the opening of a long post whose full text is a mochott article."
+}

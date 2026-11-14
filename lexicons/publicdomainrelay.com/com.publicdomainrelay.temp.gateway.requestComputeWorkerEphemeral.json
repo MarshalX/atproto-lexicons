@@ -1,0 +1,77 @@
+{
+  "id": "com.publicdomainrelay.temp.gateway.requestComputeWorkerEphemeral",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "source",
+            "denoJson"
+          ],
+          "properties": {
+            "source": {
+              "type": "string",
+              "description": "TypeScript source code for the worker."
+            },
+            "denoJson": {
+              "type": "string",
+              "description": "deno.json configuration for the worker bundle."
+            },
+            "denoLock": {
+              "type": "string",
+              "description": "Optional deno.lock for reproducible builds."
+            },
+            "bidWindowSec": {
+              "type": "integer",
+              "default": 30,
+              "description": "Seconds to wait for bids."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "InvalidRequest"
+        },
+        {
+          "name": "AuthRequired"
+        },
+        {
+          "name": "NoBidders"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string"
+            },
+            "receiptOk": {
+              "type": "boolean"
+            },
+            "receiptCid": {
+              "type": "string",
+              "format": "cid"
+            },
+            "receiptUri": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "workerInstanceUri": {
+              "type": "string",
+              "format": "at-uri"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Request an ephemeral Deno worker through the compute contract gateway. Gateway bundles source, creates workerManifest record, runs the full RFP protocol, and returns the worker instance ref for single-request execution."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,35 @@
+{
+  "id": "is.currents.content.image",
+  "defs": {
+    "main": {
+      "type": "object",
+      "required": [
+        "image"
+      ],
+      "properties": {
+        "alt": {
+          "type": "string",
+          "maxLength": 20000,
+          "description": "Alt text describing the image for accessibility.",
+          "maxGraphemes": 2000
+        },
+        "image": {
+          "type": "blob",
+          "accept": [
+            "image/*"
+          ],
+          "maxSize": 20000000,
+          "description": "Image blob referenced by this content item."
+        },
+        "attribution": {
+          "ref": "is.currents.content.defs#attribution",
+          "type": "ref",
+          "description": "Optional provenance metadata for the image."
+        }
+      },
+      "description": "An image content payload for a save."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

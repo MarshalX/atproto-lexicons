@@ -1,0 +1,82 @@
+{
+  "id": "buzz.bookhive.getExplore",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "genres",
+            "topAuthors"
+          ],
+          "properties": {
+            "genres": {
+              "type": "array",
+              "items": {
+                "ref": "buzz.bookhive.getExplore#genreItem",
+                "type": "ref"
+              }
+            },
+            "topAuthors": {
+              "type": "array",
+              "items": {
+                "ref": "buzz.bookhive.getExplore#authorItem",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {}
+      },
+      "description": "Get featured genres and top authors for the explore hub."
+    },
+    "genreItem": {
+      "type": "object",
+      "required": [
+        "genre",
+        "count"
+      ],
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "genre": {
+          "type": "string"
+        }
+      }
+    },
+    "authorItem": {
+      "type": "object",
+      "required": [
+        "author",
+        "bookCount"
+      ],
+      "properties": {
+        "author": {
+          "type": "string"
+        },
+        "avgRating": {
+          "type": "integer",
+          "maximum": 50,
+          "minimum": 0,
+          "description": "Average rating * 10 (e.g. 42 = 4.2 stars)"
+        },
+        "bookCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "thumbnail": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

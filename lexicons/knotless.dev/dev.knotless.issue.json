@@ -1,0 +1,76 @@
+{
+  "id": "dev.knotless.issue",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "repo",
+          "title",
+          "createdAt"
+        ],
+        "properties": {
+          "body": {
+            "type": "string",
+            "maxLength": 20000,
+            "description": "Markdown."
+          },
+          "repo": {
+            "ref": "dev.knotless.defs#repoRef",
+            "type": "ref",
+            "description": "The target repository."
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 3000,
+            "maxGraphemes": 300
+          },
+          "facets": {
+            "type": "array",
+            "items": {
+              "ref": "dev.knotless.defs#facet",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "description": "The accounts its body mentions, by where: written as it is, from each `@handle` outside code and links."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When its author last changed its title or body."
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "refs": [
+                "dev.knotless.defs#image"
+              ],
+              "type": "union"
+            },
+            "maxLength": 32,
+            "description": "What it carries beside its body: the pictures the body shows. Kinds unknown to a reader are passed over, and kept by a client changing it."
+          },
+          "titleFacets": {
+            "type": "array",
+            "items": {
+              "ref": "dev.knotless.defs#facet",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "description": "The accounts its title mentions, by where."
+          }
+        }
+      },
+      "description": "For a private repository, written in the author's repo inside the repository's space."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "An issue on a repository, kept in its author's account."
+}

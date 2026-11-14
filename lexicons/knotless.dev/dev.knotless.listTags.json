@@ -1,0 +1,95 @@
+{
+  "id": "dev.knotless.listTags",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository, revision, path or record."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "tags"
+          ],
+          "properties": {
+            "tags": {
+              "type": "array",
+              "items": {
+                "ref": "#tagView",
+                "type": "ref"
+              }
+            },
+            "cursor": {
+              "type": "string",
+              "description": "Absent on the last page."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "repo"
+        ],
+        "properties": {
+          "repo": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The repository's dev.knotless.repo record. Its authority may be a handle; a name the repository had before, or an owner it moved from with its agreement, finds it under the name it has now."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 100,
+            "maximum": 1000,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "How many tags the pages before held."
+          },
+          "commits": {
+            "type": "boolean",
+            "default": false,
+            "description": "Each tag's commit and its checks too, as a page of tags shows them, rather than its name alone."
+          }
+        }
+      },
+      "description": "A repository's tags that name a commit, the newest commit first and the tags of one commit by name, a page at a time: follow `cursor` until it is absent. No authentication needed; asked as an account, with a service token or the pages' session cookie, a private repository it is a member of is read too, and the answer is that account's alone."
+    },
+    "tagView": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Its short name, without `refs/tags/`."
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "ref": "dev.knotless.defs#checkView",
+            "type": "ref"
+          },
+          "description": "The newest run of each workflow at its commit, by the runners the repository names, when `commits` was asked."
+        },
+        "commit": {
+          "ref": "dev.knotless.defs#commitView",
+          "type": "ref",
+          "description": "The commit it names, an annotated tag peeled, when `commits` was asked."
+        }
+      },
+      "description": "One tag."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A repository's tags."
+}

@@ -1,0 +1,117 @@
+{
+  "id": "org.rcape.docketEntry",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "dateFiled",
+          "description",
+          "source"
+        ],
+        "properties": {
+          "source": {
+            "ref": "org.rcape.docket#source",
+            "type": "ref"
+          },
+          "docPost": {
+            "ref": "#postRef",
+            "type": "ref",
+            "description": "Backdated document post (dated archive entry) — takedown linkage."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "dateFiled": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "documents": {
+            "type": "array",
+            "items": {
+              "ref": "#document",
+              "type": "ref"
+            }
+          },
+          "description": {
+            "type": "string",
+            "description": "The docket entry text.",
+            "maxGraphemes": 5000
+          },
+          "entryNumber": {
+            "type": "integer",
+            "description": "Docket entry number; may be absent for some minute/text entries."
+          },
+          "announcePost": {
+            "ref": "#postRef",
+            "type": "ref",
+            "description": "Realtime QT announcement post — takedown linkage."
+          },
+          "recapSequenceNumber": {
+            "type": "string",
+            "description": "CourtListener ordering key, preserves true docket order."
+          }
+        }
+      },
+      "description": "A single docket entry (one filing event) and the documents attached to it. listRecords over this collection yields the full docket in order."
+    },
+    "postRef": {
+      "type": "object",
+      "required": [
+        "uri",
+        "cid"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid"
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        }
+      },
+      "description": "Strong reference to a companion app.bsky.feed.post (takedown linkage)."
+    },
+    "document": {
+      "type": "object",
+      "required": [
+        "sourceUrl"
+      ],
+      "properties": {
+        "mimeType": {
+          "type": "string"
+        },
+        "pageCount": {
+          "type": "integer"
+        },
+        "sourceUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Public CourtListener storage URL for the PDF."
+        },
+        "contentCid": {
+          "type": "string",
+          "description": "CIDv1 (sha2-256, raw) of the PDF bytes — tamper-evidence. Absent until the doc has been fetched and hashed."
+        },
+        "description": {
+          "type": "string"
+        },
+        "isAvailable": {
+          "type": "boolean",
+          "description": "Whether the upstream document is currently retrievable."
+        },
+        "documentNumber": {
+          "type": "integer",
+          "description": "Attachment/document number within the entry."
+        }
+      },
+      "description": "A filed document. hash+link model: reference the upstream public URL and record the content CID for tamper-evidence, WITHOUT hosting the bytes."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

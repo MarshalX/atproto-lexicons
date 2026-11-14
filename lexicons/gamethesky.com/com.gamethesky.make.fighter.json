@@ -1,0 +1,52 @@
+{
+  "id": "com.gamethesky.make.fighter",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "module",
+          "build",
+          "style",
+          "createdAt"
+        ],
+        "properties": {
+          "look": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "Cosmetic: its colors, rrggbb.rrggbb.rrggbb."
+          },
+          "build": {
+            "ref": "com.gamethesky.make.run#build",
+            "type": "ref"
+          },
+          "style": {
+            "type": "string",
+            "maxLength": 24,
+            "description": "How its ghost fights.",
+            "knownValues": [
+              "rusher",
+              "turtle",
+              "zoner",
+              "tricky"
+            ]
+          },
+          "module": {
+            "type": "string",
+            "maxLength": 24,
+            "description": "The chapter type (fight)."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "A player's saved fighter for one chapter type of Game the Sky, at rkey = the chapter type's id (fight): their build, a style and their colors. Anyone can fight it as a ghost, the chapter's CPU at the wheel; a run against it pins this record's version."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

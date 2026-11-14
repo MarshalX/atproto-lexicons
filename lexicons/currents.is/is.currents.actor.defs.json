@@ -1,0 +1,59 @@
+{
+  "id": "is.currents.actor.defs",
+  "defs": {
+    "profileView": {
+      "type": "object",
+      "required": [
+        "did",
+        "handle"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "avatar": {
+          "type": "string",
+          "format": "uri",
+          "description": "CDN URL of the actor's avatar image."
+        },
+        "handle": {
+          "type": "string",
+          "format": "handle"
+        },
+        "viewer": {
+          "ref": "#profileViewerState",
+          "type": "ref",
+          "description": "Viewer-specific state. Only present when the request is authenticated."
+        },
+        "description": {
+          "type": "string",
+          "description": "Free-form profile description / bio."
+        },
+        "displayName": {
+          "type": "string",
+          "maxLength": 640,
+          "maxGraphemes": 64
+        }
+      }
+    },
+    "profileViewerState": {
+      "type": "object",
+      "properties": {
+        "following": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the follow record if the viewer follows this actor."
+        },
+        "followedBy": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the follow record if this actor follows the viewer."
+        }
+      },
+      "description": "Metadata about the requesting account's relationship with the actor. Only present when the request is authenticated."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

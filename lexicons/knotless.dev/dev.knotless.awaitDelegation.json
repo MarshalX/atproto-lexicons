@@ -1,0 +1,58 @@
+{
+  "id": "dev.knotless.awaitDelegation",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "maxLength": 256,
+              "description": "The delegation, as dev.knotless.delegateWrites named it."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "InvalidRequest",
+          "description": "No such delegation waits, or the account refused the grant."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "done"
+          ],
+          "properties": {
+            "done": {
+              "type": "boolean",
+              "description": "Whether it was approved: false while it waits still."
+            },
+            "gateway": {
+              "type": "string",
+              "format": "did",
+              "description": "Once done, the gateway that now writes for the account."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Asks this appview's gateway whether the delegation is approved (dev.knotless.getDelegation), which waits a while for it before saying it is not yet: ask again until done. Once done, the appview remembers the gateway for the account, so that sharing a repository for writing from the pages names it. A procedure, since it writes that. Requires the session cookie the pages' login sets."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Waits a while for the account logged in to this appview's pages to approve a delegation dev.knotless.delegateWrites started."
+}

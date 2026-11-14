@@ -1,0 +1,85 @@
+{
+  "id": "rsvp.atmo.space.invite.create",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "spaceUri"
+          ],
+          "properties": {
+            "kind": {
+              "type": "string",
+              "default": "join",
+              "description": "join: redeem to become a member. read: bearer-only read access, no membership. read-join: anonymous read + signed-in redeem to join.",
+              "knownValues": [
+                "join",
+                "read",
+                "read-join"
+              ]
+            },
+            "note": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "perms": {
+              "type": "string",
+              "default": "write",
+              "knownValues": [
+                "read",
+                "write"
+              ]
+            },
+            "maxUses": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Caps join redemptions only — read-token reads are unlimited. Omit for unlimited joins."
+            },
+            "spaceUri": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "expiresAt": {
+              "type": "integer",
+              "description": "Unix ms timestamp. Omit for no expiry."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "NotFound"
+        },
+        {
+          "name": "Forbidden"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "token",
+            "invite"
+          ],
+          "properties": {
+            "token": {
+              "type": "string",
+              "description": "Raw token. Shown once — cannot be retrieved later."
+            },
+            "invite": {
+              "ref": "rsvp.atmo.space.defs#inviteView",
+              "type": "ref"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Create an invite for a space. Caller must be the space owner. Returns the raw token once; only the hash is stored."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

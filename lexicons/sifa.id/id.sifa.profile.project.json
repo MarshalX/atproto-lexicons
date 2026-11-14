@@ -1,0 +1,148 @@
+{
+  "id": "id.sifa.profile.project",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "createdAt"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the project (website, repository, demo, etc.)."
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 2560,
+            "minLength": 1,
+            "description": "Project name.",
+            "maxGraphemes": 256
+          },
+          "role": {
+            "type": "string",
+            "maxLength": 2560,
+            "description": "The user's own role on the project (e.g. 'Maintainer', 'Core contributor', 'Project lead'). Roles of other people named on the project live on members.",
+            "maxGraphemes": 256
+          },
+          "tools": {
+            "type": "array",
+            "items": {
+              "ref": "id.sifa.defs#toolRef",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "description": "Tools used in this project. Each entry is a URI reference to a tool item record owned by the same DID. Consumers ignore entries that do not resolve."
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "ref": "#projectEvent",
+              "type": "ref"
+            },
+            "maxLength": 200,
+            "description": "Event occurrences this project organized or hosted, for example every edition of a conference or every meetup of a series. Each entry should reference a distinct event; consumers ignore entries that don't resolve to a community.lexicon.calendar.event. A talk the user also gave at one of these events is a separate id.sifa.profile.presentationDelivery whose eventRef points at the same event.",
+            "x-skos:relatedMatch": [
+              "schema:organizer"
+            ]
+          },
+          "labels": {
+            "refs": [
+              "com.atproto.label.defs#selfLabels"
+            ],
+            "type": "union",
+            "description": "Self-label values for this project record."
+          },
+          "sameAs": {
+            "ref": "id.sifa.defs#externalRecordRef",
+            "type": "ref",
+            "description": "The same project as recorded on another person's profile. Set when you keep your own entry for work someone else has also recorded, so consumers can tell the two describe one thing rather than showing it twice. Each side stays its own record: the other person cannot edit yours, and yours does not change theirs. Resolve by AT-URI, since they will keep editing their copy."
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "ref": "id.sifa.defs#skillRef",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "description": "Skills used in this project. Each entry is a URI reference to an id.sifa.profile.skill record owned by the same DID."
+          },
+          "endedAt": {
+            "type": "string",
+            "description": "Project end date in YYYY, YYYY-MM or YYYY-MM-DD format. Omit if ongoing."
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "ref": "id.sifa.defs#projectMemberRef",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "description": "Other people who worked on this project. Each entry is a claim by the record author and is not self-verifying: the named person supplies the other half by publishing an id.sifa.confirmation record whose subject is this record and whose relation is id.sifa.defs#projectMember. Until they do, consumers must render the entry without their display name, avatar, or profile link. Confirming never puts this record on the named person's profile: it lives in the author's repository and the author can rename it at any time. A named person who wants the project on their profile keeps their own id.sifa.profile.project record and points its projectRef here."
+          },
+          "position": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Reference to the associated id.sifa.profile.position record, if applicable."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Client-declared timestamp when this record was originally created."
+          },
+          "isPrimary": {
+            "type": "boolean",
+            "description": "Whether this is the user's primary ongoing project, surfaced in profile Highlights. Only ongoing entries may be primary."
+          },
+          "startedAt": {
+            "type": "string",
+            "description": "Project start date in YYYY, YYYY-MM or YYYY-MM-DD format."
+          },
+          "projectRef": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Reference to the first-class id.sifa.project.self record this personal entry corresponds to, when there is one. A composition link, not a peer one: for the same project recorded on someone else's profile, see sameAs."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 50000,
+            "description": "Description of the project, the user's role, and outcomes.",
+            "maxGraphemes": 5000
+          }
+        }
+      },
+      "description": "Record representing a single project.",
+      "x-skos:exactMatch": [
+        "schema:Project",
+        "foaf:Project"
+      ]
+    },
+    "projectEvent": {
+      "type": "object",
+      "required": [
+        "event"
+      ],
+      "properties": {
+        "role": {
+          "type": "string",
+          "maxLength": 640,
+          "description": "The user's role at this occurrence when it differs from the project's role (e.g. 'Organizer' for one edition, 'Host' for another). Omit to inherit project.role.",
+          "maxGraphemes": 64
+        },
+        "event": {
+          "ref": "id.sifa.defs#externalRecordRef",
+          "type": "ref",
+          "description": "Reference to the community.lexicon.calendar.event. Resolve by AT-URI; the CID is an optional integrity hint."
+        }
+      },
+      "description": "One event occurrence linked to a project."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A project the user has worked on."
+}

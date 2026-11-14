@@ -1,0 +1,59 @@
+{
+  "id": "fm.teal.stats.getTopArtists",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "artists"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string",
+              "description": "Next page cursor"
+            },
+            "artists": {
+              "type": "array",
+              "items": {
+                "ref": "fm.teal.stats.defs#artistView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "description": "Number of artists to return"
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Pagination cursor"
+          },
+          "period": {
+            "enum": [
+              "all",
+              "30days",
+              "7days"
+            ],
+            "type": "string",
+            "default": "all",
+            "description": "Time period for top artists"
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Get top artists by play count"
+}

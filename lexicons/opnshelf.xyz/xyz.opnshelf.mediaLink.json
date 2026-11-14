@@ -1,0 +1,39 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "An embedded, typed link binding a standard.site document to an Opnshelf media item. Placed inside a document's open `links` union; gets no collection and no record of its own.",
+      "properties": {
+        "episodeNumber": {
+          "description": "Episode number for episode items",
+          "type": "integer"
+        },
+        "mediaId": {
+          "description": "TMDB movie ID or show ID",
+          "type": "string"
+        },
+        "mediaType": {
+          "description": "Media type",
+          "enum": [
+            "movie",
+            "show",
+            "season",
+            "episode"
+          ],
+          "type": "string"
+        },
+        "seasonNumber": {
+          "description": "Season number for season/episode items",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "mediaType",
+        "mediaId"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "xyz.opnshelf.mediaLink",
+  "lexicon": 1
+}

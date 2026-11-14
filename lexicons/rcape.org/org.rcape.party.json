@@ -1,0 +1,63 @@
+{
+  "id": "org.rcape.party",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "description": "e.g. 'Plaintiff', 'Defendant', 'Petitioner', 'Respondent', 'Amicus'."
+          },
+          "source": {
+            "ref": "org.rcape.docket#source",
+            "type": "ref"
+          },
+          "attorneys": {
+            "type": "array",
+            "items": {
+              "ref": "#attorney",
+              "type": "ref"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "A party to the case and its attorneys of record."
+    },
+    "attorney": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "firm": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string",
+          "description": "e.g. 'Lead Attorney', 'Attorney to be Noticed'."
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

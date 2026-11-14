@@ -1,0 +1,104 @@
+{
+  "id": "app.bluefeed.feed.generator",
+  "defs": {
+    "main": {
+      "key": "string",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "createdAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 640,
+            "description": "Display name of the feed.",
+            "maxGraphemes": 64
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 640,
+              "maxGraphemes": 64
+            },
+            "maxLength": 20,
+            "description": "Tags for discoverability."
+          },
+          "genre": {
+            "type": "string",
+            "description": "Specific genre within the genre group."
+          },
+          "label": {
+            "type": "string",
+            "description": "Content label for the feed."
+          },
+          "posts": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "description": "Ordered list of post AT URIs included in this feed."
+          },
+          "avatar": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the avatar image for the feed."
+          },
+          "isPublic": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether the feed is publicly listed."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp of feed creation."
+          },
+          "editorDIDs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "did"
+            },
+            "description": "DIDs of users allowed to edit this feed."
+          },
+          "genreGroup": {
+            "type": "string",
+            "description": "Top-level genre category."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000,
+            "description": "Description of the feed.",
+            "maxGraphemes": 300
+          },
+          "searchWords": {
+            "type": "string",
+            "maxLength": 640,
+            "description": "Search keywords for automatic feed updates."
+          },
+          "automaticUpdate": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the feed auto-updates based on search words."
+          },
+          "descriptionFacets": {
+            "type": "array",
+            "items": {
+              "ref": "app.bsky.richtext.facet",
+              "type": "ref"
+            },
+            "description": "Rich text facets for the description."
+          }
+        }
+      },
+      "description": "Record defining a BlueFeed custom feed."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

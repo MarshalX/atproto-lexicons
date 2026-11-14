@@ -1,0 +1,70 @@
+{
+  "id": "space.zelk.list.item",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "list",
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "list": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the space.zelk.list this item belongs to."
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 3000,
+            "maxGraphemes": 300
+          },
+          "source": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "subject": {
+            "ref": "#subject",
+            "type": "ref"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "A movie or show added to a space.zelk.list."
+    },
+    "subject": {
+      "type": "object",
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "imdb": {
+          "type": "string",
+          "maxLength": 32
+        },
+        "kind": {
+          "type": "string",
+          "knownValues": [
+            "movie",
+            "tv"
+          ]
+        },
+        "tmdb": {
+          "type": "integer"
+        },
+        "tvdb": {
+          "type": "integer"
+        }
+      },
+      "description": "External identifiers of the movie or show. At least one identifier should be present."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

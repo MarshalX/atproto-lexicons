@@ -1,0 +1,50 @@
+{
+  "id": "dev.pythonplayer123.music.love",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "artist",
+          "track",
+          "createdAt"
+        ],
+        "properties": {
+          "album": {
+            "type": "string",
+            "maxLength": 1024,
+            "minLength": 1,
+            "description": "If present, raw 1–256 Unicode scalar values, and nonempty after trimming; enforced by the validator."
+          },
+          "track": {
+            "type": "string",
+            "maxLength": 1024,
+            "minLength": 1,
+            "description": "Raw 1–256 Unicode scalar values, and nonempty after trimming; enforced by the validator."
+          },
+          "artist": {
+            "type": "string",
+            "maxLength": 1024,
+            "minLength": 1,
+            "description": "Raw 1–256 Unicode scalar values, and nonempty after trimming; the scrobble limits, enforced by the validator."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Explicit UTC RFC3339, from 1970-01-01 through event receipt time plus 300 seconds inclusive."
+          },
+          "recordingMbid": {
+            "type": "string",
+            "description": "Optional unverified recording UUID; runtime validates UUID syntax."
+          }
+        }
+      },
+      "description": "The author loves one track. The server writer keeps at most one love per (artist key, track key) per DID; unlove deletes every matching love record. Loves written by other apps are indexed with the same proof rules."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Schema-v1 loved track (ADR 0005 §6.3, B12, B13). This ID is fixture-only; production requires an owner-controlled prefix."
+}

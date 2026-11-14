@@ -1,0 +1,755 @@
+{
+  "id": "com.professorbutts.sports.defs",
+  "defs": {
+    "member": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "score": {
+          "type": "string",
+          "maxLength": 16
+        },
+        "points": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "position": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "shortName": {
+          "type": "string",
+          "maxLength": 32
+        },
+        "positionLabel": {
+          "type": "string",
+          "maxLength": 8
+        }
+      },
+      "description": "A driver within a constructor/team standings row, with their own standing."
+    },
+    "period": {
+      "type": "object",
+      "required": [
+        "number"
+      ],
+      "properties": {
+        "label": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "Display label, e.g. 'Q3', 'Top 7th', '2nd Half', 'OT'."
+        },
+        "number": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "entrant": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "laps": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Racing: laps completed."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "team": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Constructor or race team, e.g. 'Red Bull Racing', 'Hendrick Motorsports'."
+        },
+        "thru": {
+          "type": "string",
+          "maxLength": 4,
+          "description": "Golf: holes completed this round, 'F' when done."
+        },
+        "color": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "Hex team color."
+        },
+        "score": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "Main figure as shown: golf to-par ('-12', 'E'), race gap ('+3.214', '+1 lap'), or points."
+        },
+        "state": {
+          "type": "string",
+          "description": "Racing/golf status of this entrant.",
+          "knownValues": [
+            "active",
+            "finished",
+            "pit",
+            "out",
+            "cut",
+            "withdrawn",
+            "dnf",
+            "dsq"
+          ]
+        },
+        "toPar": {
+          "type": "integer",
+          "description": "Golf: total relative to par."
+        },
+        "today": {
+          "type": "string",
+          "maxLength": 8,
+          "description": "Golf: this round to par, e.g. '-4'."
+        },
+        "detail": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "Secondary figure as shown, e.g. golf 'Thru 14', race '72 laps', a time '1:12.345'."
+        },
+        "number": {
+          "type": "string",
+          "maxLength": 4,
+          "description": "Car number."
+        },
+        "points": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Points earned in this session, or season total on a standings record."
+        },
+        "rounds": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "maxLength": 6,
+          "description": "Golf: strokes per completed round."
+        },
+        "country": {
+          "type": "string",
+          "maxLength": 3,
+          "description": "ISO 3166-1 alpha-3, for a flag."
+        },
+        "lapsLed": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Racing: laps led (NASCAR)."
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "ref": "#member",
+            "type": "ref"
+          },
+          "maxLength": 4,
+          "description": "Standings: the drivers in a constructor or team, with their own places."
+        },
+        "profile": {
+          "type": "string",
+          "format": "did",
+          "description": "Optional atproto account."
+        },
+        "photoUrl": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        },
+        "position": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Numeric place, for sorting."
+        },
+        "shortName": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "e.g. 'S. Scheffler', 'VER'."
+        },
+        "positionLabel": {
+          "type": "string",
+          "maxLength": 8,
+          "description": "Place as shown, e.g. 'T3', 'CUT', 'DNF'."
+        }
+      },
+      "description": "One player, driver or team in a leaderboard."
+    },
+    "snapshot": {
+      "type": "object",
+      "required": [
+        "capturedAt",
+        "status",
+        "homeScore",
+        "awayScore"
+      ],
+      "properties": {
+        "clock": {
+          "type": "string",
+          "maxLength": 16
+        },
+        "period": {
+          "ref": "#period",
+          "type": "ref"
+        },
+        "status": {
+          "type": "string",
+          "knownValues": [
+            "scheduled",
+            "live",
+            "halftime",
+            "final",
+            "postponed",
+            "canceled"
+          ]
+        },
+        "awayScore": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "homeScore": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "situation": {
+          "refs": [
+            "com.professorbutts.sports.defs#footballSituation",
+            "com.professorbutts.sports.defs#baseballSituation",
+            "com.professorbutts.sports.defs#basketballSituation",
+            "com.professorbutts.sports.defs#hockeySituation",
+            "com.professorbutts.sports.defs#soccerSituation"
+          ],
+          "type": "union",
+          "description": "Sport-specific live detail. Open: viewers skip types they don't know."
+        },
+        "capturedAt": {
+          "type": "string",
+          "format": "datetime"
+        }
+      },
+      "description": "Copy of the game state when a post was made. Game records are overwritten as the game goes on, so the post carries its own copy."
+    },
+    "lineScore": {
+      "type": "object",
+      "required": [
+        "periods"
+      ],
+      "properties": {
+        "periods": {
+          "type": "array",
+          "items": {
+            "ref": "#periodScore",
+            "type": "ref"
+          },
+          "maxLength": 30
+        }
+      },
+      "description": "Score by period, for any sport."
+    },
+    "competitor": {
+      "type": "object",
+      "required": [
+        "name",
+        "score"
+      ],
+      "properties": {
+        "logo": {
+          "type": "blob",
+          "accept": [
+            "image/png",
+            "image/svg+xml",
+            "image/webp"
+          ],
+          "maxSize": 200000
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "rank": {
+          "type": "integer",
+          "maximum": 99,
+          "minimum": 1,
+          "description": "Poll ranking (college), e.g. 5 for #5."
+        },
+        "color": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "Primary hex color, e.g. '#FB4F14'."
+        },
+        "score": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "record": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "Season record, e.g. '6-3'."
+        },
+        "logoUrl": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512,
+          "description": "Team logo image URL. Viewers may use it when there's no logo blob."
+        },
+        "profile": {
+          "type": "string",
+          "format": "did",
+          "description": "Optional atproto account for the team."
+        },
+        "abbreviation": {
+          "type": "string",
+          "maxLength": 8
+        },
+        "secondaryColor": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "Secondary hex color for stripes, e.g. '#000000'."
+        }
+      }
+    },
+    "periodScore": {
+      "type": "object",
+      "required": [
+        "label",
+        "home",
+        "away"
+      ],
+      "properties": {
+        "away": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "home": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "e.g. 'Q1', '7', 'OT'."
+        }
+      }
+    },
+    "golfProgress": {
+      "type": "object",
+      "properties": {
+        "round": {
+          "type": "integer",
+          "maximum": 6,
+          "minimum": 1
+        },
+        "cutLine": {
+          "type": "string",
+          "maxLength": 8,
+          "description": "Projected or actual cut, e.g. '+1'."
+        },
+        "playoff": {
+          "type": "boolean"
+        },
+        "totalRounds": {
+          "type": "integer",
+          "maximum": 6,
+          "minimum": 1
+        }
+      },
+      "description": "Golf tournament progress."
+    },
+    "raceProgress": {
+      "type": "object",
+      "properties": {
+        "lap": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "flag": {
+          "type": "string",
+          "knownValues": [
+            "green",
+            "yellow",
+            "red",
+            "checkered",
+            "safetyCar",
+            "virtualSafetyCar",
+            "white"
+          ]
+        },
+        "stage": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "NASCAR stage."
+        },
+        "session": {
+          "type": "string",
+          "knownValues": [
+            "practice",
+            "qualifying",
+            "sprint",
+            "race"
+          ]
+        },
+        "totalLaps": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "description": "Motorsport race progress."
+    },
+    "hockeySituation": {
+      "type": "object",
+      "properties": {
+        "emptyNet": {
+          "type": "string",
+          "knownValues": [
+            "home",
+            "away",
+            "both"
+          ]
+        },
+        "powerPlay": {
+          "type": "string",
+          "knownValues": [
+            "home",
+            "away"
+          ]
+        },
+        "awaySkaters": {
+          "type": "integer",
+          "maximum": 6,
+          "minimum": 3
+        },
+        "homeSkaters": {
+          "type": "integer",
+          "maximum": 6,
+          "minimum": 3
+        }
+      },
+      "description": "Hockey detail."
+    },
+    "soccerSituation": {
+      "type": "object",
+      "properties": {
+        "awayRedCards": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "homeRedCards": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "stoppageTime": {
+          "type": "string",
+          "maxLength": 4,
+          "description": "Announced added minutes, e.g. '3'."
+        }
+      },
+      "description": "Soccer detail."
+    },
+    "baseballBoxScore": {
+      "type": "object",
+      "required": [
+        "home",
+        "away"
+      ],
+      "properties": {
+        "away": {
+          "ref": "#baseballTeamLine",
+          "type": "ref"
+        },
+        "home": {
+          "ref": "#baseballTeamLine",
+          "type": "ref"
+        }
+      },
+      "description": "Runs, hits, errors."
+    },
+    "baseballTeamLine": {
+      "type": "object",
+      "required": [
+        "runs",
+        "hits",
+        "errors"
+      ],
+      "properties": {
+        "hits": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "runs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "errors": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "leftOnBase": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "footballBoxScore": {
+      "type": "object",
+      "required": [
+        "home",
+        "away"
+      ],
+      "properties": {
+        "away": {
+          "ref": "#footballTeamStats",
+          "type": "ref"
+        },
+        "home": {
+          "ref": "#footballTeamStats",
+          "type": "ref"
+        }
+      },
+      "description": "Football team stats."
+    },
+    "baseballSituation": {
+      "type": "object",
+      "properties": {
+        "outs": {
+          "type": "integer",
+          "maximum": 3,
+          "minimum": 0
+        },
+        "balls": {
+          "type": "integer",
+          "maximum": 3,
+          "minimum": 0
+        },
+        "onFirst": {
+          "type": "boolean"
+        },
+        "onThird": {
+          "type": "boolean"
+        },
+        "strikes": {
+          "type": "integer",
+          "maximum": 2,
+          "minimum": 0
+        },
+        "onSecond": {
+          "type": "boolean"
+        }
+      },
+      "description": "Baseball detail: count, outs and runners."
+    },
+    "footballSituation": {
+      "type": "object",
+      "properties": {
+        "down": {
+          "type": "integer",
+          "maximum": 4,
+          "minimum": 1
+        },
+        "distance": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "yardLine": {
+          "type": "string",
+          "maxLength": 16
+        },
+        "possession": {
+          "type": "string",
+          "knownValues": [
+            "home",
+            "away"
+          ]
+        }
+      },
+      "description": "Football detail: who has the ball, down and distance, field position."
+    },
+    "footballTeamStats": {
+      "type": "object",
+      "properties": {
+        "sacks": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "penalties": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "turnovers": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "firstDowns": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "thirdDowns": {
+          "type": "string",
+          "maxLength": 8,
+          "description": "e.g. '5-12'."
+        },
+        "totalYards": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "passingYards": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rushingYards": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "timeOfPossession": {
+          "type": "string",
+          "maxLength": 8,
+          "description": "e.g. '31:12'."
+        }
+      }
+    },
+    "basketballBoxScore": {
+      "type": "object",
+      "required": [
+        "home",
+        "away"
+      ],
+      "properties": {
+        "away": {
+          "ref": "#basketballTeamStats",
+          "type": "ref"
+        },
+        "home": {
+          "ref": "#basketballTeamStats",
+          "type": "ref"
+        }
+      },
+      "description": "Basketball team stats."
+    },
+    "basketballSituation": {
+      "type": "object",
+      "properties": {
+        "bonus": {
+          "type": "string",
+          "description": "Which team is shooting bonus free throws.",
+          "knownValues": [
+            "home",
+            "away",
+            "both"
+          ]
+        },
+        "awayFouls": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "homeFouls": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Team fouls this period."
+        },
+        "possession": {
+          "type": "string",
+          "knownValues": [
+            "home",
+            "away"
+          ]
+        },
+        "awayTimeouts": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "homeTimeouts": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "description": "Basketball detail."
+    },
+    "basketballTeamStats": {
+      "type": "object",
+      "properties": {
+        "blocks": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "steals": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "assists": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "rebounds": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "turnovers": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "fieldGoals": {
+          "type": "string",
+          "maxLength": 8,
+          "description": "Made-attempted, e.g. '31-68'."
+        },
+        "freeThrows": {
+          "type": "string",
+          "maxLength": 8
+        },
+        "threePointers": {
+          "type": "string",
+          "maxLength": 8
+        }
+      }
+    },
+    "leaderboardSnapshot": {
+      "type": "object",
+      "required": [
+        "capturedAt",
+        "status",
+        "standings"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "knownValues": [
+            "scheduled",
+            "live",
+            "halftime",
+            "final",
+            "postponed",
+            "canceled"
+          ]
+        },
+        "progress": {
+          "refs": [
+            "com.professorbutts.sports.defs#golfProgress",
+            "com.professorbutts.sports.defs#raceProgress"
+          ],
+          "type": "union",
+          "description": "Where a leaderboard event stands. Open."
+        },
+        "standings": {
+          "type": "array",
+          "items": {
+            "ref": "#entrant",
+            "type": "ref"
+          },
+          "maxLength": 10
+        },
+        "capturedAt": {
+          "type": "string",
+          "format": "datetime"
+        }
+      },
+      "description": "Copy of a leaderboard when a post was made: top of the field plus anyone the post is about. Also used for posts about a standings record."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Shared types for com.professorbutts.sports records and the post-side scoreboard field."
+}

@@ -1,0 +1,44 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Record representing the team for one domain. The record key is the domain name, created lazily with the first accepted membership.",
+      "key": "any",
+      "record": {
+        "properties": {
+          "createdAt": {
+            "description": "When the team record was created.",
+            "format": "datetime",
+            "type": "string"
+          },
+          "domain": {
+            "description": "Fully qualified domain name this team applies to, e.g. example.com.",
+            "maxLength": 253,
+            "type": "string"
+          },
+          "subject": {
+            "description": "Strong reference to the owner's at.marque.domain record.",
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref"
+          },
+          "updatedAt": {
+            "description": "When the team record was last updated.",
+            "format": "datetime",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subject",
+          "domain",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "description": "A team for a single domain managed by Marque, owned by the domain owner. Stored in the owner's repository.",
+  "id": "at.marque.team",
+  "lexicon": 1
+}

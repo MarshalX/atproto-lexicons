@@ -1,0 +1,98 @@
+{
+  "id": "app.zeens.post",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt",
+          "app.zeens.v"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 3000,
+            "description": "Caption text. Matches app.bsky.feed.post#text semantics.",
+            "maxGraphemes": 300
+          },
+          "embed": {
+            "refs": [
+              "app.bsky.embed.images",
+              "app.bsky.embed.video",
+              "app.bsky.embed.recordWithMedia"
+            ],
+            "type": "union",
+            "description": "Photo or video embed. Reuses Bluesky embed lexicons, so a video is processed and served by Bluesky's video service whether or not the post itself is on Bluesky."
+          },
+          "langs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "language"
+            },
+            "maxLength": 3,
+            "description": "Indicates language(s) of the caption text."
+          },
+          "reply": {
+            "ref": "#replyRef",
+            "type": "ref",
+            "description": "Reply metadata for Zeens-only threads. parent/root reference app.zeens.post URIs."
+          },
+          "facets": {
+            "type": "array",
+            "items": {
+              "ref": "app.bsky.richtext.facet",
+              "type": "ref"
+            },
+            "description": "Rich-text facets (mentions, links, tags) over text, reusing the Bluesky richtext lexicon."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Client-declared timestamp when this post was originally created."
+          },
+          "app.zeens.v": {
+            "type": "integer",
+            "description": "Zeens version marker (always 1). Lets firehose + Lua filters recognise Zeens content."
+          },
+          "app.zeens.film": {
+            "type": "integer",
+            "description": "Present (value 1) when the post is marked as a film/analog shot."
+          },
+          "app.zeens.videoCover": {
+            "type": "blob",
+            "accept": [
+              "image/jpeg",
+              "image/png",
+              "image/webp"
+            ],
+            "maxSize": 1000000,
+            "description": "For a video post: the frame the creator chose as its cover, shown by Zeens in place of the video service's own thumbnail (its first frame). Also written on app.bsky.feed.post records, where Bluesky ignores it."
+          }
+        }
+      },
+      "description": "A Zeens-only photo post. Structurally a subset of app.bsky.feed.post, but written to a Zeens-owned collection so it is NOT indexed by the Bluesky AppView and never appears on Bluesky. Used when the creator disables 'Post to Bluesky'. Carries the same app.zeens.v marker and supports the full Zeens feature set (likes, reposts, replies, collections, search, EXIF, film, location) via app.zeens.postMeta, which references this record by AT-URI."
+    },
+    "replyRef": {
+      "type": "object",
+      "required": [
+        "root",
+        "parent"
+      ],
+      "properties": {
+        "root": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref"
+        },
+        "parent": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

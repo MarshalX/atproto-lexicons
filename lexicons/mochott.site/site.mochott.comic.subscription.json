@@ -1,0 +1,33 @@
+{
+  "id": "site.mochott.comic.subscription",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "series",
+          "createdAt"
+        ],
+        "properties": {
+          "series": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT URI of the work.sequential.series being followed."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the subscription was created."
+          }
+        }
+      },
+      "description": "Record declaring a subscription to a comic series. Delete it to unsubscribe."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 1,
+  "description": "Follows a comic series. Written together with work.sequential.graph.subscription under the same record key."
+}

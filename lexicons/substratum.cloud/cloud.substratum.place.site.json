@@ -1,0 +1,51 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Durable place identity on the operator PDS (ADR 70).",
+      "properties": {
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "meshPeerId": {
+          "description": "libp2p peer id when known.",
+          "type": "string"
+        },
+        "operatorDid": {
+          "format": "did",
+          "type": "string"
+        },
+        "placeId": {
+          "description": "Stable place id (e.g. personal_node:{peer_id}).",
+          "type": "string"
+        },
+        "placeKind": {
+          "description": "Place role; v1 personal_node only on ledger.",
+          "knownValues": [
+            "personal_node"
+          ],
+          "type": "string"
+        },
+        "trustedSpaceOfferBytes": {
+          "description": "Bytes offered for household copies on this Place (default 0).",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "placeId",
+        "placeKind",
+        "operatorDid",
+        "displayName",
+        "createdAt"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "cloud.substratum.place.site",
+  "lexicon": 1
+}

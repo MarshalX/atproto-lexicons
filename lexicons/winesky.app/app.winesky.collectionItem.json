@@ -1,0 +1,122 @@
+{
+  "id": "app.winesky.collectionItem",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "collection",
+          "drink",
+          "createdAt"
+        ],
+        "properties": {
+          "drink": {
+            "ref": "#drink",
+            "type": "ref"
+          },
+          "review": {
+            "ref": "#strongRef",
+            "type": "ref"
+          },
+          "imageSet": {
+            "ref": "#strongRef",
+            "type": "ref"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "collection": {
+            "type": "string",
+            "format": "at-uri"
+          }
+        }
+      },
+      "description": "A drink in a user's Collection. References the parent Collection via at-uri and embeds the drink description."
+    },
+    "drink": {
+      "type": "object",
+      "required": [
+        "category",
+        "country",
+        "producer",
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 512
+        },
+        "region": {
+          "type": "string",
+          "maxLength": 256
+        },
+        "country": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "drinkId": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "vintage": {
+          "type": "integer"
+        },
+        "category": {
+          "enum": [
+            "BEER",
+            "WINE",
+            "SPIRIT",
+            "CIDER",
+            "RTD",
+            "SAKE",
+            "OTHER"
+          ],
+          "type": "string",
+          "maxLength": 64
+        },
+        "producer": {
+          "type": "string",
+          "maxLength": 512
+        },
+        "varietals": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 128
+          }
+        },
+        "appellation": {
+          "type": "string",
+          "maxLength": 256
+        },
+        "alcoholContent": {
+          "type": "integer",
+          "maximum": 1000,
+          "minimum": 0
+        }
+      }
+    },
+    "strongRef": {
+      "type": "object",
+      "required": [
+        "cid",
+        "atUri"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid"
+        },
+        "atUri": {
+          "type": "string",
+          "format": "at-uri"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,37 @@
+{
+  "id": "net.anisota.feed.listItem",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "list",
+          "createdAt"
+        ],
+        "properties": {
+          "list": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Reference (AT-URI) to the containing record: a net.anisota.feed.list or a net.anisota.feed.hand."
+          },
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The post URI which is included on the list."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp when the post was added to the list"
+          }
+        }
+      },
+      "description": "Record representing a post's inclusion on a specific list. The AppView will ignore duplicate listitem records."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

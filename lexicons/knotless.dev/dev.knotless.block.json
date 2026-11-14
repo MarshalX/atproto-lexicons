@@ -1,0 +1,36 @@
+{
+  "id": "dev.knotless.block",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "repo": {
+            "ref": "dev.knotless.defs#repoRef",
+            "type": "ref",
+            "description": "The one repository it is kept out of; all the owner's when left out."
+          },
+          "subject": {
+            "type": "string",
+            "format": "did",
+            "description": "The account kept out."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Kept in the owner's account, keyed by a TID; one naming a private repository is in their repo inside its space. Readers honor it only from the owner, and leave out what the subject writes about the owner's repositories, or about `repo` alone."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "An account a repository's owner keeps out, as app.bsky.graph.block blocks one."
+}

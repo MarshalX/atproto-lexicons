@@ -1,0 +1,37 @@
+{
+  "id": "app.xptracker.job.defs",
+  "defs": {
+    "jobType": {
+      "type": "string",
+      "knownValues": [
+        "remote",
+        "hybrid",
+        "onsite",
+        "unspecified"
+      ]
+    },
+    "employmentType": {
+      "type": "string",
+      "knownValues": [
+        "fullTime",
+        "partTime",
+        "contract",
+        "internship",
+        "temporary",
+        "unspecified"
+      ]
+    },
+    "provenanceMethod": {
+      "type": "string",
+      "knownValues": [
+        "manual",
+        "scraper",
+        "import",
+        "api",
+        "userSubmitted"
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

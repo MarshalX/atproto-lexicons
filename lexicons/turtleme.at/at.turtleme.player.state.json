@@ -1,0 +1,102 @@
+{
+  "id": "at.turtleme.player.state",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "proof",
+          "seq",
+          "updatedAt"
+        ],
+        "properties": {
+          "gp": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Transcription of the coins in the proof: the balance the player held when it was signed. Absent when the proof carries no coin figure."
+          },
+          "seq": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Monotonic counter issued with each proof. A reader must reject any state at or below the highest sequence it has already accepted for this player, which is what stops an older and richer snapshot being republished to undo spending."
+          },
+          "proof": {
+            "type": "string",
+            "maxLength": 4096,
+            "description": "A compact JWS signed by turtle meat, whose payload carries the authoritative numbers. THIS IS THE ONLY FIELD THAT COUNTS. The fields beside it are a readable transcription for other clients and for anyone browsing the repository; a reader that cares whether the numbers are real must verify this and use the payload, ignoring the transcription. If the two disagree the record is malformed. The signing key is published in the DID document at did:web:turtleme.at."
+          },
+          "stats": {
+            "ref": "#stats",
+            "type": "ref",
+            "description": "Transcription of the lifetime tallies in the proof."
+          },
+          "cooking": {
+            "ref": "#skill",
+            "type": "ref",
+            "description": "Transcription of the Cooking numbers in the proof."
+          },
+          "fishing": {
+            "ref": "#skill",
+            "type": "ref",
+            "description": "Transcription of the Fishing numbers in the proof."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the player wrote this record. The proof carries its own issue time, which is the one to trust."
+          }
+        }
+      },
+      "description": "A player's game progress, as adjudicated by turtle meat and published by the player. The record lives in the player's own repository and can be deleted by them at any time, which removes them from the public leaderboard. It is a complete snapshot rather than a change since last time, so withholding an unflattering one gains nothing: any later snapshot already accounts for it."
+    },
+    "skill": {
+      "type": "object",
+      "required": [
+        "xp"
+      ],
+      "properties": {
+        "xp": {
+          "type": "integer",
+          "maximum": 200000000,
+          "minimum": 0,
+          "description": "Experience earned. Levels here start at zero and gate nothing, so this is a progress count rather than a requirement."
+        },
+        "level": {
+          "type": "integer",
+          "maximum": 99,
+          "minimum": 0,
+          "description": "The level the experience works out to. Derived, and included only so a reader does not have to know the curve."
+        }
+      }
+    },
+    "stats": {
+      "type": "object",
+      "properties": {
+        "castsMade": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "reefsCleared": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "turtlesBurnt": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "turtlesCaught": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "turtlesCooked": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

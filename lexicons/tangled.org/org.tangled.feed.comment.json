@@ -1,0 +1,47 @@
+{
+  "id": "org.tangled.feed.comment",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "body",
+          "createdAt"
+        ],
+        "properties": {
+          "body": {
+            "refs": [
+              "org.tangled.markup.markdown"
+            ],
+            "type": "union"
+          },
+          "embed": {
+            "refs": [
+              "org.tangled.embed.commit"
+            ],
+            "type": "union"
+          },
+          "replyTo": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref"
+          },
+          "subject": {
+            "refs": [
+              "com.atproto.repo.strongRef"
+            ],
+            "type": "union"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

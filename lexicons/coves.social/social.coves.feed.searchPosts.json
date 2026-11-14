@@ -1,0 +1,85 @@
+{
+  "id": "social.coves.feed.searchPosts",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "feed"
+          ],
+          "properties": {
+            "feed": {
+              "type": "array",
+              "items": {
+                "ref": "social.coves.feed.defs#feedViewPost",
+                "type": "ref"
+              }
+            },
+            "cursor": {
+              "type": "string",
+              "maxLength": 500
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "q"
+        ],
+        "properties": {
+          "q": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Search query. Supports quoted phrases and -negation."
+          },
+          "sort": {
+            "type": "string",
+            "default": "relevance",
+            "maxLength": 64,
+            "knownValues": [
+              "relevance",
+              "new",
+              "top"
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "default": 15,
+            "maximum": 50,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "community": {
+            "type": "string",
+            "maxLength": 320,
+            "description": "Restrict results to one community: DID, handle, name@origin, or bare local name. Omit to search every community."
+          },
+          "timeframe": {
+            "type": "string",
+            "default": "all",
+            "maxLength": 64,
+            "description": "Timeframe filter (only applies when sort=top)",
+            "knownValues": [
+              "hour",
+              "day",
+              "week",
+              "month",
+              "year",
+              "all"
+            ]
+          }
+        }
+      },
+      "description": "Full-text search over visible posts, across every community or restricted to one. Results honour the same admission, deletion and viewer-block rules as social.coves.feed.getDiscover and social.coves.feed.getCommunity."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,103 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Save a text style, either for the whole account or for one device. ⚠ `scope` IS REQUIRED AND HAS NO DEFAULT. Guessing it is the one mistake that cannot be undone by guessing again: silently defaulting to `account` changes the typeface on every device somebody owns when they meant to change one, and silently defaulting to `device` leaves them wondering why their laptop never followed. The client always knows which the player asked for, because the player was asked.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "deviceId": {
+              "description": "Required for `device` scope; optional for `account`, where supplying it clears this device's override. Opaque — the client generates it and it must carry nothing about the device or the person.",
+              "maxLength": 64,
+              "type": "string"
+            },
+            "featureOffered": {
+              "description": "Account-scope only.",
+              "type": "boolean"
+            },
+            "fingerprint": {
+              "maxLength": 64,
+              "type": "string"
+            },
+            "label": {
+              "maxLength": 60,
+              "type": "string"
+            },
+            "scope": {
+              "description": "`account` writes the account-wide default AND deletes this device's override, so the device the player is holding actually follows the choice they just made. `device` writes an override for `deviceId` alone and leaves the account default untouched.",
+              "knownValues": [
+                "account",
+                "device"
+              ],
+              "type": "string"
+            },
+            "typeMode": {
+              "knownValues": [
+                "pixel",
+                "softer",
+                "system"
+              ],
+              "type": "string"
+            },
+            "typeOffered": {
+              "description": "Account-scope only. Refused with `device`, because being told about pixel type is a fact about a person and storing it per-device would re-arm the notice on every new device.",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "scope"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "error": {
+              "description": "A stable machine code the client branches on — add codes, never rename them.",
+              "knownValues": [
+                "not-authenticated",
+                "invalid-scope",
+                "invalid-mode",
+                "device-required",
+                "offered-is-account-scope",
+                "nothing-to-do",
+                "save-failed"
+              ],
+              "type": "string"
+            },
+            "featureOffered": {
+              "description": "Account-scope only.",
+              "type": "boolean"
+            },
+            "message": {
+              "type": "string"
+            },
+            "typeMode": {
+              "knownValues": [
+                "pixel",
+                "softer",
+                "system"
+              ],
+              "type": "string"
+            },
+            "typeOffered": {
+              "type": "boolean"
+            },
+            "updatedAt": {
+              "format": "datetime",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "pet.trezy.setPreferences",
+  "lexicon": 1
+}

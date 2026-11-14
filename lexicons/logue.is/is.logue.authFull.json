@@ -1,0 +1,23 @@
+{
+  "id": "is.logue.authFull",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Logue.is Permissions",
+      "detail": "Manage Logue.is logues and records.",
+      "permissions": [
+        {
+          "type": "permission",
+          "resource": "repo",
+          "collection": [
+            "is.logue.logue",
+            "is.logue.record",
+            "is.logue.actor.profile"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

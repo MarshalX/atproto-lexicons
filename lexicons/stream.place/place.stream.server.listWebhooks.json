@@ -1,0 +1,70 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "List webhooks for the authenticated user.",
+      "errors": [
+        {
+          "description": "The provided cursor is invalid or expired.",
+          "name": "InvalidCursor"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "description": "A cursor for pagination, if there are more results.",
+              "type": "string"
+            },
+            "webhooks": {
+              "items": {
+                "ref": "place.stream.server.defs#webhook",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "webhooks"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "active": {
+            "description": "Filter webhooks by active status.",
+            "type": "boolean"
+          },
+          "cursor": {
+            "description": "An optional cursor for pagination.",
+            "type": "string"
+          },
+          "event": {
+            "description": "Filter webhooks that handle this event type.",
+            "enum": [
+              "chat",
+              "livestream",
+              "follow",
+              "mention",
+              "stream.received"
+            ],
+            "type": "string"
+          },
+          "limit": {
+            "default": 50,
+            "description": "The number of webhooks to return.",
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "place.stream.server.listWebhooks",
+  "lexicon": 1
+}

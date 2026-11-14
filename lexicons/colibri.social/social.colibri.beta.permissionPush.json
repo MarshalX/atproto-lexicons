@@ -1,0 +1,24 @@
+{
+  "id": "social.colibri.beta.permissionPush",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Colibri push notifications",
+      "detail": "Send push notifications to this device when Colibri is closed.",
+      "permissions": [
+        {
+          "lxm": [
+            "social.colibri.beta.notification.registerPush",
+            "social.colibri.beta.notification.unregisterPush",
+            "social.colibri.beta.notification.markReadFromNotification"
+          ],
+          "type": "permission",
+          "resource": "rpc",
+          "inheritAud": true
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

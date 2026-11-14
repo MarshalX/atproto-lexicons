@@ -1,0 +1,54 @@
+{
+  "id": "social.colibri.member",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "joinedAt"
+        ],
+        "properties": {
+          "$type": {
+            "type": "string",
+            "format": "nsid",
+            "description": "The type of the record."
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "record-key"
+            },
+            "description": "Role record-keys assigned to this member on the same community repo."
+          },
+          "subject": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the admitted user."
+          },
+          "joinedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "nickname": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Optional per-community display-name override for this member."
+          },
+          "fromMembership": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Optional AT-URI of the user's `social.colibri.membership` declaration this admission was based on."
+          }
+        }
+      },
+      "description": "A community-side member record granting a user roles within the community. Lives on the community repo and is written when an admission is finalized."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 1
+}

@@ -1,0 +1,30 @@
+{
+  "id": "work.sequential.authCreator",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "permission-set",
+      "title": "Publish comics",
+      "detail": "Create, edit and delete series, chapters, covers, pages, slices, strips, links and annotations.",
+      "description": "Permissions for creator apps: the records creators publish. Image uploads need a separate blob scope.",
+      "permissions": [
+        {
+          "type": "permission",
+          "resource": "repo",
+          "collection": [
+            "work.sequential.series",
+            "work.sequential.chapter",
+            "work.sequential.cover",
+            "work.sequential.slice",
+            "work.sequential.page",
+            "work.sequential.strip",
+            "work.sequential.link",
+            "work.sequential.feed.annotation"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

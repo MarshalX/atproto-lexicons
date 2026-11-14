@@ -1,0 +1,68 @@
+{
+  "id": "io.atcr.hold.purgeManifest",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "manifestUri"
+          ],
+          "properties": {
+            "manifestUri": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "AT-URI of the manifest record, e.g. at://did:plc:xyz/io.atcr.manifest/<digest>"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired"
+        },
+        {
+          "name": "InvalidRequest"
+        },
+        {
+          "name": "PurgeFailed"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "success",
+            "layersDeleted",
+            "scanDeleted",
+            "imageConfigDeleted"
+          ],
+          "properties": {
+            "success": {
+              "type": "boolean",
+              "description": "Whether the purge completed successfully"
+            },
+            "scanDeleted": {
+              "type": "boolean",
+              "description": "Whether a scan record was deleted"
+            },
+            "layersDeleted": {
+              "type": "integer",
+              "description": "Number of layer records deleted"
+            },
+            "imageConfigDeleted": {
+              "type": "boolean",
+              "description": "Whether an image config record was deleted"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Purge layer, scan, and image-config records associated with a manifest. Used by the appview when a user deletes a manifest, and by the hold's own labeler subscriber on takedown receipt. Idempotent: missing records are not errors. Does not delete S3 blobs (GC handles that based on remaining references)."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

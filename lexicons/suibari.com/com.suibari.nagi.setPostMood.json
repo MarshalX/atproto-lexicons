@@ -1,0 +1,103 @@
+{
+  "id": "com.suibari.nagi.setPostMood",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri"
+          ],
+          "properties": {
+            "uri": {
+              "type": "string",
+              "format": "at-uri",
+              "maxLength": 2048
+            },
+            "valence": {
+              "type": "integer",
+              "maximum": 5,
+              "minimum": -5,
+              "description": "-5〜+5。0 は不可（中立はグラフに載らない）。省くと LLM の値に戻す。"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired"
+        },
+        {
+          "name": "InvalidRequest"
+        },
+        {
+          "name": "NotFound"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "mood": {
+              "ref": "#moodView",
+              "type": "ref",
+              "description": "直したあとの点。LLM の値に戻した結果グラフから外れたときは省く。"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "感情グラフの点（自分の投稿の気分）を本人が直す。valence を省くと LLM の採点に戻す。直せるのはいまグラフに出ている点だけで、中立と判定された投稿は対象外。"
+    },
+    "moodView": {
+      "type": "object",
+      "required": [
+        "uri",
+        "date",
+        "createdAt",
+        "valence",
+        "text"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "date": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "edited": {
+          "type": "boolean"
+        },
+        "valence": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": -5
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "selfLabels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "moderationLabels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

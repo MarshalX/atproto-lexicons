@@ -1,0 +1,30 @@
+{
+  "id": "tech.tokimeki.forum.hide",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The tech.tokimeki.forum.thread or tech.tokimeki.forum.message being hidden. The cid records the version that was judged."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "A moderator's decision to hide a thread or message in this server. Written by the moderator (owner, admin or mod) into their OWN repo within the space: a repo only ever carries its holder's own statements. The record's existence is the hide; delete it to unhide. rkey is derived from the subject URI ('h' + base32lower(sha256(uri))[0:26]) so one moderator holds at most one hide per subject. The service index honours hides from accounts that hold a moderator role at the time of indexing."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

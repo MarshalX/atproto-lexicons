@@ -1,0 +1,55 @@
+{
+  "id": "com.suibari.nagi.putCommunityAffirmationDismissals",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uris"
+          ],
+          "properties": {
+            "uris": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "at-uri",
+                "maxLength": 2048
+              },
+              "maxLength": 200,
+              "description": "Posts selected as private dismissal anchors. Each anchor also excludes similar community-affirmation candidates by the same author while active."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired"
+        },
+        {
+          "name": "InvalidRequest"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "accepted"
+          ],
+          "properties": {
+            "accepted": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 0
+            }
+          }
+        },
+        "encoding": "application/json"
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

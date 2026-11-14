@@ -1,0 +1,80 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Update livestream metadata on behalf of a streamer. Requires 'livestream.manage' permission. Updates a place.stream.livestream record in the streamer's repository.",
+      "errors": [
+        {
+          "description": "The request lacks valid authentication credentials.",
+          "name": "Unauthorized"
+        },
+        {
+          "description": "The caller does not have permission to update livestream metadata for this streamer.",
+          "name": "Forbidden"
+        },
+        {
+          "description": "The streamer's OAuth session could not be found or is invalid.",
+          "name": "SessionNotFound"
+        },
+        {
+          "description": "The specified livestream record does not exist.",
+          "name": "RecordNotFound"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "livestreamUri": {
+              "description": "The AT-URI of the livestream record to update.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "streamer": {
+              "description": "The DID of the streamer.",
+              "format": "did",
+              "type": "string"
+            },
+            "title": {
+              "description": "New title for the livestream.",
+              "maxGraphemes": 140,
+              "maxLength": 1400,
+              "type": "string"
+            }
+          },
+          "required": [
+            "streamer",
+            "livestreamUri"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cid": {
+              "description": "The CID of the updated livestream record.",
+              "format": "cid",
+              "type": "string"
+            },
+            "uri": {
+              "description": "The AT-URI of the updated livestream record.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "uri",
+            "cid"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": null,
+      "type": "procedure"
+    }
+  },
+  "id": "place.stream.moderation.updateLivestream",
+  "lexicon": 1
+}

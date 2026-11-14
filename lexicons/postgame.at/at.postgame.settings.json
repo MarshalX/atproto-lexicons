@@ -1,0 +1,132 @@
+{
+  "id": "at.postgame.settings",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "properties": {
+          "bio": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "blogTag": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Only display posts tagged with this keyword"
+          },
+          "website": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 256,
+            "description": "Personal website URL. Stored with an explicit http(s):// scheme."
+          },
+          "pronouns": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "steamUrl": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 256
+          },
+          "avatarBlob": {
+            "type": "blob",
+            "accept": [
+              "image/jpeg",
+              "image/png",
+              "image/webp",
+              "image/gif"
+            ],
+            "maxSize": 5242880,
+            "description": "Overrides the Bluesky profile avatar within postgame"
+          },
+          "bannerBlob": {
+            "type": "blob",
+            "accept": [
+              "image/jpeg",
+              "image/png",
+              "image/webp",
+              "image/gif"
+            ],
+            "maxSize": 5242880,
+            "description": "Profile banner shown on the public postgame profile"
+          },
+          "itchHandle": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "displayName": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "profileView": {
+            "type": "string",
+            "maxLength": 32,
+            "knownValues": [
+              "list",
+              "grid"
+            ]
+          },
+          "twitchHandle": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "discordHandle": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Discord user ID (snowflake)"
+          },
+          "favouriteGame": {
+            "ref": "at.postgame.game#gameRef",
+            "type": "ref",
+            "description": "Pinned favourite game shown on the profile"
+          },
+          "igdbCompanyId": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "IGDB company id this account represents. Surfaces a 'Games by X' catalogue and an updates feed on the profile. Honoured only when the account's own library overlaps the company's games."
+          },
+          "showPcktNotes": {
+            "type": "boolean",
+            "description": "Show the user's pckt notes (blog.pckt.mini.post records) on their profile"
+          },
+          "showRpgSprite": {
+            "type": "boolean",
+            "description": "Use the user's rpg.actor sprite in place of their avatar"
+          },
+          "studioProfile": {
+            "type": "boolean",
+            "description": "Set to false to show a regular profile even when the account is linked to an IGDB company. Absent means linked accounts get the studio profile."
+          },
+          "battlenetHandle": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "streamPlaceHandle": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "blogPublicationUri": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT URI of a site.standard.publication record to surface posts from"
+          },
+          "handledLibraryRequests": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 64
+            },
+            "maxLength": 100,
+            "description": "Record keys of at.postgame.libraryRequest records already acted on by a sign-in that couldn't delete them, so they aren't acted on twice. Newest last."
+          }
+        }
+      },
+      "description": "User settings for postgame"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

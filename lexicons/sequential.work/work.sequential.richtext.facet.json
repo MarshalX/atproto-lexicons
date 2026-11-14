@@ -1,0 +1,76 @@
+{
+  "id": "work.sequential.richtext.facet",
+  "defs": {
+    "bold": {
+      "type": "object",
+      "properties": {},
+      "description": "Strong emphasis."
+    },
+    "code": {
+      "type": "object",
+      "properties": {},
+      "description": "Inline code, shown in a monospace font. Text inside it is shown as-is: AppViews don't create mentions, links or hashtags inside it, ignore any that are there, and ignore other styles inside it."
+    },
+    "main": {
+      "type": "object",
+      "required": [
+        "index",
+        "features"
+      ],
+      "properties": {
+        "index": {
+          "ref": "app.bsky.richtext.facet#byteSlice",
+          "type": "ref",
+          "description": "The range of text the features apply to, in UTF-8 bytes. AppViews ignore facets whose range runs past the end of the text or splits a character."
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "refs": [
+              "app.bsky.richtext.facet#mention",
+              "app.bsky.richtext.facet#link",
+              "app.bsky.richtext.facet#tag",
+              "#bold",
+              "#italic",
+              "#underline",
+              "#strikethrough",
+              "#code",
+              "#spoiler",
+              "#grawlix"
+            ],
+            "type": "union"
+          },
+          "description": "What applies to the range. A range can carry several styles, e.g. bold and italic."
+        }
+      },
+      "description": "Annotation of a range of text: a mention, link or hashtag, or a style. Works like app.bsky.richtext.facet, but facets may overlap so styles can nest, e.g. an italic word inside a bold sentence. The text holds no markup, so apps that don't know these facets still show clean text. AppViews ignore features they don't know."
+    },
+    "italic": {
+      "type": "object",
+      "properties": {},
+      "description": "Emphasis."
+    },
+    "grawlix": {
+      "type": "object",
+      "properties": {},
+      "description": "Text covered by a grawlix, a run of symbols like @#$%&!, until the reader chooses to reveal it, mostly for profanity. Mentions, links and hashtags inside it stay covered and can't be followed until it is revealed. Where it can't be covered, like a notification, apps show symbols in its place."
+    },
+    "spoiler": {
+      "type": "object",
+      "properties": {},
+      "description": "Text hidden until the reader chooses to reveal it. Mentions, links and hashtags inside it stay hidden and can't be followed until it is revealed."
+    },
+    "underline": {
+      "type": "object",
+      "properties": {},
+      "description": "Underlined text."
+    },
+    "strikethrough": {
+      "type": "object",
+      "properties": {},
+      "description": "Struck-through text."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

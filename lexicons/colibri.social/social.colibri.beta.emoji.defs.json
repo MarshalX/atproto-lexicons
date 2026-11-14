@@ -1,0 +1,327 @@
+{
+  "id": "social.colibri.beta.emoji.defs",
+  "defs": {
+    "packView": {
+      "type": "object",
+      "required": [
+        "uri",
+        "provider",
+        "owner",
+        "name",
+        "emojis",
+        "createdAt"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "The pack's record URI."
+        },
+        "name": {
+          "type": "string",
+          "description": "The pack's name."
+        },
+        "owner": {
+          "type": "string",
+          "format": "did",
+          "description": "The repo that holds the pack."
+        },
+        "emojis": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "at-uri"
+          },
+          "description": "The URIs of the emoji in the pack, in the order they were added. Only emoji present in the catalog are listed."
+        },
+        "provider": {
+          "type": "string",
+          "description": "The emoji provider whose lexicon the record uses.",
+          "knownValues": [
+            "blue.moji"
+          ]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the record was created."
+        },
+        "description": {
+          "type": "string",
+          "description": "The pack's description."
+        }
+      },
+      "description": "A named group of custom emoji, normalised from its provider's records."
+    },
+    "emojiView": {
+      "type": "object",
+      "required": [
+        "uri",
+        "provider",
+        "owner",
+        "name",
+        "images",
+        "createdAt"
+      ],
+      "properties": {
+        "alt": {
+          "type": "string",
+          "description": "Alt text for the image."
+        },
+        "cid": {
+          "type": "string",
+          "format": "cid",
+          "description": "The record's CID."
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "The emoji's record URI."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name without colons."
+        },
+        "owner": {
+          "type": "string",
+          "format": "did",
+          "description": "The repo that holds the record and its blobs."
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "ref": "#emojiImage",
+            "type": "ref"
+          },
+          "description": "Every rendition the record carries."
+        },
+        "fallback": {
+          "type": "string",
+          "description": "The text shown where the image cannot render."
+        },
+        "provider": {
+          "type": "string",
+          "description": "The emoji provider whose lexicon the record uses.",
+          "knownValues": [
+            "blue.moji"
+          ]
+        },
+        "adultOnly": {
+          "type": "boolean",
+          "description": "Whether the owner marked the emoji as adult content."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the record was created."
+        }
+      },
+      "description": "A custom emoji, normalised from its provider's record."
+    },
+    "emojiImage": {
+      "type": "object",
+      "required": [
+        "cid",
+        "format",
+        "animated"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid",
+          "description": "The blob's CID in the owner's repo."
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The blob's size in bytes."
+        },
+        "format": {
+          "type": "string",
+          "description": "The image format.",
+          "knownValues": [
+            "png",
+            "webp",
+            "gif",
+            "apng",
+            "lottie",
+            "other"
+          ]
+        },
+        "pixels": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "The rendition's longest edge in pixels, when the provider fixes one."
+        },
+        "animated": {
+          "type": "boolean",
+          "description": "Whether the format is animated."
+        },
+        "mimeType": {
+          "type": "string",
+          "description": "The blob's MIME type."
+        }
+      },
+      "description": "One stored rendition of an emoji."
+    },
+    "emojiOwner": {
+      "type": "object",
+      "required": [
+        "did",
+        "kind"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "The owner."
+        },
+        "kind": {
+          "type": "string",
+          "description": "Whether the owner is a user or a community.",
+          "knownValues": [
+            "user",
+            "community"
+          ]
+        },
+        "avatar": {
+          "type": "string",
+          "format": "uri",
+          "description": "The user's avatar or the community's icon."
+        },
+        "handle": {
+          "type": "string",
+          "format": "handle",
+          "description": "The owner's handle."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The user's display name or the community's name."
+        }
+      },
+      "description": "The user or community that holds an emoji or pack."
+    },
+    "followView": {
+      "type": "object",
+      "required": [
+        "uri",
+        "subject",
+        "kind",
+        "state",
+        "owner",
+        "emojis",
+        "createdAt"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "The follow record."
+        },
+        "kind": {
+          "type": "string",
+          "description": "Whether the subject is a pack or a single emoji.",
+          "knownValues": [
+            "pack",
+            "emoji"
+          ]
+        },
+        "pack": {
+          "ref": "#packView",
+          "type": "ref",
+          "description": "The pack, when kind is pack and state is available."
+        },
+        "owner": {
+          "ref": "#emojiOwner",
+          "type": "ref",
+          "description": "Who holds the subject."
+        },
+        "state": {
+          "type": "string",
+          "description": "available when the subject resolves. missing when the owner deleted it. unreachable when the owner's repo cannot be read, for example a deactivated or taken down account.",
+          "knownValues": [
+            "available",
+            "missing",
+            "unreachable"
+          ]
+        },
+        "emojis": {
+          "type": "array",
+          "items": {
+            "ref": "#emojiView",
+            "type": "ref"
+          },
+          "description": "The pack's current emoji in pack order, or the single followed emoji. Empty unless state is available."
+        },
+        "subject": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "The followed pack or emoji."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the user started following."
+        }
+      },
+      "description": "A pack or single emoji the user follows, resolved against the owner's current catalog."
+    },
+    "catalogView": {
+      "type": "object",
+      "required": [
+        "owner",
+        "emojis",
+        "packs"
+      ],
+      "properties": {
+        "owner": {
+          "type": "string",
+          "format": "did",
+          "description": "The repo the catalog belongs to."
+        },
+        "packs": {
+          "type": "array",
+          "items": {
+            "ref": "#packView",
+            "type": "ref"
+          },
+          "description": "Every pack in the repo."
+        },
+        "emojis": {
+          "type": "array",
+          "items": {
+            "ref": "#emojiView",
+            "type": "ref"
+          },
+          "description": "Every emoji in the repo."
+        }
+      },
+      "description": "Every custom emoji and pack in one repo."
+    },
+    "libraryView": {
+      "type": "object",
+      "required": [
+        "own",
+        "follows"
+      ],
+      "properties": {
+        "own": {
+          "ref": "#catalogView",
+          "type": "ref",
+          "description": "The emoji and packs in the user's own repo."
+        },
+        "follows": {
+          "type": "array",
+          "items": {
+            "ref": "#followView",
+            "type": "ref"
+          },
+          "description": "Everything the user follows, oldest follow first."
+        }
+      },
+      "description": "A user's emoji library."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

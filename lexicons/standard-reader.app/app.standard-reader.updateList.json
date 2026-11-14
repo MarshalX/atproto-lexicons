@@ -1,0 +1,50 @@
+{
+  "id": "app.standard-reader.updateList",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "rkey",
+            "name",
+            "publications"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 128
+            },
+            "rkey": {
+              "type": "string",
+              "maxLength": 128
+            },
+            "description": {
+              "type": "string",
+              "maxLength": 4096
+            },
+            "publications": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "at-uri"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "description": "Replace an existing publication list."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,96 @@
+{
+  "id": "com.suibari.nagi.generateTrilinesAssist",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "from",
+            "to",
+            "lines",
+            "lang"
+          ],
+          "properties": {
+            "to": {
+              "type": "string",
+              "format": "datetime",
+              "description": "材料にする期間の終わり。通常は相談した時点。"
+            },
+            "from": {
+              "type": "string",
+              "format": "datetime",
+              "description": "材料にする期間の始まり。日記の日付（正午区切り）の0時。"
+            },
+            "lang": {
+              "type": "string",
+              "knownValues": [
+                "ja",
+                "en"
+              ]
+            },
+            "lines": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "maxLength": 500,
+                "maxGraphemes": 50
+              },
+              "maxLength": 3,
+              "minLength": 3,
+              "description": "いまの3行。空文字の行だけを埋める。"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired"
+        },
+        {
+          "name": "InvalidRequest"
+        },
+        {
+          "name": "RateLimited"
+        },
+        {
+          "name": "UpstreamUnavailable"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "lines"
+          ],
+          "properties": {
+            "lines": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "maxLength": 500,
+                "maxGraphemes": 50
+              },
+              "maxLength": 3,
+              "minLength": 3,
+              "description": "埋めた3行。入力済みの行はそのまま返す。"
+            },
+            "reason": {
+              "type": "string",
+              "description": "候補を作れなかった理由。noPosts はその日の投稿がないとき。",
+              "knownValues": [
+                "noPosts"
+              ]
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "3行日記の「botたんに相談」。本人の指定期間（日記の日付の0時から今まで）の Nagi 投稿から、空いている行に入れる候補を生成する。入力済みの行は生成の手がかりにだけ使い、保存しない。"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

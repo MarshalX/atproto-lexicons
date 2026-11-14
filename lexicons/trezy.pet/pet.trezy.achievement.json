@@ -1,0 +1,108 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "criteria": {
+      "description": "The params a kind needs differ by kind, which lexicon cannot express as a discriminated union — the same compromise `pet.trezy.species#behavior` makes. Every param is optional here and the job validates the combination each kind requires.",
+      "properties": {
+        "count": {
+          "description": "For the counting kinds: how many distinct species, how many coins, what level, how many species at that level.",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "group": {
+          "description": "For `group-complete`: the `pet.trezy.group` id whose every species must be owned.",
+          "maxLength": 64,
+          "type": "string"
+        },
+        "kind": {
+          "description": "NOT an enum, for the reason `tier` and `behavior.type` are not: a new kind should be publishable. A job that meets a kind it does not implement must skip that achievement and keep evaluating the rest, never refuse the whole run. featured — one of the player's pets was Pet of the Week (a posted pet.trezy.feature naming them).",
+          "knownValues": [
+            "first-pet",
+            "first-purchase",
+            "stage-full",
+            "distinct-species",
+            "group-complete",
+            "tier-complete",
+            "activity-complete",
+            "coins-spent",
+            "coins-collected",
+            "pet-level",
+            "pet-level-breadth",
+            "featured"
+          ],
+          "maxLength": 32,
+          "type": "string"
+        },
+        "tier": {
+          "description": "For `tier-complete`: the `pet.trezy.tier` id.",
+          "maxLength": 64,
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "How a badge is earned. Published to the game's repo, one per achievement, alongside the `community.lexicon.badge.definition` it points at.\n\nThe split is deliberate: the DEFINITION is the portable, standard artefact any client can read and render, and this is the game's private bookkeeping. Nothing here is needed to display a trophy — only to decide whether somebody has earned one — so it stays out of the interoperable record rather than bloating it with rules no other reader could evaluate anyway.\n\nThe rkey is the achievement id.",
+      "key": "any",
+      "record": {
+        "properties": {
+          "base": {
+            "description": "The plaque the mark is drawn on, which is how hard the badge is to get. It sits with `title` and `family` rather than being derived from `criteria` because it is a judgement, not a calculation — `species-3` and `tier-common` are both bronze for reasons no rule in the criteria could work out, and the same eleven group badges are all gold despite ranging from two animals to eight. NOT `knownValues` by accident: a fifth plaque should be publishable, and a client that meets one it has no art for draws the mark alone rather than nothing.",
+            "knownValues": [
+              "bronze",
+              "silver",
+              "gold",
+              "platinum"
+            ],
+            "maxLength": 32,
+            "type": "string"
+          },
+          "criteria": {
+            "description": "What has to be true. Evaluated server-side by the achievements job against the ledger, never by a client — a client that could decide it had earned something would be a client that could mint one.",
+            "ref": "#criteria",
+            "type": "ref"
+          },
+          "family": {
+            "description": "The set this belongs to, as a display heading — `Collections`, `Rarities`. A plain string rather than a record type: seven families need a name and an order, and the order already exists in `rank`, whose bands are per-family. A family sorts by the lowest rank among its members, so inserting one is a matter of picking a free band.",
+            "maxLength": 64,
+            "type": "string"
+          },
+          "hidden": {
+            "description": "ABSENT MEANS SHOWN. A hidden achievement is not listed until it is earned. Reserved for ones whose statement would be a spoiler; a reader writing `if hidden then` hides nothing by default, which is the safe direction.",
+            "type": "boolean"
+          },
+          "id": {
+            "description": "Matches the rkey, and matches BOTH the rkey and `name` of the `community.lexicon.badge.definition` this awards. That shared id is the link between the two records — deliberately, instead of a strong ref: a ref needs the definition's CID, which does not exist until the definition is published, so a static file could never carry a correct one. The job resolves uri and cid at award time, which also means re-publishing a definition cannot leave a stale CID behind in a second record.",
+            "maxLength": 64,
+            "type": "string"
+          },
+          "rank": {
+            "description": "Display order. Same convention as `pet.trezy.group` — banded, so a family can be inserted without renumbering its neighbours.",
+            "type": "integer"
+          },
+          "requirement": {
+            "description": "How to earn it, in the imperative — shown for a badge the player has NOT earned. The definition's `description` is the earned statement (\"You have kept every bat.\") and reads wrong for something still ahead of you, so the two are separate sentences rather than one doing both jobs badly. Absent means the shelf shows the title alone, which is the safe direction: a spoiler-free badge is better than a wrong sentence.",
+            "maxLength": 256,
+            "type": "string"
+          },
+          "title": {
+            "description": "What the badge is CALLED, as opposed to what it is keyed by. `name` on the definition is the stable id and must never change; this is free to be reworded, which is exactly why the two are different fields. Lives here rather than on the definition because the vendored badge lexicon has no title — inventing a field in somebody else's namespace would make our records unreadable to the clients that shape is for.",
+            "maxLength": 64,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "criteria"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "pet.trezy.achievement",
+  "lexicon": 1
+}

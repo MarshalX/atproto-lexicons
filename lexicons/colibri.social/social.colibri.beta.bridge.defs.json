@@ -1,0 +1,435 @@
+{
+  "id": "social.colibri.beta.bridge.defs",
+  "defs": {
+    "link": {
+      "type": "object",
+      "required": [
+        "channel",
+        "remoteRoom",
+        "remoteName"
+      ],
+      "properties": {
+        "channel": {
+          "type": "string",
+          "format": "space-ref",
+          "description": "The Colibri channel."
+        },
+        "backfill": {
+          "ref": "#backfill",
+          "type": "ref",
+          "description": "The latest history import an admin asked for."
+        },
+        "remoteName": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "The room's name on the other service when the link was made."
+        },
+        "remoteRoom": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "The id of the room on the other service."
+        }
+      },
+      "description": "A Colibri channel kept in sync with a room on another service."
+    },
+    "backfill": {
+      "type": "object",
+      "required": [
+        "requestedAt"
+      ],
+      "properties": {
+        "since": {
+          "type": "string",
+          "format": "datetime",
+          "description": "The oldest message to import. Absent imports the room's whole history."
+        },
+        "requestedAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When an admin asked for the import. Messages after this were relayed live."
+        }
+      },
+      "description": "A request to import a linked room's earlier messages."
+    },
+    "remoteRoom": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "The room's id on the other service."
+        },
+        "kind": {
+          "type": "string",
+          "description": "What sort of room it is.",
+          "knownValues": [
+            "text",
+            "voice",
+            "announcement",
+            "forum",
+            "other"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "The room's name."
+        },
+        "parent": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Name of the group or category the room sits in, if any."
+        }
+      },
+      "description": "A room a bridge can see on the other service, offered to admins when linking channels."
+    },
+    "attribution": {
+      "type": "object",
+      "required": [
+        "registration",
+        "platform",
+        "remoteId",
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "The author's display name on the other service when the record was written."
+        },
+        "avatar": {
+          "type": "blob",
+          "accept": [
+            "image/png",
+            "image/jpeg",
+            "image/gif",
+            "image/webp"
+          ],
+          "maxSize": 1000000,
+          "description": "The author's avatar, uploaded to the community's repo."
+        },
+        "imported": {
+          "type": "boolean",
+          "description": "Set on messages a bridge imported from the room's earlier history. The AppView sends no notifications for them, and marks their live events as imported."
+        },
+        "platform": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "The service the author is on, as its bridge names it."
+        },
+        "remoteId": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "The author's id on the other service. Opaque to Colibri."
+        },
+        "registration": {
+          "type": "string",
+          "format": "tid",
+          "description": "Record key of the registration the record was written for."
+        },
+        "remoteMessage": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "The id of the message on the other service, which lets a bridge find its own records again."
+        }
+      },
+      "description": "Who wrote a record on another service. The community writes every bridged record, and the AppView honours this attribution only on records the community itself wrote."
+    },
+    "pairingView": {
+      "type": "object",
+      "required": [
+        "bridge",
+        "platform",
+        "remoteSpace",
+        "remoteSpaceName",
+        "expiresAt"
+      ],
+      "properties": {
+        "bridge": {
+          "type": "string",
+          "format": "did",
+          "description": "The bridge that asked to pair."
+        },
+        "platform": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "The service the bridge connects to."
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the code stops working."
+        },
+        "remoteSpace": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "The id of the server, workspace or network on the other service."
+        },
+        "bridgeHandle": {
+          "type": "string",
+          "format": "handle",
+          "description": "The bridge's handle, when it resolves."
+        },
+        "remoteSpaceName": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Its name on the other service."
+        }
+      },
+      "description": "A pending pairing, shown to an admin before they confirm it."
+    },
+    "bridgedActor": {
+      "type": "object",
+      "required": [
+        "registration",
+        "platform",
+        "remoteId"
+      ],
+      "properties": {
+        "platform": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "The service the person is on."
+        },
+        "remoteId": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Their id on that service."
+        },
+        "registration": {
+          "type": "string",
+          "format": "tid",
+          "description": "Record key of the registration the record was written for."
+        }
+      },
+      "description": "Marks a profile view as someone on another service whose messages a bridge relays."
+    },
+    "remoteAuthor": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "The author's id on the other service."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "The author's display name on the other service."
+        },
+        "avatar": {
+          "type": "blob",
+          "accept": [
+            "image/png",
+            "image/jpeg",
+            "image/gif",
+            "image/webp"
+          ],
+          "maxSize": 1000000,
+          "description": "An avatar uploaded earlier with uploadBlob."
+        }
+      },
+      "description": "The person on the other service a bridge is writing for."
+    },
+    "backfillStatus": {
+      "type": "object",
+      "required": [
+        "channel",
+        "requestedAt",
+        "state",
+        "imported",
+        "from",
+        "until",
+        "updatedAt"
+      ],
+      "properties": {
+        "from": {
+          "type": "string",
+          "format": "datetime",
+          "description": "The start of the time range being imported."
+        },
+        "state": {
+          "type": "string",
+          "description": "How far the import is.",
+          "knownValues": [
+            "running",
+            "done",
+            "failed"
+          ]
+        },
+        "until": {
+          "type": "string",
+          "format": "datetime",
+          "description": "The end of the time range being imported."
+        },
+        "channel": {
+          "type": "string",
+          "format": "space-ref",
+          "description": "The linked channel being filled."
+        },
+        "reached": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the newest imported message in the channel was sent."
+        },
+        "imported": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "How many messages the bridge has imported so far."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the bridge last reported."
+        },
+        "requestedAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "The request this status belongs to."
+        }
+      },
+      "description": "Progress of a history import, as the bridge last reported it."
+    },
+    "bridgedReactor": {
+      "type": "object",
+      "required": [
+        "registration",
+        "platform",
+        "remoteId",
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Their display name on that service when they reacted."
+        },
+        "platform": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "The service the person is on."
+        },
+        "remoteId": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Their id on that service."
+        },
+        "registration": {
+          "type": "string",
+          "format": "tid",
+          "description": "Record key of the registration the reaction was written for."
+        }
+      },
+      "description": "Someone on another service who reacted to a message through a bridge."
+    },
+    "registrationView": {
+      "type": "object",
+      "required": [
+        "id",
+        "community",
+        "bridge",
+        "platform",
+        "remoteSpace",
+        "remoteSpaceName",
+        "links",
+        "enabled",
+        "createdBy",
+        "createdAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "tid",
+          "description": "Record key of the registration."
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "ref": "#link",
+            "type": "ref",
+            "description": "A linked channel."
+          },
+          "description": "Channels kept in sync."
+        },
+        "bridge": {
+          "type": "string",
+          "format": "did",
+          "description": "The bridge's DID."
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether the bridge may currently write."
+        },
+        "platform": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "The service the bridge connects to."
+        },
+        "backfills": {
+          "type": "array",
+          "items": {
+            "ref": "#backfillStatus",
+            "type": "ref",
+            "description": "A history import."
+          },
+          "description": "Progress of each linked channel's latest history import."
+        },
+        "community": {
+          "type": "string",
+          "format": "did",
+          "description": "The community the registration belongs to."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the bridge was paired."
+        },
+        "createdBy": {
+          "type": "string",
+          "format": "did",
+          "description": "The admin who paired the bridge."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the registration last changed."
+        },
+        "remoteSpace": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "The id of the server, workspace or network on the other service."
+        },
+        "bridgeHandle": {
+          "type": "string",
+          "format": "handle",
+          "description": "The bridge's handle, when it resolves."
+        },
+        "communityName": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "The community's name, when the AppView knows it."
+        },
+        "remoteSpaceName": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Its name on the other service."
+        },
+        "mirrorModeration": {
+          "type": "boolean",
+          "description": "Whether moderation crosses the bridge. When on, hiding a bridged message removes its original on the other service, and a moderator removing a relayed message there hides it here."
+        }
+      },
+      "description": "A bridge registered with a community."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

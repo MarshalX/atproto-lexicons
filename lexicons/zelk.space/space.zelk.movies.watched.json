@@ -1,0 +1,111 @@
+{
+  "id": "space.zelk.movies.watched",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "nullable": [
+          "rating",
+          "comment",
+          "reaction",
+          "favoriteCharacter"
+        ],
+        "required": [
+          "subject",
+          "watchedAt",
+          "createdAt"
+        ],
+        "properties": {
+          "liked": {
+            "type": "boolean",
+            "description": "Whether the viewer liked it."
+          },
+          "rating": {
+            "type": "integer",
+            "maximum": 10,
+            "minimum": 1,
+            "description": "Legacy: ratings now live in the linked Popfeed review (popfeedReview). Read only from records without one."
+          },
+          "source": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "Where the record came from, e.g. import:trakt."
+          },
+          "comment": {
+            "type": "string",
+            "maxLength": 10000,
+            "description": "Legacy: review texts now live in the linked Popfeed review (popfeedReview). Read only from records without one.",
+            "maxGraphemes": 3000
+          },
+          "subject": {
+            "ref": "#subject",
+            "type": "ref",
+            "description": "External identifiers of the movie."
+          },
+          "reaction": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 64
+            },
+            "maxLength": 8,
+            "description": "Moods of this viewing: shocked, touched, amused, scared, bored, thrilled, confused, tense (Bingers' feelings; zelk only: Popfeed has none)."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "precision": {
+            "type": "string",
+            "description": "How precise watchedAt is. Imported history is often only minute-accurate.",
+            "knownValues": [
+              "day",
+              "minute",
+              "second"
+            ]
+          },
+          "watchedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the movie was watched."
+          },
+          "popfeedItem": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The social.popfeed.feed.listItem marking the movie as watched (on the watched_movies list)."
+          },
+          "popfeedReview": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The social.popfeed.feed.review holding the rating and review text of this viewing. Replies and reactions go to it, so zelk.tv and Popfeed share one thread."
+          },
+          "favoriteCharacter": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "Identifier of the viewer's favorite character (opaque, source-specific)."
+          }
+        }
+      },
+      "description": "A single viewing (the dated diary entry) of a movie. The record key is deterministic: <idprefix><id>-<watchedAt as YYYYMMDDHHmm UTC>, e.g. tmdb99861-202302042259. What Popfeed already models lives in Popfeed records, linked here: the title marked as watched (social.popfeed.feed.listItem) and the rating and review text (social.popfeed.feed.review). This record keeps what Popfeed has no place for: the date of each viewing, its moods and its favorite character."
+    },
+    "subject": {
+      "type": "object",
+      "properties": {
+        "imdb": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "IMDb id, e.g. tt2395427."
+        },
+        "tmdb": {
+          "type": "integer",
+          "description": "TMDB movie id."
+        }
+      },
+      "description": "At least one identifier should be present."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

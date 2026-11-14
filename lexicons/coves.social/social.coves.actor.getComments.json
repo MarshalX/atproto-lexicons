@@ -1,0 +1,67 @@
+{
+  "id": "social.coves.actor.getComments",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "Actor not found"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "comments"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "comments": {
+              "type": "array",
+              "items": {
+                "ref": "social.coves.community.comment.defs#commentView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "actor"
+        ],
+        "properties": {
+          "actor": {
+            "type": "string",
+            "maxLength": 2048,
+            "description": "DID or handle of the user, or a bridged user's fediverse address as name@host or @name@host (e.g. alice@lemmy.world)"
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "community": {
+            "type": "string",
+            "format": "at-identifier",
+            "description": "Filter to comments in a specific community"
+          }
+        }
+      },
+      "description": "Get a user's comments for their profile page."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

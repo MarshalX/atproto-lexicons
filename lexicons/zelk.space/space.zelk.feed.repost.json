@@ -1,0 +1,36 @@
+{
+  "id": "space.zelk.feed.repost",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "repost",
+          "createdAt"
+        ],
+        "properties": {
+          "repost": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The app.bsky.feed.repost record."
+          },
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The post reposted."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Marks a Bluesky repost (app.bsky.feed.repost) as made on zelk.tv: same record key as the repost, so apps can tell its reposts apart."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

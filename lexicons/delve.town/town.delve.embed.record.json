@@ -1,0 +1,162 @@
+{
+  "id": "town.delve.embed.record",
+  "defs": {
+    "main": {
+      "type": "object",
+      "required": [
+        "record"
+      ],
+      "properties": {
+        "record": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref"
+        }
+      }
+    },
+    "view": {
+      "type": "object",
+      "required": [
+        "record"
+      ],
+      "properties": {
+        "record": {
+          "refs": [
+            "#viewRecord",
+            "#viewNotFound",
+            "#viewBlocked",
+            "#viewDetached",
+            "town.delve.feed.defs#generatorView",
+            "town.delve.graph.defs#listView",
+            "town.delve.labeler.defs#labelerView",
+            "town.delve.graph.defs#starterPackViewBasic"
+          ],
+          "type": "union"
+        }
+      }
+    },
+    "viewRecord": {
+      "type": "object",
+      "required": [
+        "uri",
+        "cid",
+        "author",
+        "value",
+        "indexedAt"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid"
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "value": {
+          "type": "unknown",
+          "description": "The record data itself."
+        },
+        "author": {
+          "ref": "town.delve.actor.defs#profileViewBasic",
+          "type": "ref"
+        },
+        "embeds": {
+          "type": "array",
+          "items": {
+            "refs": [
+              "town.delve.embed.images#view",
+              "town.delve.embed.video#view",
+              "town.delve.embed.gallery#view",
+              "town.delve.embed.external#view",
+              "town.delve.embed.record#view",
+              "town.delve.embed.recordWithMedia#view"
+            ],
+            "type": "union"
+          }
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "ref": "com.atproto.label.defs#label",
+            "type": "ref"
+          }
+        },
+        "indexedAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "likeCount": {
+          "type": "integer"
+        },
+        "quoteCount": {
+          "type": "integer"
+        },
+        "replyCount": {
+          "type": "integer"
+        },
+        "repostCount": {
+          "type": "integer"
+        }
+      }
+    },
+    "viewBlocked": {
+      "type": "object",
+      "required": [
+        "uri",
+        "blocked",
+        "author"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "author": {
+          "ref": "town.delve.feed.defs#blockedAuthor",
+          "type": "ref"
+        },
+        "blocked": {
+          "type": "boolean",
+          "const": true
+        }
+      }
+    },
+    "viewDetached": {
+      "type": "object",
+      "required": [
+        "uri",
+        "detached"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "detached": {
+          "type": "boolean",
+          "const": true
+        }
+      }
+    },
+    "viewNotFound": {
+      "type": "object",
+      "required": [
+        "uri",
+        "notFound"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "notFound": {
+          "type": "boolean",
+          "const": true
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A representation of a record embedded in a Bluesky record (eg, a post). For example, a quote-post, or sharing a feed generator record."
+}

@@ -1,0 +1,25 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Nutrient",
+      "key": "any",
+      "record": {
+        "description": "",
+        "properties": {
+          "listEntry": {
+            "ref": "nl.agroconnect.codelist.defs#listEntry",
+            "type": "ref"
+          }
+        },
+        "required": [
+          "listEntry"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "nl.agroconnect.codelist.nutrient",
+  "lexicon": 1
+}

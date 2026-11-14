@@ -1,0 +1,35 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "One kind of food. Published by the game, never by a player — the definitions guard refuses these from anybody but the publisher, the same as species and tiers. A food a client cannot draw must render nothing rather than a substitute, so these outlive any given build on purpose.",
+      "key": "any",
+      "record": {
+        "properties": {
+          "displayName": {
+            "description": "What it is called out loud — the accessible name of a morsel lying on the ground, since the sprite carries no text.",
+            "type": "string"
+          },
+          "frame": {
+            "description": "Which frame of the food sheet draws this. ⚠ UNLIKE MONEY, WHERE THE FRAME INDEX *IS* THE TIER AND THEREFORE CARRIES MEANING, this is an arbitrary slot. It is carried per record so the sheet stays append-only: a new food takes the next free frame and no existing food moves. A frame past the end of the sheet this build ships is dropped by the client rather than drawn, because empty space at a believable size is a blank rectangle a player would try to feed to something.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "id": {
+            "description": "Stable identifier, matching the record key. What a dropped morsel names, and what dropFood validates against.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "displayName",
+          "frame"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "pet.trezy.food",
+  "lexicon": 1
+}

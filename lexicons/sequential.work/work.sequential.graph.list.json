@@ -1,0 +1,54 @@
+{
+  "id": "work.sequential.graph.list",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "title",
+          "createdAt"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 1000,
+            "description": "AT-URIs of work.sequential.chapter or work.sequential.strip records, in the order the curator chose. For a reading order, this is the order to read them in. Use the DID form (at://did:...), not a handle."
+          },
+          "title": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#localizedTitle",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "minLength": 1,
+            "description": "Localized title of the list."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "The date and time the list was created."
+          },
+          "description": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#localizedDescription",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "description": "Localized description of the list."
+          }
+        }
+      },
+      "description": "A curated reading list or reading order. Anyone can create one in their own repo, and items can point to any creator's chapters or strips."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

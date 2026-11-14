@@ -1,0 +1,37 @@
+{
+  "id": "social.colibri.channel.read",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "channel",
+          "cursor"
+        ],
+        "properties": {
+          "$type": {
+            "type": "string",
+            "format": "nsid",
+            "description": "The type of the record."
+          },
+          "cursor": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The AT-URI of the last message the user read in the channel."
+          },
+          "channel": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The channel this message was sent in."
+          }
+        }
+      },
+      "description": "A read cursor for a Colibri channel, indicating the last read message by a user."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 1
+}

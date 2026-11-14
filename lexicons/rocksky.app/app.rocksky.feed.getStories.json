@@ -1,0 +1,37 @@
+{
+  "id": "app.rocksky.feed.getStories",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "ref": "app.rocksky.feed.defs#storiesView",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "feed": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The feed URI to filter stories by."
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "The maximum number of stories to return."
+          },
+          "following": {
+            "type": "boolean",
+            "description": "If true, only return stories from users the viewer follows. Requires authentication."
+          }
+        }
+      },
+      "description": "Get all currently playing tracks by users"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

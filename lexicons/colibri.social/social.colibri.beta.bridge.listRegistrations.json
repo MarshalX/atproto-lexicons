@@ -1,0 +1,58 @@
+{
+  "id": "social.colibri.beta.bridge.listRegistrations",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request is missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The caller lacks the community.manage permission."
+        },
+        {
+          "name": "CommunityNotFound",
+          "description": "No community exists at the given DID."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "registrations"
+          ],
+          "properties": {
+            "registrations": {
+              "type": "array",
+              "items": {
+                "ref": "social.colibri.beta.bridge.defs#registrationView",
+                "type": "ref",
+                "description": "A registration."
+              },
+              "description": "The community's bridges, newest first."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "community"
+        ],
+        "properties": {
+          "community": {
+            "type": "string",
+            "format": "did",
+            "description": "The community to list bridges for."
+          }
+        }
+      },
+      "description": "Lists the bridges connected to a community."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

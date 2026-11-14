@@ -1,0 +1,93 @@
+{
+  "id": "dev.knotless.listPaths",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository or revision, or a repository never pushed."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "ref",
+            "paths"
+          ],
+          "properties": {
+            "ref": {
+              "type": "string",
+              "description": "The ref or commit read, as `ref` named it."
+            },
+            "paths": {
+              "type": "array",
+              "items": {
+                "ref": "#pathView",
+                "type": "ref"
+              }
+            },
+            "truncated": {
+              "type": "boolean",
+              "description": "True when the tree holds more paths than `limit`, and the deepest were left out."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "repo"
+        ],
+        "properties": {
+          "ref": {
+            "type": "string",
+            "maxLength": 1024,
+            "description": "A branch, a tag or a commit; the default branch if absent."
+          },
+          "repo": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The repository's dev.knotless.repo record. Its authority may be a handle; a name the repository had before, or an owner it moved from with its agreement, finds it under the name it has now."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50000,
+            "maximum": 50000,
+            "minimum": 1,
+            "description": "The most paths to give: those deepest in the tree are left out first."
+          }
+        }
+      },
+      "description": "Every path in a repository's tree at a revision, folders as well as files, the shallowest first: for finding a file by name as it is typed. No authentication needed; asked as an account, with a service token or the pages' session cookie, a private repository it is a member of is read too, and the answer is that account's alone."
+    },
+    "pathView": {
+      "type": "object",
+      "required": [
+        "path",
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "description": "A directory, a file, or a submodule's commit.",
+          "knownValues": [
+            "tree",
+            "blob",
+            "commit"
+          ]
+        },
+        "path": {
+          "type": "string",
+          "description": "From the tree's root, with no leading slash."
+        }
+      },
+      "description": "One path in a tree."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Every path in a repository's tree at a revision."
+}

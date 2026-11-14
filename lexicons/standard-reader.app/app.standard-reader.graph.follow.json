@@ -1,0 +1,40 @@
+{
+  "id": "app.standard-reader.graph.follow",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "subject": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the user being followed."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the reader followed the user."
+          },
+          "excludedPublications": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 1000,
+            "description": "Publications owned by the followed user that the reader has explicitly opted out of (following a user subscribes to all their publications except these). AT URIs of site.standard.publication records."
+          }
+        }
+      },
+      "description": "Follows another user (a DID, not a publication). Presence of the record means followed; deleting it unfollows. The rkey is derived from the subject DID so each followed user maps to a single record. A followed user's recommends and documents enrich the reader's home feed."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

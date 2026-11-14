@@ -1,0 +1,62 @@
+{
+  "id": "app.zeens.getChatGate",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "allow",
+            "mutuals",
+            "permitted"
+          ],
+          "properties": {
+            "allow": {
+              "enum": [
+                "off",
+                "mutuals",
+                "everyone"
+              ],
+              "type": "string"
+            },
+            "bucket": {
+              "enum": [
+                "inbox",
+                "requests"
+              ],
+              "type": "string"
+            },
+            "mutuals": {
+              "type": "boolean"
+            },
+            "permitted": {
+              "type": "boolean"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "sender",
+          "recipient"
+        ],
+        "properties": {
+          "sender": {
+            "type": "string",
+            "format": "did"
+          },
+          "recipient": {
+            "type": "string",
+            "format": "did"
+          }
+        }
+      },
+      "description": "Return whether a sender may start/continue a conversation with a recipient, based on the recipient's chatPrefs and the follow relationship. Used by the server-side start gate."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

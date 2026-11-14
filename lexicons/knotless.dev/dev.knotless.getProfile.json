@@ -1,0 +1,182 @@
+{
+  "id": "dev.knotless.getProfile",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "ProfileNotFound",
+          "description": "No account by that DID or handle."
+        }
+      ],
+      "output": {
+        "schema": {
+          "ref": "#profileView",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "actor"
+        ],
+        "properties": {
+          "actor": {
+            "type": "string",
+            "format": "at-identifier",
+            "description": "The account, by DID or handle."
+          }
+        }
+      },
+      "description": "How an account shows on knotless: its dev.knotless.profile, field by field over its app.bsky.actor.profile, with its follows as the appview counts them. Optional authentication: with an asker, whether it follows the account."
+    },
+    "orgView": {
+      "type": "object",
+      "required": [
+        "actor"
+      ],
+      "properties": {
+        "actor": {
+          "ref": "dev.knotless.defs#actorView",
+          "type": "ref"
+        }
+      },
+      "description": "An organization an account is a member of."
+    },
+    "badgeView": {
+      "type": "object",
+      "required": [
+        "kind",
+        "tier",
+        "count"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "description": "Which badge: `upstream`, pulls merged into repositories of other accounts; `second-pair`, pulls of other accounts commented on before they merged; `peacemaker`, pulls landed after the merge queue ejected them for a conflict; `forked-and-fixed`, pulls merged into its repositories from forks of them; `good-company`, pulls the merge queue landed in a batch of five or more; `smooth-landing`, pulls the merge queue landed without ever ejecting them; `bisected`, pulls found by halving a batch that failed; `shipped`, releases published; `stargazer`, stars on its most starred repository; `carry-your-own`, an account on a PDS holding five accounts or fewer; `moved-house`, an account whose DID document named another PDS before; `first-light`, an account here with a repository before knotless 1.0. A kind is never reused for another meaning.",
+          "knownValues": [
+            "upstream",
+            "second-pair",
+            "peacemaker",
+            "forked-and-fixed",
+            "good-company",
+            "smooth-landing",
+            "bisected",
+            "shipped",
+            "stargazer",
+            "carry-your-own",
+            "moved-house",
+            "first-light"
+          ]
+        },
+        "next": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "The count the next tier starts at. Absent at the highest tier."
+        },
+        "tier": {
+          "type": "integer",
+          "maximum": 4,
+          "minimum": 1,
+          "description": "The highest tier its count reached, from 1 to 4. A badge earned once, as `forked-and-fixed`, `bisected`, `carry-your-own`, `moved-house` and `first-light` are, has only the first."
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "What the badge counts, as the appview counted it."
+        }
+      },
+      "description": "A badge an account earned, at the highest tier its count reached."
+    },
+    "profileView": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "bot": {
+          "type": "boolean",
+          "description": "Whether the account says it is a bot, as its dev.knotless.profile's `bot`. Absent when it is not."
+        },
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "orgs": {
+          "type": "array",
+          "items": {
+            "ref": "#orgView",
+            "type": "ref"
+          },
+          "description": "The organizations it is a member of in public, as the appview has indexed them; to the account itself, asking, its hidden memberships too. Absent when none."
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "ref": "dev.knotless.defs#link",
+            "type": "ref"
+          },
+          "maxLength": 10,
+          "description": "Only http and https addresses."
+        },
+        "avatar": {
+          "type": "string",
+          "format": "uri",
+          "description": "The account's picture: from Bluesky's CDN, or, for one its dev.knotless.profile names, from this appview."
+        },
+        "badges": {
+          "type": "array",
+          "items": {
+            "ref": "#badgeView",
+            "type": "ref"
+          },
+          "description": "The badges it earned, in the order knotless shows them, as the appview counts them from what it has indexed: none it could not count again from accounts' records. Absent when none, or when the appview keeps no index."
+        },
+        "handle": {
+          "type": "string",
+          "description": "The handle the account claims, when it resolves back to it; else the DID."
+        },
+        "viewer": {
+          "ref": "dev.knotless.defs#actorViewerState",
+          "type": "ref",
+          "description": "What the account asking has to do with it; absent when no one asks."
+        },
+        "pronouns": {
+          "type": "string",
+          "maxLength": 200,
+          "maxGraphemes": 20
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 2560,
+          "description": "The account's bio.",
+          "maxGraphemes": 256
+        },
+        "displayName": {
+          "type": "string",
+          "maxLength": 640,
+          "maxGraphemes": 64
+        },
+        "followsCount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "How many accounts it follows on knotless, when the appview keeps an index."
+        },
+        "organization": {
+          "type": "boolean",
+          "description": "Whether the account is an organization, keeping a public dev.knotless.org record, as the appview has indexed it. Absent when it is not."
+        },
+        "followersCount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "How many accounts follow it on knotless, when the appview keeps an index."
+        }
+      },
+      "description": "An account as knotless shows it."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "How an account shows on knotless."
+}

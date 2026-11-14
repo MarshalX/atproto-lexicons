@@ -1,0 +1,40 @@
+{
+  "id": "app.standard-reader.getListFeed",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "ref": "app.standard-reader.defs#cursorPageDocuments",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "list"
+        ],
+        "properties": {
+          "list": {
+            "type": "string",
+            "format": "at-uri"
+          },
+          "limit": {
+            "type": "integer",
+            "default": 20,
+            "maximum": 50,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string",
+            "maxLength": 8192
+          }
+        }
+      },
+      "description": "Chronological article feed across all publications in a list."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

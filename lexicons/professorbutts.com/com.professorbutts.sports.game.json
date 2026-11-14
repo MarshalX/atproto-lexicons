@@ -1,0 +1,138 @@
+{
+  "id": "com.professorbutts.sports.game",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "sport",
+          "league",
+          "status",
+          "home",
+          "away",
+          "startsAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "away": {
+            "ref": "com.professorbutts.sports.defs#competitor",
+            "type": "ref"
+          },
+          "home": {
+            "ref": "com.professorbutts.sports.defs#competitor",
+            "type": "ref"
+          },
+          "clock": {
+            "type": "string",
+            "maxLength": 16,
+            "description": "Display clock, e.g. '4:32'. Omitted when not applicable."
+          },
+          "round": {
+            "type": "string",
+            "description": "Stage of the season. Playoff rounds get a badge on the card.",
+            "knownValues": [
+              "preseason",
+              "regular",
+              "wildcard",
+              "divisional",
+              "conference",
+              "superbowl"
+            ]
+          },
+          "sport": {
+            "type": "string",
+            "maxLength": 64,
+            "knownValues": [
+              "football",
+              "basketball",
+              "baseball",
+              "hockey",
+              "soccer"
+            ]
+          },
+          "stats": {
+            "type": "array",
+            "items": {
+              "refs": [
+                "com.professorbutts.sports.defs#lineScore",
+                "com.professorbutts.sports.defs#footballBoxScore",
+                "com.professorbutts.sports.defs#baseballBoxScore",
+                "com.professorbutts.sports.defs#basketballBoxScore"
+              ],
+              "type": "union",
+              "description": "Optional extra detail. Viewers keep the card one fixed size unless they draw stats."
+            },
+            "maxLength": 4,
+            "description": "Optional stats blocks (line score, box score). The only thing that may make the card taller."
+          },
+          "venue": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "league": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "League short code, e.g. NFL, NBA, MLS."
+          },
+          "period": {
+            "ref": "com.professorbutts.sports.defs#period",
+            "type": "ref"
+          },
+          "season": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "source": {
+            "type": "string",
+            "format": "uri",
+            "description": "Where the data came from."
+          },
+          "status": {
+            "type": "string",
+            "knownValues": [
+              "scheduled",
+              "live",
+              "halftime",
+              "final",
+              "postponed",
+              "canceled"
+            ]
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "situation": {
+            "refs": [
+              "com.professorbutts.sports.defs#footballSituation",
+              "com.professorbutts.sports.defs#baseballSituation",
+              "com.professorbutts.sports.defs#basketballSituation",
+              "com.professorbutts.sports.defs#hockeySituation",
+              "com.professorbutts.sports.defs#soccerSituation"
+            ],
+            "type": "union",
+            "description": "Sport-specific live detail. Each value carries its $type."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "conference": {
+            "type": "string",
+            "description": "Conference for playoff games before the Super Bowl.",
+            "knownValues": [
+              "AFC",
+              "NFC"
+            ]
+          }
+        }
+      },
+      "description": "Record key is a stable game slug, e.g. 'nfl-2026-11-09-cin-pit'."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A single sporting event and its current state. One record per game, updated in place as the game progresses."
+}

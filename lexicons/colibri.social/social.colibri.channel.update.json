@@ -1,0 +1,112 @@
+{
+  "id": "social.colibri.channel.update",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "errors": [
+        {
+          "name": "AppViewNotAuthorized",
+          "description": "The acting account has not published this AppView as authorized to act for it."
+        },
+        {
+          "name": "AuthRequired",
+          "description": "Missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "CommunityCredentialsUnrecoverable",
+          "description": "The AppView cannot write to the community's repo and could not repair its own access."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The caller lacks the permission this method requires."
+        },
+        {
+          "name": "InvalidRequest",
+          "description": "A parameter or body field was missing or malformed."
+        },
+        {
+          "name": "NotCommunityHub",
+          "description": "This AppView does not administer the community; the hub field names the one that does."
+        },
+        {
+          "name": "PdsUnavailable",
+          "description": "The PDS this operation needs is unreachable or is not a PDS."
+        },
+        {
+          "name": "UpstreamFailure",
+          "description": "A service outside this AppView failed."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri"
+          ],
+          "properties": {
+            "uri": {
+              "type": "string",
+              "format": "at-uri"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "channel"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "channel": {
+            "type": "string",
+            "format": "at-uri"
+          },
+          "category": {
+            "type": "string",
+            "format": "at-uri"
+          },
+          "ownerOnly": {
+            "type": "boolean"
+          },
+          "linkEmbeds": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          },
+          "allowedRoles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "record-key"
+            }
+          },
+          "allowedMembers": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "did"
+            }
+          },
+          "clearLinkEmbeds": {
+            "type": "boolean",
+            "description": "Drops the channel's own linkEmbeds setting so the community default applies again."
+          },
+          "clearAllowedRoles": {
+            "type": "boolean"
+          },
+          "clearAllowedMembers": {
+            "type": "boolean"
+          }
+        }
+      },
+      "description": "Updates a channel's settings."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

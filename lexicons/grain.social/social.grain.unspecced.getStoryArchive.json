@@ -1,0 +1,53 @@
+{
+  "id": "social.grain.unspecced.getStoryArchive",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "stories"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "stories": {
+              "type": "array",
+              "items": {
+                "ref": "social.grain.story.defs#storyView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "actor"
+        ],
+        "properties": {
+          "actor": {
+            "type": "string",
+            "format": "at-identifier"
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Get all stories for an actor, including expired ones. For archive browsing."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

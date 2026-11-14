@@ -1,0 +1,79 @@
+{
+  "id": "dev.knotless.assignment",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "repo",
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "repo": {
+            "ref": "dev.knotless.defs#repoRef",
+            "type": "ref",
+            "description": "The repository the pull or issue is on."
+          },
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The dev.knotless.pull or dev.knotless.issue assigned."
+          },
+          "assignees": {
+            "type": "array",
+            "items": {
+              "ref": "#entry",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "description": "One entry per account this one has assigned it to or taken off it, the latest of each."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "reviewers": {
+            "type": "array",
+            "items": {
+              "ref": "#entry",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "description": "For a pull, one entry per account this one has asked to review it or stopped asking, the latest of each."
+          }
+        }
+      },
+      "description": "Kept in the account of the owner or collaborator who assigns, one per pull or issue, keyed `<repo key>.<hash of the subject's URI>` as a dev.knotless.label record is, and rewritten as they change; for a private repository, in their repo inside its space. Readers honor it from the repository's owner and collaborators alone. Each account stands assigned, or asked to review, as the latest of their entries for it says, by `setAt`. A pull's author asks for reviews in the pull itself (dev.knotless.pull's `reviewers`); those asked here are asked besides."
+    },
+    "entry": {
+      "type": "object",
+      "required": [
+        "did",
+        "setAt"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "The account, by DID."
+        },
+        "setAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When it was said. Readers pass over one later than their own clock by more than a few minutes, until it is not."
+        },
+        "removed": {
+          "type": "boolean",
+          "description": "No longer assigned, or asked, rather than so."
+        }
+      },
+      "description": "An account assigned, or asked to review, or no longer, at a time."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Whom one of a repository's maintainers assigns a pull or an issue to, and asks to review a pull."
+}

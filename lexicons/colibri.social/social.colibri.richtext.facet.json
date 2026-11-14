@@ -1,0 +1,228 @@
+{
+  "id": "social.colibri.richtext.facet",
+  "defs": {
+    "bold": {
+      "type": "object",
+      "properties": {},
+      "description": "A facet feature for bold text."
+    },
+    "code": {
+      "type": "object",
+      "properties": {},
+      "description": "A facet feature for inline code text."
+    },
+    "link": {
+      "type": "object",
+      "required": [
+        "uri"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "The URI of the link."
+        }
+      },
+      "description": "A facet feature for a hyperlink."
+    },
+    "list": {
+      "type": "object",
+      "required": [
+        "ordered"
+      ],
+      "properties": {
+        "ordered": {
+          "type": "boolean",
+          "description": "Whether the item belongs to an ordered (numbered) list."
+        }
+      },
+      "description": "A facet feature for a single list item line."
+    },
+    "main": {
+      "type": "object",
+      "required": [
+        "index",
+        "features"
+      ],
+      "properties": {
+        "index": {
+          "ref": "lex:social.colibri.richtext.facet#byteSlice",
+          "type": "ref"
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "refs": [
+              "lex:social.colibri.richtext.facet#channel",
+              "lex:social.colibri.richtext.facet#bold",
+              "lex:social.colibri.richtext.facet#italic",
+              "lex:social.colibri.richtext.facet#underline",
+              "lex:social.colibri.richtext.facet#strikethrough",
+              "lex:social.colibri.richtext.facet#code",
+              "lex:social.colibri.richtext.facet#codeblock",
+              "lex:social.colibri.richtext.facet#quote",
+              "lex:social.colibri.richtext.facet#heading",
+              "lex:social.colibri.richtext.facet#list",
+              "lex:social.colibri.richtext.facet#subtext",
+              "lex:social.colibri.richtext.facet#spoiler",
+              "lex:social.colibri.richtext.facet#mention",
+              "lex:social.colibri.richtext.facet#role",
+              "lex:social.colibri.richtext.facet#link",
+              "lex:social.colibri.richtext.facet#time"
+            ],
+            "type": "union"
+          },
+          "description": "The features of this facet."
+        }
+      },
+      "description": "A rich text facet annotation on a message."
+    },
+    "role": {
+      "type": "object",
+      "required": [
+        "role"
+      ],
+      "properties": {
+        "role": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "The AT-URI of the mentioned role record."
+        }
+      },
+      "description": "A facet feature for a role mention. Resolves to a community role, at index time the AppView notifies every member holding the role (gated by the role's `mentionable` flag or the author's `mention.roles` permission)."
+    },
+    "time": {
+      "type": "object",
+      "required": [
+        "datetime"
+      ],
+      "properties": {
+        "style": {
+          "type": "string",
+          "description": "Display style for the timestamp (mirrors Discord-style formats).",
+          "knownValues": [
+            "time-short",
+            "time-long",
+            "date-short",
+            "date-long",
+            "datetime-short",
+            "datetime-long",
+            "relative"
+          ]
+        },
+        "datetime": {
+          "type": "string",
+          "format": "datetime",
+          "description": "The ISO 8601 timestamp."
+        }
+      },
+      "description": "A facet feature for a timestamp."
+    },
+    "quote": {
+      "type": "object",
+      "properties": {},
+      "description": "A facet feature for a block quote."
+    },
+    "italic": {
+      "type": "object",
+      "properties": {},
+      "description": "A facet feature for italic text."
+    },
+    "channel": {
+      "type": "object",
+      "required": [
+        "channel"
+      ],
+      "properties": {
+        "channel": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "The record key of the referenced channel."
+        }
+      },
+      "description": "A facet feature for a channel reference."
+    },
+    "heading": {
+      "type": "object",
+      "required": [
+        "level"
+      ],
+      "properties": {
+        "level": {
+          "type": "integer",
+          "maximum": 3,
+          "minimum": 1,
+          "description": "The heading level."
+        }
+      },
+      "description": "A facet feature for a heading line (levels 1–3)."
+    },
+    "mention": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "The DID of the mentioned user."
+        }
+      },
+      "description": "A facet feature for a user mention."
+    },
+    "spoiler": {
+      "type": "object",
+      "properties": {},
+      "description": "A facet feature for inline spoiler text."
+    },
+    "subtext": {
+      "type": "object",
+      "properties": {},
+      "description": "A facet feature for a subtext line (small, muted)."
+    },
+    "byteSlice": {
+      "type": "object",
+      "required": [
+        "byteStart",
+        "byteEnd"
+      ],
+      "properties": {
+        "byteEnd": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The end index of the byte slice (exclusive)."
+        },
+        "byteStart": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The start index of the byte slice (inclusive)."
+        }
+      },
+      "description": "Specifies the sub-string range a facet feature applies to. Start index is inclusive, end index is exclusive. Indices are zero-based, counting bytes of the UTF-8 encoded text."
+    },
+    "codeblock": {
+      "type": "object",
+      "properties": {
+        "lang": {
+          "type": "string",
+          "description": "The language of the code block, if specified."
+        }
+      },
+      "description": "A facet feature for a multi-line code block."
+    },
+    "underline": {
+      "type": "object",
+      "properties": {},
+      "description": "A facet feature for underlined text."
+    },
+    "strikethrough": {
+      "type": "object",
+      "properties": {},
+      "description": "A facet feature for strikethrough text."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 4
+}

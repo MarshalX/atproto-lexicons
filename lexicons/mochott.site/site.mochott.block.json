@@ -1,0 +1,168 @@
+{
+  "id": "site.mochott.block",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "html",
+          "css",
+          "fields",
+          "createdAt"
+        ],
+        "properties": {
+          "css": {
+            "type": "string",
+            "maxLength": 50000,
+            "description": "Scoped CSS for the block. Uses {{fieldKey}} placeholders for dynamic values like colors."
+          },
+          "html": {
+            "type": "string",
+            "maxLength": 50000,
+            "description": "HTML template. Uses {{fieldKey}} placeholders for dynamic values."
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Display name of the block.",
+            "maxGraphemes": 50
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "ref": "#fieldDef",
+              "type": "ref"
+            },
+            "maxLength": 20,
+            "description": "Field definitions for user-configurable parameters."
+          },
+          "preview": {
+            "type": "blob",
+            "accept": [
+              "image/png",
+              "image/jpeg",
+              "image/webp"
+            ],
+            "maxSize": 500000,
+            "description": "Preview thumbnail image for the block marketplace."
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Version number, incremented on each update."
+          },
+          "category": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "Category for marketplace organization."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp when the block was created."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp when the block was last updated."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000,
+            "description": "Short description of the block's purpose and usage.",
+            "maxGraphemes": 300
+          }
+        }
+      },
+      "description": "Record representing a custom block that can be inserted into articles by any user."
+    },
+    "fieldDef": {
+      "type": "object",
+      "required": [
+        "key",
+        "label",
+        "type"
+      ],
+      "properties": {
+        "key": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Unique identifier for the field, used as {{key}} in HTML/CSS templates."
+        },
+        "type": {
+          "type": "string",
+          "description": "Input type for the field.",
+          "knownValues": [
+            "text",
+            "textarea",
+            "color",
+            "image",
+            "url",
+            "number",
+            "select",
+            "boolean"
+          ]
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Display label shown to users in the editor.",
+          "maxGraphemes": 50
+        },
+        "default": {
+          "type": "string",
+          "maxLength": 5000,
+          "description": "Default value for the field."
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "ref": "#selectOption",
+            "type": "ref"
+          },
+          "maxLength": 50,
+          "description": "Available options for select-type fields."
+        },
+        "required": {
+          "type": "boolean",
+          "description": "Whether this field must be filled in."
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Help text shown to users when editing the field.",
+          "maxGraphemes": 200
+        }
+      },
+      "description": "Definition of a single configurable field within a custom block."
+    },
+    "selectOption": {
+      "type": "object",
+      "required": [
+        "value",
+        "label"
+      ],
+      "properties": {
+        "label": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Display label for this option.",
+          "maxGraphemes": 50
+        },
+        "value": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "The stored value when this option is selected."
+        }
+      },
+      "description": "A single option for a select-type field."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 1,
+  "description": "A reusable custom block definition. Contains an HTML template, scoped CSS, and field definitions for user-configurable parameters."
+}

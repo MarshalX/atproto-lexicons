@@ -1,0 +1,30 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Enables a specific experimental feature flag identified by the record key.",
+      "key": "any",
+      "record": {
+        "properties": {
+          "createdAt": {
+            "description": "When the flag record was first written.",
+            "format": "datetime",
+            "type": "string"
+          },
+          "enabled": {
+            "description": "Whether the experimental feature flag is enabled for this account.",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "enabled",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "cloud.substratum.experimental.feature",
+  "lexicon": 1
+}

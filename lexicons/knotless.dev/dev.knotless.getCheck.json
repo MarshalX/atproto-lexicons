@@ -1,0 +1,85 @@
+{
+  "id": "dev.knotless.getCheck",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "InvalidRequest",
+          "description": "`uri` names no dev.knotless.check record."
+        },
+        {
+          "name": "NotFound",
+          "description": "No such repository, or no such check of it by a runner it names."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "check",
+            "ref",
+            "runner",
+            "steps"
+          ],
+          "properties": {
+            "log": {
+              "type": "string",
+              "description": "The end of what its steps printed, each step's after a line `==> <name>`."
+            },
+            "ref": {
+              "type": "string",
+              "description": "The ref it ran at, in full, such as refs/heads/main."
+            },
+            "pull": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The dev.knotless.pull it ran for, if it ran for one."
+            },
+            "check": {
+              "ref": "dev.knotless.defs#checkView",
+              "type": "ref"
+            },
+            "steps": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.check#step",
+                "type": "ref"
+              },
+              "description": "In the order they ran."
+            },
+            "runner": {
+              "ref": "dev.knotless.defs#actorView",
+              "type": "ref",
+              "description": "The account that ran it."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "repo",
+          "uri"
+        ],
+        "properties": {
+          "uri": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The dev.knotless.check record, by a runner the repository names."
+          },
+          "repo": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The repository's dev.knotless.repo record. Its authority may be a handle; a name the repository had before, or an owner it moved from with its agreement, finds it under the name it has now."
+          }
+        }
+      },
+      "description": "A check of one of a repository's workflows, as its runner reported it: each step, and the end of what they printed. Only a check by a runner the repository's record names is found. No authentication; responses are not personalized."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A check of one of a repository's workflows."
+}

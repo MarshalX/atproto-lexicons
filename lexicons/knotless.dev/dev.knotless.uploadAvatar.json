@@ -1,0 +1,32 @@
+{
+  "id": "dev.knotless.uploadAvatar",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "encoding": "*/*"
+      },
+      "errors": [
+        {
+          "name": "InvalidRequest",
+          "description": "No picture, or one that is not a PNG, JPEG, WebP or GIF."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        }
+      ],
+      "output": {
+        "schema": {
+          "ref": "dev.knotless.getOwnProfile#ownProfile",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "Uploads the body, a PNG, JPEG, WebP or GIF, as a blob of the account logged in to this appview's web pages, and names it as the picture of its dev.knotless.profile record, as `knotless account profile --avatar` does: one that is not a PNG or JPEG, or is over 1,000,000 bytes, is drawn again as a JPEG that fits, at most 2000 pixels on its longest side. Requires the session cookie the pages' login sets: the appview writes with the session it keeps for that account."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Sets the picture of the account logged in to this appview's pages."
+}

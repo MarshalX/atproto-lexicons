@@ -1,0 +1,65 @@
+{
+  "id": "buzz.bookhive.searchBooks",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "books"
+          ],
+          "properties": {
+            "books": {
+              "type": "array",
+              "items": {
+                "ref": "buzz.bookhive.hiveBook#main",
+                "type": "ref"
+              }
+            },
+            "offset": {
+              "type": "integer",
+              "description": "The next offset to use for pagination (result of limit + offset)"
+            },
+            "userStatuses": {
+              "type": "unknown",
+              "description": "Map of hiveId to the current user's reading status for that book. Only present when authenticated."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [],
+        "properties": {
+          "q": {
+            "type": "string",
+            "description": "Search query string. Will be matched against title and authors fields."
+          },
+          "id": {
+            "type": "string",
+            "description": "The ID of the book within the hive."
+          },
+          "genre": {
+            "type": "string",
+            "description": "Filter by genre. Returns books in that genre. Can be used with or without q."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 25,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "offset": {
+            "type": "integer",
+            "description": "Offset for pagination into the result set"
+          }
+        }
+      },
+      "description": "Find books matching the search criteria. Does not require authentication."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

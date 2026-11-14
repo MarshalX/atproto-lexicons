@@ -1,0 +1,82 @@
+{
+  "id": "social.colibri.moderation",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "action",
+          "subject",
+          "createdBy",
+          "createdAt"
+        ],
+        "properties": {
+          "$type": {
+            "type": "string",
+            "format": "nsid",
+            "description": "The type of the record."
+          },
+          "action": {
+            "type": "string",
+            "description": "The moderation action being recorded.",
+            "knownValues": [
+              "ban",
+              "unban",
+              "hideMessage",
+              "unhideMessage",
+              "kick",
+              "suppressEmbeds",
+              "unsuppressEmbeds"
+            ]
+          },
+          "embeds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "URLs this action applies to, used by suppressEmbeds and unsuppressEmbeds. Ignored by every other action."
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 512,
+            "description": "Optional human-readable reason for the action."
+          },
+          "subject": {
+            "ref": "lex:social.colibri.moderation#subject",
+            "type": "ref"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "createdBy": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the issuer (typically a member with the required permission)."
+          }
+        }
+      },
+      "description": "A moderation event scoped to the community that owns this repo. Acts as an append-only audit log; current state is derived from the action history per subject."
+    },
+    "subject": {
+      "type": "object",
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        }
+      },
+      "description": "Target of the moderation action. Use `did` for user-targeted actions, `uri` for content-targeted actions."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 2
+}

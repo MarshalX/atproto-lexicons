@@ -1,0 +1,27 @@
+{
+  "id": "is.logue.block.blockquote",
+  "defs": {
+    "main": {
+      "type": "object",
+      "required": [
+        "plaintext"
+      ],
+      "properties": {
+        "facets": {
+          "type": "array",
+          "items": {
+            "ref": "is.logue.richtext.facet",
+            "type": "ref"
+          },
+          "description": "Facets for text formatting and features"
+        },
+        "plaintext": {
+          "type": "string",
+          "description": "The content of the blockquote"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

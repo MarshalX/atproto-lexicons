@@ -1,0 +1,31 @@
+{
+  "id": "app.standard-reader.collectionsPublication",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "publication",
+          "createdAt"
+        ],
+        "properties": {
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When this publication was marked as a collections series."
+          },
+          "publication": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT URI of the site.standard.publication record used to publish collections."
+          }
+        }
+      },
+      "description": "Marks a site.standard.publication as a Standard Reader collections series. Uses the same record key as the publication it marks."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,66 @@
+{
+  "id": "tech.tokimeki.forum.profile",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "createdAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 640,
+            "maxGraphemes": 64
+          },
+          "rules": {
+            "type": "string",
+            "maxLength": 40960,
+            "maxGraphemes": 4096
+          },
+          "avatar": {
+            "type": "blob",
+            "accept": [
+              "image/png",
+              "image/jpeg",
+              "image/webp"
+            ],
+            "maxSize": 1000000
+          },
+          "labels": {
+            "refs": [
+              "com.atproto.label.defs#selfLabels"
+            ],
+            "type": "union",
+            "description": "Self-applied labels for the whole server, e.g. adult content."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 10240,
+            "maxGraphemes": 1024
+          },
+          "discoverable": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether the server may be listed in public directories."
+          },
+          "limitedSpace": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Space URI of the paired tech.tokimeki.forum.server space (same owner and skey) that holds the members-only channels. Makes the pairing discoverable without relying on the naming convention."
+          }
+        }
+      },
+      "description": "Display information of a server. Written by the server owner into their own repo within the server's public space (rkey self), so any client holding a credential for the public space can read it."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

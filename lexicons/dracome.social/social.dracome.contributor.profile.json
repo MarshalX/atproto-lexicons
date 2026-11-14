@@ -1,0 +1,39 @@
+{
+  "id": "social.dracome.contributor.profile",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt"
+        ],
+        "properties": {
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "ISO 8601 UTC datetime with trailing Z when this profile was created."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Optional ISO 8601 UTC datetime with trailing Z when this profile was last updated."
+          },
+          "identifiers": {
+            "type": "array",
+            "items": {
+              "ref": "social.dracome.contributor.defs#contributorIdentifier",
+              "type": "ref"
+            },
+            "maxLength": 16,
+            "description": "Optional external identifiers from GND, VIAF, Wikidata, or Open Library."
+          }
+        }
+      },
+      "description": "An optional sibling profile for anyone credited on a book, published to the person's own PDS as a singleton record. Holds only the delta beyond the base actor profile — external identifiers from authority sources. Carries no name of its own; the display name always comes from the base social.dracome.actor.profile on the same identity."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

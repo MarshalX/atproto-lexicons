@@ -1,0 +1,17 @@
+{
+  "id": "network.cosmik.library",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "name": "Semble Library",
+      "type": "space",
+      "collections": [
+        "network.cosmik.card",
+        "network.cosmik.connection"
+      ],
+      "description": "A user's private card library — the anchor of last resort for a card saved privately and not added to any collection."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

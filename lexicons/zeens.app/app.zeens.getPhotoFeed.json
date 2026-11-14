@@ -1,0 +1,80 @@
+{
+  "id": "app.zeens.getPhotoFeed",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "lens": {
+            "type": "string",
+            "description": "Filter by lens model substring match."
+          },
+          "sort": {
+            "type": "string",
+            "description": "Sort order. Default is reverse-chronological. 'popular' ranks by like count within the optional window. 'relevant' ranks keyword matches by where the term hit (text > alt > location > categories > exif) and applies only when 'keyword' is set.",
+            "knownValues": [
+              "popular",
+              "relevant"
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "description": "Maximum number of results to return."
+          },
+          "media": {
+            "type": "string",
+            "description": "One kind of post only: photos or videos. Absent returns both.",
+            "knownValues": [
+              "photos",
+              "videos"
+            ]
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Pagination cursor from previous response."
+          },
+          "aiFilter": {
+            "type": "string",
+            "description": "Filter by AI declaration: no-ai, ai-assisted, contains-ai.",
+            "knownValues": [
+              "no-ai",
+              "ai-assisted",
+              "contains-ai"
+            ]
+          },
+          "category": {
+            "type": "string",
+            "description": "Filter by photography category (e.g. landscape, portrait, street)."
+          },
+          "filmLens": {
+            "type": "string",
+            "description": "Filter by the hand-typed film lens in postMeta.film.lens, matched exactly (case-insensitively). Distinct from `lens`, which matches EXIF with a substring."
+          },
+          "cameraMake": {
+            "type": "string",
+            "description": "Filter by camera manufacturer (e.g. Sony, Canon, Fujifilm)."
+          },
+          "filmCamera": {
+            "type": "string",
+            "description": "Filter by the hand-typed film body in postMeta.film.camera, matched exactly (case-insensitively). Distinct from cameraModel, which matches EXIF — on a film scan the EXIF describes the scanner, so a film body only ever appears here."
+          },
+          "cameraModel": {
+            "type": "string",
+            "description": "Filter by camera model (e.g. A7R V, X-T5)."
+          }
+        }
+      },
+      "description": "Retrieve a feed of Zeens photos and videos with optional filters by camera, category, and engagement.",
+      "target_collection": "app.zeens.postMeta"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

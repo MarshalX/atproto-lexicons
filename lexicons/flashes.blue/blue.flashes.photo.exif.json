@@ -1,0 +1,117 @@
+{
+  "id": "blue.flashes.photo.exif",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "post",
+          "imageIndex",
+          "createdAt"
+        ],
+        "properties": {
+          "iso": {
+            "type": "integer",
+            "description": "ISO speed rating (e.g. 100, 800, 3200)"
+          },
+          "make": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Camera manufacturer (e.g. 'Canon', 'Sony')"
+          },
+          "post": {
+            "type": "string",
+            "format": "at-uri",
+            "maxLength": 512,
+            "description": "Reference to the parent post record"
+          },
+          "flash": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "Flash status description (e.g. 'On, Fired', 'Off, Auto')"
+          },
+          "model": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Camera model (e.g. 'EOS R5', 'A7 IV')"
+          },
+          "fNumber": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Aperture f-number as a decimal string (e.g. '2.8', '5.6')"
+          },
+          "lensMake": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Lens manufacturer"
+          },
+          "software": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Camera firmware or editing software"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "lensModel": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Lens model (e.g. 'RF 50mm F1.2 L USM')"
+          },
+          "colorModel": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Color model (e.g. 'RGB', 'CMYK')"
+          },
+          "imageIndex": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Zero-based index of the image within the post's embed"
+          },
+          "pixelWidth": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Original image width in pixels"
+          },
+          "focalLength": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Focal length in mm as a decimal string (e.g. '50.0', '24.0')"
+          },
+          "orientation": {
+            "type": "integer",
+            "maximum": 8,
+            "minimum": 1,
+            "description": "EXIF orientation tag (1-8)"
+          },
+          "pixelHeight": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Original image height in pixels"
+          },
+          "exposureTime": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Exposure time in seconds as a decimal string (e.g. '0.002', '1.5')"
+          },
+          "dateTimeOriginal": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Original capture timestamp from EXIF"
+          },
+          "focalLengthIn35mmFormat": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "35mm equivalent focal length as a decimal string (e.g. '75.0', '36.0')"
+          }
+        }
+      },
+      "description": "EXIF metadata for a photo. Stored as a sidecar record using the post rkey with an image index suffix (e.g. '3lqbc5xyz-0'). Float values are stored as strings to avoid precision issues."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

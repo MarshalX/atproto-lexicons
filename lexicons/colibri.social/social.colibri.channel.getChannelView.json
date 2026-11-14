@@ -1,0 +1,69 @@
+{
+  "id": "social.colibri.channel.getChannelView",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "Missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "InvalidRequest",
+          "description": "A parameter or body field was missing or malformed."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "messages",
+            "unseen"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "unseen": {
+              "type": "array",
+              "items": {
+                "ref": "lex:social.colibri.notification.defs#unseenNotification",
+                "type": "ref"
+              }
+            },
+            "messages": {
+              "type": "array",
+              "items": {
+                "ref": "lex:social.colibri.channel.defs#message",
+                "type": "ref"
+              }
+            },
+            "readCursor": {
+              "ref": "lex:social.colibri.channel.defs#readCursor",
+              "type": "ref"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "channel"
+        ],
+        "properties": {
+          "limit": {
+            "type": "integer"
+          },
+          "channel": {
+            "type": "string",
+            "format": "at-uri"
+          }
+        }
+      },
+      "description": "Returns the initial view of a channel: recent messages, the read cursor, and unseen notifications."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

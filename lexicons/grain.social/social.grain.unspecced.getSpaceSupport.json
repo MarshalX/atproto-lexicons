@@ -1,0 +1,51 @@
+{
+  "id": "social.grain.unspecced.getSpaceSupport",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "supported",
+            "pds"
+          ],
+          "properties": {
+            "pds": {
+              "type": "string",
+              "description": "The PDS endpoint that was probed."
+            },
+            "missing": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Space methods grain needs that this PDS does not serve. Empty when supported; the full list when the PDS answers no describe at all."
+            },
+            "checkedAt": {
+              "type": "string",
+              "format": "datetime"
+            },
+            "supported": {
+              "type": "boolean",
+              "description": "True when the PDS serves every space method grain needs."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "force": {
+            "type": "boolean",
+            "description": "Probe the PDS again rather than answering from cache. For a viewer whose server has just gained spaces and does not want to wait for the cached answer to age out."
+          }
+        }
+      },
+      "description": "Whether the viewer's PDS serves permissioned spaces (proposal 0016). Answered from a cached probe of community.lexicon.service.describe."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

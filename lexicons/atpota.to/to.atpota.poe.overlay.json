@@ -1,0 +1,189 @@
+{
+  "id": "to.atpota.poe.overlay",
+  "defs": {
+    "poe": {
+      "type": "object",
+      "required": [
+        "show",
+        "side",
+        "scale"
+      ],
+      "properties": {
+        "show": {
+          "type": "boolean"
+        },
+        "side": {
+          "type": "string",
+          "description": "Which bottom corner Poe sits in; it faces into the screen.",
+          "knownValues": [
+            "left",
+            "right"
+          ]
+        },
+        "scale": {
+          "type": "integer",
+          "maximum": 200,
+          "minimum": 50,
+          "description": "Percent of its usual size."
+        }
+      }
+    },
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "poe",
+          "widgets",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "nap": {
+            "type": "integer",
+            "maximum": 240,
+            "minimum": 0,
+            "description": "Minutes of quiet before Poe naps; 0 never."
+          },
+          "poe": {
+            "ref": "#poe",
+            "type": "ref"
+          },
+          "chat": {
+            "type": "boolean",
+            "description": "Poe says hello to chatters and answers chat commands."
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 400,
+            "description": "What the streamer calls this layout, on the setup page only.",
+            "maxGraphemes": 40
+          },
+          "theme": {
+            "type": "string",
+            "knownValues": [
+              "light",
+              "dark"
+            ]
+          },
+          "alerts": {
+            "type": "boolean",
+            "description": "Poe says weather alerts (storms, apps blowing in)."
+          },
+          "ignore": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-identifier"
+            },
+            "maxLength": 50,
+            "description": "Accounts Poe never greets, thanks or answers (bots)."
+          },
+          "volume": {
+            "type": "integer",
+            "maximum": 100,
+            "minimum": 0,
+            "description": "How loud Poe's noises are; 0 is silent."
+          },
+          "follows": {
+            "type": "boolean",
+            "description": "Poe thanks new followers."
+          },
+          "widgets": {
+            "type": "array",
+            "items": {
+              "ref": "#widget",
+              "type": "ref"
+            },
+            "maxLength": 16,
+            "description": "The widgets on screen, each kind at most once."
+          },
+          "visitors": {
+            "type": "boolean",
+            "description": "Now and then a butterfly, bird, snail, worm or moth visits Poe."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      }
+    },
+    "widget": {
+      "type": "object",
+      "required": [
+        "kind",
+        "slot",
+        "scale"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "description": "The atmosphere's weather (card to pulse), Anisota's moon, mark and loader, the time as a TID, the streamer's flushes (im.flushing.right.now), status and vitals (is.dame.now, is.dame.state) and teal.fm music, or their stream.place chat.",
+          "knownValues": [
+            "card",
+            "strip",
+            "badge",
+            "apps",
+            "forecast",
+            "pulse",
+            "moon",
+            "mark",
+            "loader",
+            "tid",
+            "flushes",
+            "status",
+            "music",
+            "chat"
+          ]
+        },
+        "slot": {
+          "type": "string",
+          "description": "Where on screen. Widgets in the same slot stack.",
+          "knownValues": [
+            "top-left",
+            "top-center",
+            "top-right",
+            "bottom-left",
+            "bottom-center",
+            "bottom-right"
+          ]
+        },
+        "scale": {
+          "type": "integer",
+          "maximum": 200,
+          "minimum": 50,
+          "description": "Percent of its usual size."
+        },
+        "style": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "How the widget looks, for the kinds with more than one way: tid (ticking, mini), flushes (count, stats, latest), status (both, status, vitals), music (now, history, stats, mini), chat (corner, side, pop). Absent or unknown is the kind's first.",
+          "knownValues": [
+            "ticking",
+            "mini",
+            "count",
+            "stats",
+            "latest",
+            "both",
+            "status",
+            "vitals",
+            "now",
+            "history",
+            "corner",
+            "side",
+            "pop"
+          ]
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "How you've set up Poe's stream overlay (atpota.to/overlay): which weather widgets show, where and how big, which side Poe sits on, and what it reacts to. One record per layout: \"self\" is the main one (atpota.to/overlay?streamer=<handle>), and any others are at their own record key, their id in the URL (&layout=<id>; lowercase letters, digits and dashes). The overlay reads it from your repo and follows changes live, so a stream's overlay changes as soon as you save."
+}

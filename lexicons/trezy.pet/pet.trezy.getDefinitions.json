@@ -1,0 +1,144 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "definition": {
+      "properties": {
+        "uri": {
+          "format": "at-uri",
+          "type": "string"
+        },
+        "value": {
+          "description": "The record body verbatim. Unknown rather than typed: the client already parses this shape, and a schema here would have to be kept in step with pet.trezy.species and pet.trezy.tier for no gain.",
+          "type": "unknown"
+        }
+      },
+      "required": [
+        "uri",
+        "value"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "Every species and tier definition the game will actually price from. Reads the INDEX, not the publisher's PDS, and filters to the publisher DID. The store must price from the same rows createPet charges from: definitions can be published and not yet indexed, and reading the PDS in that state renders a full catalogue at correct prices where every purchase refuses. Returns both collections in one answer so a species can never be shown without its tier.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "achievements": {
+              "description": "`pet.trezy.achievement` records — OUR half: the title, the family it hangs in, the display rank, and the sentence shown to somebody who has not earned it. Joined to `badges` by the shared id, deliberately not joined here: a script that decided what a badge looked like would be a second opinion about a record it did not own. Same absent-is-not-a-fault rule.",
+              "items": {
+                "ref": "#definition",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "activePetCap": {
+              "description": "How many pets may be on the stage at once, from pet.trezy.gameConfig. A DISPLAY hint: the corral draws this many slots so a player can see the room they have, rather than discovering the ceiling by being refused. swapPets remains the only authority on whether a pet may actually come on. ABSENT when the config could not be read — a client must then draw the pets it has and no empty slots, never substitute a number of its own, because a compiled-in cap is exactly the drift that put four copies of the decay curve in this directory.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "badges": {
+              "description": "`community.lexicon.badge.definition` records — the PORTABLE half of a badge: the stable name every other client reads it by, and the earned statement. Shaped like the others. ⚠ ABSENT OR EMPTY IS NOT A FAULT, for the same reason groups are not: a game whose trophy cabinet cannot be furnished still prices, sells and draws every pet in it.",
+              "items": {
+                "ref": "#definition",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "dayLengthSeconds": {
+              "description": "`dayLengthSeconds` from pet.trezy.gameConfig, carried here for the same reason starterGrantCap is: the client needs the rule the server enforces, not a copy of it. Absent when the config cannot be read — and a client MUST then treat sleep as unknown and show no pet as asleep, rather than assuming a length.",
+              "minimum": 3600,
+              "type": "integer"
+            },
+            "error": {
+              "description": "Present instead of the catalogue when there is no catalogue to send. A stable machine code the client branches on — add codes, never rename them. `definitions-unavailable` means the read failed and the answer is unknown; `definitions-empty` means the read succeeded and there is genuinely nothing published. They are different operator problems — a broken index versus an unpublished catalogue — and they were once the same 200 with two empty arrays, which rendered an empty shop that looked like the game rather than like a fault.",
+              "knownValues": [
+                "definitions-unavailable",
+                "definitions-empty"
+              ],
+              "type": "string"
+            },
+            "foods": {
+              "description": "`pet.trezy.food` records — what a player may drop into the terrarium, and which frame of the food sheet each one draws. Shaped like the others. ⚠ ABSENT OR EMPTY IS NOT A FAULT, for the same reason groups and badges are not: a catalogue with no foods still prices, sells and draws every pet in the game. Only feeding is unavailable, and a client must render the shop it has rather than treating this as an outage.",
+              "items": {
+                "ref": "#definition",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "groups": {
+              "description": "Group definitions, shaped like the others. ⚠ ABSENT OR EMPTY IS NOT A FAULT, unlike an empty `species` or `tiers`. A species without its groups is still priceable, buyable and drawable — it is only unlabelled — so the Lua sends an empty list rather than refusing the catalogue, and a client must render the pets it has with no group chips instead of treating this as an outage.",
+              "items": {
+                "ref": "#definition",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "message": {
+              "description": "A sentence to show the player, accompanying `error`.",
+              "type": "string"
+            },
+            "sleepWindows": {
+              "description": "`sleepWindows` from pet.trezy.gameConfig, carried for the same reason as dayLengthSeconds. Empty or absent means the client shows nothing as asleep. ⚠ THIS QUERY TAKES NO AUTH, which is why sleep works on the logged-out page where there is no session to fetch anything else with. ⚠ AND IT DOES NOT FAULT WHEN THE CONFIG IS UNREADABLE, unlike createInteraction and resolveFeeding: this answer is what the logged-out page is built from, and taking the front page down over a field only sleep needs is the worse failure.",
+              "items": {
+                "ref": "#sleepWindow",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "species": {
+              "items": {
+                "ref": "#definition",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "starterGrantCap": {
+              "description": "The most createPet will grant a player for their very first pet, from pet.trezy.gameConfig/self. Onboarding offers a choice of starters and every one of them must be a pet the grant actually covers, so the number that decides that has to come from the same record the server enforces it from — a client-side copy would offer pets nobody can buy the moment it is repriced. Absent when the config record could not be read, which a client must treat as 'unknown' and NOT as zero: zero would empty the starter choice, and an instance that cannot read its config also cannot sell anything, so the honest reading is that the catalogue is unusable rather than that everything is too dear.",
+              "type": "integer"
+            },
+            "tiers": {
+              "description": "Tier definitions, shaped as com.atproto.repo.listRecords returns them so the client parse is the same either way.",
+              "items": {
+                "ref": "#definition",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
+      "type": "query"
+    },
+    "sleepWindow": {
+      "properties": {
+        "activity": {
+          "description": "The `activity` value on a species record this window applies to.",
+          "type": "string"
+        },
+        "end": {
+          "description": "Game hour the animal wakes, exclusive. Less than `start` wraps midnight.",
+          "maximum": 23,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "start": {
+          "description": "First game hour of the nap, inclusive.",
+          "maximum": 23,
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "activity",
+        "start",
+        "end"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "pet.trezy.getDefinitions",
+  "lexicon": 1
+}

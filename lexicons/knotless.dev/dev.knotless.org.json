@@ -1,0 +1,30 @@
+{
+  "id": "dev.knotless.org",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt"
+        ],
+        "properties": {
+          "gateway": {
+            "type": "string",
+            "format": "did",
+            "description": "The gateway the organization acts through: members join and leave, and admins change its members, by calling it."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Keyed self, in the organization's public records, which any account can keep. Says it is an organization and which gateway it acts through. Whom it invited is in its dev.knotless.orgMember records, one per account; its members may push to every repository it owns."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "That an account is an organization on knotless."
+}

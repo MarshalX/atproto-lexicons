@@ -1,0 +1,51 @@
+{
+  "id": "to.atpota.garden.sprout",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "patch",
+          "kind",
+          "plot",
+          "createdAt"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "description": "The kind its planter picked, or \"seed\": the garden decides what it grows into, from the seed itself, the patch's season and the network weather the minute it was planted, and shows it when it blooms.",
+            "knownValues": [
+              "sunflower",
+              "rose",
+              "daisy",
+              "violet",
+              "poppy",
+              "tulip",
+              "seed"
+            ]
+          },
+          "plot": {
+            "type": "integer",
+            "maximum": 959,
+            "minimum": 0,
+            "description": "The plot in its patch, counted from the top left, row by row. If an earlier flower already has it, this one moves to the next free plot."
+          },
+          "patch": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The patch the flower grows in: a to.atpota.garden.patch record, in atpota.to's repo (did:plc:qntsxa2i4sb24noi45fx4np2) for the community patches, or in the garden owner's."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A flower planted in a garden on atpota.to: atpota.to's community patches, or anyone's own garden. How many each account can have in a garden's open patches is up to the garden (its patch's planting): by default one, which stays where it was first planted. Flowers in patches that have closed stay, pressed."
+}

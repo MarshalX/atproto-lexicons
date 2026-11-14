@@ -1,0 +1,54 @@
+{
+  "id": "app.zeens.eventComment",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "event",
+          "text",
+          "createdAt",
+          "app.zeens.v"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 3000,
+            "description": "Comment body.",
+            "maxGraphemes": 300
+          },
+          "event": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the app.zeens.event being commented on."
+          },
+          "facets": {
+            "type": "array",
+            "items": {
+              "ref": "app.bsky.richtext.facet",
+              "type": "ref"
+            },
+            "description": "Rich-text facets (mentions, links) over text, reusing the Bluesky richtext lexicon."
+          },
+          "parent": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong-ref to the parent app.zeens.eventComment when this is a threaded reply (e.g. the organiser answering a question). Absent for a top-level comment."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "app.zeens.v": {
+            "type": "integer"
+          }
+        }
+      },
+      "description": "A comment (question / feedback / discussion) on an app.zeens.event, written to the commenter's own PDS. Bluesky replies require an app.bsky.feed.post parent, and an event isn't one, so events use this dedicated record (same rationale as app.zeens.post). A `parent` strongRef threads replies, letting the organiser respond in-line. Counted into the event's reply_count. Carries the app.zeens.v marker."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

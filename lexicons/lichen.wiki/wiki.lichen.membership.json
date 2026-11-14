@@ -1,0 +1,49 @@
+{
+  "id": "wiki.lichen.membership",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "memberDid",
+          "wikiRef",
+          "role",
+          "createdAt"
+        ],
+        "properties": {
+          "role": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "admin manages members and settings and can edit. contributor can edit notes. viewer can read a private wiki.",
+            "knownValues": [
+              "admin",
+              "contributor",
+              "viewer"
+            ]
+          },
+          "wikiRef": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the wiki."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the membership was granted."
+          },
+          "memberDid": {
+            "type": "string",
+            "format": "did",
+            "maxLength": 2048,
+            "description": "DID of the member being granted access."
+          }
+        }
+      },
+      "description": "A membership grant for a wiki. The rkey is a TID. The member's DID lives in the record body."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

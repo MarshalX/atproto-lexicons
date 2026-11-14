@@ -1,0 +1,28 @@
+{
+  "id": "app.rocksky.actor.getProfile",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "ref": "app.rocksky.actor.defs#profileViewDetailed",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "did": {
+            "type": "string",
+            "format": "at-identifier",
+            "description": "The DID or handle of the actor"
+          }
+        }
+      },
+      "description": "Get the profile of an actor"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,282 @@
+{
+  "id": "social.colibri.beta.richtext.facet",
+  "defs": {
+    "bold": {
+      "type": "object",
+      "properties": {},
+      "description": "Bold text."
+    },
+    "code": {
+      "type": "object",
+      "properties": {},
+      "description": "Inline code."
+    },
+    "link": {
+      "type": "object",
+      "required": [
+        "uri"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "Where the link points."
+        }
+      },
+      "description": "A hyperlink."
+    },
+    "list": {
+      "type": "object",
+      "required": [
+        "ordered"
+      ],
+      "properties": {
+        "indent": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0,
+          "description": "The nesting depth of the item. 0 is the outermost level."
+        },
+        "ordered": {
+          "type": "boolean",
+          "description": "Whether the list is numbered."
+        }
+      },
+      "description": "A list item line."
+    },
+    "main": {
+      "type": "object",
+      "required": [
+        "index",
+        "features"
+      ],
+      "properties": {
+        "index": {
+          "ref": "#byteSlice",
+          "type": "ref",
+          "description": "The range of the text this facet covers."
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "refs": [
+              "#bold",
+              "#italic",
+              "#underline",
+              "#strikethrough",
+              "#code",
+              "#codeblock",
+              "#quote",
+              "#heading",
+              "#list",
+              "#subtext",
+              "#spoiler",
+              "#mention",
+              "#bridgedMention",
+              "#role",
+              "#channel",
+              "#link",
+              "#time",
+              "#customEmoji"
+            ],
+            "type": "union"
+          },
+          "description": "What the range means. A range may carry more than one feature."
+        }
+      },
+      "description": "An annotation over a range of a message's text."
+    },
+    "role": {
+      "type": "object",
+      "required": [
+        "role"
+      ],
+      "properties": {
+        "role": {
+          "type": "string",
+          "format": "record-key",
+          "description": "The mentioned role."
+        }
+      },
+      "description": "A role mention. Roles are only ever written by the community, and a channel space's authority is its community, so the role key alone is unambiguous."
+    },
+    "time": {
+      "type": "object",
+      "required": [
+        "datetime"
+      ],
+      "properties": {
+        "style": {
+          "type": "string",
+          "description": "How to render it.",
+          "knownValues": [
+            "time-short",
+            "time-long",
+            "date-short",
+            "date-long",
+            "datetime-short",
+            "datetime-long",
+            "relative"
+          ]
+        },
+        "datetime": {
+          "type": "string",
+          "format": "datetime",
+          "description": "The instant being referred to."
+        }
+      },
+      "description": "A timestamp rendered in the reader's locale."
+    },
+    "quote": {
+      "type": "object",
+      "properties": {},
+      "description": "A block quote."
+    },
+    "italic": {
+      "type": "object",
+      "properties": {},
+      "description": "Italic text."
+    },
+    "channel": {
+      "type": "object",
+      "required": [
+        "channel"
+      ],
+      "properties": {
+        "channel": {
+          "type": "string",
+          "format": "record-key",
+          "description": "The referenced channel."
+        }
+      },
+      "description": "A channel reference, by the channel's space key within the same community."
+    },
+    "heading": {
+      "type": "object",
+      "required": [
+        "level"
+      ],
+      "properties": {
+        "level": {
+          "type": "integer",
+          "maximum": 3,
+          "minimum": 1,
+          "description": "Heading level, from 1 to 3."
+        }
+      },
+      "description": "A heading line."
+    },
+    "mention": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "The mentioned user."
+        }
+      },
+      "description": "A user mention."
+    },
+    "spoiler": {
+      "type": "object",
+      "properties": {},
+      "description": "Text hidden until revealed."
+    },
+    "subtext": {
+      "type": "object",
+      "properties": {},
+      "description": "Small, muted text."
+    },
+    "byteSlice": {
+      "type": "object",
+      "required": [
+        "byteStart",
+        "byteEnd"
+      ],
+      "properties": {
+        "byteEnd": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Byte after the range, exclusive."
+        },
+        "byteStart": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "First byte of the range, inclusive."
+        }
+      },
+      "description": "The range a feature applies to, as zero-based byte offsets into the UTF-8 encoded text. Start is inclusive, end is exclusive."
+    },
+    "codeblock": {
+      "type": "object",
+      "properties": {
+        "lang": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Language hint."
+        }
+      },
+      "description": "A multi-line code block."
+    },
+    "underline": {
+      "type": "object",
+      "properties": {},
+      "description": "Underlined text."
+    },
+    "customEmoji": {
+      "type": "object",
+      "required": [
+        "uri"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid",
+          "description": "The version of the emoji record the message was written against."
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "The emoji record. Its collection identifies the emoji lexicon, for example blue.moji.collection.item."
+        }
+      },
+      "description": "A custom emoji. The text under the facet is the emoji's fallback: a Unicode alternative when the emoji has one, otherwise its :name: shortcode."
+    },
+    "strikethrough": {
+      "type": "object",
+      "properties": {},
+      "description": "Struck-through text."
+    },
+    "bridgedMention": {
+      "type": "object",
+      "required": [
+        "registration",
+        "platform",
+        "remoteId"
+      ],
+      "properties": {
+        "platform": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "The service the person is on."
+        },
+        "remoteId": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Their id on that service."
+        },
+        "registration": {
+          "type": "string",
+          "format": "tid",
+          "description": "Record key of the bridge registration the person is reached through."
+        }
+      },
+      "description": "A mention of someone on another service, whose messages a bridge relays."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

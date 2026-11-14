@@ -1,0 +1,162 @@
+{
+  "id": "social.colibri.beta.message",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "text",
+          "createdAt"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 2048,
+            "description": "The message body."
+          },
+          "facets": {
+            "type": "array",
+            "items": {
+              "ref": "social.colibri.beta.richtext.facet",
+              "type": "ref"
+            },
+            "description": "Annotations over ranges of the text."
+          },
+          "parent": {
+            "ref": "social.colibri.beta.defs#recordRef",
+            "type": "ref",
+            "description": "The message this one replies to."
+          },
+          "bridged": {
+            "ref": "social.colibri.beta.bridge.defs#attribution",
+            "type": "ref",
+            "description": "Who sent this message on another service. Honoured only when the community itself wrote the record."
+          },
+          "forward": {
+            "ref": "#forward",
+            "type": "ref",
+            "description": "Content copied here from another message. Present only on a forwarded message."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the message was sent."
+          },
+          "parentUri": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The message this one replies to, as a record URI in the same space. Readers prefer it over `parent` when it is valid."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the message was last edited. Absent means never edited."
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "ref": "#attachment",
+              "type": "ref"
+            },
+            "description": "Files attached to this message."
+          },
+          "suppressedEmbeds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "URLs from this message's link facets whose preview the author chose not to show. Moderator suppression is a label instead."
+          }
+        }
+      },
+      "description": "A message in a channel. Lives in the author's own permissioned repo for the channel's space."
+    },
+    "forward": {
+      "type": "object",
+      "required": [
+        "source",
+        "createdAt",
+        "text"
+      ],
+      "properties": {
+        "text": {
+          "type": "string",
+          "maxLength": 2048,
+          "description": "The copied message body. Empty when the message that was forwarded carried only attachments."
+        },
+        "facets": {
+          "type": "array",
+          "items": {
+            "ref": "social.colibri.beta.richtext.facet",
+            "type": "ref",
+            "description": "An annotation."
+          },
+          "description": "The copied annotations. A mention here does not notify anyone, because the AppView reads only a message's own facets."
+        },
+        "source": {
+          "ref": "social.colibri.beta.defs#spaceRecordRef",
+          "type": "ref",
+          "description": "The message this content was copied from."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the message this content came from was sent."
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "ref": "#attachment",
+            "type": "ref",
+            "description": "A copied file."
+          },
+          "description": "The copied files, re-uploaded into the forwarding author's own repo so the forward stands on its own."
+        }
+      },
+      "description": "Another message's content, copied and frozen when the forward was made. The copy does not follow later edits, deletions or labels on the message it came from. Never itself nested: forwarding a forwarded message carries this content over and repoints `source` at the message it was forwarded from."
+    },
+    "attachment": {
+      "type": "object",
+      "required": [
+        "blob"
+      ],
+      "properties": {
+        "alt": {
+          "type": "string",
+          "maxLength": 20000,
+          "description": "A text description of the file for readers who can't see it.",
+          "maxGraphemes": 2000
+        },
+        "blob": {
+          "type": "blob",
+          "description": "The attached file."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "The original filename."
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Intrinsic pixel width, when the file is an image or video."
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Intrinsic pixel height, when the file is an image or video."
+        },
+        "spoiler": {
+          "type": "boolean",
+          "description": "Whether clients hide the file behind a reveal step until the reader chooses to see it."
+        }
+      },
+      "description": "A file attached to a message."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

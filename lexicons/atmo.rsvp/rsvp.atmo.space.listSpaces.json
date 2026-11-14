@@ -1,0 +1,58 @@
+{
+  "id": "rsvp.atmo.space.listSpaces",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "spaces"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "spaces": {
+              "type": "array",
+              "items": {
+                "ref": "rsvp.atmo.space.defs#spaceView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "type": {
+            "type": "string",
+            "format": "nsid"
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 200,
+            "minimum": 1
+          },
+          "scope": {
+            "type": "string",
+            "default": "member",
+            "knownValues": [
+              "member",
+              "owner"
+            ]
+          },
+          "cursor": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "List spaces the caller has access to. Default scope is 'member' (spaces the caller is a member of, including owned); 'owner' lists only spaces the caller owns."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

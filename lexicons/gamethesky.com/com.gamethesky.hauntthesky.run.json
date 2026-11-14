@@ -1,0 +1,138 @@
+{
+  "id": "com.gamethesky.hauntthesky.run",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "simVersion",
+          "seed",
+          "log",
+          "ticks",
+          "score",
+          "level",
+          "createdAt"
+        ],
+        "properties": {
+          "log": {
+            "type": "string",
+            "maxLength": 400000,
+            "description": "The whole run as the only input the game takes. Comma-separated `<dtick>.<k>.<a>` entries: dtick is 60 Hz ticks since the previous entry; k 1 holds (a 1) or lets go (a 0) of the trigger; k 4 gives up; k 5 sets the walk to a = (forward + 1) * 3 + (turn + 1), each -1, 0 or 1; k 6 sidesteps (a -1, 0 or 1). Only inputs the sim accepted are logged. Example: `90.5.7,30.1.1,18.1.0`."
+          },
+          "won": {
+            "type": "boolean",
+            "description": "Advisory: the Thing put down and the one they came for got out."
+          },
+          "cast": {
+            "type": "array",
+            "items": {
+              "ref": "#member",
+              "type": "ref"
+            },
+            "maxLength": 7,
+            "description": "The player's own cast from the Foe Booth, included on purpose (the game asks, off by default) so a replay and its card anywhere show them; each photo is a public blob in the player's repo. Looks only: whoever plays a part, the sim's monsters are the same, and a verifier ignores this field entirely. One member a part."
+          },
+          "seed": {
+            "type": "string",
+            "maxLength": 16,
+            "description": "The night: `arcade` (the same house for everyone), or a UTC date `YYYY-MM-DD` for that night's, with things moved around. Each has its own board."
+          },
+          "house": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "A house somebody made (a com.gamethesky.hauntthesky.house record), pinned to the version this night was played in. Absent, the night is the game's own three floors. A verifier fetches that exact version from its maker's repo and replays the log on it, or refuses; each version of a house has its own board."
+          },
+          "kills": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Advisory: things put down."
+          },
+          "level": {
+            "type": "integer",
+            "maximum": 3,
+            "minimum": 1,
+            "description": "Advisory: the floor the run ended on: 1 the front hall, 2 upstairs, 3 the basement; in a made house, always 1."
+          },
+          "score": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Advisory: points. Higher ranks higher."
+          },
+          "ticks": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Advisory: 60 Hz ticks from the first floor to the end of the run."
+          },
+          "cleared": {
+            "type": "integer",
+            "maximum": 3,
+            "minimum": 0,
+            "description": "Advisory: floors cleared."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "difficulty": {
+            "type": "string",
+            "description": "The difficulty the run was played at; absent means normal. A verifier must replay at it, and each has its own board.",
+            "knownValues": [
+              "easy",
+              "normal",
+              "hard"
+            ]
+          },
+          "simVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Which rules produced this log. A verifier must replay under the matching version or refuse the run."
+          }
+        }
+      },
+      "description": "One night of Haunt the Sky, published by the player into their own repo. The record stores every input rather than trusting a score: the sim is deterministic, so replaying the log on the same seed reproduces the run exactly. Owning the record is the identity proof, and replaying it is the score proof; score, ticks, level and the rest are advisory and never trusted by a board."
+    },
+    "member": {
+      "type": "object",
+      "required": [
+        "role",
+        "name",
+        "image"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "The name on the poster, 40 characters at most.",
+          "maxGraphemes": 40
+        },
+        "role": {
+          "type": "string",
+          "description": "The part: the ghouls, the hound, the Thing in the basement, its face up close (the scream), the one the player came for, the portrait in the hall, or the player themselves.",
+          "knownValues": [
+            "ghoul",
+            "hound",
+            "thing",
+            "scream",
+            "victim",
+            "portrait",
+            "you"
+          ]
+        },
+        "image": {
+          "type": "blob",
+          "accept": [
+            "image/png",
+            "image/jpeg"
+          ],
+          "maxSize": 196608,
+          "description": "The photo: for a body part, a cutout PNG with the background clear, about 400 pixels tall; for a face, a 256×256 JPEG. 192 KB at most; readers refuse a bigger one."
+        }
+      },
+      "description": "One of the cast: the part they play, the name they're billed under, and their photo."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,34 @@
+{
+  "id": "games.gamesgamesgamesgames.authGamesCatalog",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Game Catalog",
+      "detail": "Create and edit games and accept community contributions.",
+      "permissions": [
+        {
+          "type": "permission",
+          "resource": "repo",
+          "collection": [
+            "games.gamesgamesgamesgames.engine",
+            "games.gamesgamesgamesgames.game",
+            "games.gamesgamesgamesgames.platform",
+            "games.gamesgamesgamesgames.platformFamily"
+          ]
+        },
+        {
+          "lxm": [
+            "games.gamesgamesgamesgames.acceptContribution",
+            "games.gamesgamesgamesgames.createGame",
+            "games.gamesgamesgamesgames.putGame"
+          ],
+          "type": "permission",
+          "resource": "rpc",
+          "inheritAud": true
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

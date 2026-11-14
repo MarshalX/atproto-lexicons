@@ -1,0 +1,48 @@
+{
+  "id": "tech.tokimeki.forum.channel",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "kind",
+          "createdAt"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "description": "chat = Discord-like flat message stream. forum = thread-first board (threads required, messages reply into a thread).",
+            "knownValues": [
+              "chat",
+              "forum"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 640,
+            "maxGraphemes": 64
+          },
+          "topic": {
+            "type": "string",
+            "maxLength": 2560,
+            "maxGraphemes": 256
+          },
+          "position": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "A channel inside a server space. Written only by the server owner (space authority) into their own repo."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

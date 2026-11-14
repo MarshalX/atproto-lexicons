@@ -1,0 +1,74 @@
+{
+  "id": "dev.sensorthings.observationFrame",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "tickTime",
+          "observations"
+        ],
+        "properties": {
+          "tickTime": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Time of the collector tick that wrote this frame"
+          },
+          "observations": {
+            "type": "array",
+            "items": {
+              "ref": "#frameEntry",
+              "type": "ref"
+            },
+            "maxLength": 10000
+          }
+        }
+      },
+      "description": "The new or changed readings from one collector tick, for many Datastreams in the same repo. Created once and never updated. After the correction horizon has passed, the readings are sealed into dev.sensorthings.observationBatch day records and the frame is deleted. Apply frames in record key order: a later entry for the same datastream and phenomenonTime replaces an earlier one. The record key is the tick time to the millisecond and a three-digit shard number, for example 20260925T100700000Z-000."
+    },
+    "frameEntry": {
+      "type": "object",
+      "required": [
+        "datastream",
+        "t",
+        "result"
+      ],
+      "properties": {
+        "q": {
+          "type": "string",
+          "knownValues": [
+            "dev.sensorthings.quality#good",
+            "dev.sensorthings.quality#suspect",
+            "dev.sensorthings.quality#missing"
+          ]
+        },
+        "t": {
+          "type": "string",
+          "format": "datetime",
+          "description": "phenomenonTime"
+        },
+        "result": {
+          "refs": [
+            "dev.sensorthings.observation#numericResult",
+            "dev.sensorthings.observation#categoryResult",
+            "dev.sensorthings.observation#booleanResult",
+            "dev.sensorthings.observation#arrayResult",
+            "dev.sensorthings.observation#geoPointResult"
+          ],
+          "type": "union",
+          "description": "Observation result, same union as dev.sensorthings.observation"
+        },
+        "datastream": {
+          "type": "string",
+          "format": "record-key",
+          "description": "Record key of a dev.sensorthings.datastream record in the same repo"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 1
+}

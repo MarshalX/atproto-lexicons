@@ -1,0 +1,54 @@
+{
+  "id": "site.mochott.notification.getUnreadCount",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "count"
+          ],
+          "properties": {
+            "count": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "knownValues": [
+                "new_article",
+                "like",
+                "subscription",
+                "comment",
+                "reply",
+                "import_completed",
+                "import_failed",
+                "new_comic",
+                "comic_like",
+                "comic_comment",
+                "comic_reply",
+                "comic_subscription"
+              ]
+            },
+            "description": "Only count these notification types. Comic types are only counted when named here."
+          }
+        }
+      },
+      "description": "Counts what listNotifications would list as unread for the same types, after notification settings and mutes."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 1,
+  "description": "Count unread notifications of the requesting account. Requires auth."
+}

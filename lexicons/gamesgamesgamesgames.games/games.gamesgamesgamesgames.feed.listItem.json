@@ -1,0 +1,33 @@
+{
+  "id": "games.gamesgamesgamesgames.feed.listItem",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "listUri",
+          "gameUri",
+          "addedAt"
+        ],
+        "properties": {
+          "addedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "gameUri": {
+            "type": "string",
+            "format": "at-uri"
+          },
+          "listUri": {
+            "type": "string",
+            "format": "at-uri"
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

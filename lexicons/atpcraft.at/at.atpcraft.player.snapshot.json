@@ -1,0 +1,86 @@
+{
+  "id": "at.atpcraft.player.snapshot",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "version",
+          "issuedAt",
+          "summary",
+          "aspects",
+          "endorsements"
+        ],
+        "properties": {
+          "aspects": {
+            "type": "array",
+            "items": {
+              "ref": "at.atpcraft.player.defs#aspect",
+              "type": "ref"
+            },
+            "maxLength": 16,
+            "description": "Opaque aspect payloads, sorted by name, names unique."
+          },
+          "summary": {
+            "ref": "at.atpcraft.player.defs#summary",
+            "type": "ref"
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Monotonically increasing snapshot version (anti-rollback)."
+          },
+          "issuedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Snapshot creation time."
+          },
+          "endorsements": {
+            "type": "array",
+            "items": {
+              "ref": "#endorsement",
+              "type": "ref"
+            },
+            "maxLength": 64,
+            "minLength": 1,
+            "description": "Server signatures over the canonical snapshot payload."
+          }
+        }
+      },
+      "description": "One snapshot per player per server, endorsed by one or more ATPcraft servers. Any trusted server's endorsement is accepted on read; on write a server adds or refreshes its own endorsement. The record key is the server's signing key id."
+    },
+    "endorsement": {
+      "type": "object",
+      "required": [
+        "server",
+        "alg",
+        "sig"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Signature algorithm.",
+          "knownValues": [
+            "ed25519"
+          ]
+        },
+        "sig": {
+          "type": "bytes",
+          "maxLength": 64,
+          "description": "Ed25519 signature (64 bytes) over the canonical payload."
+        },
+        "server": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Signing server key id."
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Server-endorseable snapshot of a Minecraft player's state. Each endorsement is an Ed25519 signature from one trusted ATPcraft server."
+}

@@ -1,0 +1,45 @@
+{
+  "id": "com.professorbutts.sports.scoreboard",
+  "defs": {
+    "main": {
+      "type": "object",
+      "required": [
+        "game",
+        "snapshot"
+      ],
+      "properties": {
+        "alt": {
+          "type": "string",
+          "maxLength": 3000,
+          "description": "Full text description of the scoreboard at the snapshot moment.",
+          "maxGraphemes": 1000
+        },
+        "game": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "at:// URI of a com.professorbutts.sports.game, .leaderboard or .standings record. Not a strongRef: these records are updated in place."
+        },
+        "snapshot": {
+          "refs": [
+            "com.professorbutts.sports.defs#snapshot",
+            "com.professorbutts.sports.defs#leaderboardSnapshot"
+          ],
+          "type": "union",
+          "description": "State when the post was made: a game snapshot or a leaderboard snapshot. Older posts have a game snapshot with no $type."
+        },
+        "highlight": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "maxLength": 5,
+          "description": "Leaderboards and standings: names of entrants the post is about, to highlight. A highlighted constructor shows its members."
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Field on app.bsky.feed.post (key 'com.professorbutts.sports.scoreboard') that points the post at a live game record. Sits beside a normal app.bsky.embed.external link card, which is what clients without scoreboard support show. Supporting clients show the snapshot first and reveal the live game on tap. Replaces com.professorbutts.sports.attachment."
+}

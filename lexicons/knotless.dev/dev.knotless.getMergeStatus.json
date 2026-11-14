@@ -1,0 +1,260 @@
+{
+  "id": "dev.knotless.getMergeStatus",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No one asked: log in to the pages first."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "state",
+            "checks",
+            "method",
+            "base",
+            "head",
+            "may"
+          ],
+          "properties": {
+            "may": {
+              "ref": "#permissions",
+              "type": "ref"
+            },
+            "base": {
+              "type": "string",
+              "description": "The commit its target branch is at, in hex."
+            },
+            "head": {
+              "type": "string",
+              "description": "The commit its head branch is at, in hex."
+            },
+            "state": {
+              "type": "string",
+              "description": "clean when it can merge now; conflicting when its head does not merge with its base; blocked when its checks have not all passed, or it is not reviewed as its target branch's rule asks; draft, whatever else holds, while its author has not marked it ready.",
+              "knownValues": [
+                "clean",
+                "conflicting",
+                "blocked",
+                "draft"
+              ]
+            },
+            "checks": {
+              "type": "string",
+              "description": "Where its checks stand at its head merged with its base: pending for those not run there; none when the repository names no runners, so a merge waits for none, or when it conflicts.",
+              "knownValues": [
+                "passed",
+                "failed",
+                "running",
+                "pending",
+                "none"
+              ]
+            },
+            "method": {
+              "type": "string",
+              "description": "How it would merge: a merge commit naming the pull; into a branch protected as linear, one squashed commit. fastForward is no longer made.",
+              "knownValues": [
+                "fastForward",
+                "merge",
+                "squash"
+              ]
+            },
+            "reason": {
+              "type": "string",
+              "description": "Why it cannot merge now, in the words a merge would refuse it with; and when the account asking may not merge it, that too."
+            },
+            "deletes": {
+              "type": "string",
+              "description": "Its head branch, which merging deletes unless asked to keep it."
+            },
+            "reviews": {
+              "type": "string",
+              "description": "Where its reviews stand against what its target branch's rule asks of them (dev.knotless.repo#reviews): none when the rule asks nothing of them, or when it conflicts.",
+              "knownValues": [
+                "passed",
+                "blocked",
+                "none"
+              ]
+            },
+            "autoMerge": {
+              "ref": "#autoMerge",
+              "type": "ref"
+            },
+            "conflicts": {
+              "type": "array",
+              "items": {
+                "ref": "#conflict",
+                "type": "ref"
+              },
+              "description": "The files that conflict."
+            },
+            "queueOnly": {
+              "type": "boolean",
+              "description": "Its target branch takes pulls only through the merge queue: queue it with dev.knotless.queuePull, as dev.knotless.mergePull refuses it. Absent is false."
+            },
+            "queueBlocked": {
+              "type": "string",
+              "description": "Why the merge queue would not land it yet, when this server knows: undelegated when no runner the repository names may push, so its queue lands through this server's gateway, and the owner has not delegated writes to it.",
+              "knownValues": [
+                "undelegated"
+              ]
+            },
+            "reviewsMissing": {
+              "type": "array",
+              "items": {
+                "ref": "#note",
+                "type": "ref"
+              },
+              "description": "What its reviews lack, each as `knotless pull merge --check` lists it: `reviews 1 of 2`, `owners of web/: @alice or @bob`, `changes asked by @carol`."
+            },
+            "reviewsUncounted": {
+              "type": "array",
+              "items": {
+                "ref": "#note",
+                "type": "ref"
+              },
+              "description": "The approvals that do not count toward its target branch's rule, and why: `@dan's approval does not count: only the owner's and collaborators' approvals count`, or one of an earlier head when only approvals of its head as it is now count."
+            },
+            "codeOwnersWarnings": {
+              "type": "array",
+              "items": {
+                "ref": "#note",
+                "type": "ref"
+              },
+              "description": "The lines of the target branch's CODEOWNERS file that were skipped, and why: one naming a team, say."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "repo",
+          "pull"
+        ],
+        "properties": {
+          "pull": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The dev.knotless.pull record."
+          },
+          "repo": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+          }
+        }
+      },
+      "description": "Whether an open pull can merge now, decided as `knotless pull merge` decides it, without merging: whether its head merges with its target branch as it is now, and, in a repository that names runners, whether each workflow that runs on it passed there. And what the account asking may do to it: merge it, queue it, retarget it or run its checks again. Requires the session cookie the pages' login sets, or a service token from the caller's PDS, audience the appview's DID, for this method."
+    },
+    "note": {
+      "type": "object",
+      "required": [
+        "text"
+      ],
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "In plain words."
+        }
+      },
+      "description": "A line of text about the pull's reviews."
+    },
+    "conflict": {
+      "type": "object",
+      "required": [
+        "path"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "From the repository's root."
+        }
+      },
+      "description": "A file that both sides changed so that they do not merge."
+    },
+    "autoMerge": {
+      "type": "object",
+      "required": [
+        "state",
+        "by"
+      ],
+      "properties": {
+        "by": {
+          "ref": "dev.knotless.defs#actorView",
+          "type": "ref",
+          "description": "Who set it."
+        },
+        "state": {
+          "type": "string",
+          "description": "set while it stands; pushed once someone who may not merge it pushed to its head since, and retargeted once it moved to another branch, either of which cancels it.",
+          "knownValues": [
+            "set",
+            "pushed",
+            "retargeted"
+          ]
+        },
+        "pushedBy": {
+          "ref": "dev.knotless.defs#actorView",
+          "type": "ref",
+          "description": "For pushed, the owner of the head repository pushed to."
+        }
+      },
+      "description": "Where the pull's merge when checks pass stands, if it was ever set and not cancelled by someone: a runner the repository names merges it once it would merge."
+    },
+    "permissions": {
+      "type": "object",
+      "required": [
+        "merge",
+        "force",
+        "queue",
+        "base",
+        "head",
+        "rerun"
+      ],
+      "properties": {
+        "base": {
+          "type": "boolean",
+          "description": "Change its target branch: those who may close it."
+        },
+        "head": {
+          "type": "boolean",
+          "description": "Change its head branch: its author."
+        },
+        "force": {
+          "type": "boolean",
+          "description": "Merge it past its checks: the owner alone."
+        },
+        "merge": {
+          "type": "boolean",
+          "description": "Merge it: the owner and collaborators."
+        },
+        "queue": {
+          "type": "boolean",
+          "description": "Put it in the merge queue or take it out: those who may merge it, in a repository whose runners land a queue, while the branch it lands on takes pulls through the queue or it is already queued."
+        },
+        "rerun": {
+          "type": "boolean",
+          "description": "Ask the runners to run its checks again: the owner, in a repository that names runners."
+        },
+        "autoMerge": {
+          "type": "boolean",
+          "description": "Set it to merge by itself once its checks pass, with dev.knotless.setAutoMerge: those who may merge it, in a repository that names runners, into a branch with no merge queue. Cancelling that, those and its author may. Absent is false."
+        }
+      },
+      "description": "What the account asking may do to the pull: what its part in the repository lets it do, not whether that would work now. state and reason say that: a merge refuses a blocked pull, the owner's merge too, unless the owner forces it."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Whether an open pull can merge now, and what the account asking may do to it."
+}

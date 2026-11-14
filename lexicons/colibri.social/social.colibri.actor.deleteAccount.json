@@ -1,0 +1,72 @@
+{
+  "id": "social.colibri.actor.deleteAccount",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "Missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "InvalidState",
+          "description": "The request is not valid for the current state."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "deleted"
+          ],
+          "properties": {
+            "deleted": {
+              "ref": "lex:social.colibri.actor.deleteAccount#deletedCounts",
+              "type": "ref"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Deletes everything the AppView holds for the authenticated user."
+    },
+    "deletedCounts": {
+      "type": "object",
+      "required": [
+        "recordData",
+        "communityRecords",
+        "notifications",
+        "pushSubscriptions",
+        "userState",
+        "invitations",
+        "dismissedApplications"
+      ],
+      "properties": {
+        "userState": {
+          "type": "integer"
+        },
+        "recordData": {
+          "type": "integer"
+        },
+        "invitations": {
+          "type": "integer"
+        },
+        "notifications": {
+          "type": "integer"
+        },
+        "communityRecords": {
+          "type": "integer"
+        },
+        "pushSubscriptions": {
+          "type": "integer"
+        },
+        "dismissedApplications": {
+          "type": "integer"
+        }
+      },
+      "description": "What the purge removed, per storage area."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

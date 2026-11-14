@@ -1,0 +1,47 @@
+{
+  "id": "com.suibari.nagi.getNewsItem",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "news"
+          ],
+          "properties": {
+            "news": {
+              "type": "unknown"
+            },
+            "botActor": {
+              "type": "unknown"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "rkey"
+        ],
+        "properties": {
+          "lang": {
+            "type": "string",
+            "default": "ja",
+            "knownValues": [
+              "ja",
+              "en"
+            ]
+          },
+          "rkey": {
+            "type": "string",
+            "maxLength": 32
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

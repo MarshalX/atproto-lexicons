@@ -1,0 +1,39 @@
+{
+  "id": "social.grain.unspecced.getGallery",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "gallery"
+          ],
+          "properties": {
+            "gallery": {
+              "ref": "social.grain.gallery.defs#galleryView",
+              "type": "ref"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "gallery"
+        ],
+        "properties": {
+          "gallery": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The gallery AT URI."
+          }
+        }
+      },
+      "description": "Get a single gallery view by AT URI."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

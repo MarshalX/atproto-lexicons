@@ -1,0 +1,46 @@
+{
+  "id": "dev.knotless.cancel",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "repo",
+          "createdAt"
+        ],
+        "properties": {
+          "ref": {
+            "type": "string",
+            "maxLength": 1024,
+            "description": "The full ref name whose runs to cancel, such as refs/heads/main."
+          },
+          "pull": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The dev.knotless.pull record whose runs to cancel."
+          },
+          "repo": {
+            "ref": "dev.knotless.defs#repoRef",
+            "type": "ref",
+            "description": "The repository, which is the owner's."
+          },
+          "workflow": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "The name of the one workflow whose runs to cancel."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Kept in the account of the repository's owner, keyed `<repo key>.<tid>`. A runner acts on the requests in the owner's account, newer than the last it acted on, and on no one else's: it cancels its runs of the ref or the pull going or waiting for their turn when it reads the request, even those of a workflow whose runs finish, and files their checks as cancelled. A merge queue's batches are not a ref's runs. Naming neither a ref nor a pull asks for nothing. With a workflow, only that workflow's runs are cancelled."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A repository owner's request that its runners cancel the runs of a ref or a pull still going."
+}

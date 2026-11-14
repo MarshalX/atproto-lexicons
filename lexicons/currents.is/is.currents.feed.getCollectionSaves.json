@@ -1,0 +1,59 @@
+{
+  "id": "is.currents.feed.getCollectionSaves",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "collection",
+            "saves"
+          ],
+          "properties": {
+            "saves": {
+              "type": "array",
+              "items": {
+                "ref": "is.currents.feed.defs#saveView",
+                "type": "ref"
+              }
+            },
+            "cursor": {
+              "type": "string"
+            },
+            "collection": {
+              "ref": "is.currents.feed.defs#collectionView",
+              "type": "ref"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "collection"
+        ],
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "collection": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the collection record to fetch saves from."
+          }
+        }
+      },
+      "description": "Get saves within a collection, hydrated with collection details, CDN image URLs, and metadata. Auth is optional; if provided, viewer-specific state is included in the collection and save views."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

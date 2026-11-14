@@ -1,0 +1,51 @@
+{
+  "id": "com.suibari.nagi.searchPosts",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "ref": "com.suibari.nagi.getTimeline#output",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "q": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "自由文キーワード。既定では意味検索(埋め込み)＋語彙一致のハイブリッドで検索する。"
+          },
+          "tag": {
+            "type": "string",
+            "description": "小文字で正規化したタグ（# は含まない）。"
+          },
+          "mode": {
+            "type": "string",
+            "default": "hybrid",
+            "description": "q 指定時の検索方法。exact=語彙一致のみ(新着順) / semantic=意味近傍のみ(語彙一致ヒットは除外・近い順) / hybrid=両者を混ぜた1本。tag 指定時は無視される。",
+            "knownValues": [
+              "exact",
+              "semantic",
+              "hybrid"
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          }
+        },
+        "description": "q（自由文キーワード検索）と tag（タグ絞り込み）のどちらか一方を指定する。q 優先。"
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

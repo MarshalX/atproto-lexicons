@@ -1,0 +1,91 @@
+{
+  "id": "social.dracome.library.acquisition",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "catalogTarget",
+          "catalogSnapshot",
+          "acquisitionType",
+          "createdAt"
+        ],
+        "properties": {
+          "notes": {
+            "type": "string",
+            "maxLength": 8000,
+            "description": "User-visible free-text notes.",
+            "maxGraphemes": 2000
+          },
+          "supplier": {
+            "type": "string",
+            "maxLength": 1024,
+            "description": "Supplier/vendor name, distinct from receivedFrom for detailed accounting use cases.",
+            "maxGraphemes": 256
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Canonical UTC instant serialized as ISO 8601 with a trailing Z suffix."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Canonical UTC instant serialized as ISO 8601 with a trailing Z suffix."
+          },
+          "currencyCode": {
+            "type": "string",
+            "maxLength": 3,
+            "description": "ISO 4217 currency code (e.g. \"USD\", \"EUR\", \"GBP\")."
+          },
+          "receivedDate": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Canonical UTC instant for the calendar day the book was received, serialized as ISO 8601 with a trailing Z suffix. Writers store midnight UTC of that day; the time-of-day component is insignificant. Same convention as library.defs#progressLogEntry.date."
+          },
+          "receivedFrom": {
+            "type": "string",
+            "maxLength": 1024,
+            "description": "Free-text source/supplier, e.g. \"Piper Verlag\", \"Amazon\", \"Sarah\".",
+            "maxGraphemes": 256
+          },
+          "catalogTarget": {
+            "ref": "social.dracome.work.defs#catalogTarget",
+            "type": "ref",
+            "description": "The work, and edition, this acquisition is about."
+          },
+          "invoiceNumber": {
+            "type": "string",
+            "maxLength": 512,
+            "description": "Invoice or receipt number, for tax/accounting reference. Implies invoiceAvailable: true.",
+            "maxGraphemes": 128
+          },
+          "acquisitionType": {
+            "ref": "social.dracome.library.defs#acquisitionType",
+            "type": "ref",
+            "description": "How the actor came to own this edition."
+          },
+          "catalogSnapshot": {
+            "ref": "social.dracome.work.defs#catalogSnapshot",
+            "type": "ref",
+            "description": "Point-in-time work/edition metadata capture, refreshed from current catalog data at write time."
+          },
+          "priceMinorUnits": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Price in the currency's minor units (e.g. cents for EUR/USD), not a float. Zero is valid and meaningful (distinguishes a recorded free copy from no price recorded, which is this field absent)."
+          },
+          "invoiceAvailable": {
+            "type": "boolean",
+            "description": "Yes/No/unset - field absence means \"unset\". Must be true when invoiceNumber is set."
+          }
+        }
+      },
+      "description": "A record of how an actor came to own a specific book edition (purchased, gift, review copy, etc.). Multiple acquisitions per edition are allowed; like library.marker, library.review, and library.state, this record uses key: \"tid\", and its rkey is an opaque identity that never changes."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

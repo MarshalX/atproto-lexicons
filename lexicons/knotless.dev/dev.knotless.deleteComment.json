@@ -1,0 +1,60 @@
+{
+  "id": "dev.knotless.deleteComment",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "repo",
+            "subject"
+          ],
+          "properties": {
+            "repo": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+            },
+            "subject": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The dev.knotless.comment record to delete."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri"
+          ],
+          "properties": {
+            "uri": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The record deleted."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Deletes a dev.knotless.comment record from the account logged in to this appview's web pages, which must have written it, as `knotless comment delete` does. A pull or an issue is closed instead, and what others say the repository's owner hides. Requires the session cookie the pages' login sets."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Takes back a comment or review, as its author, logged in to this appview's pages."
+}

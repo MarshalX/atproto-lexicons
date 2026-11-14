@@ -1,0 +1,39 @@
+{
+  "id": "dev.knotless.getDelegation",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "done"
+          ],
+          "properties": {
+            "done": {
+              "type": "boolean",
+              "description": "Whether the gateway now writes for the caller. False means ask again."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "state"
+        ],
+        "properties": {
+          "state": {
+            "type": "string",
+            "maxLength": 64
+          }
+        }
+      },
+      "description": "Fails with 403 when the authorization was refused or did not log in as the caller, and with 404 for a delegation the caller did not start or that has ended."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Waits, for a while, for a delegation the caller started with dev.knotless.putDelegation to be approved. Requires a service token from the caller's PDS, audience the gateway's DID, for this method."
+}

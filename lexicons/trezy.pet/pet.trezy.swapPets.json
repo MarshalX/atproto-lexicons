@@ -1,0 +1,71 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Change which of the caller's pets are on the stage. Pass `activate` to bring a pet on, `deactivate` to take one off, or both to swap in one call. Acts only on the authenticated caller's own rows and never accepts a DID. TOUCHES NO MONEY AT ALL: it writes a stint to trezy_pet_stage_log recording exactly when each pet went on or came off, and the accrual reads those stints so every pet is paid for the stretches it was genuinely on stage and no others. Coins already waiting stay waiting — nothing is collected, banked or forfeited by swapping, and the player picks them up whenever they like. A pet with no stints at all is treated as having been on stage since it was bought, which is what lets accounts that predate the log keep working unchanged.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "activate": {
+              "description": "The pet to bring onto the stage. Must be a pet the caller owns and has not retired. Alone, it fills a free slot and refuses with stage-full if there is none. It starts earning from the moment of this call and is paid nothing for the time it spent waiting.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "deactivate": {
+              "description": "The pet to take off the stage. Must be a pet the caller owns and currently has on the stage. Alone, it refuses with last-active-pet rather than leave a player with nothing earning. It keeps everything it earned up to this moment. Nothing here is destructive: a benched pet keeps its name, its history and its price, and can be brought back at any time. Retiring is the irreversible one, and that is pet.trezy.retirePet.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "active": {
+              "description": "Every pet on the stage after the change, oldest first. The whole set rather than the pets that moved, so a client can render the stage from the answer without a second call and without guessing at a race it lost.",
+              "items": {
+                "format": "at-uri",
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "changedAt": {
+              "description": "The moment recorded in the stint log — the instant the outgoing pet stopped earning and the incoming one started. Not a wallet timestamp: this call does not touch the wallet.",
+              "format": "datetime",
+              "type": "string"
+            },
+            "error": {
+              "description": "Present instead of the fields above when the stage was not changed for an expected reason. A stable machine code the client branches on — add codes, never rename them.",
+              "knownValues": [
+                "missing-target",
+                "same-pet",
+                "unknown-pet",
+                "retired-pet",
+                "already-active",
+                "already-benched",
+                "stage-full",
+                "last-active-pet",
+                "unavailable"
+              ],
+              "type": "string"
+            },
+            "message": {
+              "description": "A sentence to show the player, accompanying `error`. Free to reword; do not branch on it.",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "pet.trezy.swapPets",
+  "lexicon": 1
+}

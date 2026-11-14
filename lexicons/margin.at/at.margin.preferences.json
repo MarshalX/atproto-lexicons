@@ -1,0 +1,94 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "labelPreference": {
+      "properties": {
+        "label": {
+          "description": "The label identifier (e.g. sexual, violence, spam).",
+          "type": "string"
+        },
+        "labelerDid": {
+          "description": "DID of the labeler service.",
+          "type": "string"
+        },
+        "visibility": {
+          "description": "How to handle content with this label: hide, warn, or ignore.",
+          "knownValues": [
+            "hide",
+            "warn",
+            "ignore"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "labelerDid",
+        "label",
+        "visibility"
+      ],
+      "type": "object"
+    },
+    "labelerSubscription": {
+      "properties": {
+        "did": {
+          "description": "DID of the labeler service.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "did"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "User preferences for the Margin application.",
+      "key": "literal:self",
+      "record": {
+        "properties": {
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "disableExternalLinkWarning": {
+            "description": "If true, do not show the confirmation modal when opening external links.",
+            "type": "boolean"
+          },
+          "externalLinkSkippedHostnames": {
+            "description": "List of hostnames to skip the external link warning modal for.",
+            "items": {
+              "maxLength": 255,
+              "type": "string"
+            },
+            "maxLength": 100,
+            "type": "array"
+          },
+          "labelPreferences": {
+            "description": "Per-label visibility preferences for subscribed labelers.",
+            "items": {
+              "ref": "#labelPreference",
+              "type": "ref"
+            },
+            "maxLength": 500,
+            "type": "array"
+          },
+          "subscribedLabelers": {
+            "description": "List of labeler services the user subscribes to for content moderation.",
+            "items": {
+              "ref": "#labelerSubscription",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "type": "array"
+          }
+        },
+        "required": [
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "at.margin.preferences",
+  "lexicon": 1
+}

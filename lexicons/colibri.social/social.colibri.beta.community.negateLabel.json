@@ -1,0 +1,76 @@
+{
+  "id": "social.colibri.beta.community.negateLabel",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "space",
+            "subject",
+            "val"
+          ],
+          "properties": {
+            "val": {
+              "type": "string",
+              "description": "The label value to retract."
+            },
+            "space": {
+              "type": "string",
+              "format": "space-ref",
+              "description": "The space the labelled record lives in."
+            },
+            "reason": {
+              "type": "string",
+              "maxLength": 512,
+              "description": "Human-readable reason for the retraction."
+            },
+            "subject": {
+              "ref": "social.colibri.beta.label#subject",
+              "type": "ref",
+              "description": "The labelled record."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request is missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The caller lacks the label.apply permission."
+        },
+        {
+          "name": "CommunityNotFound",
+          "description": "No community exists at the given DID."
+        },
+        {
+          "name": "SpaceNotFound",
+          "description": "No space exists at the given reference."
+        },
+        {
+          "name": "LabelNotFound",
+          "description": "No active label matching the subject and value exists to negate."
+        },
+        {
+          "name": "CredentialsUnavailable",
+          "description": "The AppView cannot act as the community because its stored credentials are missing or unusable."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "description": "Retracts a label by writing a negating one. The original label record is left in place."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

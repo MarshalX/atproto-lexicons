@@ -1,0 +1,39 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Durable household invite revocation authored by the inviter (ADR 82).",
+      "properties": {
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "inviteId": {
+          "type": "string"
+        },
+        "inviteeDid": {
+          "format": "did",
+          "type": "string"
+        },
+        "offerUri": {
+          "format": "uri",
+          "type": "string"
+        },
+        "revokedAt": {
+          "format": "datetime",
+          "type": "string"
+        }
+      },
+      "required": [
+        "inviteId",
+        "offerUri",
+        "inviteeDid",
+        "revokedAt",
+        "createdAt"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "cloud.substratum.place.inviteRevoke",
+  "lexicon": 1
+}

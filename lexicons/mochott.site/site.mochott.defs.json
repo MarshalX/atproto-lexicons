@@ -1,0 +1,26 @@
+{
+  "id": "site.mochott.defs",
+  "defs": {
+    "blobMetadata": {
+      "type": "object",
+      "required": [
+        "blobref"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Original filename of the blob."
+        },
+        "blobref": {
+          "type": "blob",
+          "description": "Reference to the stored blob."
+        }
+      },
+      "description": "Metadata for a blob reference with an optional filename."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Shared type definitions for the mochott blog platform."
+}

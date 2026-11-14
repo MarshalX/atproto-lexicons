@@ -1,0 +1,506 @@
+{
+  "id": "social.craftsky.project.defs",
+  "defs": {
+    "dk": {
+      "type": "token",
+      "description": "DK weight yarn."
+    },
+    "pet": {
+      "type": "token",
+      "description": "Pet clothing, bedding, toys, and accessories."
+    },
+    "aran": {
+      "type": "token",
+      "description": "Aran weight yarn."
+    },
+    "boho": {
+      "type": "token",
+      "description": "Boho or bohemian-inspired design."
+    },
+    "folk": {
+      "type": "token",
+      "description": "Folk-inspired design or aesthetic."
+    },
+    "lace": {
+      "type": "token",
+      "description": "Lace weight yarn."
+    },
+    "bulky": {
+      "type": "token",
+      "description": "Bulky weight yarn."
+    },
+    "gauge": {
+      "type": "object",
+      "required": [
+        "stitches",
+        "measurement",
+        "unit"
+      ],
+      "properties": {
+        "rows": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of rows or rounds measured, when recorded."
+        },
+        "unit": {
+          "type": "string",
+          "maxLength": 10,
+          "description": "Measurement unit for the gauge swatch.",
+          "knownValues": [
+            "cm",
+            "in"
+          ],
+          "maxGraphemes": 10
+        },
+        "stitches": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of stitches measured across the gauge swatch."
+        },
+        "measurement": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Measurement distance for the gauge swatch, interpreted with unit."
+        }
+      },
+      "description": "Structured stitch gauge measured over a stated distance. Rows are optional because many crafters record only stitch gauge."
+    },
+    "other": {
+      "type": "token",
+      "description": "Intentionally uncategorized or not covered by the current vocabulary."
+    },
+    "plaid": {
+      "type": "token",
+      "description": "Plaid or tartan-inspired design."
+    },
+    "quilt": {
+      "type": "token",
+      "description": "Quilts as a primary project category."
+    },
+    "sport": {
+      "type": "token",
+      "description": "Sport weight yarn."
+    },
+    "animal": {
+      "type": "token",
+      "description": "Animal-themed design or motif."
+    },
+    "floral": {
+      "type": "token",
+      "description": "Floral design, motif, or aesthetic."
+    },
+    "gothic": {
+      "type": "token",
+      "description": "Gothic design or aesthetic."
+    },
+    "modern": {
+      "type": "token",
+      "description": "Modern design or aesthetic."
+    },
+    "sporty": {
+      "type": "token",
+      "description": "Sporty or athletic-inspired design."
+    },
+    "costume": {
+      "type": "token",
+      "description": "Costume, cosplay, theatre, or fancy-dress projects."
+    },
+    "garment": {
+      "type": "token",
+      "description": "Clothing worn on the body."
+    },
+    "holiday": {
+      "type": "token",
+      "description": "Holiday-themed design."
+    },
+    "medical": {
+      "type": "token",
+      "description": "Medical, adaptive, support, or care-related projects."
+    },
+    "novelty": {
+      "type": "token",
+      "description": "Novelty or playful themed design."
+    },
+    "pattern": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Link to the pattern."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Pattern name or visible pattern hashtag, e.g. 'Simplicity 8265', 'Hitchhiker Shawl', or '#hitchhiker'. Useful when there is no URL (e.g. a physical pattern), or alongside a URL as a display label. Rich-text annotations for this string live in nameFacets.",
+          "maxGraphemes": 200
+        },
+        "designer": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "The person or people who designed the pattern. Free text so physical patterns, indie designers, and multiple-designer credits can be represented without account references. Rich-text annotations for this string live in designerFacets.",
+          "maxGraphemes": 200
+        },
+        "publisher": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "The person, company, or entity that published the pattern. Optional and free text because pattern publishing differs across crafts and eras. Rich-text annotations for this string live in publisherFacets.",
+          "maxGraphemes": 200
+        },
+        "difficulty": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Pattern difficulty. A property of the pattern, not the post. Self-drafted patterns may include the author's own rating. knownValues are tokens.",
+          "knownValues": [
+            "social.craftsky.feed.defs#beginner",
+            "social.craftsky.feed.defs#confidentBeginner",
+            "social.craftsky.feed.defs#intermediate",
+            "social.craftsky.feed.defs#advanced"
+          ],
+          "maxGraphemes": 100
+        },
+        "nameFacets": {
+          "type": "array",
+          "items": {
+            "ref": "app.bsky.richtext.facet",
+            "type": "ref"
+          },
+          "description": "Byte-range annotations over 'name'. Used for pattern hashtags and future links/mentions in the visible pattern name string."
+        },
+        "selfDrafted": {
+          "type": "boolean",
+          "description": "True when the author identifies the pattern as self-drafted. Omit when false. This may coexist with other pattern metadata."
+        },
+        "designerFacets": {
+          "type": "array",
+          "items": {
+            "ref": "app.bsky.richtext.facet",
+            "type": "ref"
+          },
+          "description": "Byte-range annotations over 'designer'. Mention facets may notify credited Craftsky accounts."
+        },
+        "publisherFacets": {
+          "type": "array",
+          "items": {
+            "ref": "app.bsky.richtext.facet",
+            "type": "ref"
+          },
+          "description": "Byte-range annotations over 'publisher'. Mention facets may notify credited Craftsky accounts."
+        }
+      },
+      "description": "Optional metadata for the pattern used. Every field is optional. Self-drafted patterns may still carry a name, difficulty, URL, designer, or publisher."
+    },
+    "project": {
+      "type": "object",
+      "required": [
+        "common"
+      ],
+      "properties": {
+        "common": {
+          "ref": "#projectCommon",
+          "type": "ref",
+          "description": "Shared project fields that apply across all crafts."
+        },
+        "details": {
+          "refs": [
+            "social.craftsky.project.sewing#details",
+            "social.craftsky.project.quilting#details",
+            "social.craftsky.project.crochet#details",
+            "social.craftsky.project.knitting#details"
+          ],
+          "type": "union",
+          "description": "Optional craft-specific fields. Open union — new crafts add new variants here without breaking existing records."
+        }
+      },
+      "description": "Wraps a craft project's shared fields (#projectCommon) and optional craft-specific fields (#details, open union). The wrapper exists so shared fields live in one place (common) while per-craft specialisations are added additively via the union. See ADR 001."
+    },
+    "stripes": {
+      "type": "token",
+      "description": "Striped design."
+    },
+    "vintage": {
+      "type": "token",
+      "description": "Vintage or retro-inspired design."
+    },
+    "worsted": {
+      "type": "token",
+      "description": "Worsted weight yarn."
+    },
+    "abstract": {
+      "type": "token",
+      "description": "Abstract or non-representational design."
+    },
+    "material": {
+      "type": "object",
+      "required": [
+        "text"
+      ],
+      "properties": {
+        "text": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Visible material text, e.g. '3m of @sewmesunshine.bsky.social #viscose fabric'.",
+          "maxGraphemes": 100
+        },
+        "facets": {
+          "type": "array",
+          "items": {
+            "ref": "app.bsky.richtext.facet",
+            "type": "ref"
+          },
+          "description": "Byte-range annotations over text for material mentions and hashtags."
+        }
+      },
+      "description": "One visible material entry for a project. Rich-text annotations are scoped to text."
+    },
+    "nautical": {
+      "type": "token",
+      "description": "Nautical or maritime-inspired design."
+    },
+    "romantic": {
+      "type": "token",
+      "description": "Romantic design or aesthetic."
+    },
+    "seasonal": {
+      "type": "token",
+      "description": "Seasonal design or aesthetic."
+    },
+    "toyHobby": {
+      "type": "token",
+      "description": "Toys, hobby objects, games, dolls, and play items."
+    },
+    "accessory": {
+      "type": "token",
+      "description": "Worn or carried accessories."
+    },
+    "botanical": {
+      "type": "token",
+      "description": "Botanical, leaf, plant, or garden-inspired design."
+    },
+    "component": {
+      "type": "token",
+      "description": "Motifs, swatches, parts, trims, blocks, appliques, or other components."
+    },
+    "fingering": {
+      "type": "token",
+      "description": "Fingering weight yarn."
+    },
+    "geometric": {
+      "type": "token",
+      "description": "Geometric design, motif, or layout."
+    },
+    "homeGoods": {
+      "type": "token",
+      "description": "Household items and decor."
+    },
+    "lettering": {
+      "type": "token",
+      "description": "Design featuring lettering, words, initials, or typography."
+    },
+    "whimsical": {
+      "type": "token",
+      "description": "Whimsical or fanciful design."
+    },
+    "alteration": {
+      "type": "token",
+      "description": "Mending, repair, refashioning, or adjustment of an existing item."
+    },
+    "colorblock": {
+      "type": "token",
+      "description": "Color-blocked design."
+    },
+    "maximalist": {
+      "type": "token",
+      "description": "Maximalist design or aesthetic."
+    },
+    "minimalist": {
+      "type": "token",
+      "description": "Minimalist design or aesthetic."
+    },
+    "superBulky": {
+      "type": "token",
+      "description": "Super bulky weight yarn."
+    },
+    "cottagecore": {
+      "type": "token",
+      "description": "Cottagecore design or aesthetic."
+    },
+    "traditional": {
+      "type": "token",
+      "description": "Traditional design or aesthetic."
+    },
+    "checkerboard": {
+      "type": "token",
+      "description": "Checkerboard or checked design."
+    },
+    "projectCommon": {
+      "type": "object",
+      "required": [
+        "craftType"
+      ],
+      "properties": {
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 64,
+            "maxGraphemes": 64
+          },
+          "maxLength": 10,
+          "description": "Structured search tags. Composer responsibility to normalise to ASCII kebab-case (pattern ^[a-z0-9]+(-[a-z0-9]+)*$). AppView search materialisation also merges hashtag facets from post text and faceted project metadata, so this field is not required to duplicate every visible hashtag."
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Optional project name, e.g. 'Hitchhiker Shawl' or 'Linen Summer Dress'. Clients showing grid/card views should fall back to truncated text when title is absent.",
+          "maxGraphemes": 200
+        },
+        "colors": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 64,
+            "knownValues": [
+              "black",
+              "white",
+              "gray",
+              "brown",
+              "beige",
+              "red",
+              "orange",
+              "yellow",
+              "green",
+              "blue",
+              "purple",
+              "pink",
+              "cream",
+              "gold",
+              "silver",
+              "multicolor",
+              "natural"
+            ],
+            "maxGraphemes": 64
+          },
+          "maxLength": 10,
+          "description": "Primary colors used in the project, normalized by clients for search and filtering. knownValues are open suggestions; clients may write other bounded color strings when needed."
+        },
+        "status": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Whether the project is in progress or finished at the time this post was created. Snapshot — not a mutable lifecycle flag. knownValues are tokens so new statuses (e.g. planned, frogged) can be added without breaking old clients.",
+          "knownValues": [
+            "social.craftsky.feed.defs#wip",
+            "social.craftsky.feed.defs#finished"
+          ],
+          "maxGraphemes": 100
+        },
+        "pattern": {
+          "ref": "#pattern",
+          "type": "ref",
+          "description": "Optional pattern reference."
+        },
+        "duration": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Free-text description of how long the project took, e.g. '3 weeks', 'a weekend', '6 months of evenings'. Deliberately unstructured — crafters describe duration informally. Not range-queryable.",
+          "maxGraphemes": 100
+        },
+        "craftType": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Primary craft for this project. Determines the craft-specific details; additionalCrafts records other participating crafts. knownValues are open tokens.",
+          "knownValues": [
+            "social.craftsky.feed.defs#knitting",
+            "social.craftsky.feed.defs#crochet",
+            "social.craftsky.feed.defs#sewing",
+            "social.craftsky.feed.defs#embroidery",
+            "social.craftsky.feed.defs#quilting"
+          ],
+          "maxGraphemes": 100
+        },
+        "materials": {
+          "type": "array",
+          "items": {
+            "ref": "#material",
+            "type": "ref"
+          },
+          "maxLength": 10,
+          "description": "Materials used in the project as visible rich-text entries. Each entry is indexed for search by text and may carry mention or hashtag facets over that text."
+        },
+        "designTags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 64,
+            "knownValues": [
+              "social.craftsky.project.defs#floral",
+              "social.craftsky.project.defs#botanical",
+              "social.craftsky.project.defs#animal",
+              "social.craftsky.project.defs#geometric",
+              "social.craftsky.project.defs#abstract",
+              "social.craftsky.project.defs#stripes",
+              "social.craftsky.project.defs#colorblock",
+              "social.craftsky.project.defs#plaid",
+              "social.craftsky.project.defs#checkerboard",
+              "social.craftsky.project.defs#lettering",
+              "social.craftsky.project.defs#novelty",
+              "social.craftsky.project.defs#holiday",
+              "social.craftsky.project.defs#seasonal",
+              "social.craftsky.project.defs#traditional",
+              "social.craftsky.project.defs#modern",
+              "social.craftsky.project.defs#vintage",
+              "social.craftsky.project.defs#minimalist",
+              "social.craftsky.project.defs#maximalist",
+              "social.craftsky.project.defs#whimsical",
+              "social.craftsky.project.defs#folk",
+              "social.craftsky.project.defs#boho",
+              "social.craftsky.project.defs#cottagecore",
+              "social.craftsky.project.defs#gothic",
+              "social.craftsky.project.defs#romantic",
+              "social.craftsky.project.defs#nautical",
+              "social.craftsky.project.defs#sporty"
+            ],
+            "maxGraphemes": 64
+          },
+          "maxLength": 10,
+          "description": "Visual design, motif, or aesthetic tags for the project, normalized by clients for cross-craft search and filtering. knownValues are open suggestions; clients may write other bounded design strings when needed."
+        },
+        "additionalCrafts": {
+          "type": "array",
+          "items": {
+            "ref": "#additionalCraft",
+            "type": "ref"
+          },
+          "maxLength": 10,
+          "description": "Other crafts involved in this project. Clients should omit the primary craft and duplicates. These crafts also participate in discovery; details remain associated with the primary craft."
+        }
+      },
+      "description": "Project fields shared across every craft. A post with project.common present but no project.details is a valid craft-tagged project post without specialised fields — useful when craftType references a craft that has no #details lexicon yet."
+    },
+    "additionalCraft": {
+      "type": "object",
+      "required": [
+        "craftType"
+      ],
+      "properties": {
+        "craftType": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "An additional craft involved in this project.",
+          "knownValues": [
+            "social.craftsky.feed.defs#knitting",
+            "social.craftsky.feed.defs#crochet",
+            "social.craftsky.feed.defs#sewing",
+            "social.craftsky.feed.defs#embroidery",
+            "social.craftsky.feed.defs#quilting"
+          ],
+          "maxGraphemes": 100
+        }
+      },
+      "description": "One additional craft, represented as an object so future context can be added."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Shared objects and tokens for craft project metadata. These are used by social.craftsky.feed.post and multiple social.craftsky.project.* detail lexicons."
+}

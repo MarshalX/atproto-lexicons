@@ -1,0 +1,34 @@
+{
+  "id": "social.pinkleap.profile",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "slug",
+          "value",
+          "createdAt"
+        ],
+        "properties": {
+          "slug": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "value": {
+            "type": "unknown",
+            "description": "Any JSON value — this record intentionally does not constrain the value's shape."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Record describing a public Pinkleap profile display option, readable by anyone viewing the profile."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

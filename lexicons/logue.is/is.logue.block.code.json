@@ -1,0 +1,25 @@
+{
+  "id": "is.logue.block.code",
+  "defs": {
+    "main": {
+      "type": "object",
+      "required": [
+        "plaintext"
+      ],
+      "properties": {
+        "language": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Programming language used for syntax highlighting, loosely based on PrismJS language definitions"
+        },
+        "plaintext": {
+          "type": "string",
+          "description": "The code content"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Preformatted code block with optional syntax highlighting."
+}

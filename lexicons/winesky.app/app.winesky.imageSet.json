@@ -1,0 +1,74 @@
+{
+  "id": "app.winesky.imageSet",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "origin",
+          "createdAt"
+        ],
+        "properties": {
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "blob",
+              "accept": [
+                "image/jpeg",
+                "image/png"
+              ],
+              "maxSize": 3000000
+            },
+            "maxLength": 4,
+            "minLength": 1
+          },
+          "origin": {
+            "enum": [
+              "IDENTIFY_WINE",
+              "SEARCH",
+              "SOMMELIER",
+              "CSV_IMPORT",
+              "WINE_REVIEW"
+            ],
+            "type": "string",
+            "maxLength": 50
+          },
+          "parent": {
+            "ref": "#strongRef",
+            "type": "ref"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 5000
+          }
+        }
+      },
+      "description": "A set of Winesky-uploaded images"
+    },
+    "strongRef": {
+      "type": "object",
+      "required": [
+        "cid",
+        "atUri"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid"
+        },
+        "atUri": {
+          "type": "string",
+          "format": "at-uri"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,86 @@
+{
+  "id": "social.colibri.beta.actor.setStatus",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string",
+              "maxLength": 64,
+              "description": "The status text. An empty string clears it. Absent leaves the current value unchanged."
+            },
+            "emoji": {
+              "type": "string",
+              "description": "A Unicode emoji shown beside the status. An empty string clears it. Absent leaves the current value unchanged."
+            },
+            "expiresAt": {
+              "type": "string",
+              "format": "datetime",
+              "description": "When the status clears. Absent leaves the current value unchanged. Takes precedence over removeExpiresAt."
+            },
+            "customEmoji": {
+              "ref": "social.colibri.beta.richtext.facet#customEmoji",
+              "type": "ref",
+              "description": "A custom emoji shown beside the status. The uri must name an emoji item record. Absent leaves the current value unchanged. Takes precedence over removeCustomEmoji."
+            },
+            "onlineState": {
+              "type": "string",
+              "description": "Derived online state. Absent leaves the current value unchanged.",
+              "knownValues": [
+                "online",
+                "away",
+                "dnd",
+                "offline"
+              ]
+            },
+            "removeExpiresAt": {
+              "type": "boolean",
+              "description": "Removes the status expiry, so the status stays until it is changed. Ignored when expiresAt is also given."
+            },
+            "showWhileOffline": {
+              "type": "boolean",
+              "description": "Whether a client shows the status while the user is offline. Absent leaves the current value unchanged."
+            },
+            "removeCustomEmoji": {
+              "type": "boolean",
+              "description": "Removes the custom emoji. Ignored when customEmoji is also given."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request has no valid service auth."
+        },
+        {
+          "name": "InvalidRequest",
+          "description": "A field is present but does not hold an allowed value."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "presence"
+          ],
+          "properties": {
+            "presence": {
+              "ref": "social.colibri.beta.actor.defs#presence",
+              "type": "ref",
+              "description": "The requesting user's presence, after the update."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Sets the requesting user's off-protocol presence. An absent field leaves the current value unchanged."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

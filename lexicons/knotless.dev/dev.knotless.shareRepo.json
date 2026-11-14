@@ -1,0 +1,75 @@
+{
+  "id": "dev.knotless.shareRepo",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "repo",
+            "with"
+          ],
+          "properties": {
+            "repo": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+            },
+            "with": {
+              "type": "string",
+              "format": "at-identifier",
+              "description": "The account, by handle or DID."
+            },
+            "write": {
+              "type": "boolean",
+              "description": "Whether it may push, as `knotless repo share --write` lets it; false lets it only read a private repository, and open pulls and issues there, as `knotless repo share` does, taking back any push it had. True when absent."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository."
+        },
+        {
+          "name": "InvalidRequest",
+          "description": "There is no such account, the owner has delegated writes to no gateway, or a public repository was shared for reading, which anyone may."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The account logged in is not the repository's owner."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "collaborators"
+          ],
+          "properties": {
+            "collaborators": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#actorView",
+                "type": "ref"
+              },
+              "description": "The accounts that may push to it now."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Names the account among the collaborators of the repository's dev.knotless.repo record, as `knotless repo share --write` does: it pushes and commits through the gateway the owner delegated writes to, which must be named first, as `knotless account delegate` names it. Its owner can, logged in to this appview's web pages: the appview writes with the session it keeps for that account, which the pages' session cookie names. For an organization's repository, so can an admin who joined it, logged in to the pages or with a service token from their own PDS for this method: the appview's gateway, which the organization delegated its writes to, writes as the organization."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Lets an account push to a repository, or read a private one."
+}

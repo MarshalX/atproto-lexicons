@@ -1,0 +1,90 @@
+{
+  "id": "com.suibari.nagi.drawCard",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "source": {
+              "type": "string",
+              "description": "省略時は後方互換のためmy_nagi。anniversary は記念日カードの受け取りで、抽選枠を消費しない。",
+              "knownValues": [
+                "my_nagi",
+                "reaction",
+                "anniversary"
+              ]
+            },
+            "guestToken": {
+              "type": "string",
+              "description": "未サインイン中に同日引いた通常枠を引き継ぐ端末秘密。source=my_nagi のときだけ利用できる。"
+            },
+            "reactionUri": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "source=reaction のとき必須。本人が当日作成した他ユーザー宛てリアクション。"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "card",
+            "source",
+            "alreadyDrawn",
+            "drawStatus"
+          ],
+          "properties": {
+            "card": {
+              "type": "unknown",
+              "description": "引いたカード（定義 + 所持情報）。botたんコメントは非同期生成なので初回は空。"
+            },
+            "cards": {
+              "type": "array",
+              "items": {
+                "type": "unknown"
+              },
+              "description": "source=anniversary のみ。同日に複数の記念日が重なることがあるので今回受け取ったぶんを全部返す。card はこの先頭と同じ。"
+            },
+            "isNew": {
+              "type": "boolean",
+              "description": "コレクション初登場なら true。既に持っているカードなら false。"
+            },
+            "source": {
+              "type": "string",
+              "knownValues": [
+                "my_nagi",
+                "reaction",
+                "anniversary"
+              ]
+            },
+            "drawStatus": {
+              "type": "unknown"
+            },
+            "alreadyDrawn": {
+              "type": "boolean",
+              "description": "true なら本日は既に引き済みで、返しているのはそのカード。"
+            },
+            "commentPending": {
+              "type": "boolean",
+              "description": "true の間は botたんコメントを生成中。クライアントは getCards で取り直す。"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "全肯定カードを1枚引く。my Nagiの通常枠と他ユーザーへのリアクション枠を1日各1回利用できる（JST 4:00 が日付境界）。同じ枠を既に引いている場合は、そのカードをそのまま返す（冪等）。抽選はサーバ側で行う。source=anniversary は抽選ではなく、その日が記念日の人へ未受領ぶんを一括で配る（同じ記念日は1年に1枚）。"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

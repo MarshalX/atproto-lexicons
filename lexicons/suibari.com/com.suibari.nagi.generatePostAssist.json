@@ -1,0 +1,88 @@
+{
+  "id": "com.suibari.nagi.generatePostAssist",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "text",
+            "lang",
+            "today"
+          ],
+          "properties": {
+            "lang": {
+              "type": "string",
+              "knownValues": [
+                "ja",
+                "en"
+              ]
+            },
+            "mode": {
+              "type": "string",
+              "description": "affirm は書きかけの具体的な良さを肯定、question は発想を促す問いかけ。クライアントは IME 変換を除く実際の削除時に question、その後の追記で affirm へ戻す。未指定なら本文ありは affirm。空白のみ・空文字は常に question。",
+              "knownValues": [
+                "affirm",
+                "question"
+              ]
+            },
+            "text": {
+              "type": "string",
+              "maxLength": 30000,
+              "description": "書きかけの本文。空文字なら書き始める前の声かけになる。",
+              "maxGraphemes": 3000
+            },
+            "today": {
+              "type": "string",
+              "description": "本人の端末のローカル日付 YYYY-MM-DD。日記の「同じ日付」を探すのに使う。"
+            },
+            "previous": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "maxLength": 2000,
+                "maxGraphemes": 200
+              },
+              "maxLength": 5,
+              "description": "同じ書きかけの間にすでに出したひとこと。繰り返さないために渡す。"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired"
+        },
+        {
+          "name": "InvalidRequest"
+        },
+        {
+          "name": "RateLimited"
+        },
+        {
+          "name": "UpstreamUnavailable"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "message"
+          ],
+          "properties": {
+            "message": {
+              "type": "string",
+              "maxGraphemes": 200
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "投稿を書いている本人へ、書きかけの具体的な良さを肯定するか、未入力・削除時に発想を促すひとことを生成する。書きかけの本文は生成にだけ使い、保存しない。"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,42 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "record": {
+        "properties": {
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "pet": {
+            "format": "at-uri",
+            "type": "string"
+          },
+          "signatures": {
+            "items": {
+              "type": "unknown"
+            },
+            "type": "array"
+          },
+          "type": {
+            "knownValues": [
+              "feed",
+              "pet"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "pet",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "pet.trezy.activity",
+  "lexicon": 1
+}

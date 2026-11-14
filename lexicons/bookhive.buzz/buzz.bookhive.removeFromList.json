@@ -1,0 +1,26 @@
+{
+  "id": "buzz.bookhive.removeFromList",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "itemUri"
+          ],
+          "properties": {
+            "itemUri": {
+              "type": "string",
+              "description": "AT-URI of the list item to remove"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Remove a book from a list."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

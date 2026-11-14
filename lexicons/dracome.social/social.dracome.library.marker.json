@@ -1,0 +1,51 @@
+{
+  "id": "social.dracome.library.marker",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "catalogTarget",
+          "catalogSnapshot",
+          "createdAt"
+        ],
+        "properties": {
+          "tracked": {
+            "type": "boolean",
+            "description": "True when the actor has marked the current work or edition as tracked. This marker is independent of the reading status."
+          },
+          "favorite": {
+            "type": "boolean",
+            "description": "True when the actor has marked the current work or edition as a favorite. Runtime validation MUST delete the marker record when all marker booleans would be false."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Canonical UTC instant serialized as ISO 8601 with a trailing Z suffix."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Canonical UTC instant serialized as ISO 8601 with a trailing Z suffix."
+          },
+          "catalogTarget": {
+            "ref": "social.dracome.work.defs#catalogTarget",
+            "type": "ref",
+            "description": "The work and edition that this marker applies to. Mutable."
+          },
+          "catalogSnapshot": {
+            "ref": "social.dracome.work.defs#catalogSnapshot",
+            "type": "ref",
+            "description": "Point-in-time catalog metadata for the marked work or edition, captured when this record was last written. Refreshed on every update."
+          }
+        },
+        "description": "Runtime validation MUST require at least one of favorite or tracked to be true. If all marker booleans would be false, the record should be deleted instead of kept as an empty record."
+      },
+      "description": "A favorite/tracked marker record for one edition per actor. Duplicate convention: the rkey is a TID minted once at first create and never changes. Several records may exist for one actor and edition (for example from out-of-band writers); consumers SHOULD treat the record with the greatest `updatedAt` (falling back to `createdAt`) as the winner and break ties by the lowest TID, ignoring the others. This is a convention, not an enforced contract: AppViews MUST tolerate a differing winner, and may see a record's catalogTarget change over time."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

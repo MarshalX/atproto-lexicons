@@ -1,0 +1,36 @@
+{
+  "id": "app.userinput.lock",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "lockedAt",
+          "createdAt"
+        ],
+        "properties": {
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The discussion being locked. Indexed by constellation at subject.uri."
+          },
+          "lockedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Cutoff time: replies with createdAt at or before this are shown; later ones are hidden."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "A moderation lock on a discussion: replies created after lockedAt are no longer shown, and the thread is closed to new replies. Only honored when authored by the space owner or an appointed moderator. Latest createdAt wins; deleting the record unlocks (for that moderator). Lives in the moderator's repo."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

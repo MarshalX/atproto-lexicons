@@ -1,0 +1,42 @@
+{
+  "id": "town.delve.membership.defs",
+  "defs": {
+    "membership": {
+      "type": "object",
+      "required": [
+        "did",
+        "status",
+        "suspended",
+        "revision",
+        "joined"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "joined": {
+          "type": "boolean",
+          "description": "Whether this account ever joined, by invite or by being hosted here."
+        },
+        "status": {
+          "type": "string",
+          "knownValues": [
+            "active",
+            "withdrawn"
+          ]
+        },
+        "revision": {
+          "type": "integer",
+          "description": "Increments on every change; pass it back to make a change conditional."
+        },
+        "suspended": {
+          "type": "boolean"
+        }
+      },
+      "description": "An account's standing in the town. Active members are indexed and served; withdrawn members keep what they posted but add nothing new; a suspended account is neither."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

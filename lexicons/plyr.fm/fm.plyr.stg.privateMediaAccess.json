@@ -1,0 +1,69 @@
+{
+  "id": "fm.plyr.stg.privateMediaAccess",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "manage and play protected audio",
+      "detail": "store and manage your private and protected audio, manage access to private tracks, and play private tracks shared with you through plyr.fm.",
+      "permissions": [
+        {
+          "skey": "self",
+          "type": "permission",
+          "action": [
+            "read",
+            "create",
+            "update",
+            "delete"
+          ],
+          "manage": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "space",
+          "authority": "self",
+          "spaceType": "fm.plyr.stg.privateMedia",
+          "collection": [
+            "fm.plyr.stg.track"
+          ]
+        },
+        {
+          "skey": "self",
+          "type": "permission",
+          "action": [
+            "read"
+          ],
+          "resource": "space",
+          "authority": "*",
+          "spaceType": "fm.plyr.stg.privateMedia",
+          "collection": [
+            "fm.plyr.stg.track"
+          ]
+        },
+        {
+          "skey": "playback",
+          "type": "permission",
+          "action": [
+            "read",
+            "create",
+            "update",
+            "delete"
+          ],
+          "manage": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "space",
+          "authority": "self",
+          "spaceType": "fm.plyr.stg.privateMedia",
+          "collection": [
+            "fm.plyr.stg.track"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

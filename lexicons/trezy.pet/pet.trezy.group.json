@@ -1,0 +1,44 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "A group a species can belong to — a family (canines), a habit (nocturnal), or a place (woodland). Published in the game's own repo (did:plc:ollch4g7tes2reb5eceiwuol); record.index:pet.trezy.group refuses the rest. GROUPS OVERLAP BY DESIGN: a wolf cub is a mammal AND a canine AND woodland, and all three are true at once. That is what lets the vocabulary mix levels — a class next to a family next to a behaviour — without any of them being wrong, which a single field forcing one bucket per species could not do.",
+      "key": "any",
+      "record": {
+        "properties": {
+          "collectible": {
+            "description": "⚠ ABSENT MEANS FALSE, WHICH IS THE OPPOSITE OF `purchasable` ON A SPECIES, AND THE ASYMMETRY IS DELIBERATE. A species defaults to sellable because most are and requiring the field would be noise. A group defaults to NOT a completable set because the two mistakes are not equally bad: a group wrongly marked collectible shows the player a set that is already complete (`birds`, one member) or one they cannot realistically finish (`mammals`, fourteen), and both read as the game being broken. A group wrongly left off simply does not offer a goal yet. Opt in when the group is genuinely a set worth finishing.",
+            "type": "boolean"
+          },
+          "description": {
+            "description": "One line of flavour, shown when the group is the thing being looked at. Optional: a group whose name says everything does not need a sentence explaining it.",
+            "maxLength": 300,
+            "type": "string"
+          },
+          "displayName": {
+            "description": "What a player sees as a heading or a filter chip. Sentence case as the copy is written elsewhere in the game — 'Waterfolk', not 'WATERFOLK'.",
+            "maxLength": 64,
+            "type": "string"
+          },
+          "id": {
+            "description": "The group key, referenced by `groups` on a species record. Renaming one orphans every reference, so it is a new group plus an edit to every species in it, never an edit here.",
+            "maxLength": 64,
+            "type": "string"
+          },
+          "rank": {
+            "description": "Display order, low first. Absent sorts after everything ranked, then by `displayName` — so an unranked group appears rather than vanishing, which is the failure a required field here would have caused the first time somebody published one in a hurry.",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "displayName"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "pet.trezy.group",
+  "lexicon": 1
+}

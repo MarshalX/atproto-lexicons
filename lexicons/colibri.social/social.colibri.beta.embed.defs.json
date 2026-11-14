@@ -1,0 +1,467 @@
+{
+  "id": "social.colibri.beta.embed.defs",
+  "defs": {
+    "gifView": {
+      "type": "object",
+      "required": [
+        "id",
+        "url",
+        "previewUrl",
+        "width",
+        "height"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Provider identifier, stable enough to save as a favourite."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Full-size GIF URL."
+        },
+        "title": {
+          "type": "string",
+          "description": "Human-readable title."
+        },
+        "width": {
+          "type": "integer",
+          "description": "Intrinsic pixel width."
+        },
+        "height": {
+          "type": "integer",
+          "description": "Intrinsic pixel height."
+        },
+        "previewUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Smaller preview URL for the picker grid."
+        }
+      },
+      "description": "A GIF from the picker."
+    },
+    "richSpan": {
+      "type": "object",
+      "required": [
+        "text"
+      ],
+      "properties": {
+        "bold": {
+          "type": "boolean",
+          "description": "Bold."
+        },
+        "href": {
+          "type": "string",
+          "format": "uri",
+          "description": "Link target."
+        },
+        "text": {
+          "type": "string",
+          "description": "Plain text."
+        },
+        "italic": {
+          "type": "boolean",
+          "description": "Italic."
+        }
+      },
+      "description": "An inline run of formatted text."
+    },
+    "embedPost": {
+      "type": "object",
+      "required": [
+        "body"
+      ],
+      "properties": {
+        "body": {
+          "type": "array",
+          "items": {
+            "ref": "#richBlock",
+            "type": "ref"
+          },
+          "description": "Formatted post text."
+        },
+        "quote": {
+          "ref": "#embedQuote",
+          "type": "ref",
+          "description": "The post this post quotes."
+        },
+        "stats": {
+          "ref": "#embedStats",
+          "type": "ref",
+          "description": "Engagement counts."
+        },
+        "sensitive": {
+          "type": "boolean",
+          "description": "Whether the author marked the post as sensitive."
+        },
+        "contentWarning": {
+          "type": "string",
+          "description": "Content warning text."
+        },
+        "translatedFrom": {
+          "type": "string",
+          "description": "Source language code when body holds a translation."
+        }
+      },
+      "description": "Content of a social post."
+    },
+    "linkEmbed": {
+      "type": "object",
+      "required": [
+        "uri"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "The URL previewed."
+        },
+        "post": {
+          "ref": "#embedPost",
+          "type": "ref",
+          "description": "Social post content, present when the link resolves to one."
+        },
+        "image": {
+          "ref": "#embedImage",
+          "type": "ref",
+          "description": "Preview image."
+        },
+        "media": {
+          "type": "array",
+          "items": {
+            "ref": "#embedMedia",
+            "type": "ref"
+          },
+          "maxLength": 4,
+          "description": "Gallery of images and videos, in page order."
+        },
+        "title": {
+          "type": "string",
+          "description": "Page title."
+        },
+        "video": {
+          "ref": "#embedVideo",
+          "type": "ref",
+          "description": "Playable video."
+        },
+        "author": {
+          "ref": "#embedAuthor",
+          "type": "ref",
+          "description": "Author of the page or post."
+        },
+        "layout": {
+          "type": "string",
+          "description": "Card layout the page asks for.",
+          "knownValues": [
+            "summary",
+            "largeImage",
+            "player"
+          ]
+        },
+        "provider": {
+          "ref": "#embedProvider",
+          "type": "ref",
+          "description": "Service that published the page."
+        },
+        "siteName": {
+          "type": "string",
+          "description": "Publisher name."
+        },
+        "themeColor": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "Accent color the page declares, as #rrggbb."
+        },
+        "description": {
+          "type": "string",
+          "description": "Page description."
+        },
+        "publishedAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the page or post was published."
+        }
+      },
+      "description": "A link preview."
+    },
+    "richBlock": {
+      "type": "object",
+      "required": [
+        "kind",
+        "spans"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "description": "Block kind.",
+          "knownValues": [
+            "paragraph",
+            "quote"
+          ]
+        },
+        "spans": {
+          "type": "array",
+          "items": {
+            "ref": "#richSpan",
+            "type": "ref"
+          },
+          "description": "Inline runs. A newline in text is a line break."
+        }
+      },
+      "description": "A block of formatted text."
+    },
+    "embedImage": {
+      "type": "object",
+      "required": [
+        "url"
+      ],
+      "properties": {
+        "alt": {
+          "type": "string",
+          "description": "Alternative text."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL served by this AppView's image proxy."
+        },
+        "width": {
+          "type": "integer",
+          "description": "Intrinsic pixel width."
+        },
+        "height": {
+          "type": "integer",
+          "description": "Intrinsic pixel height."
+        }
+      },
+      "description": "A preview image."
+    },
+    "embedMedia": {
+      "type": "object",
+      "required": [
+        "kind",
+        "url"
+      ],
+      "properties": {
+        "alt": {
+          "type": "string",
+          "description": "Alternative text."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL served by this AppView's image or video proxy."
+        },
+        "kind": {
+          "type": "string",
+          "description": "Media kind. gifv is a silent looping video.",
+          "knownValues": [
+            "image",
+            "video",
+            "gifv"
+          ]
+        },
+        "width": {
+          "type": "integer",
+          "description": "Intrinsic pixel width."
+        },
+        "height": {
+          "type": "integer",
+          "description": "Intrinsic pixel height."
+        },
+        "mimeType": {
+          "type": "string",
+          "description": "Content type of a video.",
+          "knownValues": [
+            "video/mp4",
+            "video/webm"
+          ]
+        },
+        "previewUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Poster image for a video, served by this AppView's image proxy."
+        }
+      },
+      "description": "One gallery item."
+    },
+    "embedQuote": {
+      "type": "object",
+      "required": [
+        "uri",
+        "author",
+        "body"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL of the quoted post."
+        },
+        "body": {
+          "type": "array",
+          "items": {
+            "ref": "#richBlock",
+            "type": "ref"
+          },
+          "description": "Formatted text of the quoted post."
+        },
+        "media": {
+          "type": "array",
+          "items": {
+            "ref": "#embedMedia",
+            "type": "ref"
+          },
+          "maxLength": 4,
+          "description": "Media on the quoted post."
+        },
+        "author": {
+          "ref": "#embedAuthor",
+          "type": "ref",
+          "description": "Author of the quoted post."
+        },
+        "publishedAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the quoted post was published."
+        },
+        "translatedFrom": {
+          "type": "string",
+          "description": "Source language code when body holds a translation."
+        }
+      },
+      "description": "A quoted post."
+    },
+    "embedStats": {
+      "type": "object",
+      "properties": {
+        "likes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Like count."
+        },
+        "views": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "View count."
+        },
+        "replies": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Reply count."
+        },
+        "reposts": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Repost count."
+        }
+      },
+      "description": "Engagement counts on a post."
+    },
+    "embedVideo": {
+      "type": "object",
+      "required": [
+        "url",
+        "mimeType"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL served by this AppView's video proxy."
+        },
+        "width": {
+          "type": "integer",
+          "description": "Intrinsic pixel width."
+        },
+        "height": {
+          "type": "integer",
+          "description": "Intrinsic pixel height."
+        },
+        "duration": {
+          "type": "integer",
+          "description": "Duration in seconds."
+        },
+        "mimeType": {
+          "type": "string",
+          "description": "Content type.",
+          "knownValues": [
+            "video/mp4",
+            "video/webm"
+          ]
+        }
+      },
+      "description": "A playable video."
+    },
+    "embedAuthor": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Profile or post URL."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name."
+        },
+        "avatar": {
+          "type": "string",
+          "format": "uri",
+          "description": "Avatar URL served by this AppView's image proxy."
+        },
+        "handle": {
+          "type": "string",
+          "description": "Account handle, without a leading @."
+        }
+      },
+      "description": "The author of a link preview."
+    },
+    "gifCategory": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Category name."
+        },
+        "previewUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Representative image for the category."
+        }
+      },
+      "description": "A category in the GIF picker."
+    },
+    "embedProvider": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Home page."
+        },
+        "icon": {
+          "type": "string",
+          "format": "uri",
+          "description": "Icon URL served by this AppView's image proxy."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name."
+        }
+      },
+      "description": "The service behind a link preview."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,48 @@
+{
+  "id": "dev.knotless.renderMarkdown",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "text"
+          ],
+          "properties": {
+            "repo": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The dev.knotless.repo record of the repository it is written in, as dev.knotless.getThread takes it: relative links resolve inside it. Without it, they resolve from the site's root."
+            },
+            "text": {
+              "type": "string",
+              "maxLength": 20000,
+              "description": "The Markdown, as long as a comment's or a body's may be."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "html"
+          ],
+          "properties": {
+            "html": {
+              "type": "string",
+              "description": "The HTML, as dev.knotless.getThread's comments carry it."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Renders Markdown to HTML with the renderer the pages draw comments, issue and pull bodies with: raw HTML shown as text, bare web addresses made links, and relative links resolved inside the repository. Reads and fetches nothing, and needs no login. A procedure rather than a query, since the text may be long."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Markdown as this appview's pages show it once posted, for a preview of what is being written."
+}

@@ -1,0 +1,76 @@
+{
+  "id": "com.suibari.nagi.zenkatsu",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "themeDate",
+          "cards",
+          "createdAt"
+        ],
+        "properties": {
+          "note": {
+            "type": "string",
+            "maxLength": 3000,
+            "description": "作者の意図。札を選んだときに考えていたストーリーなどの自由記述で、任意。記録・ニュースで公開される（表示側は最初は畳んでおく）。botたんの総評の参考にも使う。AppView はモデレーション判定が済むまで返さない。",
+            "maxGraphemes": 300
+          },
+          "cards": {
+            "type": "array",
+            "items": {
+              "ref": "#cardRef",
+              "type": "ref"
+            },
+            "maxLength": 3,
+            "minLength": 1,
+            "description": "出した札。並びは意味を持つ（botたんの総評も順に読む）。同じ札を2枚以上入れることはできない。"
+          },
+          "langs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "language"
+            },
+            "maxLength": 3,
+            "description": "note の言語。投稿の langs と同じく、翻訳の原文言語の判定に使う。note が無いときは書かない。"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "themeDate": {
+            "type": "string",
+            "maxLength": 10,
+            "description": "この提出が答えるお題の日付。JST 4:00 始まりの \"YYYY-MM-DD\"。rkey と一致していなければならない。"
+          }
+        }
+      },
+      "description": "ゼンカツ！の提出。その日のお題に、手持ちの全肯定カード1〜3枚で答える。rkey は themeDate（\"2026-09-19\"）なので、repo 側でも1日1本に限られる。所持していない札・クールダウン中の札・当日以外の日付を書いても、AppView が取り込み時に照合して索引しない（ドローと違い、提出は既に所持している札を参照するだけなので照合先がある）。"
+    },
+    "cardRef": {
+      "type": "object",
+      "required": [
+        "volume",
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "段内の通し番号。記念日カードでは 西暦*100 + slot。"
+        },
+        "volume": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "カード段。0 は記念日カードの段。"
+        }
+      },
+      "description": "カードの指定。定義本体は shared-configs の cards_v{volume}.json が真実源で、(volume, id) の組がカードの同一性そのもの。"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

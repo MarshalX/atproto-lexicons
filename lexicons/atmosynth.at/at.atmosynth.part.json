@@ -1,0 +1,63 @@
+{
+  "id": "at.atmosynth.part",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "for",
+          "tracks",
+          "createdAt"
+        ],
+        "properties": {
+          "for": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The arrangement this part is for, and the version of it the part was played against, so its creator can see whether the arrangement has changed since."
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1
+          },
+          "tracks": {
+            "type": "array",
+            "items": {
+              "ref": "at.atmosynth.defs#track",
+              "type": "ref"
+            },
+            "maxLength": 32,
+            "minLength": 1,
+            "description": "The part's instrument and audio tracks, never a bus: the busses are the arrangement's. Their ids are unique within the part and do not collide with the arrangement's own, and their `to`, sends and sidechains may name the arrangement's busses and tracks. Their ticks are the arrangement's."
+          },
+          "license": {
+            "ref": "at.atmosynth.defs#license",
+            "type": "ref"
+          },
+          "lineage": {
+            "type": "array",
+            "items": {
+              "ref": "at.atmosynth.defs#lineage",
+              "type": "ref"
+            },
+            "maxLength": 64
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000
+          }
+        }
+      },
+      "description": "A part, held in its writer's own repository."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Tracks written for somebody else's arrangement, held in the repository of whoever wrote them. Nobody can write into another account's repository, so a contribution is offered rather than added: it names the arrangement it is for, and becomes part of that arrangement only when the arrangement's creator includes it by address. It stays its writer's, under their name, and what they change in it changes what the arrangement plays."
+}

@@ -1,0 +1,18 @@
+{
+  "id": "at.turtleme.game.fishSpot",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "output": {
+        "schema": {
+          "ref": "at.turtleme.game.defs#state",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "One cast at the fishing spot. Whether it catches anything, and whether what it catches is a sea turtle, are turtle meat's rolls and not the caller's. A cast takes four ticks and casting again inside that is refused, as is casting at a spot that has already wandered off. Requires an atproto service auth token addressed to did:web:turtleme.at#turtle_game and naming this method, so a token issued for one call cannot be spent on another."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,61 @@
+{
+  "id": "dev.knotless.setOrgMembership",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "org",
+            "visibility"
+          ],
+          "properties": {
+            "org": {
+              "type": "string",
+              "format": "did",
+              "description": "The organization."
+            },
+            "visibility": {
+              "type": "string",
+              "maxLength": 64,
+              "description": "Who may see the membership: anyone, or the organization's members alone.",
+              "knownValues": [
+                "public",
+                "hidden"
+              ]
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "InvalidRequest",
+          "description": "The change was refused: by the organization's gateway, or as the account may not make it."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "warning": {
+              "type": "string",
+              "maxLength": 2000,
+              "description": "Set when the change was made only in part, saying what is left."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Writes the account's dev.knotless.orgAcceptance record where the visibility says, in its public records or in the organization's space, takes back one in the other place, and asks the organization's gateway to take it in (dev.knotless.joinOrg). Requires the session cookie the pages' login sets: the appview acts with the session it keeps for that account. Clients holding their own session call the organization's gateway themselves."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Joins an organization as the account logged in to this appview's pages, or shows or hides that membership, as `knotless org join` does."
+}

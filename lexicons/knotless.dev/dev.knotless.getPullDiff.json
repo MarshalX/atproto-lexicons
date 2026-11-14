@@ -1,0 +1,67 @@
+{
+  "id": "dev.knotless.getPullDiff",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository or pull, or the pull's branch is gone."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "files"
+          ],
+          "properties": {
+            "files": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#fileDiffView",
+                "type": "ref"
+              },
+              "description": "Those of the files named that the pull changes, as an editor's file tree lists them, in each directory its directories before its files, each by name."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "repo",
+          "uri",
+          "paths"
+        ],
+        "properties": {
+          "uri": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The dev.knotless.pull record."
+          },
+          "repo": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The repository's dev.knotless.repo record. Its authority may be a handle; a name the repository had before, or an owner it moved from with its agreement, finds it under the name it has now."
+          },
+          "paths": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 4096
+            },
+            "maxLength": 50,
+            "minLength": 1,
+            "description": "The files, by their paths after the change, or before it for one deleted; a renamed file is found as such only when both its paths are named."
+          }
+        }
+      },
+      "description": "The files of a pull's diff that `paths` names, rows and all, as dev.knotless.getThread shows them, for a page that listed them with its `filesOnly`. No authentication; responses are not personalized."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Some files of a pull's diff."
+}

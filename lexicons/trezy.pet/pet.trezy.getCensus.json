@@ -1,0 +1,114 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "The whole game in a handful of numbers, for /stats. Distinct from pet.trezy.getStats, which reports on ONE pet — this one never looks at an individual animal. Every figure is a plain aggregate over an indexed table, deliberately: the leaderboard pays three queries per pet to score a page, and a census that did the same would pay it for every pet in the game on every load.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "badgesAwarded": {
+              "description": "How many badges have been earned across every player. ⚠ ABSENT IS NOT A FAULT — see `rarestBadge`.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "coinsSpent": {
+              "description": "Every coin ever spent on a pet, retired ones included. Sums the price recorded on each pet at the moment it was bought, so a later repricing does not rewrite history.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "error": {
+              "description": "Present INSTEAD of the census when there is no census to send. A stable machine code a client branches on — add codes, never rename them. ⚠ THIS EXISTS BECAUSE THE EMPTY ANSWER IS A REAL SENTENCE: '0 pets, 0 keepers' is exactly what a freshly deployed instance looks like, so an unreadable roster reported as zeros would render an outage as 'nobody plays this game' and look identical to the truth.",
+              "knownValues": [
+                "census-unavailable"
+              ],
+              "type": "string"
+            },
+            "firstPetAt": {
+              "description": "When the oldest pet still on the roster was created — near enough the game's own birthday to print. Absent when there are no pets.",
+              "format": "datetime",
+              "type": "string"
+            },
+            "keepers": {
+              "description": "How many people own at least one pet. ⚠ DISTINCT OWNERS, NOT ROWS. A player with three pets is one keeper, and a census that counted rows would overstate its playerbase by more the better the game did. There is no other way to count players — an account with no pet leaves no record here at all, so this is 'people playing', not 'people signed up'.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "mealsServed": {
+              "description": "Every `feed` interaction ever recorded, by everyone.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "message": {
+              "description": "A sentence to show the player, accompanying `error`.",
+              "type": "string"
+            },
+            "pets": {
+              "description": "Living pets — everything on the roster that has not been retired. Absent when `error` is set.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "rarestBadge": {
+              "description": "The id of the achievement fewest players hold, ties broken by name so it does not change between refreshes. ⚠ ABSENT IS NOT A FAULT, the same rule getDefinitions applies to groups and foods: `trezy_pet_awards` is created by the achievements job, so an instance that has never run one genuinely has no ledger. The census still goes out; a client omits the badge line rather than treating this as an outage.",
+              "type": "string"
+            },
+            "rarestBadgeCount": {
+              "description": "How many players hold `rarestBadge`. Absent whenever that is.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "rarestBadgeTitle": {
+              "description": "The published name of `rarestBadge` — \"Spent a bit\" rather than `spent-1k`. ⚠ READ ONLY FROM THE PUBLISHER'S RECORDS, because this is text a client prints: the achievement collection is open, so an unfiltered lookup would let any player choose the sentence shown beside \"Rarest badge\". ⚠ ABSENT IS NOT A FAULT: an award outlives its definition and a definition can be published before it is indexed, so a client must fall back to `rarestBadge` rather than treating a missing title as an outage.",
+              "type": "string"
+            },
+            "retired": {
+              "description": "Pets that have been retired. Counted separately rather than dropped: they happened, they were paid for, and the number is more interesting beside the living one than folded into it.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "species": {
+              "description": "Living pets per species, most populous first, ties broken by name. ⚠ THE ORDER IS PART OF THE ANSWER: /stats draws this as a crowd of sprites, so an unstable sort would rearrange the picture on every refresh. Carries ids, never display names or art — the published pet.trezy.species records are the only source of truth for those, and a client joins them itself.",
+              "items": {
+                "ref": "#speciesCount",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "timesPlayed": {
+              "description": "Every `pet` interaction ever recorded. ⚠ THE RECORD TYPE IS `pet` AND THE PLAYER-FACING WORD IS 'played'. The type was named when playing meant pressing a Pet button; the button is a thrown ball now and the stored type was deliberately not migrated. This field is where the two names are reconciled, once.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "totalInteractions": {
+              "description": "Every activity record of any type, including any this schema does not name. Deliberately not `mealsServed + timesPlayed`: a new interaction type would silently stop being counted by that sum, and this number is meant to mean 'everything anybody has done'.",
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
+      "type": "query"
+    },
+    "speciesCount": {
+      "properties": {
+        "count": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "id": {
+          "description": "The species id, matching the `id` on a published pet.trezy.species record.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "count"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "pet.trezy.getCensus",
+  "lexicon": 1
+}

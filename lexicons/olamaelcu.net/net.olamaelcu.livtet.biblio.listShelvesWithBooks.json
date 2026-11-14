@@ -1,0 +1,60 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "shelves": {
+              "items": {
+                "ref": "net.olamaelcu.livtet.biblio.defs#shelfWithBooksView",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "shelves"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "booksPerShelf": {
+            "default": 25,
+            "description": "Maximum number of books to hydrate per shelf. This query is a preview: `listBooksOnShelf` is the complete, paginated listing for one shelf.",
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "cursor": {
+            "description": "Opaque pagination cursor.",
+            "type": "string"
+          },
+          "did": {
+            "description": "Scope the read to one account's shelves. Omitted, the read is network-wide across every account.",
+            "format": "did",
+            "type": "string"
+          },
+          "limit": {
+            "default": 50,
+            "description": "Maximum number of shelves to return.",
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "List shelf records, each hydrated with a preview of the books on it. At most `booksPerShelf` books are returned per shelf; read a full shelf with `listBooksOnShelf`. Answers are cut at a fixed deadline rather than holding the request open, so a shelf under load may come back with fewer books than asked for.",
+  "id": "net.olamaelcu.livtet.biblio.listShelvesWithBooks",
+  "lexicon": 1
+}

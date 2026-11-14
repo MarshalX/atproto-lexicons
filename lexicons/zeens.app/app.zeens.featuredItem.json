@@ -1,0 +1,61 @@
+{
+  "id": "app.zeens.featuredItem",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "kind",
+          "position",
+          "active",
+          "createdAt"
+        ],
+        "properties": {
+          "kind": {
+            "enum": [
+              "post",
+              "collection"
+            ],
+            "type": "string",
+            "description": "What the subject is. Only `post` is used today."
+          },
+          "active": {
+            "type": "boolean",
+            "description": "True = shown in the splash carousel. False = retired but kept for the Featured archive."
+          },
+          "layout": {
+            "enum": [
+              "square",
+              "wide",
+              "tall"
+            ],
+            "type": "string",
+            "description": "Tile size in the public Featured grid: square (1x1), wide (2x1), or tall (1x2). Absent = square."
+          },
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong-ref to the featured post (or, later, collection)."
+          },
+          "position": {
+            "type": "integer",
+            "description": "Admin sort order within the active set (lower = earlier)."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "app.zeens.v": {
+            "type": "integer"
+          }
+        }
+      },
+      "description": "An admin-curated featured item, written to the dedicated curator repo (feeder.psky.social). Currently always a post; `kind` future-proofs featured collections. `active=false` pulls the item from the splash carousel but keeps it for the Inspire > Featured archive. Reorder = putRecord with a new `position`; unfeature = putRecord with active=false; hard-remove = deleteRecord."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

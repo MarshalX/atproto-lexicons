@@ -1,0 +1,21 @@
+{
+  "id": "io.atcr.hold.space",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "name": "ATCR hold",
+      "type": "space",
+      "collections": [
+        "io.atcr.hold.crew",
+        "io.atcr.hold.layer",
+        "io.atcr.hold.image.config",
+        "io.atcr.hold.scan",
+        "io.atcr.hold.stats",
+        "io.atcr.hold.stats.daily"
+      ],
+      "description": "A hold's permissioned space. The hold is the space authority and the only writer; readers are its crew (private hold) or any sailor with a valid delegation token (public hold). Every record the hold authors about a sailor lives here: crew membership, layer inventory, image configs, vulnerability scans and push/pull counts. The hold's public repo keeps only its captain record, its Bluesky posts and its profiles."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

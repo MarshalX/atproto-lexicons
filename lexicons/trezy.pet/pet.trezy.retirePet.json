@@ -1,0 +1,60 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Retire one of the caller's own pets: put it away, off the stage and out of the collection's foreground. IRREVERSIBLE — there is no un-retire, here or anywhere, by design. A client MUST confirm before calling this and MUST name the pet in the confirmation. The pet is not deleted and not refunded: its ledger row stays, its price still counts as spent, and the record in the caller's repo is left where it is. REFUSES the caller's last ACTIVE pet with last-active-pet: only active pets earn and nothing activates a pet after the fact, so retiring the last one leaves a player with no income and no route back to any — the balance can never reach a price again and the starter grant is once per DID. It blocks nothing achievable another way: buying lands a pet active while a slot is free, so a player with money can buy first and retire after.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "uri": {
+              "description": "The pet to retire. Must be a pet the caller owns; the procedure never accepts a DID and acts only on the authenticated caller's own rows.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "uri"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "error": {
+              "description": "Present instead of uri/name when the pet was not retired for an expected reason. A stable machine code the client branches on — add codes, never rename them.",
+              "knownValues": [
+                "missing-uri",
+                "unknown-pet",
+                "already-retired",
+                "last-active-pet",
+                "last-pet"
+              ],
+              "type": "string"
+            },
+            "message": {
+              "description": "A sentence to show the player, accompanying `error`. Free to reword; do not branch on it.",
+              "type": "string"
+            },
+            "name": {
+              "description": "The retired pet's name, so the confirmation the player sees afterwards can use it. Absent if the ledger row carries no usable name.",
+              "type": "string"
+            },
+            "uri": {
+              "description": "The pet that was retired. Present only on success, which is why nothing here is required: a refusal carries error and message instead, and requiring even one of these would fail response validation and turn an expected refusal back into a 500.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "pet.trezy.retirePet",
+  "lexicon": 1
+}

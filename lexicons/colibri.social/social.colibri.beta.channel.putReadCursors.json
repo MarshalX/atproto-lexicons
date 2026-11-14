@@ -1,0 +1,65 @@
+{
+  "id": "social.colibri.beta.channel.putReadCursors",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "community",
+            "cursors"
+          ],
+          "properties": {
+            "cursors": {
+              "type": "array",
+              "items": {
+                "ref": "social.colibri.beta.channel.read#cursor",
+                "type": "ref"
+              },
+              "description": "Read cursors for the community's channels and threads. Each one replaces the stored cursor only when it is newer, and channels left out keep their stored cursor."
+            },
+            "community": {
+              "type": "string",
+              "format": "did",
+              "description": "The community the cursors belong to."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request has no valid service auth."
+        },
+        {
+          "name": "CommunityNotFound",
+          "description": "No community matches the given DID."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "statuses"
+          ],
+          "properties": {
+            "statuses": {
+              "type": "array",
+              "items": {
+                "ref": "social.colibri.beta.channel.defs#unreadStatus",
+                "type": "ref"
+              },
+              "description": "Unread state per channel, after the update."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Pushes the requesting user's read cursors for one community to the AppView, so unread counts update immediately instead of waiting for a sync notification. The client writes its social.colibri.beta.channel.read record for the community to its own personal space first, then calls this. Clients should debounce this rather than calling it on every message. The user's other sessions receive the cursors that moved as a social.colibri.beta.sync.defs#readCursorEvent."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

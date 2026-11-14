@@ -1,0 +1,40 @@
+{
+  "id": "app.standard-reader.getAuthorPosts",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "ref": "app.standard-reader.defs#cursorPageDocuments",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "did"
+        ],
+        "properties": {
+          "did": {
+            "type": "string",
+            "format": "did"
+          },
+          "limit": {
+            "type": "integer",
+            "default": 20,
+            "maximum": 50,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string",
+            "maxLength": 8192
+          }
+        }
+      },
+      "description": "Every article a DID has a byline on — their own posts plus documents they are credited on in other publications (featured in) — newest first, with cursor pagination."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

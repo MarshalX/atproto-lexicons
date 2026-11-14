@@ -1,0 +1,58 @@
+{
+  "id": "blue.moji.feed.defs",
+  "defs": {
+    "reactionView": {
+      "type": "object",
+      "required": [
+        "uri",
+        "actor",
+        "emoji",
+        "createdAt"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "actor": {
+          "ref": "app.bsky.actor.defs#profileViewBasic",
+          "type": "ref"
+        },
+        "emoji": {
+          "ref": "blue.moji.feed.reaction#emojiRef",
+          "type": "ref"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        }
+      },
+      "description": "A single reaction by a single actor."
+    },
+    "reactionGroup": {
+      "type": "object",
+      "required": [
+        "emoji",
+        "count"
+      ],
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "emoji": {
+          "ref": "blue.moji.feed.reaction#emojiRef",
+          "type": "ref"
+        },
+        "viewer": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the requesting account's reaction record in this group, if any. Enables un-reacting."
+        }
+      },
+      "description": "Aggregated reactions to a subject, grouped by emoji item URI."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,34 @@
+{
+  "id": "app.standard-reader.subscribeLabeler",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "labeler"
+          ],
+          "properties": {
+            "labeler": {
+              "type": "string",
+              "format": "did",
+              "description": "DID of the labeler to subscribe to."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "description": "Subscribe the calling reader to a labeler service (writes an app.standard-reader.labeler.subscription record to their repo; legacy readers may still have an app.standard-reader.labelerSubscription record, which is migrated on next subscribe)."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

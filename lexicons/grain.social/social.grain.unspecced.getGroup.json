@@ -1,0 +1,30 @@
+{
+  "id": "social.grain.unspecced.getGroup",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "ref": "social.grain.group.defs#groupView",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "actor"
+        ],
+        "properties": {
+          "actor": {
+            "type": "string",
+            "description": "DID or handle."
+          }
+        }
+      },
+      "description": "A group: a group DID that has declared itself and shows up in Grain as an author whose pool is other people's galleries."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,73 @@
+{
+  "id": "com.publicdomainrelay.temp.agent.skill",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "description",
+          "content",
+          "createdAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Human-readable name of the skill."
+          },
+          "content": {
+            "type": "string",
+            "description": "The skill itself."
+          },
+          "examples": {
+            "type": "array",
+            "items": {
+              "ref": "com.atproto.repo.strongRef",
+              "type": "ref"
+            },
+            "description": "Strong references to example records demonstrating this skill."
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "ISO 8601 timestamp when this skill record was created."
+          },
+          "description": {
+            "type": "string",
+            "description": "Instructions for when and how to use this skill."
+          },
+          "property_references": {
+            "type": "array",
+            "items": {
+              "ref": "#propertyReference",
+              "type": "ref"
+            },
+            "description": "Annotated path-value pairs describing fields within the example records. Each entry either carries a literal string value or a strongRef that resolves (recursively) to the value at that path."
+          }
+        }
+      },
+      "description": "An agent skill record that describes a capability the agent can perform, with examples and property references."
+    },
+    "propertyReference": {
+      "type": "object",
+      "required": [
+        "path"
+      ],
+      "properties": {
+        "ref": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref",
+          "description": "Strong reference to a record that contains the example data."
+        },
+        "path": {
+          "type": "string",
+          "description": "JSONPath-like dotted path into the resolved example tree, e.g. '.examples[].value.payload.value.user_data'."
+        }
+      },
+      "description": "A single path-annotated value reference within a skill's example records. Carries either a literal string or a strongRef pointing to the value."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

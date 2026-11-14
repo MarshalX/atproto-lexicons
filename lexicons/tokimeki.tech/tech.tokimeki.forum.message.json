@@ -1,0 +1,80 @@
+{
+  "id": "tech.tokimeki.forum.message",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "channel",
+          "text",
+          "createdAt"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 20000,
+            "maxGraphemes": 2000
+          },
+          "embed": {
+            "refs": [
+              "tech.tokimeki.forum.defs#images"
+            ],
+            "type": "union"
+          },
+          "langs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "language"
+            },
+            "maxLength": 3,
+            "description": "Languages of the text (BCP-47)."
+          },
+          "facets": {
+            "type": "array",
+            "items": {
+              "ref": "app.bsky.richtext.facet",
+              "type": "ref"
+            }
+          },
+          "labels": {
+            "refs": [
+              "com.atproto.label.defs#selfLabels"
+            ],
+            "type": "union",
+            "description": "Self-applied labels, e.g. for adult content."
+          },
+          "thread": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The tech.tokimeki.forum.thread this comment belongs to (required when the channel kind is forum). The cid pins the version of the thread the author saw."
+          },
+          "channel": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Space record URI of the tech.tokimeki.forum.channel this message belongs to. A channel is a mutable container, so it is referenced by URI alone."
+          },
+          "replyTo": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The tech.tokimeki.forum.message being replied to (inline reply in chat, parent comment in forum). The cid pins the version replied to; the message may be edited afterwards."
+          },
+          "editedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Set when the message was edited in place (putRecord with the same rkey)."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "A message posted into a chat channel, or a comment inside a forum thread. Always written into the author's own repo within the space."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,81 @@
+{
+  "id": "blue.moji.feed.reaction",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "emoji",
+          "createdAt"
+        ],
+        "properties": {
+          "emoji": {
+            "ref": "#emojiRef",
+            "type": "ref"
+          },
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the post being reacted to."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "subjectCid": {
+            "type": "string",
+            "format": "cid",
+            "description": "CID of the subject post at reaction time, for strong referencing."
+          }
+        }
+      },
+      "description": "A custom-emoji reaction to a post. Analogous to app.bsky.feed.like, but the reaction glyph is a Bluemoji. Duplicate reactions (same subject + same emoji URI by the same actor) should be ignored by AppViews."
+    },
+    "emojiRef": {
+      "type": "object",
+      "required": [
+        "uri",
+        "name",
+        "formats"
+      ],
+      "properties": {
+        "alt": {
+          "type": "string"
+        },
+        "cid": {
+          "type": "string",
+          "format": "cid",
+          "description": "CID of the blue.moji.collection.item record, populated by AppViews at hydration time (like adultOnly) so consumers can build a com.atproto.repo.strongRef for moderation reports without a separate lookup. Not meaningful on write."
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the blue.moji.collection.item record. The owning DID is derived from this."
+        },
+        "name": {
+          "type": "string",
+          "description": "Colon-wrapped alias, e.g. :blobcat:. Used as fallback text."
+        },
+        "formats": {
+          "refs": [
+            "blue.moji.richtext.facet#formats_v0",
+            "blue.moji.richtext.facet#formats_v1"
+          ],
+          "type": "union",
+          "closed": false
+        },
+        "adultOnly": {
+          "type": "boolean",
+          "default": false,
+          "description": "MUST be populated by AppViews from the source item's adultOnly at hydration time (the source item is the trust anchor; do not trust a reactor-supplied value on write). Consumers SHOULD warn or blur before rendering when true, consistent with how the same item's adultOnly is handled elsewhere (facets, collection views)."
+        }
+      },
+      "description": "Denormalized reference to the Bluemoji used, mirroring blue.moji.richtext.facet: CID-only formats let consumers build blob/CDN URLs without a getRecord round-trip. AppViews should verify against the indexed item where possible."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

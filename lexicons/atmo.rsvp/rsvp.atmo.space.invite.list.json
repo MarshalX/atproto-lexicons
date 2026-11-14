@@ -1,0 +1,53 @@
+{
+  "id": "rsvp.atmo.space.invite.list",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotFound"
+        },
+        {
+          "name": "Forbidden"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "invites"
+          ],
+          "properties": {
+            "invites": {
+              "type": "array",
+              "items": {
+                "ref": "rsvp.atmo.space.defs#inviteView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "spaceUri"
+        ],
+        "properties": {
+          "spaceUri": {
+            "type": "string",
+            "format": "at-uri"
+          },
+          "includeRevoked": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "description": "List invites for a space. Owner only."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

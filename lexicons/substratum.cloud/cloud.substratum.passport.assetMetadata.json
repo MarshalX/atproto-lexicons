@@ -1,0 +1,25 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Digital Asset Passport standard metadata.",
+      "properties": {
+        "copyright": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "license": {
+          "type": "string"
+        },
+        "mimeType": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "id": "cloud.substratum.passport.assetMetadata",
+  "lexicon": 1
+}

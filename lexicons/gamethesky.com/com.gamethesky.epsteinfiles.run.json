@@ -1,0 +1,96 @@
+{
+  "id": "com.gamethesky.epsteinfiles.run",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "seed",
+          "simVersion",
+          "inputs",
+          "score",
+          "level",
+          "createdAt"
+        ],
+        "properties": {
+          "seed": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Which batch of files: a date (YYYY-MM-DD, local to the player) for the daily batch, or any other string for a practice one. The sim seeds from the FNV-1a hash of this string."
+          },
+          "level": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Advisory: the level the run ended on."
+          },
+          "score": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Advisory: the final score."
+          },
+          "start": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "The level the run started at: 1 for a full run, any other level for practice, 0 for the redaction round alone. Absent means 1. Only full runs of a daily batch rank."
+          },
+          "ticks": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Advisory: the tick the run ended."
+          },
+          "buried": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Advisory: files redacted and buried."
+          },
+          "caught": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Advisory: FOIA requests denied."
+          },
+          "inputs": {
+            "type": "string",
+            "maxLength": 400000,
+            "description": "The whole run as the only input the game takes. Comma-separated `<dtick>.<code>` entries, or `<dtick>.4.<v>` for a run and `<dtick>.5.<v>` for a word: dtick is 60 Hz ticks since the previous entry; code 0 fires a redaction (on a press level it's an answer: `<dtick>.0` denies, `<dtick>.0.1` agrees, `<dtick>.0.2` spins), 1 moves up a belt, 2 down a belt, 3 resigns (the run ends on that entry), 4 sets the run direction along the belt (v is -1 up the belt, 0 stop, 1 back toward the desk), and 5 blacks out word v on the redaction round's page. Only inputs the sim accepted are logged; a verifier refuses a log the sim would not have accepted. Example: `60.0,14.1,3.0,40.4.-1,22.4.0`."
+          },
+          "player": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Cosmetic: who the player played as, Spam Blondi, Odd Branch, Dan Squarehead or Ca$h Plate. The sim never sees it.",
+            "knownValues": [
+              "blondi",
+              "branch",
+              "squarehead",
+              "plate"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "difficulty": {
+            "type": "string",
+            "maxLength": 16,
+            "description": "How hard the run was. A verifier must replay at the same difficulty. Absent means normal. Each difficulty has its own daily board.",
+            "knownValues": [
+              "granny",
+              "easy",
+              "normal",
+              "hard"
+            ]
+          },
+          "simVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Which rules produced these inputs. A verifier must replay under the matching version or refuse the run."
+          }
+        }
+      },
+      "description": "One run of The Epstein Files, published by the player into their own repo. The record stores every input rather than a score: the sim is deterministic, so re-running the input log against the same seed reproduces the run exactly. Owning the record is the identity proof, and replaying it is the score proof — score, level and the rest are advisory and never trusted by a leaderboard."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

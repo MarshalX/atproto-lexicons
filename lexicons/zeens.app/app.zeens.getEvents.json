@@ -1,0 +1,71 @@
+{
+  "id": "app.zeens.getEvents",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "lat": {
+            "type": "integer",
+            "description": "Center latitude in microdegrees (x1e7) for a nearby search."
+          },
+          "lng": {
+            "type": "integer",
+            "description": "Center longitude in microdegrees (x1e7) for a nearby search."
+          },
+          "mode": {
+            "type": "string",
+            "description": "Restrict to events happening this way. Stored values are normalised on read (absent -> 'in_person', legacy 'virtual' -> 'online'). A 'hybrid' event matches an 'in_person' or an 'online' request as well as an explicit 'hybrid' one, because it genuinely is both.",
+            "knownValues": [
+              "in_person",
+              "online",
+              "hybrid"
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "default": 36,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "filter": {
+            "type": "string",
+            "default": "upcoming",
+            "description": "Time window relative to now. 'upcoming_first' is the one-list browse: every event, soonest upcoming first, past events below most-recent-first.",
+            "knownValues": [
+              "upcoming",
+              "past",
+              "all",
+              "upcoming_first"
+            ]
+          },
+          "viewer": {
+            "type": "string",
+            "format": "did"
+          },
+          "category": {
+            "type": "string",
+            "description": "Restrict to events carrying any of these category values. Accepts a single value or a comma-separated list, OR-matched against the event's categories array (categories are multi-value: an event can be both a photowalk and a meetup)."
+          },
+          "radiusKm": {
+            "type": "integer",
+            "maximum": 500,
+            "minimum": 1,
+            "description": "Radius in km for a nearby search. Requires lat + lng."
+          }
+        }
+      },
+      "description": "Browse events. Defaults to upcoming events (startsAt >= now) ordered by startsAt ascending with a stable uri tie-breaker. Supports multi-value category filtering (OR-matched), mode filtering (in person / online / hybrid), and nearby filtering (lat/lng/radius, reusing the getNearbyPhotos coordinate convention).",
+      "target_collection": "app.zeens.event"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

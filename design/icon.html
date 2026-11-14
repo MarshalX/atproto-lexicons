@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>lex mark</title>
+  <style>
+    html, body { margin: 0; background: transparent; }
+    svg { display: block; width: 256px; height: 256px; }
+  </style>
+</head>
+<body>
+  <!--
+    The mark on its 28 × 28 grid. render.py draws every icon from it and passes what differs in the query:
+    size in pixels, radius of the tile, stroke of the braces, radius of the dot, scale of the glyph inside the tile.
+    Open it as icon.html?radius=0&scale=0.74 to see a variant.
+  -->
+  <svg viewBox="0 0 28 28">
+    <rect id="tile" width="28" height="28" rx="8" fill="#0B6BDB"/>
+    <g id="glyph" transform-origin="14 14">
+      <path id="braces" d="M11.2 8.4c-1.7 0-2.5.8-2.5 2.4v1.3c0 1.1-.5 1.7-1.7 1.9 1.2.2 1.7.8 1.7 1.9v1.3c0 1.6.8 2.4 2.5 2.4M16.8 8.4c1.7 0 2.5.8 2.5 2.4v1.3c0 1.1.5 1.7 1.7 1.9-1.2.2-1.7.8-1.7 1.9v1.3c0 1.6-.8 2.4-2.5 2.4" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle id="dot" cx="14" cy="14" r="1.9" fill="#FFFFFF"/>
+    </g>
+  </svg>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const set = (id, attribute, name) => params.has(name) && document.getElementById(id).setAttribute(attribute, params.get(name));
+
+    if (params.has('size')) document.querySelector('svg').style.cssText = `width: ${params.get('size')}px; height: ${params.get('size')}px`;
+    set('tile', 'rx', 'radius');
+    set('braces', 'stroke-width', 'stroke');
+    set('dot', 'r', 'dot');
+    if (params.has('scale')) document.getElementById('glyph').setAttribute('transform', `scale(${params.get('scale')})`);
+  </script>
+</body>
+</html>

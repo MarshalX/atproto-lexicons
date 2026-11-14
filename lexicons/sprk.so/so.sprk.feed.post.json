@@ -1,0 +1,94 @@
+{
+  "id": "so.sprk.feed.post",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt",
+          "media"
+        ],
+        "properties": {
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 640,
+              "maxGraphemes": 64
+            },
+            "maxLength": 8,
+            "description": "Additional hashtags, in addition to any included in post text and facets."
+          },
+          "langs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "language"
+            },
+            "maxLength": 3,
+            "description": "Indicates human language of post primary text content."
+          },
+          "media": {
+            "refs": [
+              "so.sprk.media.images",
+              "so.sprk.media.video"
+            ],
+            "type": "union"
+          },
+          "sound": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref"
+          },
+          "labels": {
+            "refs": [
+              "com.atproto.label.defs#selfLabels"
+            ],
+            "type": "union",
+            "description": "Self-label values for this post. Effectively content warnings."
+          },
+          "caption": {
+            "ref": "#captionRef",
+            "type": "ref"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Client-declared timestamp when this post was originally created."
+          },
+          "crossposts": {
+            "type": "array",
+            "items": {
+              "ref": "com.atproto.repo.strongRef",
+              "type": "ref"
+            },
+            "description": "Records created for external services for this post"
+          }
+        }
+      },
+      "description": "Record containing a Spark post."
+    },
+    "captionRef": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "maxLength": 3000,
+          "description": "The post description.",
+          "maxGraphemes": 300
+        },
+        "facets": {
+          "type": "array",
+          "items": {
+            "ref": "so.sprk.richtext.facet",
+            "type": "ref"
+          },
+          "description": "Annotations of text (mentions, URLs, hashtags, etc)"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

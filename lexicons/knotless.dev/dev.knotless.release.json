@@ -1,0 +1,151 @@
+{
+  "id": "dev.knotless.release",
+  "defs": {
+    "file": {
+      "type": "object",
+      "required": [
+        "name",
+        "size",
+        "sha256",
+        "parts"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 255,
+          "minLength": 1,
+          "description": "Its name, as it is downloaded: letters, digits, `.`, `_`, `+` and `-`, not first a `.`."
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Bytes in the file."
+        },
+        "parts": {
+          "type": "array",
+          "items": {
+            "ref": "#part",
+            "type": "ref"
+          },
+          "minLength": 1,
+          "description": "The file, split over blobs in order, each no larger than its PDS takes."
+        },
+        "sha256": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 64,
+          "description": "The lowercase hex SHA-256 of the file."
+        }
+      },
+      "description": "One file of a release."
+    },
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "repo",
+          "package",
+          "version",
+          "files",
+          "createdAt"
+        ],
+        "properties": {
+          "repo": {
+            "type": "string",
+            "format": "tid",
+            "description": "The `key` of the dev.knotless.repo that publishes it."
+          },
+          "cargo": {
+            "ref": "#cargo",
+            "type": "ref",
+            "description": "What Cargo's registry says of it, when it is a crate: its one file then is `<name>-<version>.crate`."
+          },
+          "check": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The dev.knotless.check, in its runner's account, of the run that built and published it. A reader trusts it only from a runner the repository names, and only once it has passed at `commit`."
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "ref": "#file",
+              "type": "ref"
+            },
+            "maxLength": 64,
+            "minLength": 1,
+            "description": "What it publishes, by distinct names."
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 20000,
+            "description": "What changed since the version before, in Markdown, as the changelog says.",
+            "maxGraphemes": 5000
+          },
+          "commit": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 40,
+            "description": "The hex object ID of the commit the files were built from."
+          },
+          "package": {
+            "type": "string",
+            "maxLength": 214,
+            "minLength": 1,
+            "description": "The package's name, as npm's rules have it: lowercase letters, digits, `-`, `.`, `_` and `~`, after an optional `@scope/`. A repository can publish several."
+          },
+          "version": {
+            "type": "string",
+            "maxLength": 256,
+            "minLength": 5,
+            "description": "A Semantic Versioning 2.0 version, such as 1.4.0 or 2.0.0-rc.1. The highest version without a pre-release part that no dev.knotless.releaseYank withdraws is the package's latest."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Kept in the repository owner's account, keyed `<repo key>.<package hash>.<version hash>`, where each hash is the first 26 characters of the lowercase unpadded base32 SHA-256 of `package` or `version`, so a listing from the cursor `<repo key>/` walks one repository's releases, and from `<repo key>.<package hash>/` one package's. Created and never updated: creating it fails if that version was published, so a version's files never change. Deleting it unpublishes the version; to withdraw one that others may have pinned, a dev.knotless.releaseYank leaves it to read. Readers check every file against its `sha256`."
+    },
+    "part": {
+      "type": "object",
+      "required": [
+        "blob"
+      ],
+      "properties": {
+        "blob": {
+          "type": "blob",
+          "accept": [
+            "application/octet-stream"
+          ]
+        }
+      },
+      "description": "One blob of a file, in order."
+    },
+    "cargo": {
+      "type": "object",
+      "required": [
+        "index"
+      ],
+      "properties": {
+        "index": {
+          "type": "string",
+          "maxLength": 100000,
+          "description": "Its line of Cargo's registry index, as JSON, but for `yanked`, which a reader adds from the dev.knotless.releaseYank of its key. Kept as Cargo's format has it, which is Cargo's to change, and passed on as it is, since an index's line never changes."
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 10000,
+          "description": "What the crate says it is.",
+          "maxGraphemes": 1000
+        }
+      },
+      "description": "A release as a crate."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "One version of a package a repository publishes: its files, and the commit they were built from."
+}

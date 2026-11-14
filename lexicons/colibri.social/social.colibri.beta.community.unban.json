@@ -1,0 +1,67 @@
+{
+  "id": "social.colibri.beta.community.unban",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "community",
+            "subject"
+          ],
+          "properties": {
+            "reason": {
+              "type": "string",
+              "maxLength": 512,
+              "description": "Human-readable reason for lifting the ban."
+            },
+            "subject": {
+              "type": "string",
+              "format": "did",
+              "description": "The member to unban."
+            },
+            "community": {
+              "type": "string",
+              "format": "did",
+              "description": "The community to lift the ban in."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request is missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The caller lacks the member.unban permission."
+        },
+        {
+          "name": "CommunityNotFound",
+          "description": "No community exists at the given DID."
+        },
+        {
+          "name": "NotBanned",
+          "description": "The subject is not currently banned from this community."
+        },
+        {
+          "name": "CredentialsUnavailable",
+          "description": "The AppView cannot act as the community because its stored credentials are missing or unusable."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "description": "Lifts a ban, letting the community issue the subject space credentials again."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

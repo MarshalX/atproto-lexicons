@@ -1,0 +1,75 @@
+{
+  "id": "site.mochott.notification.listNotifications",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "notifications",
+            "unreadCount"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "unreadCount": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Unread notifications of the listed types."
+            },
+            "notifications": {
+              "type": "array",
+              "items": {
+                "ref": "site.mochott.notification.defs#notificationView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "knownValues": [
+                "new_article",
+                "like",
+                "subscription",
+                "comment",
+                "reply",
+                "import_completed",
+                "import_failed",
+                "new_comic",
+                "comic_like",
+                "comic_comment",
+                "comic_reply",
+                "comic_subscription"
+              ]
+            },
+            "description": "Only return these notification types. Comic types are only returned when named here. Unknown values match nothing."
+          },
+          "cursor": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Without types and without a keyset cursor, comic notifications are excluded and the cursor is an offset. Naming types (or passing a cursor this method returned for a request with types) switches to keyset pagination and adds url, commentUri and commentText to each notification. The recipient's notification settings and mutes always apply."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 1,
+  "description": "List notifications for the requesting account, newest first. Requires auth."
+}

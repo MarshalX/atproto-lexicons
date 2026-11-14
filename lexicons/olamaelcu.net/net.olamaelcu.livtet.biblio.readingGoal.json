@@ -1,0 +1,51 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "key": "literal:current",
+      "record": {
+        "properties": {
+          "booksGoal": {
+            "description": "Number of books the user aims to finish in the period.",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "period": {
+            "description": "weekly = Mon-Sun, monthly = calendar month, annual = calendar year.",
+            "knownValues": [
+              "weekly",
+              "monthly",
+              "annual"
+            ],
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "year": {
+            "maximum": 9999,
+            "minimum": 1900,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "period",
+          "year",
+          "booksGoal",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "description": "Reading goal record stored on the user's PDS at rkey 'current'. Written by the OAuth client (livtet-service).",
+  "id": "net.olamaelcu.livtet.biblio.readingGoal",
+  "lexicon": 1
+}

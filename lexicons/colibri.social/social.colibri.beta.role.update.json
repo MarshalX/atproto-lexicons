@@ -1,0 +1,133 @@
+{
+  "id": "social.colibri.beta.role.update",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "community",
+            "role"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 32,
+              "minLength": 1,
+              "description": "Display name."
+            },
+            "role": {
+              "type": "string",
+              "format": "record-key",
+              "description": "The role's record key."
+            },
+            "badge": {
+              "ref": "social.colibri.beta.community.defs#roleIconBadge",
+              "type": "ref",
+              "description": "An icon badge. Image badges are set with social.colibri.beta.role.putBadgeImage. Takes precedence over removeBadge."
+            },
+            "color": {
+              "type": "string",
+              "maxLength": 7,
+              "description": "Hex colour as #rrggbb."
+            },
+            "hoisted": {
+              "type": "boolean",
+              "description": "Whether holders are listed separately in the member list."
+            },
+            "position": {
+              "type": "integer",
+              "description": "Hierarchy position. Higher outranks lower."
+            },
+            "community": {
+              "type": "string",
+              "format": "did",
+              "description": "The community the role belongs to."
+            },
+            "emojiBadge": {
+              "ref": "social.colibri.beta.community.defs#roleEmojiBadge",
+              "type": "ref",
+              "description": "An emoji badge. Cannot be combined with badge. Takes precedence over removeBadge."
+            },
+            "mentionable": {
+              "type": "boolean",
+              "description": "Whether @role mentions resolve to this role."
+            },
+            "permissions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "description": "A namespaced permission identifier."
+              },
+              "description": "Permissions granted by this role."
+            },
+            "removeBadge": {
+              "type": "boolean",
+              "description": "Removes the role's badge, whichever kind it is. Ignored when badge or emojiBadge is also given."
+            },
+            "channelOverrides": {
+              "type": "array",
+              "items": {
+                "ref": "social.colibri.beta.community.defs#roleChannelOverride",
+                "type": "ref",
+                "description": "A per-channel permission override."
+              },
+              "description": "Per-channel overrides."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request is missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The caller lacks the role.manage permission."
+        },
+        {
+          "name": "CommunityNotFound",
+          "description": "No community exists at the given DID."
+        },
+        {
+          "name": "RoleNotFound",
+          "description": "No role exists at the given record key."
+        },
+        {
+          "name": "RoleProtected",
+          "description": "The role is marked protected and cannot be modified."
+        },
+        {
+          "name": "RoleHierarchy",
+          "description": "The change would place the role at or above the caller's highest role position, or grants a permission the caller does not hold."
+        },
+        {
+          "name": "CredentialsUnavailable",
+          "description": "The AppView cannot act as the community because its stored credentials are missing or unusable."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "role"
+          ],
+          "properties": {
+            "role": {
+              "ref": "social.colibri.beta.community.defs#roleView",
+              "type": "ref",
+              "description": "The updated role."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Updates a role's settings."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

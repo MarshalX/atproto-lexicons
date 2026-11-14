@@ -1,0 +1,249 @@
+{
+  "id": "app.zeens.event",
+  "defs": {
+    "link": {
+      "type": "object",
+      "required": [
+        "uri"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "uri"
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 100
+        }
+      }
+    },
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "title",
+          "startsAt",
+          "timezone",
+          "mode",
+          "rsvpPolicy",
+          "categories",
+          "createdAt",
+          "app.zeens.v"
+        ],
+        "properties": {
+          "mode": {
+            "type": "string",
+            "description": "WHERE the event happens, and one of exactly three values. 'in_person' needs a location; 'online' needs a virtualUrl and has no location; 'hybrid' needs both. Orthogonal to `categories` — an online workshop is mode 'online' + categories ['workshop']. Records written before this field carried meaning default to 'in_person' on read. The legacy value 'virtual' is tolerated on read and means 'online'.",
+            "knownValues": [
+              "in_person",
+              "online",
+              "hybrid"
+            ]
+          },
+          "paid": {
+            "type": "boolean",
+            "description": "Whether the event costs money. The app never processes payment."
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "ref": "#link",
+              "type": "ref"
+            },
+            "maxLength": 5,
+            "description": "Social / website links for the event."
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 300,
+            "description": "Event title.",
+            "maxGraphemes": 150
+          },
+          "endsAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Optional event end instant."
+          },
+          "facets": {
+            "type": "array",
+            "items": {
+              "ref": "app.bsky.richtext.facet",
+              "type": "ref"
+            },
+            "description": "Rich-text facets (links, mentions) over the description, reusing the Bluesky richtext lexicon."
+          },
+          "hostedBy": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "DEPRECATED. Display text for who is hosting. The organiser is the record owner, so this is no longer written; kept so old records still read."
+          },
+          "location": {
+            "ref": "#location",
+            "type": "ref",
+            "description": "Physical location. Expected for mode 'in_person' and 'hybrid'; absent for 'online'."
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Event start, as an absolute instant. Render in `timezone`."
+          },
+          "timezone": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "IANA timezone name (e.g. 'America/New_York'). Stored separately from startsAt so calendar export (.ics DTSTART;TZID) and the displayed local time are correct."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "createdBy": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "Display text for the event creator/organiser (the account that owns this record)."
+          },
+          "itinerary": {
+            "type": "array",
+            "items": {
+              "ref": "#itineraryItem",
+              "type": "ref"
+            },
+            "maxLength": 30,
+            "description": "Ordered agenda for the event: a list of items, each with optional time, descriptive text, and an optional location. Works for any event type — a photowalk's route, a workshop's schedule, an exhibition's programme. Items that carry coordinates are drawn on the event map as numbered pins in order; an event whose items have no coordinates simply renders the list with no map."
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "knownValues": [
+                "photowalk",
+                "workshop",
+                "meetup",
+                "exhibition",
+                "talk",
+                "other"
+              ]
+            },
+            "maxLength": 3,
+            "minLength": 1,
+            "description": "WHAT the event is. One or more (max 3) — an event can be both a photowalk and a meetup. Drives browse/filter, which OR-matches any element. Orthogonal to `mode`. The legacy value 'online_meetup' is tolerated on read and means mode 'online' + category 'meetup'."
+          },
+          "coverImage": {
+            "type": "blob",
+            "accept": [
+              "image/jpeg",
+              "image/png",
+              "image/webp"
+            ],
+            "maxSize": 4000000,
+            "description": "Wide cover image shown on the event header and share previews."
+          },
+          "rsvpPolicy": {
+            "type": "string",
+            "description": "Who may RSVP. 'atmosphere' = any ATProto account. 'photosky' = members only. 'anyone_email' = anyone, including non-ATProto people via an email address. Enforcement is soft (obscurity-level), like collection visibility.",
+            "knownValues": [
+              "atmosphere",
+              "photosky",
+              "anyone_email"
+            ]
+          },
+          "virtualUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Join link for events with mode 'online' or 'hybrid'. Required for those modes. Shown only to RSVP'd users in the client."
+          },
+          "app.zeens.v": {
+            "type": "integer",
+            "description": "Zeens version marker (always 1)."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000,
+            "description": "Long-form event description."
+          },
+          "capacityMode": {
+            "type": "string",
+            "description": "Behaviour when maxParticipants is reached. 'hard' = block new going RSVPs. 'waitlist' = overflow goes on a waitlist, promoted in RSVP order. Only meaningful when maxParticipants is set. Default 'hard'.",
+            "knownValues": [
+              "hard",
+              "waitlist"
+            ]
+          },
+          "maxParticipants": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optional cap on confirmed (going) participants. Absent = unlimited."
+          },
+          "photoCategories": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "maxLength": 3,
+            "description": "Photography genre tags (Street, Landscape, Portrait, ...). Up to 3, optional. Drawn from the shared category list used by posts. Distinct from `categories`, which is the event type."
+          },
+          "approvalRequired": {
+            "type": "boolean",
+            "description": "When true, an RSVP is pending until the organiser approves it; only approved RSVPs count toward the cap and the attendee list. Approval state is tracked off-protocol (the organiser cannot mutate another user's rsvp record). Default false."
+          },
+          "paymentInstructions": {
+            "type": "string",
+            "maxLength": 1000,
+            "description": "Free-text explanation of how the organiser collects payment out of band. MUST NOT contain a URL/link; rejected at write time client- and server-side."
+          }
+        }
+      },
+      "description": "An event: a photowalk, workshop, meetup, exhibition or talk. Written to the organiser's own PDS. Others RSVP via app.zeens.rsvp (ATProto handle) or via an email address tracked off-protocol in PocketBase. The app does NOT collect payment: paid events carry free-text paymentInstructions and any URL/link in that field is rejected at write time. Carries the app.zeens.v marker so firehose + Lua filters recognise it. NOTE: the record id stays 'app.zeens.event' and the app.zeens.* namespace is network plumbing — it is not renamed when the product is. Two orthogonal axes describe an event: `mode` (WHERE it happens — in person, online, or both) and `categories` (WHAT it is — one or more of photowalk/workshop/meetup/exhibition/talk/other). The `hostedBy` field is DEPRECATED (the organiser is the record owner); kept for back-compat with old records."
+    },
+    "location": {
+      "type": "object",
+      "properties": {
+        "lat": {
+          "type": "integer",
+          "description": "Latitude in microdegrees (degrees x 1e7). ATProto rejects non-integer numbers, so coordinates are scaled to integers."
+        },
+        "lng": {
+          "type": "integer",
+          "description": "Longitude in microdegrees (degrees x 1e7)."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Venue / place name."
+        },
+        "address": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Human-readable street address."
+        }
+      }
+    },
+    "itineraryItem": {
+      "type": "object",
+      "required": [
+        "text"
+      ],
+      "properties": {
+        "text": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "What happens at this point in the event (e.g. 'Meet at the park entrance', 'Darkroom demo', 'Q&A with the curator')."
+        },
+        "time": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Free-text time label for this item (e.g. '9:00 AM', 'Lunch'). Stored as text, not a datetime, so it renders verbatim without timezone handling."
+        },
+        "location": {
+          "ref": "#location",
+          "type": "ref",
+          "description": "Optional location for this item. Only meaningful for events with mode 'in_person' or 'hybrid'. Items with lat/lng are plotted on the event map."
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

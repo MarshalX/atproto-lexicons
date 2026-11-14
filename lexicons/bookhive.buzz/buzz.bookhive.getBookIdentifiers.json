@@ -1,0 +1,47 @@
+{
+  "id": "buzz.bookhive.getBookIdentifiers",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "bookIdentifiers"
+          ],
+          "properties": {
+            "bookIdentifiers": {
+              "ref": "buzz.bookhive.defs#bookIdentifiers",
+              "type": "ref"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "hiveId": {
+            "type": "string",
+            "description": "The book hive ID"
+          },
+          "isbn10": {
+            "type": "string",
+            "description": "The book ISBN-10 identifier"
+          },
+          "isbn13": {
+            "type": "string",
+            "description": "The book ISBN-13 identifier"
+          },
+          "goodreadsId": {
+            "type": "string",
+            "description": "The Goodreads identifier for the book"
+          }
+        }
+      },
+      "description": "Resolve book identifiers by hiveId, isbn, isbn13, or goodreadsId. Does not require authentication."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

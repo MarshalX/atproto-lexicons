@@ -1,0 +1,59 @@
+{
+  "id": "at.atmosynth.collection",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "title",
+          "description",
+          "patches",
+          "createdAt"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1
+          },
+          "patches": {
+            "type": "array",
+            "items": {
+              "ref": "#patchRef",
+              "type": "ref"
+            },
+            "maxLength": 500,
+            "description": "In the order the collection lists them. A patch is named once."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000
+          }
+        }
+      },
+      "description": "A titled, ordered list of at.atmosynth.patch records."
+    },
+    "patchRef": {
+      "type": "object",
+      "required": [
+        "uri"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        }
+      },
+      "description": "One patch in the collection, by its address. Not a strong reference: a collection keeps a patch as its creator goes on changing it, and a patch since deleted is simply one the collection can no longer show."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A collection of synth patches, held in its creator's own repository: a title, a description and the patches it gathers — the creator's own or anybody's — in the order they are listed."
+}

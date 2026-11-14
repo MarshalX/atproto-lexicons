@@ -1,0 +1,64 @@
+{
+  "id": "social.colibri.beta.community",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "managingApp"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 32,
+            "minLength": 1,
+            "description": "The community's name."
+          },
+          "banner": {
+            "type": "blob",
+            "accept": [
+              "image/jpeg",
+              "image/png",
+              "image/gif",
+              "image/webp"
+            ],
+            "maxSize": 4194304,
+            "description": "Wide image shown at the top of the community."
+          },
+          "picture": {
+            "type": "blob",
+            "accept": [
+              "image/jpeg",
+              "image/png",
+              "image/gif",
+              "image/webp"
+            ],
+            "maxSize": 1048576,
+            "description": "Square image shown as the community's icon."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "A short description."
+          },
+          "managingApp": {
+            "type": "string",
+            "format": "did",
+            "description": "The AppView that manages this community's spaces, named without a service fragment. Clients read it here rather than from the space policy, because com.atproto.space.getSpace only serves a policy to the space owner."
+          },
+          "migratedFrom": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Set on a community created by migrating a repo-backed community. Points at the legacy community record it replaces, so its history can be served alongside."
+          }
+        }
+      },
+      "description": "A community's public identity. Lives in the community's profile space, which is readable without membership unless the community is private."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,44 @@
+{
+  "id": "town.delve.authManageModeration",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Manage Personal Moderation",
+      "detail": "Control over blocks, mutes, mod lists, mod services, and preferences.",
+      "title:lang": {},
+      "detail:lang": {},
+      "permissions": [
+        {
+          "lxm": [
+            "town.delve.actor.getPreferences",
+            "town.delve.actor.putPreferences",
+            "town.delve.graph.muteActor",
+            "town.delve.graph.muteActorList",
+            "town.delve.graph.muteThread",
+            "town.delve.graph.unmuteActor",
+            "town.delve.graph.unmuteActorList",
+            "town.delve.graph.unmuteThread"
+          ],
+          "type": "permission",
+          "resource": "rpc",
+          "inheritAud": true
+        },
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "town.delve.graph.block",
+            "town.delve.graph.listblock"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,54 @@
+{
+  "id": "app.standard-reader.publicationTheme",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "publication",
+          "createdAt"
+        ],
+        "properties": {
+          "fonts": {
+            "ref": "app.standard-reader.publicationTheme#fonts",
+            "type": "ref"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the theme record was first published."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the theme record was last edited."
+          },
+          "publication": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT URI of the site.standard.publication this theme applies to."
+          }
+        }
+      },
+      "description": "Standard Reader typography for a collections publication. Uses the same record key as the publication. Colors remain on the publication's site.standard.theme.basic record."
+    },
+    "fonts": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "string",
+          "maxLength": 60
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 60
+        }
+      },
+      "description": "Google Font family names for collection title and body typography."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

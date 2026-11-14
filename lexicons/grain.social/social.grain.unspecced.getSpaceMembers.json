@@ -1,0 +1,68 @@
+{
+  "id": "social.grain.unspecced.getSpaceMembers",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotAuthorized",
+          "description": "Only the gallery's author may list its members."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "members"
+          ],
+          "properties": {
+            "members": {
+              "type": "array",
+              "items": {
+                "ref": "#memberView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "space"
+        ],
+        "properties": {
+          "space": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Who a private gallery is shared with. Read from the space's authority, which is the only place the member list exists, so only the gallery's author can ask."
+    },
+    "memberView": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "avatar": {
+          "type": "string",
+          "format": "uri"
+        },
+        "handle": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

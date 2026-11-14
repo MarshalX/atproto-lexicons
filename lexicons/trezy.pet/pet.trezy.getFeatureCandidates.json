@@ -1,0 +1,103 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "keeper": {
+      "properties": {
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "pets": {
+          "items": {
+            "ref": "#pet",
+            "type": "ref"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "did",
+        "pets"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "Keepers who could be Pet of the Week as of a moment, and for each the pets that could be featured. A keeper qualifies when they have a featureConsent record, an activity record in the 14 days before asOf, no refused record in the 90 days before it, were not the keeper of a feature picked in the 365 days before it, and were not passed over in the 84 days before it. A pet qualifies when it is not retired and has at least 3 interactions. Every window is measured from asOf, never from the clock, so a dry run and a real run agree. Everything returned is already public.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "error": {
+              "knownValues": [
+                "missing-as-of"
+              ],
+              "type": "string"
+            },
+            "keepers": {
+              "items": {
+                "ref": "#keeper",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "asOf": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "ignoreWeek": {
+            "description": "Leave this week's feature out of the exclusions, so the week being re-picked does not rule out its own keeper.",
+            "maxLength": 8,
+            "type": "string"
+          }
+        },
+        "required": [
+          "asOf"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    },
+    "pet": {
+      "properties": {
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "interactions": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "species": {
+          "type": "string"
+        },
+        "uri": {
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "name",
+        "species",
+        "createdAt",
+        "interactions"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "pet.trezy.getFeatureCandidates",
+  "lexicon": 1
+}

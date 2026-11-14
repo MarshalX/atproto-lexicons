@@ -1,0 +1,58 @@
+{
+  "id": "app.standard-reader.createList",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "name",
+            "publications"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 128
+            },
+            "description": {
+              "type": "string",
+              "maxLength": 4096
+            },
+            "publications": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "at-uri"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "rkey",
+            "uri"
+          ],
+          "properties": {
+            "uri": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "rkey": {
+              "type": "string",
+              "maxLength": 128
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Create a new publication list."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

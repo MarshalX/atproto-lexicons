@@ -1,0 +1,36 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "detail": "Full access to Margin features including notes, replies, likes, and collections.",
+      "detail:langs": {},
+      "permissions": [
+        {
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "collection": [
+            "at.margin.note",
+            "at.margin.reply",
+            "at.margin.like",
+            "at.margin.collection",
+            "at.margin.collectionItem",
+            "at.margin.profile",
+            "at.margin.readingRoom",
+            "at.margin.apikey",
+            "at.margin.preferences"
+          ],
+          "resource": "repo",
+          "type": "permission"
+        }
+      ],
+      "title": "Margin",
+      "title:langs": {},
+      "type": "permission-set"
+    }
+  },
+  "id": "at.margin.authFull",
+  "lexicon": 1
+}

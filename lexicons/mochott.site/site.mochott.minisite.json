@@ -1,0 +1,172 @@
+{
+  "id": "site.mochott.minisite",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "slug",
+          "createdAt"
+        ],
+        "properties": {
+          "icon": {
+            "type": "blob",
+            "accept": [
+              "image/png",
+              "image/jpeg",
+              "image/webp"
+            ],
+            "maxSize": 1000000,
+            "description": "Icon or logo image for the minisite."
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 300,
+            "description": "Display name of the minisite.",
+            "maxGraphemes": 100
+          },
+          "slug": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "URL-safe identifier for the minisite. Must be lowercase alphanumeric with hyphens or underscores."
+          },
+          "articles": {
+            "type": "array",
+            "items": {
+              "ref": "#articleRef",
+              "type": "ref"
+            },
+            "maxLength": 1000,
+            "description": "Ordered references to the records included in this minisite: articles (site.mochott.article) and comic works (work.sequential.chapter, work.sequential.strip)."
+          },
+          "sortMode": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "How article listings are ordered. 'auto' sorts newest first by publish date; 'manual' uses the curator-defined order of the articles array. Defaults to 'auto'.",
+            "knownValues": [
+              "auto",
+              "manual"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp when the minisite was created."
+          },
+          "sourceRef": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "Branch or ref name for the source repository. Defaults to 'main'."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp when the minisite was last updated."
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "ref": "#category",
+              "type": "ref"
+            },
+            "maxLength": 20,
+            "description": "Ordered categories that articles of this minisite can be filed under (site navigation). Independent of the platform-wide article category."
+          },
+          "designType": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "Visual layout style for the minisite.",
+            "knownValues": [
+              "blog",
+              "document",
+              "portfolio"
+            ]
+          },
+          "globalSlug": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "Globally unique slug for custom domain or top-level URL routing."
+          },
+          "sourceRepo": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Repository identifier when sourceType is 'tangled'."
+          },
+          "sourceType": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "Content source type for the minisite.",
+            "knownValues": [
+              "local",
+              "tangled"
+            ]
+          },
+          "accentColor": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "Accent theme color as a CSS color value."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000,
+            "description": "Short description of the minisite, shown in listings and metadata.",
+            "maxGraphemes": 1000
+          },
+          "primaryColor": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "Primary theme color as a CSS color value (e.g. '#3b82f6')."
+          },
+          "backgroundColor": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "Background theme color as a CSS color value."
+          }
+        }
+      },
+      "description": "Record representing a minisite — a themed sub-site that groups selected articles under a custom slug and design."
+    },
+    "category": {
+      "type": "object",
+      "required": [
+        "slug",
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Display name of the category.",
+          "maxGraphemes": 50
+        },
+        "slug": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "URL-safe identifier, unique within the minisite and stable once created. Lowercase alphanumeric and hyphens."
+        }
+      },
+      "description": "A category defined by a minisite."
+    },
+    "articleRef": {
+      "type": "object",
+      "required": [
+        "uri"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT URI of the referenced record (site.mochott.article, work.sequential.chapter or work.sequential.strip)."
+        }
+      },
+      "description": "A reference to a record included in a minisite: an article, or a comic chapter or strip."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 3,
+  "description": "A minisite record. Represents a curated collection of articles with its own branding and URL."
+}

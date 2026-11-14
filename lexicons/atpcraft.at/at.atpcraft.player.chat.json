@@ -1,0 +1,48 @@
+{
+  "id": "at.atpcraft.player.chat",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "sentAt",
+          "message",
+          "server"
+        ],
+        "properties": {
+          "sentAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the message was sent (ISO 8601)."
+          },
+          "server": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Identifier of the server where the message was sent."
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 1024,
+            "description": "The plain text of the chat message."
+          },
+          "position": {
+            "ref": "at.atpcraft.player.defs#position",
+            "type": "ref",
+            "description": "The player's position when the message was sent."
+          },
+          "dimension": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "The dimension where the player was when they sent the message, e.g. minecraft:overworld."
+          }
+        }
+      },
+      "description": "One chat message per player. The record key is the server's signing key id."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Player chat message records for ATPcraft. Each message sent by a player is stored as a record in their PDS."
+}

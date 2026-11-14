@@ -1,0 +1,133 @@
+{
+  "id": "tech.tokimeki.forum.thread",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "channel",
+          "title",
+          "createdAt"
+        ],
+        "properties": {
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 320,
+              "maxGraphemes": 32
+            },
+            "maxLength": 8
+          },
+          "text": {
+            "type": "string",
+            "maxLength": 40000,
+            "maxGraphemes": 5000
+          },
+          "blobs": {
+            "type": "array",
+            "items": {
+              "ref": "tech.tokimeki.forum.defs#image",
+              "type": "ref"
+            },
+            "maxLength": 20,
+            "description": "Images placed inline in `content`. Uploaded with com.atproto.repo.uploadBlob to the author's PDS; each `content` image node carries the cid of one of these blobs."
+          },
+          "embed": {
+            "refs": [
+              "tech.tokimeki.forum.defs#images"
+            ],
+            "type": "union"
+          },
+          "langs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "language"
+            },
+            "maxLength": 3,
+            "description": "Languages of the title and text (BCP-47)."
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 1280,
+            "maxGraphemes": 128
+          },
+          "facets": {
+            "type": "array",
+            "items": {
+              "ref": "app.bsky.richtext.facet",
+              "type": "ref"
+            }
+          },
+          "labels": {
+            "refs": [
+              "com.atproto.label.defs#selfLabels"
+            ],
+            "type": "union",
+            "description": "Self-applied labels, e.g. for adult content."
+          },
+          "channel": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Space record URI of the tech.tokimeki.forum.channel this thread belongs to. A channel is a mutable container, so it is referenced by URI alone (like app.bsky.graph.listitem)."
+          },
+          "content": {
+            "ref": "#richContent",
+            "type": "ref",
+            "description": "Rich body as a ProseMirror/TipTap document tree: paragraphs, headings (2-4), lists, task lists, quotes, code blocks, tables, callouts, toggles, link cards, mentions and images. Image nodes reference an entry of `blobs` by cid. When present, `text` is the plain-text projection of this tree for search, previews and text-only clients."
+          },
+          "editedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Set when the thread was edited in place (putRecord with the same rkey)."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "A thread (topic) opened in a forum-kind channel. Written into the opener's own repo within the space. The thread carries its own body; comments are tech.tokimeki.forum.message records referencing it."
+    },
+    "richContent": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "Text of a text node."
+        },
+        "type": {
+          "type": "string",
+          "description": "Node type (doc, paragraph, heading, text, hardBreak, mention, bulletList, orderedList, listItem, taskList, taskItem, blockquote, codeBlock, horizontalRule, image, table, tableRow, tableCell, tableHeader, callout, details, linkCard)."
+        },
+        "attrs": {
+          "type": "unknown",
+          "description": "Node attributes (heading level, image cid/alt/size, link card url…)."
+        },
+        "marks": {
+          "type": "array",
+          "items": {
+            "type": "unknown"
+          },
+          "description": "Inline marks on a text node: bold, italic, strike, underline, code, link{href}."
+        },
+        "content": {
+          "type": "array",
+          "items": {
+            "type": "unknown"
+          },
+          "description": "Child nodes."
+        }
+      },
+      "description": "A ProseMirror/TipTap document node (recursive). Consumers validate against the node whitelist in the app; unknown node types are ignored."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,148 @@
+{
+  "id": "dev.knotless.getTree",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository, revision, path or record."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "ref",
+            "path",
+            "entries",
+            "checks",
+            "languages"
+          ],
+          "properties": {
+            "ref": {
+              "type": "string",
+              "description": "The ref or commit shown, as `ref` named it, less any path."
+            },
+            "path": {
+              "type": "string",
+              "description": "The directory, from the root; empty for the root."
+            },
+            "empty": {
+              "type": "boolean",
+              "description": "True for a repository never pushed, whose tree is nothing."
+            },
+            "checks": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#checkView",
+                "type": "ref"
+              },
+              "description": "The newest run of each workflow at `lastCommit`, by the runners the repository names: the revision shown, at the root."
+            },
+            "readme": {
+              "ref": "#readme",
+              "type": "ref"
+            },
+            "entries": {
+              "type": "array",
+              "items": {
+                "ref": "#entry",
+                "type": "ref"
+              }
+            },
+            "languages": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#languageView",
+                "type": "ref"
+              },
+              "description": "What the repository is written in, most first: at the root of its default branch, and nowhere else."
+            },
+            "lastCommit": {
+              "ref": "dev.knotless.defs#commitView",
+              "type": "ref",
+              "description": "The newest commit that changed the directory."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "repo"
+        ],
+        "properties": {
+          "ref": {
+            "type": "string",
+            "maxLength": 1024,
+            "description": "A branch, a tag or a commit; the default branch if absent. It may run on into the path, as a web address names them: the longest branch or tag that starts it is the ref, and what follows goes before `path`."
+          },
+          "path": {
+            "type": "string",
+            "maxLength": 4096,
+            "description": "A path in the tree, from its root."
+          },
+          "repo": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The repository's dev.knotless.repo record. Its authority may be a handle; a name the repository had before, or an owner it moved from with its agreement, finds it under the name it has now."
+          }
+        }
+      },
+      "description": "A directory at a revision: its entries, folders first, the commit that last changed it, its README, and what the repository's runners report of the revision. Nothing at all, for a repository never pushed. No authentication needed; asked as an account, with a service token or the pages' session cookie, a private repository it is a member of is read too, and the answer is that account's alone."
+    },
+    "entry": {
+      "type": "object",
+      "required": [
+        "name",
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "description": "A directory, a file, or a submodule's commit.",
+          "knownValues": [
+            "tree",
+            "blob",
+            "commit"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "size": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "A file's size, in bytes."
+        }
+      },
+      "description": "One entry of a directory."
+    },
+    "readme": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "html": {
+          "type": "string",
+          "description": "A Markdown README, made into HTML: raw HTML shown as text, and links made relative to the directory."
+        },
+        "name": {
+          "type": "string",
+          "description": "Its file name."
+        },
+        "text": {
+          "type": "string",
+          "description": "Any other README, as it is."
+        }
+      },
+      "description": "The directory's README: the first file whose name starts with `readme`, ignoring case."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A directory of a repository at a revision."
+}

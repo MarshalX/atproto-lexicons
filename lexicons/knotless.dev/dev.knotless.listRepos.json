@@ -1,0 +1,113 @@
+{
+  "id": "dev.knotless.listRepos",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "repos"
+          ],
+          "properties": {
+            "repos": {
+              "type": "array",
+              "items": {
+                "ref": "#repoView",
+                "type": "ref"
+              }
+            },
+            "cursor": {
+              "type": "string",
+              "maxLength": 512
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "q": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "Only repositories whose name or description holds this text, ignoring case."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 500,
+            "minimum": 1
+          },
+          "topic": {
+            "type": "string",
+            "maxLength": 50,
+            "description": "Only repositories whose records name this topic, as rust."
+          },
+          "cursor": {
+            "type": "string",
+            "maxLength": 512
+          },
+          "runner": {
+            "type": "string",
+            "format": "did",
+            "description": "Only repositories whose record names this account among its runners: how a runner finds the repositories it is to run."
+          },
+          "triager": {
+            "type": "string",
+            "format": "did",
+            "description": "Only repositories whose record names this account among its triagers: how a triager finds the repositories it is to triage."
+          }
+        }
+      },
+      "description": "Public repositories an appview has indexed, newest first. The first page of a search with no runner, triager or topic starts with those named as searched, ignoring case, originals before forks. No authentication needed; asked as an account, with a service token or the pages' session cookie, the account's own of those come first, and before them the private repositories that account may read on this appview that match too, each marked private, and after them its own other public ones that match; the answer is that account's alone. What a first page puts first, when all of its kind fit there, no later page lists again."
+    },
+    "repoView": {
+      "type": "object",
+      "required": [
+        "did",
+        "name",
+        "createdAt"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "The repository's owner."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "The repository's name: its record key."
+        },
+        "owner": {
+          "ref": "dev.knotless.defs#actorView",
+          "type": "ref",
+          "description": "The owner, by handle and picture, as the appview knows it."
+        },
+        "forkOf": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "The dev.knotless.repo record this repository was forked from."
+        },
+        "private": {
+          "type": "boolean",
+          "description": "Whether it is private, in a space: listed only to an account that may read it, asking."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 3000,
+          "maxGraphemes": 300
+        }
+      },
+      "description": "A repository, from its dev.knotless.repo record."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Public repositories an appview has indexed, newest first."
+}

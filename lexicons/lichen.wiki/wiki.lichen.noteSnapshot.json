@@ -1,0 +1,72 @@
+{
+  "id": "wiki.lichen.noteSnapshot",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "noteRef",
+          "wikiRef",
+          "slug",
+          "title",
+          "content",
+          "atRevision",
+          "createdAt"
+        ],
+        "properties": {
+          "slug": {
+            "type": "string",
+            "maxLength": 2560,
+            "description": "The note's slug.",
+            "maxGraphemes": 256
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 2560,
+            "description": "The note's title at atRevision.",
+            "maxGraphemes": 256
+          },
+          "status": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "The note's status at atRevision. A copy that leaves it out is of a live note.",
+            "knownValues": [
+              "live",
+              "deleted"
+            ]
+          },
+          "content": {
+            "type": "string",
+            "maxLength": 1000000,
+            "description": "The note's whole body at atRevision."
+          },
+          "noteRef": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the note record."
+          },
+          "wikiRef": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the note's wiki record."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When this copy was saved."
+          },
+          "atRevision": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the head revision when this copy was saved."
+          }
+        }
+      },
+      "description": "A contributor's full copy of a note as they last saved it. Revisions define the note. The rkey is the note's rkey."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

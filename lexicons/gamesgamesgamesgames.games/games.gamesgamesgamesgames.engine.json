@@ -1,0 +1,59 @@
+{
+  "id": "games.gamesgamesgamesgames.engine",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "createdAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "media": {
+            "type": "array",
+            "items": {
+              "ref": "games.gamesgamesgamesgames.defs#mediaItem",
+              "type": "ref"
+            }
+          },
+          "websites": {
+            "type": "array",
+            "items": {
+              "ref": "games.gamesgamesgamesgames.defs#website",
+              "type": "ref"
+            }
+          },
+          "companies": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "platforms": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            }
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "A game engine."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

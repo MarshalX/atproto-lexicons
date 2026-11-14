@@ -1,0 +1,55 @@
+{
+  "id": "dev.knotless.removeRunner",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "repo",
+            "runner"
+          ],
+          "properties": {
+            "repo": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+            },
+            "runner": {
+              "type": "string",
+              "format": "at-identifier",
+              "description": "The account a knotless runner reports as, by handle or DID."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository, or no such account."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        },
+        {
+          "name": "UpstreamFailure",
+          "description": "Nothing changed, as the reason says: the account is not the owner."
+        }
+      ],
+      "output": {
+        "schema": {
+          "ref": "dev.knotless.listRunners#runners",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "Takes an account out of the runners the repository's record names, as `knotless runner remove` does, as the account logged in to this appview's web pages, which must be its owner: its checks of the repository no longer show. A private repository's runner stays a member of it until unshared. Answers with the runners it names after. Requires the session cookie the pages' login sets, or an admin's service token."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Stops naming an account among a repository's runners, as its owner logged in to this appview's pages."
+}

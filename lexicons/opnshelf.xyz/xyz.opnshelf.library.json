@@ -1,0 +1,15 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "collections": [
+        "xyz.opnshelf.library.item"
+      ],
+      "key": "literal:self",
+      "title": "Opnshelf Library",
+      "type": "space"
+    }
+  },
+  "id": "xyz.opnshelf.library",
+  "lexicon": 1
+}

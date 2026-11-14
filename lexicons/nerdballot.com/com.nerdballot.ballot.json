@@ -1,0 +1,66 @@
+{
+  "id": "com.nerdballot.ballot",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "version",
+          "award",
+          "eligibilityYear",
+          "category",
+          "rankedBooks",
+          "updatedAt"
+        ],
+        "properties": {
+          "award": {
+            "type": "string",
+            "maxLength": 32,
+            "knownValues": [
+              "hugo",
+              "nebula"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Schema version of this record. Currently 1."
+          },
+          "category": {
+            "type": "string",
+            "maxLength": 32,
+            "knownValues": [
+              "novel"
+            ]
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Client time of the edit. Informational only; Nerd Ballot uses its own receipt time for deadlines."
+          },
+          "rankedBooks": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 5,
+            "description": "AT-URIs of com.nerdballot.book records, best first. No duplicates."
+          },
+          "eligibilityYear": {
+            "type": "integer",
+            "maximum": 2100,
+            "minimum": 1900,
+            "description": "Publication year of the works on the ballot."
+          }
+        }
+      },
+      "description": "One record per track. The record key is {award}-{eligibilityYear}-{category}, for example hugo-2026-novel. Array order is rank order: first earns 5 points, fifth earns 1."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A voter's ranked ballot for one Nerd Ballot track. Nerd Ballot is an unofficial community poll, not affiliated with WSFS, Worldcon or SFWA."
+}

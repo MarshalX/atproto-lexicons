@@ -1,0 +1,50 @@
+{
+  "id": "at.turtleme.game.exchange",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "side",
+            "quantity",
+            "limitPrice"
+          ],
+          "properties": {
+            "side": {
+              "type": "string",
+              "description": "Whether the offer is to buy sea turtles or to sell them.",
+              "knownValues": [
+                "buy",
+                "sell"
+              ]
+            },
+            "quantity": {
+              "type": "integer",
+              "maximum": 2147483647,
+              "minimum": 1,
+              "description": "How many sea turtles. An offer bigger than the coins or the turtles behind it is refused rather than partly filled."
+            },
+            "limitPrice": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "The worst price per turtle the offer will accept: at least this when selling, at most this when buying. It does not set what the offer fills at, only whether it fills."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "ref": "at.turtleme.game.defs#state",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "Put an offer through the Grand Exchange. The price an offer fills at is the one turtle meat fetched from the Old School RuneScape Wiki, never one the caller sent: a client that could quote its own price would be setting its own exchange rate. What the caller sends is the limit it is willing to trade at, and an offer on the wrong side of the market does not fill, the way it would sit unfilled in the game. Sales are taxed at 2% per item, as they are there. When no price recent enough to trade on can be had, the exchange refuses rather than filling at a guess. Requires an atproto service auth token addressed to did:web:turtleme.at#turtle_game and naming this method, so a token issued for one call cannot be spent on another."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

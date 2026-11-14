@@ -1,0 +1,43 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "A comment on an item, optionally replying to another comment.",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "parent": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref"
+          },
+          "root": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref"
+          },
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref"
+          },
+          "text": {
+            "maxGraphemes": 3000,
+            "maxLength": 10000,
+            "type": "string"
+          }
+        },
+        "required": [
+          "subject",
+          "text",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "cafe.shelf.comment",
+  "lexicon": 1
+}

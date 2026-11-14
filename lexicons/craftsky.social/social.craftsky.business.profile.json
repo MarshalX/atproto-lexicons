@@ -1,0 +1,109 @@
+{
+  "id": "social.craftsky.business.profile",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "properties": {
+          "tagline": {
+            "type": "string",
+            "maxLength": 1000,
+            "description": "Short public business description.",
+            "maxGraphemes": 100
+          },
+          "location": {
+            "ref": "community.lexicon.location.address",
+            "type": "ref",
+            "description": "General business location using the CID-pinned community address definition."
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "ref": "social.craftsky.business.defs#product",
+              "type": "ref"
+            },
+            "maxLength": 20,
+            "description": "Featured external products in authored order."
+          },
+          "hoursNote": {
+            "type": "string",
+            "maxLength": 3000,
+            "description": "Display-only free-text hours note.",
+            "maxGraphemes": 300
+          },
+          "offerings": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 64,
+              "knownValues": [
+                "yarn",
+                "fiber",
+                "fabric",
+                "patterns",
+                "kits",
+                "notions",
+                "tools",
+                "finished-goods",
+                "custom-work",
+                "repairs",
+                "classes",
+                "studio-hire",
+                "wholesale",
+                "digital-products",
+                "technical-editing",
+                "photography-services",
+                "fiber-processing"
+              ]
+            },
+            "maxLength": 20,
+            "description": "Open, unordered offering values."
+          },
+          "serviceArea": {
+            "type": "string",
+            "maxLength": 2000,
+            "description": "Display-only uninterpreted service-area text.",
+            "maxGraphemes": 200
+          },
+          "businessTypes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 64,
+              "knownValues": [
+                "dyer",
+                "fiber-producer",
+                "fiber-processor",
+                "yarn-shop",
+                "fabric-shop",
+                "craft-supply-shop",
+                "pattern-designer",
+                "finished-goods-maker",
+                "tool-maker",
+                "teacher",
+                "craft-studio",
+                "repair-service",
+                "technical-editor",
+                "photographer",
+                "publisher",
+                "other-craft-business"
+              ]
+            },
+            "maxLength": 20,
+            "description": "Open, unordered business-type values."
+          },
+          "primaryAction": {
+            "ref": "social.craftsky.business.defs#action",
+            "type": "ref",
+            "description": "Optional primary external action."
+          }
+        }
+      },
+      "description": "An optional public Craftsky business declaration. It does not classify or activate the account and uses record key 'self'."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

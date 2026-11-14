@@ -1,0 +1,116 @@
+{
+  "id": "space.dailygame.score",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "game",
+          "puzzleId",
+          "playedAt",
+          "completed",
+          "rawShare",
+          "createdAt"
+        ],
+        "properties": {
+          "game": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Game id from the app catalog (e.g. 'wordle', 'globle').",
+            "knownValues": [
+              "wordle",
+              "connections",
+              "connections-soccer",
+              "strands",
+              "parseword",
+              "clues-by-sam",
+              "metazooa",
+              "globle",
+              "maptap",
+              "satle",
+              "queens",
+              "tango",
+              "zip",
+              "mini-sudoku",
+              "patches",
+              "set-fury",
+              "timeguessr",
+              "kickoff-league",
+              "puzzmo-crossword",
+              "puzzmo-ribbit",
+              "puzzmo-memoku",
+              "craftword",
+              "enclose-horse",
+              "center-fit",
+              "rogueslide",
+              "weatherdle",
+              "bracket-city",
+              "putt-day",
+              "scrandle",
+              "minute-cryptic",
+              "hexaboo",
+              "mini-boo",
+              "krillion",
+              "originle",
+              "elect-horse",
+              "tng-episodle"
+            ]
+          },
+          "score": {
+            "type": "integer",
+            "description": "Game-specific numeric score."
+          },
+          "attempts": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of attempts used; meaning is game-specific."
+          },
+          "metadata": {
+            "type": "unknown",
+            "description": "Game-specific extras (hard mode, hints used, group order, etc.)."
+          },
+          "playedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the user played the puzzle."
+          },
+          "puzzleId": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Per-game puzzle identifier, e.g. '1027' or '2026-04-17'."
+          },
+          "rawShare": {
+            "type": "string",
+            "maxLength": 20000,
+            "description": "The cleaned share text (URLs, hashtags, promos stripped).",
+            "maxGraphemes": 2000
+          },
+          "completed": {
+            "type": "boolean",
+            "description": "Whether the user completed the puzzle successfully."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When this record was created."
+          },
+          "durationMs": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Time to complete the puzzle in milliseconds."
+          },
+          "maxAttempts": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Maximum attempts allowed by the game (e.g. 6 for Wordle)."
+          }
+        }
+      },
+      "description": "A score for a daily web game played by the user."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

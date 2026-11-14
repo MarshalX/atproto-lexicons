@@ -1,0 +1,44 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "A movie list for Opnshelf",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "createdAt": {
+            "description": "Record creation timestamp",
+            "format": "datetime",
+            "type": "string"
+          },
+          "description": {
+            "description": "Optional description of the list",
+            "type": "string"
+          },
+          "isDefault": {
+            "description": "Whether this is a default list (watchlist/favorites)",
+            "type": "boolean"
+          },
+          "name": {
+            "description": "Display name of the list",
+            "type": "string"
+          },
+          "slug": {
+            "description": "URL-friendly identifier",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "slug",
+          "isDefault",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "xyz.opnshelf.list",
+  "lexicon": 1
+}

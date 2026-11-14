@@ -1,0 +1,131 @@
+{
+  "id": "wiki.lichen.getWiki",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotFound"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri",
+            "did",
+            "slug",
+            "name",
+            "description",
+            "language",
+            "noteCount",
+            "createdAt",
+            "updatedAt"
+          ],
+          "properties": {
+            "did": {
+              "type": "string",
+              "format": "did"
+            },
+            "uri": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "name": {
+              "type": "string"
+            },
+            "slug": {
+              "type": "string"
+            },
+            "viewer": {
+              "ref": "#viewerState",
+              "type": "ref",
+              "description": "Present only when the viewer parameter was supplied."
+            },
+            "homeSlug": {
+              "type": "string",
+              "description": "The note shown as the wiki's front page, as the wiki record's homeSlug names it."
+            },
+            "language": {
+              "type": "string"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "datetime",
+              "description": "The wiki record's own timestamp, in UTC. An unreadable or future-dated stamp falls back to our ingest time."
+            },
+            "noteCount": {
+              "type": "integer",
+              "description": "How many notes listNotes returns. A note counts once its first revision is ingested."
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "datetime",
+              "description": "When this appview last saw the wiki or a note in it change. Observed locally, so appviews may legitimately disagree."
+            },
+            "description": {
+              "type": "string"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "did": {
+            "type": "string",
+            "format": "did",
+            "description": "Owner of the wiki. Use with slug."
+          },
+          "uri": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the wiki record. Supply this, or did and slug."
+          },
+          "slug": {
+            "type": "string",
+            "format": "record-key",
+            "maxLength": 512,
+            "description": "The wiki's slug, which is also its record key. Use with did."
+          },
+          "viewer": {
+            "type": "string",
+            "format": "did",
+            "description": "Ask what this DID can do with the wiki. Check it before writing, because ingest keeps a revision only from a DID that can edit and drops the rest silently."
+          }
+        }
+      },
+      "description": "Get a wiki. Pass viewer to also get what that DID can do with it. Public wikis only. Takes a DID, so resolve a handle to one first with com.atproto.identity.resolveHandle."
+    },
+    "viewerState": {
+      "type": "object",
+      "required": [
+        "did",
+        "canWrite"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "role": {
+          "type": "string",
+          "description": "Present when the DID owns the wiki or holds a membership.",
+          "knownValues": [
+            "owner",
+            "admin",
+            "contributor",
+            "viewer"
+          ]
+        },
+        "canWrite": {
+          "type": "boolean",
+          "description": "Whether a wiki.lichen.noteRevision written by this DID would be accepted."
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

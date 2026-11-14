@@ -1,0 +1,92 @@
+{
+  "id": "com.suibari.nagi.getMyNewsSubmissions",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "items"
+          ],
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "uri",
+                  "cid",
+                  "url",
+                  "title",
+                  "status",
+                  "requestedAt"
+                ],
+                "properties": {
+                  "cid": {
+                    "type": "string",
+                    "format": "cid"
+                  },
+                  "uri": {
+                    "type": "string",
+                    "format": "at-uri"
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string",
+                    "knownValues": [
+                      "pending",
+                      "processing",
+                      "approved",
+                      "rejected",
+                      "failed",
+                      "cancelled"
+                    ]
+                  },
+                  "finishedAt": {
+                    "type": "string",
+                    "format": "datetime"
+                  },
+                  "reasonCode": {
+                    "type": "string"
+                  },
+                  "requestedAt": {
+                    "type": "string",
+                    "format": "datetime"
+                  }
+                }
+              },
+              "maxLength": 20
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 10,
+            "maximum": 20,
+            "minimum": 1
+          }
+        }
+      },
+      "description": "認証した本人の最近のニュース審査依頼だけを返す。"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,85 @@
+{
+  "id": "social.colibri.beta.actor.putSettings",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "gifFavorites": {
+              "type": "array",
+              "items": {
+                "ref": "social.colibri.beta.embed.defs#gifView",
+                "type": "ref"
+              },
+              "description": "GIFs saved from the picker, stored whole. Absent leaves the current value unchanged."
+            },
+            "composerState": {
+              "ref": "social.colibri.beta.actor.defs#composerState",
+              "type": "ref",
+              "description": "The contents of the user's social.colibri.beta.actor.composerState record. Replaces the stored copy whole. Absent leaves the current value unchanged."
+            },
+            "shareActivity": {
+              "type": "boolean",
+              "description": "Whether the AppView may show what the user is listening to. Absent leaves the current value unchanged."
+            },
+            "communityOrder": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "did",
+                "description": "A community."
+              },
+              "description": "Communities in preferred sidebar order. Absent leaves the current value unchanged."
+            },
+            "clientPreferences": {
+              "ref": "social.colibri.beta.actor.defs#clientPreferences",
+              "type": "ref",
+              "description": "The contents of the user's social.colibri.beta.actor.clientPreferences record. Replaces the stored copy whole. Absent leaves the current value unchanged."
+            },
+            "notificationLevel": {
+              "type": "string",
+              "description": "Which messages produce a notification. Absent leaves the current value unchanged.",
+              "knownValues": [
+                "all",
+                "mentionsAndReplies",
+                "nothing"
+              ]
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request has no valid service auth."
+        },
+        {
+          "name": "InvalidRequest",
+          "description": "A field is present but does not hold an allowed value."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "preferences"
+          ],
+          "properties": {
+            "preferences": {
+              "ref": "social.colibri.beta.actor.defs#preferences",
+              "type": "ref",
+              "description": "The requesting user's settings, after the update."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Pushes the requesting user's social.colibri.beta.actor.settings record to the AppView, so it takes effect immediately instead of waiting for a sync notification. The client writes the record to its own personal space first, then calls this. An absent field leaves the current value unchanged."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

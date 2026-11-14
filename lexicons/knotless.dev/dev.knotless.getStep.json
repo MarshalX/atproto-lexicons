@@ -1,0 +1,44 @@
+{
+  "id": "dev.knotless.getStep",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository, no step of that name in it, or no index on this appview."
+        }
+      ],
+      "output": {
+        "schema": {
+          "ref": "dev.knotless.defs#stepViewDetailed",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "repo",
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "The step's name."
+          },
+          "repo": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The step's repository, by its dev.knotless.repo record. Its authority may be a handle."
+          }
+        }
+      },
+      "description": "A shared step at its latest version, from the dev.knotless.release records of its package, `@step/<name>`: what it does, takes and asks for, each version published, and the public repositories whose default branch pins it in `.knotless/uses.lock`. No authentication; responses are not personalized."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "One shared step a repository publishes."
+}

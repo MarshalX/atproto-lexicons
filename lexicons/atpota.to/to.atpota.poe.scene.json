@@ -1,0 +1,214 @@
+{
+  "id": "to.atpota.poe.scene",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "description": "Which sort of screen it is (loading: Anisota's loading screen, its brand mark with the moon running through its phases, on black; clock: a waiting screen with the time ticking as an atproto TID). Without it, the record key's kind, or starting.",
+            "knownValues": [
+              "starting",
+              "brb",
+              "ending",
+              "screenshare",
+              "loading",
+              "clock"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "What the streamer calls this screen (\"coding brb\"), on the setup page only.",
+            "maxGraphemes": 40
+          },
+          "frame": {
+            "ref": "#frame",
+            "type": "ref"
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 300,
+              "maxGraphemes": 60
+            },
+            "maxLength": 4,
+            "description": "Where to find the streamer, on the end screen (\"bsky.app/profile/dame.is\")."
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 400,
+            "description": "The big words (\"starting soon\").",
+            "maxGraphemes": 80
+          },
+          "camera": {
+            "ref": "#camera",
+            "type": "ref"
+          },
+          "ground": {
+            "type": "string",
+            "description": "What's along the bottom: a meadow hill with flowers, a strip of grass, soil with sprouts, or nothing.",
+            "knownValues": [
+              "meadow",
+              "grass",
+              "soil",
+              "none"
+            ]
+          },
+          "showPoe": {
+            "type": "boolean"
+          },
+          "showMark": {
+            "type": "boolean",
+            "description": "Whether the atpotato wordmark shows beside the words (on the panel, and in the screen share's bar). Without it, true."
+          },
+          "subtitle": {
+            "type": "string",
+            "maxLength": 1000,
+            "description": "A line under them: what the stream is about.",
+            "maxGraphemes": 200
+          },
+          "countdown": {
+            "ref": "#countdown",
+            "type": "ref"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "background": {
+            "type": "string",
+            "description": "The sky behind it all (the screen share's frame colour).",
+            "knownValues": [
+              "day",
+              "night",
+              "garden",
+              "butter"
+            ]
+          },
+          "frameWidget": {
+            "type": "object",
+            "required": [
+              "kind",
+              "place"
+            ],
+            "properties": {
+              "kind": {
+                "type": "string",
+                "description": "Which widget, as in to.atpota.poe.overlay.",
+                "knownValues": [
+                  "card",
+                  "strip",
+                  "badge",
+                  "apps",
+                  "forecast",
+                  "pulse",
+                  "moon",
+                  "mark",
+                  "loader",
+                  "tid",
+                  "flushes",
+                  "status",
+                  "music",
+                  "chat"
+                ]
+              },
+              "place": {
+                "type": "string",
+                "description": "Under the screen, or in the column beside it, under the camera.",
+                "knownValues": [
+                  "below",
+                  "beside"
+                ]
+              },
+              "scale": {
+                "type": "integer",
+                "maximum": 100,
+                "minimum": 50,
+                "description": "How much of its tile on the frame it fills, in percent: 100 fills it."
+              },
+              "style": {
+                "type": "string",
+                "maxLength": 32,
+                "description": "How it looks, for a widget with styles, as in to.atpota.poe.overlay."
+              }
+            }
+          },
+          "showWidgets": {
+            "type": "boolean",
+            "description": "Whether the weather widgets from the overlay's settings show on this scene too."
+          }
+        }
+      }
+    },
+    "camera": {
+      "type": "object",
+      "required": [
+        "side",
+        "shape"
+      ],
+      "properties": {
+        "side": {
+          "type": "string",
+          "knownValues": [
+            "right",
+            "left",
+            "none"
+          ]
+        },
+        "shape": {
+          "type": "string",
+          "knownValues": [
+            "rounded",
+            "circle",
+            "wide"
+          ]
+        }
+      },
+      "description": "The screen share's camera window."
+    },
+    "countdown": {
+      "type": "object",
+      "required": [
+        "mode"
+      ],
+      "properties": {
+        "at": {
+          "type": "string",
+          "format": "datetime",
+          "description": "For a clock: when the stream starts."
+        },
+        "mode": {
+          "type": "string",
+          "knownValues": [
+            "timer",
+            "clock",
+            "none"
+          ]
+        },
+        "minutes": {
+          "type": "integer",
+          "maximum": 120,
+          "minimum": 1,
+          "description": "For a timer."
+        }
+      },
+      "description": "The starting screen's countdown: to a time, or a timer that starts when the scene is shown."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "One of the full-screen screens of Poe's stream overlay (atpota.to/overlay?scene=<record key>): a countdown before a stream, a be-right-back screen, an end screen, or a frame for sharing a screen with a camera. A streamer can keep as many as they like, one record each; the record key is the screen's id in its URL (lowercase letters, digits and dashes). The ones a streamer starts with are keyed by their kind: \"starting\", \"brb\", \"ending\", \"screenshare\", \"loading\" and \"clock\". The overlay reads it from your repo and follows changes live."
+}

@@ -1,0 +1,28 @@
+{
+  "id": "so.sprk.authManageLabelerService",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Manage Spark Labeler Service",
+      "detail": "Configure Spark labeler declaration records.",
+      "title:lang": {},
+      "detail:lang": {},
+      "permissions": [
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "so.sprk.labeler.service"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

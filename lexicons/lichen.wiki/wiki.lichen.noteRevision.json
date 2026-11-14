@@ -1,0 +1,87 @@
+{
+  "id": "wiki.lichen.noteRevision",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "noteRef",
+          "diff",
+          "diffFormat",
+          "createdAt"
+        ],
+        "properties": {
+          "diff": {
+            "type": "string",
+            "maxLength": 1000000,
+            "description": "The revision payload. With \"diff-match-patch\" it is a patch against parentRevision. With \"full-text\" it is the note's whole new body, and it is only accepted when parentRevision is the current head."
+          },
+          "blobs": {
+            "type": "array",
+            "items": {
+              "type": "blob",
+              "accept": [
+                "image/jpeg",
+                "image/png",
+                "image/gif",
+                "image/webp"
+              ],
+              "maxSize": 2097152
+            },
+            "description": "Blobs the content references. Each is identified by the uploading repo's DID and the blob CID. Content points at one with ![alt](/blob/<did>/<cid>), the path lichen serves it from. Listing the ref here keeps the blob alive in the PDS."
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 2560,
+            "description": "Renames the note from this revision on. A revision that leaves it out keeps the title.",
+            "maxGraphemes": 256
+          },
+          "status": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Set to \"deleted\" to take the note out of its wiki, keeping its history, and to \"live\" to restore it. A revision without it keeps the status.",
+            "knownValues": [
+              "live",
+              "deleted"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 10240,
+            "description": "Optional commit message describing this revision.",
+            "maxGraphemes": 1024
+          },
+          "noteRef": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the parent note record."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When this revision was created."
+          },
+          "diffFormat": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "How to read the diff field. \"diff-match-patch\" means a patch against parentRevision. \"full-text\" means the whole note body.",
+            "knownValues": [
+              "diff-match-patch",
+              "full-text"
+            ]
+          },
+          "parentRevision": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the previous revision. Omitted for the first revision of a note."
+          }
+        }
+      },
+      "description": "A revision to a note. It holds either a diff from the previous revision or the complete new body, depending on diffFormat."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,99 @@
+{
+  "id": "com.gamethesky.hatsoff.run",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "seed",
+          "level",
+          "simVersion",
+          "fires",
+          "wave",
+          "cured",
+          "createdAt"
+        ],
+        "properties": {
+          "dawn": {
+            "type": "boolean",
+            "description": "Advisory: the night was won — the President's hat came off, or the night's cap was reached."
+          },
+          "seed": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Which horde: a date (YYYY-MM-DD, local to the player) for the nightly horde, or any word for a practice one. The sim seeds from the FNV-1a hash of this string."
+          },
+          "wave": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Advisory: the wave the steps fell in."
+          },
+          "cured": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Advisory: hats removed."
+          },
+          "fires": {
+            "type": "string",
+            "maxLength": 400000,
+            "description": "The whole run as the only input the game takes. Comma-separated `<dtick>.<weapon>.<x>.<z>` entries: dtick is 60 Hz ticks since the previous entry, weapon is 0 mist, 1 pulse, 2 drop, 3 for giving up (the run ends on that entry; x and z are 0), or 4 for a heading on an airlift level (x and z are then the direction in tenths, 0 and 0 to hover), x and z are otherwise the ground point in tenths of a unit (x east, z south, origin at the Washington Monument). Only shots the sim accepted are logged; a verifier applies the same rate, heat and cooldown rules and refuses a log that fires faster than they allow. Example: `120.0.-402.12,5.0.-398.14,30.1.-390.10`."
+          },
+          "level": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "The level the run was played on. Ids are append-only.",
+            "knownValues": [
+              "liberty",
+              "goldengate",
+              "alamo",
+              "rushmore",
+              "raid",
+              "airlift",
+              "mall",
+              "whitehouse"
+            ]
+          },
+          "rules": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "The level's own rules version the run was played under. A verifier must replay under the matching version or refuse the run. Absent means 1."
+          },
+          "stage": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Deprecated: an earlier build's stage index. Superseded by level."
+          },
+          "ticks": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Advisory: the tick the steps fell."
+          },
+          "holdPeak": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Advisory: the most people sheltering at once."
+          },
+          "rehatted": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Advisory: cured people the horde caught again."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "simVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Which rules produced these shots. A verifier must replay under the matching version or refuse the run."
+          }
+        }
+      },
+      "description": "One Hats Off run, published by the player into their own repo. The record stores every shot rather than a score: the sim is deterministic, so re-running the fire log against the same seed on the same level reproduces the run exactly. Owning the record is the identity proof, and replaying it is the score proof — wave, cured and the rest are advisory and never trusted by a leaderboard."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

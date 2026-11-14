@@ -1,0 +1,116 @@
+{
+  "id": "dev.knotless.editItem",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "repo",
+            "subject"
+          ],
+          "properties": {
+            "body": {
+              "type": "string",
+              "maxLength": 20000,
+              "description": "Its new body, in Markdown."
+            },
+            "repo": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+            },
+            "draft": {
+              "type": "boolean",
+              "description": "For a pull, make it a draft, or with false mark it ready to merge. Left as it is, when absent; any other item refuses it."
+            },
+            "title": {
+              "type": "string",
+              "maxLength": 3000,
+              "description": "A pull's or an issue's new title.",
+              "maxGraphemes": 300
+            },
+            "images": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#image",
+                "type": "ref"
+              },
+              "maxLength": 32,
+              "description": "Pictures uploaded with dev.knotless.uploadImage for the new body. Of these and those it had, the new body's links decide which stay attached."
+            },
+            "subject": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The pull, issue or comment to change."
+            },
+            "addReviewers": {
+              "type": "array",
+              "items": {
+                "ref": "#reviewer",
+                "type": "ref"
+              },
+              "maxLength": 32,
+              "description": "For a pull, accounts to ask to review it, besides those it asks already. Any other item refuses it."
+            },
+            "removeReviewers": {
+              "type": "array",
+              "items": {
+                "ref": "#reviewer",
+                "type": "ref"
+              },
+              "maxLength": 32,
+              "description": "For a pull, accounts to stop asking to review it. Any other item refuses it."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri"
+          ],
+          "properties": {
+            "uri": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The record changed."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Rewrites a dev.knotless.pull, dev.knotless.issue or dev.knotless.comment record in the account logged in to this appview's web pages, which must have written it, as `knotless pull edit` does: a pull's or an issue's title or body, or a comment's body, and whether a pull is a draft. An empty body takes a pull's or an issue's away; a comment keeps one. Requires the session cookie the pages' login sets."
+    },
+    "reviewer": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "The account, by DID."
+        }
+      },
+      "description": "An account asked, or no longer asked, to review a pull."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Changes what a pull, an issue or a comment says, as its author, logged in to this appview's pages."
+}

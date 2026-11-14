@@ -1,0 +1,390 @@
+{
+  "id": "site.mochott.comic.defs",
+  "defs": {
+    "tag": {
+      "type": "string",
+      "maxLength": 640,
+      "description": "Free-form tag without a leading #.",
+      "maxGraphemes": 64
+    },
+    "rgba": {
+      "type": "object",
+      "required": [
+        "r",
+        "g",
+        "b",
+        "a"
+      ],
+      "properties": {
+        "a": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0
+        },
+        "b": {
+          "type": "integer",
+          "maximum": 255,
+          "minimum": 0
+        },
+        "g": {
+          "type": "integer",
+          "maximum": 255,
+          "minimum": 0
+        },
+        "r": {
+          "type": "integer",
+          "maximum": 255,
+          "minimum": 0
+        }
+      },
+      "description": "Color; a is opacity from 0 to 100."
+    },
+    "panel": {
+      "type": "object",
+      "properties": {
+        "alt": {
+          "type": "array",
+          "items": {
+            "ref": "site.mochott.comic.defs#localizedAlt",
+            "type": "ref"
+          },
+          "maxLength": 100,
+          "description": "Alt text for the panel."
+        },
+        "mask": {
+          "type": "blob",
+          "accept": [
+            "image/png"
+          ],
+          "maxSize": 4194304,
+          "description": "Black and white PNG of the exact panel shape, covering its bounds."
+        },
+        "bounds": {
+          "ref": "site.mochott.comic.defs#bounds",
+          "type": "ref"
+        },
+        "background": {
+          "ref": "site.mochott.comic.defs#rgba",
+          "type": "ref",
+          "description": "Fill around the panel when reading panel by panel."
+        },
+        "transition": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "How a panel-by-panel reader moves to this panel.",
+          "knownValues": [
+            "none",
+            "pan",
+            "fade",
+            "zoom"
+          ]
+        }
+      },
+      "description": "A panel on a page or strip, in reading order. All fields are optional; a panel without bounds carries alt text for the whole image."
+    },
+    "bounds": {
+      "type": "object",
+      "required": [
+        "x",
+        "y",
+        "width",
+        "height"
+      ],
+      "properties": {
+        "x": {
+          "type": "integer",
+          "maximum": 10000,
+          "minimum": 0
+        },
+        "y": {
+          "type": "integer",
+          "maximum": 10000,
+          "minimum": 0
+        },
+        "width": {
+          "type": "integer",
+          "maximum": 10000,
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "maximum": 10000,
+          "minimum": 1
+        }
+      },
+      "description": "Rectangle on an image in ten-thousandths of its width and height (0-10000), origin top left."
+    },
+    "credit": {
+      "type": "object",
+      "required": [
+        "displayName",
+        "role"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "role": {
+          "type": "string",
+          "maxLength": 640,
+          "knownValues": [
+            "writer",
+            "penciler",
+            "inker",
+            "colorist",
+            "flats",
+            "letterer",
+            "cover",
+            "creator",
+            "editor",
+            "editorInChief",
+            "associateEditor",
+            "assistantEditor",
+            "designer",
+            "artist",
+            "translator",
+            "painter",
+            "backgrounds"
+          ],
+          "maxGraphemes": 64
+        },
+        "displayName": {
+          "type": "string",
+          "maxLength": 1000,
+          "maxGraphemes": 100
+        }
+      },
+      "description": "A person credited on the work."
+    },
+    "version": {
+      "type": "object",
+      "required": [
+        "image",
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "maxLength": 640,
+          "description": "Production stage or treatment.",
+          "knownValues": [
+            "thumbnails",
+            "layout",
+            "roughs",
+            "pencils",
+            "lineart",
+            "inks",
+            "flats",
+            "colors",
+            "letters"
+          ],
+          "maxGraphemes": 64
+        },
+        "image": {
+          "type": "blob",
+          "accept": [
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+            "image/avif"
+          ],
+          "maxSize": 4194304,
+          "description": "The version image."
+        }
+      },
+      "description": "Another version of the same artwork."
+    },
+    "category": {
+      "type": "string",
+      "maxLength": 640,
+      "description": "Series category, e.g. fantasy or sliceOfLife.",
+      "maxGraphemes": 64
+    },
+    "aspectRatio": {
+      "type": "object",
+      "required": [
+        "width",
+        "height"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "localizedAlt": {
+      "type": "object",
+      "required": [
+        "lang",
+        "text"
+      ],
+      "properties": {
+        "lang": {
+          "type": "string",
+          "format": "language",
+          "description": "BCP-47 language tag."
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 100000,
+          "maxGraphemes": 10000
+        }
+      },
+      "description": "Alt text in one language: describes the art and transcribes dialogue, captions and sound effects."
+    },
+    "localizedText": {
+      "type": "object",
+      "required": [
+        "lang",
+        "text"
+      ],
+      "properties": {
+        "lang": {
+          "type": "string",
+          "format": "language",
+          "description": "BCP-47 language tag."
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 10000,
+          "maxGraphemes": 1000
+        }
+      },
+      "description": "Text in one language."
+    },
+    "localizedImage": {
+      "type": "object",
+      "required": [
+        "image",
+        "lang"
+      ],
+      "properties": {
+        "lang": {
+          "type": "string",
+          "format": "language",
+          "description": "BCP-47 language tag."
+        },
+        "image": {
+          "type": "blob",
+          "accept": [
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+            "image/avif"
+          ],
+          "maxSize": 4194304,
+          "description": "The image."
+        }
+      },
+      "description": "An image in one language."
+    },
+    "localizedTitle": {
+      "type": "object",
+      "required": [
+        "lang",
+        "text"
+      ],
+      "properties": {
+        "lang": {
+          "type": "string",
+          "format": "language",
+          "description": "BCP-47 language tag."
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 1000,
+          "maxGraphemes": 100
+        }
+      },
+      "description": "A title in one language."
+    },
+    "sequentialWork": {
+      "type": "object",
+      "required": [
+        "work"
+      ],
+      "properties": {
+        "work": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT URI of the work.sequential.chapter or work.sequential.strip."
+        },
+        "series": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT URI of the work.sequential.series."
+        }
+      },
+      "description": "Points a site.standard.document (content union) at the canonical comic it announces."
+    },
+    "minisiteCategory": {
+      "type": "object",
+      "required": [
+        "minisite",
+        "slug"
+      ],
+      "properties": {
+        "slug": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Slug of a category in that minisite."
+        },
+        "minisite": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT URI of the site.mochott.minisite record."
+        }
+      },
+      "description": "A reference to a category defined in a site.mochott.minisite record."
+    },
+    "localizedDescription": {
+      "type": "object",
+      "required": [
+        "lang",
+        "text"
+      ],
+      "properties": {
+        "lang": {
+          "type": "string",
+          "format": "language",
+          "description": "BCP-47 language tag."
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 30000,
+          "maxGraphemes": 3000
+        }
+      },
+      "description": "A description in one language."
+    },
+    "localizedShortDescription": {
+      "type": "object",
+      "required": [
+        "lang",
+        "text"
+      ],
+      "properties": {
+        "lang": {
+          "type": "string",
+          "format": "language",
+          "description": "BCP-47 language tag."
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 2550,
+          "maxGraphemes": 255
+        }
+      },
+      "description": "A short blurb in one language."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Shared definitions for mochott comic records. A superset of the work.sequential.defs shapes, so a work published with work.sequential.* can be reproduced in the site.mochott.comic.* namespace."
+}

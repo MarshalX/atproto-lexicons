@@ -1,0 +1,79 @@
+{
+  "id": "dev.knotless.queuePull",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "repo",
+            "pull"
+          ],
+          "properties": {
+            "pull": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The dev.knotless.pull record."
+            },
+            "repo": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        },
+        {
+          "name": "UpstreamFailure",
+          "description": "It was not queued, as the reason says."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "base",
+            "position",
+            "of"
+          ],
+          "properties": {
+            "of": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "How many are queued there."
+            },
+            "base": {
+              "type": "string",
+              "description": "The branch whose queue it is in."
+            },
+            "position": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Its place in that queue, from 1."
+            },
+            "ejectedBefore": {
+              "type": "string",
+              "description": "Queued again at the very head the queue last ejected, why it was: unless that was not the pull's doing, it will be ejected again."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Puts an open pull at the back of its target branch's merge queue, as `knotless pull merge --queue` does, as the account logged in to this appview's web pages, and returns at once with its place: a runner the repository names lands it with the batch it is in once that passes. One queued already keeps its place. The owner and collaborators may, in a repository that names runners. Requires the session cookie the pages' login sets."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Puts a pull in its branch's merge queue as the account logged in to this appview's pages."
+}

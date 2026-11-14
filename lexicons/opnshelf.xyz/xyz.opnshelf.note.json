@@ -1,0 +1,55 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "A user note about a media item",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "content": {
+            "description": "Note content",
+            "maxLength": 5000,
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "Record creation timestamp",
+            "format": "datetime",
+            "type": "string"
+          },
+          "episodeNumber": {
+            "description": "Episode number for episode items",
+            "type": "integer"
+          },
+          "mediaId": {
+            "description": "TMDB movie ID or show ID",
+            "type": "string"
+          },
+          "mediaType": {
+            "description": "Media type",
+            "enum": [
+              "movie",
+              "show",
+              "season",
+              "episode"
+            ],
+            "type": "string"
+          },
+          "seasonNumber": {
+            "description": "Season number for season/episode items",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "mediaType",
+          "mediaId",
+          "content",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "xyz.opnshelf.note",
+  "lexicon": 1
+}

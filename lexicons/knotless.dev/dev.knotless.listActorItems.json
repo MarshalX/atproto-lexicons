@@ -1,0 +1,104 @@
+{
+  "id": "dev.knotless.listActorItems",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "items"
+          ],
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "ref": "#actorItem",
+                "type": "ref"
+              }
+            },
+            "cursor": {
+              "type": "string",
+              "description": "Absent on the last page."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "actor",
+          "kind"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "maxLength": 16,
+            "knownValues": [
+              "pull",
+              "issue"
+            ]
+          },
+          "actor": {
+            "type": "string",
+            "format": "at-identifier",
+            "description": "The account, by DID or handle."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "state": {
+            "type": "string",
+            "maxLength": 16,
+            "description": "Open ones, or those closed and merged; open if absent.",
+            "knownValues": [
+              "open",
+              "closed"
+            ]
+          },
+          "cursor": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "How many the pages before held."
+          },
+          "relation": {
+            "type": "string",
+            "maxLength": 16,
+            "description": "Those it opened, is assigned, or is asked to review; those it opened if absent.",
+            "knownValues": [
+              "created",
+              "assigned",
+              "review"
+            ]
+          }
+        }
+      },
+      "description": "The pulls or issues an account opened, is assigned or is asked to review, on any public repository an appview has indexed, newest first, a page at a time: follow `cursor` until it is absent. No authentication; responses are not personalized."
+    },
+    "actorItem": {
+      "type": "object",
+      "required": [
+        "item",
+        "repo"
+      ],
+      "properties": {
+        "item": {
+          "ref": "dev.knotless.defs#itemView",
+          "type": "ref"
+        },
+        "repo": {
+          "ref": "dev.knotless.getFeed#repoView",
+          "type": "ref"
+        }
+      },
+      "description": "A pull or an issue, and the repository it is on."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "The pulls or issues that concern an account, on any repository."
+}

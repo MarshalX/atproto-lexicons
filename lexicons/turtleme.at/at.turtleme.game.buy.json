@@ -1,0 +1,41 @@
+{
+  "id": "at.turtleme.game.buy",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "item",
+            "quantity"
+          ],
+          "properties": {
+            "item": {
+              "type": "string",
+              "maxLength": 64,
+              "description": "Which of the shop's lines. Anything the shop does not stock is refused."
+            },
+            "quantity": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "description": "How many were asked for. What is actually bought comes back in the outcome."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "ref": "at.turtleme.game.defs#state",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "Buy from the shop's shelf. The price is not a parameter: a shelf's price moves with what it is holding, and a client that could quote its own would buy a shop out at the price of the first item. The counter takes what there is and what the coins run to rather than refusing the lot, so fewer may be bought than were asked for. Requires an atproto service auth token addressed to did:web:turtleme.at#turtle_game and naming this method, so a token issued for one call cannot be spent on another."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

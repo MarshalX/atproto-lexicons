@@ -1,0 +1,75 @@
+{
+  "id": "social.colibri.beta.bridge.redeemPairing",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "community",
+            "code"
+          ],
+          "properties": {
+            "code": {
+              "type": "string",
+              "maxLength": 32,
+              "description": "The pairing code."
+            },
+            "community": {
+              "type": "string",
+              "format": "did",
+              "description": "The community to connect the bridge to."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request is missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The caller lacks the community.manage permission."
+        },
+        {
+          "name": "CommunityNotFound",
+          "description": "No community exists at the given DID."
+        },
+        {
+          "name": "PairingNotFound",
+          "description": "The code does not exist, has expired, or was already used."
+        },
+        {
+          "name": "AlreadyRegistered",
+          "description": "This bridge is already connected to the same remote space in this community."
+        },
+        {
+          "name": "CredentialsUnavailable",
+          "description": "The AppView cannot act as the community because its stored credentials are missing or unusable."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "registration"
+          ],
+          "properties": {
+            "registration": {
+              "ref": "social.colibri.beta.bridge.defs#registrationView",
+              "type": "ref",
+              "description": "The registration."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Connects a bridge to a community by redeeming its pairing code. Writes a registration with no linked channels."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

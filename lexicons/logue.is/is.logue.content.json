@@ -1,0 +1,36 @@
+{
+  "id": "is.logue.content",
+  "defs": {
+    "main": {
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "refs": [
+              "is.logue.block.blockquote",
+              "is.logue.block.blueskyEmbed",
+              "is.logue.block.code",
+              "is.logue.block.heading",
+              "is.logue.block.iframe",
+              "is.logue.block.image",
+              "is.logue.block.listItem",
+              "is.logue.block.orderedList",
+              "is.logue.block.text",
+              "is.logue.block.unorderedList",
+              "is.logue.block.website"
+            ],
+            "type": "union"
+          },
+          "required": true,
+          "description": "Array of content blocks"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

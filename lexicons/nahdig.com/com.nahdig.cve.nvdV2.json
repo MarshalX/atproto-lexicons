@@ -1,0 +1,395 @@
+{
+  "id": "com.nahdig.cve.nvdV2",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "CVE identifier, for example CVE-2024-3094."
+          },
+          "cveTags": {
+            "type": "array",
+            "items": {
+              "ref": "#cveTag",
+              "type": "ref"
+            },
+            "description": "NVD CVE tags."
+          },
+          "metrics": {
+            "ref": "#metrics",
+            "type": "ref",
+            "description": "CVSS and other NVD metrics."
+          },
+          "dataBlob": {
+            "type": "blob",
+            "accept": [
+              "application/gzip"
+            ],
+            "maxSize": 5242880,
+            "description": "Gzipped full CVE JSON for oversized records. The record is an index card; all CVE fields live in this blob."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp when this record was created."
+          },
+          "dataBytes": {
+            "type": "integer",
+            "description": "Uncompressed size of the canonical JSON in dataBlob."
+          },
+          "published": {
+            "type": "string",
+            "format": "datetime",
+            "description": "NVD publication timestamp. NVD may omit the timezone, so normalize to UTC before writing."
+          },
+          "dataSha256": {
+            "type": "string",
+            "description": "SHA-256 of the uncompressed canonical JSON in dataBlob."
+          },
+          "references": {
+            "type": "array",
+            "items": {
+              "ref": "#reference",
+              "type": "ref"
+            },
+            "description": "External references for the CVE."
+          },
+          "vulnStatus": {
+            "type": "string",
+            "description": "NVD vulnerability status."
+          },
+          "weaknesses": {
+            "type": "array",
+            "items": {
+              "ref": "#weakness",
+              "type": "ref"
+            },
+            "description": "CWE weakness entries."
+          },
+          "dataEncoding": {
+            "type": "string",
+            "description": "Encoding of dataBlob; currently gzip."
+          },
+          "descriptions": {
+            "type": "array",
+            "items": {
+              "ref": "#langString",
+              "type": "ref"
+            },
+            "description": "Localized CVE descriptions."
+          },
+          "lastModified": {
+            "type": "string",
+            "format": "datetime",
+            "description": "NVD last-modified timestamp. NVD may omit the timezone, so normalize to UTC before writing."
+          },
+          "configurations": {
+            "type": "array",
+            "items": {
+              "ref": "#configuration",
+              "type": "ref"
+            },
+            "description": "CPE applicability configurations."
+          },
+          "evaluatorImpact": {
+            "type": "string",
+            "description": "NVD evaluator impact statement, when present."
+          },
+          "evaluatorComment": {
+            "type": "string",
+            "description": "NVD evaluator comment, when present."
+          },
+          "sourceIdentifier": {
+            "type": "string",
+            "description": "NVD source identifier for the CVE."
+          },
+          "evaluatorSolution": {
+            "type": "string",
+            "description": "NVD evaluator solution, when present."
+          }
+        }
+      },
+      "description": "An NVD CVE API v2.0 CVE object, stored under the CVE identifier as the record key."
+    },
+    "node": {
+      "type": "object",
+      "properties": {
+        "negate": {
+          "type": "boolean"
+        },
+        "cpeMatch": {
+          "type": "array",
+          "items": {
+            "ref": "#cpeMatch",
+            "type": "ref"
+          }
+        },
+        "operator": {
+          "type": "string"
+        }
+      },
+      "description": "A configuration node. Nodes may contain cpeMatch entries or children nodes."
+    },
+    "cveTag": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sourceIdentifier": {
+          "type": "string"
+        }
+      },
+      "description": "A CVE tag group from a source."
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "cvssMetricV2": {
+          "type": "array",
+          "items": {
+            "ref": "#cvssMetric",
+            "type": "ref"
+          }
+        },
+        "cvssMetricV30": {
+          "type": "array",
+          "items": {
+            "ref": "#cvssMetric",
+            "type": "ref"
+          }
+        },
+        "cvssMetricV31": {
+          "type": "array",
+          "items": {
+            "ref": "#cvssMetric",
+            "type": "ref"
+          }
+        },
+        "cvssMetricV40": {
+          "type": "array",
+          "items": {
+            "ref": "#cvssMetric",
+            "type": "ref"
+          }
+        }
+      },
+      "description": "NVD metrics grouped by CVSS version. Other metric groups pass through unmodified."
+    },
+    "cpeMatch": {
+      "type": "object",
+      "required": [
+        "vulnerable",
+        "criteria"
+      ],
+      "properties": {
+        "criteria": {
+          "type": "string"
+        },
+        "vulnerable": {
+          "type": "boolean"
+        },
+        "matchCriteriaId": {
+          "type": "string"
+        },
+        "versionEndExcluding": {
+          "type": "string"
+        },
+        "versionEndIncluding": {
+          "type": "string"
+        },
+        "versionStartExcluding": {
+          "type": "string"
+        },
+        "versionStartIncluding": {
+          "type": "string"
+        }
+      },
+      "description": "A CPE match entry."
+    },
+    "cvssData": {
+      "type": "object",
+      "properties": {
+        "scope": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "baseScore": {
+          "type": "string",
+          "description": "CVSS base score. NVD emits a JSON float; atproto has no float type, so ingestion must encode the decimal as a string."
+        },
+        "accessVector": {
+          "type": "string"
+        },
+        "attackVector": {
+          "type": "string"
+        },
+        "baseSeverity": {
+          "type": "string"
+        },
+        "vectorString": {
+          "type": "string"
+        },
+        "authentication": {
+          "type": "string"
+        },
+        "integrityImpact": {
+          "type": "string"
+        },
+        "userInteraction": {
+          "type": "string"
+        },
+        "accessComplexity": {
+          "type": "string"
+        },
+        "attackComplexity": {
+          "type": "string"
+        },
+        "availabilityImpact": {
+          "type": "string"
+        },
+        "privilegesRequired": {
+          "type": "string"
+        },
+        "confidentialityImpact": {
+          "type": "string"
+        }
+      },
+      "description": "CVSS scoring data. Score fields are decimal strings because atproto has no float type."
+    },
+    "weakness": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "description": {
+          "type": "array",
+          "items": {
+            "ref": "#langString",
+            "type": "ref"
+          }
+        }
+      },
+      "description": "A weakness entry from a source."
+    },
+    "reference": {
+      "type": "object",
+      "required": [
+        "url"
+      ],
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "source": {
+          "type": "string"
+        }
+      },
+      "description": "An external CVE reference."
+    },
+    "cvssMetric": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "cvssData": {
+          "ref": "#cvssData",
+          "type": "ref"
+        },
+        "acInsufInfo": {
+          "type": "boolean"
+        },
+        "impactScore": {
+          "type": "string",
+          "description": "CVSS impact score. NVD emits a JSON float; atproto has no float type, so ingestion must encode the decimal as a string."
+        },
+        "baseSeverity": {
+          "type": "string"
+        },
+        "obtainAllPrivilege": {
+          "type": "boolean"
+        },
+        "exploitabilityScore": {
+          "type": "string",
+          "description": "CVSS exploitability score. NVD emits a JSON float; atproto has no float type, so ingestion must encode the decimal as a string."
+        },
+        "obtainUserPrivilege": {
+          "type": "boolean"
+        },
+        "obtainOtherPrivilege": {
+          "type": "boolean"
+        },
+        "userInteractionRequired": {
+          "type": "boolean"
+        }
+      },
+      "description": "A single CVSS metric entry."
+    },
+    "langString": {
+      "type": "object",
+      "required": [
+        "lang",
+        "value"
+      ],
+      "properties": {
+        "lang": {
+          "type": "string",
+          "description": "Language code for the value."
+        },
+        "value": {
+          "type": "string",
+          "description": "Text value."
+        }
+      },
+      "description": "A localized string value."
+    },
+    "configuration": {
+      "type": "object",
+      "properties": {
+        "nodes": {
+          "type": "array",
+          "items": {
+            "ref": "#node",
+            "type": "ref"
+          }
+        },
+        "negate": {
+          "type": "boolean"
+        },
+        "operator": {
+          "type": "string"
+        }
+      },
+      "description": "A CPE configuration. NVD alternates between nodes and children, both of which pass through."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "An NVD CVE API v2.0 CVE object. Record key is the CVE identifier."
+}

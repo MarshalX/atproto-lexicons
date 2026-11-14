@@ -1,0 +1,60 @@
+{
+  "id": "at.turtleme.player.status",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt"
+        ],
+        "properties": {
+          "ranked": {
+            "type": "boolean",
+            "description": "Whether the player wants to appear on the public leaderboard. This is a request rather than a setting: what actually puts someone on the board is having published at.turtleme.player.state, and deleting that record removes them regardless of what this says."
+          },
+          "activity": {
+            "type": "string",
+            "description": "What the player is doing. Absent means they are not declaring a live session, only that they play.",
+            "knownValues": [
+              "at.turtleme.player.status#afloat",
+              "at.turtleme.player.status#fishing",
+              "at.turtleme.player.status#cooking"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the declaration was written. Client-declared and unverified."
+          },
+          "appearOffline": {
+            "type": "boolean",
+            "description": "Whether the player asks to be shown as offline. A record that sets it carries no activity or durationMinutes, so no reader finds a window open; the flag is here so that the choice follows the player to other clients. Absent means the same as false."
+          },
+          "durationMinutes": {
+            "type": "integer",
+            "maximum": 1440,
+            "minimum": 1,
+            "description": "How long the declared activity should be believed for, counted from createdAt. Presence expires rather than being switched off, because a browser tab that closes badly never gets to write the record that would clear it. A reader treats the player as present only while createdAt plus this duration is still in the future."
+          }
+        }
+      },
+      "description": "A declaration that an account plays turtle meat, and optionally that it is playing right now. Written by the player's own client and not verified by anyone: nothing here affects scoring, so there is nothing to gain by lying in it. Progress that does affect scoring lives in at.turtleme.player.state, which carries a signature."
+    },
+    "afloat": {
+      "type": "token",
+      "description": "The player has the game open but is not doing anything in particular."
+    },
+    "cooking": {
+      "type": "token",
+      "description": "The player is at the range."
+    },
+    "fishing": {
+      "type": "token",
+      "description": "The player is fishing, by any of the four methods."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

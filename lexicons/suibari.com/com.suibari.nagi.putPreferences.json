@@ -1,0 +1,284 @@
+{
+  "id": "com.suibari.nagi.putPreferences",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "diaryDay": {
+              "type": "object",
+              "properties": {
+                "timezone": {
+                  "type": "string",
+                  "maxLength": 64,
+                  "description": "手動のタイムゾーン。null を送ると自動検出に戻す。"
+                },
+                "startHour": {
+                  "type": "integer",
+                  "maximum": 23,
+                  "minimum": 0,
+                  "description": "区切りの時刻（18〜23, 0〜6）。"
+                }
+              },
+              "description": "日記の1日の区切り。送った項目だけを変える。"
+            },
+            "feedTabs": {
+              "type": "array",
+              "items": {
+                "ref": "com.suibari.nagi.getPreferences#feedTab",
+                "type": "ref"
+              },
+              "maxLength": 16
+            },
+            "replyFreq": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 0,
+              "description": "botたんからの返信確率（0〜100%）。送らなければ変更しない。"
+            },
+            "adventRead": {
+              "type": "object",
+              "required": [
+                "year"
+              ],
+              "properties": {
+                "year": {
+                  "type": "integer"
+                },
+                "openedDay": {
+                  "type": "integer",
+                  "maximum": 25,
+                  "minimum": 1
+                },
+                "lastSeenDay": {
+                  "type": "integer",
+                  "maximum": 25,
+                  "minimum": 0
+                }
+              },
+              "description": "送った項目だけを進める。既読の日は戻らず、開封済みの日は消えない。"
+            },
+            "tagFavorites": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "maxLength": 64
+              },
+              "maxLength": 32
+            },
+            "preferredName": {
+              "type": "string",
+              "maxLength": 120,
+              "description": "botたんに呼んでほしい名前。空文字を送ると登録を解除し、表示名に戻す。送らなければ変更しない。",
+              "maxGraphemes": 40
+            },
+            "readPositions": {
+              "type": "array",
+              "items": {
+                "ref": "com.suibari.nagi.getPreferences#readPosition",
+                "type": "ref"
+              },
+              "maxLength": 16
+            },
+            "emojiFavorites": {
+              "type": "array",
+              "items": {
+                "type": "unknown"
+              },
+              "maxLength": 32
+            },
+            "detectedTimezone": {
+              "type": "string",
+              "maxLength": 64,
+              "description": "Nagi を開いたときにブラウザが検出したタイムゾーン（IANA 名）。手動で選んでいる間は送らない。UTC や Etc/* は受け取っても使わない。"
+            },
+            "feedTabsUpdatedAt": {
+              "type": "string",
+              "format": "datetime",
+              "description": "feedTabs を送るときは必須。保存済みより古ければ書き込まない。"
+            },
+            "chronicleReadYears": {
+              "type": "array",
+              "items": {
+                "ref": "com.suibari.nagi.getChronicle#readYear",
+                "type": "ref"
+              },
+              "maxLength": 100,
+              "description": "年ごとの既読ハッシュ。過去の版は蓄積せず、現在の年表内容と一致する版だけを保存する。"
+            },
+            "languagePreferences": {
+              "ref": "com.suibari.nagi.getPreferences#languagePreferences",
+              "type": "ref"
+            },
+            "lastBookmarkFolderId": {
+              "type": "string",
+              "nullable": true,
+              "maxLength": 64
+            },
+            "moderationPreferences": {
+              "ref": "com.suibari.nagi.getPreferences#moderationPreferences",
+              "type": "ref"
+            },
+            "tagFavoritesUpdatedAt": {
+              "type": "string",
+              "format": "datetime",
+              "description": "tagFavorites を送るときは必須。保存済みより古ければ書き込まない。"
+            },
+            "emojiFavoritesUpdatedAt": {
+              "type": "string",
+              "format": "datetime",
+              "description": "emojiFavorites を送るときは必須。保存済みより古ければ書き込まない。"
+            },
+            "notificationPreferences": {
+              "ref": "com.suibari.nagi.getPreferences#notificationPreferences",
+              "type": "ref",
+              "description": "全カテゴリ分を丸ごと置き換える。"
+            },
+            "lastBookmarkFolderUpdatedAt": {
+              "type": "string",
+              "format": "datetime"
+            },
+            "languagePreferencesUpdatedAt": {
+              "type": "string",
+              "format": "datetime"
+            },
+            "moderationPreferencesUpdatedAt": {
+              "type": "string",
+              "format": "datetime"
+            },
+            "notificationPreferencesUpdatedAt": {
+              "type": "string",
+              "format": "datetime",
+              "description": "notificationPreferences を送るときは必須。保存済みより古ければ書き込まない。"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired"
+        },
+        {
+          "name": "InvalidRequest"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "readPositions",
+            "emojiFavorites"
+          ],
+          "properties": {
+            "feedTabs": {
+              "type": "array",
+              "items": {
+                "ref": "com.suibari.nagi.getPreferences#feedTab",
+                "type": "ref"
+              },
+              "maxLength": 16
+            },
+            "replyFreq": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 0,
+              "description": "botたんからの返信確率（0〜100%）。"
+            },
+            "adventRead": {
+              "ref": "com.suibari.nagi.getPreferences#adventRead",
+              "type": "ref"
+            },
+            "tagFavorites": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "maxLength": 64
+              },
+              "maxLength": 32
+            },
+            "preferredName": {
+              "type": "string",
+              "maxLength": 120,
+              "description": "botたんに呼んでほしい名前。省略時は未設定＝表示名で呼ばれる。",
+              "maxGraphemes": 40
+            },
+            "readPositions": {
+              "type": "array",
+              "items": {
+                "ref": "com.suibari.nagi.getPreferences#readPosition",
+                "type": "ref"
+              },
+              "description": "マージ後の確定値。送った位置が負けた場合は保存済みの方が返る。"
+            },
+            "emojiFavorites": {
+              "type": "array",
+              "items": {
+                "type": "unknown"
+              },
+              "maxLength": 32
+            },
+            "feedTabsUpdatedAt": {
+              "type": "string",
+              "format": "datetime"
+            },
+            "chronicleReadYears": {
+              "type": "array",
+              "items": {
+                "ref": "com.suibari.nagi.getChronicle#readYear",
+                "type": "ref"
+              },
+              "description": "年ごとの既読ハッシュ。過去の版は蓄積せず、現在の年表内容と一致する版だけを保存する。"
+            },
+            "languagePreferences": {
+              "ref": "com.suibari.nagi.getPreferences#languagePreferences",
+              "type": "ref"
+            },
+            "lastBookmarkFolderId": {
+              "type": "string",
+              "maxLength": 64
+            },
+            "moderationPreferences": {
+              "ref": "com.suibari.nagi.getPreferences#moderationPreferences",
+              "type": "ref"
+            },
+            "tagFavoritesUpdatedAt": {
+              "type": "string",
+              "format": "datetime"
+            },
+            "emojiFavoritesUpdatedAt": {
+              "type": "string",
+              "format": "datetime"
+            },
+            "notificationPreferences": {
+              "ref": "com.suibari.nagi.getPreferences#notificationPreferences",
+              "type": "ref"
+            },
+            "lastBookmarkFolderUpdatedAt": {
+              "type": "string",
+              "format": "datetime"
+            },
+            "languagePreferencesUpdatedAt": {
+              "type": "string",
+              "format": "datetime"
+            },
+            "moderationPreferencesUpdatedAt": {
+              "type": "string",
+              "format": "datetime"
+            },
+            "notificationPreferencesUpdatedAt": {
+              "type": "string",
+              "format": "datetime"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "同期対象の本人設定を書き込む。既読位置は単調マージ、配列・言語・コンテンツ表示設定・通知設定・最後のブックマークフォルダは updatedAt による後勝ち。各項目は省略でき、送った分だけを更新する。"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

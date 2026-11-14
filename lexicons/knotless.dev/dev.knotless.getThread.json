@@ -1,0 +1,248 @@
+{
+  "id": "dev.knotless.getThread",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository or record on it; or this appview keeps no index, so it knows no pulls or issues."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "item",
+            "comments",
+            "closes",
+            "checks",
+            "card"
+          ],
+          "properties": {
+            "base": {
+              "type": "string",
+              "description": "A pull's target branch."
+            },
+            "body": {
+              "type": "string",
+              "description": "What it says, as its author wrote it, in Markdown."
+            },
+            "card": {
+              "type": "string",
+              "description": "The path of the picture its page unfurls into."
+            },
+            "head": {
+              "ref": "dev.knotless.defs#pullHeadView",
+              "type": "ref",
+              "description": "What a pull brings in."
+            },
+            "html": {
+              "type": "string",
+              "description": "Its body, made into HTML as a comment's is."
+            },
+            "item": {
+              "ref": "dev.knotless.defs#itemView",
+              "type": "ref"
+            },
+            "queue": {
+              "ref": "dev.knotless.defs#queueStateView",
+              "type": "ref",
+              "description": "Where an open pull stands in its branch's merge queue, if it was queued or ejected from it."
+            },
+            "stack": {
+              "ref": "dev.knotless.defs#stackView",
+              "type": "ref",
+              "description": "For a pull built on another or under one, the whole chain. Absent when it stands alone."
+            },
+            "checks": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#checkView",
+                "type": "ref"
+              },
+              "description": "For a pull, the newest run of each workflow at its head: by the target's runners for the pull, and by those of the repository it comes from for its branch. For a pull the merge queue landed, the runs it landed on: those on its base at its batch's tip."
+            },
+            "closes": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#itemView",
+                "type": "ref"
+              },
+              "description": "The issues on the repository a pull's title or body names to close as it merges into the default branch."
+            },
+            "merged": {
+              "type": "string",
+              "description": "For a merged pull, the commit it merged as."
+            },
+            "viewer": {
+              "ref": "#viewerState",
+              "type": "ref",
+              "description": "What the account asking may do with it; absent when no one asks."
+            },
+            "changes": {
+              "ref": "dev.knotless.defs#changesView",
+              "type": "ref",
+              "description": "What a pull brings in; absent for an issue, or a pull whose branch is gone."
+            },
+            "minutes": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#minutesView",
+                "type": "ref"
+              },
+              "description": "For a pull, the minutes each runner of the target counts for the target's owner, where it has counted any; none for a private repository."
+            },
+            "reviews": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#reviewView",
+                "type": "ref"
+              },
+              "description": "For a pull, where each reviewer stands, in the order they last reviewed. Absent when no one has."
+            },
+            "closedBy": {
+              "ref": "dev.knotless.defs#itemViewBasic",
+              "type": "ref",
+              "description": "For a closed issue, the pull whose merge closed it."
+            },
+            "comments": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#commentView",
+                "type": "ref"
+              },
+              "description": "Oldest first."
+            },
+            "reactions": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#reactionCountView",
+                "type": "ref"
+              },
+              "description": "How accounts reacted to the pull or issue itself, by content, as dev.knotless.getReactions counts them. Absent when none did."
+            },
+            "revertedBy": {
+              "ref": "dev.knotless.defs#itemViewBasic",
+              "type": "ref",
+              "description": "For a merged pull, the revert whose merge undid it: a pull naming it in its `reverts`, merged too. The newest, if it was undone more than once."
+            },
+            "mentionedBy": {
+              "type": "array",
+              "items": {
+                "ref": "#mention",
+                "type": "ref"
+              },
+              "description": "For an issue, the pulls on the repository whose title or body names it, oldest first, whatever their state. Absent when none does."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "repo",
+          "uri"
+        ],
+        "properties": {
+          "uri": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The dev.knotless.pull or dev.knotless.issue record."
+          },
+          "repo": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The repository's dev.knotless.repo record. Its authority may be a handle; a name the repository had before, or an owner it moved from with its agreement, finds it under the name it has now."
+          },
+          "filesOnly": {
+            "type": "boolean",
+            "default": false,
+            "description": "A pull's changed files without their rows: what each is, how many lines it adds and removes, and a note where its rows would not be shown. dev.knotless.getPullDiff gives the rows of the files a reader comes to."
+          },
+          "firstRows": {
+            "type": "boolean",
+            "default": false,
+            "description": "With filesOnly, the rows of the first files too, as a page draws them at once: from the first, those whose rows would be shown, up to 10 files and 1500 changed lines, passing over any that changes more than 400. The rest come without, for dev.knotless.getPullDiff."
+          }
+        }
+      },
+      "description": "A pull or an issue on a repository: what it says, what was said on it, and for a pull what it brings in, how its checks stand and where it is in the merge queue. No authentication; asked as an account, with a service token or the pages' session cookie, the answer says what that account may do with it, and which reactions are its own. A private repository is read for its members asking so."
+    },
+    "mention": {
+      "type": "object",
+      "required": [
+        "item"
+      ],
+      "properties": {
+        "item": {
+          "ref": "dev.knotless.defs#itemView",
+          "type": "ref",
+          "description": "The pull."
+        },
+        "closes": {
+          "type": "boolean",
+          "description": "Whether it names the issue after a closing keyword, so that merging it into the default branch closes it. Not, when absent."
+        }
+      },
+      "description": "A pull that names an issue."
+    },
+    "viewerState": {
+      "type": "object",
+      "properties": {
+        "hide": {
+          "type": "boolean",
+          "description": "Whether it may hide it, or what is said on it: as the repository's owner."
+        },
+        "assign": {
+          "type": "boolean",
+          "description": "Whether it may assign it, and ask for reviews of a pull besides its author, with dev.knotless.assignItem: as the repository's owner or a collaborator."
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "ref": "dev.knotless.repo#label",
+            "type": "ref"
+          },
+          "description": "The labels the repository defines that it may put on or take off, in the order the repository defines them."
+        },
+        "revert": {
+          "type": "boolean",
+          "description": "Whether it may revert a merged pull with dev.knotless.revertPull: as the repository's owner or a collaborator."
+        },
+        "dismiss": {
+          "type": "boolean",
+          "description": "Whether it may dismiss a pull's reviews with dev.knotless.dismissReview: as the repository's owner or a collaborator."
+        },
+        "setState": {
+          "type": "boolean",
+          "description": "Whether it may close or reopen it: as who opened it, or the repository's owner or a collaborator."
+        },
+        "notifiedFor": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Why the account asking hears of new comments on it with no choice made: as its `author`, as one who `commented`, or as `watching` its repository. Absent when it hears of none, but those that mention it.",
+          "knownValues": [
+            "author",
+            "commented",
+            "watching"
+          ]
+        },
+        "subscription": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "What the account asking chose to hear of it (dev.knotless.putSubscription): every comment, as `subscribed`, or nothing, as `muted`. Absent when it chose nothing.",
+          "knownValues": [
+            "subscribed",
+            "muted"
+          ]
+        }
+      },
+      "description": "What the account asking may do with a pull or an issue, past commenting on it, editing what it wrote and reporting, which anyone may."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A pull or an issue, and everything said on it."
+}

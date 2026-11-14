@@ -1,0 +1,29 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Record containing user settings for a particular Streamplace node",
+      "key": "any",
+      "record": {
+        "properties": {
+          "autoPublishVods": {
+            "description": "Whether this node should publish the VOD of each of your recorded livestreams as soon as it ends",
+            "type": "boolean"
+          },
+          "debugRecording": {
+            "description": "Whether this node may archive your livestream for improving the service",
+            "type": "boolean"
+          },
+          "livestreamRecording": {
+            "description": "Whether this node should record your livestreams into VODs that you can publish",
+            "type": "boolean"
+          }
+        },
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "place.stream.server.settings",
+  "lexicon": 1
+}

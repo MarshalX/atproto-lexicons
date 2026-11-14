@@ -1,0 +1,57 @@
+{
+  "id": "app.rocksky.song.getSongs",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "songs": {
+              "type": "array",
+              "items": {
+                "ref": "app.rocksky.song.defs#songViewBasic",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "isrc": {
+            "type": "string",
+            "description": "Filter songs by International Standard Recording Code (ISRC)"
+          },
+          "mbid": {
+            "type": "string",
+            "description": "Filter songs by MusicBrainz ID"
+          },
+          "genre": {
+            "type": "string",
+            "description": "The genre to filter artists by"
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "The maximum number of songs to return"
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "The offset for pagination"
+          },
+          "spotifyId": {
+            "type": "string",
+            "description": "Filter songs by Spotify track ID (resolved internally to the Spotify track URL)"
+          }
+        }
+      },
+      "description": "Get songs"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

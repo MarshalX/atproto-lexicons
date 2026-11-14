@@ -1,0 +1,54 @@
+{
+  "id": "is.currents.feed.getActorCollections",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "collections"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "collections": {
+              "type": "array",
+              "items": {
+                "ref": "is.currents.feed.defs#collectionView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "actor"
+        ],
+        "properties": {
+          "actor": {
+            "type": "string",
+            "format": "at-identifier",
+            "description": "The DID or handle of the actor whose collections to fetch."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Get collections for a given actor. Auth is optional; if provided, viewer-specific state is included in the response."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

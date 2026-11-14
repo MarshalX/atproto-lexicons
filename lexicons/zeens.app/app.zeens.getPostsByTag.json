@@ -1,0 +1,56 @@
+{
+  "id": "app.zeens.getPostsByTag",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "tag"
+        ],
+        "properties": {
+          "tag": {
+            "type": "string",
+            "description": "The hashtag, without the leading #."
+          },
+          "sort": {
+            "type": "string",
+            "description": "Ordering: newest first (default) or most liked.",
+            "knownValues": [
+              "latest",
+              "popular"
+            ]
+          },
+          "color": {
+            "type": "string",
+            "description": "Optional dominant-colour filter."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Pagination cursor."
+          },
+          "monochrome": {
+            "type": "string",
+            "description": "\"true\" to return only black-and-white photos.",
+            "knownValues": [
+              "true"
+            ]
+          }
+        }
+      },
+      "description": "Get Zeens photo posts carrying a hashtag, newest first or by popularity.",
+      "target_collection": "app.zeens.postMeta"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

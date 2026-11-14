@@ -1,0 +1,35 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Subscribe to a stream's new segments as they come in!",
+      "message": {
+        "schema": {
+          "refs": [
+            "#segment"
+          ],
+          "type": "union"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "streamer": {
+            "description": "The DID of the streamer to subscribe to",
+            "type": "string"
+          }
+        },
+        "required": [
+          "streamer"
+        ],
+        "type": "params"
+      },
+      "type": "subscription"
+    },
+    "segment": {
+      "description": "MP4 file of a user's signed livestream segment",
+      "type": "bytes"
+    }
+  },
+  "id": "place.stream.live.subscribeSegments",
+  "lexicon": 1
+}

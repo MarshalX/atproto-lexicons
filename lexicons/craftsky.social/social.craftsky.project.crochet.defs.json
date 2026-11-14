@@ -1,0 +1,272 @@
+{
+  "id": "social.craftsky.project.crochet.defs",
+  "defs": {
+    "bag": {
+      "type": "token",
+      "description": "Crocheted bags."
+    },
+    "hat": {
+      "type": "token",
+      "description": "Crocheted hats."
+    },
+    "rug": {
+      "type": "token",
+      "description": "Crocheted rugs and mats."
+    },
+    "tee": {
+      "type": "token",
+      "description": "Crocheted tees."
+    },
+    "top": {
+      "type": "token",
+      "description": "Crocheted tops."
+    },
+    "ball": {
+      "type": "token",
+      "description": "Crocheted balls."
+    },
+    "belt": {
+      "type": "token",
+      "description": "Crocheted belts."
+    },
+    "cord": {
+      "type": "token",
+      "description": "Crocheted cords."
+    },
+    "cowl": {
+      "type": "token",
+      "description": "Crocheted cowls."
+    },
+    "cozy": {
+      "type": "token",
+      "description": "Crocheted cozies."
+    },
+    "doll": {
+      "type": "token",
+      "description": "Crocheted dolls."
+    },
+    "game": {
+      "type": "token",
+      "description": "Crocheted games and game pieces."
+    },
+    "mask": {
+      "type": "token",
+      "description": "Crocheted masks and face coverings."
+    },
+    "tank": {
+      "type": "token",
+      "description": "Crocheted tank tops."
+    },
+    "tote": {
+      "type": "token",
+      "description": "Crocheted totes."
+    },
+    "trim": {
+      "type": "token",
+      "description": "Crocheted trims."
+    },
+    "vest": {
+      "type": "token",
+      "description": "Crocheted vests."
+    },
+    "doily": {
+      "type": "token",
+      "description": "Crocheted doilies."
+    },
+    "dress": {
+      "type": "token",
+      "description": "Crocheted dresses."
+    },
+    "motif": {
+      "type": "token",
+      "description": "Crocheted motifs."
+    },
+    "pouch": {
+      "type": "token",
+      "description": "Crocheted pouches and small cases."
+    },
+    "scarf": {
+      "type": "token",
+      "description": "Crocheted scarves."
+    },
+    "skirt": {
+      "type": "token",
+      "description": "Crocheted skirts."
+    },
+    "afghan": {
+      "type": "token",
+      "description": "Crocheted afghans."
+    },
+    "basket": {
+      "type": "token",
+      "description": "Crocheted baskets."
+    },
+    "blocks": {
+      "type": "token",
+      "description": "Crocheted blocks."
+    },
+    "flower": {
+      "type": "token",
+      "description": "Crocheted flowers."
+    },
+    "mobile": {
+      "type": "token",
+      "description": "Crocheted mobiles and hanging toys."
+    },
+    "petToy": {
+      "type": "token",
+      "description": "Crocheted pet toys."
+    },
+    "pillow": {
+      "type": "token",
+      "description": "Crocheted pillows and cushions."
+    },
+    "poncho": {
+      "type": "token",
+      "description": "Crocheted ponchos."
+    },
+    "puppet": {
+      "type": "token",
+      "description": "Crocheted puppets."
+    },
+    "swatch": {
+      "type": "token",
+      "description": "Crocheted swatches."
+    },
+    "blanket": {
+      "type": "token",
+      "description": "Crocheted blankets."
+    },
+    "coaster": {
+      "type": "token",
+      "description": "Crocheted coasters."
+    },
+    "curtain": {
+      "type": "token",
+      "description": "Crocheted curtains."
+    },
+    "jewelry": {
+      "type": "token",
+      "description": "Crocheted jewelry."
+    },
+    "softToy": {
+      "type": "token",
+      "description": "Crocheted soft toys."
+    },
+    "sweater": {
+      "type": "token",
+      "description": "Crocheted sweaters."
+    },
+    "applique": {
+      "type": "token",
+      "description": "Crocheted appliques."
+    },
+    "cardigan": {
+      "type": "token",
+      "description": "Crocheted cardigans."
+    },
+    "headband": {
+      "type": "token",
+      "description": "Crocheted headbands."
+    },
+    "playFood": {
+      "type": "token",
+      "description": "Crocheted play food."
+    },
+    "pullover": {
+      "type": "token",
+      "description": "Crocheted pullovers."
+    },
+    "swimwear": {
+      "type": "token",
+      "description": "Crocheted swimwear."
+    },
+    "amigurumi": {
+      "type": "token",
+      "description": "Amigurumi toys, dolls, figures, or creatures."
+    },
+    "container": {
+      "type": "token",
+      "description": "Crocheted containers and storage items."
+    },
+    "neckTorso": {
+      "type": "token",
+      "description": "Neck or torso accessories."
+    },
+    "potholder": {
+      "type": "token",
+      "description": "Crocheted potholders and hot pads."
+    },
+    "shawlWrap": {
+      "type": "token",
+      "description": "Crocheted shawls and wraps."
+    },
+    "babyOnesie": {
+      "type": "token",
+      "description": "Crocheted baby onesies and bodysuits."
+    },
+    "decorative": {
+      "type": "token",
+      "description": "Decorative crochet items."
+    },
+    "petBedding": {
+      "type": "token",
+      "description": "Crocheted pet bedding."
+    },
+    "babyBlanket": {
+      "type": "token",
+      "description": "Crocheted baby blankets."
+    },
+    "dollClothes": {
+      "type": "token",
+      "description": "Crocheted doll clothes."
+    },
+    "petClothing": {
+      "type": "token",
+      "description": "Crocheted pet clothing."
+    },
+    "plantHanger": {
+      "type": "token",
+      "description": "Crocheted plant hangers."
+    },
+    "shrugBolero": {
+      "type": "token",
+      "description": "Crocheted shrugs and boleros."
+    },
+    "tableRunner": {
+      "type": "token",
+      "description": "Crocheted table runners."
+    },
+    "costumePiece": {
+      "type": "token",
+      "description": "Crocheted costume pieces and props."
+    },
+    "grannySquare": {
+      "type": "token",
+      "description": "Granny-square or granny-stitch projects."
+    },
+    "heatColdPack": {
+      "type": "token",
+      "description": "Crocheted heat or cold packs and covers."
+    },
+    "petAccessory": {
+      "type": "token",
+      "description": "Crocheted pet accessories."
+    },
+    "glovesMittens": {
+      "type": "token",
+      "description": "Crocheted gloves and mittens."
+    },
+    "socksSlippers": {
+      "type": "token",
+      "description": "Crocheted socks and slippers."
+    },
+    "adaptiveClothing": {
+      "type": "token",
+      "description": "Crocheted adaptive clothing."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Subtype tokens for crochet projects. Referenced from social.craftsky.project.crochet#details.projectSubtype via knownValues."
+}

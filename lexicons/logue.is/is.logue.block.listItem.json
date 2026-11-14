@@ -1,0 +1,28 @@
+{
+  "id": "is.logue.block.listItem",
+  "defs": {
+    "main": {
+      "type": "object",
+      "required": [
+        "content"
+      ],
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": {
+            "refs": [
+              "is.logue.block.text",
+              "is.logue.block.unorderedList",
+              "is.logue.block.orderedList"
+            ],
+            "type": "union"
+          },
+          "description": "Array of block content (text or nested lists)"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "List item within ordered or unordered lists. Can contain text blocks and nested lists."
+}

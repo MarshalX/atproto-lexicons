@@ -1,0 +1,75 @@
+{
+  "id": "social.colibri.beta.community.approveApplication",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "community",
+            "subject"
+          ],
+          "properties": {
+            "subject": {
+              "type": "string",
+              "format": "did",
+              "description": "The applicant to admit."
+            },
+            "community": {
+              "type": "string",
+              "format": "did",
+              "description": "The community to admit the subject to."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request is missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The caller lacks the approval.manage permission."
+        },
+        {
+          "name": "CommunityNotFound",
+          "description": "No community exists at the given DID."
+        },
+        {
+          "name": "ApplicationNotFound",
+          "description": "No pending application exists for the subject in this community."
+        },
+        {
+          "name": "AlreadyMember",
+          "description": "The subject already holds a member record in this community."
+        },
+        {
+          "name": "CredentialsUnavailable",
+          "description": "The AppView cannot act as the community because its stored credentials are missing or unusable."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "member"
+          ],
+          "properties": {
+            "member": {
+              "ref": "social.colibri.beta.community.defs#memberView",
+              "type": "ref",
+              "description": "The newly admitted member."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Approves a pending application, admitting the subject as a member."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,65 @@
+{
+  "id": "at.turtleme.authPlay",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Play turtle meat",
+      "detail": "Chat in the global room, say when you are playing, and keep your fishing progress. Everything is written to your own repository, and deleting it removes it.",
+      "permissions": [
+        {
+          "type": "permission",
+          "resource": "repo",
+          "collection": [
+            "at.turtleme.chat.message",
+            "at.turtleme.player.status",
+            "at.turtleme.player.state",
+            "at.turtleme.game.session"
+          ]
+        },
+        {
+          "lxm": [
+            "at.turtleme.game.getState",
+            "at.turtleme.game.setNet",
+            "at.turtleme.game.haulNet",
+            "at.turtleme.game.buy",
+            "at.turtleme.game.sell",
+            "at.turtleme.game.exchange",
+            "at.turtleme.game.cook",
+            "at.turtleme.game.castSpot",
+            "at.turtleme.game.fishSpot",
+            "at.turtleme.game.cast",
+            "at.turtleme.game.strike",
+            "at.turtleme.game.reelIn",
+            "at.turtleme.game.castReef",
+            "at.turtleme.game.sweepReef",
+            "at.turtleme.game.leaveReef"
+          ],
+          "type": "permission",
+          "resource": "rpc",
+          "inheritAud": true
+        },
+        {
+          "type": "permission",
+          "action": [
+            "read",
+            "create",
+            "update",
+            "delete"
+          ],
+          "manage": [
+            "create",
+            "update"
+          ],
+          "resource": "space",
+          "authority": "*",
+          "spaceType": "at.turtleme.chat.clan",
+          "collection": [
+            "at.turtleme.chat.message"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

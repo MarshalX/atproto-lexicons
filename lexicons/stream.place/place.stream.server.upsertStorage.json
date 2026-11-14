@@ -1,0 +1,57 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Create or update S3 storage configuration for backups.",
+      "errors": [
+        {
+          "description": "The provided S3 URL is invalid or malformed.",
+          "name": "InvalidUrl"
+        },
+        {
+          "description": "Could not connect to the S3 endpoint with the provided credentials.",
+          "name": "ConnectionFailed"
+        },
+        {
+          "description": "Cannot modify URL while keeping masked credentials. Provide full credentials or omit URL to keep existing configuration.",
+          "name": "MaskedCredentialsModified"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "isActive": {
+              "description": "Whether backup storage is currently active.",
+              "type": "boolean"
+            },
+            "url": {
+              "description": "S3 storage URL in format: s3+https://ACCESS_KEY:SECRET_KEY@endpoint/bucket",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "storage": {
+              "ref": "place.stream.server.defs#storage",
+              "type": "ref"
+            }
+          },
+          "required": [
+            "storage"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": null,
+      "type": "procedure"
+    }
+  },
+  "id": "place.stream.server.upsertStorage",
+  "lexicon": 1
+}

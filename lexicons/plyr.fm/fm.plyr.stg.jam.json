@@ -1,0 +1,16 @@
+{
+  "id": "fm.plyr.stg.jam",
+  "defs": {
+    "main": {
+      "key": "any",
+      "name": "plyr.fm Jam",
+      "type": "space",
+      "collections": [
+        "fm.plyr.stg.jamState"
+      ],
+      "description": "Private room for synchronized listening on plyr.fm Next."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

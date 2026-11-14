@@ -1,0 +1,45 @@
+{
+  "id": "social.colibri.beta.member",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "joinedAt"
+        ],
+        "properties": {
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "record-key",
+              "description": "A role in this community."
+            },
+            "description": "Roles assigned to this member."
+          },
+          "subject": {
+            "type": "string",
+            "format": "did",
+            "description": "The member's DID. Matches the record key."
+          },
+          "joinedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the member was admitted."
+          },
+          "nickname": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Per-community display name override."
+          }
+        }
+      },
+      "description": "A community member. The record key is the member's DID, so membership is a direct lookup and a member cannot hold two of these."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

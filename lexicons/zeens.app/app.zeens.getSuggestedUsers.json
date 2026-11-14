@@ -1,0 +1,36 @@
+{
+  "id": "app.zeens.getSuggestedUsers",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "pin": {
+            "type": "string",
+            "description": "DID to lead the list regardless of post count, unless the viewer already follows it."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Maximum accounts to return (default 5, max 25)."
+          },
+          "viewer": {
+            "type": "string",
+            "description": "DID of the viewer. The viewer and everyone they follow are excluded."
+          },
+          "minPosts": {
+            "type": "integer",
+            "description": "Minimum number of Zeens posts an account needs to be suggested (default 5)."
+          }
+        }
+      },
+      "description": "Suggested accounts for a viewer in one query: members with at least minPosts Zeens posts, ordered by posts in the last 30 days then most recent post, excluding the viewer and accounts the viewer already follows. An optional pinned DID leads the list unless it is already followed.",
+      "target_collection": "app.zeens.postMeta"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

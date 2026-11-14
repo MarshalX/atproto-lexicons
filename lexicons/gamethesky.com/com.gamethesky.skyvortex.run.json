@@ -1,0 +1,135 @@
+{
+  "id": "com.gamethesky.skyvortex.run",
+  "defs": {
+    "face": {
+      "type": "object",
+      "required": [
+        "slot",
+        "name",
+        "image"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "The face's name, 40 characters at most.",
+          "maxGraphemes": 40
+        },
+        "role": {
+          "type": "string",
+          "description": "Cast in the Foe Booth as one part: every enemy of that kind wears this face (flipper, tanker, spiker), or, for the boss, every enemy on the last web of each world. Absent, the face is on the ladder, one web at a time. One face a part.",
+          "knownValues": [
+            "flipper",
+            "tanker",
+            "spiker",
+            "boss"
+          ]
+        },
+        "slot": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0,
+          "description": "The face's place among the run's faces, 0 first. The faces without a `role` are the ladder, in slot order: web n wears the ladder's slot (n - 1) mod its length, and the last web of each world wears them all. A ladder slot with no face in the record is worn as the plain enemy."
+        },
+        "image": {
+          "type": "blob",
+          "accept": [
+            "image/jpeg"
+          ],
+          "maxSize": 65536,
+          "description": "The face: a 256×256 JPEG, 64 KB at most, cropped to the middle of the photo. Readers refuse a bigger one."
+        }
+      },
+      "description": "One of the player's own faces, as the enemies wore it in a run: its place among the run's faces, the part it was cast in (if any), the name under it, and the picture."
+    },
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "simVersion",
+          "seed",
+          "log",
+          "ticks",
+          "score",
+          "level",
+          "createdAt"
+        ],
+        "properties": {
+          "log": {
+            "type": "string",
+            "maxLength": 400000,
+            "description": "The whole run as the only input the game takes. Comma-separated `<dtick>.<k>.<a>` entries: dtick is 60 Hz ticks since the previous entry; k 1 holds (a 1) or lets go (a 0) of the trigger; k 2 fires the superzapper (a 0); k 4 gives up; k 5 spins the claw (a -1, 0 or 1, held); k 6 sends the claw to lane a (or -1 for none). Only inputs the sim accepted are logged. Example: `100.6.3,2.1.1,40.5.-1`."
+          },
+          "won": {
+            "type": "boolean",
+            "description": "Advisory: all sixteen webs cleared."
+          },
+          "seed": {
+            "type": "string",
+            "maxLength": 16,
+            "description": "The vortex: `arcade` (the same for everyone), or a UTC date `YYYY-MM-DD` for that day's waves. Each has its own board."
+          },
+          "faces": {
+            "type": "array",
+            "items": {
+              "ref": "#face",
+              "type": "ref"
+            },
+            "maxLength": 6,
+            "description": "The player's own photo faces the enemies wore, included on purpose (the game asks, off by default) so a replay anywhere shows them; each photo is a public blob in the player's repo. Looks only: the enemies' play is the sim's, and a verifier ignores this field entirely. Faces with a `role` were cast in the Foe Booth as a kind of enemy or the boss; the rest are the ladder. Six at most."
+          },
+          "kills": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Advisory: enemies shot down."
+          },
+          "level": {
+            "type": "integer",
+            "maximum": 16,
+            "minimum": 1,
+            "description": "Advisory: the web the run ended on, 1 to 16, four a world."
+          },
+          "score": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Advisory: points. Higher ranks higher."
+          },
+          "ticks": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Advisory: 60 Hz ticks from the first count to the end of the run."
+          },
+          "cleared": {
+            "type": "integer",
+            "maximum": 16,
+            "minimum": 0,
+            "description": "Advisory: webs cleared."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "difficulty": {
+            "type": "string",
+            "description": "The difficulty the run was played at; absent means normal. A verifier must replay at it, and each has its own board.",
+            "knownValues": [
+              "easy",
+              "normal",
+              "hard"
+            ]
+          },
+          "simVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Which rules produced this log. A verifier must replay under the matching version or refuse the run."
+          }
+        }
+      },
+      "description": "One Sky Vortex run, published by the player into their own repo. The record stores every input rather than trusting a score: the sim is deterministic, so replaying the log on the same seed reproduces the run exactly. Owning the record is the identity proof, and replaying it is the score proof; score, ticks, level and the rest are advisory and never trusted by a board."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

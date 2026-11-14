@@ -1,0 +1,45 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "errors": [
+        {
+          "description": "No bookStatus record exists at the given AT-URI.",
+          "name": "NotFound"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "bookShelf": {
+              "ref": "net.olamaelcu.livtet.biblio.defs#bookShelfView",
+              "type": "ref"
+            }
+          },
+          "required": [
+            "bookShelf"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "uri": {
+            "description": "AT-URI of the bookStatus record.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "uri"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "Get a hydrated view of a bookStatus record.",
+  "id": "net.olamaelcu.livtet.biblio.getBookOnShelf",
+  "lexicon": 1
+}

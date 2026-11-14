@@ -1,0 +1,115 @@
+{
+  "id": "id.sifa.profile.investment",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "company",
+          "createdAt"
+        ],
+        "properties": {
+          "via": {
+            "type": "string",
+            "maxLength": 2560,
+            "description": "Name of the investment vehicle the capital went through, if any. Omit for a cheque written in the person's own name.",
+            "maxGraphemes": 256
+          },
+          "role": {
+            "ref": "id.sifa.defs#investmentRole",
+            "type": "ref",
+            "description": "How the capital went in."
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "ref": "id.sifa.defs#artifactLink",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "description": "Public artifacts relating to the investment (round announcement, portfolio page, filing)."
+          },
+          "stage": {
+            "ref": "id.sifa.defs#investmentStage",
+            "type": "ref",
+            "description": "The company's funding stage at the time of the investment."
+          },
+          "amount": {
+            "ref": "id.sifa.defs#investmentAmount",
+            "type": "ref",
+            "description": "How much was invested. Optional and empty by default — cheque size is a personal financial disclosure, and clients must not prompt for it."
+          },
+          "labels": {
+            "refs": [
+              "com.atproto.label.defs#selfLabels"
+            ],
+            "type": "union",
+            "description": "Self-label values for this record."
+          },
+          "status": {
+            "ref": "id.sifa.defs#investmentStatus",
+            "type": "ref",
+            "description": "Where the position stands now, including written off."
+          },
+          "viaDid": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the vehicle's ATproto account, if one exists."
+          },
+          "company": {
+            "type": "string",
+            "maxLength": 2560,
+            "minLength": 1,
+            "description": "Name of the company invested in. For a limited-partner entry this is the fund itself, since an LP commits to the fund rather than to its portfolio.",
+            "maxGraphemes": 256
+          },
+          "endedAt": {
+            "type": "string",
+            "description": "Date the position ended, on exit or write-off, in YYYY, YYYY-MM or YYYY-MM-DD format. Omit while the position is held."
+          },
+          "agentRef": {
+            "ref": "id.sifa.defs#agentRef",
+            "type": "ref",
+            "description": "The invested company (or, for a limited-partner entry, the fund), as a single nested reference mirroring the flat company / companyDid / entityRef fields. Additive dual-write: the flat fields remain the source of truth for existing consumers. The via vehicle stays flat and is not mirrored here."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Client-declared timestamp when this record was originally created."
+          },
+          "entityRef": {
+            "type": "string",
+            "format": "uri",
+            "description": "Portable, app-neutral identifier for the company the user selected from a resolver dropdown: a Wikidata Q-ID URI, a ROR URI, or an LEI URI. Absent for free-text entries."
+          },
+          "startedAt": {
+            "type": "string",
+            "description": "Date of the investment in YYYY, YYYY-MM or YYYY-MM-DD format. Freeform (NOT strict datetime) to allow partial dates."
+          },
+          "companyDid": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the company's ATproto account, if one exists."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 50000,
+            "description": "What the company does and what the person contributes beyond capital.",
+            "maxGraphemes": 5000
+          },
+          "viaEntityRef": {
+            "type": "string",
+            "format": "uri",
+            "description": "Portable, app-neutral identifier for the vehicle selected from a resolver dropdown: a Wikidata Q-ID URI, a ROR URI, or an LEI URI. Funds carry LEIs by regulation, so this resolves more often than it does for ordinary companies. Absent for per-deal SPVs and unregistered vehicles."
+          }
+        }
+      },
+      "description": "Record representing one capital position."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Capital the user put into a company or fund — an angel cheque, a syndicate position, a limited-partner commitment. Distinct from roles with duties (position, which now covers board seats and advisory work) and from equity received as compensation, which belongs to the position that granted it."
+}

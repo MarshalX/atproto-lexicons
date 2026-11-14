@@ -1,0 +1,121 @@
+{
+  "id": "space.dailygame.profile",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt"
+        ],
+        "properties": {
+          "games": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 64
+            },
+            "maxLength": 256,
+            "description": "Game ids from the app catalog that the user plays."
+          },
+          "badges": {
+            "type": "array",
+            "items": {
+              "ref": "#badge",
+              "type": "ref"
+            },
+            "maxLength": 256,
+            "description": "Badges the user has earned. Once earned, a badge stays earned."
+          },
+          "timezone": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "IANA timezone name used to compute daily resets for this user."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When this profile record was first created."
+          },
+          "favorites": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 64
+            },
+            "maxLength": 256,
+            "description": "Game ids that the user has favorited. Shown in a dedicated group on the home page."
+          },
+          "displayName": {
+            "type": "string",
+            "maxLength": 640,
+            "description": "Optional override of the user's Bluesky display name for this app.",
+            "maxGraphemes": 64
+          },
+          "displayOrder": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 64
+            },
+            "maxLength": 256,
+            "description": "Optional user-preferred ordering of game ids."
+          }
+        }
+      },
+      "description": "A user's daily-games profile. Singleton per repo (rkey = 'self')."
+    },
+    "badge": {
+      "type": "object",
+      "required": [
+        "id",
+        "earnedAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Badge id. Known values cover the app's published badge catalog; unknown values are accepted for forward compatibility.",
+          "knownValues": [
+            "streak-10",
+            "streak-25",
+            "streak-50",
+            "streak-100",
+            "streak-250",
+            "streak-365",
+            "games-10",
+            "games-15",
+            "games-20",
+            "games-30",
+            "games-50",
+            "5x5",
+            "10x10",
+            "category-expert-word",
+            "category-expert-logic",
+            "category-expert-geography",
+            "category-expert-trivia"
+          ]
+        },
+        "category": {
+          "type": "string",
+          "description": "Grouping used by the app UI.",
+          "knownValues": [
+            "streak",
+            "variety",
+            "breadth",
+            "category-expert"
+          ]
+        },
+        "earnedAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the badge was first earned (date of earliest play that satisfied the criteria)."
+        }
+      },
+      "description": "A user accomplishment. `id` is a stable identifier from the app's badge catalog; `earnedAt` is the date the user first met the criteria."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

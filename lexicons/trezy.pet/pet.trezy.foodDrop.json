@@ -1,0 +1,35 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "One morsel lying on the ground. Lives in the player's `pet.trezy.terrarium` SPACE, not their public repo: it is transient scenery, and a repo record would need a new OAuth scope in three places — which happyview-config.ts documents as breaking sign-in outright when the third is missed. A high price for recording that a morsel is at x=412. ⚠ NOTHING HERE IS SIGNED, SO NOTHING HERE MAY CARRY CONSEQUENCES. setPreferences.lua states the rule this obeys: a space is access control, not attestation. Forging one of these moves your own morsel and nothing else — every claim about who was actually FED is a signed pet.trezy.activity record, written by createInteraction and resolveFeeding and by nothing else.",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "droppedAt": {
+            "description": "When it was put down. ⚠ LOAD-BEARING FOR resolveFeeding, which replays an absence in this order and uses this as the earliest moment the morsel could have been eaten.",
+            "format": "datetime",
+            "type": "string"
+          },
+          "food": {
+            "description": "The id of a published pet.trezy.food. Validated against the index by dropFood, so a morsel can never name something the client has no way to draw.",
+            "type": "string"
+          },
+          "x": {
+            "description": "Horizontal position in scaled world px. An integer because AT Protocol lexicons cannot express floats — and a pixel is finer than anyone can aim anyway, so nothing is lost.",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "food",
+          "x",
+          "droppedAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "pet.trezy.foodDrop",
+  "lexicon": 1
+}

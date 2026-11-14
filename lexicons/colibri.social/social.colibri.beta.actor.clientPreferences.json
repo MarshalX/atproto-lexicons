@@ -1,0 +1,118 @@
+{
+  "id": "social.colibri.beta.actor.clientPreferences",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "theme": {
+            "type": "string",
+            "description": "The color theme. system follows the operating system.",
+            "knownValues": [
+              "system",
+              "dark",
+              "light"
+            ]
+          },
+          "controls": {
+            "ref": "social.colibri.beta.actor.defs#controls",
+            "type": "ref",
+            "description": "Touch gestures in a channel."
+          },
+          "voiceView": {
+            "ref": "social.colibri.beta.actor.defs#voiceView",
+            "type": "ref",
+            "description": "Options for voice channels."
+          },
+          "experiments": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 64,
+              "description": "An experiment id."
+            },
+            "maxLength": 64,
+            "description": "The experiments the user turned on."
+          },
+          "soundVolume": {
+            "type": "integer",
+            "maximum": 100,
+            "minimum": 0,
+            "description": "The volume of in-app sound effects such as message pings and call sounds, in percent. Absent means 100."
+          },
+          "gifLoopLimit": {
+            "type": "integer",
+            "maximum": 5,
+            "minimum": 1,
+            "description": "How many times a GIF in chat plays before it pauses. Absent means no limit."
+          },
+          "blueskyClient": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "The client that Bluesky posts and profiles open in.",
+            "knownValues": [
+              "anisota",
+              "blacksky",
+              "bluesky",
+              "deer",
+              "mu",
+              "northsky",
+              "witchsky",
+              "custom"
+            ]
+          },
+          "developerMode": {
+            "type": "boolean",
+            "description": "Whether the client shows identifiers and links to inspect records."
+          },
+          "messagePreviews": {
+            "type": "boolean",
+            "description": "Whether the channel list shows the latest message under each channel name."
+          },
+          "inboxPresentation": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "How the inbox opens on desktop. popover anchors it to the inbox button, modal opens it in a large dialog.",
+            "knownValues": [
+              "popover",
+              "modal"
+            ]
+          },
+          "linkEmbedsByDefault": {
+            "type": "boolean",
+            "description": "Whether a link in a new message gets a preview by default."
+          },
+          "warnOnExternalLinks": {
+            "type": "boolean",
+            "description": "Whether opening a link to another site asks for confirmation first."
+          },
+          "hideModeratedMessages": {
+            "type": "boolean",
+            "description": "Whether messages a moderator hid stay out of view for a user who could otherwise see them. A community can override this with social.colibri.beta.actor.spaceModeration."
+          },
+          "customBlueskyClientBase": {
+            "type": "string",
+            "maxLength": 253,
+            "description": "The domain of the client used when blueskyClient is custom."
+          },
+          "dismissedLegacyCommunities": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "did",
+              "description": "A legacy community DID."
+            },
+            "maxLength": 256,
+            "description": "Legacy communities that cannot move onto spaces and that the user removed from their sidebar."
+          }
+        }
+      },
+      "description": "Client settings that follow the user across devices. Every field is optional and a client applies its own default for an absent one."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

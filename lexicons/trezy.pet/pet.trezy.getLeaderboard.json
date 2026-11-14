@@ -1,0 +1,78 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "entry": {
+      "properties": {
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "level": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "pet": {
+          "format": "at-uri",
+          "type": "string"
+        },
+        "score": {
+          "type": "integer"
+        },
+        "species": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "did",
+        "pet",
+        "species",
+        "name",
+        "score",
+        "level"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "entries": {
+              "items": {
+                "ref": "#entry",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "entries"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "type": "string"
+          },
+          "limit": {
+            "default": 25,
+            "maximum": 50,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "pet.trezy.getLeaderboard",
+  "lexicon": 1
+}

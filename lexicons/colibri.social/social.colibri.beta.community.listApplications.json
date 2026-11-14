@@ -1,0 +1,78 @@
+{
+  "id": "social.colibri.beta.community.listApplications",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request is missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The caller lacks the approval.manage permission."
+        },
+        {
+          "name": "CommunityNotFound",
+          "description": "No community exists at the given DID."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "applications"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string",
+              "description": "Pagination cursor for the next page, if more applications exist."
+            },
+            "applications": {
+              "type": "array",
+              "items": {
+                "ref": "social.colibri.beta.community.defs#applicationView",
+                "type": "ref",
+                "description": "A pending application."
+              },
+              "description": "Applications matching the request."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "community"
+        ],
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "description": "Maximum number of applications to return."
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Pagination cursor from a previous response."
+          },
+          "community": {
+            "type": "string",
+            "format": "did",
+            "description": "The community to list applications for."
+          },
+          "includeDismissed": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether to include applications a moderator has hidden from the active queue."
+          }
+        }
+      },
+      "description": "Lists pending requests to join a community that requires approval."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

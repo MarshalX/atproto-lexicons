@@ -1,0 +1,173 @@
+{
+  "id": "dev.knotless.theme",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "palette",
+          "createdAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 640,
+            "description": "What the theme is called, as its card shows it.",
+            "maxGraphemes": 64
+          },
+          "palette": {
+            "ref": "#palette",
+            "type": "ref"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Kept in the account that made it, keyed by a TID. Choosing one copies its palette into the chooser's preferences (dev.knotless.getPreferences#appearancePref), so a theme changed or deleted later leaves those who chose it as they were."
+    },
+    "syntax": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "Markup's tags."
+        },
+        "types": {
+          "type": "string",
+          "maxLength": 7
+        },
+        "numbers": {
+          "type": "string",
+          "maxLength": 7
+        },
+        "strings": {
+          "type": "string",
+          "maxLength": 7
+        },
+        "comments": {
+          "type": "string",
+          "maxLength": 7
+        },
+        "keywords": {
+          "type": "string",
+          "maxLength": 7
+        },
+        "functions": {
+          "type": "string",
+          "maxLength": 7
+        }
+      },
+      "description": "The colours code is highlighted in, each a hex colour as #rrggbb."
+    },
+    "palette": {
+      "type": "object",
+      "required": [
+        "colorScheme",
+        "background",
+        "text",
+        "primary",
+        "accent"
+      ],
+      "properties": {
+        "done": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "What is done: a pull merged."
+        },
+        "soft": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "A surface further apart: code blocks, hovered rows."
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "The body's text."
+        },
+        "panel": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "A surface a little apart from the page's: headers, cards."
+        },
+        "accent": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "Links."
+        },
+        "border": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "Lines between parts of a page."
+        },
+        "danger": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "What failed, is removed, or is dangerous."
+        },
+        "syntax": {
+          "ref": "#syntax",
+          "type": "ref"
+        },
+        "neutral": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "What closed or was skipped."
+        },
+        "primary": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "The main buttons."
+        },
+        "success": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "What is open, passed, or added."
+        },
+        "attention": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "What waits, and notices."
+        },
+        "onPrimary": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "Text on the main buttons."
+        },
+        "textFaint": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "Text said more quietly still: hints, placeholders."
+        },
+        "textMuted": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "Text said quietly: times, counts."
+        },
+        "background": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "The page's surface."
+        },
+        "colorScheme": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "Whether the theme is light or dark: what it falls back on, and how the browser draws what the pages do not, as scrollbars and form controls.",
+          "knownValues": [
+            "light",
+            "dark"
+          ]
+        }
+      },
+      "description": "The colours of a theme, each named for what it colours rather than its hue, as a hex colour #rrggbb. A colour left out is light's or dark's, as colorScheme says, or for a surface or a text, mixed from background and text. Readers pass over a colour not as #rrggbb."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A theme an account made for knotless's pages, for anyone to draw them in."
+}

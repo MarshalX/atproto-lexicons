@@ -1,0 +1,81 @@
+{
+  "id": "site.mochott.comic.cover",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "chapter",
+          "images"
+        ],
+        "properties": {
+          "alt": {
+            "type": "array",
+            "items": {
+              "ref": "site.mochott.comic.defs#localizedAlt",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "description": "Alt text, one entry per language."
+          },
+          "label": {
+            "type": "string",
+            "maxLength": 1000,
+            "description": "Cover label, e.g. Cover A.",
+            "maxGraphemes": 100
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "ref": "site.mochott.comic.defs#localizedImage",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "minLength": 1,
+            "description": "Final artwork, one entry per language."
+          },
+          "chapter": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT URI of the parent site.mochott.comic.chapter."
+          },
+          "credits": {
+            "type": "array",
+            "items": {
+              "ref": "site.mochott.comic.defs#credit",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "description": "Credits when different from the chapter."
+          },
+          "versions": {
+            "type": "array",
+            "items": {
+              "ref": "site.mochott.comic.defs#version",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "description": "Other versions of the same artwork, such as production stages."
+          },
+          "sequential": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT URI of the canonical work.sequential record this record accompanies. Same record key. Omitted only when the work exists solely in this namespace."
+          },
+          "aspectRatio": {
+            "ref": "site.mochott.comic.defs#aspectRatio",
+            "type": "ref",
+            "description": "Aspect ratio of the artwork."
+          }
+        }
+      },
+      "description": "A chapter cover."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 1,
+  "description": "A chapter cover; a copy of the work.sequential.cover of the same record key."
+}

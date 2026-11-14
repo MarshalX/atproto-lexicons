@@ -1,0 +1,59 @@
+{
+  "id": "fyi.atstore.server.describe",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "service",
+            "publicReads",
+            "reviewsWrittenOnAuthorRepo",
+            "defaultListingLimit",
+            "maxListingLimit",
+            "maxReviewLimit",
+            "methods"
+          ],
+          "properties": {
+            "methods": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "maxLength": 512
+              }
+            },
+            "service": {
+              "type": "string",
+              "maxLength": 256
+            },
+            "publicReads": {
+              "type": "boolean"
+            },
+            "maxReviewLimit": {
+              "type": "integer"
+            },
+            "maxListingLimit": {
+              "type": "integer"
+            },
+            "defaultListingLimit": {
+              "type": "integer"
+            },
+            "reviewsWrittenOnAuthorRepo": {
+              "type": "boolean",
+              "description": "When true, listing reviews are created via com.atproto.repo.createRecord on the author's PDS (fyi.atstore.listing.review); this service does not expose a write procedure for reviews."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {}
+      },
+      "description": "Describe this deployment's public XRPC surface and defaults."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

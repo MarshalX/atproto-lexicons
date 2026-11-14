@@ -1,0 +1,85 @@
+{
+  "id": "com.nahdig.cve.atprotoV1",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt",
+          "cve",
+          "nvd",
+          "software"
+        ],
+        "properties": {
+          "cve": {
+            "type": "string",
+            "description": "CVE identifier, e.g. CVE-2024-3094."
+          },
+          "nvd": {
+            "ref": "com.atproto.repo.strongRef#main",
+            "type": "ref",
+            "description": "Strong reference to the com.nahdig.cve.nvdV2 record."
+          },
+          "software": {
+            "type": "array",
+            "items": {
+              "ref": "#softwareRef",
+              "type": "ref"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      }
+    },
+    "softwareRef": {
+      "type": "object",
+      "required": [
+        "project",
+        "part",
+        "vendor",
+        "product"
+      ],
+      "properties": {
+        "cpes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "part": {
+          "type": "string",
+          "knownValues": [
+            "a",
+            "o",
+            "h"
+          ]
+        },
+        "purls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "vendor": {
+          "type": "string"
+        },
+        "product": {
+          "type": "string"
+        },
+        "project": {
+          "ref": "com.atproto.repo.strongRef#main",
+          "type": "ref",
+          "description": "Strong reference to the software.release.project record."
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Custom CVE record linking an NVD v2 record to release.software project records via strongRefs."
+}

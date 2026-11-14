@@ -1,0 +1,45 @@
+{
+  "id": "org.shelfcheck.book.dismissed",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "ids",
+          "createdAt"
+        ],
+        "properties": {
+          "ids": {
+            "ref": "org.shelfcheck.defs#bookIds",
+            "type": "ref"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 1024
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 1024
+          },
+          "authors": {
+            "type": "array",
+            "items": {
+              "ref": "org.shelfcheck.defs#authorRef",
+              "type": "ref"
+            },
+            "maxLength": 32
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A book the user has explicitly dismissed from suggestions (e.g. 'do not show me this work again on the authors page'). Distinct from a shelf entry: it carries no reading state, only the intent to suppress."
+}

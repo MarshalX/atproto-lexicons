@@ -1,0 +1,41 @@
+{
+  "id": "app.zeens.hideConvo",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "hidden"
+          ],
+          "properties": {
+            "hidden": {
+              "type": "boolean"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "viewer",
+          "convoId"
+        ],
+        "properties": {
+          "viewer": {
+            "type": "string",
+            "format": "did"
+          },
+          "convoId": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Mark a conversation hidden for the viewer (the delete-conversation view side). getConvos excludes it until a new message arrives."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

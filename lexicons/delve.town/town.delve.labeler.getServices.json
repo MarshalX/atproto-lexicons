@@ -1,0 +1,51 @@
+{
+  "id": "town.delve.labeler.getServices",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "views"
+          ],
+          "properties": {
+            "views": {
+              "type": "array",
+              "items": {
+                "refs": [
+                  "town.delve.labeler.defs#labelerView",
+                  "town.delve.labeler.defs#labelerViewDetailed"
+                ],
+                "type": "union"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "dids"
+        ],
+        "properties": {
+          "dids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "did"
+            }
+          },
+          "detailed": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "description": "Get information about a list of labeler services."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

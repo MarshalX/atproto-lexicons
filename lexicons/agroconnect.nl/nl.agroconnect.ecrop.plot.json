@@ -1,0 +1,105 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Details of the Surface (area) that is used to grow plants.\nThe exact location of this surface is specified by either, a greenhouse-location a point location or a border location (using outer and inner polygons).",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "alternativeName": {
+            "description": "Option to include a second, alternative, name for the plot.\nFor instance to be used to include the name the farmer registered in his FMIS and the name that is registered in the RVO-database.",
+            "type": "string"
+          },
+          "area": {
+            "description": "The surface (measured in for instance square meters, hectare) of this production plot.",
+            "ref": "nl.agroconnect.ecrop.defs#measureType",
+            "type": "ref"
+          },
+          "characteristics": {
+            "items": {
+              "ref": "nl.agroconnect.ecrop.defs#characteristicType",
+              "type": "ref"
+            },
+            "type": "array"
+          },
+          "country": {
+            "description": "The country the plot is located in.",
+            "ref": "nl.agroconnect.ecrop.defs#countryCodeType",
+            "type": "ref"
+          },
+          "endDate": {
+            "description": "The end data of the existence of the asset.",
+            "ref": "nl.agroconnect.ecrop.defs#dateType",
+            "type": "ref"
+          },
+          "greenhouseLocation": {
+            "ref": "nl.agroconnect.ecrop.defs#greenhouseLocationDetails",
+            "type": "ref"
+          },
+          "landUseCategory": {
+            "description": "The land use category of this plot.\nCode list: nl.agroconnect.codelist.cl961. Possible values: ARL (Arable Land), GRL (Grassland), FLL (Fallow Land) and NTA (Natural Area).",
+            "ref": "nl.agroconnect.ecrop.defs#codeType",
+            "type": "ref"
+          },
+          "localSoilType": {
+            "description": "Code for the soil type, as used for a specific use case.\nLocalSoilType code consists of the reference to the code list that is being used plus the code from this code list.\nFor eCrop in arable farming in The Netherlands, code list nl.cl405 is used",
+            "ref": "nl.agroconnect.ecrop.defs#codeType",
+            "type": "ref"
+          },
+          "name": {
+            "type": "string"
+          },
+          "plotType": {
+            "description": "(OpenAPI property name: 'type')",
+            "ref": "nl.agroconnect.ecrop.defs#plotType",
+            "type": "ref"
+          },
+          "region": {
+            "description": "The region the plot is located in.",
+            "type": "string"
+          },
+          "regularOrOrganic": {
+            "description": "Indicates whether this plot is classified for organic production or not.\nProduction protocol: indicates whether this plot is classified  for organic production or not.\nCode list: nl.cl015",
+            "ref": "nl.agroconnect.ecrop.defs#codeType",
+            "type": "ref"
+          },
+          "regulatorySoilType": {
+            "description": "Code for the soil type, as subscribed by a regulatory authority (e.g. MLNV-RVO in the Netherlands).\nFor eCrop in The Netherlands code list nl.cl405 is used.",
+            "ref": "nl.agroconnect.ecrop.defs#codeType",
+            "type": "ref"
+          },
+          "source": {
+            "accept": [
+              "application/json",
+              "application/xml"
+            ],
+            "description": "Raw remote party response this record was extracted from.",
+            "maxSize": 10000000,
+            "type": "blob"
+          },
+          "startDate": {
+            "description": "The start data of the existence of the asset.",
+            "ref": "nl.agroconnect.ecrop.defs#dateType",
+            "type": "ref"
+          },
+          "thirdPartyIds": {
+            "description": "List of alternative identifiers (\\\"AKA, also-know-as\\\") with which the asset is identified by third parties",
+            "ref": "nl.agroconnect.ecrop.defs#thirdPartyIdsType",
+            "type": "ref"
+          }
+        },
+        "required": [
+          "thirdPartyIds",
+          "name",
+          "plotType",
+          "area",
+          "regulatorySoilType"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "nl.agroconnect.ecrop.plot",
+  "lexicon": 1
+}

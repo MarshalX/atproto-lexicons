@@ -1,0 +1,139 @@
+{
+  "id": "tech.transparencia.document.source",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "displayName",
+          "sourceType",
+          "createdAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Machine-readable slug (e.g., 'dof', 'unfccc', 'scjn', 'inegi').",
+            "maxGraphemes": 64
+          },
+          "baseUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Base URL of the source's public website or repository."
+          },
+          "country": {
+            "type": "string",
+            "maxLength": 2,
+            "description": "ISO 3166-1 alpha-2 country code, when the source is national in scope (e.g., 'MX', 'BR'). Omit for international or multinational sources."
+          },
+          "license": {
+            "type": "string",
+            "maxLength": 512,
+            "description": "Default license, copyright status, or terms of use that apply to documents from this source (e.g., 'public-domain', 'public-sector', 'CC-BY-4.0').",
+            "maxGraphemes": 128
+          },
+          "logoUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to the source's logo or seal."
+          },
+          "language": {
+            "type": "string",
+            "format": "language",
+            "description": "Primary language used by this source (BCP-47, e.g., 'es-MX', 'en')."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When this source was registered in the AT Protocol network."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When this record was last materially updated."
+          },
+          "identifier": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Persistent identifier for the source (e.g., Wikidata QID, ROR ID, LEI, or canonical slug)."
+          },
+          "sourceType": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Kind of publishing source. Open set; consumers should tolerate unknown values.",
+            "knownValues": [
+              "official-gazette",
+              "government-website",
+              "legislative-portal",
+              "judicial-portal",
+              "regulatory-agency",
+              "environmental-registry",
+              "education-registry",
+              "procurement-portal",
+              "statistics-agency",
+              "international-organization",
+              "academic-repository",
+              "manual-upload",
+              "other"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 5000,
+            "description": "Short description of the source, its mandate, and what kind of documents it publishes.",
+            "maxGraphemes": 1000
+          },
+          "displayName": {
+            "type": "string",
+            "maxLength": 512,
+            "description": "Human-readable name (e.g., 'Diario Oficial de la Federación', 'United Nations Framework Convention on Climate Change').",
+            "maxGraphemes": 128
+          },
+          "jurisdiction": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Legal or administrative scope this source publishes for.",
+            "knownValues": [
+              "local",
+              "municipal",
+              "state",
+              "federal",
+              "national",
+              "regional",
+              "international",
+              "supranational",
+              "unknown"
+            ],
+            "maxGraphemes": 64
+          },
+          "publisherName": {
+            "type": "string",
+            "maxLength": 512,
+            "description": "Official publishing body name, if different from displayName (e.g., displayName 'DOF', publisherName 'Secretaría de Gobernación').",
+            "maxGraphemes": 128
+          },
+          "identifierType": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Identifier system used for identifier.",
+            "knownValues": [
+              "wikidata",
+              "ror",
+              "lei",
+              "isni",
+              "internal",
+              "other"
+            ]
+          }
+        }
+      },
+      "description": "Registry entry for a document publisher or repository. One record per source, using a fixed slug as the record key. Referenced by tech.transparencia.document.item records via strongRef."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A document source: an official gazette, government repository, institutional archive, court system, registry, or other publisher of public-interest documents tracked by TransparencIA."
+}

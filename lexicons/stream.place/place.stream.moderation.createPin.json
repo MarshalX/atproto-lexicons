@@ -1,0 +1,75 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Pin a chat message on behalf of a streamer. Requires 'message.pin' permission. Creates a place.stream.chat.pinnedRecord in the streamer's repo, replacing any existing pin.",
+      "errors": [
+        {
+          "description": "The request lacks valid authentication credentials.",
+          "name": "Unauthorized"
+        },
+        {
+          "description": "The caller does not have permission to pin messages for this streamer.",
+          "name": "Forbidden"
+        },
+        {
+          "description": "The streamer's OAuth session could not be found or is invalid.",
+          "name": "SessionNotFound"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "expiresAt": {
+              "description": "Optional expiration time for this pin.",
+              "format": "datetime",
+              "type": "string"
+            },
+            "messageUri": {
+              "description": "The AT-URI of the chat message to pin.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "streamer": {
+              "description": "The DID of the streamer.",
+              "format": "did",
+              "type": "string"
+            }
+          },
+          "required": [
+            "streamer",
+            "messageUri"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cid": {
+              "description": "The CID of the created pinned record.",
+              "format": "cid",
+              "type": "string"
+            },
+            "uri": {
+              "description": "The AT-URI of the created pinned record.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "uri",
+            "cid"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": null,
+      "type": "procedure"
+    }
+  },
+  "id": "place.stream.moderation.createPin",
+  "lexicon": 1
+}

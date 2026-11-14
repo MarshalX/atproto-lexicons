@@ -1,0 +1,75 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Create a block (ban) on behalf of a streamer. Requires 'ban' permission. Creates an app.bsky.graph.block record in the streamer's repository.",
+      "errors": [
+        {
+          "description": "The request lacks valid authentication credentials.",
+          "name": "Unauthorized"
+        },
+        {
+          "description": "The caller does not have permission to create blocks for this streamer.",
+          "name": "Forbidden"
+        },
+        {
+          "description": "The streamer's OAuth session could not be found or is invalid.",
+          "name": "SessionNotFound"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "reason": {
+              "description": "Optional reason for the block.",
+              "maxLength": 300,
+              "type": "string"
+            },
+            "streamer": {
+              "description": "The DID of the streamer whose chat this block applies to.",
+              "format": "did",
+              "type": "string"
+            },
+            "subject": {
+              "description": "The DID of the user being blocked from chat.",
+              "format": "did",
+              "type": "string"
+            }
+          },
+          "required": [
+            "streamer",
+            "subject"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cid": {
+              "description": "The CID of the created block record.",
+              "format": "cid",
+              "type": "string"
+            },
+            "uri": {
+              "description": "The AT-URI of the created block record.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "uri",
+            "cid"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": null,
+      "type": "procedure"
+    }
+  },
+  "id": "place.stream.moderation.createBlock",
+  "lexicon": 1
+}

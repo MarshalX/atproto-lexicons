@@ -1,0 +1,44 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "A filesystem entry in a Substratum Drive. The path is NOT stored here; it lives in the metadata file on the private Swarm blockstore (ADR 91). The record rkey equals entryId.",
+      "properties": {
+        "assetCid": {
+          "type": "string"
+        },
+        "driveId": {
+          "description": "The UUID of the drive",
+          "type": "string"
+        },
+        "entryId": {
+          "description": "The catalog drive_entry UUID; also the PDS record rkey",
+          "type": "string"
+        },
+        "isDirectory": {
+          "type": "boolean"
+        },
+        "metadataCid": {
+          "description": "CID of this entry's name leaf in the drive metadata file",
+          "type": "string"
+        },
+        "ownerDid": {
+          "format": "did",
+          "type": "string"
+        },
+        "receiptCid": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "driveId",
+        "entryId",
+        "isDirectory",
+        "ownerDid"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "cloud.substratum.filesystem.driveEntry",
+  "lexicon": 1
+}

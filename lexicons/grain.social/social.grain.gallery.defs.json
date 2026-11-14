@@ -1,0 +1,141 @@
+{
+  "id": "social.grain.gallery.defs",
+  "defs": {
+    "galleryView": {
+      "type": "object",
+      "required": [
+        "uri",
+        "cid",
+        "creator",
+        "record",
+        "indexedAt"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid"
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "group": {
+          "ref": "social.grain.group.defs#groupRef",
+          "type": "ref",
+          "description": "The group whose pool this gallery is in, if any."
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "refs": [
+              "social.grain.photo.defs#photoView"
+            ],
+            "type": "union"
+          }
+        },
+        "title": {
+          "type": "string"
+        },
+        "facets": {
+          "type": "array",
+          "items": {
+            "ref": "app.bsky.richtext.facet",
+            "type": "ref"
+          },
+          "description": "Annotations of description text (mentions, URLs, hashtags, etc)"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "ref": "com.atproto.label.defs#label",
+            "type": "ref"
+          }
+        },
+        "record": {
+          "type": "unknown"
+        },
+        "viewer": {
+          "ref": "#viewerState",
+          "type": "ref"
+        },
+        "address": {
+          "ref": "community.lexicon.location.address",
+          "type": "ref"
+        },
+        "cameras": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of camera make and models used in this gallery derived from EXIF data."
+        },
+        "creator": {
+          "ref": "social.grain.actor.defs#profileView",
+          "type": "ref"
+        },
+        "favCount": {
+          "type": "integer"
+        },
+        "location": {
+          "ref": "community.lexicon.location.hthree",
+          "type": "ref"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "crossPost": {
+          "ref": "#crossPostInfo",
+          "type": "ref"
+        },
+        "indexedAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "description": {
+          "type": "string"
+        },
+        "commentCount": {
+          "type": "integer"
+        },
+        "locationDisplay": {
+          "type": "string",
+          "description": "Formatted location label for display."
+        },
+        "favedByFollowing": {
+          "type": "array",
+          "items": {
+            "ref": "social.grain.actor.defs#profileView",
+            "type": "ref"
+          },
+          "description": "Profiles of accounts the viewer follows who favorited this gallery. Capped for display — see favCount for the total. Excludes the viewer."
+        }
+      }
+    },
+    "viewerState": {
+      "type": "object",
+      "properties": {
+        "fav": {
+          "type": "string",
+          "format": "at-uri"
+        }
+      },
+      "description": "Metadata about the requesting account's relationship with the subject content. Only has meaningful content for authed requests."
+    },
+    "crossPostInfo": {
+      "type": "object",
+      "required": [
+        "url"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the cross-posted Bluesky post."
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

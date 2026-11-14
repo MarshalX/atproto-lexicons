@@ -1,0 +1,36 @@
+{
+  "id": "uk.skyblur.permissionSet",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Skyblur",
+      "detail": "Posts (including password-protected) and preference",
+      "detail:lang": {
+        "ja-JP": "投稿（パスワード付き含む）および設定"
+      },
+      "permissions": [
+        {
+          "type": "permission",
+          "resource": "repo",
+          "collection": [
+            "uk.skyblur.post",
+            "uk.skyblur.preference"
+          ]
+        },
+        {
+          "aud": "*",
+          "lxm": [
+            "uk.skyblur.post.encrypt",
+            "uk.skyblur.post.deleteStored",
+            "uk.skyblur.post.store",
+            "uk.skyblur.post.getPost"
+          ],
+          "type": "permission",
+          "resource": "rpc"
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,134 @@
+{
+  "id": "com.gamethesky.skytanks.run",
+  "defs": {
+    "face": {
+      "type": "object",
+      "required": [
+        "slot",
+        "name",
+        "image"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "The name under the face, 40 characters at most.",
+          "maxGraphemes": 40
+        },
+        "slot": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0,
+          "description": "The rival slot the face rode in, 0 first. The slots are filled by `faces` at their slot numbers and then by `rivals` in order, so a face sits ahead of the handles, as it did on the player's screen."
+        },
+        "image": {
+          "type": "blob",
+          "accept": [
+            "image/jpeg"
+          ],
+          "maxSize": 65536,
+          "description": "The face: a 256×256 JPEG, 64 KB at most, cropped to the middle of the photo. Readers refuse a bigger one."
+        }
+      },
+      "description": "One of the player's own faces, as it rode in a run: which rival slot, the name under it, and the picture."
+    },
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "simVersion",
+          "seed",
+          "log",
+          "ticks",
+          "score",
+          "level",
+          "createdAt"
+        ],
+        "properties": {
+          "log": {
+            "type": "string",
+            "maxLength": 400000,
+            "description": "The whole run as the only input the game takes. Comma-separated `<dtick>.<k>.<a>` entries: dtick is 60 Hz ticks since the previous entry; k 1 holds (a 1) or lets go (a 0) of the trigger; k 4 gives up; k 5 sets the tank's controls to a = (throttle + 1) * 3 + (turn + 1), each -1, 0 or 1. Only inputs the sim accepted are logged. Example: `96.5.7,30.1.1,18.1.0`."
+          },
+          "won": {
+            "type": "boolean",
+            "description": "Advisory: all eighteen mazes cleared."
+          },
+          "seed": {
+            "type": "string",
+            "maxLength": 16,
+            "description": "The mazes: `arcade` (the same for everyone), or a UTC date `YYYY-MM-DD` for that day's. Each has its own board."
+          },
+          "faces": {
+            "type": "array",
+            "items": {
+              "ref": "#face",
+              "type": "ref"
+            },
+            "maxLength": 6,
+            "description": "The player's own photo faces that rode in rival tanks, included on purpose (the game asks, off by default) so a replay anywhere shows them; each photo is a public blob in the player's repo. Looks only, like `rivals`: a face takes its slot ahead of the handles, the rivals' play is the sim's, and a verifier ignores this field entirely. Six at most."
+          },
+          "kills": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Advisory: rival tanks wrecked."
+          },
+          "level": {
+            "type": "integer",
+            "maximum": 18,
+            "minimum": 1,
+            "description": "Advisory: the maze the run ended on, 1 to 18, three a world."
+          },
+          "score": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Advisory: points. Higher ranks higher."
+          },
+          "ticks": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Advisory: 60 Hz ticks from the first count to the end of the run."
+          },
+          "rivals": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 253
+            },
+            "maxLength": 6,
+            "description": "Handles whose faces the rival tanks wore (people the player follows). Looks only: the rivals' play is the sim's and doesn't depend on this."
+          },
+          "cleared": {
+            "type": "integer",
+            "maximum": 18,
+            "minimum": 0,
+            "description": "Advisory: mazes cleared."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "difficulty": {
+            "type": "string",
+            "description": "The difficulty the run was played at; absent means normal. A verifier must replay at it, and each has its own board.",
+            "knownValues": [
+              "easy",
+              "normal",
+              "hard"
+            ]
+          },
+          "simVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Which rules produced this log. A verifier must replay under the matching version or refuse the run."
+          }
+        }
+      },
+      "description": "One Sky Tanks run, published by the player into their own repo. The record stores every input rather than trusting a score: the sim is deterministic, so replaying the log on the same seed reproduces the run exactly. Owning the record is the identity proof, and replaying it is the score proof; score, ticks, level and the rest are advisory and never trusted by a board."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

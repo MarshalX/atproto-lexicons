@@ -1,0 +1,107 @@
+{
+  "id": "work.sequential.chapter",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "series",
+          "createdAt",
+          "covers"
+        ],
+        "properties": {
+          "tags": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#tag",
+              "type": "ref"
+            },
+            "maxLength": 10,
+            "description": "Free-form tags for this chapter."
+          },
+          "pages": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 1000,
+            "description": "Ordered list of work.sequential.page records. Used when the series format is 'page'. Use the DID form (at://did:...), not a handle."
+          },
+          "title": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#localizedTitle",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "description": "Localized chapter title or number."
+          },
+          "covers": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 500,
+            "minLength": 1,
+            "description": "Ordered list of work.sequential.cover records. The first is the primary cover; the rest are variants. Use the DID form (at://did:...), not a handle."
+          },
+          "series": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the parent series. Use the DID form (at://did:...), not a handle."
+          },
+          "slices": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 1000,
+            "description": "Ordered list of work.sequential.slice records. Used when the series format is 'vertical'. Use the DID form (at://did:...), not a handle."
+          },
+          "status": {
+            "type": "string",
+            "default": "completed",
+            "description": "Publication status of the chapter. Use 'ongoing' while it is still being published, e.g. one page at a time. AppViews may define their own statuses.",
+            "knownValues": [
+              "ongoing",
+              "completed",
+              "hiatus",
+              "cancelled"
+            ]
+          },
+          "credits": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#credit",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "description": "The credits for the people who worked on this chapter."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "The date and time the chapter was published. Drafts are kept by the AppView and only written to the repo when published."
+          },
+          "description": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#localizedDescription",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "description": "Localized short description of the chapter."
+          }
+        }
+      },
+      "description": "A chapter in a series."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

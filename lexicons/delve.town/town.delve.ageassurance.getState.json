@@ -1,0 +1,45 @@
+{
+  "id": "town.delve.ageassurance.getState",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "state",
+            "metadata"
+          ],
+          "properties": {
+            "state": {
+              "ref": "town.delve.ageassurance.defs#state",
+              "type": "ref"
+            },
+            "metadata": {
+              "ref": "town.delve.ageassurance.defs#stateMetadata",
+              "type": "ref"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "countryCode"
+        ],
+        "properties": {
+          "regionCode": {
+            "type": "string"
+          },
+          "countryCode": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Returns server-computed Age Assurance state, if available, and any additional metadata needed to compute Age Assurance state client-side."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

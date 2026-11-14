@@ -1,0 +1,85 @@
+{
+  "id": "at.turtleme.game.session",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "proof",
+          "startedAt",
+          "endedAt"
+        ],
+        "properties": {
+          "burnt": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "proof": {
+            "type": "string",
+            "maxLength": 4096,
+            "description": "A compact JWS signed by turtle meat carrying the authoritative account of the session. As with at.turtleme.player.state, this is the only field that counts and the rest are a transcription."
+          },
+          "caught": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "cooked": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "endedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "methods": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "knownValues": [
+                "at.turtleme.game.session#spot",
+                "at.turtleme.game.session#castAndStrike",
+                "at.turtleme.game.session#driftNet",
+                "at.turtleme.game.session#reef"
+              ]
+            },
+            "maxLength": 4,
+            "description": "Which ways of fishing were used."
+          },
+          "cookingXp": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "fishingXp": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "startedAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "One adjudicated session of play, published by the player as a public trail of how their progress was earned. The leaderboard does not need these records; at.turtleme.player.state alone is enough to rank someone. They exist so that progress can be read as a history rather than a number, and so other clients have something to render. Written per session rather than per catch, which keeps a player's repository from growing without limit."
+    },
+    "reef": {
+      "type": "token",
+      "description": "The minesweeper reef, swept for a dozing shoal."
+    },
+    "spot": {
+      "type": "token",
+      "description": "The wandering fishing spot, fished on a four-tick cadence."
+    },
+    "driftNet": {
+      "type": "token",
+      "description": "The net that fills on its own in real time, including while the page is closed."
+    },
+    "castAndStrike": {
+      "type": "token",
+      "description": "The timing bar, where striking in the green window lands a turtle."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

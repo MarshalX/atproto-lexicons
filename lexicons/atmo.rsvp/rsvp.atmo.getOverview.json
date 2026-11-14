@@ -1,0 +1,52 @@
+{
+  "id": "rsvp.atmo.getOverview",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "total_records",
+            "collections"
+          ],
+          "properties": {
+            "collections": {
+              "type": "array",
+              "items": {
+                "ref": "#collectionStats",
+                "type": "ref"
+              }
+            },
+            "total_records": {
+              "type": "integer"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Get an overview of all indexed collections"
+    },
+    "collectionStats": {
+      "type": "object",
+      "required": [
+        "collection",
+        "records",
+        "unique_users"
+      ],
+      "properties": {
+        "records": {
+          "type": "integer"
+        },
+        "collection": {
+          "type": "string"
+        },
+        "unique_users": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

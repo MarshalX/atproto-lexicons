@@ -1,0 +1,138 @@
+{
+  "id": "rsvp.atmo.getProfile",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "profiles"
+          ],
+          "properties": {
+            "profiles": {
+              "type": "array",
+              "items": {
+                "ref": "#profileEntry",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "actor"
+        ],
+        "properties": {
+          "actor": {
+            "type": "string",
+            "format": "at-identifier",
+            "description": "DID or handle of the user"
+          }
+        }
+      },
+      "description": "Get a user's profiles by DID or handle"
+    },
+    "profileEntry": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string"
+        },
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "rkey": {
+          "type": "string"
+        },
+        "handle": {
+          "type": "string"
+        },
+        "record": {
+          "ref": "#appBskyActorProfile",
+          "type": "ref"
+        },
+        "collection": {
+          "type": "string",
+          "format": "nsid"
+        }
+      }
+    },
+    "appBskyActorProfile": {
+      "type": "object",
+      "properties": {
+        "avatar": {
+          "type": "blob",
+          "accept": [
+            "image/png",
+            "image/jpeg"
+          ],
+          "maxSize": 1000000,
+          "description": "Small image to be displayed next to posts from account. AKA, 'profile picture'"
+        },
+        "banner": {
+          "type": "blob",
+          "accept": [
+            "image/png",
+            "image/jpeg"
+          ],
+          "maxSize": 1000000,
+          "description": "Larger horizontal image to display behind profile view."
+        },
+        "labels": {
+          "refs": [
+            "com.atproto.label.defs#selfLabels"
+          ],
+          "type": "union",
+          "description": "Self-label values, specific to the Bluesky application, on the overall account."
+        },
+        "website": {
+          "type": "string",
+          "format": "uri"
+        },
+        "pronouns": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Free-form pronouns text.",
+          "maxGraphemes": 20
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "pinnedPost": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 2560,
+          "description": "Free-form profile description text.",
+          "maxGraphemes": 256
+        },
+        "displayName": {
+          "type": "string",
+          "maxLength": 640,
+          "maxGraphemes": 64
+        },
+        "joinedViaStarterPack": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

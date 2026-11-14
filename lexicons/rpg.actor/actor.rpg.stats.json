@@ -1,0 +1,6282 @@
+{
+  "id": "actor.rpg.stats",
+  "defs": {
+    "hp": {
+      "type": "object",
+      "properties": {
+        "max": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum HP"
+        },
+        "temp": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Temporary HP"
+        },
+        "current": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Current HP"
+        }
+      },
+      "description": "Hit point tracking"
+    },
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt"
+        ],
+        "properties": {
+          "dcc": {
+            "ref": "#dccStats",
+            "type": "ref",
+            "description": "Dungeon Crawl Classics RPG character sheet"
+          },
+          "dnd": {
+            "ref": "#dndStats",
+            "type": "ref",
+            "description": "Dungeons & Dragons 5th Edition character sheet"
+          },
+          "data": {
+            "type": "unknown",
+            "description": "Per-system rkey envelope: system payload object when using rkey-per-system records."
+          },
+          "mage": {
+            "ref": "#mageStats",
+            "type": "ref",
+            "description": "Mage: The Ascension character sheet"
+          },
+          "rmmz": {
+            "ref": "#rmmzStats",
+            "type": "ref",
+            "description": "RPG Maker MZ engine character parameters"
+          },
+          "custom": {
+            "ref": "#customStats",
+            "type": "ref",
+            "description": "DEPRECATED: Use a unique top-level system key instead (e.g. 'mycoolrpg'). This singular slot is retained for backwards compatibility only."
+          },
+          "spotem": {
+            "ref": "#spotemStats",
+            "type": "ref",
+            "description": "Spot 'Em! mini-game statistics"
+          },
+          "system": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "Per-system rkey envelope: the system identifier for this record (e.g. 'dcc', 'fashionista')."
+          },
+          "reverie": {
+            "ref": "#reverieStats",
+            "type": "ref",
+            "description": "Reverie House philosophical alignment"
+          },
+          "vampire": {
+            "ref": "#vampireStats",
+            "type": "ref",
+            "description": "Vampire: The Masquerade 5th Edition character sheet"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp when this record was created"
+          },
+          "playtopia": {
+            "ref": "#playtopiaStats",
+            "type": "ref",
+            "description": "Playtopia Quest character sheet"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp when this record was last modified"
+          },
+          "pathfinder": {
+            "ref": "#pathfinderStats",
+            "type": "ref",
+            "description": "Pathfinder 2nd Edition character sheet"
+          },
+          "starfinder": {
+            "ref": "#starfinderStats",
+            "type": "ref",
+            "description": "Starfinder 2nd Edition character sheet"
+          },
+          "clunscannon": {
+            "ref": "#clunscannonStats",
+            "type": "ref",
+            "description": "Clun's Cannon mini-game statistics"
+          },
+          "daggerheart": {
+            "ref": "#daggerheartStats",
+            "type": "ref",
+            "description": "Daggerheart TTRPG character sheet (Darrington Press, used under DPCGL)"
+          },
+          "fashionista": {
+            "ref": "#fashionistaStats",
+            "type": "ref",
+            "description": "Fashionista style game — outfit curation, walk replays, and yah/nah taste reviews"
+          },
+          "cyberpunk2020": {
+            "ref": "#cyberpunk2020Stats",
+            "type": "ref",
+            "description": "Cyberpunk 2020 character sheet"
+          }
+        }
+      },
+      "description": "Primary per-system rkey record shape, with legacy self shape retained only for compatibility."
+    },
+    "dccHp": {
+      "type": "object",
+      "properties": {
+        "max": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum HP"
+        },
+        "current": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Current HP"
+        }
+      },
+      "description": "Hit points (0-level characters use 1d4 + STA mod)"
+    },
+    "saves": {
+      "type": "object",
+      "properties": {
+        "cha": {
+          "type": "integer",
+          "description": "Charisma save modifier"
+        },
+        "con": {
+          "type": "integer",
+          "description": "Constitution save modifier"
+        },
+        "dex": {
+          "type": "integer",
+          "description": "Dexterity save modifier"
+        },
+        "int": {
+          "type": "integer",
+          "description": "Intelligence save modifier"
+        },
+        "str": {
+          "type": "integer",
+          "description": "Strength save modifier"
+        },
+        "wis": {
+          "type": "integer",
+          "description": "Wisdom save modifier"
+        }
+      },
+      "description": "Saving throw modifiers (actual values, not proficiency flags)"
+    },
+    "attack": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Attack name"
+        },
+        "bonus": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Attack bonus (e.g., +5)"
+        },
+        "damage": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Damage dice (e.g., 1d8)"
+        },
+        "damageType": {
+          "type": "string",
+          "maxLength": 30,
+          "description": "Damage type"
+        },
+        "damageBonus": {
+          "type": "integer",
+          "description": "Damage bonus"
+        }
+      },
+      "description": "An attack action"
+    },
+    "combat": {
+      "type": "object",
+      "properties": {
+        "ac": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Armor Class"
+        },
+        "speed": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Speed in feet"
+        },
+        "hitDice": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Hit dice (e.g., 5d10)"
+        },
+        "initiative": {
+          "type": "integer",
+          "description": "Initiative modifier"
+        },
+        "hitDiceUsed": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Hit dice expended"
+        }
+      },
+      "description": "Combat and defensive stats"
+    },
+    "cpWare": {
+      "type": "object",
+      "properties": {
+        "hl": {
+          "type": "string",
+          "maxLength": 8,
+          "description": "Humanity Loss value"
+        },
+        "cost": {
+          "type": "string",
+          "maxLength": 16
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "type": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Cyberware category (Internal, External, Neuralware, etc.)"
+        }
+      },
+      "description": "A single cyberware entry in Cyberpunk 2020."
+    },
+    "skills": {
+      "type": "object",
+      "properties": {
+        "arcana": {
+          "type": "integer",
+          "description": "Arcana (INT)"
+        },
+        "nature": {
+          "type": "integer",
+          "description": "Nature (INT)"
+        },
+        "history": {
+          "type": "integer",
+          "description": "History (INT)"
+        },
+        "insight": {
+          "type": "integer",
+          "description": "Insight (WIS)"
+        },
+        "stealth": {
+          "type": "integer",
+          "description": "Stealth (DEX)"
+        },
+        "medicine": {
+          "type": "integer",
+          "description": "Medicine (WIS)"
+        },
+        "religion": {
+          "type": "integer",
+          "description": "Religion (INT)"
+        },
+        "survival": {
+          "type": "integer",
+          "description": "Survival (WIS)"
+        },
+        "athletics": {
+          "type": "integer",
+          "description": "Athletics (STR)"
+        },
+        "deception": {
+          "type": "integer",
+          "description": "Deception (CHA)"
+        },
+        "acrobatics": {
+          "type": "integer",
+          "description": "Acrobatics (DEX)"
+        },
+        "perception": {
+          "type": "integer",
+          "description": "Perception (WIS)"
+        },
+        "persuasion": {
+          "type": "integer",
+          "description": "Persuasion (CHA)"
+        },
+        "performance": {
+          "type": "integer",
+          "description": "Performance (CHA)"
+        },
+        "intimidation": {
+          "type": "integer",
+          "description": "Intimidation (CHA)"
+        },
+        "investigation": {
+          "type": "integer",
+          "description": "Investigation (INT)"
+        },
+        "sleightOfHand": {
+          "type": "integer",
+          "description": "Sleight of Hand (DEX)"
+        },
+        "animalHandling": {
+          "type": "integer",
+          "description": "Animal Handling (WIS)"
+        }
+      },
+      "description": "Skill modifiers (actual values, not proficiency flags)"
+    },
+    "coinage": {
+      "type": "object",
+      "properties": {
+        "cp": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Copper pieces"
+        },
+        "ep": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Electrum pieces"
+        },
+        "gp": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Gold pieces"
+        },
+        "pp": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Platinum pieces"
+        },
+        "sp": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Silver pieces"
+        }
+      },
+      "description": "Currency"
+    },
+    "dccLuck": {
+      "type": "object",
+      "properties": {
+        "birthAugur": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Birth augur name (e.g., Harsh Winter, The Bull, Fortunate Date)"
+        },
+        "luckyWeapon": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Weapon type that luck applies to (Dwarves/Halflings)"
+        },
+        "startingLuck": {
+          "type": "integer",
+          "maximum": 24,
+          "minimum": 1,
+          "description": "Starting luck score (for tracking burned luck)"
+        },
+        "birthAugurEffect": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "What the luck modifier applies to"
+        }
+      },
+      "description": "Birth augur and luck mechanics"
+    },
+    "cpWeapon": {
+      "type": "object",
+      "properties": {
+        "wa": {
+          "type": "string",
+          "maxLength": 8,
+          "description": "Weapon Accuracy modifier"
+        },
+        "avl": {
+          "type": "string",
+          "maxLength": 8,
+          "description": "Availability rating"
+        },
+        "con": {
+          "type": "string",
+          "maxLength": 8,
+          "description": "Concealability rating"
+        },
+        "dmg": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "Damage dice expression"
+        },
+        "rel": {
+          "type": "string",
+          "maxLength": 8,
+          "description": "Reliability rating"
+        },
+        "rng": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "Range in metres"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "type": {
+          "type": "string",
+          "maxLength": 32
+        },
+        "shots": {
+          "type": "string",
+          "maxLength": 8,
+          "description": "Magazine capacity"
+        }
+      },
+      "description": "A single weapon entry in Cyberpunk 2020."
+    },
+    "dccSaves": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "type": "integer",
+          "description": "Reflex save modifier"
+        },
+        "fort": {
+          "type": "integer",
+          "description": "Fortitude save modifier"
+        },
+        "will": {
+          "type": "integer",
+          "description": "Willpower save modifier"
+        }
+      },
+      "description": "DCC saving throws (3 saves, not 6)"
+    },
+    "dccStats": {
+      "type": "object",
+      "properties": {
+        "hp": {
+          "ref": "#dccHp",
+          "type": "ref",
+          "description": "Hit points"
+        },
+        "luck": {
+          "ref": "#dccLuck",
+          "type": "ref",
+          "description": "Birth augur and luck tracking"
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 5000,
+          "description": "Character notes, backstory, and special abilities"
+        },
+        "saves": {
+          "ref": "#dccSaves",
+          "type": "ref",
+          "description": "Saving throws (Reflex, Fortitude, Willpower)"
+        },
+        "thief": {
+          "ref": "#dccThief",
+          "type": "ref",
+          "description": "Thief skills and abilities"
+        },
+        "cleric": {
+          "ref": "#dccCleric",
+          "type": "ref",
+          "description": "Cleric spellcasting (disapproval, turn unholy, lay on hands)"
+        },
+        "combat": {
+          "ref": "#dccCombat",
+          "type": "ref",
+          "description": "Combat stats (AC, speed, action die, initiative, crit die/table)"
+        },
+        "wizard": {
+          "ref": "#dccWizard",
+          "type": "ref",
+          "description": "Wizard/Elf spellcasting (spellburn, corruption, mercurial magic)"
+        },
+        "attacks": {
+          "type": "array",
+          "items": {
+            "ref": "#dccAttack",
+            "type": "ref"
+          },
+          "maxLength": 20,
+          "description": "Weapon attacks"
+        },
+        "coinage": {
+          "ref": "#dccCoinage",
+          "type": "ref",
+          "description": "Currency (cp, sp, gp)"
+        },
+        "warrior": {
+          "ref": "#dccWarrior",
+          "type": "ref",
+          "description": "Warrior/Dwarf class features (deed die, mighty deeds)"
+        },
+        "halfling": {
+          "ref": "#dccHalfling",
+          "type": "ref",
+          "description": "Halfling luck-sharing and dual wielding"
+        },
+        "identity": {
+          "ref": "#dccIdentity",
+          "type": "ref",
+          "description": "Character identity (occupation, class, level, alignment)"
+        },
+        "abilities": {
+          "ref": "#dccAbilities",
+          "type": "ref",
+          "description": "The six ability scores (STR, AGI, STA, INT, PER, LUK)"
+        },
+        "equipment": {
+          "ref": "#dccEquipment",
+          "type": "ref",
+          "description": "Gear, treasure, and trade goods"
+        },
+        "languages": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Languages known"
+        },
+        "abilitiesNotes": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Notes about special abilities, class features, and racial traits"
+        }
+      },
+      "description": "Dungeon Crawl Classics RPG character sheet. Supports 0-level funnel characters through 10th level."
+    },
+    "dccThief": {
+      "type": "object",
+      "properties": {
+        "skills": {
+          "ref": "#dccThiefSkills",
+          "type": "ref",
+          "description": "Thief skill modifiers"
+        },
+        "backstab": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Backstab damage die level (+1, +2, etc.)"
+        },
+        "alignment": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Alignment (affects some skill targets)"
+        },
+        "luckyWeapon": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Weapon type that luck applies to (one type only)"
+        }
+      },
+      "description": "Thief class features and skills"
+    },
+    "dndStats": {
+      "type": "object",
+      "properties": {
+        "hp": {
+          "ref": "#hp",
+          "type": "ref",
+          "description": "Hit points (current, max, temp)"
+        },
+        "saves": {
+          "ref": "#saves",
+          "type": "ref",
+          "description": "Saving throw modifiers"
+        },
+        "combat": {
+          "ref": "#combat",
+          "type": "ref",
+          "description": "Combat stats (AC, speed, initiative, hit dice)"
+        },
+        "skills": {
+          "ref": "#skills",
+          "type": "ref",
+          "description": "Skill modifiers"
+        },
+        "attacks": {
+          "type": "array",
+          "items": {
+            "ref": "#attack",
+            "type": "ref"
+          },
+          "maxLength": 20,
+          "description": "Attack actions"
+        },
+        "coinage": {
+          "ref": "#coinage",
+          "type": "ref",
+          "description": "Currency (cp, sp, ep, gp, pp)"
+        },
+        "features": {
+          "type": "string",
+          "maxLength": 5000,
+          "description": "Class features, racial traits, and feats"
+        },
+        "identity": {
+          "ref": "#identity",
+          "type": "ref",
+          "description": "Character identity (race, class, level, background)"
+        },
+        "passives": {
+          "ref": "#passives",
+          "type": "ref",
+          "description": "Passive scores (Perception, Investigation, Insight)"
+        },
+        "abilities": {
+          "ref": "#abilities",
+          "type": "ref",
+          "description": "The six ability scores (STR, DEX, CON, INT, WIS, CHA)"
+        },
+        "equipment": {
+          "ref": "#equipment",
+          "type": "ref",
+          "description": "Gear and inventory"
+        },
+        "languages": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Languages known"
+        },
+        "conditions": {
+          "ref": "#conditions",
+          "type": "ref",
+          "description": "Status conditions (inspiration, exhaustion, death saves)"
+        },
+        "personality": {
+          "ref": "#personality",
+          "type": "ref",
+          "description": "Traits, ideals, bonds, flaws, backstory"
+        },
+        "spellcasting": {
+          "ref": "#spellcasting",
+          "type": "ref",
+          "description": "Spellcasting details (for casters)"
+        },
+        "proficiencies": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Armor, weapon, and tool proficiencies"
+        }
+      },
+      "description": "D&D 5e character sheet. All sub-objects are optional."
+    },
+    "identity": {
+      "type": "object",
+      "properties": {
+        "xp": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Experience points"
+        },
+        "race": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Race (e.g., Human, Elf, Dwarf)"
+        },
+        "class": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Class and subclass (e.g., Fighter (Champion))"
+        },
+        "level": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Character level"
+        },
+        "alignment": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Alignment (e.g., Lawful Good)"
+        },
+        "background": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Background (e.g., Soldier, Sage)"
+        },
+        "proficiency": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Proficiency bonus"
+        }
+      },
+      "description": "Character identity and progression"
+    },
+    "passives": {
+      "type": "object",
+      "properties": {
+        "insight": {
+          "type": "integer",
+          "description": "Passive Insight"
+        },
+        "perception": {
+          "type": "integer",
+          "description": "Passive Perception"
+        },
+        "investigation": {
+          "type": "integer",
+          "description": "Passive Investigation"
+        }
+      },
+      "description": "Passive scores (10 + skill modifier)"
+    },
+    "abilities": {
+      "type": "object",
+      "properties": {
+        "cha": {
+          "type": "integer",
+          "maximum": 30,
+          "minimum": 1,
+          "description": "Charisma"
+        },
+        "con": {
+          "type": "integer",
+          "maximum": 30,
+          "minimum": 1,
+          "description": "Constitution"
+        },
+        "dex": {
+          "type": "integer",
+          "maximum": 30,
+          "minimum": 1,
+          "description": "Dexterity"
+        },
+        "int": {
+          "type": "integer",
+          "maximum": 30,
+          "minimum": 1,
+          "description": "Intelligence"
+        },
+        "str": {
+          "type": "integer",
+          "maximum": 30,
+          "minimum": 1,
+          "description": "Strength"
+        },
+        "wis": {
+          "type": "integer",
+          "maximum": 30,
+          "minimum": 1,
+          "description": "Wisdom"
+        }
+      },
+      "description": "The six ability scores (1-30 per SRD)"
+    },
+    "dccAttack": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Weapon name"
+        },
+        "type": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Attack type (melee, ranged, etc.)"
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Special properties (backstab, trained weapon, etc.)"
+        },
+        "range": {
+          "type": "string",
+          "maxLength": 30,
+          "description": "Range (melee or distance)"
+        },
+        "damage": {
+          "type": "string",
+          "maxLength": 30,
+          "description": "Damage dice (e.g., 1d8+2, 1d6+d3)"
+        },
+        "attackMod": {
+          "type": "string",
+          "maxLength": 30,
+          "description": "Attack modifier (e.g., +2, d16+2 for deed die)"
+        },
+        "damageBonus": {
+          "type": "string",
+          "maxLength": 30,
+          "description": "Damage bonus (e.g., +2, +d3 for deed die)"
+        }
+      },
+      "description": "A weapon attack (includes deed die for warriors)"
+    },
+    "dccCleric": {
+      "type": "object",
+      "properties": {
+        "deity": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Deity or supernatural patron"
+        },
+        "unholy": {
+          "type": "boolean",
+          "description": "Serves a Chaotic deity (unholy instead of holy)"
+        },
+        "holySymbol": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Holy symbol description"
+        },
+        "knownSpells": {
+          "type": "array",
+          "items": {
+            "ref": "#dccClericSpell",
+            "type": "ref"
+          },
+          "maxLength": 50,
+          "description": "Known cleric spells"
+        },
+        "layOnHandsDie": {
+          "type": "string",
+          "maxLength": 10,
+          "description": "Lay on hands die (e.g., d14, d16)"
+        },
+        "maxSpellLevel": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 1,
+          "description": "Highest spell level accessible"
+        },
+        "spellCheckMod": {
+          "type": "integer",
+          "description": "Spell check modifier (PER mod + level)"
+        },
+        "turnUnholyDie": {
+          "type": "string",
+          "maxLength": 10,
+          "description": "Turn unholy die (e.g., d14, d16)"
+        },
+        "disapprovalRange": {
+          "type": "integer",
+          "maximum": 20,
+          "minimum": 1,
+          "description": "Current disapproval range (starts at 1, accumulates)"
+        },
+        "disapprovalTable": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Deity-specific disapproval table if any"
+        }
+      },
+      "description": "Cleric spellcasting features"
+    },
+    "dccCombat": {
+      "type": "object",
+      "properties": {
+        "ac": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Armor Class (10 + armor + AGI mod + shield)"
+        },
+        "speed": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Speed in feet (typically 30, Dwarves 20)"
+        },
+        "critDie": {
+          "type": "string",
+          "maxLength": 10,
+          "description": "Critical hit die (e.g., d8, d12, d14)"
+        },
+        "actionDie": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Primary action die (e.g., d20, d20+d14)"
+        },
+        "attackMod": {
+          "type": "integer",
+          "description": "Base attack modifier (level-based for non-warriors)"
+        },
+        "critTable": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Critical hit table (I, II, III, IV, V)"
+        },
+        "fumbleDie": {
+          "type": "string",
+          "maxLength": 10,
+          "description": "Fumble die (typically d4 for 0-level, varies by armor)"
+        },
+        "initiative": {
+          "type": "integer",
+          "description": "Initiative modifier (AGI mod)"
+        }
+      },
+      "description": "Combat statistics"
+    },
+    "dccWizard": {
+      "type": "object",
+      "properties": {
+        "patron": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Supernatural patron (if any)"
+        },
+        "spellburn": {
+          "ref": "#dccSpellburn",
+          "type": "ref",
+          "description": "Current spellburn status"
+        },
+        "corruption": {
+          "type": "array",
+          "items": {
+            "ref": "#dccCorruption",
+            "type": "ref"
+          },
+          "maxLength": 20,
+          "description": "Corruption effects suffered (structured)"
+        },
+        "patronBond": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Patron bond description and effects"
+        },
+        "knownSpells": {
+          "type": "array",
+          "items": {
+            "ref": "#dccWizardSpell",
+            "type": "ref"
+          },
+          "maxLength": 50,
+          "description": "Known spells with mercurial magic effects"
+        },
+        "maxSpellLevel": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 1,
+          "description": "Highest spell level accessible"
+        },
+        "spellCheckMod": {
+          "type": "integer",
+          "description": "Spell check modifier (INT mod + level)"
+        },
+        "corruptionText": {
+          "type": "string",
+          "maxLength": 2000,
+          "description": "Corruption effects as free-form text"
+        }
+      },
+      "description": "Wizard and Elf spellcasting features"
+    },
+    "equipment": {
+      "type": "object",
+      "properties": {
+        "gear": {
+          "type": "string",
+          "maxLength": 2000,
+          "description": "Other equipment"
+        },
+        "armor": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Armor"
+        },
+        "weapons": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Weapons"
+        },
+        "treasure": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Valuables and treasure"
+        }
+      },
+      "description": "Gear and inventory"
+    },
+    "mageStats": {
+      "type": "object",
+      "properties": {
+        "art": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "law": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "life": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "mind": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "sect": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "time": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "wits": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "arete": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "brawl": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "drive": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "melee": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 5000
+        },
+        "prime": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "crafts": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "forces": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "health": {
+          "type": "integer",
+          "maximum": 7,
+          "minimum": 0,
+          "description": "Number of health levels filled (0=unharmed, 7=incapacitated)"
+        },
+        "matter": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "nature": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "occult": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "spirit": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "trait1": {
+          "ref": "#mageVariableStat",
+          "type": "ref"
+        },
+        "trait2": {
+          "ref": "#mageVariableStat",
+          "type": "ref"
+        },
+        "trait3": {
+          "ref": "#mageVariableStat",
+          "type": "ref"
+        },
+        "trait4": {
+          "ref": "#mageVariableStat",
+          "type": "ref"
+        },
+        "trait5": {
+          "ref": "#mageVariableStat",
+          "type": "ref"
+        },
+        "concept": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "empathy": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "enigmas": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "entropy": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "essence": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "paradox": {
+          "type": "integer",
+          "maximum": 20,
+          "minimum": 0
+        },
+        "science": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "stamina": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "stealth": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "charisma": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "computer": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "demeanor": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "firearms": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "medicine": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "politics": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "research": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "strength": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "survival": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "academics": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "alertness": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "athletics": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "awareness": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "cosmology": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "dexterity": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "esoterica": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "etiquette": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "willpower": {
+          "ref": "#mageWillpower",
+          "type": "ref"
+        },
+        "appearance": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "experience": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expression": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "leadership": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "meditation": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "perception": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "streetwise": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "subterfuge": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "technology": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "affiliation": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "background1": {
+          "ref": "#mageVariableStat",
+          "type": "ref"
+        },
+        "background2": {
+          "ref": "#mageVariableStat",
+          "type": "ref"
+        },
+        "background3": {
+          "ref": "#mageVariableStat",
+          "type": "ref"
+        },
+        "background4": {
+          "ref": "#mageVariableStat",
+          "type": "ref"
+        },
+        "background5": {
+          "ref": "#mageVariableStat",
+          "type": "ref"
+        },
+        "martialarts": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "intelligence": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "intimidation": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "manipulation": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "quintessence": {
+          "type": "integer",
+          "maximum": 20,
+          "minimum": 0
+        },
+        "investigation": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "correspondence": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        }
+      },
+      "description": "Mage: The Ascension (WoD) character sheet."
+    },
+    "rmmzStats": {
+      "type": "object",
+      "properties": {
+        "hp": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Current HP"
+        },
+        "mp": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Current MP"
+        },
+        "tp": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Current TP"
+        },
+        "xp": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Experience"
+        },
+        "agi": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Agility"
+        },
+        "atk": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Attack"
+        },
+        "cri": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0,
+          "description": "Critical %"
+        },
+        "def": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Defense"
+        },
+        "eva": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0,
+          "description": "Evasion %"
+        },
+        "hit": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0,
+          "description": "Hit Rate %"
+        },
+        "luk": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Luck"
+        },
+        "mat": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Magic Attack"
+        },
+        "mdf": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Magic Defense"
+        },
+        "class": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Class"
+        },
+        "level": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Level"
+        },
+        "maxHp": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Max HP"
+        },
+        "maxMp": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Max MP"
+        },
+        "maxTp": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Max TP"
+        }
+      },
+      "description": "RPG Maker MZ character parameters"
+    },
+    "spellList": {
+      "type": "object",
+      "properties": {
+        "l1": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "maxLength": 30,
+          "description": "1st-level spells"
+        },
+        "l2": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "maxLength": 30,
+          "description": "2nd-level spells"
+        },
+        "l3": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "maxLength": 30,
+          "description": "3rd-level spells"
+        },
+        "l4": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "maxLength": 30,
+          "description": "4th-level spells"
+        },
+        "l5": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "maxLength": 30,
+          "description": "5th-level spells"
+        },
+        "l6": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "maxLength": 20,
+          "description": "6th-level spells"
+        },
+        "l7": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "maxLength": 20,
+          "description": "7th-level spells"
+        },
+        "l8": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "maxLength": 20,
+          "description": "8th-level spells"
+        },
+        "l9": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "maxLength": 20,
+          "description": "9th-level spells"
+        },
+        "cantrips": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "maxLength": 20,
+          "description": "Cantrips (at-will)"
+        }
+      },
+      "description": "Spells organized by level"
+    },
+    "spellslot": {
+      "type": "object",
+      "required": [
+        "level",
+        "total"
+      ],
+      "properties": {
+        "used": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Slots used"
+        },
+        "level": {
+          "type": "integer",
+          "maximum": 9,
+          "minimum": 1,
+          "description": "Spell level"
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total slots"
+        }
+      },
+      "description": "Spell slot entry"
+    },
+    "conditions": {
+      "type": "object",
+      "properties": {
+        "deathSaves": {
+          "ref": "#deathSaves",
+          "type": "ref",
+          "description": "Death saving throw progress"
+        },
+        "exhaustion": {
+          "type": "integer",
+          "maximum": 6,
+          "minimum": 0,
+          "description": "Exhaustion level (0-6)"
+        },
+        "inspiration": {
+          "type": "boolean",
+          "description": "Has inspiration"
+        }
+      },
+      "description": "Status conditions and effects"
+    },
+    "customStat": {
+      "type": "object",
+      "required": [
+        "name",
+        "value"
+      ],
+      "properties": {
+        "max": {
+          "type": "integer",
+          "description": "Maximum (optional)"
+        },
+        "min": {
+          "type": "integer",
+          "description": "Minimum (optional)"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Stat name"
+        },
+        "value": {
+          "type": "integer",
+          "description": "Value"
+        },
+        "category": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Category (optional)"
+        }
+      },
+      "description": "A custom stat"
+    },
+    "dccCoinage": {
+      "type": "object",
+      "properties": {
+        "cp": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Copper pieces"
+        },
+        "gp": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Gold pieces"
+        },
+        "sp": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Silver pieces"
+        }
+      },
+      "description": "DCC uses cp, sp, gp (10cp = 1sp, 10sp = 1gp)"
+    },
+    "dccWarrior": {
+      "type": "object",
+      "properties": {
+        "deedDie": {
+          "type": "string",
+          "maxLength": 10,
+          "description": "Current deed die (d3, d4, d5, d6, d7, d8, d10+d3, etc.)"
+        },
+        "smellGold": {
+          "type": "boolean",
+          "description": "Can smell gold/gems (Dwarves)"
+        },
+        "shieldBash": {
+          "type": "boolean",
+          "description": "Can use shield bash (Dwarves)"
+        },
+        "infravision": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Infravision range in feet (Dwarves: 60)"
+        },
+        "luckyWeapon": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Weapon type luck modifier applies to"
+        },
+        "mightyDeeds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "maxLength": 20,
+          "description": "Signature mighty deeds of arms"
+        },
+        "undergroundSkills": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Underground detection bonus (Dwarves: equal to level)"
+        }
+      },
+      "description": "Warrior and Dwarf class features"
+    },
+    "deathSaves": {
+      "type": "object",
+      "properties": {
+        "failures": {
+          "type": "integer",
+          "maximum": 3,
+          "minimum": 0,
+          "description": "Failures (0-3)"
+        },
+        "successes": {
+          "type": "integer",
+          "maximum": 3,
+          "minimum": 0,
+          "description": "Successes (0-3)"
+        }
+      },
+      "description": "Death saving throw successes and failures"
+    },
+    "cpRoleSkill": {
+      "type": "object",
+      "properties": {
+        "base": {
+          "type": "string",
+          "maxLength": 8
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "value": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        }
+      },
+      "description": "A single role ability entry with an editable title and rank."
+    },
+    "customStats": {
+      "type": "object",
+      "properties": {
+        "stats": {
+          "type": "array",
+          "items": {
+            "ref": "#customStat",
+            "type": "ref"
+          },
+          "description": "Custom stat entries"
+        },
+        "systemName": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "System name"
+        },
+        "systemVersion": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Version"
+        }
+      },
+      "description": "DEPRECATED: Legacy singular custom system. New implementations should write their own top-level key with freeform stat objects instead."
+    },
+    "dccHalfling": {
+      "type": "object",
+      "properties": {
+        "infravision": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Infravision range in feet (30)"
+        },
+        "luckyWeapon": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Weapon type luck modifier applies to"
+        },
+        "sneakAndHide": {
+          "type": "integer",
+          "description": "Bonus to sneak/hide when in natural environment"
+        },
+        "goodLuckCharm": {
+          "type": "boolean",
+          "description": "Can spend luck to aid nearby allies"
+        },
+        "luckSpentOnAllies": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total luck points spent helping allies"
+        },
+        "twoWeaponFighting": {
+          "type": "boolean",
+          "description": "Can dual-wield without penalty"
+        }
+      },
+      "description": "Halfling class features"
+    },
+    "dccIdentity": {
+      "type": "object",
+      "properties": {
+        "xp": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Experience points"
+        },
+        "class": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Class (Warrior, Wizard, Cleric, Thief, Elf, Dwarf, Halfling)"
+        },
+        "level": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0,
+          "description": "Character level (0 for funnel characters)"
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Level title (e.g., Squire, Cutpurse, Acolyte)"
+        },
+        "alignment": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Alignment (Lawful, Neutral, Chaotic)"
+        },
+        "occupation": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "0-level occupation (e.g., Blacksmith, Farmer)"
+        }
+      },
+      "description": "DCC character identity and progression"
+    },
+    "personality": {
+      "type": "object",
+      "properties": {
+        "bonds": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Bonds"
+        },
+        "flaws": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Flaws"
+        },
+        "ideals": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Ideals"
+        },
+        "traits": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Personality traits"
+        },
+        "backstory": {
+          "type": "string",
+          "maxLength": 5000,
+          "description": "Backstory"
+        }
+      },
+      "description": "Personality and backstory"
+    },
+    "spotemStats": {
+      "type": "object",
+      "properties": {
+        "best": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Personal best streak"
+        },
+        "_meta": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "Human-readable system name"
+            }
+          },
+          "description": "Display metadata"
+        },
+        "current": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Current correct-in-a-row streak"
+        },
+        "lastDaily": {
+          "type": "string",
+          "format": "date",
+          "description": "ISO date (YYYY-MM-DD) of the last completed Daily Hunt"
+        },
+        "totalDays": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total Daily Hunt levels completed"
+        },
+        "dailyStreak": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Current consecutive-day Daily Hunt streak"
+        },
+        "prizeRounds": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "Streak milestones at which a Prize Round was earned"
+        },
+        "totalPlayed": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total levels played"
+        },
+        "totalCorrect": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total levels guessed correctly"
+        },
+        "bestDailyStreak": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Highest consecutive-day Daily Hunt streak ever reached"
+        }
+      },
+      "description": "Spot 'Em! mini-game statistics — pick the right character from a scene based on trait clues."
+    },
+    "dccAbilities": {
+      "type": "object",
+      "properties": {
+        "agi": {
+          "type": "integer",
+          "maximum": 24,
+          "minimum": 1,
+          "description": "Agility"
+        },
+        "int": {
+          "type": "integer",
+          "maximum": 24,
+          "minimum": 1,
+          "description": "Intelligence"
+        },
+        "luk": {
+          "type": "integer",
+          "maximum": 24,
+          "minimum": 1,
+          "description": "Luck (can be permanently burned)"
+        },
+        "per": {
+          "type": "integer",
+          "maximum": 24,
+          "minimum": 1,
+          "description": "Personality"
+        },
+        "sta": {
+          "type": "integer",
+          "maximum": 24,
+          "minimum": 1,
+          "description": "Stamina"
+        },
+        "str": {
+          "type": "integer",
+          "maximum": 24,
+          "minimum": 1,
+          "description": "Strength"
+        },
+        "agiBase": {
+          "type": "integer",
+          "maximum": 24,
+          "minimum": 1,
+          "description": "Agility base (before spellburn)"
+        },
+        "staBase": {
+          "type": "integer",
+          "maximum": 24,
+          "minimum": 1,
+          "description": "Stamina base (before spellburn)"
+        },
+        "strBase": {
+          "type": "integer",
+          "maximum": 24,
+          "minimum": 1,
+          "description": "Strength base (before spellburn)"
+        }
+      },
+      "description": "DCC ability scores (3-18 standard, can be modified by corruption/spellburn)"
+    },
+    "dccEquipment": {
+      "type": "object",
+      "properties": {
+        "gear": {
+          "type": "string",
+          "maxLength": 2000,
+          "description": "Other equipment"
+        },
+        "armor": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Armor worn (affects fumble die)"
+        },
+        "shield": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Shield (if any)"
+        },
+        "weapons": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Weapons carried"
+        },
+        "treasure": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Valuables and treasure"
+        },
+        "tradeGoods": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Trade goods from occupation"
+        },
+        "armorCheckPenalty": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Armor check penalty (affects skills)"
+        }
+      },
+      "description": "Equipment and inventory"
+    },
+    "dccSpellburn": {
+      "type": "object",
+      "properties": {
+        "agiBurned": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Agility points currently burned"
+        },
+        "staBurned": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Stamina points currently burned"
+        },
+        "strBurned": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Strength points currently burned"
+        },
+        "recoveryRate": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Points recovered per day"
+        }
+      },
+      "description": "Current spellburn (temporary ability score sacrifice)"
+    },
+    "reverieStats": {
+      "type": "object",
+      "properties": {
+        "octant": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Philosophical octant",
+          "knownValues": [
+            "adaptive",
+            "chaotic",
+            "prepared",
+            "intended",
+            "contented",
+            "assertive",
+            "ordered",
+            "guarded",
+            "equilibrium",
+            "singling",
+            "confused"
+          ]
+        },
+        "entropy": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0,
+          "description": "Entropy (0-100)"
+        },
+        "liberty": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0,
+          "description": "Liberty (0-100)"
+        },
+        "skeptic": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0,
+          "description": "Skeptic (0-100)"
+        },
+        "oblivion": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0,
+          "description": "Oblivion (0-100)"
+        },
+        "authority": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0,
+          "description": "Authority (0-100)"
+        },
+        "receptive": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0,
+          "description": "Receptive (0-100)"
+        }
+      },
+      "description": "Reverie House philosophical alignment"
+    },
+    "spellcasting": {
+      "type": "object",
+      "properties": {
+        "dc": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Spell save DC"
+        },
+        "slots": {
+          "type": "array",
+          "items": {
+            "ref": "#spellslot",
+            "type": "ref"
+          },
+          "maxLength": 9,
+          "description": "Spell slots by level"
+        },
+        "attack": {
+          "type": "integer",
+          "description": "Spell attack bonus"
+        },
+        "spells": {
+          "ref": "#spellList",
+          "type": "ref",
+          "description": "Known/prepared spells by level"
+        },
+        "ability": {
+          "type": "string",
+          "maxLength": 3,
+          "description": "Spellcasting ability (INT, WIS, CHA)"
+        }
+      },
+      "description": "Spellcasting details"
+    },
+    "vampireStats": {
+      "type": "object",
+      "properties": {
+        "bg1": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "bg2": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "bg3": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "bg4": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "bg5": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "bg6": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "bg7": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "bg8": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "bg9": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "clan": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Vampire clan"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "sire": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "wits": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "brawl": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "craft": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "disc1": {
+          "ref": "#vampireDiscipline",
+          "type": "ref"
+        },
+        "disc2": {
+          "ref": "#vampireDiscipline",
+          "type": "ref"
+        },
+        "disc3": {
+          "ref": "#vampireDiscipline",
+          "type": "ref"
+        },
+        "disc4": {
+          "ref": "#vampireDiscipline",
+          "type": "ref"
+        },
+        "disc5": {
+          "ref": "#vampireDiscipline",
+          "type": "ref"
+        },
+        "disc6": {
+          "ref": "#vampireDiscipline",
+          "type": "ref"
+        },
+        "drive": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "flaw1": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "flaw2": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "flaw3": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "flaw4": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "flaw5": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "flaw6": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "flaw7": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "melee": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 5000
+        },
+        "desire": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "health": {
+          "type": "integer",
+          "maximum": 15,
+          "minimum": 0,
+          "description": "Health pip track fill count (0=unharmed, 15=all filled)"
+        },
+        "hunger": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "merit1": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "merit2": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "merit3": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "merit4": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "merit5": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "merit6": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "merit7": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "occult": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "tenet1": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "tenet2": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "tenet3": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "tenet4": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "tenet5": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "tenet6": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "concept": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "finance": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "history": {
+          "type": "string",
+          "maxLength": 5000
+        },
+        "hunting": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Hunting style"
+        },
+        "insight": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "larceny": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "resolve": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "science": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "stamina": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "stealth": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "trueAge": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "True age in years"
+        },
+        "weapon1": {
+          "ref": "#vampireWeapon",
+          "type": "ref"
+        },
+        "weapon2": {
+          "ref": "#vampireWeapon",
+          "type": "ref"
+        },
+        "weapon3": {
+          "ref": "#vampireWeapon",
+          "type": "ref"
+        },
+        "weapon4": {
+          "ref": "#vampireWeapon",
+          "type": "ref"
+        },
+        "weapon5": {
+          "ref": "#vampireWeapon",
+          "type": "ref"
+        },
+        "weapon6": {
+          "ref": "#vampireWeapon",
+          "type": "ref"
+        },
+        "ambition": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "charisma": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "expSpent": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "expTotal": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "firearms": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "humanity": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "medicine": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "politics": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "predator": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Predator type (Alleycat, Bagger, Cleaver, etc.)"
+        },
+        "strength": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "survival": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "academics": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "animalKen": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "athletics": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "awareness": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "chronicle": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "clanBane1": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "clanBane2": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "clanBane3": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "clanBane4": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "clanBane5": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "clanBane6": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "composure": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "dexterity": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "etiquette": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "havenName": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "havenNone": {
+          "type": "boolean",
+          "description": "True if the character has no haven"
+        },
+        "resonance": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Resonance type (Choleric, Melancholy, Phlegmatic, Sanguine)"
+        },
+        "willpower": {
+          "type": "integer",
+          "maximum": 15,
+          "minimum": 0,
+          "description": "Willpower pip track fill count"
+        },
+        "appearance": {
+          "type": "string",
+          "maxLength": 5000
+        },
+        "bloodSurge": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Blood Surge dice bonus label (e.g. '+2 dice')"
+        },
+        "generation": {
+          "type": "string",
+          "maxLength": 16
+        },
+        "havenFeat1": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "havenFeat2": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "havenFeat3": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "havenFeat4": {
+          "ref": "#vampireAdvantage",
+          "type": "ref"
+        },
+        "leadership": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "mendAmount": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Mend amount dice label"
+        },
+        "persuasion": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "powerBonus": {
+          "type": "string",
+          "maxLength": 50
+        },
+        "streetwise": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "subterfuge": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "technology": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "apparentAge": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Apparent age appearance"
+        },
+        "dateOfBirth": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "dateOfDeath": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "havenRating": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "performance": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "possessions": {
+          "type": "string",
+          "maxLength": 5000
+        },
+        "rouseReroll": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Rouse check re-roll threshold"
+        },
+        "touchstone1": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "touchstone2": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "touchstone3": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "touchstone4": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "touchstone5": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "touchstone6": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "baneSeverity": {
+          "type": "string",
+          "maxLength": 50
+        },
+        "bloodPotency": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "intelligence": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "intimidation": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "manipulation": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "investigation": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "feedingPenalty": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Feeding penalty descriptor"
+        },
+        "distinguishingFeatures": {
+          "type": "string",
+          "maxLength": 5000
+        }
+      },
+      "description": "Vampire: The Masquerade 5th Edition character sheet."
+    },
+    "dccCorruption": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Corruption severity (minor, major, greater)"
+        },
+        "effect": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Description of the corruption"
+        },
+        "source": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "What spell caused this corruption"
+        },
+        "permanent": {
+          "type": "boolean",
+          "description": "Whether this corruption is permanent"
+        }
+      },
+      "description": "A corruption effect from failed spell checks"
+    },
+    "mageWillpower": {
+      "type": "object",
+      "properties": {
+        "permanent": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 1
+        },
+        "temporary": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        }
+      },
+      "description": "Willpower permanent rating and temporary pool."
+    },
+    "vampireWeapon": {
+      "type": "object",
+      "properties": {
+        "dmg": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Damage dice or static damage descriptor"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 64
+        }
+      },
+      "description": "A weapon entry in a VTM character sheet."
+    },
+    "dccClericSpell": {
+      "type": "object",
+      "required": [
+        "name",
+        "level"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Spell name"
+        },
+        "level": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 1,
+          "description": "Spell level"
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Additional spell notes"
+        },
+        "sinful": {
+          "type": "boolean",
+          "description": "Casting may cause additional disapproval"
+        }
+      },
+      "description": "A cleric spell"
+    },
+    "dccThiefSkills": {
+      "type": "object",
+      "properties": {
+        "backstab": {
+          "type": "integer",
+          "description": "Backstab attack bonus"
+        },
+        "findTrap": {
+          "type": "integer",
+          "description": "Find trap bonus"
+        },
+        "pickLock": {
+          "type": "integer",
+          "description": "Pick lock bonus"
+        },
+        "pickPocket": {
+          "type": "integer",
+          "description": "Pick pocket bonus"
+        },
+        "disableTrap": {
+          "type": "integer",
+          "description": "Disable trap bonus"
+        },
+        "disguiseSelf": {
+          "type": "integer",
+          "description": "Disguise self bonus"
+        },
+        "handlePoison": {
+          "type": "integer",
+          "description": "Handle poison bonus"
+        },
+        "forgeDocument": {
+          "type": "integer",
+          "description": "Forge document bonus"
+        },
+        "hideInShadows": {
+          "type": "integer",
+          "description": "Hide in shadows bonus"
+        },
+        "readLanguages": {
+          "type": "integer",
+          "description": "Read languages bonus"
+        },
+        "sneakSilently": {
+          "type": "integer",
+          "description": "Sneak silently bonus"
+        },
+        "climbSheerSurfaces": {
+          "type": "integer",
+          "description": "Climb sheer surfaces bonus"
+        },
+        "castSpellFromScroll": {
+          "type": "integer",
+          "description": "Cast spell from scroll bonus"
+        }
+      },
+      "description": "Thief skill bonuses (roll d20 + skill vs target)"
+    },
+    "dccWizardSpell": {
+      "type": "object",
+      "required": [
+        "name",
+        "level"
+      ],
+      "properties": {
+        "lost": {
+          "type": "boolean",
+          "description": "Spell is currently lost (must be re-learned)"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Spell name"
+        },
+        "level": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 1,
+          "description": "Spell level"
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Additional spell notes"
+        },
+        "mercurialRoll": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "The d100 roll for mercurial magic"
+        },
+        "mercurialMagic": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Unique mercurial magic effect (d100 roll result)"
+        }
+      },
+      "description": "A wizard spell with mercurial magic effect"
+    },
+    "fashionistaFit": {
+      "type": "object",
+      "properties": {
+        "eyes": {
+          "type": "object",
+          "properties": {
+            "hex": {
+              "type": "string",
+              "maxLength": 7
+            },
+            "mode": {
+              "type": "string",
+              "maxLength": 10
+            },
+            "tone": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 0
+            }
+          }
+        },
+        "skin": {
+          "type": "object",
+          "properties": {
+            "hex": {
+              "type": "string",
+              "maxLength": 7
+            },
+            "mode": {
+              "type": "string",
+              "maxLength": 10
+            },
+            "tone": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 0
+            }
+          }
+        },
+        "layers": {
+          "type": "array",
+          "items": {
+            "ref": "#fashionistaFitLayer",
+            "type": "ref"
+          },
+          "maxLength": 20,
+          "description": "Ordered layer config, back-to-front. No blob data — use generator record blobs for recomposition."
+        },
+        "savedAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "bodyType": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Body type used"
+        },
+        "spriteCid": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "CID of the compiled spriteSheet blob at time of save"
+        }
+      },
+      "description": "A snapshot of the actor's saved best-fit outfit. Stores layer metadata (no blob copies); the compiled sprite is referenced by CID."
+    },
+    "playtopiaStats": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Character class",
+          "knownValues": [
+            "Artist",
+            "Coder",
+            "Gamer",
+            "Suit",
+            "Weirdo"
+          ]
+        },
+        "level": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Character level"
+        },
+        "health": {
+          "type": "integer",
+          "maximum": 3,
+          "minimum": 0,
+          "description": "Health (0-3 hearts)"
+        },
+        "traits": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 50
+          },
+          "maxLength": 16,
+          "description": "Personal trait names (e.g. Empathic, Courageous, …)"
+        },
+        "alignment": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Character alignment",
+          "knownValues": [
+            "Ordered",
+            "Neutral",
+            "Chaotic"
+          ]
+        },
+        "bestFriend": {
+          "type": "string",
+          "maxLength": 253,
+          "description": "Best friend (Bluesky handle)"
+        },
+        "faveColour": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "Favourite colour hex code"
+        },
+        "worstEnemy": {
+          "type": "string",
+          "maxLength": 253,
+          "description": "Worst enemy (Bluesky handle)"
+        },
+        "catchphrase": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Character catchphrase"
+        }
+      },
+      "description": "Playtopia Quest character sheet"
+    },
+    "daggerheartScar": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxGraphemes": 100
+        },
+        "effect": {
+          "type": "string",
+          "maxGraphemes": 500
+        }
+      },
+      "description": "A scar from surviving near-death"
+    },
+    "fashionistaVote": {
+      "type": "object",
+      "required": [
+        "did",
+        "createdAt"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "DID of the actor being reviewed"
+        },
+        "giving": {
+          "type": "string",
+          "maxLength": 280,
+          "description": "Optional one-liner review, e.g. 'It's giving queen energy!'"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When this vote was cast"
+        },
+        "spriteCid": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "CID of the subject's spriteSheet blob at review time. Captures what they were wearing."
+        }
+      },
+      "description": "A single yah or nah vote entry. The vote direction (yah/nah) is determined by which array it appears in."
+    },
+    "fashionistaWalk": {
+      "type": "object",
+      "properties": {
+        "events": {
+          "type": "array",
+          "items": {
+            "ref": "#fashionistaWalkEvent",
+            "type": "ref"
+          },
+          "maxLength": 500,
+          "description": "Motion events, back-to-back at ~100ms intervals"
+        },
+        "savedAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "spriteCid": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "CID of the spriteSheet used during this walk (legacy string CID; prefer spriteBlob for new records)"
+        },
+        "durationMs": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Walk duration in milliseconds"
+        },
+        "spriteBlob": {
+          "type": "blob",
+          "accept": [
+            "image/png"
+          ],
+          "maxSize": 10000000,
+          "description": "Snapshot copy of the spriteSheet worn during this walk. Permanently anchored to this record so the replay always shows the original outfit, even if the actor's .sprite is updated later."
+        }
+      },
+      "description": "A single saved catwalk walk replay. One slot per actor; overwritten on save."
+    },
+    "pathfinderStats": {
+      "type": "object",
+      "properties": {
+        "_meta": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          "description": "System metadata (name tag)"
+        },
+        "feats": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "maxLength": 100
+              },
+              "level": {
+                "type": "integer",
+                "maximum": 20,
+                "minimum": 1
+              },
+              "source": {
+                "type": "string",
+                "maxLength": 50
+              },
+              "traits": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "maxLength": 50
+                },
+                "maxLength": 20
+              }
+            }
+          },
+          "maxLength": 60,
+          "description": "Feats gained (ancestry, class, general, skill, etc.)"
+        },
+        "money": {
+          "type": "object",
+          "properties": {
+            "cp": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "gp": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "pp": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sp": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "description": "Currency in platinum, gold, silver, copper"
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 5000
+        },
+        "health": {
+          "type": "object",
+          "properties": {
+            "ac": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "max": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "temp": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "shield": {
+              "type": "object",
+              "properties": {
+                "hp": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "hardness": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "threshold": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            },
+            "current": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "description": "HP, AC, temp HP, shield"
+        },
+        "scores": {
+          "type": "object",
+          "properties": {
+            "cha": {
+              "type": "integer"
+            },
+            "con": {
+              "type": "integer"
+            },
+            "dex": {
+              "type": "integer"
+            },
+            "int": {
+              "type": "integer"
+            },
+            "str": {
+              "type": "integer"
+            },
+            "wis": {
+              "type": "integer"
+            }
+          },
+          "description": "Ability score modifiers (the +/- number, not the raw score)"
+        },
+        "speeds": {
+          "type": "object",
+          "properties": {
+            "fly": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "land": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "swim": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "climb": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "burrow": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "maxLength": 100
+              },
+              "traits": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "maxLength": 50
+                },
+                "maxLength": 20
+              },
+              "actions": {
+                "type": "string",
+                "maxLength": 20
+              },
+              "trigger": {
+                "type": "string",
+                "maxLength": 500
+              },
+              "requirements": {
+                "type": "string",
+                "maxLength": 500
+              }
+            }
+          },
+          "maxLength": 30,
+          "description": "Class/ancestry actions and reactions"
+        },
+        "attacks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "map2": {
+                "type": "integer"
+              },
+              "map3": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string",
+                "maxLength": 100
+              },
+              "range": {
+                "type": "string",
+                "maxLength": 50
+              },
+              "toHit": {
+                "type": "integer"
+              },
+              "traits": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "maxLength": 50
+                },
+                "maxLength": 20
+              },
+              "actions": {
+                "type": "string",
+                "maxLength": 20
+              },
+              "damageFlat": {
+                "type": "string",
+                "maxLength": 20
+              },
+              "damageType": {
+                "type": "string",
+                "maxLength": 50
+              },
+              "damageRolled": {
+                "type": "string",
+                "maxLength": 30
+              }
+            }
+          },
+          "maxLength": 20,
+          "description": "Strike actions"
+        },
+        "identity": {
+          "type": "object",
+          "properties": {
+            "xp": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "age": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "size": {
+              "type": "string",
+              "maxLength": 20
+            },
+            "class": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "level": {
+              "type": "integer",
+              "maximum": 20,
+              "minimum": 1
+            },
+            "likes": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "other": {
+              "type": "string",
+              "maxLength": 1000
+            },
+            "pfsId": {
+              "type": "string",
+              "maxLength": 50
+            },
+            "allies": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "edicts": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "height": {
+              "type": "string",
+              "maxLength": 50
+            },
+            "weight": {
+              "type": "string",
+              "maxLength": 50
+            },
+            "beliefs": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "classDc": {
+              "type": "integer"
+            },
+            "enemies": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "ancestry": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "attitude": {
+              "type": "string",
+              "maxLength": 200
+            },
+            "dislikes": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "heritage": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "anathemas": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "backstory": {
+              "type": "string",
+              "maxLength": 5000
+            },
+            "ethnicity": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "languages": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "maxLength": 50
+              },
+              "maxLength": 30
+            },
+            "appearance": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "background": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "birthplace": {
+              "type": "string",
+              "maxLength": 200
+            },
+            "nationality": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "organizations": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "genderPronouns": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          "description": "Character identity (ancestry, class, heritage, level, etc.)"
+        },
+        "treasure": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "maxLength": 200
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 50
+              }
+            }
+          },
+          "maxLength": 20,
+          "description": "Portable valuables and treasure items"
+        },
+        "equipment": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "maxLength": 200
+              },
+              "type": {
+                "type": "string",
+                "maxLength": 30
+              },
+              "worn": {
+                "type": "boolean"
+              },
+              "traits": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "maxLength": 50
+                },
+                "maxLength": 20
+              }
+            }
+          },
+          "maxLength": 80,
+          "description": "Gear and inventory items"
+        },
+        "conditions": {
+          "type": "object",
+          "properties": {
+            "dying": {
+              "type": "integer",
+              "maximum": 4,
+              "minimum": 0
+            },
+            "prone": {
+              "type": "boolean"
+            },
+            "broken": {
+              "type": "boolean"
+            },
+            "clumsy": {
+              "type": "integer",
+              "maximum": 4,
+              "minimum": 0
+            },
+            "doomed": {
+              "type": "integer",
+              "maximum": 3,
+              "minimum": 0
+            },
+            "hidden": {
+              "type": "boolean"
+            },
+            "slowed": {
+              "type": "integer",
+              "maximum": 3,
+              "minimum": 0
+            },
+            "blinded": {
+              "type": "boolean"
+            },
+            "dazzled": {
+              "type": "boolean"
+            },
+            "drained": {
+              "type": "integer",
+              "maximum": 4,
+              "minimum": 0
+            },
+            "fleeing": {
+              "type": "boolean"
+            },
+            "grabbed": {
+              "type": "boolean"
+            },
+            "stunned": {
+              "type": "integer",
+              "maximum": 4,
+              "minimum": 0
+            },
+            "wounded": {
+              "type": "integer",
+              "maximum": 3,
+              "minimum": 0
+            },
+            "confused": {
+              "type": "boolean"
+            },
+            "deafened": {
+              "type": "boolean"
+            },
+            "fatigued": {
+              "type": "boolean"
+            },
+            "observed": {
+              "type": "boolean"
+            },
+            "offGuard": {
+              "type": "boolean"
+            },
+            "sickened": {
+              "type": "integer",
+              "maximum": 4,
+              "minimum": 0
+            },
+            "concealed": {
+              "type": "boolean"
+            },
+            "enfeebled": {
+              "type": "integer",
+              "maximum": 4,
+              "minimum": 0
+            },
+            "invisible": {
+              "type": "boolean"
+            },
+            "paralyzed": {
+              "type": "boolean"
+            },
+            "petrified": {
+              "type": "boolean"
+            },
+            "quickened": {
+              "type": "boolean"
+            },
+            "stupified": {
+              "type": "integer",
+              "maximum": 4,
+              "minimum": 0
+            },
+            "unnoticed": {
+              "type": "boolean"
+            },
+            "controlled": {
+              "type": "boolean"
+            },
+            "cursebound": {
+              "type": "integer",
+              "maximum": 4,
+              "minimum": 0
+            },
+            "encumbered": {
+              "type": "boolean"
+            },
+            "fascinated": {
+              "type": "boolean"
+            },
+            "frightened": {
+              "type": "integer",
+              "maximum": 4,
+              "minimum": 0
+            },
+            "restrained": {
+              "type": "boolean"
+            },
+            "undetected": {
+              "type": "boolean"
+            },
+            "immobilized": {
+              "type": "boolean"
+            },
+            "unconscious": {
+              "type": "boolean"
+            },
+            "persistentDamage": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              },
+              "maxLength": 10
+            }
+          },
+          "description": "Active condition values (boolean or integer severity)"
+        },
+        "heroPoints": {
+          "type": "integer",
+          "maximum": 3,
+          "minimum": 0
+        },
+        "resistances": {
+          "type": "object",
+          "properties": {
+            "immunity": {
+              "type": "object"
+            },
+            "weakness": {
+              "type": "object"
+            },
+            "resistance": {
+              "type": "object"
+            }
+          },
+          "description": "Immunities, resistances, weaknesses (free-key objects)"
+        },
+        "spellcasting": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "dc": {
+                "type": "integer"
+              },
+              "type": {
+                "type": "string",
+                "maxLength": 30
+              },
+              "known": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "maxLength": 200
+                    },
+                    "level": {
+                      "type": "integer",
+                      "maximum": 10,
+                      "minimum": 0
+                    },
+                    "traits": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "maxLength": 60
+                      },
+                      "maxLength": 20
+                    },
+                    "actions": {
+                      "type": "string",
+                      "maxLength": 10
+                    },
+                    "prepared": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "maxLength": 100
+              },
+              "slots": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                },
+                "maxLength": 10
+              },
+              "attack": {
+                "type": "integer"
+              },
+              "points": {
+                "type": "object",
+                "properties": {
+                  "max": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "current": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              },
+              "source": {
+                "type": "string",
+                "maxLength": 100
+              },
+              "spells": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "maxLength": 200
+                    },
+                    "level": {
+                      "type": "integer",
+                      "maximum": 10,
+                      "minimum": 0
+                    },
+                    "traits": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "maxLength": 60
+                      },
+                      "maxLength": 20
+                    },
+                    "actions": {
+                      "type": "string",
+                      "maxLength": 10
+                    },
+                    "prepared": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "maxLength": 30
+              },
+              "ability": {
+                "type": "string",
+                "maxLength": 10
+              },
+              "cantrips": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "maxLength": 200
+                    },
+                    "traits": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "maxLength": 60
+                      },
+                      "maxLength": 20
+                    },
+                    "actions": {
+                      "type": "string",
+                      "maxLength": 10
+                    }
+                  }
+                },
+                "maxLength": 20
+              },
+              "tradition": {
+                "type": "string",
+                "maxLength": 30
+              }
+            }
+          },
+          "maxLength": 10,
+          "description": "Spellcasting entries (prepared, spontaneous, focus, innate, ritual)"
+        },
+        "proficiencies": {
+          "type": "object",
+          "properties": {
+            "lore": {
+              "type": "object",
+              "description": "Free-key lore skill proficiencies"
+            },
+            "armor": {
+              "type": "object",
+              "properties": {
+                "heavy": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "light": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "medium": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "unarmored": {
+                  "type": "string",
+                  "maxLength": 20
+                }
+              }
+            },
+            "saves": {
+              "type": "object",
+              "properties": {
+                "will": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "reflex": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "fortitude": {
+                  "type": "string",
+                  "maxLength": 20
+                }
+              }
+            },
+            "skills": {
+              "type": "object",
+              "properties": {
+                "arcana": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "nature": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "society": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "stealth": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "crafting": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "medicine": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "religion": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "survival": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "thievery": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "athletics": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "deception": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "diplomacy": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "occultism": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "acrobatics": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "performance": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "intimidation": {
+                  "type": "string",
+                  "maxLength": 20
+                }
+              }
+            },
+            "attacks": {
+              "type": "object",
+              "properties": {
+                "spell": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "simple": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "martial": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "unarmed": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "advanced": {
+                  "type": "string",
+                  "maxLength": 20
+                }
+              }
+            },
+            "perception": {
+              "type": "string",
+              "maxLength": 20
+            }
+          },
+          "description": "Proficiency rank strings: untrained, trained, expert, master, legendary"
+        }
+      },
+      "description": "Pathfinder 2e character sheet. All sub-objects optional."
+    },
+    "starfinderStats": {
+      "type": "object",
+      "properties": {
+        "_meta": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          "description": "System metadata (name tag)"
+        },
+        "feats": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "maxLength": 100
+              },
+              "level": {
+                "type": "integer",
+                "maximum": 20,
+                "minimum": 1
+              },
+              "source": {
+                "type": "string",
+                "maxLength": 50
+              },
+              "traits": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "maxLength": 50
+                },
+                "maxLength": 20
+              }
+            }
+          },
+          "maxLength": 60
+        },
+        "goods": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "maxLength": 200
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 50
+              }
+            }
+          },
+          "maxLength": 20,
+          "description": "Trade goods and miscellaneous valuables"
+        },
+        "money": {
+          "type": "object",
+          "properties": {
+            "upb": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "credits": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "description": "SF2e currency: credits (standard) and UPB (Universal Polymer Base, for crafting)"
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 5000
+        },
+        "health": {
+          "type": "object",
+          "properties": {
+            "ac": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "max": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "temp": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "shield": {
+              "type": "object",
+              "properties": {
+                "hp": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "hardness": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "threshold": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            },
+            "current": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "scores": {
+          "type": "object",
+          "properties": {
+            "cha": {
+              "type": "integer"
+            },
+            "con": {
+              "type": "integer"
+            },
+            "dex": {
+              "type": "integer"
+            },
+            "int": {
+              "type": "integer"
+            },
+            "str": {
+              "type": "integer"
+            },
+            "wis": {
+              "type": "integer"
+            }
+          },
+          "description": "Ability score modifiers (the +/- number)"
+        },
+        "speeds": {
+          "type": "object",
+          "properties": {
+            "fly": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "land": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "swim": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "climb": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "burrow": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "maxLength": 100
+              },
+              "traits": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "maxLength": 50
+                },
+                "maxLength": 20
+              },
+              "actions": {
+                "type": "string",
+                "maxLength": 20
+              },
+              "trigger": {
+                "type": "string",
+                "maxLength": 500
+              },
+              "requirements": {
+                "type": "string",
+                "maxLength": 500
+              }
+            }
+          },
+          "maxLength": 30
+        },
+        "attacks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "map2": {
+                "type": "integer"
+              },
+              "map3": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string",
+                "maxLength": 100
+              },
+              "range": {
+                "type": "string",
+                "maxLength": 50
+              },
+              "toHit": {
+                "type": "integer"
+              },
+              "expend": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "traits": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "maxLength": 50
+                },
+                "maxLength": 20
+              },
+              "actions": {
+                "type": "string",
+                "maxLength": 20
+              },
+              "ammunition": {
+                "type": "string",
+                "maxLength": 50
+              },
+              "damageFlat": {
+                "type": "string",
+                "maxLength": 20
+              },
+              "damageType": {
+                "type": "string",
+                "maxLength": 50
+              },
+              "ammoCapacity": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "damageRolled": {
+                "type": "string",
+                "maxLength": 30
+              }
+            }
+          },
+          "maxLength": 20,
+          "description": "Strike actions (ranged weapons include ammo tracking)"
+        },
+        "identity": {
+          "type": "object",
+          "properties": {
+            "xp": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "age": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "size": {
+              "type": "string",
+              "maxLength": 20
+            },
+            "class": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "level": {
+              "type": "integer",
+              "maximum": 20,
+              "minimum": 1
+            },
+            "likes": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "other": {
+              "type": "string",
+              "maxLength": 1000
+            },
+            "sfsId": {
+              "type": "string",
+              "maxLength": 50
+            },
+            "allies": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "edicts": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "height": {
+              "type": "string",
+              "maxLength": 50
+            },
+            "weight": {
+              "type": "string",
+              "maxLength": 50
+            },
+            "beliefs": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "classDc": {
+              "type": "integer"
+            },
+            "enemies": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "ancestry": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "attitude": {
+              "type": "string",
+              "maxLength": 200
+            },
+            "dislikes": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "heritage": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "anathemas": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "backstory": {
+              "type": "string",
+              "maxLength": 5000
+            },
+            "homeworld": {
+              "type": "string",
+              "maxLength": 200
+            },
+            "languages": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "maxLength": 50
+              },
+              "maxLength": 30
+            },
+            "appearance": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "background": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "portOfCall": {
+              "type": "string",
+              "maxLength": 200
+            },
+            "organizations": {
+              "type": "string",
+              "maxLength": 500
+            },
+            "genderPronouns": {
+              "type": "string",
+              "maxLength": 100
+            }
+          },
+          "description": "Character identity (ancestry, class, heritage, level, etc.)"
+        },
+        "equipment": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "maxLength": 200
+              },
+              "type": {
+                "type": "string",
+                "maxLength": 30
+              },
+              "worn": {
+                "type": "boolean"
+              },
+              "traits": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "maxLength": 50
+                },
+                "maxLength": 20
+              },
+              "upgrades": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "maxLength": 100
+                },
+                "maxLength": 10
+              }
+            }
+          },
+          "maxLength": 80,
+          "description": "Gear with optional tech upgrades"
+        },
+        "conditions": {
+          "type": "object",
+          "properties": {
+            "dying": {
+              "type": "integer",
+              "maximum": 4,
+              "minimum": 0
+            },
+            "prone": {
+              "type": "boolean"
+            },
+            "broken": {
+              "type": "boolean"
+            },
+            "clumsy": {
+              "type": "integer",
+              "maximum": 4,
+              "minimum": 0
+            },
+            "doomed": {
+              "type": "integer",
+              "maximum": 3,
+              "minimum": 0
+            },
+            "hidden": {
+              "type": "boolean"
+            },
+            "slowed": {
+              "type": "integer",
+              "maximum": 3,
+              "minimum": 0
+            },
+            "blinded": {
+              "type": "boolean"
+            },
+            "dazzled": {
+              "type": "boolean"
+            },
+            "drained": {
+              "type": "integer",
+              "maximum": 4,
+              "minimum": 0
+            },
+            "fleeing": {
+              "type": "boolean"
+            },
+            "grabbed": {
+              "type": "boolean"
+            },
+            "stunned": {
+              "type": "integer",
+              "maximum": 4,
+              "minimum": 0
+            },
+            "wounded": {
+              "type": "integer",
+              "maximum": 3,
+              "minimum": 0
+            },
+            "confused": {
+              "type": "boolean"
+            },
+            "deafened": {
+              "type": "boolean"
+            },
+            "fatigued": {
+              "type": "boolean"
+            },
+            "observed": {
+              "type": "boolean"
+            },
+            "offGuard": {
+              "type": "boolean"
+            },
+            "sickened": {
+              "type": "integer",
+              "maximum": 4,
+              "minimum": 0
+            },
+            "concealed": {
+              "type": "boolean"
+            },
+            "enfeebled": {
+              "type": "integer",
+              "maximum": 4,
+              "minimum": 0
+            },
+            "glitching": {
+              "type": "integer",
+              "maximum": 4,
+              "minimum": 0
+            },
+            "invisible": {
+              "type": "boolean"
+            },
+            "paralyzed": {
+              "type": "boolean"
+            },
+            "petrified": {
+              "type": "boolean"
+            },
+            "quickened": {
+              "type": "boolean"
+            },
+            "stupified": {
+              "type": "integer",
+              "maximum": 4,
+              "minimum": 0
+            },
+            "unnoticed": {
+              "type": "boolean"
+            },
+            "controlled": {
+              "type": "boolean"
+            },
+            "cursebound": {
+              "type": "integer",
+              "maximum": 4,
+              "minimum": 0
+            },
+            "encumbered": {
+              "type": "boolean"
+            },
+            "fascinated": {
+              "type": "boolean"
+            },
+            "frightened": {
+              "type": "integer",
+              "maximum": 4,
+              "minimum": 0
+            },
+            "restrained": {
+              "type": "boolean"
+            },
+            "suppressed": {
+              "type": "boolean"
+            },
+            "undetected": {
+              "type": "boolean"
+            },
+            "untethered": {
+              "type": "boolean"
+            },
+            "immobilized": {
+              "type": "boolean"
+            },
+            "unconscious": {
+              "type": "boolean"
+            },
+            "persistentDamage": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              },
+              "maxLength": 10
+            }
+          },
+          "description": "Same condition list as PF2e (shared ruleset)"
+        },
+        "heroPoints": {
+          "type": "integer",
+          "maximum": 3,
+          "minimum": 0
+        },
+        "resistances": {
+          "type": "object",
+          "properties": {
+            "immunity": {
+              "type": "object"
+            },
+            "weakness": {
+              "type": "object"
+            },
+            "resistance": {
+              "type": "object"
+            }
+          }
+        },
+        "spellcasting": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "dc": {
+                "type": "integer"
+              },
+              "type": {
+                "type": "string",
+                "maxLength": 30
+              },
+              "known": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "maxLength": 200
+                    },
+                    "level": {
+                      "type": "integer",
+                      "maximum": 10,
+                      "minimum": 0
+                    },
+                    "traits": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "maxLength": 60
+                      },
+                      "maxLength": 20
+                    },
+                    "actions": {
+                      "type": "string",
+                      "maxLength": 10
+                    },
+                    "prepared": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "maxLength": 100
+              },
+              "slots": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                },
+                "maxLength": 10
+              },
+              "attack": {
+                "type": "integer"
+              },
+              "points": {
+                "type": "object",
+                "properties": {
+                  "max": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "current": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              },
+              "source": {
+                "type": "string",
+                "maxLength": 100
+              },
+              "spells": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "maxLength": 200
+                    },
+                    "level": {
+                      "type": "integer",
+                      "maximum": 10,
+                      "minimum": 0
+                    },
+                    "traits": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "maxLength": 60
+                      },
+                      "maxLength": 20
+                    },
+                    "actions": {
+                      "type": "string",
+                      "maxLength": 10
+                    },
+                    "prepared": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "maxLength": 30
+              },
+              "ability": {
+                "type": "string",
+                "maxLength": 10
+              },
+              "cantrips": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "maxLength": 200
+                    },
+                    "traits": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "maxLength": 60
+                      },
+                      "maxLength": 20
+                    },
+                    "actions": {
+                      "type": "string",
+                      "maxLength": 10
+                    }
+                  }
+                },
+                "maxLength": 20
+              },
+              "tradition": {
+                "type": "string",
+                "maxLength": 30
+              }
+            }
+          },
+          "maxLength": 10
+        },
+        "proficiencies": {
+          "type": "object",
+          "properties": {
+            "lore": {
+              "type": "object",
+              "description": "Free-key lore skill proficiencies"
+            },
+            "armor": {
+              "type": "object",
+              "properties": {
+                "heavy": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "light": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "medium": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "unarmored": {
+                  "type": "string",
+                  "maxLength": 20
+                }
+              }
+            },
+            "saves": {
+              "type": "object",
+              "properties": {
+                "will": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "reflex": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "fortitude": {
+                  "type": "string",
+                  "maxLength": 20
+                }
+              }
+            },
+            "skills": {
+              "type": "object",
+              "properties": {
+                "arcana": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "nature": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "society": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "stealth": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "crafting": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "medicine": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "piloting": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "religion": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "survival": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "thievery": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "athletics": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "computers": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "deception": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "diplomacy": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "occultism": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "acrobatics": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "performance": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "intimidation": {
+                  "type": "string",
+                  "maxLength": 20
+                }
+              }
+            },
+            "attacks": {
+              "type": "object",
+              "properties": {
+                "heavy": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "spell": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "simple": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "martial": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "unarmed": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "advanced": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "longarms": {
+                  "type": "string",
+                  "maxLength": 20
+                },
+                "small-arms": {
+                  "type": "string",
+                  "maxLength": 20
+                }
+              }
+            },
+            "perception": {
+              "type": "string",
+              "maxLength": 20
+            }
+          },
+          "description": "Proficiency rank strings; SF2e skills include computers and piloting"
+        }
+      },
+      "description": "Starfinder 2e character sheet. All sub-objects optional."
+    },
+    "clunscannonStats": {
+      "type": "object",
+      "properties": {
+        "best": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Best distance in decimeters"
+        },
+        "_meta": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "Human-readable system name"
+            }
+          },
+          "description": "Display metadata"
+        },
+        "tries": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total number of cannon attempts"
+        },
+        "worst": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Worst distance in decimeters"
+        }
+      },
+      "description": "Clun's Cannon mini-game statistics"
+    },
+    "daggerheartArmor": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxGraphemes": 100
+        },
+        "slots": {
+          "type": "integer",
+          "maximum": 6,
+          "minimum": 0
+        },
+        "feature": {
+          "type": "string",
+          "maxGraphemes": 500
+        },
+        "armorScore": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "baseEvasion": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "description": "Equipped armor piece"
+    },
+    "daggerheartStats": {
+      "type": "object",
+      "properties": {
+        "gold": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "armor": {
+          "ref": "#daggerheartArmor",
+          "type": "ref"
+        },
+        "notes": {
+          "type": "string",
+          "maxGraphemes": 3000
+        },
+        "scars": {
+          "type": "array",
+          "items": {
+            "ref": "#daggerheartScar",
+            "type": "ref"
+          },
+          "maxLength": 10
+        },
+        "traits": {
+          "ref": "#daggerheartTraits",
+          "type": "ref"
+        },
+        "defenses": {
+          "ref": "#daggerheartDefenses",
+          "type": "ref"
+        },
+        "identity": {
+          "ref": "#daggerheartIdentity",
+          "type": "ref"
+        },
+        "inventory": {
+          "type": "array",
+          "items": {
+            "ref": "#daggerheartInventoryItem",
+            "type": "ref"
+          },
+          "maxLength": 50
+        },
+        "resources": {
+          "ref": "#daggerheartResources",
+          "type": "ref"
+        },
+        "connections": {
+          "type": "string",
+          "maxGraphemes": 1000
+        },
+        "domainCards": {
+          "type": "array",
+          "items": {
+            "ref": "#daggerheartDomainCard",
+            "type": "ref"
+          },
+          "maxLength": 20
+        },
+        "experiences": {
+          "type": "array",
+          "items": {
+            "ref": "#daggerheartExperience",
+            "type": "ref"
+          },
+          "maxLength": 20
+        },
+        "proficiency": {
+          "ref": "#daggerheartProficiency",
+          "type": "ref"
+        },
+        "classFeatures": {
+          "type": "string",
+          "maxGraphemes": 2000
+        },
+        "weaponPrimary": {
+          "ref": "#daggerheartWeapon",
+          "type": "ref"
+        },
+        "weaponSecondary": {
+          "ref": "#daggerheartWeapon",
+          "type": "ref"
+        }
+      },
+      "description": "Daggerheart TTRPG character sheet root (Darrington Press, DPCGL licensed)"
+    },
+    "fashionistaStats": {
+      "type": "object",
+      "properties": {
+        "nah": {
+          "type": "array",
+          "items": {
+            "ref": "#fashionistaVote",
+            "type": "ref"
+          },
+          "maxLength": 100,
+          "description": "Actors this player rated nah, newest first. Lives on the reviewer's own PDS."
+        },
+        "yah": {
+          "type": "array",
+          "items": {
+            "ref": "#fashionistaVote",
+            "type": "ref"
+          },
+          "maxLength": 100,
+          "description": "Actors this player rated yah, newest first. Lives on the reviewer's own PDS."
+        },
+        "rude": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 100
+          },
+          "maxLength": 500,
+          "description": "DIDs of voters whose ratings are hidden from this actor's profile. Managed by the actor themselves."
+        },
+        "walk": {
+          "ref": "#fashionistaWalk",
+          "type": "ref",
+          "description": "The actor's saved best catwalk replay. One slot; overwritten on save."
+        },
+        "_meta": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "Human-readable system name"
+            }
+          },
+          "description": "Display metadata"
+        },
+        "serving": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Self-declared style vibe, e.g. 'flicness with a hint of retro'"
+        }
+      },
+      "description": "Fashionista style game. Tracks the actor's self-declared vibe, their outfit and walk snapshots, and their yah/nah taste reviews of others. Reviews on others live on the reviewer's own PDS; the server aggregates incoming reviews for display."
+    },
+    "mageVariableStat": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "maxLength": 50
+        },
+        "value": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        }
+      },
+      "description": "A variable-titled background or trait with a dot value."
+    },
+    "vampireAdvantage": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Name of the advantage"
+        },
+        "value": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        }
+      },
+      "description": "A named advantage slot (background, merit, flaw, or haven feature) with a dot value."
+    },
+    "daggerheartTraits": {
+      "type": "object",
+      "properties": {
+        "agi": {
+          "type": "integer",
+          "maximum": 6,
+          "minimum": -2,
+          "description": "Agility"
+        },
+        "fin": {
+          "type": "integer",
+          "maximum": 6,
+          "minimum": -2,
+          "description": "Finesse"
+        },
+        "ins": {
+          "type": "integer",
+          "maximum": 6,
+          "minimum": -2,
+          "description": "Instinct"
+        },
+        "knw": {
+          "type": "integer",
+          "maximum": 6,
+          "minimum": -2,
+          "description": "Knowledge (KNW)"
+        },
+        "prs": {
+          "type": "integer",
+          "maximum": 6,
+          "minimum": -2,
+          "description": "Presence"
+        },
+        "str": {
+          "type": "integer",
+          "maximum": 6,
+          "minimum": -2,
+          "description": "Strength"
+        }
+      },
+      "description": "Six core traits scored −2 to +6"
+    },
+    "daggerheartWeapon": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxGraphemes": 100
+        },
+        "range": {
+          "type": "string",
+          "maxGraphemes": 50
+        },
+        "trait": {
+          "type": "string",
+          "description": "AGI/STR/FIN/INS/PRS/KNO",
+          "maxGraphemes": 20
+        },
+        "burden": {
+          "type": "string",
+          "description": "One-handed, Two-handed, etc.",
+          "maxGraphemes": 50
+        },
+        "feature": {
+          "type": "string",
+          "maxGraphemes": 500
+        },
+        "damageDie": {
+          "type": "string",
+          "maxGraphemes": 10
+        },
+        "damageType": {
+          "type": "string",
+          "maxGraphemes": 50
+        },
+        "damageBonus": {
+          "type": "integer"
+        }
+      },
+      "description": "A weapon loadout slot"
+    },
+    "vampireDiscipline": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Discipline name (Animalism, Auspex, Celerity, etc.)"
+        },
+        "value": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0
+        },
+        "power1": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "power2": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "power3": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "power4": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "power5": {
+          "type": "string",
+          "maxLength": 100
+        }
+      },
+      "description": "One Discipline slot: selected type, dot rating, and named powers."
+    },
+    "cyberpunk2020Stats": {
+      "type": "object",
+      "properties": {
+        "ma": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0,
+          "description": "Movement Allowance"
+        },
+        "age": {
+          "type": "string",
+          "maxLength": 16
+        },
+        "emp": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0,
+          "description": "Empathy (modified, after cyberware)"
+        },
+        "int": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0,
+          "description": "Intelligence"
+        },
+        "ref": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0,
+          "description": "Reflexes (modified, after cyberware)"
+        },
+        "attr": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0,
+          "description": "Attractiveness"
+        },
+        "body": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0,
+          "description": "Body Type"
+        },
+        "btwc": {
+          "type": "integer",
+          "description": "Body Type Modifier (BTM, negative values allowed)"
+        },
+        "cool": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0,
+          "description": "Cool"
+        },
+        "luck": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0,
+          "description": "Luck"
+        },
+        "role": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Character role (Rockerboy, Solo, Netrunner, Techie, Medtechie, Media, Cop, Corporate, Fixer, Nomad)"
+        },
+        "save": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Save value (equals Body Type)"
+        },
+        "tech": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0,
+          "description": "Technical Ability"
+        },
+        "dance": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "dodge": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "melee": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "rifle": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "ware1": {
+          "ref": "#cpWare",
+          "type": "ref"
+        },
+        "ware2": {
+          "ref": "#cpWare",
+          "type": "ref"
+        },
+        "ware3": {
+          "ref": "#cpWare",
+          "type": "ref"
+        },
+        "ware4": {
+          "ref": "#cpWare",
+          "type": "ref"
+        },
+        "ware5": {
+          "ref": "#cpWare",
+          "type": "ref"
+        },
+        "ware6": {
+          "ref": "#cpWare",
+          "type": "ref"
+        },
+        "ware7": {
+          "ref": "#cpWare",
+          "type": "ref"
+        },
+        "ware8": {
+          "ref": "#cpWare",
+          "type": "ref"
+        },
+        "ware9": {
+          "ref": "#cpWare",
+          "type": "ref"
+        },
+        "avTech": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "botany": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "gamble": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "gender": {
+          "type": "string",
+          "maxLength": 32
+        },
+        "handle": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Street name / handle"
+        },
+        "ware10": {
+          "ref": "#cpWare",
+          "type": "ref"
+        },
+        "archery": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "biology": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "cpNotes": {
+          "type": "string",
+          "maxLength": 5000
+        },
+        "driving": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "empBase": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0,
+          "description": "Empathy base (unmodified)"
+        },
+        "fencing": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "forgery": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "geology": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "handgun": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "library": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "oratory": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "perform": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "physics": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "refBase": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0,
+          "description": "Reflexes base (unmodified)"
+        },
+        "stealth": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "totalHp": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total hit points"
+        },
+        "weapon1": {
+          "ref": "#cpWeapon",
+          "type": "ref"
+        },
+        "weapon2": {
+          "ref": "#cpWeapon",
+          "type": "ref"
+        },
+        "weapon3": {
+          "ref": "#cpWeapon",
+          "type": "ref"
+        },
+        "weapon4": {
+          "ref": "#cpWeapon",
+          "type": "ref"
+        },
+        "weapon5": {
+          "ref": "#cpWeapon",
+          "type": "ref"
+        },
+        "zoology": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "aeroTech": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "armor1ev": {
+          "type": "string",
+          "maxLength": 8
+        },
+        "armor1sp": {
+          "type": "string",
+          "maxLength": 8
+        },
+        "armor2ev": {
+          "type": "string",
+          "maxLength": 8
+        },
+        "armor2sp": {
+          "type": "string",
+          "maxLength": 8
+        },
+        "armor3ev": {
+          "type": "string",
+          "maxLength": 8
+        },
+        "armor3sp": {
+          "type": "string",
+          "maxLength": 8
+        },
+        "armor4ev": {
+          "type": "string",
+          "maxLength": 8
+        },
+        "armor4sp": {
+          "type": "string",
+          "maxLength": 8
+        },
+        "armor5ev": {
+          "type": "string",
+          "maxLength": 8
+        },
+        "armor5sp": {
+          "type": "string",
+          "maxLength": 8
+        },
+        "armor6ev": {
+          "type": "string",
+          "maxLength": 8
+        },
+        "armor6sp": {
+          "type": "string",
+          "maxLength": 8
+        },
+        "armor7ev": {
+          "type": "string",
+          "maxLength": 8
+        },
+        "armor7sp": {
+          "type": "string",
+          "maxLength": 8
+        },
+        "brawling": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "campaign": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "disguise": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "firstAid": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "gyroTech": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "humanity": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Humanity score (may include fractional e.g. '38/40')"
+        },
+        "pickLock": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "swimming": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "teaching": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "athletics": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "basicTech": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "chemistry": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "currentHp": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Current hit points"
+        },
+        "currentIP": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Current Improvement Points"
+        },
+        "education": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "endurance": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "hideEvade": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "interview": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "language1": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "language2": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "paintDraw": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "paramedic": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "seduction": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "socialEmp": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "accounting": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "cryotankOp": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "electroSec": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "historyGen": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "intimidate": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "leadership": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "motorcycle": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "persuasion": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "pickPocket": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "pilotFixed": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "pilotRotor": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "reputation": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Street reputation label / notes"
+        },
+        "roleSkill1": {
+          "ref": "#cpRoleSkill",
+          "type": "ref",
+          "description": "Primary role ability"
+        },
+        "streetwise": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "wilderness": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "woundLight": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0,
+          "description": "Light wounds sustained (0–5 pip track)"
+        },
+        "composition": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "demolitions": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "martialArts": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "mathematics": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "nationality": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "photography": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "stockMarket": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "anthropology": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "electronics2": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "expertiseInt": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "heavyWeapons": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "strengthFeat": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "weaponsSmith": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "woundMortal0": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0,
+          "description": "Mortal 0 wounds"
+        },
+        "woundMortal1": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0,
+          "description": "Mortal 1 wounds"
+        },
+        "woundMortal2": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0,
+          "description": "Mortal 2 wounds"
+        },
+        "woundMortal3": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0,
+          "description": "Mortal 3 wounds"
+        },
+        "woundSerious": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0,
+          "description": "Serious wounds"
+        },
+        "cybertechTech": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "interrogation": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "pilotVectored": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "submachinegun": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "wardrobeStyle": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "woundCritical": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 0,
+          "description": "Critical wounds"
+        },
+        "playInstrument": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "resistTortDrug": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "awarenessNotice": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "diagnoseIllness": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "humanPerception": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "systemKnowledge": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        },
+        "personalGrooming": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0
+        }
+      },
+      "description": "Cyberpunk 2020 character sheet."
+    },
+    "daggerheartDefenses": {
+      "type": "object",
+      "properties": {
+        "evasion": {
+          "type": "integer",
+          "maximum": 30,
+          "minimum": 0
+        },
+        "armorScore": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0,
+          "description": "Damage reduced by armor"
+        },
+        "armorSlotsMax": {
+          "type": "integer",
+          "maximum": 6,
+          "minimum": 0,
+          "description": "Total armor slot capacity"
+        },
+        "armorSlotsUsed": {
+          "type": "integer",
+          "maximum": 6,
+          "minimum": 0,
+          "description": "Armor slots currently spent"
+        }
+      },
+      "description": "Evasion and armor tracking"
+    },
+    "daggerheartIdentity": {
+      "type": "object",
+      "properties": {
+        "xp": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "tier": {
+          "type": "integer",
+          "maximum": 4,
+          "minimum": 1
+        },
+        "class": {
+          "type": "string",
+          "maxGraphemes": 100
+        },
+        "level": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 1
+        },
+        "ancestry": {
+          "type": "string",
+          "maxGraphemes": 100
+        },
+        "pronouns": {
+          "type": "string",
+          "maxGraphemes": 50
+        },
+        "subclass": {
+          "type": "string",
+          "maxGraphemes": 100
+        },
+        "community": {
+          "type": "string",
+          "maxGraphemes": 100
+        },
+        "background": {
+          "type": "string",
+          "description": "Character backstory and background",
+          "maxGraphemes": 2000
+        },
+        "ancestryFeature": {
+          "type": "string",
+          "description": "Text of chosen ancestry feature (A or B)",
+          "maxGraphemes": 1000
+        },
+        "subclassFeature": {
+          "type": "string",
+          "description": "Subclass feature description",
+          "maxGraphemes": 1000
+        },
+        "communityFeature": {
+          "type": "string",
+          "description": "Community feature bonus text",
+          "maxGraphemes": 1000
+        }
+      },
+      "description": "Character identity for Daggerheart"
+    },
+    "fashionistaFitLayer": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 30,
+          "description": "Layer category (e.g. 'tops', 'hair')"
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "colors": {
+          "type": "object",
+          "properties": {
+            "main": {
+              "type": "string",
+              "maxLength": 7
+            },
+            "sub1": {
+              "type": "string",
+              "maxLength": 7
+            },
+            "sub2": {
+              "type": "string",
+              "maxLength": 7
+            },
+            "sub3": {
+              "type": "string",
+              "maxLength": 7
+            }
+          }
+        },
+        "assetName": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Generator asset or item identifier"
+        },
+        "behindRows": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "maximum": 3,
+            "minimum": 0
+          },
+          "maxLength": 4,
+          "description": "Row indices where this layer composites behind the body"
+        }
+      },
+      "description": "A single layer in a fit snapshot — config only, no blob."
+    },
+    "daggerheartResources": {
+      "type": "object",
+      "properties": {
+        "hpMax": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "hopeMax": {
+          "type": "integer",
+          "maximum": 6,
+          "minimum": 1
+        },
+        "hpCurrent": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "stressMax": {
+          "type": "integer",
+          "maximum": 6,
+          "minimum": 1
+        },
+        "deathMarks": {
+          "type": "integer",
+          "maximum": 3,
+          "minimum": 0,
+          "description": "Marks made when HP reaches 0; 3 = character death"
+        },
+        "hopeCurrent": {
+          "type": "integer",
+          "maximum": 6,
+          "minimum": 0
+        },
+        "deathMarkMax": {
+          "type": "integer",
+          "maximum": 3,
+          "minimum": 1,
+          "description": "Number of death marks before character dies (usually 3)"
+        },
+        "stressCurrent": {
+          "type": "integer",
+          "maximum": 6,
+          "minimum": 0
+        },
+        "hpMajorThreshold": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Damage at or below this = Major Damage"
+        },
+        "hpMinorThreshold": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Damage at or below this = Minor Damage"
+        },
+        "hpSevereThreshold": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Damage above Major threshold = Severe Damage"
+        }
+      },
+      "description": "HP, Stress, and Hope pools"
+    },
+    "fashionistaWalkEvent": {
+      "type": "object",
+      "required": [
+        "t",
+        "type"
+      ],
+      "properties": {
+        "t": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Timestamp offset in milliseconds from walk start"
+        },
+        "x": {
+          "type": "integer",
+          "maximum": 1000,
+          "minimum": 0,
+          "description": "Normalised x position * 1000 (e.g. 480 = 0.480)"
+        },
+        "y": {
+          "type": "integer",
+          "maximum": 1000,
+          "minimum": 0,
+          "description": "Normalised y position * 1000 (e.g. 310 = 0.310)"
+        },
+        "dir": {
+          "type": "string",
+          "maxLength": 5,
+          "description": "Facing direction: up, down, left, right"
+        },
+        "type": {
+          "type": "string",
+          "maxLength": 10,
+          "description": "Event type: start, pos, jump, twirl, spin, exit"
+        }
+      },
+      "description": "A single motion event in a walk replay. x/y are normalised position * 1000 (0–1000 = 0.000–1.000)."
+    },
+    "daggerheartDomainCard": {
+      "type": "object",
+      "required": [
+        "name",
+        "domain"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxGraphemes": 100
+        },
+        "domain": {
+          "type": "string",
+          "description": "Arcana/Blade/Bone/Codex/Grace/Midnight/Sage/Splendor/Valor/Void",
+          "maxGraphemes": 20
+        },
+        "cardTier": {
+          "type": "integer",
+          "maximum": 3,
+          "minimum": 1,
+          "description": "1=Foundation, 2=Specialization, 3=Mastery"
+        },
+        "recallCost": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "description": {
+          "type": "string",
+          "maxGraphemes": 1000
+        }
+      },
+      "description": "A domain ability card"
+    },
+    "daggerheartExperience": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxGraphemes": 100
+        },
+        "description": {
+          "type": "string",
+          "maxGraphemes": 500
+        }
+      },
+      "description": "A character experience (background/trait bonus)"
+    },
+    "daggerheartProficiency": {
+      "type": "object",
+      "properties": {
+        "die": {
+          "type": "string",
+          "description": "d4, d6, d8, or d10",
+          "maxGraphemes": 4
+        },
+        "notes": {
+          "type": "string",
+          "maxGraphemes": 500
+        }
+      },
+      "description": "Proficiency die tier"
+    },
+    "daggerheartInventoryItem": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxGraphemes": 100
+        },
+        "quantity": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "description": {
+          "type": "string",
+          "maxGraphemes": 500
+        }
+      },
+      "description": "An inventory item"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "RPG character statistics for multiple game systems. Per-system rkey records are primary; legacy self records are compatibility-only."
+}

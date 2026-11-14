@@ -1,0 +1,141 @@
+{
+  "id": "science.astro-colibri.alert.ac",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "alertType",
+          "observatory",
+          "broker",
+          "triggerID",
+          "astroColibriID",
+          "data",
+          "createdAt"
+        ],
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {},
+            "description": "Full event object in Astro-COLIBRI's native JSON format, exactly as published on the astrocolibri.important.JSON Kafka topic (the fields /get_event returns; see https://astro-colibri.science/apidoc#voevent_section). The AT Protocol data model has no floating-point numbers, so every float is written as a string wrapped in № markers (for example \"№182.6365№\"), the convention of the nebra package, whose stream decodes them back to floats. Integers, booleans, strings and nulls are unchanged. The payload is intentionally open to preserve event-specific fields."
+          },
+          "broker": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "Broker, classifier, or service that submitted the event. Known values come from the general filter, plus GCN and TNS as emitted by the listeners. An empty string means unspecified; additional brokers are allowed.",
+            "knownValues": [
+              "FLAAPLUC",
+              "CBAT",
+              "FINK",
+              "ampel",
+              "unistellar",
+              "bhtom",
+              "last",
+              "GCN",
+              "TNS"
+            ]
+          },
+          "alertType": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "Event or source type used by Astro-COLIBRI. Includes transient classes, catalogue source classes, and tilepy observation tiles. Known values retain the spelling used by the filters and listeners; additional values are allowed.",
+            "knownValues": [
+              "burst",
+              "frb",
+              "grb",
+              "grb_optical",
+              "gw",
+              "gw_optical",
+              "neutrino",
+              "nuem",
+              "ot",
+              "ot_other",
+              "ot_sn",
+              "star"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp when this AT Protocol alert record was created, including a timezone (prefer UTC with a Z suffix). This is distinct from the event detection time in data."
+          },
+          "important": {
+            "type": "boolean",
+            "description": "Whether this alert qualifies for the Astro-COLIBRI important stream. This is separate from the VOEvent Why.importance value. See https://astro-colibri.science/brokerdoc#important for the criteria."
+          },
+          "triggerID": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "Trigger identifier used by Astro-COLIBRI for the event, matching data.trigger_id in the native JSON payload."
+          },
+          "instrument": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "Instrument or analysis that detected or localized the event, when known. Additional instruments are allowed.",
+            "knownValues": [
+              "BAT",
+              "BAT-GUANO",
+              "ECLAIRs",
+              "FXT",
+              "GBM",
+              "GBM-BALROG",
+              "GRM",
+              "GSC",
+              "LAT",
+              "LAT-FLaapLUC",
+              "LEIA",
+              "MXT",
+              "UVOT",
+              "VT",
+              "WXT",
+              "XRT"
+            ]
+          },
+          "observatory": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "Discovery observatory, experiment, or source catalogue. Known values include filter labels and spellings emitted by the listeners; additional observatories are allowed.",
+            "knownValues": [
+              "AMON",
+              "ASKAP",
+              "ATCA",
+              "ATLAS",
+              "CHIME",
+              "CHIMEFRB",
+              "CRAFT",
+              "Einstein Probe",
+              "FAST",
+              "GECAM",
+              "HAWC",
+              "IPN",
+              "Integral",
+              "LAST",
+              "LOFAR",
+              "LSST",
+              "MASTER",
+              "MAXI",
+              "MWA",
+              "MeerKAT",
+              "Pan-STARRS",
+              "Parkes",
+              "Rubin",
+              "UTMOST",
+              "VLA",
+              "ZTF"
+            ]
+          },
+          "astroColibriID": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "Unique event identifier assigned by Astro-COLIBRI. It identifies the same event across revisions and payload formats."
+          }
+        }
+      },
+      "description": "Astro-COLIBRI alert with the full event in Astro-COLIBRI's native JSON format. Astro-COLIBRI publishes one science.astro-colibri.alert.ac and one science.astro-colibri.alert.vo2 record per alert on its important stream, under the same record key, so the two can be paired. See https://astro-colibri.science/atprotodoc. Use of the data is subject to the Astro-COLIBRI terms of use, which allow non-commercial use only: https://astro-colibri.science/tos#data-usage."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

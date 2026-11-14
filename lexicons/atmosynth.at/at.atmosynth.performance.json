@@ -1,0 +1,327 @@
+{
+  "id": "at.atmosynth.performance",
+  "defs": {
+    "loop": {
+      "type": "object",
+      "required": [
+        "instanceId",
+        "tick"
+      ],
+      "properties": {
+        "tick": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "How far it had reached, 96 to the beat, as decimal text, since a loop is rarely caught on a whole tick. For a sequencer playing a loop of its own, the tick of its pattern; for anything else, ticks from its downbeat: an arranger's from its song's first beat, an automation block's into its lane, a scenes block's from the downbeat its lines are counted from, and a sequencer an arranger or a scenes block chooses the loops of from its own."
+        },
+        "scene": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "For a scenes block: the scene it was playing, by its place in the block's `scenes`. It may not be the patch's `scene`, where another had been chosen and had not yet taken over. Optional: absent is the patch's."
+        },
+        "since": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "For a scenes block: how many ticks before the beginning that scene took over, as decimal text, which is where the loops it starts from their first step count from. Optional: absent is a scene playing since before anything was counted."
+        },
+        "instanceId": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1,
+          "description": "What is playing, by its instance id in the patch: a sequencer, an arranger, a scenes block or an automation block."
+        }
+      },
+      "description": "One thing on the transport, playing: a sequencer's loop, an arranger's song, a scenes block, or an automation block's lane."
+    },
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "patch",
+          "players",
+          "startedAt",
+          "length",
+          "timeline",
+          "audio",
+          "createdAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 128
+            },
+            "maxLength": 32,
+            "description": "Freely created tags, lower-cased on write."
+          },
+          "audio": {
+            "type": "array",
+            "items": {
+              "type": "blob",
+              "accept": [
+                "audio/wav",
+                "audio/flac"
+              ],
+              "maxSize": 52428800
+            },
+            "maxLength": 256,
+            "minLength": 1,
+            "description": "What it sounded like, lossless, in pieces heard one after another with no gap between them, together lasting `length`. Every note and change sounds where the timeline puts it, which is when the room had it happen and not when any one device heard it. It is what an app plays that has no engine; the timeline is what an app with one plays through the patch. The two are the same performance."
+          },
+          "loops": {
+            "type": "array",
+            "items": {
+              "ref": "#loop",
+              "type": "ref"
+            },
+            "maxLength": 256,
+            "description": "The loops already playing when it began, each at the tick it had reached: a sequencer's loop, an arranger's song, a scenes block or an automation block's lane, each on the transport as a loop is. One named here plays on from that tick; one not named was stopped. Optional: absent is every loop stopped."
+          },
+          "patch": {
+            "type": "unknown",
+            "description": "The patch as it stood when the performance began: an at.atmosynth.patch record, `$type` and all, held here whole, so the performance plays without reading anything else. Played in a room it is the room's patch, unpublished changes included. The timeline's changes are made to it in order: the patch at any moment is this one with every change before that moment made."
+          },
+          "length": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "How long it lasts, in microseconds. Every time in a performance is in microseconds, counted from its beginning, on the clock it was played on: in a room the room's, so that two people who kept the same stretch kept the same moments, whenever each of them heard them."
+          },
+          "license": {
+            "ref": "at.atmosynth.defs#license",
+            "type": "ref"
+          },
+          "lineage": {
+            "type": "array",
+            "items": {
+              "ref": "at.atmosynth.defs#lineage",
+              "type": "ref"
+            },
+            "maxLength": 64,
+            "description": "What it came from beyond its own patch, whose instruments credit their makers in the patch's own lineage."
+          },
+          "players": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "did"
+            },
+            "maxLength": 64,
+            "minLength": 1,
+            "description": "Everybody who played a note or changed the sound in it, each once, and nobody else: who it credits. Each event of the timeline names one of them. Whoever recorded it is among them, since only somebody who played in a performance keeps it."
+          },
+          "playedOn": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The published patch it was played on, as published when it began. It says where the performance happened, and `patch` is what was played, which may hold more than was published then. Optional permanently: absent is a patch never published."
+          },
+          "timeline": {
+            "type": "array",
+            "items": {
+              "type": "blob",
+              "accept": [
+                "application/json"
+              ],
+              "maxSize": 52428800
+            },
+            "maxLength": 64,
+            "minLength": 1,
+            "description": "What happened, in order: each piece a JSON array of #event, each event no earlier than the one before it, and the pieces, read one after another, the whole of it. In blobs rather than here because a long performance in a busy room outgrows a record. Replaying it through `patch` is the performance played again."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "startedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When it began."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000
+          },
+          "patchPresentation": {
+            "type": "unknown",
+            "description": "How `patch` was drawn when the performance began: an at.atmosynth.patchPresentation record, `$type` and all, held here whole beside it. Nothing heard depends on it, and a reader that only plays ignores it. Optional: absent is a patch drawn from what it says itself."
+          }
+        }
+      },
+      "description": "A performance, held in the repository of whoever recorded it."
+    },
+    "event": {
+      "type": "object",
+      "required": [
+        "at",
+        "by",
+        "what"
+      ],
+      "properties": {
+        "at": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "When, in microseconds from the beginning, no later than the performance's `length`."
+        },
+        "by": {
+          "type": "string",
+          "format": "did",
+          "description": "Who: one of the performance's `players`."
+        },
+        "what": {
+          "refs": [
+            "#played",
+            "#moved",
+            "#changed",
+            "#started",
+            "#stopped",
+            "#switched"
+          ],
+          "type": "union"
+        }
+      },
+      "description": "One thing that happened in a performance, when, and who did it. Never in a record: a performance's timeline is a JSON array of these."
+    },
+    "moved": {
+      "type": "object",
+      "required": [
+        "instanceId",
+        "parameterId"
+      ],
+      "properties": {
+        "value": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "The value, as text, as the patch writes one."
+        },
+        "instanceId": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        },
+        "useDefault": {
+          "type": "boolean",
+          "description": "Set where the parameter goes back to its module's default, in place of a value."
+        },
+        "parameterId": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        }
+      },
+      "description": "One parameter of one instance set, as a turn of a knob sets it: the patch's `parameterValues` entry for it, from this moment on."
+    },
+    "played": {
+      "type": "object",
+      "required": [
+        "key",
+        "velocity"
+      ],
+      "properties": {
+        "key": {
+          "type": "integer",
+          "maximum": 127,
+          "minimum": 0
+        },
+        "block": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1,
+          "description": "The Keyboard block it was played into, by instance id. Optional: absent is the player through no block."
+        },
+        "velocity": {
+          "type": "integer",
+          "maximum": 127,
+          "minimum": 0,
+          "description": "How hard, and nought for letting the key go."
+        }
+      },
+      "description": "A key struck or let go, as a room passes it on: what reaches the patch, after any arpeggiator of the player's own."
+    },
+    "changed": {
+      "type": "object",
+      "required": [
+        "patch"
+      ],
+      "properties": {
+        "patch": {
+          "type": "unknown",
+          "description": "The patch from this moment on: an at.atmosynth.patch record, `$type` and all."
+        },
+        "patchPresentation": {
+          "type": "unknown",
+          "description": "How the patch is drawn from this moment on: an at.atmosynth.patchPresentation record, `$type` and all, held whole. Nothing heard depends on it. Optional: absent leaves it drawn as it was before this change."
+        }
+      },
+      "description": "Any other change to the patch: an instance added or taken away, a wire connected or disconnected, the note plane, a pattern, a song, a scene, the tempo. Each is the whole patch as it stands after it, so a reader that can load a patch can replay every one. A change nobody can hear, such as where a block is drawn, may be left out."
+    },
+    "started": {
+      "type": "object",
+      "required": [
+        "tick"
+      ],
+      "properties": {
+        "tick": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "How far it starts from at this moment, 96 to the beat, as decimal text, as a loop's `tick` says it: a song started from a section starts from that section's first tick."
+        },
+        "instanceId": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1,
+          "description": "The sequencer, arranger, scenes block or automation block. Optional: absent is everything on the transport in the patch."
+        }
+      },
+      "description": "Something on the transport starting, or everything: a sequencer's loop, an arranger's song, a scenes block or an automation block's lane. The moment is when it was heard to start, not when it was asked for."
+    },
+    "stopped": {
+      "type": "object",
+      "properties": {
+        "instanceId": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1,
+          "description": "The sequencer, arranger, scenes block or automation block. Optional: absent is everything on the transport in the patch."
+        }
+      },
+      "description": "Something on the transport stopping, or everything."
+    },
+    "switched": {
+      "type": "object",
+      "required": [
+        "instanceId",
+        "scene",
+        "tick"
+      ],
+      "properties": {
+        "tick": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Where on the scenes block it takes over, in ticks from its downbeat, 96 to the beat, as decimal text: the line it was heard on."
+        },
+        "scene": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The scene taking over, by its place in the block's `scenes` at this moment."
+        },
+        "instanceId": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1,
+          "description": "The scenes block."
+        }
+      },
+      "description": "A scene taking over on a scenes block. The moment is when it was heard to take over, on the line the block's launch put it on, not when it was chosen: choosing it was a change to the patch's `scene`, a `#changed` at the moment it was chosen."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A performance: everything one person or several played together on a patch, in the now, kept whole. Every note, every move of a parameter and every other change to the patch, each by whoever made it, on one timeline, with what it sounded like. Whoever played in it and recorded it keeps it, in their own repository, with everybody else's playing in it; several of them may each keep their own."
+}

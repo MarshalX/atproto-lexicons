@@ -1,0 +1,42 @@
+{
+  "id": "app.zeens.getCollections",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "actor"
+        ],
+        "properties": {
+          "actor": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the collection owner."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "viewer": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the requester. When equal to actor, private collections are included."
+          }
+        }
+      },
+      "description": "List collections owned by an actor. Private collections are only returned when viewer == actor.",
+      "target_collection": "app.zeens.collection"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

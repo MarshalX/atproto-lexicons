@@ -1,0 +1,39 @@
+[project]
+name = "atproto-lexicons"
+version = "0.0.0" # placeholder: the release workflow sets a calendar version
+description = "Models and clients for third-party AT Protocol lexicons, generated for the Python atproto SDK"
+authors = [
+    {name = "Ilya (Marshal)", email = "ilya@marshal.dev"}
+]
+license = "MIT"
+requires-python = ">=3.9,<3.16"
+readme = "README.md"
+keywords = ["atproto", "atprotocol", "lexicon", "bluesky", "sdk", "codegen"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "atproto>=0.0.75",
+]
+
+[project.urls]
+repository = "https://github.com/MarshalX/atproto-lexicons"
+
+[tool.poetry]
+requires-poetry = ">=2.3"
+packages = [
+    { include = "atproto_lexicons" },
+]
+# the generated code is git-ignored, and Poetry leaves ignored files out unless listed
+include = [
+    { path = "atproto_lexicons/**/*.py", format = ["sdist", "wheel"] },
+    { path = "atproto_lexicons/py.typed", format = ["sdist", "wheel"] },
+]
+
+[build-system]
+requires = ["poetry-core>=2.0.0"]
+build-backend = "poetry.core.masonry.api"

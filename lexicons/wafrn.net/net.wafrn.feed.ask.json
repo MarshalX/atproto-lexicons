@@ -1,0 +1,32 @@
+{
+  "id": "net.wafrn.feed.ask",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "question",
+          "createdAt"
+        ],
+        "properties": {
+          "subject": {
+            "type": "string"
+          },
+          "question": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Record declaring an 'ask' of a question to a subject user."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

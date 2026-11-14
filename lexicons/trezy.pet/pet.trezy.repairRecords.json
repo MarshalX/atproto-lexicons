@@ -1,0 +1,167 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Report, clean up, or repair the caller's own game records. Acts only on the authenticated caller's repo; it never accepts a DID.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "action": {
+              "description": "status reports and mutates nothing; cleanup deletes the caller's rogue records from their repo; repair rebuilds the wallet from the server-side high-water mark and re-signs it; restore writes back pet records the server-side ledger has and the caller's repo does not; migrate-awards moves badge awards from the achievement-id keys they were first written under to the TID keys the awards ledger recorded for them. ⚠ `status` IS THE DRY RUN FOR migrate-awards — it reports `strandedAwards` using the same function that does the moving, so the count cannot disagree with the work.",
+              "knownValues": [
+                "status",
+                "cleanup",
+                "repair",
+                "restore",
+                "migrate-awards"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "action"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "action": {
+              "description": "The action that was performed, echoed back.",
+              "knownValues": [
+                "status",
+                "cleanup",
+                "repair",
+                "restore",
+                "migrate-awards"
+              ],
+              "type": "string"
+            },
+            "collected": {
+              "description": "The high-water total this instance has issued the caller, absent when they have never collected.",
+              "type": "integer"
+            },
+            "deletedCount": {
+              "description": "Records removed from the caller's repo by this call. Zero for status and repair, and zero is a success rather than an error.",
+              "type": "integer"
+            },
+            "error": {
+              "description": "Present INSTEAD OF the whole report when the call was refused for an expected reason. A stable machine code the client branches on — add codes, never rename them. Its presence is why nothing below is `required`: a refusal carries none of those fields, and requiring even one would fail response validation and turn an expected refusal back into a 500.",
+              "knownValues": [
+                "unknown-action"
+              ],
+              "type": "string"
+            },
+            "lastUpdated": {
+              "description": "THE ACCRUAL ANCHOR, NOT A WRITE TIME. Income is measured FROM this moment, so it is where the next payout starts rather than when this record was last saved. The two usually coincide, because a settle banks everything and moves the anchor to now — but a PARTIAL collect advances it only as far as the coins actually taken, leaving it EARLIER than the write that produced it. Reading it as \"when the wallet was last written\" has already cost this project one wrong diagnosis. It is deliberately NOT renamed: it sits inside the signed payload, so changing it would invalidate every wallet attestation ever issued and require rewriting records in players' repos.",
+              "format": "datetime",
+              "type": "string"
+            },
+            "message": {
+              "description": "A sentence to show the player, accompanying `error`. Free to reword; do not branch on it.",
+              "type": "string"
+            },
+            "migratedCount": {
+              "description": "Awards moved to their ledger-recorded key by this call. Zero for every action but migrate-awards. ⚠ COUNTS A WRITE THAT SUCCEEDED EVEN IF THE OLD COPY COULD NOT BE DELETED, because the award IS at its new key — which is what the migration is for — and the leftover is a duplicate rather than a loss. A client must not read this as \"the repo is now clean\".",
+              "type": "integer"
+            },
+            "missingPets": {
+              "description": "Pets the server's ledger holds for the caller with no record in the index — deleted from the repo, or lost when an index was rebuilt. The pets themselves are unaffected; only the copy in the repo is gone, and restore puts it back. This is NOT a rogue-record count and must never be worded as one: nothing was forged and the player is not accused of anything. Counts what a restore would act on rather than every hole, exactly as rogueCount counts deletable rejections rather than all of them: a row the server cannot rebuild is logged for an operator, not offered to the player as a button that would answer zero. RETIRED PETS ARE EXCLUDED, from this count and from restore: retiring is the player saying they are done with a pet, so a missing record for one is not a hole they want filled, and counting it would leave them a prompt no un-retire could ever resolve. Counted after the action, so a restore reports what is left. Optional rather than required, deliberately: an instance running a repairRecords older than this lexicon does not emit it, and a client must read its absence as 'unknown' rather than 'none'.",
+              "type": "integer"
+            },
+            "needsRepair": {
+              "description": "True when running repair would actually change something for this player.",
+              "type": "boolean"
+            },
+            "reasons": {
+              "description": "The rejection reasons present for this caller and how many of each, so the prompt can be worded per reason.",
+              "items": {
+                "ref": "#reasonCount",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "rejectedCount": {
+              "description": "Every record of the caller's the ingest guards refused, whatever the reason.",
+              "type": "integer"
+            },
+            "repaired": {
+              "description": "Whether this call rewrote the wallet. False when there was no high-water row to rebuild from, which is a success.",
+              "type": "boolean"
+            },
+            "restoreAttempted": {
+              "description": "Pet records this call TRIED to write back, before any of them succeeded or failed. Zero for every action but restore. Exists because restoredCount alone cannot tell 'there was no hole to fill' from 'every write failed' — the two need opposite words in front of a player, and conflating them once told somebody nothing was wrong while their pet stayed invisible. restoreAttempted > restoredCount means the reasons are in the instance log, one line per record.",
+              "type": "integer"
+            },
+            "restoredCount": {
+              "description": "Pet records written back into the caller's repo by this call. Zero for every action but restore. Zero is NOT necessarily a success: compare it with restoreAttempted, because a restore that tried and failed also reports zero.",
+              "type": "integer"
+            },
+            "rogueCount": {
+              "description": "The subset whose remedy is deletion: records that did not come from the game. Never includes a stale wallet.",
+              "type": "integer"
+            },
+            "rogueWallet": {
+              "description": "The wallet in the caller's repo is among the records cleanup would delete. Deleting it drops the good index row with it, so the balance falls back to the high-water mark; the prompt must not promise the cleanup leaves progress untouched. Never true for a stale wallet, which cleanup passes over. Optional rather than required, deliberately: an instance running a repairRecords older than this lexicon does not emit it, and that is exactly the case the client's third state exists to word — declaring it required would let response validation reject the payload before the client ever saw it.",
+              "type": "boolean"
+            },
+            "staleWallet": {
+              "description": "The wallet in the caller's repo was refused as out of date. Its remedy is repair, never deletion.",
+              "type": "boolean"
+            },
+            "strandedAwards": {
+              "description": "Awards of ours still sitting at an achievement-id key with a TID recorded for them on the ledger — how much migrate-awards would move. Reported on every action, so status is a dry run. Counts only records this game published: a badge award from another issuer in the caller's repo is never touched and never counted. Zero after a successful migration.",
+              "type": "integer"
+            },
+            "walletState": {
+              "description": "How the caller's indexed wallet stands: ok, absent, carrying no attestation, signed with a key this instance has rotated away from, failing verification, or unjudgeable because the instance has no signer.",
+              "knownValues": [
+                "ok",
+                "missing",
+                "unsigned",
+                "stale-key",
+                "invalid",
+                "unverifiable"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    },
+    "reasonCount": {
+      "properties": {
+        "count": {
+          "type": "integer"
+        },
+        "reason": {
+          "description": "A reason code emitted by the ingest guards. Treat as open: the guards may add codes.`unchecked` is NOT an accusation and must never be worded as one: it means the instance could not check the signature at all — a decode that failed, a field that was missing, a key that would not load — and says nothing about the record or the player. It is deliberately distinct from `invalid-signature`, which means the signature was read and did not match, and from the `unverifiable` walletState, which means there is no signer configured to judge with.",
+          "knownValues": [
+            "missing-signature",
+            "invalid-signature",
+            "unchecked",
+            "malformed",
+            "duplicate",
+            "replay",
+            "duplicate-check-unavailable",
+            "procedure-only"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "reason",
+        "count"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "pet.trezy.repairRecords",
+  "lexicon": 1
+}

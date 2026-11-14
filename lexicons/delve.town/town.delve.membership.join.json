@@ -1,0 +1,58 @@
+{
+  "id": "town.delve.membership.join",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "revision": {
+              "type": "integer",
+              "description": "The membership revision the caller last saw; the join fails with MembershipChanged if it moved."
+            },
+            "inviteCode": {
+              "type": "string",
+              "maxLength": 128
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "InvalidInvite",
+          "description": "No valid invite for this account: missing, expired, spent, disabled, or bound to another account."
+        },
+        {
+          "name": "MembershipSuspended"
+        },
+        {
+          "name": "MembershipChanged"
+        },
+        {
+          "name": "MembershipDisabled",
+          "description": "This AppView does not admit accounts by membership."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "membership"
+          ],
+          "properties": {
+            "membership": {
+              "ref": "town.delve.membership.defs#membership",
+              "type": "ref"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Join the town, or rejoin after withdrawing. An account hosted on the town's own PDS needs no code; any other account presents an invite code: either a town invite or a code a member took from Settings on the town's PDS, which the join then spends. Requires auth."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

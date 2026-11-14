@@ -1,0 +1,35 @@
+{
+  "id": "com.suibari.nagi.richtext",
+  "defs": {
+    "bluemoji": {
+      "type": "object",
+      "required": [
+        "ref",
+        "did",
+        "name",
+        "mediaType"
+      ],
+      "properties": {
+        "alt": {
+          "type": "string"
+        },
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "ref": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref"
+        },
+        "name": {
+          "type": "string"
+        },
+        "mediaType": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

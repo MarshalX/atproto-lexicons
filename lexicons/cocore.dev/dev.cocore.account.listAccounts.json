@@ -1,0 +1,127 @@
+{
+  "id": "dev.cocore.account.listAccounts",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "accounts",
+            "total",
+            "limit",
+            "offset",
+            "sortBy",
+            "providersOnly",
+            "excludeViewerFriends"
+          ],
+          "properties": {
+            "q": {
+              "type": "string"
+            },
+            "limit": {
+              "type": "integer"
+            },
+            "total": {
+              "type": "integer"
+            },
+            "offset": {
+              "type": "integer"
+            },
+            "sortBy": {
+              "enum": [
+                "recent",
+                "newest"
+              ],
+              "type": "string"
+            },
+            "accounts": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "did"
+                ],
+                "properties": {
+                  "did": {
+                    "type": "string",
+                    "format": "did"
+                  },
+                  "handle": {
+                    "type": "string"
+                  },
+                  "avatarUrl": {
+                    "type": "string"
+                  },
+                  "displayName": {
+                    "type": "string"
+                  },
+                  "providerCount": {
+                    "type": "integer"
+                  },
+                  "lastActivityAt": {
+                    "type": "string",
+                    "format": "datetime"
+                  }
+                }
+              }
+            },
+            "providersOnly": {
+              "type": "boolean"
+            },
+            "excludeViewerFriends": {
+              "type": "boolean"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "q": {
+            "type": "string",
+            "description": "Case-insensitive substring on profile handle and/or DID. A leading @ is ignored."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 24,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "offset": {
+            "type": "integer",
+            "default": 0,
+            "minimum": 0
+          },
+          "sortBy": {
+            "enum": [
+              "recent",
+              "newest"
+            ],
+            "type": "string",
+            "default": "recent",
+            "description": "`recent` = last activity descending; `newest` = signup order."
+          },
+          "viewerDid": {
+            "type": "string",
+            "format": "did",
+            "description": "Excludes the caller's own DID from results."
+          },
+          "providersOnly": {
+            "type": "boolean",
+            "default": false
+          },
+          "excludeViewerFriends": {
+            "type": "boolean",
+            "default": false,
+            "description": "With `viewerDid`, also omits DIDs the viewer has already published a friend record for."
+          }
+        }
+      },
+      "description": "Discovery directory of every signed-up DID (any DID with a record under `dev.cocore.*`), joined with profile + provider counts so a card grid can render without further fan-out. DIDs without a local profile record are hydrated from the public Bluesky AppView."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,153 @@
+{
+  "id": "app.zeens.notification.listNotifications",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "notifications"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "seenAt": {
+              "type": "string",
+              "format": "datetime"
+            },
+            "notifications": {
+              "type": "array",
+              "items": {
+                "ref": "#notification",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "recipient",
+          "actors"
+        ],
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "actors": {
+            "type": "string",
+            "description": "Required comma-separated allowlist of author DIDs (the Zeens membership set). Only notifications authored by one of these DIDs are returned, so activity that reached the repo from Bluesky or another atproto client is excluded. An empty list returns nothing."
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Pagination cursor (ISO-8601 timestamp of the oldest notification in the previous page)."
+          },
+          "recipient": {
+            "type": "string",
+            "format": "did",
+            "description": "DID whose notifications to fetch. The AppView trusts this value; auth is enforced at the SvelteKit layer."
+          }
+        }
+      },
+      "description": "List notifications for the authenticated Zeens user. Merges likes, replies, follows, group-membership and group-photo events from the firehose."
+    },
+    "actor": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "handle": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      }
+    },
+    "notification": {
+      "type": "object",
+      "required": [
+        "uri",
+        "author",
+        "reason",
+        "recordUri",
+        "isRead",
+        "indexedAt"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the triggering record (the like, reply, follow, groupMember, etc.)."
+        },
+        "extra": {
+          "type": "unknown",
+          "description": "Reason-specific payload (e.g. group DID, role, accept/decline flag)."
+        },
+        "author": {
+          "ref": "#actor",
+          "type": "ref",
+          "description": "Who caused the notification (the liker, replier, follower, inviter, etc.)."
+        },
+        "isRead": {
+          "type": "boolean"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "type": "unknown"
+          }
+        },
+        "reason": {
+          "type": "string",
+          "description": "The type of notification.",
+          "knownValues": [
+            "like",
+            "reply",
+            "follow",
+            "article-like",
+            "article-reply",
+            "comment_like",
+            "comment_reply",
+            "group-member-added",
+            "group-photo-added",
+            "group-invite",
+            "group-photo-invite",
+            "group-photo-invite-accepted"
+          ]
+        },
+        "indexedAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "recordUri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "Same as uri — present for compatibility with bsky notification shape."
+        },
+        "reasonSubject": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "For like/reply/article-like: AT-URI of the subject post/article. For group events: AT-URI of the group record."
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

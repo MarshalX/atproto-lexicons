@@ -1,0 +1,49 @@
+{
+  "id": "app.rocksky.actor.getActorScrobbles",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "scrobbles": {
+              "type": "array",
+              "items": {
+                "ref": "app.rocksky.scrobble.defs#scrobbleViewBasic",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "did"
+        ],
+        "properties": {
+          "did": {
+            "type": "string",
+            "format": "at-identifier",
+            "description": "The DID or handle of the actor"
+          },
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "The maximum number of albums to return"
+          },
+          "offset": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "The offset for pagination"
+          }
+        }
+      },
+      "description": "Get scrobbles for an actor"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

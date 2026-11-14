@@ -1,0 +1,53 @@
+{
+  "id": "app.standard-reader.getPublication",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "publication"
+          ],
+          "properties": {
+            "owner": {
+              "ref": "app.standard-reader.defs#profileView",
+              "type": "ref"
+            },
+            "publication": {
+              "ref": "app.standard-reader.defs#publicationView",
+              "type": "ref"
+            },
+            "documentCount": {
+              "type": "integer"
+            },
+            "lastDocumentAt": {
+              "type": "string",
+              "format": "datetime",
+              "nullable": true
+            },
+            "subscriberCount": {
+              "type": "integer"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "publication"
+        ],
+        "properties": {
+          "publication": {
+            "type": "string",
+            "format": "at-uri"
+          }
+        }
+      },
+      "description": "Fetch a single publication profile with owner identity and aggregate stats."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,106 @@
+{
+  "id": "dev.knotless.listChecks",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "checks"
+          ],
+          "properties": {
+            "checks": {
+              "type": "array",
+              "items": {
+                "ref": "#check",
+                "type": "ref"
+              }
+            },
+            "cursor": {
+              "type": "string",
+              "maxLength": 2048,
+              "description": "Absent on the last page."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "repo",
+          "key"
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "format": "tid",
+            "description": "The repository's `key`."
+          },
+          "ref": {
+            "type": "string",
+            "maxLength": 1024,
+            "description": "Only checks of this ref, named in full, such as refs/heads/main."
+          },
+          "pull": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Only the runs of this pull's head."
+          },
+          "repo": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The repository's dev.knotless.repo record; only its owner is matched."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "commit": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 40,
+            "description": "Only checks of this commit, its hex object ID."
+          },
+          "cursor": {
+            "type": "string",
+            "maxLength": 2048,
+            "description": "The `cursor` of the page before."
+          }
+        }
+      },
+      "description": "The dev.knotless.check records written about a public repository by the accounts its record names in `runners`, newest run first; checks by any other account, and anything the appview has taken down, are left out. The `runners` read are those of the repository's record as the appview has it now. A page at a time: follow `cursor` until it is absent. No authentication; responses are not personalized."
+    },
+    "check": {
+      "type": "object",
+      "required": [
+        "uri",
+        "runner",
+        "value"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "The check record's URI."
+        },
+        "value": {
+          "type": "unknown",
+          "description": "The dev.knotless.check record verbatim."
+        },
+        "runner": {
+          "type": "string",
+          "format": "did",
+          "description": "The account the check is in: one of the repository's runners."
+        }
+      },
+      "description": "One check, as its runner wrote it."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "What the runners a public repository trusts have reported of its workflows, as an appview has indexed it from the firehose."
+}

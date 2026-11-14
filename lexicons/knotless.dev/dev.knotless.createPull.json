@@ -1,0 +1,114 @@
+{
+  "id": "dev.knotless.createPull",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "repo",
+            "base",
+            "head",
+            "branch",
+            "title"
+          ],
+          "properties": {
+            "base": {
+              "type": "string",
+              "maxLength": 1024,
+              "description": "The branch to merge into."
+            },
+            "body": {
+              "type": "string",
+              "maxLength": 20000,
+              "description": "What it does and why, in Markdown."
+            },
+            "head": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The repository the branch is on: this one, or a fork."
+            },
+            "repo": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The repository to merge into: its dev.knotless.repo record, as dev.knotless.getRepo takes it."
+            },
+            "draft": {
+              "type": "boolean",
+              "description": "Open it as a draft, not ready to merge or queue. Not, when absent."
+            },
+            "title": {
+              "type": "string",
+              "maxLength": 3000,
+              "maxGraphemes": 300
+            },
+            "branch": {
+              "type": "string",
+              "maxLength": 1024,
+              "description": "The branch to bring in."
+            },
+            "images": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#image",
+                "type": "ref"
+              },
+              "maxLength": 32,
+              "description": "Pictures uploaded with dev.knotless.uploadImage; those the body links to are attached."
+            },
+            "labels": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#labelName",
+                "type": "ref"
+              },
+              "maxLength": 32,
+              "description": "Labels to put on it as it opens, as dev.knotless.labelItem would: refused, with nothing written, when one is not the repository's or not the account's to put on."
+            },
+            "reviewers": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.pull#reviewer",
+                "type": "ref"
+              },
+              "maxLength": 32,
+              "description": "The accounts its author asks to review it, as its record names them; `requestedAt` is set as it is written."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri"
+          ],
+          "properties": {
+            "uri": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The dev.knotless.pull record written."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Writes a dev.knotless.pull record in the account logged in to this appview's web pages, as `knotless pull create` does: asking to merge a branch of this repository or a fork into one of its branches, both of which must exist. Refused, with the template, when the repository has one at the base (see dev.knotless.getTemplate) and the body follows none of it. Requires the session cookie the pages' login sets."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Opens a pull on a repository, as the account logged in to this appview's pages."
+}

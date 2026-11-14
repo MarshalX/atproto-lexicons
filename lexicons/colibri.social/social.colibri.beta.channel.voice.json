@@ -1,0 +1,16 @@
+{
+  "id": "social.colibri.beta.channel.voice",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "name": "Colibri voice channel",
+      "type": "space",
+      "collections": [
+        "social.colibri.beta.channel"
+      ],
+      "description": "A voice channel. Holds only its own configuration record, because call state is off-protocol."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

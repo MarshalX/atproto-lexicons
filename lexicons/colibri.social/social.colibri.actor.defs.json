@@ -1,0 +1,124 @@
+{
+  "id": "social.colibri.actor.defs",
+  "defs": {
+    "actorData": {
+      "type": "object",
+      "required": [
+        "displayName",
+        "isBot",
+        "onlineState",
+        "syncBluesky",
+        "status"
+      ],
+      "properties": {
+        "isBot": {
+          "type": "boolean"
+        },
+        "theme": {
+          "ref": "lex:social.colibri.actor.defs#profileTheme",
+          "type": "ref"
+        },
+        "avatar": {
+          "type": "blob"
+        },
+        "banner": {
+          "type": "blob"
+        },
+        "status": {
+          "ref": "lex:social.colibri.actor.defs#actorStatus",
+          "type": "ref"
+        },
+        "description": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "onlineState": {
+          "type": "string",
+          "knownValues": [
+            "online",
+            "away",
+            "dnd",
+            "offline"
+          ]
+        },
+        "syncBluesky": {
+          "type": "boolean"
+        },
+        "preferredBadge": {
+          "type": "string"
+        }
+      },
+      "description": "The profile and presence data for a Colibri actor."
+    },
+    "actorView": {
+      "type": "object",
+      "required": [
+        "did",
+        "handle",
+        "data"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "data": {
+          "ref": "lex:social.colibri.actor.defs#actorData",
+          "type": "ref"
+        },
+        "handle": {
+          "type": "string",
+          "format": "handle"
+        }
+      },
+      "description": "A hydrated Colibri actor: identity plus profile data."
+    },
+    "actorStatus": {
+      "type": "object",
+      "required": [
+        "text"
+      ],
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "emoji": {
+          "type": "string"
+        }
+      },
+      "description": "A user's Colibri status line."
+    },
+    "profileTheme": {
+      "type": "object",
+      "properties": {
+        "gradient": {
+          "ref": "lex:social.colibri.actor.defs#profileGradient",
+          "type": "ref"
+        },
+        "accentColor": {
+          "type": "string"
+        },
+        "bannerColor": {
+          "type": "string"
+        }
+      },
+      "description": "Colibri-only profile theming."
+    },
+    "profileGradient": {
+      "type": "object",
+      "properties": {
+        "primary": {
+          "type": "string"
+        },
+        "secondary": {
+          "type": "string"
+        }
+      },
+      "description": "Two-color gradient profile theme."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

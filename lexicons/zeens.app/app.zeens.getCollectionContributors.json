@@ -1,0 +1,34 @@
+{
+  "id": "app.zeens.getCollectionContributors",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "collection"
+        ],
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "collection": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The collection."
+          }
+        }
+      },
+      "description": "Everyone whose photos appear in a collection, most recent first, with their photo count.",
+      "target_collection": "app.zeens.collectionItem"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,72 @@
+{
+  "id": "so.sprk.feed.searchPosts",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "BadQueryString"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "posts"
+          ],
+          "properties": {
+            "posts": {
+              "type": "array",
+              "items": {
+                "ref": "so.sprk.feed.defs#postView",
+                "type": "ref"
+              }
+            },
+            "cursor": {
+              "type": "string"
+            },
+            "hitsTotal": {
+              "type": "integer",
+              "description": "Count of search hits. Optional, may be rounded/truncated, and may not be possible to paginate through all hits."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "q"
+        ],
+        "properties": {
+          "q": {
+            "type": "string",
+            "description": "Search query string; to match against post descriptions and such."
+          },
+          "sort": {
+            "type": "string",
+            "default": "latest",
+            "description": "Specifies the ranking order of results.",
+            "knownValues": [
+              "top",
+              "latest"
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "default": 25,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Optional pagination mechanism; may not necessarily allow scrolling through entire result set."
+          }
+        }
+      },
+      "description": "Find posts matching search criteria, returning views of those posts."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

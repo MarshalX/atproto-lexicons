@@ -1,0 +1,87 @@
+{
+  "id": "social.colibri.beta.server.describeServer",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "did",
+            "software",
+            "flavor",
+            "version",
+            "handleDomain",
+            "pds"
+          ],
+          "properties": {
+            "did": {
+              "type": "string",
+              "format": "did",
+              "description": "The AppView's own identity."
+            },
+            "pds": {
+              "type": "string",
+              "format": "uri",
+              "description": "The PDS communities are created on."
+            },
+            "flavor": {
+              "type": "string",
+              "description": "Which build of the software this is. 'vanilla' for the stock AppView, and any string a fork or a customised deployment chooses for itself."
+            },
+            "contact": {
+              "type": "string",
+              "description": "How to reach the operator."
+            },
+            "version": {
+              "type": "string",
+              "description": "The running software version."
+            },
+            "features": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "description": "A feature identifier.",
+                "knownValues": [
+                  "voice",
+                  "push",
+                  "gifs",
+                  "embeds",
+                  "emoji",
+                  "nodes"
+                ]
+              },
+              "description": "Optional features this AppView supports."
+            },
+            "software": {
+              "type": "string",
+              "description": "Stable software identifier, always 'colibri-appview'. Clients key on this to confirm a host is a Colibri AppView before pointing themselves at it."
+            },
+            "spaceTypes": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "nsid",
+                "description": "A space type."
+              },
+              "description": "The space types this AppView understands."
+            },
+            "handleDomain": {
+              "type": "string",
+              "description": "The domain community handles are minted under."
+            },
+            "defaultCommunity": {
+              "type": "string",
+              "format": "did",
+              "description": "A community every user joins after creating their profile for the first time."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Gets information about this AppView."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

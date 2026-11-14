@@ -1,0 +1,42 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Record defining a 'teleport', that is active during a certain time.",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "durationSeconds": {
+            "description": "The time limit in seconds for the teleport. If not set, the teleport is permanent. Must be at least 60 seconds, and no more than 32,400 seconds (9 hours).",
+            "maximum": 32400,
+            "minimum": 60,
+            "type": "integer"
+          },
+          "livestream": {
+            "description": "The source livestream this teleport is sending viewers away from. When the teleport fires, this is the livestream that gets ended (the same update place.stream.live.stopLivestream performs), so the source streamer returns to pre-live. Teleports without an origin livestream are treated as a no-op.",
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref"
+          },
+          "startsAt": {
+            "description": "The time the teleport becomes active.",
+            "format": "datetime",
+            "type": "string"
+          },
+          "streamer": {
+            "description": "The DID of the streamer to teleport to.",
+            "format": "did",
+            "type": "string"
+          }
+        },
+        "required": [
+          "streamer",
+          "startsAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "place.stream.live.teleport",
+  "lexicon": 1
+}

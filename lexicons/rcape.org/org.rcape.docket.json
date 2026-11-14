@@ -1,0 +1,88 @@
+{
+  "id": "org.rcape.docket",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "court",
+          "docketNumber",
+          "caseName",
+          "source"
+        ],
+        "properties": {
+          "court": {
+            "type": "string",
+            "description": "Court identifier, e.g. CourtListener court id 'mdd'."
+          },
+          "source": {
+            "ref": "#source",
+            "type": "ref"
+          },
+          "caseName": {
+            "type": "string"
+          },
+          "courtName": {
+            "type": "string",
+            "description": "Human-readable court, e.g. 'U.S. District Court, District of Maryland'."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "dateFiled": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "docketNumber": {
+            "type": "string",
+            "description": "e.g. '8:25-cv-00951'."
+          },
+          "natureOfSuit": {
+            "type": "string"
+          },
+          "assignedJudge": {
+            "type": "string"
+          },
+          "dateTerminated": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "A court case/docket. The repo identity IS the case; this self-keyed record carries case-level metadata (analogous to an actor profile)."
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "provider",
+        "retrievedAt"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Canonical upstream URL."
+        },
+        "provider": {
+          "type": "string",
+          "description": "Upstream source, e.g. 'courtlistener'."
+        },
+        "retrievedAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When RC Ape observed this content (witness timestamp)."
+        },
+        "providerDocketId": {
+          "type": "string",
+          "description": "Upstream's stable id for this docket."
+        }
+      },
+      "description": "Provenance pointer to the upstream record this was mirrored from."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

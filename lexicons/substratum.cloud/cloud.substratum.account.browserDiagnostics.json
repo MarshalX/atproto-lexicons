@@ -1,0 +1,26 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Owner-repo singleton for browser RUM / diagnostics opt-out (ADR 43 R13). Fixed rkey `self`.",
+      "properties": {
+        "optedOut": {
+          "description": "When true, browsers must not send Faro RUM for this account.",
+          "type": "boolean"
+        },
+        "updatedAt": {
+          "description": "When the preference was last written.",
+          "format": "datetime",
+          "type": "string"
+        }
+      },
+      "required": [
+        "optedOut",
+        "updatedAt"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "cloud.substratum.account.browserDiagnostics",
+  "lexicon": 1
+}

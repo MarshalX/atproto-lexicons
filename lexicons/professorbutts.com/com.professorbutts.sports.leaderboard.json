@@ -1,0 +1,97 @@
+{
+  "id": "com.professorbutts.sports.leaderboard",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "sport",
+          "league",
+          "name",
+          "status",
+          "standings",
+          "startsAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "e.g. 'The Masters', 'Monaco Grand Prix'."
+          },
+          "sport": {
+            "type": "string",
+            "maxLength": 64,
+            "knownValues": [
+              "golf",
+              "motorsport"
+            ]
+          },
+          "venue": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "endsAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "league": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "e.g. PGA, LPGA, LIV, F1, NASCAR."
+          },
+          "season": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "source": {
+            "type": "string",
+            "format": "uri"
+          },
+          "status": {
+            "type": "string",
+            "knownValues": [
+              "scheduled",
+              "live",
+              "suspended",
+              "final",
+              "postponed",
+              "canceled"
+            ]
+          },
+          "progress": {
+            "refs": [
+              "com.professorbutts.sports.defs#golfProgress",
+              "com.professorbutts.sports.defs#raceProgress"
+            ],
+            "type": "union",
+            "description": "Where a leaderboard event stands. Open."
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "standings": {
+            "type": "array",
+            "items": {
+              "ref": "com.professorbutts.sports.defs#entrant",
+              "type": "ref"
+            },
+            "maxLength": 200,
+            "description": "Ordered by position."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Record key is a stable slug, e.g. 'pga-2027-masters' or 'f1-2027-monaco-race'."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A multi-competitor event (golf tournament, F1 or NASCAR race) and its current standings. One record per event, updated in place."
+}

@@ -1,0 +1,115 @@
+{
+  "id": "at.adsb.datalink.message",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "protocol",
+          "capturedAt",
+          "createdAt"
+        ],
+        "properties": {
+          "label": {
+            "type": "string",
+            "maxLength": 2,
+            "description": "ACARS message label (two-character code indicating message type)."
+          },
+          "icaoHex": {
+            "type": "string",
+            "maxLength": 6,
+            "description": "ICAO 24-bit aircraft address in hexadecimal, if identifiable."
+          },
+          "callsign": {
+            "type": "string",
+            "maxLength": 8,
+            "description": "Flight callsign as identified in the message."
+          },
+          "position": {
+            "ref": "at.adsb.flight.defs#position",
+            "type": "ref",
+            "description": "Aircraft position at the time of the message, if included."
+          },
+          "protocol": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Datalink protocol the message was received on.",
+            "knownValues": [
+              "at.adsb.datalink.message#acars",
+              "at.adsb.datalink.message#vdl2",
+              "at.adsb.datalink.message#hfdl"
+            ]
+          },
+          "sublabel": {
+            "type": "string",
+            "maxLength": 4,
+            "description": "ACARS sublabel for further message classification."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "capturedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the message was received by the station."
+          },
+          "messageText": {
+            "type": "string",
+            "maxLength": 20480,
+            "description": "Decoded message content.",
+            "maxGraphemes": 2048
+          },
+          "receiverDid": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the receiver that captured this message."
+          },
+          "frequencyMhz": {
+            "type": "string",
+            "maxLength": 20,
+            "description": "Frequency the message was received on, in MHz (e.g. '131.550')."
+          },
+          "registration": {
+            "type": "string",
+            "maxLength": 10,
+            "description": "Aircraft registration, if identifiable from the message."
+          },
+          "groundStation": {
+            "ref": "#groundStationInfo",
+            "type": "ref",
+            "description": "Ground station involved in the communication, if identifiable."
+          }
+        }
+      },
+      "description": "A captured aircraft datalink message."
+    },
+    "groundStationInfo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Ground station identifier (e.g. HFDL station ID, VDL2 ground station address)."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 640,
+          "description": "Human-readable ground station name (e.g. 'Shannon', 'Reykjavik').",
+          "maxGraphemes": 64
+        },
+        "location": {
+          "ref": "community.lexicon.location.geo",
+          "type": "ref",
+          "description": "Geographic position of the ground station."
+        }
+      },
+      "description": "Identification of the ground station involved in the datalink communication."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A captured aircraft datalink message (ACARS, VDL2, or HFDL). These are low-volume, high-value records that represent individual communications between aircraft and ground stations."
+}

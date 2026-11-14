@@ -1,0 +1,43 @@
+{
+  "id": "app.standard-reader.getUserFollowStatus",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "active"
+          ],
+          "properties": {
+            "active": {
+              "type": "boolean"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "subject"
+        ],
+        "properties": {
+          "did": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the reader whose follow status is being checked (defaults to the authed reader)."
+          },
+          "subject": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the user being followed."
+          }
+        }
+      },
+      "description": "Whether the subject reader follows a user."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

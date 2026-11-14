@@ -1,0 +1,24 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Get S3 storage configuration (with masked secret key).",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "storage": {
+              "ref": "place.stream.server.defs#storage",
+              "type": "ref"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "parameters": null,
+      "type": "query"
+    }
+  },
+  "id": "place.stream.server.getStorage",
+  "lexicon": 1
+}

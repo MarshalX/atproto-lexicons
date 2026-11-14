@@ -1,0 +1,40 @@
+{
+  "id": "so.sprk.media.images",
+  "defs": {
+    "main": {
+      "type": "object",
+      "required": [
+        "images"
+      ],
+      "properties": {
+        "images": {
+          "type": "array",
+          "items": {
+            "ref": "so.sprk.media.image",
+            "type": "ref"
+          },
+          "maxLength": 12
+        }
+      }
+    },
+    "view": {
+      "type": "object",
+      "required": [
+        "images"
+      ],
+      "properties": {
+        "images": {
+          "type": "array",
+          "items": {
+            "ref": "so.sprk.media.image#view",
+            "type": "ref"
+          },
+          "maxLength": 12
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A set of multiple images in a Spark post."
+}

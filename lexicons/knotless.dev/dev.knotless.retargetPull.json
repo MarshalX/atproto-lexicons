@@ -1,0 +1,65 @@
+{
+  "id": "dev.knotless.retargetPull",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "repo",
+            "pull"
+          ],
+          "properties": {
+            "base": {
+              "type": "string",
+              "maxLength": 255,
+              "description": "The branch of the repository to merge it into, without refs/heads/."
+            },
+            "head": {
+              "type": "string",
+              "maxLength": 255,
+              "description": "The branch of the repository it comes from to bring in, without refs/heads/."
+            },
+            "pull": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The dev.knotless.pull record."
+            },
+            "repo": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        },
+        {
+          "name": "UpstreamFailure",
+          "description": "It was not retargeted, as the reason says: no such branch, or the account may not."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "description": "Points an open pull at another target branch, another head branch, or both, as `knotless pull retarget` does, as the account logged in to this appview's web pages. Anyone who may close it changes its target branch; only its author its head branch, which must be in the repository it comes from. Requires the session cookie the pages' login sets."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Points a pull at other branches as the account logged in to this appview's pages."
+}

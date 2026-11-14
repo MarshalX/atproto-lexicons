@@ -1,0 +1,237 @@
+{
+  "id": "app.witchsky.theme.colors",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "mode",
+          "base",
+          "createdAt"
+        ],
+        "properties": {
+          "base": {
+            "ref": "#colorSet",
+            "type": "ref"
+          },
+          "mode": {
+            "type": "string",
+            "knownValues": [
+              "light",
+              "dark"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 64,
+            "maxGraphemes": 48
+          },
+          "special": {
+            "refs": [
+              "app.witchsky.theme.defs#materialYou",
+              "app.witchsky.theme.defs#hue"
+            ],
+            "type": "union",
+            "closed": false,
+            "description": "Generator metadata requiring special client support. Unsupported union variants may be hidden."
+          },
+          "variants": {
+            "type": "array",
+            "items": {
+              "ref": "#variant",
+              "type": "ref"
+            },
+            "maxLength": 11
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 300,
+            "maxGraphemes": 300
+          },
+          "recommendedPair": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Theme recommended for the opposite appearance mode."
+          }
+        }
+      }
+    },
+    "variant": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 48,
+          "maxGraphemes": 32
+        },
+        "colors": {
+          "ref": "#semanticColorOverrides",
+          "type": "ref"
+        }
+      }
+    },
+    "colorSet": {
+      "type": "object",
+      "required": [
+        "name",
+        "colors"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 48,
+          "maxGraphemes": 32
+        },
+        "colors": {
+          "ref": "#semanticColors",
+          "type": "ref"
+        }
+      }
+    },
+    "semanticColors": {
+      "type": "object",
+      "required": [
+        "canvas",
+        "surface",
+        "surfaceRaised",
+        "text",
+        "textMuted",
+        "border",
+        "accent",
+        "accentSoft",
+        "onAccent",
+        "positive",
+        "warning",
+        "critical",
+        "favorite"
+      ],
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "Primary content text."
+        },
+        "accent": {
+          "type": "string",
+          "description": "Links, selected controls, and primary actions."
+        },
+        "border": {
+          "type": "string",
+          "description": "Dividers and control outlines."
+        },
+        "canvas": {
+          "type": "string",
+          "description": "App background."
+        },
+        "surface": {
+          "type": "string",
+          "description": "Cards, sheets, and controls."
+        },
+        "warning": {
+          "type": "string",
+          "description": "Caution states."
+        },
+        "critical": {
+          "type": "string",
+          "description": "Errors and destructive actions."
+        },
+        "favorite": {
+          "type": "string",
+          "description": "Like and favorite actions."
+        },
+        "onAccent": {
+          "type": "string",
+          "description": "Content drawn on the accent color."
+        },
+        "positive": {
+          "type": "string",
+          "description": "Success and confirmation states."
+        },
+        "textMuted": {
+          "type": "string",
+          "description": "Secondary labels and metadata."
+        },
+        "accentSoft": {
+          "type": "string",
+          "description": "Subtle selected and accent backgrounds."
+        },
+        "surfaceRaised": {
+          "type": "string",
+          "description": "Menus and elevated surfaces."
+        }
+      }
+    },
+    "semanticColorOverrides": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "Primary content text."
+        },
+        "accent": {
+          "type": "string",
+          "description": "Links, selected controls, and primary actions."
+        },
+        "border": {
+          "type": "string",
+          "description": "Dividers and control outlines."
+        },
+        "canvas": {
+          "type": "string",
+          "description": "App background."
+        },
+        "surface": {
+          "type": "string",
+          "description": "Cards, sheets, and controls."
+        },
+        "warning": {
+          "type": "string",
+          "description": "Caution states."
+        },
+        "critical": {
+          "type": "string",
+          "description": "Errors and destructive actions."
+        },
+        "favorite": {
+          "type": "string",
+          "description": "Like and favorite actions."
+        },
+        "onAccent": {
+          "type": "string",
+          "description": "Content drawn on the accent color."
+        },
+        "positive": {
+          "type": "string",
+          "description": "Success and confirmation states."
+        },
+        "textMuted": {
+          "type": "string",
+          "description": "Secondary labels and metadata."
+        },
+        "accentSoft": {
+          "type": "string",
+          "description": "Subtle selected and accent backgrounds."
+        },
+        "surfaceRaised": {
+          "type": "string",
+          "description": "Menus and elevated surfaces."
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

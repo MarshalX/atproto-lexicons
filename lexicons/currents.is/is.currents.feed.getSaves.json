@@ -1,0 +1,46 @@
+{
+  "id": "is.currents.feed.getSaves",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "saves"
+          ],
+          "properties": {
+            "saves": {
+              "type": "array",
+              "items": {
+                "ref": "is.currents.feed.defs#saveView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "uris"
+        ],
+        "properties": {
+          "uris": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 25,
+            "minLength": 1
+          }
+        }
+      },
+      "description": "Hydrate a list of saves by their AT-URIs. Auth is optional; if provided, viewer-specific state is included in the returned save views. Missing URIs are omitted from the output."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

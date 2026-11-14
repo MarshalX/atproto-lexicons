@@ -1,0 +1,106 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "The caller's most recent account reset, if they have ever started one. Answers the question the client asks on every load: is a reset running, did the last one finish, and did it finish cleanly.\n\nA QUERY rather than a procedure because it is read-only and polled while a reset runs. It takes no parameters at all — it reports on `caller_did` and nothing else, so there is no way to watch somebody else's reset. Anonymous callers get a refusal rather than a 401: a Lua script cannot set its own HTTP status, and this is a status read rather than an action, so a 200 carrying `not-authenticated` is the honest shape.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "complete": {
+              "description": "Whether the finished job cleared every ledger row. ⚠ ONLY MEANINGFUL WHEN `status` IS `completed`, and FALSE THERE MEANS THE ACCOUNT IS PARTIALLY RESET — the client must not send that player to onboarding, because a surviving row will refuse the first pet they pick.",
+              "type": "boolean"
+            },
+            "error": {
+              "description": "Present instead of a status.",
+              "knownValues": [
+                "not-authenticated",
+                "unavailable"
+              ],
+              "type": "string"
+            },
+            "failure": {
+              "description": "The job's error, when it failed. Verbatim from the worker and not written for a player — show it as diagnostics to copy, not as the explanation.",
+              "type": "string"
+            },
+            "jobId": {
+              "description": "The reset being reported on.",
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            },
+            "progress": {
+              "description": "The last snapshot the job wrote. Absent before it writes its first.",
+              "ref": "#progress",
+              "type": "ref"
+            },
+            "status": {
+              "description": "The job's state. `pending` and `running` both mean a reset is IN FLIGHT and the game should not be played over it — the ledger is being deleted underneath. `paused` and `cancelled` mean an operator stopped it, which leaves the documented partial state: the ledger is gone and some records may remain.",
+              "knownValues": [
+                "pending",
+                "running",
+                "completed",
+                "failed",
+                "paused",
+                "cancelled"
+              ],
+              "type": "string"
+            },
+            "survivingTables": {
+              "description": "Ledger tables that could not be cleared. What to quote when reporting a failed reset.",
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
+      "type": "query"
+    },
+    "progress": {
+      "description": "The job's own snapshot, passed through as it was written. Every field is optional because the job writes different shapes at different phases, and a client that assumed otherwise would break the moment a phase was added.",
+      "properties": {
+        "attempted": {
+          "description": "Records tried so far, whether or not they went.",
+          "type": "integer"
+        },
+        "clearedRows": {
+          "type": "integer"
+        },
+        "deleted": {
+          "description": "Records actually deleted.",
+          "type": "integer"
+        },
+        "phase": {
+          "description": "Which part of the reset is happening.",
+          "knownValues": [
+            "starting",
+            "listed",
+            "ledger",
+            "records",
+            "done"
+          ],
+          "type": "string"
+        },
+        "recordsTotal": {
+          "description": "Records found to delete.",
+          "type": "integer"
+        },
+        "tablesDone": {
+          "type": "integer"
+        },
+        "tablesTotal": {
+          "type": "integer"
+        }
+      },
+      "required": [],
+      "type": "object"
+    }
+  },
+  "id": "pet.trezy.getResetStatus",
+  "lexicon": 1
+}

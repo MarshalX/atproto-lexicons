@@ -1,0 +1,66 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "One week's Pet of the Week, held in the publisher's repo. The record key is the ISO week (e.g. 2026-W39), so there is exactly one per week and every step that writes it is idempotent. ⚠ ONLY THE PUBLISHER'S COPY COUNTS. The index refuses this collection from any other repo, because eligibility, the ribbon and the badge all read it.",
+      "key": "any",
+      "record": {
+        "properties": {
+          "keeper": {
+            "description": "The featured keeper. Absent only when status is skipped because nobody was eligible.",
+            "format": "did",
+            "type": "string"
+          },
+          "passedOver": {
+            "description": "Keepers picked for this week and then replaced, because they declined or had withdrawn consent. They are not picked again for 12 weeks.",
+            "items": {
+              "format": "did",
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "pet": {
+            "description": "The featured pet, in the keeper's repo. Absent exactly when keeper is.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "pickedAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "post": {
+            "description": "The Bluesky post, once there is one.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "postedAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "status": {
+            "knownValues": [
+              "picked",
+              "posted",
+              "skipped"
+            ],
+            "type": "string"
+          },
+          "week": {
+            "description": "The ISO week, the same as the record key.",
+            "maxLength": 8,
+            "type": "string"
+          }
+        },
+        "required": [
+          "week",
+          "status",
+          "pickedAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "pet.trezy.feature",
+  "lexicon": 1
+}

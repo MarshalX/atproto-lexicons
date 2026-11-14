@@ -1,0 +1,27 @@
+{
+  "id": "social.craftsky.authFull",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Use CraftSky",
+      "detail": "Manage your CraftSky profile, posts, likes, reposts, business profile and events. Your CraftSky records are public.",
+      "description": "Permissions for CraftSky public records.",
+      "permissions": [
+        {
+          "type": "permission",
+          "resource": "repo",
+          "collection": [
+            "social.craftsky.actor.profile",
+            "social.craftsky.feed.post",
+            "social.craftsky.feed.like",
+            "social.craftsky.feed.repost",
+            "social.craftsky.business.profile",
+            "social.craftsky.business.event"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

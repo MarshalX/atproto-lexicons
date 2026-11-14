@@ -1,0 +1,45 @@
+{
+  "id": "fm.teal.actor.getProfiles",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "actors"
+          ],
+          "properties": {
+            "actors": {
+              "type": "array",
+              "items": {
+                "ref": "fm.teal.actor.defs#miniProfileView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "actors"
+        ],
+        "properties": {
+          "actors": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-identifier"
+            },
+            "description": "Array of actor DIDs or handles"
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "This lexicon is in a not officially released state. It is subject to change. | Retrieves the associated profile."
+}

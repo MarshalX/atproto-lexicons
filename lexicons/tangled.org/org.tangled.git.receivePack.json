@@ -1,0 +1,11 @@
+{
+  "id": "org.tangled.git.receivePack",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "description": "No-op xrpc endpoint for `git-push` permission scope."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

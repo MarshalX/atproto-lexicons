@@ -1,0 +1,34 @@
+{
+  "id": "org.tangled.label.definition",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "createdAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 640,
+            "description": "The display name of this label.",
+            "maxGraphemes": 64
+          },
+          "color": {
+            "type": "string",
+            "description": "The hex value for the background color for the label. Appviews may choose to respect this."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

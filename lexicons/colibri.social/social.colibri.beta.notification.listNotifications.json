@@ -1,0 +1,56 @@
+{
+  "id": "social.colibri.beta.notification.listNotifications",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request has no valid service auth."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "notifications"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string",
+              "description": "Pagination cursor for the next page, when more notifications remain."
+            },
+            "notifications": {
+              "type": "array",
+              "items": {
+                "ref": "social.colibri.beta.notification.defs#notificationView",
+                "type": "ref"
+              },
+              "description": "The requesting user's notifications, newest first."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "description": "Maximum number of notifications to return."
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Pagination cursor from a previous call."
+          }
+        }
+      },
+      "description": "Gets the requesting user's notifications, newest first."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

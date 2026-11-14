@@ -1,0 +1,95 @@
+{
+  "id": "dev.knotless.mergePull",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "repo",
+            "pull"
+          ],
+          "properties": {
+            "pull": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The dev.knotless.pull record."
+            },
+            "repo": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+            },
+            "keepBranch": {
+              "type": "boolean",
+              "default": false,
+              "description": "Keep its head branch."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        },
+        {
+          "name": "UpstreamFailure",
+          "description": "It did not merge, as the reason says: it conflicts, its checks have not passed, its branch takes pulls only through the merge queue, or the account may not merge it."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "commit",
+            "closed"
+          ],
+          "properties": {
+            "closed": {
+              "type": "array",
+              "items": {
+                "ref": "#closedIssue",
+                "type": "ref"
+              },
+              "description": "The issues it closed."
+            },
+            "commit": {
+              "type": "string",
+              "description": "The commit the target branch now points at, in hex."
+            },
+            "deleted": {
+              "type": "string",
+              "description": "The head branch the merge deleted."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Merges an open pull as `knotless pull merge` does, as the account logged in to this appview's web pages, with the session the appview keeps for it: a fast-forward when the base has not moved, else a merge commit, or one squashed commit into a branch protected as linear. Refused on conflicts, into a branch that takes pulls only through the merge queue (dev.knotless.queuePull queues it), and, in a repository that names runners, until each workflow that runs on it passed at its head merged with its base as it is now; it does not wait. The owner and collaborators may. Its head branch, when in the repository, goes with it unless kept or named by another open pull. Into the default branch, it closes the issues the pull names to close. Requires the session cookie the pages' login sets."
+    },
+    "closedIssue": {
+      "type": "object",
+      "required": [
+        "uri"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "The dev.knotless.issue record."
+        }
+      },
+      "description": "An issue the merge closed."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Merges a pull as the account logged in to this appview's pages."
+}

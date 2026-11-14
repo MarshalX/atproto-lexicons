@@ -1,0 +1,28 @@
+{
+  "id": "games.gamesgamesgamesgames.refreshCaches",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "refreshed"
+          ],
+          "properties": {
+            "refreshed": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Refresh precomputed cache tables (stats, genre counts). Requires admin auth."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

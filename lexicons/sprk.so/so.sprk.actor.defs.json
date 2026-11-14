@@ -1,0 +1,553 @@
+{
+  "id": "so.sprk.actor.defs",
+  "defs": {
+    "mutedWord": {
+      "type": "object",
+      "required": [
+        "value",
+        "targets"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "maxLength": 10000,
+          "description": "The muted word itself.",
+          "maxGraphemes": 1000
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "ref": "so.sprk.actor.defs#mutedWordTarget",
+            "type": "ref"
+          },
+          "description": "The intended targets of the muted word."
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "The date and time at which the muted word will expire and no longer be applied."
+        },
+        "actorTarget": {
+          "type": "string",
+          "default": "all",
+          "description": "Groups of users to apply the muted word to. If undefined, applies to all users.",
+          "knownValues": [
+            "all",
+            "exclude-following"
+          ]
+        }
+      },
+      "description": "A word that the account owner has muted."
+    },
+    "savedFeed": {
+      "type": "object",
+      "required": [
+        "id",
+        "type",
+        "value",
+        "pinned"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "knownValues": [
+            "feed",
+            "timeline"
+          ]
+        },
+        "value": {
+          "type": "string"
+        },
+        "pinned": {
+          "type": "boolean"
+        }
+      }
+    },
+    "preferences": {
+      "type": "array",
+      "items": {
+        "refs": [
+          "#contentLabelPref",
+          "#savedFeedsPref",
+          "#personalDetailsPref",
+          "#feedViewPref",
+          "#threadViewPref",
+          "#interestsPref",
+          "#mutedWordsPref",
+          "#hiddenPostsPref",
+          "#labelersPref"
+        ],
+        "type": "union"
+      }
+    },
+    "profileView": {
+      "type": "object",
+      "required": [
+        "did",
+        "handle"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "avatar": {
+          "type": "string",
+          "format": "uri"
+        },
+        "handle": {
+          "type": "string",
+          "format": "handle"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "ref": "com.atproto.label.defs#label",
+            "type": "ref"
+          }
+        },
+        "viewer": {
+          "ref": "#viewerState",
+          "type": "ref"
+        },
+        "stories": {
+          "type": "array",
+          "items": {
+            "ref": "so.sprk.story.defs#storyView",
+            "type": "ref"
+          },
+          "description": "Recent stories from this profile author."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "indexedAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "associated": {
+          "ref": "#profileAssociated",
+          "type": "ref"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 2560,
+          "maxGraphemes": 256
+        },
+        "displayName": {
+          "type": "string",
+          "maxLength": 640,
+          "maxGraphemes": 64
+        }
+      }
+    },
+    "viewerState": {
+      "type": "object",
+      "properties": {
+        "muted": {
+          "type": "boolean"
+        },
+        "blocking": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "blockedBy": {
+          "type": "boolean"
+        },
+        "following": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "followedBy": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "knownFollowers": {
+          "ref": "#knownFollowers",
+          "type": "ref"
+        }
+      },
+      "description": "Metadata about the requesting account's relationship with the subject account. Only has meaningful content for authed requests."
+    },
+    "feedViewPref": {
+      "type": "object",
+      "required": [
+        "feed"
+      ],
+      "properties": {
+        "feed": {
+          "type": "string",
+          "description": "The URI of the feed, or an identifier which describes the feed."
+        },
+        "hideReplies": {
+          "type": "boolean",
+          "description": "Hide replies in the feed."
+        },
+        "hideReposts": {
+          "type": "boolean",
+          "description": "Hide reposts in the feed."
+        },
+        "hideQuotePosts": {
+          "type": "boolean",
+          "description": "Hide quote posts in the feed."
+        },
+        "hideRepliesByLikeCount": {
+          "type": "integer",
+          "description": "Hide replies in the feed if they do not have this number of likes."
+        },
+        "hideRepliesByUnfollowed": {
+          "type": "boolean",
+          "default": true,
+          "description": "Hide replies in the feed if they are not by followed users."
+        }
+      }
+    },
+    "labelersPref": {
+      "type": "object",
+      "required": [
+        "labelers"
+      ],
+      "properties": {
+        "labelers": {
+          "type": "array",
+          "items": {
+            "ref": "#labelerPrefItem",
+            "type": "ref"
+          }
+        }
+      }
+    },
+    "interestsPref": {
+      "type": "object",
+      "required": [
+        "tags"
+      ],
+      "properties": {
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 640,
+            "maxGraphemes": 64
+          },
+          "maxLength": 100,
+          "description": "A list of tags which describe the account owner's interests gathered during onboarding."
+        }
+      }
+    },
+    "knownFollowers": {
+      "type": "object",
+      "required": [
+        "count",
+        "followers"
+      ],
+      "properties": {
+        "count": {
+          "type": "integer"
+        },
+        "followers": {
+          "type": "array",
+          "items": {
+            "ref": "#profileViewBasic",
+            "type": "ref"
+          },
+          "maxLength": 5,
+          "minLength": 0
+        }
+      },
+      "description": "The subject's followers whom you also follow"
+    },
+    "mutedWordsPref": {
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "ref": "so.sprk.actor.defs#mutedWord",
+            "type": "ref"
+          },
+          "description": "A list of words the account owner has muted."
+        }
+      }
+    },
+    "savedFeedsPref": {
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "ref": "so.sprk.actor.defs#savedFeed",
+            "type": "ref"
+          }
+        }
+      }
+    },
+    "threadViewPref": {
+      "type": "object",
+      "properties": {
+        "sort": {
+          "type": "string",
+          "description": "Sorting mode for threads.",
+          "knownValues": [
+            "oldest",
+            "newest",
+            "most-likes",
+            "random",
+            "hotness"
+          ]
+        }
+      }
+    },
+    "hiddenPostsPref": {
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "at-uri"
+          },
+          "description": "A list of URIs of posts the account owner has hidden."
+        }
+      }
+    },
+    "labelerPrefItem": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        }
+      }
+    },
+    "mutedWordTarget": {
+      "type": "string",
+      "maxLength": 640,
+      "knownValues": [
+        "content",
+        "tag"
+      ],
+      "maxGraphemes": 64
+    },
+    "contentLabelPref": {
+      "type": "object",
+      "required": [
+        "label",
+        "visibility"
+      ],
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "labelerDid": {
+          "type": "string",
+          "format": "did",
+          "description": "Which labeler does this preference apply to? If undefined, applies globally."
+        },
+        "visibility": {
+          "type": "string",
+          "knownValues": [
+            "ignore",
+            "show",
+            "warn",
+            "hide"
+          ]
+        }
+      }
+    },
+    "profileViewBasic": {
+      "type": "object",
+      "required": [
+        "did",
+        "handle"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "avatar": {
+          "type": "string",
+          "format": "uri"
+        },
+        "handle": {
+          "type": "string",
+          "format": "handle"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "ref": "com.atproto.label.defs#label",
+            "type": "ref"
+          }
+        },
+        "viewer": {
+          "ref": "#viewerState",
+          "type": "ref"
+        },
+        "stories": {
+          "type": "array",
+          "items": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref"
+          },
+          "description": "Recent stories from this profile author."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "associated": {
+          "ref": "#profileAssociated",
+          "type": "ref"
+        },
+        "displayName": {
+          "type": "string",
+          "maxLength": 640,
+          "maxGraphemes": 64
+        }
+      }
+    },
+    "profileAssociated": {
+      "type": "object",
+      "properties": {
+        "chat": {
+          "ref": "#profileAssociatedChat",
+          "type": "ref"
+        },
+        "labeler": {
+          "type": "boolean"
+        },
+        "feedgens": {
+          "type": "integer"
+        }
+      }
+    },
+    "personalDetailsPref": {
+      "type": "object",
+      "properties": {
+        "birthDate": {
+          "type": "string",
+          "format": "datetime",
+          "description": "The birth date of account owner."
+        }
+      }
+    },
+    "profileViewDetailed": {
+      "type": "object",
+      "required": [
+        "did",
+        "handle"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "avatar": {
+          "type": "string",
+          "format": "uri"
+        },
+        "banner": {
+          "type": "string",
+          "format": "uri"
+        },
+        "handle": {
+          "type": "string",
+          "format": "handle"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "ref": "com.atproto.label.defs#label",
+            "type": "ref"
+          }
+        },
+        "viewer": {
+          "ref": "#viewerState",
+          "type": "ref"
+        },
+        "stories": {
+          "type": "array",
+          "items": {
+            "ref": "so.sprk.story.defs#storyView",
+            "type": "ref"
+          },
+          "description": "Recent stories from this profile author."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "indexedAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "associated": {
+          "ref": "#profileAssociated",
+          "type": "ref"
+        },
+        "pinnedPost": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref"
+        },
+        "postsCount": {
+          "type": "integer"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 2560,
+          "maxGraphemes": 256
+        },
+        "displayName": {
+          "type": "string",
+          "maxLength": 640,
+          "maxGraphemes": 64
+        },
+        "followsCount": {
+          "type": "integer"
+        },
+        "followersCount": {
+          "type": "integer"
+        }
+      }
+    },
+    "profileAssociatedChat": {
+      "type": "object",
+      "required": [
+        "allowIncoming"
+      ],
+      "properties": {
+        "allowIncoming": {
+          "type": "string",
+          "knownValues": [
+            "all",
+            "none",
+            "following"
+          ]
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

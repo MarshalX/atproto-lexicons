@@ -1,0 +1,18 @@
+{
+  "id": "at.turtleme.game.leaveReef",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "output": {
+        "schema": {
+          "ref": "at.turtleme.game.defs#state",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "Up anchor and leave the shoal where it lies. Nothing comes aboard, because a board pays the whole shoal or it pays nothing, and the water wants the same wait it would after any other ending. Requires an atproto service auth token addressed to did:web:turtleme.at#turtle_game and naming this method, so a token issued for one call cannot be spent on another."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

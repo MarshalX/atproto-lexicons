@@ -1,0 +1,96 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "codeType": {
+      "description": "Code Type, can be converted to an at-uri by using the reversed first 3 elements of the listId nsid as the at-identifier (authority), so if listId = nl.agroconnect.codelist.fertilizer and content = 7843, the resulting at-uri will be at://codelist.agroconnect.nl/nl.agroconnect.codelist.fertilizer/7843 ",
+      "properties": {
+        "content": {
+          "description": "Specific code (record key ) from the code list that is referred to by listId.",
+          "format": "record-key",
+          "type": "string"
+        },
+        "listId": {
+          "description": "Identifier as namespace identifier (NSID) expression of the standard code list that contains the allowed codes.",
+          "format": "nsid",
+          "type": "string"
+        }
+      },
+      "required": [
+        "content",
+        "listId"
+      ],
+      "type": "object"
+    },
+    "listEntry": {
+      "properties": {
+        "added": {
+          "description": "Date / time this entry is added tot the list",
+          "format": "datetime",
+          "type": "string"
+        },
+        "deleted": {
+          "description": "Date / time this entry is deleted from the list",
+          "format": "datetime",
+          "type": "string"
+        },
+        "description": {
+          "maxGraphemes": 300,
+          "maxLength": 3000,
+          "type": "string"
+        },
+        "entryId": {
+          "format": "record-key",
+          "type": "string"
+        },
+        "localized": {
+          "items": {
+            "properties": {
+              "description": {
+                "maxGraphemes": 300,
+                "maxLength": 3000,
+                "type": "string"
+              },
+              "lang": {
+                "format": "language",
+                "type": "string"
+              },
+              "name": {
+                "maxGraphemes": 100,
+                "maxLength": 1000,
+                "type": "string"
+              }
+            },
+            "required": [
+              "lang",
+              "name"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "name": {
+          "maxGraphemes": 100,
+          "maxLength": 1000,
+          "type": "string"
+        }
+      },
+      "required": [
+        "entryId",
+        "name",
+        "added"
+      ],
+      "type": "object"
+    },
+    "scaleFactor": {
+      "description": "Power of 10 exponent to apply to the scaledValue integers value(s) of this object: realValue = value * 10^scaleFactor. E.g. value 125 with scaleFactor -2 is 1.25.",
+      "type": "integer"
+    },
+    "scaledValue": {
+      "description": "Integer representation of a float combined with ScaleFactor",
+      "type": "integer"
+    }
+  },
+  "description": "Shared types of the AgroConnect codelists",
+  "id": "nl.agroconnect.codelist.defs",
+  "lexicon": 1
+}

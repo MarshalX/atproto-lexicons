@@ -1,0 +1,87 @@
+{
+  "id": "town.delve.notification.putPreferencesV2",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "chat": {
+              "ref": "town.delve.notification.defs#chatPreference",
+              "type": "ref",
+              "description": "Deprecated: use chat.bsky.notification preferences instead. Setting this won't stick and the default values will be returned."
+            },
+            "like": {
+              "ref": "town.delve.notification.defs#filterablePreference",
+              "type": "ref"
+            },
+            "quote": {
+              "ref": "town.delve.notification.defs#filterablePreference",
+              "type": "ref"
+            },
+            "reply": {
+              "ref": "town.delve.notification.defs#filterablePreference",
+              "type": "ref"
+            },
+            "follow": {
+              "ref": "town.delve.notification.defs#filterablePreference",
+              "type": "ref"
+            },
+            "repost": {
+              "ref": "town.delve.notification.defs#filterablePreference",
+              "type": "ref"
+            },
+            "mention": {
+              "ref": "town.delve.notification.defs#filterablePreference",
+              "type": "ref"
+            },
+            "verified": {
+              "ref": "town.delve.notification.defs#preference",
+              "type": "ref"
+            },
+            "unverified": {
+              "ref": "town.delve.notification.defs#preference",
+              "type": "ref"
+            },
+            "likeViaRepost": {
+              "ref": "town.delve.notification.defs#filterablePreference",
+              "type": "ref"
+            },
+            "subscribedPost": {
+              "ref": "town.delve.notification.defs#preference",
+              "type": "ref"
+            },
+            "repostViaRepost": {
+              "ref": "town.delve.notification.defs#filterablePreference",
+              "type": "ref"
+            },
+            "starterpackJoined": {
+              "ref": "town.delve.notification.defs#preference",
+              "type": "ref"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "preferences"
+          ],
+          "properties": {
+            "preferences": {
+              "ref": "town.delve.notification.defs#preferences",
+              "type": "ref"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Set notification-related preferences for an account. Requires auth."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

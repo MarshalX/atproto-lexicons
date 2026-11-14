@@ -1,0 +1,30 @@
+{
+  "id": "app.standard-reader.getDocument",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "ref": "app.standard-reader.defs#documentView",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "document"
+        ],
+        "properties": {
+          "document": {
+            "type": "string",
+            "format": "at-uri"
+          }
+        }
+      },
+      "description": "Fetch a single article: card metadata, aggregate stats, and the renderable body (content) ready for the renderers."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

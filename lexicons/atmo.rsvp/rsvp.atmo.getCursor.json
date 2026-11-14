@@ -1,0 +1,28 @@
+{
+  "id": "rsvp.atmo.getCursor",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "type": "string"
+            },
+            "time_us": {
+              "type": "integer"
+            },
+            "seconds_ago": {
+              "type": "integer"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Get the current cursor position"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

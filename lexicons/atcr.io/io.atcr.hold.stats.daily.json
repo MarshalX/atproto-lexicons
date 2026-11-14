@@ -1,0 +1,55 @@
+{
+  "id": "io.atcr.hold.stats.daily",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "ownerDid",
+          "repository",
+          "date",
+          "pullCount",
+          "pushCount",
+          "updatedAt"
+        ],
+        "properties": {
+          "date": {
+            "type": "string",
+            "maxLength": 10,
+            "description": "Date in YYYY-MM-DD format (UTC)"
+          },
+          "ownerDid": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the image owner (e.g., did:plc:xyz123)"
+          },
+          "pullCount": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of manifest downloads on this date"
+          },
+          "pushCount": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of manifest uploads on this date"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "RFC3339 timestamp of when this record was last updated"
+          },
+          "repository": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Repository name (e.g., myapp)"
+          }
+        }
+      },
+      "description": "Daily repository statistics stored in the hold's embedded PDS. Tracks pull/push counts per owner+repository+date combination. Record key is deterministic: base32(sha256(ownerDID + \"/\" + repository + \"/\" + date)[:16]). Complements cumulative io.atcr.hold.stats records by providing daily granularity for trend charts."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,175 @@
+{
+  "id": "dev.sensorthings.observation",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "datastream",
+          "result",
+          "phenomenonTime"
+        ],
+        "properties": {
+          "result": {
+            "refs": [
+              "#numericResult",
+              "#categoryResult",
+              "#booleanResult",
+              "#arrayResult",
+              "#geoPointResult"
+            ],
+            "type": "union",
+            "description": "The observation result. Type determined by $type discriminator."
+          },
+          "datastream": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the parent Datastream"
+          },
+          "parameters": {
+            "type": "unknown",
+            "description": "Additional name-value pairs (e.g. depth, height above ground)"
+          },
+          "resultTime": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Time the result became available (if different from phenomenonTime)"
+          },
+          "derivedFrom": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 16,
+            "description": "AT-URIs of source observations or datastreams from which this observation was derived (e.g. tidal residual derived from observed and predicted level datastreams)"
+          },
+          "resultQuality": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Quality flag as a token reference",
+            "knownValues": [
+              "dev.sensorthings.quality#good",
+              "dev.sensorthings.quality#suspect",
+              "dev.sensorthings.quality#missing"
+            ]
+          },
+          "phenomenonTime": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Time the phenomenon was observed (ISO 8601). Start of interval if phenomenonTimeEnd is present."
+          },
+          "featureOfInterest": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the feature being observed, if different from the Thing's location"
+          },
+          "phenomenonTimeEnd": {
+            "type": "string",
+            "format": "datetime",
+            "description": "End of observation interval (ISO 8601). If absent, the observation is an instant. Used for aggregates (daily means), processing windows (wave burst statistics), and accumulations (hourly rainfall)."
+          }
+        }
+      },
+      "description": "A single act of observation. The result type is determined by the $type discriminator on the result object."
+    },
+    "arrayResult": {
+      "type": "object",
+      "required": [
+        "values"
+      ],
+      "properties": {
+        "labels": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "maxLength": 1024,
+          "description": "Optional labels identifying each element (e.g. frequency bin edges in Hz, depth bin centres in m). Must be same length as values if present."
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "maxLength": 1024,
+          "description": "Ordered array of scaled integer values"
+        }
+      },
+      "description": "Array of scaled integer values sharing the parent Datastream's resultScaleFactor. Used for wave spectra (energy at frequency bins), current profiles (speed at depth bins), and similar array-valued observations."
+    },
+    "booleanResult": {
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "boolean"
+        }
+      },
+      "description": "True/false observation. Used for threshold exceedances, detection flags, binary sensor states."
+    },
+    "numericResult": {
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "integer"
+        }
+      },
+      "description": "Scaled integer result. Real value = value × 10^(−resultScaleFactor). The common case for continuous measurements."
+    },
+    "categoryResult": {
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Code or label from the vocabulary"
+        },
+        "vocabulary": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of the code list or vocabulary (e.g. https://codes.wmo.int/306/4677 for WMO present weather codes)"
+        }
+      },
+      "description": "Categorical observation from a controlled vocabulary. Used for weather codes, flood alert levels, land cover classes, sea state."
+    },
+    "geoPointResult": {
+      "type": "object",
+      "required": [
+        "latE7",
+        "lonE7"
+      ],
+      "properties": {
+        "altMm": {
+          "type": "integer",
+          "description": "Altitude in mm above WGS84 ellipsoid"
+        },
+        "latE7": {
+          "type": "integer",
+          "maximum": 900000000,
+          "minimum": -900000000
+        },
+        "lonE7": {
+          "type": "integer",
+          "maximum": 1800000000,
+          "minimum": -1800000000
+        }
+      },
+      "description": "Geographic position result for position-as-observation (e.g. GPS fix from a drifting buoy). Uses the same encoding as Thing.location."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 1
+}

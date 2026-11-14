@@ -1,0 +1,85 @@
+{
+  "id": "dev.knotless.pack",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "repo",
+          "tips",
+          "size",
+          "objects",
+          "createdAt"
+        ],
+        "properties": {
+          "data": {
+            "type": "bytes",
+            "maxLength": 262144,
+            "description": "The pack itself, when small. Exactly one of data and parts is present. Inline so small pushes cost no blob uploads, which hosts rate-limit far more tightly than record writes."
+          },
+          "repo": {
+            "type": "string",
+            "format": "tid",
+            "description": "The `key` of the dev.knotless.repo this pack belongs to."
+          },
+          "size": {
+            "type": "integer",
+            "minimum": 12,
+            "description": "Bytes in the pack."
+          },
+          "tips": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 64,
+              "minLength": 40
+            },
+            "description": "Hex object IDs the pack holds everything reachable from, short of `bases`."
+          },
+          "bases": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 64,
+              "minLength": 40
+            },
+            "description": "Hex object IDs of objects the pack's history needs and does not hold."
+          },
+          "parts": {
+            "type": "array",
+            "items": {
+              "type": "blob",
+              "accept": [
+                "application/x-git-packed-objects"
+              ]
+            },
+            "description": "The pack, split over blobs in order."
+          },
+          "objects": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Objects in the pack."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "supersedes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "record-key"
+            },
+            "description": "Record keys of the dev.knotless.pack records this one replaced."
+          }
+        }
+      },
+      "description": "Keyed `<repo key>.<tid>`, so a newest-first listing from the cursor `<repo key>/` walks one repository's packs in push order. Never updated; compaction writes one pack superseding many and deletes them in the same applyWrites."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A self-contained git packfile: every object reachable from `tips` and not from `bases`."
+}

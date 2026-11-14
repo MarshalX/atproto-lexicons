@@ -1,0 +1,23 @@
+{
+  "id": "social.colibri.permissionPush",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Push notifications",
+      "detail": "Manage your push notification subscriptions.",
+      "permissions": [
+        {
+          "lxm": [
+            "social.colibri.notification.registerPush",
+            "social.colibri.notification.unregisterPush"
+          ],
+          "type": "permission",
+          "resource": "rpc",
+          "inheritAud": true
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

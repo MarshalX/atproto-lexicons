@@ -1,0 +1,28 @@
+{
+  "id": "tech.tokimeki.forum.public",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "name": "tokimeki-space public server",
+      "type": "space",
+      "name:lang": {
+        "ja": "tokimeki-space 公開サーバー"
+      },
+      "collections": [
+        "tech.tokimeki.forum.profile",
+        "tech.tokimeki.forum.channel",
+        "tech.tokimeki.forum.thread",
+        "tech.tokimeki.forum.message",
+        "tech.tokimeki.forum.vote",
+        "tech.tokimeki.forum.reaction",
+        "tech.tokimeki.forum.hide",
+        "tech.tokimeki.forum.role",
+        "tech.tokimeki.poll.poll",
+        "tech.tokimeki.poll.vote"
+      ],
+      "description": "The public face of a server: a publicPolicy space paired with a tech.tokimeki.forum.server space of the same owner and skey. Anyone can obtain a credential (and, at the PDS level, write); what is shown is decided by the service index. Members may also attach tokimeki-poll polls to threads: tech.tokimeki.poll.poll and tech.tokimeki.poll.vote records live in the same space and are served by the poll AppView (poll.tokimeki.tech), which the community relays writes to."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,37 @@
+{
+  "id": "at.turtleme.game.castReef",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "patch": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "The patch that was tapped to start the board, opened in the same call. Optional: without it the board is anchored and nothing opens until the first sweepReef. One that is not on the board leaves the board anchored and unopened."
+            },
+            "across": {
+              "type": "integer",
+              "maximum": 24,
+              "minimum": 4,
+              "description": "How many patches across the board is. Which reef to play is the player's preference; an unknown size falls back to the middle one. The two past sixteen are only offered by the page on a desk, but the server lays them for anyone who asks."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "ref": "at.turtleme.game.defs#state",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "Anchor over a fresh reef. The board is made empty and the shoal goes down on the first sweep, clear of it, so the patch a round opens with is never the one that ends it. A patch named with the cast is that first sweep, settled in the same call, and the outcome carries what it opened as sweepReef's would. Where the shoal lies is never sent: the whole reason this is settled here is that a board laid out in the page is a board whose shoal is sitting in memory. Anchoring over a board that is still being played hands that board back as it was left, with `resumed` set and every opened patch and what the open numbers prove in the outcome, and sweeps nothing: the patch named with the cast was tapped on an empty reef. The only ways off a board are to finish it or to leave it, and both rest. Requires an atproto service auth token addressed to did:web:turtleme.at#turtle_game and naming this method, so a token issued for one call cannot be spent on another."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

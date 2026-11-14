@@ -1,0 +1,394 @@
+{
+  "id": "app.rocksky.event.defs",
+  "defs": {
+    "uriView": {
+      "type": "object",
+      "required": [
+        "uri"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "uri"
+        },
+        "name": {
+          "type": "string",
+          "description": "The display name of the URI."
+        }
+      }
+    },
+    "rsvpView": {
+      "type": "object",
+      "required": [
+        "uri",
+        "status",
+        "did",
+        "handle",
+        "displayName",
+        "createdAt"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid"
+        },
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the rsvp record."
+        },
+        "avatar": {
+          "type": "string",
+          "format": "uri"
+        },
+        "handle": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "knownValues": [
+            "community.lexicon.calendar.rsvp#going",
+            "community.lexicon.calendar.rsvp#interested",
+            "community.lexicon.calendar.rsvp#notgoing"
+          ]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      },
+      "description": "A community.lexicon.calendar.rsvp on an event, with its author."
+    },
+    "eventView": {
+      "type": "object",
+      "required": [
+        "id",
+        "uri",
+        "musicUri",
+        "name",
+        "artists",
+        "locations",
+        "uris",
+        "rsvpCounts",
+        "organizerDid",
+        "createdAt",
+        "updatedAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the event."
+        },
+        "cid": {
+          "type": "string",
+          "format": "cid",
+          "description": "CID of the calendar event record revision that was indexed."
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the community.lexicon.calendar.event record."
+        },
+        "kind": {
+          "type": "string",
+          "description": "What sort of music event this is (concert, festival...).",
+          "knownValues": [
+            "concert",
+            "festival",
+            "club-night",
+            "dj-set",
+            "livestream",
+            "release-party",
+            "listening-party"
+          ]
+        },
+        "mode": {
+          "type": "string",
+          "description": "The attendance mode, as a community.lexicon.calendar.event#mode token.",
+          "knownValues": [
+            "community.lexicon.calendar.event#inperson",
+            "community.lexicon.calendar.event#virtual",
+            "community.lexicon.calendar.event#hybrid"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the event."
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "uris": {
+          "type": "array",
+          "items": {
+            "ref": "app.rocksky.event.defs#uriView",
+            "type": "ref"
+          },
+          "description": "Links associated with the event."
+        },
+        "genre": {
+          "type": "string",
+          "description": "The main genre of the event."
+        },
+        "endsAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the event ends."
+        },
+        "status": {
+          "type": "string",
+          "description": "The event status, as a community.lexicon.calendar.event#status token.",
+          "knownValues": [
+            "community.lexicon.calendar.event#planned",
+            "community.lexicon.calendar.event#scheduled",
+            "community.lexicon.calendar.event#rescheduled",
+            "community.lexicon.calendar.event#cancelled",
+            "community.lexicon.calendar.event#postponed"
+          ]
+        },
+        "artists": {
+          "type": "array",
+          "items": {
+            "ref": "app.rocksky.event.defs#artistView",
+            "type": "ref"
+          },
+          "description": "The lineup, in billing order."
+        },
+        "imageUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Poster or banner image of the event."
+        },
+        "musicCid": {
+          "type": "string",
+          "format": "cid",
+          "description": "CID of the music record revision that was indexed."
+        },
+        "musicUri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the app.rocksky.event.music record."
+        },
+        "startsAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the event starts."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the event record was created."
+        },
+        "locations": {
+          "type": "array",
+          "items": {
+            "ref": "app.rocksky.event.defs#locationView",
+            "type": "ref"
+          },
+          "description": "Where the event takes place."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the event was last indexed."
+        },
+        "rsvpCounts": {
+          "ref": "app.rocksky.event.defs#rsvpCounts",
+          "type": "ref"
+        },
+        "ticketsUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Where tickets can be bought."
+        },
+        "viewerRsvp": {
+          "type": "string",
+          "description": "The authenticated viewer's RSVP, as a community.lexicon.calendar.rsvp status token. Absent when not authenticated or when the viewer has not responded.",
+          "knownValues": [
+            "community.lexicon.calendar.rsvp#going",
+            "community.lexicon.calendar.rsvp#interested",
+            "community.lexicon.calendar.rsvp#notgoing"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "description": "The description of the event."
+        },
+        "externalIds": {
+          "ref": "app.rocksky.event.music#externalIds",
+          "type": "ref"
+        },
+        "organizerDid": {
+          "type": "string",
+          "format": "did",
+          "description": "The DID of the repo that published the event."
+        },
+        "organizerName": {
+          "type": "string",
+          "description": "The display name of the publisher."
+        },
+        "organizerHandle": {
+          "type": "string",
+          "description": "The handle of the publisher."
+        },
+        "organizerAvatarUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "The avatar of the publisher."
+        }
+      },
+      "description": "A music event: the calendar event merged with its app.rocksky.event.music annotation."
+    },
+    "artistView": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique identifier of the linked Rocksky artist."
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the linked artist."
+        },
+        "mbid": {
+          "type": "string",
+          "description": "MusicBrainz artist id."
+        },
+        "name": {
+          "type": "string",
+          "description": "The artist name as billed on the event."
+        },
+        "role": {
+          "type": "string",
+          "description": "The artist's billing on this event.",
+          "knownValues": [
+            "headliner",
+            "support",
+            "opener",
+            "dj",
+            "special-guest",
+            "performer"
+          ]
+        },
+        "stage": {
+          "type": "string",
+          "description": "The stage the artist plays on."
+        },
+        "sha256": {
+          "type": "string",
+          "description": "The SHA256 hash of the linked artist."
+        },
+        "picture": {
+          "type": "string",
+          "description": "The picture of the linked artist."
+        },
+        "startsAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When this artist's set starts."
+        }
+      },
+      "description": "An artist on an event lineup, linked to the Rocksky artist when one was resolved."
+    },
+    "rsvpCounts": {
+      "type": "object",
+      "required": [
+        "going",
+        "interested",
+        "notGoing"
+      ],
+      "properties": {
+        "going": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "notGoing": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "interested": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "locationView": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "h3": {
+          "type": "string",
+          "description": "H3 encoded location."
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "A URL standing in for the location (online events)."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the location (venue name)."
+        },
+        "type": {
+          "type": "string",
+          "knownValues": [
+            "community.lexicon.location.address",
+            "community.lexicon.location.geo",
+            "community.lexicon.location.fsq",
+            "community.lexicon.location.hthree",
+            "community.lexicon.calendar.event#uri"
+          ]
+        },
+        "region": {
+          "type": "string"
+        },
+        "street": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string",
+          "description": "ISO 3166 country code."
+        },
+        "altitude": {
+          "type": "string"
+        },
+        "latitude": {
+          "type": "string"
+        },
+        "locality": {
+          "type": "string",
+          "description": "City or town."
+        },
+        "longitude": {
+          "type": "string"
+        },
+        "fsqPlaceId": {
+          "type": "string",
+          "description": "Foursquare Open Source Places id."
+        },
+        "postalCode": {
+          "type": "string"
+        }
+      },
+      "description": "One entry of the calendar event's locations, flattened: `type` says which community.lexicon.location shape it came from, and only the fields of that shape are set."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

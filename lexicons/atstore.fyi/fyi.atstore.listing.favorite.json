@@ -1,0 +1,30 @@
+{
+  "id": "fyi.atstore.listing.favorite",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT URI of the fyi.atstore.listing.detail record being favorited (a games.atmosphere.define URI is also accepted for older game favorites)."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "A user favorite for an AT Store app listing. Subject is the at:// URI of a fyi.atstore.listing.detail record. Games are favorited with games.atmosphere.fave instead, so the favorite is shared with atmosphere.games; AT Store counts both."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

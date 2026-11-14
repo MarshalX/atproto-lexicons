@@ -1,0 +1,97 @@
+{
+  "id": "wiki.lichen.listWikis",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "wikis"
+          ],
+          "properties": {
+            "wikis": {
+              "type": "array",
+              "items": {
+                "ref": "#wikiView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "did"
+        ],
+        "properties": {
+          "did": {
+            "type": "string",
+            "format": "did"
+          }
+        }
+      },
+      "description": "List the public wikis a DID owns or belongs to. Returns them all in one response."
+    },
+    "wikiView": {
+      "type": "object",
+      "required": [
+        "uri",
+        "did",
+        "slug",
+        "name",
+        "description",
+        "language",
+        "noteCount",
+        "role",
+        "updatedAt"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "The wiki's owner. This can differ from the DID you asked about."
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "name": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string",
+          "description": "What the DID you asked about holds on this wiki.",
+          "knownValues": [
+            "owner",
+            "admin",
+            "contributor",
+            "viewer"
+          ]
+        },
+        "slug": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "noteCount": {
+          "type": "integer",
+          "description": "Notes wiki.lichen.listNotes will return for this wiki."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When this appview last saw the wiki or a note in it change. Observed locally, so appviews may legitimately disagree."
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,30 @@
+name: Set up the project
+description: Install Poetry and the dependencies of the project.
+
+inputs:
+  python-version:
+    description: Python the virtual environment is created with.
+    default: '3.10'
+
+runs:
+  using: composite
+  steps:
+    # Poetry is installed with its own interpreter and creates the venv with the active one.
+    - name: Set up Python for Poetry.
+      uses: actions/setup-python@v6
+      with:
+        python-version: '3.13'
+
+    - name: Setup Poetry.
+      uses: snok/install-poetry@v1
+      with:
+        version: 2.4.1
+
+    - name: Set up Python.
+      uses: actions/setup-python@v6
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install dependencies.
+      shell: bash
+      run: poetry install --no-interaction

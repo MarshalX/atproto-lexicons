@@ -1,0 +1,40 @@
+{
+  "id": "town.delve.unspecced.getSuggestedFeeds",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "feeds"
+          ],
+          "properties": {
+            "feeds": {
+              "type": "array",
+              "items": {
+                "ref": "town.delve.feed.defs#generatorView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 10,
+            "maximum": 25,
+            "minimum": 1
+          }
+        }
+      },
+      "description": "Get a list of suggested feeds"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

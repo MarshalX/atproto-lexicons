@@ -1,0 +1,97 @@
+{
+  "id": "fm.teal.actor.defs",
+  "defs": {
+    "statusView": {
+      "type": "object",
+      "properties": {
+        "item": {
+          "ref": "fm.teal.feed.defs#playView",
+          "type": "ref"
+        },
+        "time": {
+          "type": "string",
+          "format": "datetime",
+          "description": "The datetime at which the status was recorded."
+        },
+        "expiry": {
+          "type": "string",
+          "format": "datetime",
+          "description": "The datetime after which the status is no longer current."
+        }
+      },
+      "description": "A declaration of the status of the actor."
+    },
+    "profileView": {
+      "type": "object",
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "The decentralized identifier of the actor"
+        },
+        "avatar": {
+          "type": "string",
+          "format": "cid",
+          "description": "IPLD of the avatar"
+        },
+        "banner": {
+          "type": "string",
+          "format": "cid",
+          "description": "IPLD of the banner image"
+        },
+        "status": {
+          "ref": "#statusView",
+          "type": "ref"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "description": {
+          "type": "string",
+          "description": "Free-form profile description text."
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "featuredItem": {
+          "ref": "fm.teal.actor.profile#featuredItem",
+          "type": "ref",
+          "description": "The user's most recent item featured on their profile."
+        },
+        "descriptionFacets": {
+          "type": "array",
+          "items": {
+            "ref": "app.bsky.richtext.facet",
+            "type": "ref"
+          },
+          "description": "Annotations of text in the profile description (mentions, URLs, hashtags, etc). May be changed to another (backwards compatible) lexicon."
+        }
+      }
+    },
+    "miniProfileView": {
+      "type": "object",
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "The decentralized identifier of the actor"
+        },
+        "avatar": {
+          "type": "string",
+          "format": "cid",
+          "description": "IPLD of the avatar"
+        },
+        "handle": {
+          "type": "string",
+          "format": "handle"
+        },
+        "displayName": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,32 @@
+{
+  "id": "io.zzstoatzz.phi.mentionConsent",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "handles"
+        ],
+        "properties": {
+          "handles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Handles that have opted in to mention notifications."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the consent list was last modified."
+          }
+        }
+      },
+      "description": "Singleton record listing handles that have opted in to being @mentioned by phi."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

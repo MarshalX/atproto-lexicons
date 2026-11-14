@@ -1,0 +1,121 @@
+{
+  "id": "social.grain.unspecced.getPrivateGallery",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotAuthorized",
+          "description": "The viewer is not a member of this space."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "space",
+            "authority",
+            "items"
+          ],
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "ref": "#privateItem",
+                "type": "ref"
+              }
+            },
+            "space": {
+              "type": "string"
+            },
+            "gallery": {
+              "ref": "#privateGallery",
+              "type": "ref"
+            },
+            "authority": {
+              "type": "string",
+              "format": "did"
+            },
+            "viewerIsAuthor": {
+              "type": "boolean"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "space"
+        ],
+        "properties": {
+          "space": {
+            "type": "string",
+            "description": "Space URI: at://<authority>/space/social.grain.privateGallery/<skey>"
+          }
+        }
+      },
+      "description": "Assemble a gallery that lives in a permissioned space. Read from the repos that hold it at request time — space records never reach a firehose, so none of this is in the index."
+    },
+    "privateItem": {
+      "type": "object",
+      "required": [
+        "uri",
+        "did",
+        "cid",
+        "position"
+      ],
+      "properties": {
+        "alt": {
+          "type": "string"
+        },
+        "cid": {
+          "type": "string",
+          "format": "cid",
+          "description": "Blob CID. Fetch through the space, never the CDN."
+        },
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "Repo holding the photo, and its blob."
+        },
+        "uri": {
+          "type": "string",
+          "description": "Space URI of the photo record."
+        },
+        "position": {
+          "type": "integer"
+        },
+        "aspectRatio": {
+          "ref": "social.grain.defs#aspectRatio",
+          "type": "ref"
+        }
+      }
+    },
+    "privateGallery": {
+      "type": "object",
+      "required": [
+        "uri",
+        "title"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "title": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

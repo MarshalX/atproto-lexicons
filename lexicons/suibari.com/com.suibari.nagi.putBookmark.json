@@ -1,0 +1,53 @@
+{
+  "id": "com.suibari.nagi.putBookmark",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "folderId",
+            "subjectUri"
+          ],
+          "properties": {
+            "folderId": {
+              "type": "string"
+            },
+            "subjectUri": {
+              "type": "string",
+              "format": "at-uri"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "subjectUri",
+            "folderId",
+            "createdAt"
+          ],
+          "properties": {
+            "folderId": {
+              "type": "string"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "datetime"
+            },
+            "subjectUri": {
+              "type": "string",
+              "format": "at-uri"
+            }
+          }
+        },
+        "encoding": "application/json"
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

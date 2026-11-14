@@ -1,0 +1,41 @@
+{
+  "id": "app.standard-reader.getBookmarkStatus",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "active"
+          ],
+          "properties": {
+            "active": {
+              "type": "boolean"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "document"
+        ],
+        "properties": {
+          "did": {
+            "type": "string",
+            "format": "did"
+          },
+          "document": {
+            "type": "string",
+            "format": "at-uri"
+          }
+        }
+      },
+      "description": "Whether the subject reader bookmarked a document."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

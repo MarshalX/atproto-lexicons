@@ -1,0 +1,37 @@
+{
+  "id": "net.anisota.settings",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "version",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "version": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Settings schema version"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When this category record was first created"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When this category record was last modified"
+          }
+        }
+      },
+      "description": "User settings for the Anisota app, synced across devices via ATProto. The collection holds one record per category, keyed by category name: 'appearance', 'behavior', 'notifications', 'chat', 'moderation', 'controls', 'observatory', 'keyboard', 'atmosphere', 'posting'. A special 'index' rkey holds a map of category names to their latest updatedAt timestamp so clients can fetch only categories whose state has drifted. The legacy 'settings' rkey is the deprecated v27 monolithic record; clients run a one-time migration that splits it into the per-category records (atomically via com.atproto.repo.applyWrites) and deletes it. Each category's full shape is defined and validated client-side via scripts/validate-settings-lexicons.js — this lexicon only enforces the universal metadata fields so new per-category fields can ship without a lexicon migration."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

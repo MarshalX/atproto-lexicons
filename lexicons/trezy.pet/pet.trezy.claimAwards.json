@@ -1,0 +1,115 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "award": {
+      "properties": {
+        "badge": {
+          "description": "The achievement's stable id — `first-pet`, `group-bats`. The same string is the `name` on the badge definition and the rkey of both the definition and the award.",
+          "type": "string"
+        },
+        "current": {
+          "description": "Progress toward this badge, for a caller that wants to show a completed set as “6 of 6”. Same numbers as `#progress`, carried here so an earned badge is described in one place.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "earnedAt": {
+          "description": "The FIRST moment the ledger saw this as true, not the moment it was published. A badge is a record of a moment; re-running the evaluation never moves this.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "state": {
+          "description": "Where the repo copy stands. `written` was published by this call, `held` was already published, `unpublished` could not be written — usually because the caller has not granted the collection, which costs them nothing but the portable copy.",
+          "knownValues": [
+            "written",
+            "held",
+            "unpublished"
+          ],
+          "type": "string"
+        },
+        "target": {
+          "description": "See `current`. Absent on both when the job has not measured this badge.",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "badge",
+        "earnedAt"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "Publishes the badges the awards ledger says the caller has earned into the caller's own repo, as `community.lexicon.badge.award` records, and answers with everything they hold. Called on sign-in and after anything that might have earned one. It decides nothing: `job.run:games.achievements` owns that, and this only copies what is already recorded — so calling it twice writes nothing the second time, and calling it can never award anything.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "awards": {
+              "description": "Every badge the caller has earned, oldest first. Present whether or not the repo copy could be written — the ledger is the truth and the record is a publication of it.",
+              "items": {
+                "ref": "#award",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "error": {
+              "description": "Present instead of a result. `awards-unavailable` means the ledger could not be read, which must NOT be shown as an empty shelf — a caller that took it that way would tell somebody they had earned nothing.",
+              "knownValues": [
+                "awards-unavailable",
+                "no-caller"
+              ],
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            },
+            "progress": {
+              "description": "How far along the badges the caller has NOT earned are, one entry each. Earned ones carry the same two numbers on their own entry in `awards` instead, so nothing appears twice. ⚠ MEASURED BY `job.run:games.achievements` IN THE SAME PASS THAT DECIDES WHETHER A BADGE IS MET — earned is `current >= target` and nothing else — so a bar can never disagree with the badge beside it. Absent or empty when the job has not run for this caller yet, which a client must draw as a badge with no bar rather than as zero.",
+              "items": {
+                "ref": "#progress",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "written": {
+              "description": "How many repo copies this call wrote. Zero is the ordinary answer on a return visit.",
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "awards"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    },
+    "progress": {
+      "properties": {
+        "badge": {
+          "description": "The achievement's stable id.",
+          "type": "string"
+        },
+        "current": {
+          "description": "The real quantity, uncapped: coin badges routinely exceed their threshold, and a client that wants a bar clamps it rather than the server lying about the number.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "target": {
+          "description": "What `current` has to reach. ⚠ ZERO MEANS UNMEASURABLE, NOT COMPLETE — a group whose members failed to load measures `0 of 0`, and a reader treating that as done would show every set finished the moment the catalogue hiccuped.",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "badge",
+        "current",
+        "target"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "pet.trezy.claimAwards",
+  "lexicon": 1
+}

@@ -1,0 +1,42 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "An immutable named pointer to a manifest. The record key is '{projectName}.{version}', making uniqueness per (project, version) mechanical and enabling AppView-free resolution. Version strings follow the project-name grammar (lowercase alphanumerics, interior hyphens) but allow dots. Target is never expected to be updated. Valid only when same-DID with the referenced project, and only when target references a manifest of that same project.",
+      "key": "any",
+      "record": {
+        "properties": {
+          "changelog": {
+            "description": "Canonical site.standard.document or website changelog linked at version creation. The document may be published by a different DID. This URI does not pin the document's contents.",
+            "format": "uri",
+            "type": "string"
+          },
+          "manifest": {
+            "description": "Strong reference to the software.release.manifest this version stamps. Must belong to the same project.",
+            "ref": "com.atproto.repo.strongRef#main",
+            "type": "ref"
+          },
+          "project": {
+            "description": "The software.release.project this pointer belongs to. Must be same-DID.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "version": {
+            "description": "Version string (e.g. v1.0.0, 2026.10.13). Follows the project-name grammar, minus colons. Should match the record rkey after the first dot.",
+            "maxLength": 64,
+            "type": "string"
+          }
+        },
+        "required": [
+          "project",
+          "version",
+          "manifest"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "software.release.version",
+  "lexicon": 1
+}

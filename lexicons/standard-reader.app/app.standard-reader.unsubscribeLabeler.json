@@ -1,0 +1,34 @@
+{
+  "id": "app.standard-reader.unsubscribeLabeler",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "labeler"
+          ],
+          "properties": {
+            "labeler": {
+              "type": "string",
+              "format": "did",
+              "description": "DID of the labeler to unsubscribe from."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "description": "Unsubscribe the calling reader from a labeler service (deletes the app.standard-reader.labeler.subscription record, and any legacy app.standard-reader.labelerSubscription record for the same labeler)."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,71 @@
+{
+  "id": "dev.knotless.minutes",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "minutes",
+          "updatedAt"
+        ],
+        "properties": {
+          "owner": {
+            "type": "string",
+            "format": "did",
+            "description": "The account whose repositories' runs these are."
+          },
+          "freeing": {
+            "type": "array",
+            "items": {
+              "ref": "#freeing",
+              "type": "ref"
+            },
+            "maxLength": 30,
+            "description": "When minutes counted now leave the 30 days, soonest first, for the days ahead that have any."
+          },
+          "minutes": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "The minutes their steps took in the 30 days up to `updatedAt`, rounded down."
+          },
+          "allowance": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "The minutes in 30 days this runner gives the owner's runs before they go one at a time. Absent when there is no limit."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the runner last counted."
+          }
+        }
+      },
+      "description": "Kept in the runner's account, keyed by the owner's DID, and written again as the owner's runs end, at most every few minutes. Counts the time steps ran, not the time a run waited for a job, over the last 30 days. Private repositories' minutes are not counted here. Readers trust only a runner the repository names."
+    },
+    "freeing": {
+      "type": "object",
+      "required": [
+        "at",
+        "minutes"
+      ],
+      "properties": {
+        "at": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When they stop counting."
+        },
+        "minutes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "How many."
+        }
+      },
+      "description": "Minutes that stop counting at a time."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "The minutes a runner's steps took for one owner's public repositories, as that runner counts them."
+}

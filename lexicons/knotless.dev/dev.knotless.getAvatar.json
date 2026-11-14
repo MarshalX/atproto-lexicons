@@ -1,0 +1,40 @@
+{
+  "id": "dev.knotless.getAvatar",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such account, or that is not its picture."
+        }
+      ],
+      "output": {
+        "encoding": "*/*"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "actor",
+          "cid"
+        ],
+        "properties": {
+          "cid": {
+            "type": "string",
+            "format": "cid",
+            "description": "The picture's blob."
+          },
+          "actor": {
+            "type": "string",
+            "format": "did",
+            "description": "The account."
+          }
+        }
+      },
+      "description": "The picture an account's dev.knotless.profile names, from its PDS: only that one. Served so that a browser never runs it as a page, and the same for good. The views give it as `avatar`. No authentication; responses are not personalized."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "An account's own picture."
+}

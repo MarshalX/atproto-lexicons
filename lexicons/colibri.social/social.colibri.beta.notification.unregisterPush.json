@@ -1,0 +1,57 @@
+{
+  "id": "social.colibri.beta.notification.unregisterPush",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "provider"
+          ],
+          "properties": {
+            "token": {
+              "type": "string",
+              "description": "The FCM registration token or APNs device token to remove."
+            },
+            "endpoint": {
+              "type": "string",
+              "format": "uri",
+              "description": "The Web Push subscription endpoint to remove."
+            },
+            "provider": {
+              "type": "string",
+              "description": "The push provider to unregister from.",
+              "knownValues": [
+                "webpush",
+                "fcm",
+                "apns"
+              ]
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request has no valid service auth."
+        },
+        {
+          "name": "InvalidRequest",
+          "description": "The arguments are inconsistent or malformed beyond schema validation."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "description": "Removes a previously registered push endpoint."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

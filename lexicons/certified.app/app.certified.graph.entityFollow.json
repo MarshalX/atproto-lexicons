@@ -1,0 +1,43 @@
+{
+  "id": "app.certified.graph.entityFollow",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "via": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Optional strong reference to a record that mediated this follow (e.g. a starter pack or other curated list). Mirrors the optional `via` field on app.certified.graph.follow; the referenced record may conform with any lexicon."
+          },
+          "subject": {
+            "refs": [
+              "app.certified.defs#recordSubject"
+            ],
+            "type": "union",
+            "description": "The entity being followed. Must never include account DIDs; use app.certified.graph.follow for accounts."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Client-declared timestamp when this record was originally created."
+          },
+          "signatures": {
+            "ref": "app.certified.signature.defs#list",
+            "type": "ref",
+            "description": "Optional cryptographic signatures attesting to this record's content."
+          }
+        }
+      },
+      "description": "Record declaring a social 'follow' relationship with a non-account entity, such as a specific record. Account (DID) follows are out of scope and belong to app.certified.graph.follow. The subject is an open union so additional non-DID entity kinds can be added in the future."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

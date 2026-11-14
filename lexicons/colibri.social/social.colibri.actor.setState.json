@@ -1,0 +1,53 @@
+{
+  "id": "social.colibri.actor.setState",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "Missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "InvalidState",
+          "description": "The given state is not one of the accepted values."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "onlineState"
+          ],
+          "properties": {
+            "onlineState": {
+              "type": "string"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "state"
+        ],
+        "properties": {
+          "state": {
+            "type": "string",
+            "description": "The presence state to set.",
+            "knownValues": [
+              "online",
+              "away",
+              "dnd",
+              "offline"
+            ]
+          }
+        }
+      },
+      "description": "Sets the authenticated user's online presence state."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

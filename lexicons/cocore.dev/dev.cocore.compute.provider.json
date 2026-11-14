@@ -1,0 +1,321 @@
+{
+  "id": "dev.cocore.compute.provider",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "machineLabel",
+          "chip",
+          "ramGB",
+          "supportedModels",
+          "priceList",
+          "encryptionPubKey",
+          "attestationPubKey",
+          "trustLevel",
+          "createdAt"
+        ],
+        "properties": {
+          "os": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Operating system + version, e.g. 'macOS 14.5.1'. Helpful for capability-based matchmaking (e.g. CoreML / MLX feature support)."
+          },
+          "chip": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Hardware identifier, e.g. 'Apple M3 Max'."
+          },
+          "tier": {
+            "ref": "dev.cocore.compute.defs#tier",
+            "type": "ref",
+            "description": "The highest confidentiality tier this machine can serve, advertised so requesters and matchmakers can pre-filter. ADVISORY: a requester demanding `attested-confidential` MUST still verify the per-job attestation + session handshake and fail closed; this field only avoids routing confidential jobs to machines that cannot serve them. A machine earns `attested-confidential` here only when it runs the measured native engine under a hardware-attested posture. This is the AGENT-published ACHIEVED tier, derived from evidence (never self-declared); see `desiredTier` for the owner's intent. Optional / additive; absent equivalent to `best-effort`."
+          },
+          "ramGB": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "active": {
+            "type": "boolean",
+            "default": true,
+            "description": "Soft delete: false means the machine is retired and should not be matched."
+          },
+          "eCores": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Apple Silicon efficiency-core count, when applicable."
+          },
+          "pCores": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Apple Silicon performance-core count, when applicable."
+          },
+          "region": {
+            "type": "string",
+            "maxLength": 2,
+            "minLength": 2,
+            "description": "Coarse, opt-in country of this machine as an ISO 3166-1 alpha-2 code (e.g. 'US'). AGENT-published and ADVISORY: a self-asserted claim derived from a best-effort public-IP geolocation at serve start, NOT a proof of location — a VPN or proxy moves it, and Apple exposes no signed-location primitive — so a verifier MUST treat it as unverified and MUST NOT gate anything security-relevant on it (same trust posture as `tier`). Present only when the machine's owner has opted into location sharing by setting `shareLocation` (from the console); the agent re-resolves it on every serve (refresh-on-serve) and OMITS it when sharing is off, so opting out drops the value on the next re-publish. Optional / additive; absent ≡ location not shared. A future revision may add finer fields (e.g. integer-rounded lat/lon) additively if needed."
+          },
+          "proBono": {
+            "ref": "#proBonoPolicy",
+            "type": "ref",
+            "description": "The owner's pro-bono election for this machine: it serves matching jobs for free — no tokens metered, no exchange cut taken. Owner-written INTENT (set from the console / tray), like `desiredModels`/`active`: the agent reconciles toward it (it serves a matching job pro bono by writing a receipt with `proBono: true`, `price.amount: 0`, and `tokens: { in: 0, out: 0 }`) but NEVER authors it, so it must PRESERVE whatever it finds on every re-publish. Absent ≡ off: the machine meters and bills every job exactly as before. Pro bono is purely ADDITIVE — a requester that does not match the policy is still served as a normal paid job, so opting in never costs the machine paid work. This is the carve-out for explicitly unlimited usage: a matched requester is never metered or charged, and a requester with no balance is admissible against a machine offering them pro bono. Optional / additive; pre-2026-06 agents ignore it."
+          },
+          "serving": {
+            "type": "boolean",
+            "description": "Liveness flag. The agent sets this true while its serve loop is up, and publishes false on graceful shutdown (it receives SIGTERM when quit/paused/bounced or its schedule window closes), so consumers can show the machine as 'offline' the moment it stops serving rather than leaving it looking idle. Absence means unknown — treat as NOT offline for backward-compat with pre-2026-06 records that never set it. (An ungraceful stop — crash / power loss — can't publish false; a future lastSeenAt heartbeat will cover that case.)"
+          },
+          "cpuCores": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Total CPU core count (logical = physical for Apple Silicon)."
+          },
+          "gpuCores": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Reported GPU core count, when applicable."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "priceList": {
+            "type": "array",
+            "items": {
+              "ref": "dev.cocore.compute.defs#modelPrice",
+              "type": "ref"
+            },
+            "maxLength": 256,
+            "minLength": 1,
+            "description": "Per-model rates the provider advertises. INFORMATIONAL since 2026-05: the active `dev.cocore.compute.exchangePolicy.tokenRate` is canonical for any provider settling through that exchange — providers MUST price receipts at the exchange's tokenRate and SHOULD denormalize the same rate into every priceList entry so the on-PDS view is internally consistent. A future lexicon revision will introduce a per-receipt provider-set override (gated on the exchange's permission), at which point priceList becomes authoritative again. Held required for backward compat with pre-2026-05 readers."
+          },
+          "toolCalls": {
+            "type": "boolean",
+            "description": "The owner's opt-in to serving tool/function calls on this machine. Owner-written INTENT, set from a management UI (the console's per-machine settings), exactly like `desiredModels`/`desiredTier`/`proBono`/`shareLocation`: the agent reconciles toward it but NEVER authors it, so it must PRESERVE whatever it finds on every re-publish. When `true`, the agent starts each eligible engine with vLLM automatic tool-choice enabled and verifies real tool-call behavior with a forced-tool startup canary before advertising support (per-model, via the advisor `Register.toolCallModels`); a model that fails the canary is served exactly as before, just without tool calls. Eligibility is RESTRICTED to the curated 'top models' the provider knows a tool-call parser pairing for — models outside that set never attempt tool calling even when this is on, so turning it on can only ADD capability, never break existing serving. Absent ≡ off: no engine advertises tool calls and the machine behaves exactly as it does today. Optional / additive; pre-2026-07 agents ignore it.\nNote: an operator may still force the raw vLLM passthrough on any model via the `COCORE_ENABLE_TOOL_CALLS` env var; this field is the curated, UI-driven path that does not require a known global parser."
+          },
+          "trustLevel": {
+            "ref": "dev.cocore.compute.defs#trustLevel",
+            "type": "ref"
+          },
+          "desiredTier": {
+            "ref": "dev.cocore.compute.defs#tier",
+            "type": "ref",
+            "description": "The confidentiality tier the OWNER has opted this machine into, set from a management UI (the console / tray 'Upgrade security' action). Mirrors `desiredModels`: owner-written INTENT, the agent reconciles toward it (e.g. switches to the measured native engine and earns the hardware-attested posture). Setting `attested-confidential` NEVER fakes the achieved state — the agent only publishes the higher `tier`/`trustLevel` once it actually earns them, and a machine that can't (e.g. not a native build) stays best-effort with a surfaced reason. Absent / `best-effort` means the owner has not opted into confidential and the machine serves exactly as before — opting in is the only thing that changes anything. Owner-written, agent-preserved. Optional / additive; pre-0.9.19 agents ignore it."
+          },
+          "engineFault": {
+            "type": "object",
+            "required": [
+              "code",
+              "message",
+              "at"
+            ],
+            "properties": {
+              "at": {
+                "type": "string",
+                "format": "datetime",
+                "description": "When the agent gave up and recorded the fault."
+              },
+              "code": {
+                "type": "string",
+                "maxLength": 64,
+                "description": "Machine-readable fault class: `model-load-failed` (the inference subprocess never became ready), `venv-missing` (the Python environment is absent or incomplete), or `no-home` (the agent could not locate its state directory)."
+              },
+              "models": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "maxLength": 256
+                },
+                "maxLength": 256,
+                "description": "The configured model identifiers that failed to load."
+              },
+              "message": {
+                "type": "string",
+                "maxLength": 600,
+                "description": "Human-readable, content-safe summary with remediation guidance. Never contains prompt or completion bytes (faults are recorded before any job is served)."
+              }
+            },
+            "description": "Present when the agent could not bring its configured inference engine online after exhausting its startup recovery attempts. The machine still appears (and may still serve the no-op `stub` engine), but it will NOT be routed real inference jobs because its `supportedModels` does not include the configured model. Consumers SHOULD surface this to the operator as a fault with remediation guidance. Absence means the engine loaded cleanly (the agent clears this field on every healthy serve). Additive / optional — pre-2026-06 readers ignore it."
+          },
+          "advisorFault": {
+            "type": "object",
+            "required": [
+              "code",
+              "message",
+              "observedAt"
+            ],
+            "properties": {
+              "code": {
+                "type": "string",
+                "maxLength": 64,
+                "description": "Machine-readable fault class; see the field description for known values. Unknown codes MUST be treated as a generic advisor-unreachable fault."
+              },
+              "message": {
+                "type": "string",
+                "maxLength": 600,
+                "description": "Human-readable, content-safe summary with remediation guidance. Carries only the classified error kind — never raw error text, URLs, or credentials."
+              },
+              "observedAt": {
+                "type": "string",
+                "format": "datetime",
+                "description": "When the agent recorded the fault (RFC3339, UTC)."
+              }
+            },
+            "description": "Present when the agent cannot establish its WebSocket connection to its advisor (matchmaker) after repeated consecutive attempts. The machine may be perfectly healthy locally — engine loaded, records published, `serving: true` — yet completely absent from the network: no advisor registry entry, no jobs routed, and without this field the failure is invisible remotely (the record looks like a healthy idle machine, so operators misdiagnose it as an onboarding problem). Consumers SHOULD surface this as 'serving locally but cannot reach the network' with remediation guidance (VPN / firewall / WebSocket filtering). Known codes: `dns-failure`, `tls-failure`, `connect-timeout`, `connect-refused`, `upgrade-blocked` (plain HTTPS to the advisor works but the WebSocket upgrade cannot be established — a middlebox on the network is filtering WebSockets), `http-<status>` (the upgrade handshake got a non-101 HTTP answer), `closed-<code>` (the socket was closed with the given WebSocket close code), and `network-unreachable`; new codes may be added, and consumers MUST treat an unknown code as a generic advisor-unreachable fault. The agent publishes this through its record-write path over plain HTTPS — which is exactly the transport that still works in the failure this diagnoses — and clears the field on its next successful advisor registration, so presence reflects the current state, not a stale failure. Additive / optional — pre-2026-07 readers ignore it."
+          },
+          "machineLabel": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "Human-readable name for this machine, e.g. 'MacBook Pro M3 Max #1'."
+          },
+          "provisioning": {
+            "type": "boolean",
+            "description": "True while the agent is still coming up — it publishes this record immediately on serve start (so the machine appears right away) but before its inference engine has finished loading. The agent re-publishes with this false (or absent) once the engine is ready and it has connected to its matchmaker. Consumers SHOULD show such a machine as 'provisioning' and SHOULD NOT route jobs to it. Absence is equivalent to false."
+          },
+          "regionSource": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "How `region` was derived, e.g. 'ip-geo' (public-IP geolocation). Surfaces the provenance — and thus the trust ceiling — of the coarse location to consumers. Present iff `region` is present. Optional / additive."
+          },
+          "binaryVersion": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Version string of the agent binary that wrote this record (e.g. `0.3.4`). Stamped on every `cocore agent serve` startup, so the record reflects the freshest deploy. Operators / dashboards use this to spot machines that haven't been updated to a release with a known fix. Optional / additive — pre-2026-05 records won't carry it."
+          },
+          "desiredModels": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 256
+            },
+            "maxLength": 256,
+            "description": "Model identifiers the OWNER wants this machine to load, set from a management UI (e.g. the console's per-machine model picker). The agent reconciles toward it: on serve start it loads this set instead of its local default, and while running it restarts to reload when this set changes. Distinct from `supportedModels`, which is what actually loaded (a model that won't fit RAM stays in `desiredModels` but never appears in `supportedModels`). Owner-written, agent-preserved; absent means the agent uses its local config. Additive / optional — pre-2026-06 agents ignore it."
+          },
+          "shareLocation": {
+            "type": "boolean",
+            "description": "The owner's opt-in to publishing this machine's coarse country. Owner-written INTENT, set from a management UI (the console's per-machine settings), like `desiredModels`/`desiredTier`/`active`: the agent reconciles toward it but NEVER authors it, so it must PRESERVE whatever it finds on every re-publish. When `true`, the agent resolves this machine's country from a best-effort public-IP geolocation at serve start and stamps `region`/`regionSource`/`regionObservedAt`; when absent/`false` it omits those fields, so turning sharing off drops any previously-shared value on the next re-publish (opt-out clears the data). Absent ≡ not sharing. Optional / additive; pre-2026-06 agents ignore it."
+          },
+          "payoutsEnabled": {
+            "type": "boolean",
+            "description": "True iff the provider has completed payout onboarding with at least one exchange and that exchange has confirmed it can transfer funds to them. Matchmakers SHOULD filter paid jobs away from providers where this is false; self-loop jobs (requester == provider) and free-tier jobs are unaffected. Absence is equivalent to false. The exchange asserts this from its own side via the corresponding paymentAccount record; this field exists so consumers don't have to do a second lookup to know whether the provider can be paid."
+          },
+          "contactEndpoint": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the advisor / matchmaking service this provider currently uses. Federable; may change without invalidating prior receipts."
+          },
+          "modelIdentifier": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Apple model code, e.g. 'Macmini9,1' or 'Mac15,3'. Stable across OS updates and useful for hardware-class matching."
+          },
+          "supportedModels": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 256
+            },
+            "maxLength": 256,
+            "minLength": 1,
+            "description": "Opaque model identifiers honored by this provider."
+          },
+          "attestationFault": {
+            "type": "object",
+            "required": [
+              "code",
+              "message",
+              "at"
+            ],
+            "properties": {
+              "at": {
+                "type": "string",
+                "format": "datetime",
+                "description": "When the agent recorded the fault."
+              },
+              "code": {
+                "type": "string",
+                "maxLength": 64,
+                "description": "Machine-readable fault class: `attestation-publish-failed` (the record could not be written to the PDS) or `attestation-build-failed` (the signed record could not be assembled)."
+              },
+              "message": {
+                "type": "string",
+                "maxLength": 600,
+                "description": "Human-readable, content-safe summary with remediation guidance. Never contains prompt or completion bytes."
+              }
+            },
+            "description": "Present when the agent could not build or publish its `dev.cocore.compute.attestation` record. The machine still appears and may still answer inference, but it will NOT produce verifiable receipts (a receipt strong-refs an attestation; without a published one there is nothing to reference), so it stays effectively self-attested even when the hardware would support more. Consumers SHOULD surface this to the operator as a fault with remediation guidance — without it, a publish failure is invisible and the machine merely looks idle. Absence means the attestation published cleanly (the agent clears this field on every successful (re-)attestation). Additive / optional — pre-2026-06 readers ignore it."
+          },
+          "encryptionPubKey": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "X25519 public key (base64) used to wrap requests to this provider."
+          },
+          "regionObservedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When `region` was observed during the current serve (RFC3339, UTC). Because the agent re-stamps on every serve, this doubles as a freshness signal for the coarse location. Present iff `region` is present. Optional / additive."
+          },
+          "acceptedExchanges": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "did"
+            },
+            "maxLength": 64,
+            "description": "Exchange DIDs this provider will accept settlement from. Empty/absent means any exchange is acceptable."
+          },
+          "attestationPubKey": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "P-256 public key (base64) used to verify this machine's attestation and receipt signatures. HISTORICALLY doubled as the per-machine fingerprint, but the signing key can ROTATE — e.g. the 0.9.43 migration from a software key to a non-extractable Secure-Enclave key mints a new keypair, changing this value for the same physical machine. Record identity therefore keys on `machineFingerprint` (a stable hardware id) when present, falling back to `attestationPubKey` for pre-`machineFingerprint` records. Two records with the same `machineFingerprint` — or, legacy, the same `attestationPubKey` — describe the same machine; agents adopt its rkey (carrying the owner's intent fields) and delete duplicates so the on-PDS view stays one record per machine across key rotations."
+          },
+          "toolCallsDisabled": {
+            "type": "boolean",
+            "description": "The owner's explicit opt-out from serving tool/function calls on this machine. Owner-written INTENT: the agent MUST PRESERVE it on every re-publish and, when `true`, default-on-capable agents MUST NOT enable or advertise tool calls from the owner-managed policy. For agents that understand both fields, `toolCallsDisabled: true` takes precedence over `toolCalls: true`; writers MUST NOT publish both as `true`. An explicit `COCORE_ENABLE_TOOL_CALLS` operator setting remains authoritative over both owner fields. Absent / `false` means no owner opt-out; it does not itself assert that any model supports tools — eligibility remains curated and each model must pass its startup canary before advertisement. This field does not change the legacy `toolCalls` contract: older agents still require `toolCalls: true`, so management UIs SHOULD set `toolCallsDisabled: true` and omit `toolCalls` for off, or omit `toolCallsDisabled` and set `toolCalls: true` for on. Optional / additive; agents that predate default-on tool calling ignore it."
+          },
+          "machineFingerprint": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "Stable per-machine identity that survives signing-key rotation: a hash of the hardware serial number (salted by the owner DID, so it does not correlate the machine across DIDs). Unlike `attestationPubKey`, this does NOT change when the agent rotates its signing key (software key -> Secure Enclave key on the 0.9.43 upgrade, a chip-bound key regenerated after a keychain reset, etc.), so the agent can recognize an existing provider record as its own prior incarnation and adopt it — reusing the rkey and carrying the owner-intent fields (`desiredTier`, `active`, `desiredModels`, ...) forward — instead of orphaning it and minting a fresh record. Optional / additive; records written by agents before 0.9.44 omit it (matched by `attestationPubKey` + hardware profile instead)."
+          },
+          "memoryBandwidthGBs": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Reported memory bandwidth in GB/s, when applicable."
+          }
+        }
+      }
+    },
+    "proBonoPolicy": {
+      "type": "object",
+      "required": [
+        "mode"
+      ],
+      "properties": {
+        "dids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "did"
+          },
+          "maxLength": 1024,
+          "description": "Requester DIDs this machine serves pro bono when `mode` is `direct` — the owner's explicit pro-bono relationships. Ignored when `mode` is `any` (everyone is already free). Empty/absent under `direct` means the machine currently serves no one pro bono (every job is paid), which is the safe default for a half-configured policy."
+        },
+        "mode": {
+          "type": "string",
+          "description": "`any`: serve every requester pro bono. `direct`: serve only the requesters in `dids` pro bono; all others are normal paid jobs.",
+          "knownValues": [
+            "any",
+            "direct"
+          ]
+        }
+      },
+      "description": "How this machine holds itself out for pro-bono (free, unmetered, no-cut) work. `mode: any` opts the machine into pro bono for EVERY requester — held out for any pro-bono work. `mode: direct` restricts the carve-out to the requesters listed in `dids` — the owner's direct pro-bono relationships — and serves everyone else as a normal paid job. An absent policy (or an unknown `mode` a reader doesn't understand) means pro bono is off and the machine bills normally; readers MUST fail closed to paid rather than assume free."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A compute provider's public profile. One record per physical machine. The DID owning the record is the provider's billable identity; the same DID may own multiple provider records (one per machine)."
+}

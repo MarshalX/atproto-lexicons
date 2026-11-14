@@ -1,0 +1,82 @@
+{
+  "id": "com.nerdballot.suggestion",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "version",
+          "title",
+          "authors",
+          "createdAt"
+        ],
+        "properties": {
+          "note": {
+            "type": "string",
+            "maxLength": 10000,
+            "maxGraphemes": 1000
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 3000,
+            "maxGraphemes": 300
+          },
+          "authors": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 1000,
+              "maxGraphemes": 100
+            },
+            "maxLength": 10,
+            "minLength": 1
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "coverUrl": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 200,
+            "description": "Open Library cover image for the work."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "publisher": {
+            "type": "string",
+            "maxLength": 2000,
+            "maxGraphemes": 200
+          },
+          "evidenceUrls": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri",
+              "maxLength": 1000
+            },
+            "maxLength": 5,
+            "description": "Links showing the book exists and when it was published."
+          },
+          "openLibraryWork": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Open Library work id, e.g. OL123W, when the book was picked from an Open Library lookup."
+          },
+          "publicationDate": {
+            "type": "string",
+            "maxLength": 10,
+            "description": "YYYY, YYYY-MM or YYYY-MM-DD."
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A voter's suggestion that Nerd Ballot add a book to its catalog, with evidence. Suggestions are reviewed by hand and never become eligible automatically."
+}

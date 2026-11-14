@@ -1,0 +1,87 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "asleep": {
+              "description": "Whether this pet's species is inside one of its published sleep windows right now, in which case createInteraction refuses a feed or a pet with the \"asleep\" code. Reported for the same reason the cooldown fields are: so the client disables the button on the real rule rather than on a copy it keeps itself and discovers is wrong by being refused.",
+              "type": "boolean"
+            },
+            "error": {
+              "type": "string"
+            },
+            "feedCooldownRemaining": {
+              "description": "Seconds until this pet can be fed again, or 0 if it can be now. Reported so the client can show a countdown and disable the button on the real rule, rather than on a copy of the cooldown it keeps itself and discovers is wrong by being refused.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "happiness": {
+              "type": "integer"
+            },
+            "happinessPips": {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            "hunger": {
+              "type": "integer"
+            },
+            "hungerPips": {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            "interactionCooldown": {
+              "description": "The full cooldown length in seconds, from pet.trezy.gameConfig. Lets a client start a countdown the instant it acts, without waiting a round trip and without hardcoding the number.",
+              "minimum": 1,
+              "type": "integer"
+            },
+            "level": {
+              "type": "integer"
+            },
+            "petCooldownRemaining": {
+              "description": "Seconds until this pet can be petted again, or 0 if it can be now.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "totalInteractions": {
+              "type": "integer"
+            },
+            "wakesAt": {
+              "description": "The GAME HOUR this pet wakes, absent when it is awake. ⚠ A GAME HOUR AND NOT A TIMESTAMP: a client wanting a countdown has dayLengthSeconds and can do the arithmetic, while an instant would be a second encoding of the same fact and the two could disagree.",
+              "maximum": 23,
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "did": {
+            "format": "did",
+            "type": "string"
+          },
+          "pet": {
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "did",
+          "pet"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "pet.trezy.getStats",
+  "lexicon": 1
+}

@@ -1,0 +1,54 @@
+{
+  "id": "is.currents.feed.searchCollections",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "collections"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "collections": {
+              "type": "array",
+              "items": {
+                "ref": "is.currents.feed.defs#collectionView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "q"
+        ],
+        "properties": {
+          "q": {
+            "type": "string",
+            "maxLength": 2048,
+            "description": "Collection name search query."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 25,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Search collections by name across all actors. Auth is optional; if provided, viewer-specific state is included."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

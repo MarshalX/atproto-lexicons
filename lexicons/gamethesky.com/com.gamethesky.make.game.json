@@ -1,0 +1,1204 @@
+{
+  "id": "com.gamethesky.make.game",
+  "defs": {
+    "gift": {
+      "type": "object",
+      "required": [
+        "to",
+        "message"
+      ],
+      "properties": {
+        "as": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "The slot of the game's cast they play (the star, a Hero slot, or the villain, Villain 1): the gift card shows that slot's photo.",
+          "knownValues": [
+            "hero1",
+            "hero2",
+            "hero3",
+            "foe1",
+            "foe2",
+            "foe3",
+            "foe4",
+            "foe5",
+            "foe6",
+            "villain1",
+            "villain2",
+            "villain3",
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4"
+          ]
+        },
+        "to": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "Who the game is for, by the name they go by (\"Ray\").",
+          "maxGraphemes": 40
+        },
+        "from": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "Who it's from, as they'd sign it; absent, the card names the account that made it.",
+          "maxGraphemes": 40
+        },
+        "message": {
+          "type": "string",
+          "maxLength": 1200,
+          "description": "The builder's message to them (\"Happy 50th, Ray! Love, Todd\"), shown on the gift card.",
+          "maxGraphemes": 300
+        }
+      }
+    },
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "title",
+          "theme",
+          "chapters",
+          "createdAt"
+        ],
+        "properties": {
+          "cast": {
+            "type": "array",
+            "items": {
+              "ref": "#member",
+              "type": "ref"
+            },
+            "maxLength": 16,
+            "description": "The maker's own cast, by slot (Heroes 1–3: the player and their allies; Foes 1–6: the regular enemies; Villains 1–3: the bosses; Extras 1–4: the rescued, faces on portraits, a host, a crowd), each once, with both of a person's pictures (a face and a cut-out figure). Each chapter type says which of its parts each slot plays (a chapter's castMap can change it). Optional: a game published without one is played with each player's own. Looks only."
+          },
+          "gift": {
+            "ref": "#gift",
+            "type": "ref",
+            "description": "A game made for someone: who it's for, a message to them, and who it's from. Its link opens on a gift card (\"A game for Ray\", the message, their photo, a big Play button) and its share card says so. Words only: not part of play."
+          },
+          "logo": {
+            "type": "blob",
+            "accept": [
+              "image/png",
+              "image/jpeg"
+            ],
+            "maxSize": 409600,
+            "description": "The game's title as a picture (a PNG with a clear background, at most 1200×400), shown in place of the typed title on its page, its chapter cards and its share card; the typed title stays for readers. Public once published. Looks only."
+          },
+          "cover": {
+            "type": "blob",
+            "accept": [
+              "image/jpeg",
+              "image/png"
+            ],
+            "maxSize": 614400,
+            "description": "The game's picture: its page, its share card, its tile in the gallery. 1200×630, cropped by the maker. Public once published. Looks only: play, boards and the verifier never read it."
+          },
+          "daily": {
+            "type": "boolean",
+            "description": "The game offers today's run: its chapters on seeds of the day (a run names its `day`, a board a day), besides the run that's the same every time. Part of play."
+          },
+          "ghost": {
+            "type": "boolean",
+            "description": "Race your best: where a chapter type can show one (the rolling ball), the player's best run of that chapter rolls alongside them, see-through. Looks only."
+          },
+          "theme": {
+            "ref": "#theme",
+            "type": "ref"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 240,
+            "maxGraphemes": 60
+          },
+          "video": {
+            "type": "boolean",
+            "description": "The page records each chapter as it's played, so a player can save a video of their run (it never leaves their device unless they share it). Looks only."
+          },
+          "builds": {
+            "type": "boolean",
+            "description": "Players build their own for the chapter types that take one (Fight the Sky's fighter: points over its stats and a special), chosen before a run; each run carries its build (`builds` on the run). Part of play."
+          },
+          "granny": {
+            "type": "boolean",
+            "description": "With levels: a fourth level, Granny, easier than Easy (a board of its own). Part of play."
+          },
+          "levels": {
+            "type": "boolean",
+            "description": "The game offers Easy, Normal and Hard: each chapter's settings moved toward the easy or the hard end of their ranges (a run names its `difficulty`, a board each). Part of play."
+          },
+          "rivals": {
+            "type": "string",
+            "maxLength": 16,
+            "description": "Who the enemies and rivals wear: 'cast', the game's cast (the default); 'follows', the faces of the people the player follows on Bluesky, on every foe part (the cast keeps you, the one you came for and the builder's own members); 'both', the cast where it has a photo and follows in the parts left uncast. Looks only: play, boards and the verifier never read it.",
+            "knownValues": [
+              "cast",
+              "follows",
+              "both"
+            ]
+          },
+          "scenes": {
+            "type": "array",
+            "items": {
+              "ref": "#scene",
+              "type": "ref"
+            },
+            "maxLength": 62,
+            "description": "The story told between chapters: cut-scenes, one at most before each chapter (the first is the opening) and one each for winning and losing at the end (and, in a game whose story branches, an ending of a way's own: see the scene's chapter). A scene a reader can't use is skipped, never the game. Words and looks only (not part of play, so adding or editing scenes keeps the game's board, and a verifier never reads them), except a scene's choices: where each goes is part of play."
+          },
+          "sounds": {
+            "type": "array",
+            "items": {
+              "ref": "#sound",
+              "type": "ref"
+            },
+            "maxLength": 8,
+            "description": "The builder's own sounds, recorded or uploaded in the maker: at most eight, five seconds each. Used by id where the game makes a noise: a scene's sting and a message's sound (as \"sound:<id>\"), a chapter's sounds (the walk-through's jump-outs and sound pieces, First person's alerts), the title card's and the credits' sound. Only the ones the game uses are published. Public once published; looks only: play, boards and the verifier never read them. A hidden game's are withheld."
+          },
+          "credits": {
+            "ref": "#credits",
+            "type": "ref",
+            "description": "The game's end credits, rolled after the ending and before the results, skippable. Present means they're on. Looks only: not part of play."
+          },
+          "remixOf": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The game this one was remixed from, pinned to the version remixed: credit, shown on the game's page. Absent for an original."
+          },
+          "weapons": {
+            "type": "array",
+            "items": {
+              "ref": "#weapon",
+              "type": "ref"
+            },
+            "maxLength": 8,
+            "description": "The builder's own weapons, for First person chapters: a chapter carries the ones its `custom` setting ticks (a bit each, the first weapon bit 0), and a drawn level places them as pickups (① to ⑧). Their numbers are part of play (changing one gives the game a fresh board); their names, looks and pictures are words and looks. A reader takes eight at most and clamps each number to its range."
+          },
+          "campaign": {
+            "type": "boolean",
+            "description": "With daily: a week's campaign. Today's run is one chapter, tonight's (the last chapter, the finale, on Saturdays and Sundays; the others in turn through the week), and the week's board adds up each account's nights Monday to Sunday (UTC). Part of play."
+          },
+          "chapters": {
+            "type": "array",
+            "items": {
+              "ref": "#chapter",
+              "type": "ref"
+            },
+            "maxLength": 60,
+            "minLength": 1,
+            "description": "Played in order, unless the game branches: clearing one goes on to the next (or where its next says, and a scene's choice can send the player ahead); losing one ends the run."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "titleCard": {
+            "ref": "#titleCard",
+            "type": "ref",
+            "description": "The game's own title card, shown before the opening scene or the first chapter's card, with a short fade. Present means it's on. Looks only: not part of play."
+          },
+          "worldLife": {
+            "type": "boolean",
+            "description": "With carryLives: each chapter that starts a new world (after the first chapter) gives a life back, up to 5 (never fewer than carried). Part of play, with where the worlds start: a game with it has its own board."
+          },
+          "carryLives": {
+            "type": "boolean",
+            "description": "Lives carry over: each chapter with lives after the first starts with the lives the player had left (at most 9), not its own lives setting; chapters without lives pass them along. Part of play: a game with it has its own board."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 800,
+            "maxGraphemes": 200
+          },
+          "ghostFights": {
+            "type": "boolean",
+            "description": "Players can save their fighter (a com.gamethesky.make.fighter record) and anyone can fight it as a ghost: one bout on the game's first chapter whose type takes a ghost, the chapter's CPU driving the saved build and style at a skill the challenger picks. A run against a ghost pins the fighter's version (`vs` on the run), verifies and never ranks. Part of play."
+          }
+        }
+      },
+      "description": "A game somebody made in Make the Sky, published into their own repo: a title, a line about it, its look, and one to eight chapters, each one of Game the Sky's engines (a module) on one of its levels (a preset) with its knobs set. Play is decided by the chapters alone (and, in a game whose story branches, where its choices and jumps go). A game is edited in place (the same record, a new version): its board belongs to its way of playing (the chapters' modules, versions, presets and settings, and its paths), so renaming or restyling it keeps the board, and changing a chapter starts a fresh one. A run pins the version it was played on; a verifier replays it on the game as it stands and takes it only if it replays the same."
+    },
+    "level": {
+      "type": "object",
+      "required": [
+        "rows"
+      ],
+      "properties": {
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 160
+          },
+          "maxLength": 24,
+          "minLength": 8,
+          "description": "The grid, top row first, one character a square, every row the same length. The characters are the module's own. The platformer: . air, # ground, = bricks, - ledge, o coin, ^ spikes, w walker, h hopper, B boss, + extra life, S start, D door. The house: Make a House's tiles. The walk-through: the house's walls, portraits, windows, start, key and doors, E the way out, jump-outs (g h f x V T, and ⑴ to ⒃ one of the cast placed by hand: hero1 to extra4), sounds (A L R I J N Y), F a fog machine, props (s Z C t H c j w b). The tank maze: a square, # block, . floor, S you, r a rival. The vortex: o the rim, one square a lane, a loop for a closed tube or a line for an open one. First person also takes weapon pickups (ⓟ pistol, ⓢ suppressed pistol, ⓜ SMG, ⓖ shotgun, ⓝ sniper rifle, ⓣ taser, ⓓ tranquilizer, ① to ⑧ the game's own weapons), gadgets (ⓒ a coin, ⓔ an EMP) and ⚑ a checkpoint. The walk-through, First person, the puzzle room and the street chase take ⑴ to ⒃: one of the cast, by slot (hero1, hero2, hero3, foe1 to foe6, villain1 to villain3, extra1 to extra4), placed by hand."
+        }
+      }
+    },
+    "scene": {
+      "type": "object",
+      "required": [
+        "at",
+        "bg"
+      ],
+      "properties": {
+        "at": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "Where it plays: before a chapter (see chapter), or at the end, after the last chapter is cleared (win) or after a chapter is lost (lose), before the results.",
+          "knownValues": [
+            "before",
+            "win",
+            "lose"
+          ]
+        },
+        "bg": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "What plays behind the words: replay, the last moments of the chapter just played, slowed down, dimmed and silent (a flyby before the first chapter, where nothing's been played yet); flyby, a slow look round the next chapter's level; picture, the builder's own (see picture); plain, the game's theme.",
+          "knownValues": [
+            "replay",
+            "flyby",
+            "picture",
+            "plain"
+          ]
+        },
+        "lines": {
+          "type": "array",
+          "items": {
+            "ref": "#sceneLine",
+            "type": "ref"
+          },
+          "maxLength": 6,
+          "description": "Typed out one at a time; the player moves on line by line."
+        },
+        "music": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "A mood of music under the scene. Absent: none.",
+          "knownValues": [
+            "musicbox",
+            "heartbeat",
+            "unease",
+            "dread",
+            "tension",
+            "groove",
+            "pulse",
+            "drift",
+            "alarm",
+            "island",
+            "heist"
+          ]
+        },
+        "sting": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "A recorded sound as the scene opens: one of the horror pack's, or one of the game's own sounds as \"sound:<id>\". Absent: none.",
+          "knownValues": [
+            "creepy_hello",
+            "creepy_laugh",
+            "female_scream",
+            "intrigue_event",
+            "jump_scare",
+            "jump_scare_horn",
+            "lets_play"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 240,
+          "maxGraphemes": 60
+        },
+        "chapter": {
+          "type": "integer",
+          "maximum": 59,
+          "minimum": 0,
+          "description": "For a scene before a chapter: which one, counting from 0 (0 is the opening, before the first chapter's card). For an ending (win or lose) in a game whose story branches: the ending for the way whose last chapter played was this one; the ending without a chapter plays wherever no way's own matches. Looks only."
+        },
+        "choices": {
+          "type": "array",
+          "items": {
+            "ref": "#choice",
+            "type": "ref"
+          },
+          "maxLength": 3,
+          "minLength": 2,
+          "description": "For a scene before a chapter: a choice of two or three ways, shown as buttons after its last line. Picking one plays where it goes instead of this scene's chapter. A reader that can't take every option (one going backward, past the last chapter, or to the ending from the opening) plays the scene without a choice. Where the ways go is part of play; their labels are words."
+        },
+        "picture": {
+          "type": "blob",
+          "accept": [
+            "image/jpeg",
+            "image/png"
+          ],
+          "maxSize": 716800,
+          "description": "The builder's own picture for a picture background (at most 1600×900). Public once published. Looks only."
+        }
+      },
+      "description": "A cut-scene: a title and a few lines typed out over a letterboxed screen, each said by one of the cast or by nobody (narration), over a background of the builder's choosing."
+    },
+    "sound": {
+      "type": "object",
+      "required": [
+        "id",
+        "blob",
+        "mime",
+        "ms"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 12,
+          "description": "Lowercase letters and digits, unique in the game: how the rest of the record names it."
+        },
+        "ms": {
+          "type": "integer",
+          "maximum": 5000,
+          "minimum": 1,
+          "description": "How long it is, in milliseconds."
+        },
+        "blob": {
+          "type": "blob",
+          "accept": [
+            "audio/*",
+            "video/mp4"
+          ],
+          "maxSize": 204800,
+          "description": "The sound: AAC in an MP4, or 16-bit PCM in a WAV, mono, at most five seconds and 200 KB. (A data server may name an MP4 video/mp4 or audio/x-m4a, and a WAV audio/x-wav or audio/vnd.wave, by its bytes.)"
+        },
+        "mime": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "What it is, as the maker made it.",
+          "knownValues": [
+            "audio/mp4",
+            "audio/wav"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "What the builder calls it (\"Grandpa's yell\").",
+          "maxGraphemes": 40
+        }
+      },
+      "description": "One of the builder's own sounds."
+    },
+    "theme": {
+      "type": "object",
+      "required": [
+        "palette",
+        "pattern",
+        "mood",
+        "type"
+      ],
+      "properties": {
+        "card": {
+          "type": "string",
+          "description": "The share card's layout: the game card (absent), a movie poster billing the cast (Haunt the Sky's), or a fight poster: faces in rings, VS, a red slash (Fight the Sky's). Looks only.",
+          "knownValues": [
+            "card",
+            "poster",
+            "fight"
+          ]
+        },
+        "mood": {
+          "type": "string",
+          "description": "How the chapters light their worlds.",
+          "knownValues": [
+            "bright",
+            "dusk",
+            "cold",
+            "neon",
+            "space",
+            "horror",
+            "retro"
+          ]
+        },
+        "type": {
+          "type": "string",
+          "description": "The typeface for titles.",
+          "knownValues": [
+            "anton",
+            "creepster",
+            "inter"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "description": "How the game's title is lettered: plain (absent), or in stripes from the palette (accent, words, white, words, accent: TRAN's flag). Looks only.",
+          "knownValues": [
+            "plain",
+            "stripes"
+          ]
+        },
+        "ladder": {
+          "type": "boolean",
+          "description": "Faces worn as Sky Vortex wears them: one face a web, in turn, and every face at once on a world's last web (the faces not cast in a part, then the people the player follows). Looks only."
+        },
+        "native": {
+          "type": "boolean",
+          "description": "Each level in its own look and song, where its chapter type has looks by level (the vortex's and the tank maze's worlds, the house's floors), as the standalone games show them; else the mood picks one look for the whole game. Looks only."
+        },
+        "preset": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "The look it started from (haunted, neon, storybook, space, retro, frozen, sunset), or custom."
+        },
+        "palette": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 7
+          },
+          "maxLength": 5,
+          "minLength": 5,
+          "description": "Five #rrggbb colors: the page, its panels, the accent, danger, and the words."
+        },
+        "pattern": {
+          "type": "string",
+          "knownValues": [
+            "none",
+            "grid",
+            "stripes",
+            "dots",
+            "checks",
+            "waves",
+            "stars"
+          ]
+        }
+      }
+    },
+    "choice": {
+      "type": "object",
+      "required": [
+        "label",
+        "to"
+      ],
+      "properties": {
+        "to": {
+          "type": "string",
+          "maxLength": 8,
+          "description": "Where it goes: a chapter's index counting from 0, written in digits (\"2\"), this scene's own chapter or a later one; or \"end\", the ending (not from the opening scene: a run plays at least one chapter). Arriving at another chapter plays that chapter's own scene (and its choice) first."
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 240,
+          "description": "What the button says. Words only: a hidden game's read \"Option 1\", \"Option 2\"…",
+          "maxGraphemes": 60
+        }
+      },
+      "description": "One way on from a scene's choice."
+    },
+    "member": {
+      "type": "object",
+      "required": [
+        "slot",
+        "name"
+      ],
+      "properties": {
+        "body": {
+          "type": "blob",
+          "accept": [
+            "image/png"
+          ],
+          "maxSize": 196608,
+          "description": "A cut-out PNG of them head to toe, the background clear. 192 KB at most."
+        },
+        "face": {
+          "type": "blob",
+          "accept": [
+            "image/jpeg"
+          ],
+          "maxSize": 196608,
+          "description": "A 256×256 JPEG of their face. 192 KB at most."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 160,
+          "maxGraphemes": 40
+        },
+        "slot": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "Which slot they're in: hero1 (you), hero2–3, foe1–6, villain1–3, extra1–4.",
+          "knownValues": [
+            "hero1",
+            "hero2",
+            "hero3",
+            "foe1",
+            "foe2",
+            "foe3",
+            "foe4",
+            "foe5",
+            "foe6",
+            "villain1",
+            "villain2",
+            "villain3",
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4"
+          ]
+        },
+        "handle": {
+          "type": "string",
+          "format": "handle",
+          "description": "A Bluesky person: their handle. Players' pages fetch their avatar live (app.bsky.actor.getProfile on the public AppView) and wear it as the face, on a drawn body where a figure is wanted; an account that's gone leaves the name and the chapter's own look. Usually with no face or body. A hidden game shows neither the name nor the handle."
+        }
+      },
+      "description": "One of the cast: their slot, the name they're billed under, and their pictures (a face and a cut-out figure, both made from one photo), or a Bluesky person by their handle (no picture uploaded: players fetch the avatar live from the public profile). At least one picture or a handle."
+    },
+    "poster": {
+      "type": "object",
+      "required": [
+        "x",
+        "y",
+        "pic"
+      ],
+      "properties": {
+        "x": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The wall square's column, as the level's rows have it (the drawn level's, or the preset's own map)."
+        },
+        "y": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The wall square's row."
+        },
+        "pic": {
+          "type": "integer",
+          "maximum": 6,
+          "minimum": 1,
+          "description": "Which of the chapter's poster pictures it shows: 1 is pictures.poster1, and so on."
+        }
+      }
+    },
+    "weapon": {
+      "type": "object",
+      "required": [
+        "name",
+        "look",
+        "damage",
+        "rate",
+        "range",
+        "magazine",
+        "lethal"
+      ],
+      "properties": {
+        "look": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "The built-in model it wears. Looks only.",
+          "knownValues": [
+            "pistol",
+            "silenced",
+            "smg",
+            "shotgun",
+            "sniper",
+            "taser",
+            "tranq"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 96,
+          "maxGraphemes": 24
+        },
+        "rate": {
+          "type": "integer",
+          "maximum": 120,
+          "minimum": 4,
+          "description": "60 Hz ticks between shots."
+        },
+        "skin": {
+          "type": "blob",
+          "accept": [
+            "image/jpeg",
+            "image/png"
+          ],
+          "maxSize": 122880,
+          "description": "The builder's picture on its body (a square JPEG, 256×256, at most 120 KB). Public once published. Looks only."
+        },
+        "delay": {
+          "type": "integer",
+          "maximum": 300,
+          "minimum": 0,
+          "description": "A non-lethal weapon's: 60 Hz ticks a guard staggers before it drops (0: at once)."
+        },
+        "noise": {
+          "type": "integer",
+          "maximum": 14,
+          "minimum": 0,
+          "description": "How far guards hear a shot, in squares (0: silent)."
+        },
+        "range": {
+          "type": "integer",
+          "maximum": 24,
+          "minimum": 1,
+          "description": "How far a round goes, in squares."
+        },
+        "spare": {
+          "type": "integer",
+          "maximum": 9,
+          "minimum": 0,
+          "description": "Spare magazines carried at the start."
+        },
+        "damage": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 1,
+          "description": "Health off a guard per round that lands (a guard has 4 at the default toughness, the boss 28). Lethal weapons only."
+        },
+        "lethal": {
+          "type": "boolean",
+          "description": "False: a hit knocks a guard out (unconscious) instead of hurting it."
+        },
+        "reload": {
+          "type": "integer",
+          "maximum": 300,
+          "minimum": 20,
+          "description": "60 Hz ticks to reload."
+        },
+        "spread": {
+          "type": "integer",
+          "maximum": 60,
+          "minimum": 0,
+          "description": "How far a round can stray either way, in 1024ths of a turn."
+        },
+        "pellets": {
+          "type": "integer",
+          "maximum": 9,
+          "minimum": 1,
+          "description": "Rounds a pull of the trigger (a shotgun's several)."
+        },
+        "magazine": {
+          "type": "integer",
+          "maximum": 60,
+          "minimum": 1,
+          "description": "Rounds (or charges) in a magazine."
+        }
+      },
+      "description": "One of the builder's own weapons: what it's called, which built-in model it wears, and what it does. Every number is a whole number in its range (a reader clamps it)."
+    },
+    "chapter": {
+      "type": "object",
+      "required": [
+        "module",
+        "version",
+        "title",
+        "preset",
+        "settings"
+      ],
+      "properties": {
+        "hunt": {
+          "type": "array",
+          "items": {
+            "ref": "#huntRoom",
+            "type": "ref"
+          },
+          "maxLength": 5,
+          "description": "A photo hunt chapter's own pictures and what to find in them, in the order shown (absent: its preset's painted scenes). Part of play: where the spots are decides the score. A reader lets go of a spot it can't place and of a picture with none left."
+        },
+        "next": {
+          "type": "string",
+          "maxLength": 8,
+          "description": "Where the path goes once this chapter is cleared, when it isn't simply the next chapter: a later chapter's index counting from 0, written in digits (\"3\"), or \"end\" (the ending). Forward only: a reader lets go of a value that isn't later than this chapter or is past the last, and the chapter goes on to the next as if it had none. Absent: the next chapter, or the ending after the last. Part of play."
+        },
+        "quiz": {
+          "type": "array",
+          "items": {
+            "ref": "#question",
+            "type": "ref"
+          },
+          "maxLength": 20,
+          "description": "A trivia chapter's own questions, in the order asked (absent: its preset's). Part of play: the right answers decide the score, so they're in the record for the verifier (anyone reading the record can see them). A reader lets go of a question it can't play (no words, fewer than two answers, the right one empty) and plays the preset's if none is left."
+        },
+        "level": {
+          "ref": "#level",
+          "type": "ref",
+          "description": "A level the builder drew in the maker, in place of the preset's own map, for modules whose levels can be drawn (platformer, house, tank maze, vortex, walk-through). A reader runs the module's own checker on it and refuses the game if it fails."
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 160,
+          "maxGraphemes": 40
+        },
+        "words": {
+          "type": "unknown",
+          "description": "The builder's own words in place of the chapter's: an object of strings by key (for example {\"objective\": \"Grandma's recipe\", \"boss\": \"AUNT MARGE\"}). Each module declares its keys (its banners, toasts, HUD labels, the hint) and how long each may be; a reader keeps only keys it knows, trims each to its limit, and says the rest in the module's own words. A word may hold placeholders such as {n} and {total}, filled with the numbers as it's said. Looks only: play, boards and the verifier never read it."
+        },
+        "world": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "A new world (or section) starts at this chapter: its name (\"The Deep\"), shown as a banner on the chapter card and grouping the chapters after it, up to the next chapter that starts one. Empty is a world named by its number. Looks only.",
+          "maxGraphemes": 40
+        },
+        "module": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "The engine, one of Game the Sky's games made a chapter: platformer, house (a haunted floor), tanks (a tank maze), vortex (a tube of lanes), roll (a tilting course), fight (a bout), golf (a hole), cycles, discs, uplink and canyon (the grid), belts (the counter), race (a sling race), gunner (the door gunner), the arcade classics, walk (a haunted walk-through: no gun, a nerve meter), and fps (first person, armed, in a place such as a military facility: guards, keycards, intel, extraction), kart (a kart race on a 3D course, with items), grift (Grift Chaser, a speed platformer side on), and f47 (an isometric strike mission in a stealth fighter-bomber). The list grows as games are added; a reader refuses a module it doesn't have.",
+          "knownValues": [
+            "platformer",
+            "house",
+            "tanks",
+            "vortex",
+            "roll",
+            "fight",
+            "golf",
+            "cycles",
+            "discs",
+            "uplink",
+            "canyon",
+            "belts",
+            "race",
+            "gunner",
+            "drones",
+            "landing",
+            "deckgun",
+            "minefield",
+            "pipes",
+            "catch",
+            "fence",
+            "airdrop",
+            "invaders",
+            "crossing",
+            "walk",
+            "fps",
+            "trivia",
+            "hunt",
+            "puzzle",
+            "chase",
+            "kart",
+            "grift",
+            "f47"
+          ]
+        },
+        "preset": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "The module's own level to start from (or, with a drawn level, the look it's drawn in)."
+        },
+        "rivals": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "This chapter's own rule for who its rivals wear, in place of the game's ('cast' here says the cast even in a game of follows). Looks only.",
+          "knownValues": [
+            "cast",
+            "follows",
+            "both"
+          ]
+        },
+        "sounds": {
+          "type": "unknown",
+          "description": "The game's own sounds in place of the chapter's, by the noise (an object of sound ids by key): the walk-through's jump-outs (ghoul, thing, face, hound, victim, drop, member) and sound pieces (cueA, cueL, cueR, cueI, cueJ, cueN, cueY); First person's alerts (spotted, alarm, caught, checkpoint). A reader takes only the keys its module names and the sounds the game has. Looks only."
+        },
+        "castMap": {
+          "type": "unknown",
+          "description": "Who plays the chapter type's parts in this chapter, where the builder changed it from the type's own: an object of slots (hero1…extra4) by part (the type's own names: guard, boss, rival, ghoul…; \"in this chapter, the guards are Foe 3\"). A reader keeps only parts its module has. Looks only."
+        },
+        "posters": {
+          "type": "array",
+          "items": {
+            "ref": "#poster",
+            "type": "ref"
+          },
+          "maxLength": 24,
+          "description": "The builder's pictures hung on the level's walls (a wanted poster, a family photo, a logo, a sign), for chapter types whose levels have walls to see (the house, the walk-through, first person, the tank maze): one a wall square, framed on the face that looks onto the most open floor. A poster on a square that isn't a wall, or whose picture is missing, isn't shown. Looks only: not part of play."
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "The module's rules this chapter was built on. A reader that doesn't have that version refuses the game rather than playing it differently."
+        },
+        "backdrop": {
+          "type": "blob",
+          "accept": [
+            "image/jpeg",
+            "image/png"
+          ],
+          "maxSize": 716800,
+          "description": "A picture for this chapter's sky or backdrop, drawn behind the play where the chapter type can (at most 1600×900). Public once published. Looks only: play, boards and the verifier never read it."
+        },
+        "messages": {
+          "type": "array",
+          "items": {
+            "ref": "#message",
+            "type": "ref"
+          },
+          "maxLength": 24,
+          "description": "Story beats placed on squares of the chapter's level (drawn or the preset's own), for modules whose levels take them (house, walk, fps, platformer, tanks): each shown in a strip as the player reaches its square, without stopping play. Looks only: play, boards and the verifier never read them."
+        },
+        "pictures": {
+          "type": "unknown",
+          "description": "The chapter's own pictures, by key, each a blob: a JPEG or PNG that fits inside 512×512 keeping its own shape (at most 200 KB). poster1 to poster6 are the pictures its posters hang on the level's walls; q1 to q20 are a trivia chapter's pictures for its questions (by a question's pic); room1 to room5 are a photo hunt's rooms (by a room's pic), which may be up to 1024 across; objective, keycard, ammo, medkit and coin are the faces of what the player picks up, where the chapter type has them (objective: first person's intel and evidence, the house's and the walk-through's key and the sign over their way out, the platformer's door; coin: first person's and the platformer's coins), shown on the pickup, on the HUD and in its banner. Public once published. Looks only: play, boards and the verifier never read them."
+        },
+        "settings": {
+          "type": "unknown",
+          "description": "The module's knobs as an object of whole numbers by key (for example {\"lives\": 3, \"speed\": 120}). Each module declares its keys and ranges; readers clamp to them, and a missing key takes its default. First person's include, all optional: stealth, guards, bodies (guards find bodies), rally (after you're down: back at the last checkpoint, topped up), kit (the built-in weapons carried besides the rifle, a bit each: pistol, suppressed pistol, SMG, shotgun, sniper rifle, taser, tranquilizer), custom (the game's own weapons carried, a bit each), coins and emps (the gadgets)."
+        },
+        "textures": {
+          "type": "unknown",
+          "description": "The builder's own art for the pieces of the chapter's level, by piece (the module's own names: the platformer's ground, bricks and ledge; the house's and the tank maze's wall and floor; the walk-through's wall, floor, ceiling and portrait), each a blob: a square JPEG (256×256, at most 120 KB) drawn tiled, one a square of the level. Public once published. Looks only."
+        }
+      }
+    },
+    "credits": {
+      "type": "object",
+      "properties": {
+        "loop": {
+          "type": "boolean",
+          "description": "The credits' sound plays over and over under the whole roll (a music bed)."
+        },
+        "lines": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 320,
+            "maxGraphemes": 80
+          },
+          "maxLength": 12,
+          "description": "The builder's own lines (\"Made by Todd for the Lambert family reunion\")."
+        },
+        "sound": {
+          "type": "string",
+          "maxLength": 12,
+          "description": "One of the game's own sounds (its id), played as the credits start to roll."
+        },
+        "picture": {
+          "type": "blob",
+          "accept": [
+            "image/jpeg",
+            "image/png"
+          ],
+          "maxSize": 716800,
+          "description": "A picture at the end of the roll (at most 1600×900). Public once published. Looks only."
+        },
+        "starring": {
+          "type": "array",
+          "items": {
+            "ref": "#starring",
+            "type": "ref"
+          },
+          "maxLength": 15,
+          "description": "The cast, in order, each once: shown with their photo and the name they go by in the game."
+        }
+      }
+    },
+    "message": {
+      "type": "object",
+      "required": [
+        "x",
+        "y",
+        "text"
+      ],
+      "properties": {
+        "x": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The square's column, as the level's rows have it."
+        },
+        "y": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The square's row."
+        },
+        "who": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "Who says it: one of the game's cast's slots (shown with their photo and name), or absent for a note or the narrator.",
+          "knownValues": [
+            "hero1",
+            "hero2",
+            "hero3",
+            "foe1",
+            "foe2",
+            "foe3",
+            "foe4",
+            "foe5",
+            "foe6",
+            "villain1",
+            "villain2",
+            "villain3",
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 640,
+          "maxGraphemes": 160
+        },
+        "again": {
+          "type": "boolean",
+          "description": "Shown every time the player steps back onto it, not only the first."
+        },
+        "sting": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "A sound as it shows: one of the horror pack's recordings, a radio's blip, or one of the game's own sounds as \"sound:<id>\".",
+          "knownValues": [
+            "creepy_hello",
+            "creepy_laugh",
+            "female_scream",
+            "intrigue_event",
+            "jump_scare",
+            "jump_scare_horn",
+            "lets_play",
+            "radio"
+          ]
+        }
+      }
+    },
+    "huntRoom": {
+      "type": "object",
+      "required": [
+        "pic",
+        "targets"
+      ],
+      "properties": {
+        "pic": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 1,
+          "description": "Which of the chapter's pictures it is (its pictures' room1 to room5)."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "What the picture is called (\"Grandma's kitchen\"). Looks only.",
+          "maxGraphemes": 40
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "ref": "#huntTarget",
+            "type": "ref"
+          },
+          "maxLength": 8,
+          "minLength": 1
+        }
+      }
+    },
+    "question": {
+      "type": "object",
+      "required": [
+        "q",
+        "answers",
+        "right"
+      ],
+      "properties": {
+        "q": {
+          "type": "string",
+          "maxLength": 640,
+          "description": "What's asked (\"What year did Grandpa buy the station wagon?\").",
+          "maxGraphemes": 160
+        },
+        "pic": {
+          "type": "integer",
+          "maximum": 20,
+          "minimum": 1,
+          "description": "The chapter's picture shown with it (its pictures' q1 to q20). Looks only."
+        },
+        "time": {
+          "type": "integer",
+          "maximum": 60,
+          "minimum": 5,
+          "description": "Its own clock in seconds, in place of the chapter's setting."
+        },
+        "right": {
+          "type": "integer",
+          "maximum": 3,
+          "minimum": 0,
+          "description": "Which answer is right, counting from 0."
+        },
+        "answers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 240,
+            "maxGraphemes": 60
+          },
+          "maxLength": 4,
+          "minLength": 2,
+          "description": "Two to four answers, shown in this order."
+        }
+      }
+    },
+    "starring": {
+      "type": "object",
+      "required": [
+        "who"
+      ],
+      "properties": {
+        "as": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "Who they play (\"Grandma\"), shown as \"as Grandma\".",
+          "maxGraphemes": 40
+        },
+        "who": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "One of the game's cast's slots.",
+          "knownValues": [
+            "hero1",
+            "hero2",
+            "hero3",
+            "foe1",
+            "foe2",
+            "foe3",
+            "foe4",
+            "foe5",
+            "foe6",
+            "villain1",
+            "villain2",
+            "villain3",
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4"
+          ]
+        }
+      }
+    },
+    "sceneLine": {
+      "type": "object",
+      "required": [
+        "text"
+      ],
+      "properties": {
+        "who": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "Who says it: one of the cast's slots (their photo and name show beside the line). Absent: narration.",
+          "knownValues": [
+            "hero1",
+            "hero2",
+            "hero3",
+            "foe1",
+            "foe2",
+            "foe3",
+            "foe4",
+            "foe5",
+            "foe6",
+            "villain1",
+            "villain2",
+            "villain3",
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 640,
+          "maxGraphemes": 160
+        }
+      }
+    },
+    "titleCard": {
+      "type": "object",
+      "properties": {
+        "line": {
+          "type": "string",
+          "maxLength": 480,
+          "description": "A line under the title.",
+          "maxGraphemes": 120
+        },
+        "sound": {
+          "type": "string",
+          "maxLength": 12,
+          "description": "One of the game's own sounds (its id), played as the card fades in."
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 240,
+          "description": "In place of the game's title on the card; absent, the game's own.",
+          "maxGraphemes": 60
+        },
+        "picture": {
+          "type": "blob",
+          "accept": [
+            "image/jpeg",
+            "image/png"
+          ],
+          "maxSize": 716800,
+          "description": "The builder's picture for the card (at most 1600×900); absent, the game's logo if it has one. Public once published. Looks only."
+        }
+      }
+    },
+    "huntTarget": {
+      "type": "object",
+      "required": [
+        "x",
+        "y",
+        "r",
+        "label"
+      ],
+      "properties": {
+        "r": {
+          "type": "integer",
+          "maximum": 250,
+          "minimum": 12,
+          "description": "How far from its middle a tap still finds it, in the same space."
+        },
+        "s": {
+          "type": "integer",
+          "maximum": 800,
+          "minimum": 40,
+          "description": "How tall the cast member stands, in the picture's space. Looks only."
+        },
+        "x": {
+          "type": "integer",
+          "maximum": 999,
+          "minimum": 0,
+          "description": "Its middle, across the picture, in the picture's own space: its longer side runs 0 to 999 and the shorter in proportion."
+        },
+        "y": {
+          "type": "integer",
+          "maximum": 999,
+          "minimum": 0,
+          "description": "Its middle, down the picture, in the same space."
+        },
+        "who": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "One of the game's cast (any slot) stood in the picture here as a cut-out, to be found. Looks only.",
+          "knownValues": [
+            "hero1",
+            "hero2",
+            "hero3",
+            "foe1",
+            "foe2",
+            "foe3",
+            "foe4",
+            "foe5",
+            "foe6",
+            "villain1",
+            "villain2",
+            "villain3",
+            "extra1",
+            "extra2",
+            "extra3",
+            "extra4"
+          ]
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "What it is, on the list of what to find (\"Grandpa\", \"the cat\"). Looks only.",
+          "maxGraphemes": 40
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

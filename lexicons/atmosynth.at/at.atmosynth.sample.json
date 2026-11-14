@@ -1,0 +1,103 @@
+{
+  "id": "at.atmosynth.sample",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "audio",
+          "createdAt"
+        ],
+        "properties": {
+          "key": {
+            "ref": "at.atmosynth.defs#key",
+            "type": "ref",
+            "description": "The key a melodic loop or take is in. Optional."
+          },
+          "kind": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "`oneShot`: a single hit or note, played from a key. `loop`: a whole number of beats meant to repeat. `recording`: a longer take. Optional: absent says nothing of how it is meant to be used.",
+            "knownValues": [
+              "oneShot",
+              "loop",
+              "recording"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "description": "What its creator calls it."
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 128
+            },
+            "maxLength": 32,
+            "description": "Freely created tags, lower-cased on write."
+          },
+          "audio": {
+            "type": "blob",
+            "accept": [
+              "audio/wav",
+              "audio/flac"
+            ],
+            "maxSize": 52428800,
+            "description": "The recording, in this record's own account."
+          },
+          "beats": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "How many beats a loop lasts, where `tempo` alone would leave it to rounding. Optional."
+          },
+          "tempo": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "The tempo it was played at, in beats per minute from 20 to 999, as decimal text, from which a clip can be warped to an arrangement's. Optional: absent where it has none."
+          },
+          "license": {
+            "ref": "at.atmosynth.defs#license",
+            "type": "ref"
+          },
+          "lineage": {
+            "type": "array",
+            "items": {
+              "ref": "at.atmosynth.defs#lineage",
+              "type": "ref"
+            },
+            "maxLength": 64
+          },
+          "seconds": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "How long it lasts, in seconds, as decimal text, so a listing can say so without fetching it."
+          },
+          "rootNote": {
+            "type": "integer",
+            "maximum": 127,
+            "minimum": 0,
+            "description": "The note a one-shot was recorded at, as a MIDI note number, so a key plays it at its own pitch. Optional."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000
+          }
+        }
+      },
+      "description": "A sample, held in its creator's own repository."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A recording published to be found and used: a one-shot, a loop or a longer take, with what is known of its time and pitch. A recording used only inside an arrangement is a blob of that arrangement and needs no record; this is for sharing one."
+}

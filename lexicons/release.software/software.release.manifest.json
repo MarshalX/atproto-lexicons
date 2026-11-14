@@ -1,0 +1,35 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "An immutable collection of release artifacts. Written once and never updated: all facts (artifact digests, sizes, locations) are fixed at creation. Lifecycle changes use software.release.status records and software.release.channel moves. Any update to an existing release record is treated by indexers as a probable-compromise signal. Valid only when this record's DID matches the referenced project's DID.",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "artifacts": {
+            "description": "Typed release artifact fragments. Distribution and integrity rules are specified by each artifact's schema.",
+            "items": {
+              "closed": false,
+              "refs": [],
+              "type": "union"
+            },
+            "type": "array"
+          },
+          "project": {
+            "description": "The software.release.project this release belongs to. Must be same-DID.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "project",
+          "artifacts"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "software.release.manifest",
+  "lexicon": 1
+}

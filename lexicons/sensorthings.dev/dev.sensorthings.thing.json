@@ -1,0 +1,67 @@
+{
+  "id": "dev.sensorthings.thing",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "createdAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "location": {
+            "ref": "#geoPoint",
+            "type": "ref",
+            "description": "Nominal/static location of the Thing. For mobile platforms, this is the deployment position (e.g. mooring point); time-varying position is recorded via position observations."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "properties": {
+            "type": "unknown",
+            "description": "Open metadata object (manufacturer, model, serial number, deployment date, etc.)"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 2048
+          }
+        }
+      },
+      "description": "A physical object (station, platform, device) capable of hosting sensors."
+    },
+    "geoPoint": {
+      "type": "object",
+      "required": [
+        "latE7",
+        "lonE7"
+      ],
+      "properties": {
+        "altMm": {
+          "type": "integer",
+          "description": "Altitude in mm above WGS84 ellipsoid"
+        },
+        "latE7": {
+          "type": "integer",
+          "maximum": 900000000,
+          "minimum": -900000000
+        },
+        "lonE7": {
+          "type": "integer",
+          "maximum": 1800000000,
+          "minimum": -1800000000
+        }
+      },
+      "description": "WGS84 point. Coordinates as integers: latE7 = lat × 1e7, lonE7 = lon × 1e7. Altitude in millimetres. To be replaced with ATGeo community type when available."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 1
+}

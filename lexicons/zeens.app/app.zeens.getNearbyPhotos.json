@@ -1,0 +1,38 @@
+{
+  "id": "app.zeens.getNearbyPhotos",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "bbox"
+        ],
+        "properties": {
+          "bbox": {
+            "type": "string",
+            "description": "Viewport bounding box as 'minLng,minLat,maxLng,maxLat' in decimal degrees."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 500,
+            "maximum": 1000,
+            "minimum": 1,
+            "description": "Maximum number of pins to return. Most-liked photos win when the box is dense."
+          },
+          "category": {
+            "type": "string",
+            "description": "Optional case-insensitive substring filter on postMeta categories, narrowing the viewport pins to one category."
+          }
+        }
+      },
+      "description": "Retrieve geotagged Zeens photos inside a geographic bounding box. Powers the Explore map: each result carries its lat/lng (decoded from the int*1e7 stored in postMeta), the first image cid for a thumbnail, the author identity, and the like count for ordering co-located stacks.",
+      "target_collection": "app.zeens.postMeta"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

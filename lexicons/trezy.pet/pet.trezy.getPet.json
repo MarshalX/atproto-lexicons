@@ -1,0 +1,60 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "createdAt": {
+              "format": "datetime",
+              "type": "string"
+            },
+            "error": {
+              "description": "Present instead of a pet. `not found` is the ORIGINAL spelling, with a space, and it stays that way: PetPage branches on it and renaming it would break the public profile page for no gain.",
+              "knownValues": [
+                "not found",
+                "bad-request"
+              ],
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "species": {
+              "type": "string"
+            },
+            "uri": {
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "aturi": {
+            "description": "Hydrate ONE pet by its at-uri, as listed by pet.trezy.getPets. This is the mode the roster uses: the list call returns identifiers and each is fetched here, which keeps a large collection off the wire. Takes precedence over `did`.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "did": {
+            "description": "Whose newest pet to return. Ignored when `aturi` is given. One of the two is required — sending neither refuses, because defaulting to anything here would answer about somebody.",
+            "format": "did",
+            "type": "string"
+          }
+        },
+        "required": [],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "pet.trezy.getPet",
+  "lexicon": 1
+}

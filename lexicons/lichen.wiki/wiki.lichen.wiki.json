@@ -1,0 +1,78 @@
+{
+  "id": "wiki.lichen.wiki",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "visibility",
+          "createdAt",
+          "language"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 2560,
+            "description": "Display name of the wiki.",
+            "maxGraphemes": 256
+          },
+          "theme": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "The wiki creator's preferred theme. Render with it when it is set. Fall back to your own default when it is missing or the name is unfamiliar.",
+            "knownValues": [
+              "light",
+              "dark"
+            ]
+          },
+          "homeSlug": {
+            "type": "string",
+            "maxLength": 2560,
+            "description": "Slug of the note shown as the wiki's front page. Defaults to 'home'.",
+            "maxGraphemes": 256
+          },
+          "language": {
+            "type": "string",
+            "maxLength": 16,
+            "description": "BCP-47 language tag for the wiki content (e.g. 'en', 'fr', 'ja')."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the wiki was created."
+          },
+          "visibility": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "public: anyone can read the wiki. private: only the owner and members can. Controls what the appview serves; records stay readable in the author's repo either way, so treat it as access control.",
+            "knownValues": [
+              "public",
+              "private"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000,
+            "description": "Short description of the wiki's purpose or topic.",
+            "maxGraphemes": 300
+          },
+          "translations": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 256,
+            "description": "Other-language editions of this wiki, each the at-uri of a wiki.lichen.wiki record. Directional: list this wiki on the target to link back. Name only public wikis — this record is world-readable."
+          }
+        }
+      },
+      "description": "A wiki. The rkey is a permanent slug."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

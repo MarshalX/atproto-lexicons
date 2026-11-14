@@ -1,0 +1,42 @@
+{
+  "id": "is.currents.feed.collection",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "createdAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 1000,
+            "description": "Human-readable name of the collection.",
+            "maxGraphemes": 100
+          },
+          "parent": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong reference to the parent collection. Present only on sub-collections; absent on root collections."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 10000,
+            "description": "Optional description shown with the collection.",
+            "maxGraphemes": 1000
+          }
+        }
+      },
+      "description": "A collection of saved items curated by an account."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

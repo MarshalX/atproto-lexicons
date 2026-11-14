@@ -1,0 +1,55 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Delete a gate (unhide VOD comment) on behalf of a streamer. Requires 'vod.comment.hide' permission. Deletes a place.stream.vod.gate record from the streamer's repository.",
+      "errors": [
+        {
+          "description": "The request lacks valid authentication credentials.",
+          "name": "Unauthorized"
+        },
+        {
+          "description": "The caller does not have permission to unhide VOD comments for this streamer.",
+          "name": "Forbidden"
+        },
+        {
+          "description": "The streamer's OAuth session could not be found or is invalid.",
+          "name": "SessionNotFound"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "gateUri": {
+              "description": "The AT-URI of the gate record to delete.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "streamer": {
+              "description": "The DID of the streamer.",
+              "format": "did",
+              "type": "string"
+            }
+          },
+          "required": [
+            "streamer",
+            "gateUri"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "parameters": null,
+      "type": "procedure"
+    }
+  },
+  "id": "place.stream.moderation.deleteVodGate",
+  "lexicon": 1
+}

@@ -1,0 +1,27 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Everything the game writes to a player's repo. ⚠ ONE SET, BECAUSE EVERY PERMISSION IS NEEDED TO PLAY; there is no optional feature to split off. A set can grow without anybody re-consenting, which is the point of having one. ⚠ community.lexicon.badge.award IS NOT HERE AND CANNOT BE: HappyView only lets a pet.trezy.* set grant pet.trezy.* collections, so the badge collection is requested as its own repo: scope. ⚠ NO rpc PERMISSIONS, SO NO aud: the client calls HappyView procedures directly, not through PDS service proxying.",
+      "detail": "Look after your pets: adopt them, feed and play with them, collect their coins, and answer Pet of the Week.",
+      "permissions": [
+        {
+          "collection": [
+            "pet.trezy.pet",
+            "pet.trezy.activity",
+            "pet.trezy.wallet",
+            "pet.trezy.shameOnYou",
+            "pet.trezy.featureConsent",
+            "pet.trezy.featureReply"
+          ],
+          "resource": "repo",
+          "type": "permission"
+        }
+      ],
+      "title": "Trezy's Pets",
+      "type": "permission-set"
+    }
+  },
+  "id": "pet.trezy.authGame",
+  "lexicon": 1
+}

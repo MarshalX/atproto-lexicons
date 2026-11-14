@@ -1,0 +1,128 @@
+{
+  "id": "com.destinationcharged.recall",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "campaignId",
+          "country",
+          "make",
+          "summary",
+          "reportedAt",
+          "sourceUrl",
+          "createdAt"
+        ],
+        "properties": {
+          "make": {
+            "type": "string",
+            "maxLength": 1000,
+            "maxGraphemes": 100
+          },
+          "site": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the site.standard.publication this recall is published under."
+          },
+          "models": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 1000,
+              "maxGraphemes": 100
+            },
+            "maxLength": 50
+          },
+          "remedy": {
+            "type": "string",
+            "maxLength": 20000,
+            "maxGraphemes": 2000
+          },
+          "country": {
+            "type": "string",
+            "knownValues": [
+              "US",
+              "CA"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "maxLength": 30000,
+            "maxGraphemes": 3000
+          },
+          "component": {
+            "type": "string",
+            "maxLength": 3000,
+            "description": "Component system affected (colon-delimited hierarchy for US).",
+            "maxGraphemes": 300
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "dcPostUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Destination Charged recall page permalink."
+          },
+          "sourceUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Official NHTSA / Transport Canada detail page."
+          },
+          "summaryFr": {
+            "type": "string",
+            "maxLength": 30000,
+            "description": "French-language summary (Transport Canada recalls).",
+            "maxGraphemes": 3000
+          },
+          "campaignId": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "NHTSA campaign number (US) or Transport Canada recall number (CA)."
+          },
+          "modelYears": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 100,
+              "maxGraphemes": 10
+            },
+            "maxLength": 50,
+            "description": "Model years affected, as strings (single years or ranges)."
+          },
+          "reportedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Date the recall report was received by the authority."
+          },
+          "consequence": {
+            "type": "string",
+            "maxLength": 20000,
+            "maxGraphemes": 2000
+          },
+          "documentRef": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The site.standard.document record for this recall's page."
+          },
+          "manufacturer": {
+            "type": "string",
+            "maxLength": 2000,
+            "maxGraphemes": 200
+          },
+          "potentialUnits": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Potential number of vehicles affected."
+          }
+        }
+      },
+      "description": "An electric vehicle safety recall published by Destination Charged, sourced from NHTSA (US) or Transport Canada (CA). Paired with a site.standard.document record for the human-readable recall page."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

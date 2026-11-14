@@ -1,0 +1,75 @@
+{
+  "id": "rsvp.atmo.space.listRecords",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotFound"
+        },
+        {
+          "name": "Forbidden"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "records"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "records": {
+              "type": "array",
+              "items": {
+                "ref": "rsvp.atmo.space.defs#recordView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "spaceUri",
+          "collection"
+        ],
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 200,
+            "minimum": 1
+          },
+          "byUser": {
+            "type": "string",
+            "format": "did",
+            "description": "Only return records authored by this DID."
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "spaceUri": {
+            "type": "string",
+            "format": "at-uri"
+          },
+          "collection": {
+            "type": "string",
+            "format": "nsid"
+          },
+          "inviteToken": {
+            "type": "string",
+            "description": "Read-grant invite token. When supplied, replaces JWT auth for this read."
+          }
+        }
+      },
+      "description": "List records of a given collection within a space. Access is governed by the space's collection policy."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

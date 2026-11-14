@@ -1,0 +1,18 @@
+{
+  "id": "town.delve.unspecced.getAgeAssuranceState",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "ref": "town.delve.unspecced.defs#ageAssuranceState",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "Returns the current state of the age assurance process for an account. This is used to check if the user has completed age assurance or if further action is required."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

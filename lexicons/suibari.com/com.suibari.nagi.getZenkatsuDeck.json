@@ -1,0 +1,50 @@
+{
+  "id": "com.suibari.nagi.getZenkatsuDeck",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "comboTotal",
+            "combos",
+            "hints",
+            "trophies"
+          ],
+          "properties": {
+            "hints": {
+              "type": "array",
+              "items": {
+                "type": "unknown"
+              },
+              "description": "自分がまだ出していないコンボの伏せ札。図鑑番号順。必要な枚数と、世界で誰かが見つけているかを返し、見つけられていれば謎かけも添える。"
+            },
+            "combos": {
+              "type": "array",
+              "items": {
+                "type": "unknown"
+              },
+              "description": "自分が成立させたことのあるコンボ。初めて出した日の古い順。"
+            },
+            "trophies": {
+              "type": "array",
+              "items": {
+                "type": "unknown"
+              },
+              "description": "6種類のトロフィーの受賞履歴。新しい順。"
+            },
+            "comboTotal": {
+              "type": "integer",
+              "description": "存在するコンボの総数。未発見のぶんは中身を伏せたままこの数だけ示す。"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "レコード。自分がこれまでに成立させたコンボと、6種類のトロフィーの受賞履歴を返す。コンボは隠し要素なので、**まだ出していないコンボの中身は返さない**（総数と、枚数・世界で発見済みかどうか・発見済みなら謎かけだけを返す）。要認証。"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

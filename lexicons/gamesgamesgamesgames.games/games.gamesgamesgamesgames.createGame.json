@@ -1,0 +1,167 @@
+{
+  "id": "games.gamesgamesgamesgames.createGame",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "slug": {
+              "type": "string",
+              "maxLength": 640,
+              "description": "URL-friendly identifier for the game."
+            },
+            "media": {
+              "type": "array",
+              "items": {
+                "ref": "games.gamesgamesgamesgames.defs#mediaItem",
+                "type": "ref"
+              }
+            },
+            "modes": {
+              "type": "array",
+              "items": {
+                "ref": "games.gamesgamesgamesgames.defs#mode",
+                "type": "ref"
+              }
+            },
+            "genres": {
+              "type": "array",
+              "items": {
+                "ref": "games.gamesgamesgamesgames.defs#genre",
+                "type": "ref"
+              }
+            },
+            "parent": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "themes": {
+              "type": "array",
+              "items": {
+                "ref": "games.gamesgamesgamesgames.defs#theme",
+                "type": "ref"
+              }
+            },
+            "videos": {
+              "type": "array",
+              "items": {
+                "ref": "games.gamesgamesgamesgames.defs#externalVideo",
+                "type": "ref"
+              }
+            },
+            "engines": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "at-uri"
+              }
+            },
+            "summary": {
+              "type": "string"
+            },
+            "keywords": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "releases": {
+              "type": "array",
+              "items": {
+                "ref": "games.gamesgamesgamesgames.defs#release",
+                "type": "ref"
+              }
+            },
+            "websites": {
+              "type": "array",
+              "items": {
+                "ref": "games.gamesgamesgamesgames.defs#website",
+                "type": "ref"
+              }
+            },
+            "storyline": {
+              "type": "string"
+            },
+            "ageRatings": {
+              "type": "array",
+              "items": {
+                "ref": "games.gamesgamesgamesgames.defs#ageRating",
+                "type": "ref"
+              }
+            },
+            "timeToBeat": {
+              "ref": "games.gamesgamesgamesgames.defs#timeToBeat",
+              "type": "ref"
+            },
+            "shouldPublish": {
+              "type": "boolean"
+            },
+            "applicationType": {
+              "ref": "games.gamesgamesgamesgames.defs#applicationType",
+              "type": "ref"
+            },
+            "alternativeNames": {
+              "type": "array",
+              "items": {
+                "ref": "games.gamesgamesgamesgames.defs#alternativeName",
+                "type": "ref"
+              }
+            },
+            "languageSupports": {
+              "type": "array",
+              "items": {
+                "ref": "games.gamesgamesgamesgames.defs#languageSupport",
+                "type": "ref"
+              }
+            },
+            "multiplayerModes": {
+              "type": "array",
+              "items": {
+                "ref": "games.gamesgamesgamesgames.defs#multiplayerMode",
+                "type": "ref"
+              }
+            },
+            "playerPerspectives": {
+              "type": "array",
+              "items": {
+                "ref": "games.gamesgamesgamesgames.defs#playerPerspective",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri",
+            "cid"
+          ],
+          "properties": {
+            "cid": {
+              "type": "string"
+            },
+            "uri": {
+              "type": "string",
+              "format": "at-uri"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Create a new game record in the authenticated user's repository."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,56 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "shelves": {
+              "items": {
+                "ref": "net.olamaelcu.livtet.biblio.defs#shelfView",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "shelves"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "description": "Opaque pagination cursor.",
+            "type": "string"
+          },
+          "did": {
+            "description": "DID of the shelf owner.",
+            "format": "did",
+            "type": "string"
+          },
+          "limit": {
+            "default": 50,
+            "description": "Maximum number of shelves to return.",
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "did"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "List shelf records.",
+  "id": "net.olamaelcu.livtet.biblio.listShelves",
+  "lexicon": 1
+}

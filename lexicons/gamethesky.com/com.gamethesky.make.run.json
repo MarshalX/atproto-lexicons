@@ -1,0 +1,209 @@
+{
+  "id": "com.gamethesky.make.run",
+  "defs": {
+    "vs": {
+      "type": "object",
+      "required": [
+        "uri",
+        "cid",
+        "skill"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid",
+          "description": "Its version, as fought."
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "The com.gamethesky.make.fighter record fought."
+        },
+        "skill": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 1,
+          "description": "How sharp its CPU was picked to fight."
+        },
+        "style": {
+          "type": "string",
+          "maxLength": 24,
+          "description": "Advisory: the fighter's style, copied from the record."
+        }
+      }
+    },
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "makeVersion",
+          "game",
+          "logs",
+          "score",
+          "ticks",
+          "createdAt"
+        ],
+        "properties": {
+          "vs": {
+            "ref": "#vs",
+            "type": "ref",
+            "description": "A ghost fight: the saved fighter fought, pinned to its version, and the skill it was fought at. A verifier fetches the fighter at that CID and replays against it; it never ranks."
+          },
+          "day": {
+            "type": "string",
+            "maxLength": 10,
+            "description": "For a daily game's today's run: the day played (YYYY-MM-DD, UTC), whose seeds its chapters played on. A verifier refuses a day on a game that isn't daily, and one later than today. Absent: the run that's the same every time."
+          },
+          "won": {
+            "type": "boolean",
+            "description": "Advisory: every chapter cleared (every chapter on the path taken, and the end reached, in a game that branches)."
+          },
+          "game": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The game (a com.gamethesky.make.game record), pinned to the version played. The game may be edited in place later; a verifier replays the logs on it as it stands, so a rename keeps the run and a change of chapters retires it."
+          },
+          "logs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 400000
+            },
+            "maxLength": 60,
+            "minLength": 1,
+            "description": "One log a chapter played, in play order: comma-separated `<dtick>.<k>.<a>` entries, dtick being 60 Hz ticks since the previous entry and k (one digit or two) and a the input as that chapter's module takes it. Every chapter but the last played was cleared. In a game that branches, only the chapters on the path taken are played, so there may be fewer logs than chapters."
+          },
+          "look": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "Cosmetic: the colors the player's build wore (rrggbb.rrggbb.rrggbb: Fight the Sky's body, trim and gloves). Never read by the verifier."
+          },
+          "wore": {
+            "ref": "#wore",
+            "type": "ref",
+            "description": "Cosmetic: the face the player wore as Hero 1, so a replay and the run's card show it: a Bluesky handle, or a JPEG they chose to include. Never read by the verifier."
+          },
+          "kills": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "score": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Advisory: points, all chapters together."
+          },
+          "ticks": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Advisory: 60 Hz ticks, all chapters together."
+          },
+          "builds": {
+            "type": "array",
+            "items": {
+              "ref": "#build",
+              "type": "ref"
+            },
+            "maxLength": 8,
+            "description": "For a game whose players build their own: the build played with, one a chapter type that takes one. Part of play: a verifier replays with it, and refuses a build the chapter type wouldn't take (or any build on a game without builds). Absent on such a game: each type's default build."
+          },
+          "choices": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "maximum": 2,
+              "minimum": 0
+            },
+            "maxLength": 60,
+            "description": "For a game whose story branches: the option picked at each choice scene the run reached, in order, counting from 0. With the game, they say which chapters the logs belong to; a verifier walks the path they give and refuses a run whose picks or logs don't fit it. Absent (or empty) for a game without choices."
+          },
+          "cleared": {
+            "type": "integer",
+            "maximum": 60,
+            "minimum": 0,
+            "description": "Advisory: chapters cleared (on the path taken, in a game that branches)."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "difficulty": {
+            "type": "string",
+            "maxLength": 8,
+            "description": "For a game with levels: the level played (absent is normal; granny only on a game that offers it). A verifier refuses a level on a game without them.",
+            "knownValues": [
+              "granny",
+              "easy",
+              "normal",
+              "hard"
+            ]
+          },
+          "makeVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "The rules the run was played under, all told. A verifier must match it or refuse the run."
+          }
+        }
+      },
+      "description": "One play of a Make the Sky game, published by the player into their own repo. It stores every input rather than trusting a score: each chapter's engine is deterministic, so replaying its log on the same game reproduces the run exactly. Owning the record is the identity proof and replaying it is the score proof; score and the rest are advisory."
+    },
+    "wore": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "face": {
+          "type": "blob",
+          "accept": [
+            "image/jpeg"
+          ],
+          "maxSize": 196608,
+          "description": "A photo face the player chose to include."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 40
+        },
+        "handle": {
+          "type": "string",
+          "format": "handle",
+          "description": "A Bluesky account whose avatar was worn."
+        }
+      }
+    },
+    "build": {
+      "type": "object",
+      "required": [
+        "module",
+        "stats"
+      ],
+      "properties": {
+        "pick": {
+          "type": "string",
+          "maxLength": 24,
+          "description": "The option picked (fight: the special, post, ratio or rush)."
+        },
+        "stats": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "maximum": 99,
+            "minimum": 0
+          },
+          "maxLength": 8,
+          "description": "Each stat's value, in the chapter type's order (fight: power, speed, reach, guts; 1–5 each, twelve points at most)."
+        },
+        "module": {
+          "type": "string",
+          "maxLength": 24,
+          "description": "The chapter type (fight)."
+        }
+      },
+      "description": "A player's build for one chapter type (its SimModule.build): each stat's value in the type's own order, and the option picked."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

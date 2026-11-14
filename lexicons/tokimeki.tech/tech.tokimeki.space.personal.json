@@ -1,0 +1,20 @@
+{
+  "id": "tech.tokimeki.space.personal",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "name": "TOKIMEKI Personal Space",
+      "type": "space",
+      "name:lang": {
+        "ja": "TOKIMEKI パーソナルスペース"
+      },
+      "collections": [
+        "tech.tokimeki.space.note",
+        "tech.tokimeki.space.settings"
+      ],
+      "description": "A per-user permissioned space holding TOKIMEKI private data (notes, drafts, settings)."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

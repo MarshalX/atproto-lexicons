@@ -1,0 +1,177 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "entry": {
+      "properties": {
+        "consenting": {
+          "type": "boolean"
+        },
+        "keeper": {
+          "format": "did",
+          "type": "string"
+        },
+        "passedOver": {
+          "items": {
+            "format": "did",
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "pet": {
+          "ref": "#pet",
+          "type": "ref"
+        },
+        "pickedAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "post": {
+          "format": "at-uri",
+          "type": "string"
+        },
+        "postedAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "reply": {
+          "ref": "#reply",
+          "type": "ref"
+        },
+        "status": {
+          "knownValues": [
+            "picked",
+            "posted",
+            "skipped"
+          ],
+          "type": "string"
+        },
+        "week": {
+          "maxLength": 8,
+          "type": "string"
+        }
+      },
+      "required": [
+        "week",
+        "status",
+        "passedOver",
+        "pickedAt",
+        "consenting"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "Feature records, newest week first, with what a reader needs to show them: the pet's facts, the keeper's reply and consent. Public: every field here is already public in somebody's repo.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "features": {
+              "items": {
+                "ref": "#entry",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "features"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "description": "A week. Returns weeks strictly before it.",
+            "type": "string"
+          },
+          "limit": {
+            "default": 25,
+            "maximum": 50,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "pet": {
+            "format": "at-uri",
+            "type": "string"
+          },
+          "status": {
+            "knownValues": [
+              "picked",
+              "posted",
+              "skipped"
+            ],
+            "type": "string"
+          },
+          "week": {
+            "maxLength": 8,
+            "type": "string"
+          }
+        },
+        "type": "params"
+      },
+      "type": "query"
+    },
+    "pet": {
+      "properties": {
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "interactions": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "retired": {
+          "type": "boolean"
+        },
+        "species": {
+          "type": "string"
+        },
+        "uri": {
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "name",
+        "species",
+        "createdAt",
+        "interactions",
+        "retired"
+      ],
+      "type": "object"
+    },
+    "reply": {
+      "properties": {
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "decline": {
+          "type": "boolean"
+        },
+        "text": {
+          "maxGraphemes": 140,
+          "maxLength": 1400,
+          "type": "string"
+        }
+      },
+      "required": [
+        "decline",
+        "text",
+        "createdAt"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "pet.trezy.getFeatures",
+  "lexicon": 1
+}

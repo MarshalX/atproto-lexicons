@@ -1,0 +1,86 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "A plotFeature record (OpenAPI schema PlotFeatureTopLevel).",
+      "key": "tid",
+      "record": {
+        "nullable": [
+          "geometry"
+        ],
+        "properties": {
+          "conformsTo": {
+            "description": "JSON-FG conformance classes implemented by this document. Required when profile=jsonfg is used",
+            "items": {
+              "format": "uri",
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "coordRefSys": {
+            "ref": "nl.agroconnect.ecrop.geo.defs#coordRefSysType",
+            "type": "ref"
+          },
+          "featureId": {
+            "description": "Feature id (a number id is represented as its decimal string). (OpenAPI property name: 'id')",
+            "type": "string"
+          },
+          "featureType": {
+            "description": "Feature type(s); a single type is a one element array.",
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "geoJsonType": {
+            "const": "Feature",
+            "description": "(OpenAPI property name: 'type')",
+            "type": "string"
+          },
+          "geometry": {
+            "closed": true,
+            "description": "Optional WGS84 fallback geometry (plain GeoJSON) for consumers that support GeoJSON but not JSON-FG. Null when not provided. Constrained to the same geometry types as \"place\" in this schema. Since this field is required, it is nullable in case WGS84 is nog relevant Plot geometry types: Polygon or MultiPolygon.",
+            "refs": [
+              "nl.agroconnect.ecrop.geo.defs#polygonType",
+              "nl.agroconnect.ecrop.geo.defs#multiPolygonType"
+            ],
+            "type": "union"
+          },
+          "links": {
+            "items": {
+              "ref": "nl.agroconnect.ecrop.defs#link",
+              "type": "ref"
+            },
+            "type": "array"
+          },
+          "place": {
+            "closed": true,
+            "description": "Geometry (JSON FG) of the plot (Polygon or MultiPolygon) using the CRS described in coordRefSys. Only applicable for profile=jsonfg. Should not be used for WGS84 coordinates (use geometry in stead) Plot geometry types: Polygon or MultiPolygon.",
+            "refs": [
+              "nl.agroconnect.ecrop.geo.defs#polygonType",
+              "nl.agroconnect.ecrop.geo.defs#multiPolygonType"
+            ],
+            "type": "union"
+          },
+          "properties": {
+            "ref": "nl.agroconnect.ecrop.geo.defs#plotFeatureProperties",
+            "type": "ref"
+          },
+          "time": {
+            "ref": "nl.agroconnect.ecrop.geo.defs#jsonFgTimeType",
+            "type": "ref"
+          }
+        },
+        "required": [
+          "geoJsonType",
+          "geometry",
+          "properties"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "nl.agroconnect.ecrop.plotFeature",
+  "lexicon": 1
+}

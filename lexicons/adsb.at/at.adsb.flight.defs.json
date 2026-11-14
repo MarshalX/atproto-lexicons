@@ -1,0 +1,135 @@
+{
+  "id": "at.adsb.flight.defs",
+  "defs": {
+    "position": {
+      "type": "object",
+      "required": [
+        "latitude",
+        "longitude",
+        "timestamp",
+        "source"
+      ],
+      "properties": {
+        "source": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Decoder-level source type that produced this position fix.",
+          "knownValues": [
+            "adsb_icao",
+            "adsb_icao_nt",
+            "adsr_icao",
+            "tisb_icao",
+            "adsc",
+            "mlat",
+            "uat",
+            "mode_s",
+            "adsb_other",
+            "tisb_other"
+          ]
+        },
+        "latitude": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Decimal degrees north, WGS84. Negative for south."
+        },
+        "trackDeg": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Track angle in degrees true north."
+        },
+        "longitude": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Decimal degrees east, WGS84. Negative for west."
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "altitudeFt": {
+          "type": "integer",
+          "description": "Barometric altitude in feet."
+        },
+        "groundSpeedKts": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Ground speed in knots."
+        },
+        "verticalRateFpm": {
+          "type": "integer",
+          "description": "Vertical rate in feet per minute. Negative is descending."
+        }
+      },
+      "description": "A single aircraft position report. Coordinates follow community.lexicon.location conventions: decimal degree strings, WGS84."
+    },
+    "contributor": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "DID of the contributing receiver account."
+        },
+        "station": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref",
+          "description": "Strong reference to the contributor's at.adsb.receiver.station record."
+        },
+        "lastSeen": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When this receiver last observed the aircraft."
+        },
+        "sighting": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref",
+          "description": "Strong reference to the contributor's at.adsb.receiver.sighting record for this aircraft."
+        },
+        "firstSeen": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When this receiver first observed the aircraft."
+        },
+        "positionCount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of position reports this receiver contributed."
+        }
+      },
+      "description": "A receiver that contributed data to a flight sighting."
+    },
+    "trackSummary": {
+      "type": "object",
+      "properties": {
+        "origin": {
+          "ref": "community.lexicon.location.geo",
+          "type": "ref",
+          "description": "First observed position."
+        },
+        "distanceNm": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Great-circle distance between first and last observed positions, in nautical miles."
+        },
+        "destination": {
+          "ref": "community.lexicon.location.geo",
+          "type": "ref",
+          "description": "Last observed position."
+        },
+        "maxAltitudeFt": {
+          "type": "integer"
+        },
+        "minAltitudeFt": {
+          "type": "integer"
+        }
+      },
+      "description": "Summary of a flight's path without the full position history. Coordinates follow community.lexicon.location conventions."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Shared type definitions for flight-related records in the at.adsb namespace."
+}

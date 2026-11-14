@@ -1,0 +1,67 @@
+{
+  "id": "social.colibri.beta.community.reorderCategories",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "community",
+            "categories"
+          ],
+          "properties": {
+            "community": {
+              "type": "string",
+              "format": "did",
+              "description": "The community whose categories are being reordered."
+            },
+            "categories": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "record-key",
+                "description": "A category."
+              },
+              "description": "The complete new display order of the community's categories."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request is missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The requesting user lacks the category.update permission."
+        },
+        {
+          "name": "CommunityNotFound",
+          "description": "No community exists with that DID."
+        },
+        {
+          "name": "InvalidRequest",
+          "description": "The supplied categories do not match the community's existing set."
+        },
+        {
+          "name": "CredentialsUnavailable",
+          "description": "The AppView's stored credentials for this community are missing or unusable."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [],
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "description": "Sets the complete display order of a community's categories."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

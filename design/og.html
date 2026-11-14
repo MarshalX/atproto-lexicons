@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Open Graph image, 1200 x 630</title>
+  <link rel="stylesheet" href="../website/css/fonts.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+
+    body {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      width: 1200px;
+      height: 630px;
+      padding: 60px 64px;
+      overflow: hidden;
+      background: linear-gradient(165deg, #C9DFFF 0%, #E2EEFF 48%, #F5F8FC 100%);
+      color: #0A1628;
+      font-family: 'Geist', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .mono { font-family: 'Geist Mono', monospace; }
+
+    .backdrop {
+      position: absolute;
+      inset: 0;
+      color: rgba(11, 107, 219, 0.15);
+      font-size: 18px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .backdrop span { position: absolute; }
+    .backdrop .small { font-size: 15px; }
+
+    .top {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 28px;
+      letter-spacing: -0.01em;
+    }
+    .brand svg { width: 52px; height: 52px; }
+    .brand b { font-weight: 600; }
+    .brand span { color: #46566D; }
+    .install {
+      padding: 10px 16px;
+      border-radius: 12px;
+      background: #0A1322;
+      color: #DCE5F3;
+      font-size: 20px;
+    }
+    .install span { color: #7F92B0; }
+
+    .headline {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-top: 64px;
+    }
+    h1 {
+      font-size: 82px;
+      font-weight: 600;
+      line-height: 0.98;
+      letter-spacing: -0.045em;
+    }
+    h1 span { color: #0B6BDB; }
+    .headline p {
+      color: #34445A;
+      font-size: 28px;
+      letter-spacing: -0.01em;
+    }
+
+    .bottom {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      margin-top: auto;
+    }
+    .search {
+      flex: 0 0 560px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      height: 72px;
+      padding: 0 22px;
+      border: 1.5px solid #B9D1F2;
+      border-radius: 20px;
+      background: #FFFFFF;
+      box-shadow: 0 2px 4px rgba(10, 40, 90, 0.06), 0 20px 50px rgba(10, 60, 140, 0.16);
+      font-size: 24px;
+    }
+    .search span {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .search i {
+      width: 2px;
+      height: 30px;
+      background: #0B6BDB;
+    }
+    .facts strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 30px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    .facts span {
+      color: #44546B;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="backdrop mono">
+    <span style="left: 790px; top: 150px">org.tangled.git.refs</span>
+    <span style="left: 860px; top: 214px" class="small">adsb.at</span>
+    <span style="left: 740px; top: 286px">pub.leaflet.document</span>
+    <span style="left: 900px; top: 352px" class="small">lexicon.community</span>
+    <span style="left: 820px; top: 420px">dev.sensorthings.observation</span>
+  </div>
+
+  <div class="top">
+    <div class="brand mono">
+      <svg viewBox="0 0 28 28"><rect width="28" height="28" rx="8" fill="#0B6BDB"/><path d="M11.2 8.4c-1.7 0-2.5.8-2.5 2.4v1.3c0 1.1-.5 1.7-1.7 1.9 1.2.2 1.7.8 1.7 1.9v1.3c0 1.6.8 2.4 2.5 2.4M16.8 8.4c1.7 0 2.5.8 2.5 2.4v1.3c0 1.1.5 1.7 1.7 1.9-1.2.2-1.7.8-1.7 1.9v1.3c0 1.6-.8 2.4-2.5 2.4" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="14" cy="14" r="1.9" fill="#FFFFFF"/></svg>
+      <div><b>lex</b><span>.atproto.blue</span></div>
+    </div>
+    <div class="install mono"><span>$ </span>pip install atproto-lexicons</div>
+  </div>
+
+  <div class="headline">
+    <h1>Third-party lexicons,<br><span>ready to import.</span></h1>
+    <p>Atmosphere lexicons for the atproto Python SDK</p>
+  </div>
+
+  <div class="bottom">
+    <div class="search mono">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#5A6A81" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <span>fm.teal.feed.play<i></i></span>
+    </div>
+    <div class="facts">
+      <strong>100+ services · 2,400+ lexicons</strong>
+      <span>Rebuilt daily from each service's published schemas</span>
+    </div>
+  </div>
+</body>
+</html>

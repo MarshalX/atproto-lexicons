@@ -1,0 +1,161 @@
+{
+  "id": "garden.sylvanus.edit",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "properties": {
+          "names": {
+            "type": "array",
+            "items": {
+              "ref": "#name",
+              "type": "ref"
+            }
+          },
+          "garden": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The garden record these change (garden.sylvanus.garden, the owner's)."
+          },
+          "baseCid": {
+            "type": "string",
+            "description": "The content id (CID) of the garden copy these build on."
+          },
+          "visitors": {
+            "type": "array",
+            "items": {
+              "ref": "#visitor",
+              "type": "ref"
+            },
+            "description": "Signed-in players who came by while this host had the garden."
+          },
+          "plantings": {
+            "type": "array",
+            "items": {
+              "ref": "#planting",
+              "type": "ref"
+            }
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "gameVersion": {
+            "type": "string",
+            "description": "The version of the game that wrote it."
+          },
+          "otherVisitors": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Players who came by without signing in: a count, nothing more."
+          }
+        }
+      },
+      "description": "One host's changes to someone else's shared Sylvanus garden, in the host's own account: one record per host per garden. It holds every change since the copy it builds on that this host's game has seen. The owner's game folds it into the garden, then the writer's game deletes it."
+    },
+    "name": {
+      "type": "object",
+      "properties": {
+        "at": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "by": {
+          "type": "string",
+          "format": "did",
+          "description": "Who named it."
+        },
+        "notes": {
+          "type": "string"
+        },
+        "token": {
+          "type": "integer",
+          "description": "The planting named: its token."
+        },
+        "planter": {
+          "type": "string",
+          "format": "did",
+          "description": "The planting named: its planter."
+        },
+        "nickname": {
+          "type": "string"
+        }
+      },
+      "description": "A nickname or note given to a planting. Gardeners name only their own plantings; the newest wins."
+    },
+    "visitor": {
+      "type": "object",
+      "properties": {
+        "at": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "did": {
+          "type": "string",
+          "format": "did"
+        }
+      },
+      "description": "A signed-in player who came by."
+    },
+    "planting": {
+      "type": "object",
+      "properties": {
+        "slot": {
+          "type": "integer",
+          "description": "The tile's slot it's in."
+        },
+        "tile": {
+          "type": "integer",
+          "description": "The tile it's on."
+        },
+        "plant": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "The plant's id in the game's plants.json."
+        },
+        "token": {
+          "type": "integer",
+          "description": "The planting request's own random number."
+        },
+        "planter": {
+          "type": "string",
+          "format": "did",
+          "description": "Who planted it."
+        },
+        "variant": {
+          "type": "integer",
+          "description": "Which of the plant's looks."
+        },
+        "withered": {
+          "type": "boolean",
+          "description": "Left by a failed hardcore session."
+        },
+        "yawCenti": {
+          "type": "integer",
+          "maximum": 35999,
+          "minimum": 0,
+          "description": "Its turn, in hundredths of a degree."
+        },
+        "plantedAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "planterName": {
+          "type": "string",
+          "description": "Their name when they planted it."
+        },
+        "plantedScaleMilli": {
+          "type": "integer",
+          "default": 1000,
+          "minimum": 0,
+          "description": "Its size when it was planted, in thousandths: 1000 is 1.0."
+        }
+      },
+      "description": "A planting. Its identity is its planter and token, so the same planting merged twice is one planting."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

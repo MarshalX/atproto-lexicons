@@ -1,0 +1,46 @@
+{
+  "id": "so.sprk.story.getTimeline",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "storiesByAuthor"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "storiesByAuthor": {
+              "type": "array",
+              "items": {
+                "ref": "so.sprk.story.defs#storiesByAuthor",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Get a view of the requesting account's stories timeline grouped by author."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

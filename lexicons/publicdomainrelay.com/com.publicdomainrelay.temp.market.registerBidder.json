@@ -1,0 +1,67 @@
+{
+  "id": "com.publicdomainrelay.temp.market.registerBidder",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "bidderDid",
+            "appliesTo"
+          ],
+          "properties": {
+            "appliesTo": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "nsid"
+              },
+              "minLength": 1,
+              "description": "Payload NSIDs this bidder handles."
+            },
+            "bidderDid": {
+              "type": "string",
+              "format": "did",
+              "description": "DID of the bidder registering. Must match the service-auth JWT issuer."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "InvalidRequest"
+        },
+        {
+          "name": "Forbidden"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "ok",
+            "registrationUri",
+            "registrationCid"
+          ],
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "registrationCid": {
+              "type": "string"
+            },
+            "registrationUri": {
+              "type": "string"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Register a bidder with the market registry. Called by bidders after they publish a bidderDiscovery record in their own repo and connect to the relay. The registry verifies the caller's service-auth JWT issuer matches the bidderDid, then indexes the bidder so it appears in listBidders queries. Liveness is determined by the registry polling the bidder's bidderDiscovery record — there is no separate heartbeat procedure."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

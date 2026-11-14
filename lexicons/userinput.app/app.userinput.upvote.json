@@ -1,0 +1,30 @@
+{
+  "id": "app.userinput.upvote",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The discussion or reply being voted on. Indexed by constellation at subject.uri."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "An upvote on a discussion or reply. Written at the SAME record key as its subject, so a user holds at most one per subject. Lives in the voter's repo; counted network-wide by constellation at subject.uri."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

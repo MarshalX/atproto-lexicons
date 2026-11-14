@@ -1,0 +1,25 @@
+{
+  "id": "social.colibri.beta.thread.follow",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt"
+        ],
+        "properties": {
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the user started following."
+          }
+        }
+      },
+      "description": "Marks its author as following the thread it lives in. Presence means following and deleting it means leaving. The follower writes it into the thread's own space, so following is visible to everyone who can read the thread."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

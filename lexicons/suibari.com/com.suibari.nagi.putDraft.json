@@ -1,0 +1,252 @@
+{
+  "id": "com.suibari.nagi.putDraft",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "ref": "#draftInput",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired"
+        },
+        {
+          "name": "InvalidRequest"
+        },
+        {
+          "name": "DraftLimit"
+        }
+      ],
+      "output": {
+        "schema": {
+          "ref": "#draftView",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      }
+    },
+    "emoji": {
+      "type": "object",
+      "required": [
+        "start",
+        "end",
+        "uri"
+      ],
+      "properties": {
+        "end": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "maxLength": 2048
+        },
+        "start": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "mention": {
+      "type": "object",
+      "required": [
+        "start",
+        "end",
+        "did",
+        "handle"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "start": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "handle": {
+          "type": "string",
+          "format": "handle"
+        }
+      }
+    },
+    "linkCard": {
+      "type": "object",
+      "required": [
+        "uri",
+        "title"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "maxLength": 2048
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 3000
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 30000
+        }
+      }
+    },
+    "draftView": {
+      "type": "object",
+      "required": [
+        "id",
+        "text",
+        "mentions",
+        "emojis",
+        "linkCards",
+        "dismissedUrls",
+        "createdAt",
+        "updatedAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 36
+        },
+        "text": {
+          "type": "string"
+        },
+        "emojis": {
+          "type": "array",
+          "items": {
+            "ref": "#emoji",
+            "type": "ref"
+          },
+          "maxLength": 100
+        },
+        "mentions": {
+          "type": "array",
+          "items": {
+            "ref": "#mention",
+            "type": "ref"
+          },
+          "maxLength": 100
+        },
+        "quoteUri": {
+          "type": "string",
+          "format": "at-uri",
+          "maxLength": 2048
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "linkCards": {
+          "type": "array",
+          "items": {
+            "ref": "#linkCard",
+            "type": "ref"
+          },
+          "maxLength": 4
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "dismissedUrls": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 2048
+          },
+          "maxLength": 100
+        }
+      }
+    },
+    "draftInput": {
+      "type": "object",
+      "required": [
+        "id",
+        "content",
+        "createdAt",
+        "updatedAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 36
+        },
+        "content": {
+          "ref": "#draftContent",
+          "type": "ref"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "datetime"
+        }
+      }
+    },
+    "draftContent": {
+      "type": "object",
+      "required": [
+        "text",
+        "mentions",
+        "emojis",
+        "linkCards",
+        "dismissedUrls"
+      ],
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "emojis": {
+          "type": "array",
+          "items": {
+            "ref": "#emoji",
+            "type": "ref"
+          },
+          "maxLength": 100
+        },
+        "mentions": {
+          "type": "array",
+          "items": {
+            "ref": "#mention",
+            "type": "ref"
+          },
+          "maxLength": 100
+        },
+        "quoteUri": {
+          "type": "string",
+          "format": "at-uri",
+          "maxLength": 2048
+        },
+        "linkCards": {
+          "type": "array",
+          "items": {
+            "ref": "#linkCard",
+            "type": "ref"
+          },
+          "maxLength": 4
+        },
+        "dismissedUrls": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 2048
+          },
+          "maxLength": 100
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

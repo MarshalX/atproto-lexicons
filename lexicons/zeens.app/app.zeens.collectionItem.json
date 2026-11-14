@@ -1,0 +1,57 @@
+{
+  "id": "app.zeens.collectionItem",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "collection",
+          "subject",
+          "addedAt"
+        ],
+        "properties": {
+          "note": {
+            "type": "string",
+            "maxLength": 280,
+            "description": "Optional note from the curator about why they added this item."
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "description": "Post subjects only: the 0-based positions of the post's photos this item keeps, for someone filing only some photos of a multi-photo post. Absent means every photo. A selection naming none of the post's photos is treated as absent."
+          },
+          "addedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong-ref to the post or article being collected. Subject can be any AT-URI; the AppView resolves what to render based on the URI's collection (app.bsky.feed.post or app.zeens.article)."
+          },
+          "collection": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the parent app.zeens.collection record."
+          },
+          "submission": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Community collections only: the photographer's own collectionItem this item approves. While it is set, the item is shown only as long as that submission exists, so deleting the submission withdraws the photo."
+          },
+          "app.zeens.v": {
+            "type": "integer"
+          }
+        }
+      },
+      "description": "A single item (post or article) inside a Zeens collection. The collection itself is referenced by its AT-URI. Removing an item is a record delete. Re-adding the same subject creates a new item record (clients should de-dupe by subject.uri at write time if needed)."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

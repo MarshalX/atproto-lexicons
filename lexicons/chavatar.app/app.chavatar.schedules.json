@@ -1,0 +1,35 @@
+{
+  "id": "app.chavatar.schedules",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "schedules",
+          "updatedAt"
+        ],
+        "properties": {
+          "schedules": {
+            "type": "array",
+            "items": {
+              "ref": "app.chavatar.settings#rotationSchedule",
+              "type": "ref"
+            },
+            "description": "Ordered list of rotation schedules. Active schedule is selected by kind specificity: timed(2) > period(1) > default(0). Ties broken lexicographically by id."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "The timestamp when this record was last updated."
+          }
+        }
+      },
+      "description": "The collection of rotation schedules defined by a user."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Rotation schedules with optional activation timing, stored separately from rotation settings."
+}

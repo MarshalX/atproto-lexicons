@@ -1,0 +1,41 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Current viewer count for a livestream on a particular server. Record keys are streamer_did::server_did by convention.",
+      "key": "any",
+      "record": {
+        "properties": {
+          "count": {
+            "description": "The current view count for the livestream.",
+            "type": "integer"
+          },
+          "server": {
+            "description": "The DID of the server to get the view count for.",
+            "format": "did",
+            "type": "string"
+          },
+          "streamer": {
+            "description": "The DID of the streamer to teleport to.",
+            "format": "did",
+            "type": "string"
+          },
+          "updatedAt": {
+            "description": "The time the view count was last updated.",
+            "format": "datetime",
+            "type": "string"
+          }
+        },
+        "required": [
+          "streamer",
+          "server",
+          "count"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "place.stream.live.viewerCount",
+  "lexicon": 1
+}

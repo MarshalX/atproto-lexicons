@@ -1,0 +1,197 @@
+{
+  "id": "net.atmowx.observation",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "station",
+          "observedAt"
+        ],
+        "properties": {
+          "wind": {
+            "type": "object",
+            "properties": {
+              "gust": {
+                "ref": "net.atmowx.defs#quantity",
+                "type": "ref",
+                "description": "m/s."
+              },
+              "speed": {
+                "ref": "net.atmowx.defs#quantity",
+                "type": "ref",
+                "description": "m/s."
+              },
+              "direction": {
+                "type": "integer",
+                "maximum": 359,
+                "minimum": 0,
+                "description": "Degrees true, 0 = north."
+              },
+              "gustDirection": {
+                "type": "integer",
+                "maximum": 359,
+                "minimum": 0,
+                "description": "Degrees true, 0 = north."
+              }
+            }
+          },
+          "extra": {
+            "type": "array",
+            "items": {
+              "refs": [
+                "net.atmowx.defs#measurement"
+              ],
+              "type": "union",
+              "closed": false
+            },
+            "maxLength": 64,
+            "description": "Measurements not covered by core fields. Open union."
+          },
+          "station": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the net.atmowx.station this reading came from."
+          },
+          "uvIndex": {
+            "ref": "net.atmowx.defs#quantity",
+            "type": "ref",
+            "description": "UV index, dimensionless."
+          },
+          "dewPoint": {
+            "ref": "net.atmowx.defs#quantity",
+            "type": "ref",
+            "description": "Dew point, °C."
+          },
+          "snowDepth": {
+            "ref": "net.atmowx.defs#quantity",
+            "type": "ref",
+            "description": "Millimeters."
+          },
+          "airQuality": {
+            "type": "object",
+            "properties": {
+              "co": {
+                "ref": "net.atmowx.defs#quantity",
+                "type": "ref",
+                "description": "CO mass concentration, µg/m³."
+              },
+              "no2": {
+                "ref": "net.atmowx.defs#quantity",
+                "type": "ref",
+                "description": "NO₂ mass concentration, µg/m³."
+              },
+              "pm1": {
+                "ref": "net.atmowx.defs#quantity",
+                "type": "ref",
+                "description": "PM1 mass concentration, µg/m³."
+              },
+              "so2": {
+                "ref": "net.atmowx.defs#quantity",
+                "type": "ref",
+                "description": "SO₂ mass concentration, µg/m³."
+              },
+              "pm10": {
+                "ref": "net.atmowx.defs#quantity",
+                "type": "ref",
+                "description": "PM10 mass concentration, µg/m³."
+              },
+              "pm25": {
+                "ref": "net.atmowx.defs#quantity",
+                "type": "ref",
+                "description": "PM2.5 mass concentration, µg/m³."
+              },
+              "ozone": {
+                "ref": "net.atmowx.defs#quantity",
+                "type": "ref",
+                "description": "O₃ mass concentration, µg/m³."
+              }
+            },
+            "description": "Outdoor ambient air-quality mass concentrations, µg/m³. Derived indexes (AQI, EAQI, …) are intentionally not stored: they are jurisdiction- and time-window-specific and must be computed by consumers from the concentration series."
+          },
+          "observedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Measurement time, UTC."
+          },
+          "visibility": {
+            "ref": "net.atmowx.defs#quantity",
+            "type": "ref",
+            "description": "Meters."
+          },
+          "temperature": {
+            "ref": "net.atmowx.defs#quantity",
+            "type": "ref",
+            "description": "Air temperature, °C."
+          },
+          "soilMoisture": {
+            "ref": "net.atmowx.defs#quantity",
+            "type": "ref",
+            "description": "Percent."
+          },
+          "precipitation": {
+            "type": "object",
+            "properties": {
+              "day": {
+                "ref": "net.atmowx.defs#quantity",
+                "type": "ref",
+                "description": "mm since station-local midnight."
+              },
+              "hour": {
+                "ref": "net.atmowx.defs#quantity",
+                "type": "ref",
+                "description": "mm in the last 60 minutes."
+              },
+              "rate": {
+                "ref": "net.atmowx.defs#quantity",
+                "type": "ref",
+                "description": "mm/h."
+              },
+              "event": {
+                "ref": "net.atmowx.defs#quantity",
+                "type": "ref",
+                "description": "mm in the current rain event."
+              }
+            }
+          },
+          "presentWeather": {
+            "type": "integer",
+            "maximum": 99,
+            "minimum": 0,
+            "description": "WMO code table 4680 (present weather from automatic station)."
+          },
+          "pressureStation": {
+            "ref": "net.atmowx.defs#quantity",
+            "type": "ref",
+            "description": "Absolute station pressure, hPa."
+          },
+          "soilTemperature": {
+            "ref": "net.atmowx.defs#quantity",
+            "type": "ref",
+            "description": "°C at default depth; use extra for multiple depths."
+          },
+          "solarIrradiance": {
+            "ref": "net.atmowx.defs#quantity",
+            "type": "ref",
+            "description": "W/m²."
+          },
+          "pressureSeaLevel": {
+            "ref": "net.atmowx.defs#quantity",
+            "type": "ref",
+            "description": "Mean-sea-level reduced pressure, hPa."
+          },
+          "relativeHumidity": {
+            "ref": "net.atmowx.defs#quantity",
+            "type": "ref",
+            "description": "Relative humidity, percent."
+          }
+        }
+      },
+      "description": "One immutable weather observation. All measurement fields are optional and SI-only: celsius, hectopascal, meters/second, millimeters, W/m². Record key SHOULD be a TID derived from observedAt."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

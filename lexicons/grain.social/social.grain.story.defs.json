@@ -1,0 +1,99 @@
+{
+  "id": "social.grain.story.defs",
+  "defs": {
+    "storyView": {
+      "type": "object",
+      "required": [
+        "uri",
+        "cid",
+        "creator",
+        "thumb",
+        "fullsize",
+        "aspectRatio",
+        "createdAt"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid"
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "thumb": {
+          "type": "string",
+          "format": "uri",
+          "description": "Thumbnail URL for the story image."
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "ref": "com.atproto.label.defs#label",
+            "type": "ref"
+          }
+        },
+        "viewer": {
+          "ref": "#viewerState",
+          "type": "ref"
+        },
+        "address": {
+          "ref": "community.lexicon.location.address",
+          "type": "ref"
+        },
+        "creator": {
+          "ref": "social.grain.actor.defs#profileView",
+          "type": "ref"
+        },
+        "expired": {
+          "type": "boolean",
+          "description": "Whether the story has passed its 24-hour window."
+        },
+        "fullsize": {
+          "type": "string",
+          "format": "uri",
+          "description": "Full-size URL for the story image."
+        },
+        "location": {
+          "ref": "community.lexicon.location.hthree",
+          "type": "ref"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "crossPost": {
+          "ref": "social.grain.gallery.defs#crossPostInfo",
+          "type": "ref"
+        },
+        "aspectRatio": {
+          "ref": "social.grain.defs#aspectRatio",
+          "type": "ref"
+        },
+        "commentCount": {
+          "type": "integer"
+        },
+        "locationDisplay": {
+          "type": "string",
+          "description": "Formatted location label for display."
+        }
+      }
+    },
+    "viewerState": {
+      "type": "object",
+      "properties": {
+        "fav": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "viewed": {
+          "type": "boolean",
+          "description": "Whether the requesting account has watched this story. Only present when true."
+        }
+      },
+      "description": "Metadata about the requesting account's relationship with the story."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

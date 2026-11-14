@@ -1,0 +1,49 @@
+{
+  "id": "app.zeens.getCommunitySubmissions",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "owner"
+        ],
+        "properties": {
+          "actor": {
+            "type": "string",
+            "format": "did",
+            "description": "Limit to one photographer."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "owner": {
+            "type": "string",
+            "format": "did",
+            "description": "The community account."
+          },
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Limit to one photo."
+          },
+          "collection": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Limit to one community collection."
+          }
+        }
+      },
+      "description": "Submissions to `owner`'s community collections, each with its derived status (pending / approved / declined). Without `actor` returns the pending review queue; with `actor` returns that photographer's own submissions in every status.",
+      "target_collection": "app.zeens.collectionItem"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

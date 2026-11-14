@@ -1,0 +1,72 @@
+{
+  "id": "social.grain.unspecced.createPoolComment",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "group",
+            "gallery",
+            "text"
+          ],
+          "properties": {
+            "text": {
+              "type": "string",
+              "maxLength": 3000
+            },
+            "group": {
+              "type": "string",
+              "format": "did"
+            },
+            "facets": {
+              "type": "array",
+              "items": {
+                "ref": "app.bsky.richtext.facet",
+                "type": "ref"
+              }
+            },
+            "gallery": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "replyTo": {
+              "type": "string",
+              "format": "at-uri"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "NotAuthorized",
+          "description": "The viewer is not a member of this pool."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri",
+            "rkey"
+          ],
+          "properties": {
+            "uri": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "rkey": {
+              "type": "string"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Comment on a gallery in a group's pool. The comment is the viewer's own record, written into the pool beside the gallery it answers, so only that group's members can read it."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

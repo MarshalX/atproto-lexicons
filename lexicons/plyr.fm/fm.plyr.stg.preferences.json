@@ -1,0 +1,16 @@
+{
+  "id": "fm.plyr.stg.preferences",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "name": "plyr.fm preferences",
+      "type": "space",
+      "collections": [
+        "fm.plyr.stg.preference"
+      ],
+      "description": "Private appearance and playback preferences for plyr.fm Next."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,105 @@
+{
+  "id": "dev.knotless.putOrgMember",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "org",
+            "member"
+          ],
+          "properties": {
+            "org": {
+              "type": "string",
+              "format": "did",
+              "description": "The organization."
+            },
+            "role": {
+              "type": "string",
+              "maxLength": 64,
+              "description": "Their role; member when absent.",
+              "knownValues": [
+                "admin",
+                "member"
+              ]
+            },
+            "member": {
+              "type": "string",
+              "format": "did",
+              "description": "The account to invite."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "org",
+            "who",
+            "role",
+            "first",
+            "private"
+          ],
+          "properties": {
+            "had": {
+              "type": "string",
+              "maxLength": 64,
+              "description": "The role they had before, if they had one.",
+              "knownValues": [
+                "admin",
+                "member"
+              ]
+            },
+            "org": {
+              "type": "string",
+              "maxLength": 300,
+              "description": "The organization's handle, or its DID when none resolves back to it."
+            },
+            "was": {
+              "type": "string",
+              "maxLength": 64,
+              "description": "Where they stood before: invited, lapsed (invited over 7 days ago), or a public or hidden member. Absent when they were not invited.",
+              "knownValues": [
+                "invited",
+                "lapsed",
+                "public",
+                "hidden"
+              ]
+            },
+            "who": {
+              "type": "string",
+              "maxLength": 300,
+              "description": "The invitee's handle, or their DID when none resolves back to it."
+            },
+            "role": {
+              "type": "string",
+              "maxLength": 64,
+              "description": "Their role now.",
+              "knownValues": [
+                "admin",
+                "member"
+              ]
+            },
+            "first": {
+              "type": "boolean",
+              "description": "Whether this made the account an organization."
+            },
+            "private": {
+              "type": "boolean",
+              "description": "Whether the invitation is in the organization's space, which only it and its members read; else in its public records."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "The invitation is kept in the organization's space where its PDS has spaces, else in its public records. Invited again, an invitation that lapsed starts over."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Invites an account to an organization, or changes a member's role, through the gateway the organization delegated writes to, which writes as the organization. The caller must be an admin of it who joined. Requires a service token from the caller's PDS, audience the gateway's DID, for this method."
+}

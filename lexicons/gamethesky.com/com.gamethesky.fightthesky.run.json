@@ -1,0 +1,256 @@
+{
+  "id": "com.gamethesky.fightthesky.run",
+  "defs": {
+    "face": {
+      "type": "object",
+      "required": [
+        "slot",
+        "name",
+        "image"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "The name under the face, 40 characters at most.",
+          "maxGraphemes": 40
+        },
+        "slot": {
+          "type": "integer",
+          "maximum": 9,
+          "minimum": 0,
+          "description": "The ladder slot the face fought in, 0 the Lurker to 9 the Discourse. The slots are filled by `faces` at their slot numbers and then by the people the player follows in order, so a face sits ahead of them, as it did on the player's screen."
+        },
+        "image": {
+          "type": "blob",
+          "accept": [
+            "image/jpeg"
+          ],
+          "maxSize": 65536,
+          "description": "The face: a 256×256 JPEG, 64 KB at most, cropped to the middle of the photo. Readers refuse a bigger one."
+        }
+      },
+      "description": "One of the player's own faces, as it fought in a run: which ladder slot, the name under it, and the picture."
+    },
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "seed",
+          "simVersion",
+          "inputs",
+          "build",
+          "score",
+          "wins",
+          "ticks",
+          "createdAt"
+        ],
+        "properties": {
+          "won": {
+            "type": "boolean",
+            "description": "Advisory: the whole ladder was cleared; in a ghost fight, the ghost was beaten."
+          },
+          "hits": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Advisory: hits landed."
+          },
+          "look": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Cosmetic: the fighter's three paint colors, as `rrggbb.rrggbb.rrggbb` (body, trim, gloves). The sim never sees it."
+          },
+          "seed": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Which ladder: a date (YYYY-MM-DD, local to the player) for the daily ladder, or any other string for a practice one or a ghost fight. The sim seeds from the FNV-1a hash of this string."
+          },
+          "wins": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Advisory: fights won."
+          },
+          "worn": {
+            "ref": "#worn",
+            "type": "ref",
+            "description": "The photo face the player wore themself in this run, included on purpose under the same switch as `faces` (off by default), so a replay anywhere shows it in their corner, with its name, instead of their avatar. A public blob in the player's repo. Cosmetic: a verifier ignores it. Never on a ghost fight."
+          },
+          "build": {
+            "ref": "#build",
+            "type": "ref",
+            "description": "The fighter's build: twelve points at most over four stats of 1–5, and a special. The build changes the sim, so a verifier replays with it and refuses one over budget."
+          },
+          "faces": {
+            "type": "array",
+            "items": {
+              "ref": "#face",
+              "type": "ref"
+            },
+            "maxLength": 6,
+            "description": "The player's own photo faces that fought on the ladder, included on purpose (the game asks, off by default) so a replay anywhere shows them; each photo is a public blob in the player's repo. Cosmetic, like `look`: a face takes its ladder slot ahead of the people the player follows, the opponents' play is the sim's, and a verifier ignores this field entirely. Six at most. Never on a ghost fight."
+          },
+          "ghost": {
+            "ref": "#ghost",
+            "type": "ref",
+            "description": "Present on a ghost fight: who the opponent was and how sharp. A run with this never ranks on a board, whatever its seed."
+          },
+          "score": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Advisory: the final score."
+          },
+          "start": {
+            "type": "integer",
+            "maximum": 10,
+            "minimum": 1,
+            "description": "The ladder slot the run started at: 1 for a full run, any other for practice against that opponent. Absent means 1. Only full runs of a daily ladder rank. A ghost fight is always 1."
+          },
+          "ticks": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Advisory: the tick the run ended."
+          },
+          "inputs": {
+            "type": "string",
+            "maxLength": 400000,
+            "description": "The whole run as the only input the game takes. Comma-separated `<dtick>.<code>` entries, or `<dtick>.<code>.<v>` for the held ones: dtick is 60 Hz ticks since the previous entry; code 0 is a jab, 1 a kick, 2 the special, 3 throws in the towel (the run ends on that entry), 4 sets the held direction (v is -1 left, 0 none, 1 right; absolute, not relative to facing), 5 crouches (v 1) or stands (v 0), 6 jumps, 7 holds guard (v 1) or lets go (v 0). Only inputs the sim accepted are logged; a verifier refuses a log the sim would not have accepted. Example: `100.4.1,40.0,8.1,30.4.0`."
+          },
+          "perfects": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Advisory: fights won without taking a hit."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "difficulty": {
+            "type": "string",
+            "maxLength": 16,
+            "description": "How hard the run was. A verifier must replay at the same difficulty. Absent means normal. Each difficulty has its own daily board.",
+            "knownValues": [
+              "granny",
+              "easy",
+              "normal",
+              "hard"
+            ]
+          },
+          "simVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Which rules produced these inputs. A verifier must replay under the matching version or refuse the run."
+          }
+        }
+      },
+      "description": "One run of Fight the Sky, published by the player into their own repo: a climb up the ladder, or a single ghost fight (see `ghost`). The record stores the fighter's build and every input rather than a score: the sim is deterministic, so re-running the input log against the same seed with the same build reproduces the run exactly. Owning the record is the identity proof, and replaying it is the score proof — score, wins and the rest are advisory and never trusted by a leaderboard."
+    },
+    "worn": {
+      "type": "object",
+      "required": [
+        "name",
+        "image"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "The name they fought under, 40 characters at most.",
+          "maxGraphemes": 40
+        },
+        "image": {
+          "type": "blob",
+          "accept": [
+            "image/jpeg"
+          ],
+          "maxSize": 65536,
+          "description": "A 256×256 JPEG, 64 KB at most, cropped to the middle of the photo. Readers refuse a bigger one."
+        }
+      },
+      "description": "The face the player wore: the name they fought under and the picture."
+    },
+    "build": {
+      "type": "object",
+      "required": [
+        "power",
+        "speed",
+        "reach",
+        "guts",
+        "special"
+      ],
+      "properties": {
+        "guts": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 1
+        },
+        "power": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 1
+        },
+        "reach": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 1
+        },
+        "speed": {
+          "type": "integer",
+          "maximum": 5,
+          "minimum": 1
+        },
+        "special": {
+          "type": "string",
+          "maxLength": 16,
+          "knownValues": [
+            "post",
+            "ratio",
+            "rush"
+          ]
+        }
+      },
+      "description": "A fighter's build: twelve points at most over four stats of 1–5, and a special. The build changes the sim, so a verifier replays with it and refuses one over budget. Shared by the run record and the fighter record."
+    },
+    "ghost": {
+      "type": "object",
+      "required": [
+        "uri",
+        "cid",
+        "skill"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid",
+          "description": "The version of that record the fight was played against."
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "The opponent's `com.gamethesky.fightthesky.fighter` record, in their repo."
+        },
+        "skill": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 1,
+          "description": "How sharp the ghost's CPU was, the challenger's choice: the sim thinks skill/10 times the difficulty's, so 10 on Normal is as good as the CPU gets. A verifier must replay at the same skill."
+        },
+        "style": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "Advisory: how the ghost fought, copied from its record so a card can say so without fetching it. A verifier uses the record's own style and refuses a run that disagrees.",
+          "knownValues": [
+            "rusher",
+            "turtle",
+            "zoner",
+            "tricky"
+          ]
+        }
+      },
+      "description": "A ghost fight's opponent: a strong reference to another player's fighter record, pinned to the version fought, plus how the CPU drove it. The verifier fetches that exact version, replays with its build and style, and refuses the run if the version is gone, so an owner editing their fighter changes no old result."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,49 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Cryptographic provenance binding between a metadata manifest CID and its owner. No grantee DIDs are stored here (ADR 91); the share ACL lives in the encrypted-at-rest metadata file on the private Swarm blockstore, referenced by aclCid.",
+      "properties": {
+        "aclCid": {
+          "description": "CID of the share-ACL block in the drive metadata file (ADR 91). Never the ACL itself.",
+          "type": "string"
+        },
+        "assetCid": {
+          "description": "File byte CID. Same meaning as driveEntry assetCid. Omitted for a drive or folder receipt.",
+          "type": "string"
+        },
+        "manifestCid": {
+          "description": "The metadata manifest CID this receipt governs: the drive index for a drive, or that entry's name leaf for a folder or file.",
+          "type": "string"
+        },
+        "metadata": {
+          "ref": "cloud.substratum.passport.assetMetadata#main",
+          "type": "ref"
+        },
+        "ownerDid": {
+          "description": "The DID of the user who owns the asset",
+          "format": "did",
+          "type": "string"
+        },
+        "timestamp": {
+          "description": "ISO 8601 timestamp of the upload",
+          "format": "datetime",
+          "type": "string"
+        },
+        "version": {
+          "description": "Schema version (e.g., '2.0.0')",
+          "type": "string"
+        }
+      },
+      "required": [
+        "version",
+        "manifestCid",
+        "ownerDid",
+        "timestamp"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "cloud.substratum.passport.receipt",
+  "lexicon": 1
+}

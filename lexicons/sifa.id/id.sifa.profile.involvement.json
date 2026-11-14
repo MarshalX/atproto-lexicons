@@ -1,0 +1,145 @@
+{
+  "id": "id.sifa.profile.involvement",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "kind",
+          "createdAt"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "description": "The nature of the involvement. Drives the display heading (Open Source / Community / Volunteering / Civic).",
+            "knownValues": [
+              "id.sifa.defs#involvementOpenSource",
+              "id.sifa.defs#involvementCommunity",
+              "id.sifa.defs#involvementCharity",
+              "id.sifa.defs#involvementCivic",
+              "id.sifa.defs#involvementOther"
+            ]
+          },
+          "role": {
+            "type": "string",
+            "maxLength": 2560,
+            "description": "The user's role (e.g. 'Maintainer', 'Translator', 'Organizer', 'Contributor').",
+            "maxGraphemes": 256
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "ref": "id.sifa.defs#artifactLink",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "description": "Public artifacts proving the involvement (PRs, releases, talk recordings, published translations)."
+          },
+          "tools": {
+            "type": "array",
+            "items": {
+              "ref": "id.sifa.defs#toolRef",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "description": "Tools used in this involvement. Each entry is a URI reference to a tool item record owned by the same DID. Consumers ignore entries that do not resolve."
+          },
+          "labels": {
+            "refs": [
+              "com.atproto.label.defs#selfLabels"
+            ],
+            "type": "union",
+            "description": "Self-label values for this record."
+          },
+          "sameAs": {
+            "ref": "id.sifa.defs#externalRecordRef",
+            "type": "ref",
+            "description": "The same involvement as recorded on another person's profile. Set when you keep your own entry for work someone else has also recorded, so consumers can tell the two describe one thing rather than showing it twice. Each side stays its own record: the other person cannot edit yours, and yours does not change theirs. Resolve by AT-URI, since they will keep editing their copy."
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "ref": "id.sifa.defs#skillRef",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "description": "Skills demonstrated by this involvement. Each entry is a URI reference to an id.sifa.profile.skill record owned by the same DID."
+          },
+          "endedAt": {
+            "type": "string",
+            "description": "End date in YYYY, YYYY-MM or YYYY-MM-DD format. Omit if ongoing."
+          },
+          "agentRef": {
+            "ref": "id.sifa.defs#agentRef",
+            "type": "ref",
+            "description": "The upstream project, community, event, or cause, as a single nested reference mirroring the flat upstream / upstreamDid / entityRef fields. Additive dual-write: the flat fields remain the source of truth for existing consumers."
+          },
+          "location": {
+            "ref": "community.lexicon.location.address",
+            "type": "ref",
+            "description": "Where the involvement takes place. Sifa enforces ISO 3166-1 alpha-2 country codes at the app layer."
+          },
+          "upstream": {
+            "type": "string",
+            "maxLength": 2560,
+            "description": "Name of the project, community, event, or cause (e.g. 'atproto', 'Linux kernel', 'PyCon NL'). Optional — a one-off contribution need not name an organization.",
+            "maxGraphemes": 256
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Client-declared timestamp when this record was originally created."
+          },
+          "entityRef": {
+            "type": "string",
+            "format": "uri",
+            "description": "Portable, app-neutral identifier for the upstream the user selected from a resolver dropdown: a Wikidata Q-ID URI (http://www.wikidata.org/entity/Q...), a ROR URI, or an LEI URI. Enables deterministic resolution to a canonical entity even before the upstream claims an ATproto account. Absent for free-text or one-off entries."
+          },
+          "isPrimary": {
+            "type": "boolean",
+            "description": "Whether this is the user's primary current involvement, surfaced in profile Highlights. Only ongoing entries may be primary."
+          },
+          "startedAt": {
+            "type": "string",
+            "description": "Start date in YYYY, YYYY-MM or YYYY-MM-DD format. Freeform (NOT strict datetime) to allow partial dates and importer writes."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 50000,
+            "description": "What the user did and why it mattered.",
+            "maxGraphemes": 5000
+          },
+          "upstreamDid": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the upstream's ATproto account, if one exists."
+          },
+          "upstreamUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Primary URL of the upstream (project homepage, repo, event site)."
+          },
+          "collaborators": {
+            "type": "array",
+            "items": {
+              "ref": "id.sifa.defs#projectMemberRef",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "description": "Other people who worked on this alongside you. Each entry is a claim by the record author and is not self-verifying: the named person supplies the other half by publishing an id.sifa.confirmation record whose subject is this record and whose relation is id.sifa.defs#collaborator. Until they do, consumers must render the entry without their display name, avatar, or profile link. Confirming never puts this record on their profile: it lives in the author's repository and the author can rename it at any time."
+          }
+        }
+      },
+      "description": "Record representing one involvement — an ongoing role and/or a body of discrete contributions to a single upstream.",
+      "x-skos:note": "The kind known values have no external equivalent.",
+      "x-skos:broadMatch": [
+        "org:Membership"
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Uncompensated involvement with an external project, community, event, or cause the user does not own or run — open-source, community, charity, or civic work. Distinct from paid roles (position), things you own (project), and paid employment."
+}

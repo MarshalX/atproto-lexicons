@@ -1,0 +1,70 @@
+{
+  "id": "at.atpcraft.player.skin",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "skinUrl",
+          "timestamp",
+          "endorsements"
+        ],
+        "properties": {
+          "model": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Minecraft skin model type.",
+            "knownValues": [
+              "default",
+              "slim"
+            ]
+          },
+          "capeCid": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "Optional CID of the cape blob in the player's repo."
+          },
+          "capeUrl": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 2048,
+            "description": "Optional public URL of the player's cape PNG."
+          },
+          "skinCid": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "Optional CID of the skin blob in the player's repo."
+          },
+          "skinUrl": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 2048,
+            "description": "Public URL of the player's skin PNG."
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "datetime",
+            "maxLength": 64,
+            "description": "Record update time."
+          },
+          "endorsements": {
+            "type": "array",
+            "items": {
+              "ref": "at.atpcraft.player.defs#endorsement",
+              "type": "ref"
+            },
+            "maxLength": 64,
+            "minLength": 1,
+            "description": "Server signatures over the canonical skin payload."
+          }
+        }
+      },
+      "description": "One skin record per player per server. The skin URL is required; an optional blob CID may be preferred by consumers. The record must carry at least one server endorsement. The record key is the server's signing key id."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Server-endorsed player skin and cape references for ATPcraft. Each record is signed by the ATPcraft server that wrote it so other servers can verify the skin."
+}

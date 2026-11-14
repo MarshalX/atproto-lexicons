@@ -1,0 +1,57 @@
+{
+  "id": "social.colibri.beta.community.listRoles",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request is missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The requesting user lacks permission to view this community's roles."
+        },
+        {
+          "name": "CommunityNotFound",
+          "description": "No community exists with that DID."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "roles"
+          ],
+          "properties": {
+            "roles": {
+              "type": "array",
+              "items": {
+                "ref": "social.colibri.beta.community.defs#roleView",
+                "type": "ref"
+              },
+              "description": "The community's roles."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "community"
+        ],
+        "properties": {
+          "community": {
+            "type": "string",
+            "format": "did",
+            "description": "The community to list roles of."
+          }
+        }
+      },
+      "description": "Lists a community's roles."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

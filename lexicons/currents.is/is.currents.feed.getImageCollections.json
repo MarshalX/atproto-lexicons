@@ -1,0 +1,54 @@
+{
+  "id": "is.currents.feed.getImageCollections",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "collections"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "collections": {
+              "type": "array",
+              "items": {
+                "ref": "is.currents.feed.defs#collectionView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "uri"
+        ],
+        "properties": {
+          "uri": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of a save of the image whose collections to list."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Enumerate the collections that contain the same image (by exact blob CID) as the given save, ordered by favourite count descending. Unsorted saves are excluded. Auth is optional; if provided, viewer-specific state is included in each collection."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

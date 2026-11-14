@@ -1,0 +1,55 @@
+{
+  "id": "app.userinput.status",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "state",
+          "createdAt"
+        ],
+        "properties": {
+          "note": {
+            "type": "string",
+            "maxLength": 3000,
+            "maxGraphemes": 1500
+          },
+          "state": {
+            "enum": [
+              "open",
+              "under-review",
+              "backlog",
+              "planned",
+              "in-progress",
+              "implemented",
+              "declined",
+              "duplicate",
+              "closed"
+            ],
+            "type": "string"
+          },
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The discussion this status applies to. Indexed by constellation at subject.uri."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "duplicateOf": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "When state is 'duplicate', the canonical discussion this duplicates."
+          }
+        }
+      },
+      "description": "An official status assigned to a discussion. Only honored when authored by the space owner or an appointed moderator. Latest createdAt wins. Lives in the moderator's repo."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

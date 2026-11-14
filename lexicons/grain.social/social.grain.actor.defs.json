@@ -1,0 +1,173 @@
+{
+  "id": "social.grain.actor.defs",
+  "defs": {
+    "messageMe": {
+      "type": "object",
+      "required": [
+        "showButtonTo",
+        "messageMeUrl"
+      ],
+      "properties": {
+        "messageMeUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "showButtonTo": {
+          "type": "string",
+          "knownValues": [
+            "usersIFollow",
+            "everyone"
+          ]
+        }
+      }
+    },
+    "profileView": {
+      "type": "object",
+      "required": [
+        "cid",
+        "did",
+        "handle"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid"
+        },
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "avatar": {
+          "type": "string",
+          "format": "uri"
+        },
+        "handle": {
+          "type": "string",
+          "format": "handle"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "ref": "com.atproto.label.defs#label",
+            "type": "ref"
+          }
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 2560,
+          "maxGraphemes": 256
+        },
+        "displayName": {
+          "type": "string",
+          "maxLength": 640,
+          "maxGraphemes": 64
+        }
+      }
+    },
+    "viewerState": {
+      "type": "object",
+      "properties": {
+        "muted": {
+          "type": "boolean"
+        },
+        "blocking": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "blockedBy": {
+          "type": "boolean"
+        },
+        "following": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "followedBy": {
+          "type": "string",
+          "format": "at-uri"
+        }
+      },
+      "description": "Metadata about the requesting account's relationship with the subject account. Only has meaningful content for authed requests."
+    },
+    "profileViewDetailed": {
+      "type": "object",
+      "required": [
+        "cid",
+        "did",
+        "handle"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid"
+        },
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "avatar": {
+          "type": "string",
+          "format": "uri"
+        },
+        "handle": {
+          "type": "string",
+          "format": "handle"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "ref": "com.atproto.label.defs#label",
+            "type": "ref"
+          }
+        },
+        "viewer": {
+          "ref": "#viewerState",
+          "type": "ref"
+        },
+        "cameras": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of camera make and models used by this actor derived from EXIF data of photos linked to galleries."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "indexedAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "messageMe": {
+          "ref": "#messageMe",
+          "type": "ref"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 2560,
+          "maxGraphemes": 256
+        },
+        "displayName": {
+          "type": "string",
+          "maxLength": 640,
+          "maxGraphemes": 64
+        },
+        "followsCount": {
+          "type": "integer"
+        },
+        "galleryCount": {
+          "type": "integer"
+        },
+        "followersCount": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

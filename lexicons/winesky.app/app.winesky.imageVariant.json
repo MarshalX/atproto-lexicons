@@ -1,0 +1,58 @@
+{
+  "id": "app.winesky.imageVariant",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "main",
+          "thumbnail"
+        ],
+        "properties": {
+          "main": {
+            "type": "blob",
+            "accept": [
+              "image/jpeg",
+              "image/png"
+            ],
+            "maxSize": 3000000
+          },
+          "parent": {
+            "ref": "#strongRef",
+            "type": "ref"
+          },
+          "thumbnail": {
+            "type": "blob",
+            "accept": [
+              "image/jpeg",
+              "image/png"
+            ],
+            "maxSize": 100000
+          }
+        }
+      },
+      "description": "A group of image variants for display purposes (currently only main and thumbnail)."
+    },
+    "strongRef": {
+      "type": "object",
+      "required": [
+        "cid",
+        "atUri"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid"
+        },
+        "atUri": {
+          "type": "string",
+          "format": "at-uri"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

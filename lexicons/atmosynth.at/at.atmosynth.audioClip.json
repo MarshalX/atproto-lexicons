@@ -1,0 +1,68 @@
+{
+  "id": "at.atmosynth.audioClip",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "clip",
+          "createdAt"
+        ],
+        "properties": {
+          "clip": {
+            "ref": "at.atmosynth.defs#audioClip",
+            "type": "ref",
+            "description": "The clip, placed nowhere: it has no `at`. Its recording is in this record's own account."
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "description": "What its creator calls it."
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 128
+            },
+            "maxLength": 32,
+            "description": "Freely created tags, lower-cased on write."
+          },
+          "tempo": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "The tempo it was written at, in beats per minute from 20 to 999, as decimal text, so it can be heard as its creator heard it before it is placed in an arrangement, whose tempo it then follows. Optional: absent is 120."
+          },
+          "license": {
+            "ref": "at.atmosynth.defs#license",
+            "type": "ref"
+          },
+          "lineage": {
+            "type": "array",
+            "items": {
+              "ref": "at.atmosynth.defs#lineage",
+              "type": "ref"
+            },
+            "maxLength": 64
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000
+          }
+        }
+      },
+      "description": "An audio clip, held in its creator's own repository."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A recording as it is placed in an arrangement — cut, faded, warped to the beat — published on its own to be taken into anybody's arrangement."
+}

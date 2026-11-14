@@ -1,0 +1,50 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Delete one device's text style override. This is the cleanup half of per-device preferences: a browser whose local storage is cleared can no longer find its own row, so without a way to delete rows by hand they accumulate for ever. Acts on the caller's own space and can only ever delete the caller's own row.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "deviceId": {
+              "maxLength": 64,
+              "type": "string"
+            }
+          },
+          "required": [
+            "deviceId"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "deleted": {
+              "type": "boolean"
+            },
+            "error": {
+              "description": "A stable machine code the client branches on — add codes, never rename them. `no-such-device` is NOT an error the player should see as a failure: deleting a row that is already gone got them what they wanted.",
+              "knownValues": [
+                "not-authenticated",
+                "no-such-device",
+                "delete-failed"
+              ],
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "pet.trezy.forgetDevice",
+  "lexicon": 1
+}

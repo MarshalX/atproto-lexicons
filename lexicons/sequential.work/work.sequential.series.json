@@ -1,0 +1,160 @@
+{
+  "id": "work.sequential.series",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "title",
+          "banner",
+          "poster",
+          "description",
+          "createdAt",
+          "categories",
+          "format"
+        ],
+        "properties": {
+          "links": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 10,
+            "description": "Ordered list of links shown on the series. Use the DID form (at://did:...), not a handle."
+          },
+          "title": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#localizedTitle",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "minLength": 1,
+            "description": "Localized title of the series."
+          },
+          "banner": {
+            "type": "blob",
+            "accept": [
+              "image/jpeg",
+              "image/png",
+              "image/webp",
+              "image/avif"
+            ],
+            "maxSize": 4194304,
+            "description": "The banner image of the series. 3:1 aspect ratio. (e.g. 3000x1000 pixels)"
+          },
+          "format": {
+            "type": "string",
+            "description": "The reading format of the series. 'vertical' chapters are made of slices; 'page' chapters are made of pages. 'strip' series have no chapters; their strips point to the series directly. AppViews may define their own formats.",
+            "knownValues": [
+              "vertical",
+              "page",
+              "strip"
+            ]
+          },
+          "labels": {
+            "refs": [
+              "com.atproto.label.defs#selfLabels"
+            ],
+            "type": "union",
+            "description": "Self-labels and content warnings for this series. Use the standard AT Protocol values ('porn', 'sexual', 'nudity', 'graphic-media') where they apply. AppViews may define additional values (e.g. 'profanity', 'violence'); AppViews that don't recognize a value ignore it."
+          },
+          "poster": {
+            "type": "blob",
+            "accept": [
+              "image/jpeg",
+              "image/png"
+            ],
+            "maxSize": 4194304,
+            "description": "The open graph share image of the series. 1.91:1 aspect ratio. (e.g. 1200x630 pixels) JPEG or PNG only, because many link preview crawlers don't support newer formats."
+          },
+          "status": {
+            "type": "string",
+            "default": "ongoing",
+            "description": "Publication status of the series. AppViews may define their own statuses.",
+            "knownValues": [
+              "ongoing",
+              "completed",
+              "hiatus",
+              "cancelled"
+            ]
+          },
+          "chapters": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 5000,
+            "description": "Ordered list of chapters in this series. Not used by the 'strip' format. Use the DID form (at://did:...), not a handle."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "The date and time the series was created."
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "ref": "work.sequential.defs#category",
+              "type": "ref"
+            },
+            "maxLength": 3,
+            "minLength": 1,
+            "description": "Categories for this series, most relevant first."
+          },
+          "description": {
+            "type": "array",
+            "items": {
+              "ref": "#localizedDescription",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "minLength": 1,
+            "description": "Localized short description of the series."
+          },
+          "nativeLanguage": {
+            "type": "string",
+            "format": "language",
+            "description": "BCP-47 language tag of the language the series was created in. AppViews should fall back to it when a reader's language isn't available."
+          },
+          "readingDirection": {
+            "type": "string",
+            "default": "ltr",
+            "description": "Horizontal reading direction of panels and pages. 'rtl' for right-to-left comics such as manga.",
+            "knownValues": [
+              "ltr",
+              "rtl"
+            ]
+          }
+        }
+      },
+      "description": "A comic series."
+    },
+    "localizedDescription": {
+      "type": "object",
+      "required": [
+        "lang",
+        "text"
+      ],
+      "properties": {
+        "lang": {
+          "type": "string",
+          "format": "language",
+          "description": "BCP-47 language tag for this description."
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 2550,
+          "maxGraphemes": 255
+        }
+      },
+      "description": "Same as work.sequential.defs#localizedDescription, but limited to a short blurb."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

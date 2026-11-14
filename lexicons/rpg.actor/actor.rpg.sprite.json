@@ -1,0 +1,115 @@
+{
+  "id": "actor.rpg.sprite",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "spriteSheet",
+          "createdAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "Display name for the character (optional, can differ from Bluesky display name)",
+            "maxGraphemes": 50
+          },
+          "rows": {
+            "type": "integer",
+            "maximum": 16,
+            "minimum": 1,
+            "description": "Number of rows in the sprite sheet (typically 4 for directional sprites: down, left, right, up)"
+          },
+          "width": {
+            "type": "integer",
+            "maximum": 4096,
+            "minimum": 1,
+            "description": "Total width of the sprite sheet in pixels"
+          },
+          "frames": {
+            "type": "integer",
+            "maximum": 64,
+            "minimum": 1,
+            "description": "Total number of animation frames"
+          },
+          "height": {
+            "type": "integer",
+            "maximum": 4096,
+            "minimum": 1,
+            "description": "Total height of the sprite sheet in pixels"
+          },
+          "origin": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Optional tag indicating how this sprite was generated. Known values: 'minecraft' (converted from a Minecraft skin via the rpg.actor Minecraft Spriter).",
+            "maxGraphemes": 32
+          },
+          "source": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the generator record this sprite was composed from, if any (e.g. at://did:plc:xxx/actor.rpg.generator/self)"
+          },
+          "columns": {
+            "type": "integer",
+            "maximum": 16,
+            "minimum": 1,
+            "description": "Number of columns per animation cycle"
+          },
+          "isCustom": {
+            "type": "boolean",
+            "description": "True when this sprite was directly uploaded or drawn by the user (not composed or recomposed by the actor.rpg.generator pipeline). When set, tools such as the theatre will not recompose this sprite from generator layers."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When this record was first created"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When this record was last modified"
+          },
+          "frameWidth": {
+            "type": "integer",
+            "maximum": 512,
+            "minimum": 1,
+            "description": "Width of a single frame in pixels (if not auto-calculated from width/columns)"
+          },
+          "frameHeight": {
+            "type": "integer",
+            "maximum": 512,
+            "minimum": 1,
+            "description": "Height of a single frame in pixels (if not auto-calculated from height/rows)"
+          },
+          "spriteSheet": {
+            "type": "blob",
+            "accept": [
+              "image/png"
+            ],
+            "maxSize": 10000000,
+            "description": "The sprite sheet image (PNG only). Max 10MB."
+          },
+          "minecraftName": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "The Minecraft username or UUID this sprite was generated from. Only set when origin is 'minecraft'.",
+            "maxGraphemes": 64
+          },
+          "animationSpeed": {
+            "type": "integer",
+            "maximum": 2000,
+            "minimum": 50,
+            "description": "Milliseconds per frame for animation playback. Defaults to 200 if omitted."
+          }
+        }
+      },
+      "description": "A user's RPG character sprite. Single-record user asset stored on the user's PDS."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A sprite sheet for an RPG character avatar."
+}

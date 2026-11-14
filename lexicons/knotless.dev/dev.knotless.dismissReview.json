@@ -1,0 +1,72 @@
+{
+  "id": "dev.knotless.dismissReview",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "repo",
+            "pull",
+            "reviewer",
+            "reason"
+          ],
+          "properties": {
+            "pull": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The dev.knotless.pull."
+            },
+            "repo": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+            },
+            "reason": {
+              "type": "string",
+              "maxLength": 20000,
+              "description": "Why, in Markdown: the comment's body."
+            },
+            "reviewer": {
+              "type": "string",
+              "format": "did",
+              "description": "The account whose review it dismisses."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri"
+          ],
+          "properties": {
+            "uri": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The dev.knotless.comment that dismissed it."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "As `knotless dismiss` does: the repository's owner or a collaborator writes a dev.knotless.comment on the pull naming the review in `dismisses`, its body the reason. The review then counts for nothing, for or against the pull, until its reviewer reviews again. Requires the session cookie the pages' login sets."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Dismisses a reviewer's standing review of a pull, as the account logged in to this appview's pages."
+}

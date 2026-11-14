@@ -1,0 +1,114 @@
+{
+  "id": "buzz.bookhive.getFeed",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "activities",
+            "hasMore"
+          ],
+          "properties": {
+            "page": {
+              "type": "integer"
+            },
+            "hasMore": {
+              "type": "boolean"
+            },
+            "activities": {
+              "type": "array",
+              "items": {
+                "ref": "buzz.bookhive.getFeed#feedActivity",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "tab": {
+            "type": "string",
+            "description": "Which feed tab to show. Defaults to friends.",
+            "knownValues": [
+              "friends",
+              "all",
+              "tracking"
+            ]
+          },
+          "page": {
+            "type": "integer",
+            "default": 1,
+            "minimum": 1,
+            "description": "Page number for pagination"
+          },
+          "limit": {
+            "type": "integer",
+            "default": 25,
+            "maximum": 50,
+            "minimum": 1
+          }
+        }
+      },
+      "description": "Get the activity feed. Requires authentication for the friends and tracking tabs."
+    },
+    "feedActivity": {
+      "type": "object",
+      "required": [
+        "userDid",
+        "hiveId",
+        "title",
+        "authors",
+        "createdAt",
+        "thumbnail"
+      ],
+      "properties": {
+        "cover": {
+          "type": "string"
+        },
+        "stars": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 1
+        },
+        "title": {
+          "type": "string"
+        },
+        "hiveId": {
+          "type": "string"
+        },
+        "review": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "authors": {
+          "type": "string"
+        },
+        "userDid": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "thumbnail": {
+          "type": "string"
+        },
+        "userAvatar": {
+          "type": "string"
+        },
+        "userHandle": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

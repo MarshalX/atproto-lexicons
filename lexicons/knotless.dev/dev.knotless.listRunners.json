@@ -1,0 +1,94 @@
+{
+  "id": "dev.knotless.listRunners",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository."
+        }
+      ],
+      "output": {
+        "schema": {
+          "ref": "#runners",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "repo"
+        ],
+        "properties": {
+          "repo": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+          }
+        }
+      },
+      "description": "The accounts a repository names in its record as its runners, as `knotless runner list` lists them: those whose checks of it are shown, and who land its merge queue. No authentication; responses are not personalized."
+    },
+    "runners": {
+      "type": "object",
+      "required": [
+        "runners"
+      ],
+      "properties": {
+        "keys": {
+          "type": "array",
+          "items": {
+            "ref": "#runnerKey",
+            "type": "ref"
+          },
+          "description": "The key each runner publishes in its dev.knotless.runnerKey record, for its owner to seal secrets to, as dev.knotless.putSecret takes them; a runner that publishes none is not here."
+        },
+        "minutes": {
+          "type": "array",
+          "items": {
+            "ref": "dev.knotless.defs#minutesView",
+            "type": "ref"
+          },
+          "description": "The minutes each runner counts for the repository's owner, where it has counted any; none for a private repository."
+        },
+        "runners": {
+          "type": "array",
+          "items": {
+            "ref": "dev.knotless.defs#actorView",
+            "type": "ref"
+          }
+        },
+        "warning": {
+          "type": "string",
+          "description": "After adding a runner to a private repository, why it could not be told of it: adding it again tells it again."
+        }
+      },
+      "description": "A repository's runners, in the order its record names them."
+    },
+    "runnerKey": {
+      "type": "object",
+      "required": [
+        "runner",
+        "key"
+      ],
+      "properties": {
+        "key": {
+          "type": "string",
+          "format": "did",
+          "description": "Its key, a P-256 did:key."
+        },
+        "runner": {
+          "type": "string",
+          "format": "did",
+          "description": "The runner."
+        }
+      },
+      "description": "The key one runner publishes to seal its secrets to."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "The runners a repository names."
+}

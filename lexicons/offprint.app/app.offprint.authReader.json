@@ -1,0 +1,21 @@
+{
+  "id": "app.offprint.authReader",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Offprint",
+      "detail": "Manage your Offprint profile.",
+      "permissions": [
+        {
+          "type": "permission",
+          "resource": "repo",
+          "collection": [
+            "app.offprint.actor.profile"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

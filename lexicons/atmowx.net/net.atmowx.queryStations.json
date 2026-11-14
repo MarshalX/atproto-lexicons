@@ -1,0 +1,113 @@
+{
+  "id": "net.atmowx.queryStations",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "stations"
+          ],
+          "properties": {
+            "stations": {
+              "type": "array",
+              "items": {
+                "ref": "net.atmowx.queryStations#stationView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "maxLat": {
+            "type": "string",
+            "description": "Bounding box north edge, decimal degrees."
+          },
+          "maxLon": {
+            "type": "string",
+            "description": "Bounding box east edge, decimal degrees."
+          },
+          "minLat": {
+            "type": "string",
+            "description": "Bounding box south edge, decimal degrees."
+          },
+          "minLon": {
+            "type": "string",
+            "description": "Bounding box west edge, decimal degrees."
+          }
+        }
+      },
+      "description": "List active weather stations with their latest observation. No auth. Pass all four bbox params to filter by bounding box; otherwise all active stations are returned. Decimal degrees as strings (the lexicon data model has no floats)."
+    },
+    "stationView": {
+      "type": "object",
+      "required": [
+        "uri",
+        "did",
+        "name",
+        "latitude",
+        "longitude"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "kind": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 640
+        },
+        "latest": {
+          "type": "unknown",
+          "description": "The station's most recent net.atmowx.observation record, as stored."
+        },
+        "status": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "latitude": {
+          "type": "string",
+          "description": "Decimal degrees."
+        },
+        "timezone": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "The station record's self-reported creation time."
+        },
+        "elevation": {
+          "type": "integer",
+          "description": "Meters above mean sea level."
+        },
+        "longitude": {
+          "type": "string",
+          "description": "Decimal degrees."
+        },
+        "firstObservedAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "Timestamp of the station's earliest indexed observation."
+        }
+      },
+      "description": "A station with its most recent observation."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

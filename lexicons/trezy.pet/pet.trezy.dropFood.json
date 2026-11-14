@@ -1,0 +1,63 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Put one morsel on the ground. Writes to the caller's terrarium space; the space is created lazily by the first drop, so a player who never feeds anything never gets one.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "food": {
+              "description": "The id of a published pet.trezy.food.",
+              "type": "string"
+            },
+            "x": {
+              "description": "Horizontal position in scaled world px.",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "food",
+            "x"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "droppedAt": {
+              "format": "datetime",
+              "type": "string"
+            },
+            "error": {
+              "description": "Present instead of rkey/droppedAt when the drop was refused for an expected reason. A stable machine code the client branches on — add codes, never rename them.",
+              "knownValues": [
+                "not-authenticated",
+                "unknown-food",
+                "bad-position",
+                "terrarium-full",
+                "save-failed"
+              ],
+              "type": "string"
+            },
+            "message": {
+              "description": "A sentence to show the player, accompanying `error`. Free to reword; do not branch on it.",
+              "type": "string"
+            },
+            "rkey": {
+              "description": "The morsel's key in the space. What the client passes back as createInteraction's `drop` when a pet eats it.",
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "pet.trezy.dropFood",
+  "lexicon": 1
+}

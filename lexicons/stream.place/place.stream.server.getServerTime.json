@@ -1,0 +1,31 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Get the current server time for client clock synchronization",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "serverTime": {
+              "description": "Current server time in RFC3339 format",
+              "format": "datetime",
+              "type": "string"
+            }
+          },
+          "required": [
+            "serverTime"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {},
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "place.stream.server.getServerTime",
+  "lexicon": 1
+}

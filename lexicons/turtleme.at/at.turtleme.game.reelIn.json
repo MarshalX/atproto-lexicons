@@ -1,0 +1,18 @@
+{
+  "id": "at.turtleme.game.reelIn",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "output": {
+        "schema": {
+          "ref": "at.turtleme.game.defs#state",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "End a run of strikes early and start the rest. Every way a run can end costs the same minute — running out of strikes, letting the line sit, filling the inventory, reeling in, walking away — because any of them left free would be the strike limit handed back for a click. A run that had already ended by itself, its line left sitting through its idle passes, rests from when it ended rather than from the reeling. Reeling in when there is no run does nothing. Requires an atproto service auth token addressed to did:web:turtleme.at#turtle_game and naming this method, so a token issued for one call cannot be spent on another."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

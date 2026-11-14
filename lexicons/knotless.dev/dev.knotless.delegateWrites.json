@@ -1,0 +1,51 @@
+{
+  "id": "dev.knotless.delegateWrites",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "InvalidRequest",
+          "description": "The gateway or the account's PDS refused to start it."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "url",
+            "state"
+          ],
+          "properties": {
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "The page at the account's authorization server where it approves the grant."
+            },
+            "state": {
+              "type": "string",
+              "maxLength": 256,
+              "description": "What names this delegation to dev.knotless.awaitDelegation."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Asks this appview's gateway, with a service token the account's PDS mints for the session the appview keeps for it, to take its writes (dev.knotless.putDelegation). The gateway asks the account's authorization server for a grant of its own, of the knotless records and blobs alone, which the account approves at the page this answers with; dev.knotless.awaitDelegation then waits for that. Once approved, sharing a repository for writing names the gateway, through which collaborators push. Requires the session cookie the pages' login sets."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Starts delegating the writes of the account logged in to this appview's pages to the appview's gateway, as `knotless account delegate` does."
+}

@@ -1,0 +1,137 @@
+{
+  "id": "dev.knotless.comment",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "repo",
+          "subject",
+          "body",
+          "createdAt"
+        ],
+        "properties": {
+          "body": {
+            "type": "string",
+            "maxLength": 20000,
+            "description": "Markdown."
+          },
+          "line": {
+            "ref": "#lineRef",
+            "type": "ref",
+            "description": "For a comment on a pull's diff, the lines it is on, in the file as it was at `commit` on that side."
+          },
+          "repo": {
+            "ref": "dev.knotless.defs#repoRef",
+            "type": "ref",
+            "description": "The repository the pull or issue is on."
+          },
+          "reply": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The dev.knotless.comment, with a `line`, whose thread this answers. An answer has no `line` of its own."
+          },
+          "commit": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 40,
+            "description": "The hex object ID of the head commit a review looked at, or that a comment's `line` is in."
+          },
+          "facets": {
+            "type": "array",
+            "items": {
+              "ref": "dev.knotless.defs#facet",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "description": "The accounts its body mentions, by where: written as it is, from each `@handle` outside code and links."
+          },
+          "review": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The review, a dev.knotless.comment, this was sent with as one of its line comments, all in one write."
+          },
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The dev.knotless.pull or dev.knotless.issue commented on."
+          },
+          "verdict": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Present on a review: `approve`, or `changes` to ask for changes. Readers take each reviewer's latest as where they stand, and none from the pull's author.",
+            "knownValues": [
+              "approve",
+              "changes"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "dismisses": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The review, a dev.knotless.comment with a verdict on the same pull, this dismisses, its body saying why. From the repository's owner or a collaborator, the review stops counting toward the pull's reviews, for or against it, until its reviewer reviews again; one from anyone else changes nothing."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When its author last changed its body."
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "refs": [
+                "dev.knotless.defs#image"
+              ],
+              "type": "union"
+            },
+            "maxLength": 32,
+            "description": "What it carries beside its body: the pictures the body shows. Kinds unknown to a reader are passed over, and kept by a client changing it."
+          }
+        }
+      },
+      "description": "Kept in the commenter's account; for a private repository, in their repo inside the repository's space."
+    },
+    "lineRef": {
+      "type": "object",
+      "required": [
+        "path",
+        "line"
+      ],
+      "properties": {
+        "line": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "The last line commented on, counting from 1."
+        },
+        "path": {
+          "type": "string",
+          "maxLength": 1024,
+          "description": "The file's path on the side commented on."
+        },
+        "side": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "`new`, the side the pull brings in, or `old`, the side it leaves, for lines it removes. Absent, `new`.",
+          "knownValues": [
+            "old",
+            "new"
+          ]
+        },
+        "startLine": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "The first, for more than one line; no later than `line`."
+        }
+      },
+      "description": "Lines of a file in a pull's diff, as GitHub's review comments name them."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A comment on a pull or issue. With a verdict it is a review; with a line, a comment on lines of a pull's diff, starting a thread there; with a reply, an answer in such a thread."
+}

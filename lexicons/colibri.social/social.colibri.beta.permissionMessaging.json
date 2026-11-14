@@ -1,0 +1,129 @@
+{
+  "id": "social.colibri.beta.permissionMessaging",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Colibri messages",
+      "detail": "Read and post in the Colibri communities you belong to.",
+      "permissions": [
+        {
+          "type": "permission",
+          "action": [
+            "read",
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "space",
+          "authority": "*",
+          "spaceType": "social.colibri.beta.channel.text",
+          "collection": [
+            "social.colibri.beta.message",
+            "social.colibri.beta.reaction"
+          ]
+        },
+        {
+          "type": "permission",
+          "action": [
+            "read",
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "space",
+          "authority": "*",
+          "spaceType": "social.colibri.beta.channel.thread",
+          "collection": [
+            "social.colibri.beta.message",
+            "social.colibri.beta.reaction",
+            "social.colibri.beta.thread.follow"
+          ]
+        },
+        {
+          "type": "permission",
+          "action": [
+            "read",
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "space",
+          "authority": "*",
+          "spaceType": "social.colibri.beta.channel.voice",
+          "collection": [
+            "social.colibri.beta.message",
+            "social.colibri.beta.reaction"
+          ]
+        },
+        {
+          "type": "permission",
+          "action": [
+            "read"
+          ],
+          "resource": "space",
+          "authority": "*",
+          "spaceType": "social.colibri.beta.community.profile"
+        },
+        {
+          "type": "permission",
+          "action": [
+            "read"
+          ],
+          "resource": "space",
+          "authority": "*",
+          "spaceType": "social.colibri.beta.community.configuration"
+        },
+        {
+          "type": "permission",
+          "action": [
+            "read"
+          ],
+          "resource": "space",
+          "authority": "*",
+          "spaceType": "social.colibri.beta.community.members"
+        },
+        {
+          "lxm": [
+            "social.colibri.beta.community.getCommunity",
+            "social.colibri.beta.community.join",
+            "social.colibri.beta.community.leave",
+            "social.colibri.beta.community.listCategories",
+            "social.colibri.beta.community.listChannels",
+            "social.colibri.beta.community.listMembers",
+            "social.colibri.beta.community.listRoles",
+            "social.colibri.beta.community.getInvitation",
+            "social.colibri.beta.channel.getChannel",
+            "social.colibri.beta.channel.listMessages",
+            "social.colibri.beta.channel.listReactions",
+            "social.colibri.beta.channel.listUnreadStatus",
+            "social.colibri.beta.channel.listSummaries",
+            "social.colibri.beta.channel.putReadCursors",
+            "social.colibri.beta.embed.getMetadata",
+            "social.colibri.beta.embed.searchGifs",
+            "social.colibri.beta.embed.trendingGifs",
+            "social.colibri.beta.embed.gifCategories",
+            "social.colibri.beta.blob.get",
+            "social.colibri.beta.thread.create",
+            "social.colibri.beta.thread.update",
+            "social.colibri.beta.thread.getThread",
+            "social.colibri.beta.thread.listMembers",
+            "social.colibri.beta.thread.listThreads"
+          ],
+          "type": "permission",
+          "resource": "rpc",
+          "inheritAud": true
+        },
+        {
+          "type": "permission",
+          "accept": [
+            "image/*",
+            "video/*"
+          ],
+          "resource": "blob"
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

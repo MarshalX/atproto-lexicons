@@ -1,0 +1,44 @@
+{
+  "id": "app.userinput.member",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "space",
+          "subject",
+          "role",
+          "createdAt"
+        ],
+        "properties": {
+          "role": {
+            "enum": [
+              "moderator",
+              "admin"
+            ],
+            "type": "string"
+          },
+          "space": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The space this membership applies to. Indexed by constellation at space.uri."
+          },
+          "subject": {
+            "type": "string",
+            "format": "did",
+            "description": "The DID being granted a role."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Grants a DID a role on a space. Only honored when authored by the space owner. Lives in the owner's repo."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

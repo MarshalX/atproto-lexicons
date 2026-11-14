@@ -1,0 +1,61 @@
+{
+  "id": "at.adsb.version.defs",
+  "defs": {
+    "revision": {
+      "type": "object",
+      "required": [
+        "major",
+        "minor",
+        "patch"
+      ],
+      "properties": {
+        "major": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Breaking changes or new NSID required."
+        },
+        "minor": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "New optional fields or non-breaking additions."
+        },
+        "patch": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Documentation, description, or metadata changes only."
+        }
+      },
+      "description": "Current version of a lexicon schema, following semver conventions."
+    },
+    "changelogEntry": {
+      "type": "object",
+      "required": [
+        "version",
+        "date",
+        "description"
+      ],
+      "properties": {
+        "date": {
+          "type": "string",
+          "maxLength": 10,
+          "description": "Date of the change (YYYY-MM-DD)."
+        },
+        "version": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Semver version string (e.g. '0.1.0')."
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 2560,
+          "description": "Summary of changes in this version.",
+          "maxGraphemes": 256
+        }
+      },
+      "description": "A single entry in a lexicon's changelog."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Shared type definitions for lexicon versioning. Provides a reusable convention for tracking schema revisions and changelogs."
+}

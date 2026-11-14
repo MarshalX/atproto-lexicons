@@ -1,0 +1,119 @@
+{
+  "id": "social.craftsky.business.event",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "startsAt",
+          "endsAt",
+          "roles",
+          "createdAt"
+        ],
+        "properties": {
+          "mode": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Open event attendance mode.",
+            "knownValues": [
+              "in-person",
+              "online",
+              "hybrid"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 2000,
+            "description": "Public event name.",
+            "maxGraphemes": 200
+          },
+          "image": {
+            "ref": "social.craftsky.business.defs#image",
+            "type": "ref",
+            "description": "Optional event image."
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 64,
+              "knownValues": [
+                "organizer",
+                "instructor",
+                "vendor",
+                "exhibitor",
+                "speaker",
+                "demonstrator"
+              ]
+            },
+            "maxLength": 10,
+            "minLength": 1,
+            "description": "Open set of the business's roles at the event."
+          },
+          "endsAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Exclusive event end instant for all-day events and end instant otherwise."
+          },
+          "status": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Open authored lifecycle status; completion is derived from endsAt.",
+            "knownValues": [
+              "scheduled",
+              "cancelled",
+              "postponed"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "maxLength": 10000,
+            "description": "Optional summary of the business's public appearance.",
+            "maxGraphemes": 1000
+          },
+          "eventUri": {
+            "type": "string",
+            "format": "uri",
+            "description": "Optional external event information destination."
+          },
+          "isAllDay": {
+            "type": "boolean",
+            "description": "True when start and exclusive end represent local-midnight all-day boundaries; omitted means false."
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Inclusive event start instant."
+          },
+          "timeZone": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "IANA timezone name used to interpret all-day boundaries."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Record creation timestamp. Craftsky server-stamps and preserves this value."
+          },
+          "venueName": {
+            "type": "string",
+            "maxLength": 2000,
+            "description": "Optional display-only venue name.",
+            "maxGraphemes": 200
+          },
+          "registrationUri": {
+            "type": "string",
+            "format": "uri",
+            "description": "Optional external registration destination."
+          }
+        }
+      },
+      "description": "An independently addressable public event appearance for a Craftsky business."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

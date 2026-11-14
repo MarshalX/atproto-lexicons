@@ -1,0 +1,31 @@
+{
+  "id": "net.anisota.feed.like",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The subject of the like."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Client-declared timestamp when this like was created."
+          }
+        }
+      },
+      "description": "Record declaring a 'like' of a piece of content published in the Anisota feed. The target of the like is the 'subject' of the record. Most likes are keyed by TID; a like of a spell is keyed 'like' + two FNV-1a hashes of the spell's URI (spellLikeRkey), so one reader can like a given spell only once — hence key 'any'."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

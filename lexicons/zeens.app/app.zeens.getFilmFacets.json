@@ -1,0 +1,24 @@
+{
+  "id": "app.zeens.getFilmFacets",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "did": {
+            "type": "string",
+            "description": "Optional DID to scope facets to one user. Omit for the global popular-stocks view."
+          }
+        }
+      },
+      "description": "Aggregate film-stock usage across app.zeens.postMeta records that have film.stockSlug set. Powers the search 'Popular film stocks' sidebar and the per-profile 'Top film stocks' card.",
+      "target_collection": "app.zeens.postMeta"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

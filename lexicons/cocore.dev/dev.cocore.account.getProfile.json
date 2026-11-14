@@ -1,0 +1,49 @@
+{
+  "id": "dev.cocore.account.getProfile",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "InvalidRequest",
+          "description": "The `did` parameter is missing or not a DID."
+        },
+        {
+          "name": "NotFound",
+          "description": "No cocore footprint exists for this DID."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "profile"
+          ],
+          "properties": {
+            "profile": {
+              "type": "unknown",
+              "description": "Aggregated profile view (account fields, owned machines, activity counts, incoming-friends count)."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "did"
+        ],
+        "properties": {
+          "did": {
+            "type": "string",
+            "format": "did",
+            "description": "The account DID to fetch."
+          }
+        }
+      },
+      "description": "Full profile-page payload for one DID: account fields, machines they own, activity counts, and incoming-friends count, in a single round-trip. When the DID has not published a `dev.cocore.account.profile` record locally, handle/displayName/avatar are hydrated from the public Bluesky AppView."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

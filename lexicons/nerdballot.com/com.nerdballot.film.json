@@ -1,0 +1,65 @@
+{
+  "id": "com.nerdballot.film",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "version",
+          "title",
+          "directors",
+          "createdAt"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 3000,
+            "maxGraphemes": 300
+          },
+          "tmdbId": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "The Movie Database (TMDB) film id."
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "isSample": {
+            "type": "boolean",
+            "description": "True for fake films used to test the site."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "directors": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 1000,
+              "maxGraphemes": 100
+            },
+            "maxLength": 20
+          },
+          "releaseDate": {
+            "type": "string",
+            "maxLength": 10,
+            "description": "US theatrical release date, YYYY-MM-DD."
+          },
+          "runtimeMinutes": {
+            "type": "integer",
+            "maximum": 1000,
+            "minimum": 1
+          }
+        }
+      },
+      "description": "One record per film. The record key is the film's Nerd Ballot catalog id."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A film in the Nerd Ballot catalog, published by the Nerd Ballot account. Film ballots reference these records by AT-URI."
+}

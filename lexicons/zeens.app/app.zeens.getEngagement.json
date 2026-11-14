@@ -1,0 +1,89 @@
+{
+  "id": "app.zeens.getEngagement",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [],
+          "properties": {
+            "uri": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "viewer": {
+              "ref": "#viewerState",
+              "type": "ref"
+            },
+            "likeCount": {
+              "type": "integer"
+            },
+            "engagements": {
+              "type": "array",
+              "items": {
+                "ref": "#engagement",
+                "type": "ref"
+              },
+              "description": "Present for a `uris` request. One entry per requested uri, in request order."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [],
+        "properties": {
+          "uri": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "A single record. Returns the bare object shape (uri/likeCount/viewer), which LikeButton and the zeen page depend on."
+          },
+          "uris": {
+            "type": "string",
+            "description": "Comma-separated AT-URIs, up to 100. Returns an `engagements` array instead of the single-record fields, with one entry per requested uri -- including subjects with no engagement row, which come back as a known 0 rather than being omitted (the caller draws nothing for \"unknown\" and a 0 for \"none yet\", and those differ)."
+          },
+          "viewer": {
+            "type": "string",
+            "format": "did",
+            "description": "When given, the response carries this viewer's own like record."
+          }
+        }
+      },
+      "description": "Like count and the viewer's own like for any record URI, one or a batch. Subject-agnostic: post_engagement is keyed by subject URI and the like hook counts likes on anything, so this serves zeens, events, articles and posts without a branch per lexicon. Pass `uris` to ask about a whole listing in one call -- the profile and studio Zeens tabs list from the author's repo, which carries no engagement, so without a batch each card would need its own round trip."
+    },
+    "engagement": {
+      "type": "object",
+      "required": [
+        "uri",
+        "likeCount"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "viewer": {
+          "ref": "#viewerState",
+          "type": "ref"
+        },
+        "likeCount": {
+          "type": "integer"
+        }
+      }
+    },
+    "viewerState": {
+      "type": "object",
+      "properties": {
+        "like": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the viewer's like record, absent when they have not liked it. The record uri rather than a boolean, because unliking deletes it and a boolean would force a second lookup at the moment the user taps."
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

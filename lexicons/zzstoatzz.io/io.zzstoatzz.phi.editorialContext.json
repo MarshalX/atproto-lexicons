@@ -1,0 +1,47 @@
+{
+  "id": "io.zzstoatzz.phi.editorialContext",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "notes"
+        ],
+        "properties": {
+          "notes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "content"
+              ],
+              "properties": {
+                "content": {
+                  "type": "string",
+                  "maxLength": 500,
+                  "description": "One terse, factual grounding note about a trending entity. Injected verbatim into coral's curator prompt."
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "datetime",
+                  "description": "When this note was last written or refreshed."
+                }
+              }
+            },
+            "maxLength": 10
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the record was last rewritten."
+          }
+        }
+      },
+      "description": "Singleton editorial-context record — phi's grounding notes for coral's LLM curator (the sibling firehose NER/trending project). Coral fetches this record each curation cycle and injects the note contents VERBATIM into its curator prompt as the 'Editorial context' block, replacing the old baked-in context_notes.txt. Notes are terse, factual grounding about currently-trending entities (who/what something is, why it is suddenly everywhere) — never opinions, instructions, or predictions. Pruned aggressively: an entity no longer trending loses its note. Public by design, like all of phi's held state."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

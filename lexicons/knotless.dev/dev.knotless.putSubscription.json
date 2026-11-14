@@ -1,0 +1,63 @@
+{
+  "id": "dev.knotless.putSubscription",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "subject",
+            "level"
+          ],
+          "properties": {
+            "level": {
+              "type": "string",
+              "maxLength": 64,
+              "description": "For a repository: `all` it does, its `releases` alone, or `ignore` it. For a pull or an issue: `subscribed` to every comment, or `muted`. Either way, `participating` forgets the choice, so the account hears as its part in it says; but for the account's own repository, which it hears all of until it chooses, `participating` is kept as a choice.",
+              "knownValues": [
+                "participating",
+                "all",
+                "releases",
+                "ignore",
+                "subscribed",
+                "muted"
+              ]
+            },
+            "subject": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "A repository's dev.knotless.repo record, or a dev.knotless.pull or dev.knotless.issue."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "InvalidRequest",
+          "description": "A subject that is no repository, pull or issue, a level it cannot take, or more choices than the appview keeps for one account."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account asks."
+        },
+        {
+          "name": "NotFound",
+          "description": "No such repository the account can read, or this appview keeps no index."
+        }
+      ],
+      "output": {
+        "schema": {
+          "ref": "dev.knotless.listSubscriptions#subscription",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "Chooses what the asking account hears of a repository, a pull or an issue, as the appview keeps it for that account alone: no record is written. A choice counts from when it is made, and choosing the level it has already keeps it as of then. Requires authentication: a service token, or the session cookie the pages' login sets, from the pages themselves."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Chooses what the asking account hears of a repository, a pull or an issue."
+}

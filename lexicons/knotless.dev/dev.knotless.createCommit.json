@@ -1,0 +1,166 @@
+{
+  "id": "dev.knotless.createCommit",
+  "defs": {
+    "edit": {
+      "type": "object",
+      "required": [
+        "old",
+        "new"
+      ],
+      "properties": {
+        "new": {
+          "type": "string",
+          "maxLength": 20000,
+          "description": "What takes its place."
+        },
+        "old": {
+          "type": "string",
+          "maxLength": 20000,
+          "minLength": 1,
+          "description": "Text the file holds exactly once."
+        }
+      },
+      "description": "One replacement in a text file."
+    },
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "repo",
+            "name",
+            "branch",
+            "message",
+            "changes"
+          ],
+          "properties": {
+            "base": {
+              "type": "string",
+              "maxLength": 64,
+              "minLength": 40,
+              "description": "The hex object ID of the commit the changes were made against. Without it the changes apply to whatever the branch holds."
+            },
+            "name": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "The repository's name: its dev.knotless.repo record key."
+            },
+            "repo": {
+              "type": "string",
+              "format": "did",
+              "description": "The repository's owner."
+            },
+            "author": {
+              "ref": "#author",
+              "type": "ref"
+            },
+            "branch": {
+              "type": "string",
+              "maxLength": 255,
+              "description": "Without refs/heads/. Created when absent, from `base`, or else from the default branch's tip."
+            },
+            "changes": {
+              "type": "array",
+              "items": {
+                "ref": "#change",
+                "type": "ref"
+              }
+            },
+            "message": {
+              "type": "string",
+              "maxLength": 20000
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "sha",
+            "changed",
+            "batched"
+          ],
+          "properties": {
+            "sha": {
+              "type": "string",
+              "maxLength": 64,
+              "minLength": 40,
+              "description": "The hex object ID of the commit, or of the branch tip when nothing changed."
+            },
+            "parent": {
+              "type": "string",
+              "maxLength": 64,
+              "minLength": 40,
+              "description": "The hex object ID the commit was built on; absent for a branch's first commit."
+            },
+            "batched": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "How many commits went out in the write that carried this one."
+            },
+            "changed": {
+              "type": "boolean",
+              "description": "False when the changes left the tree as it was, and no commit was made."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Fails with 409 when a change touches a path that moved since `base`, or when the branch kept moving under the batch."
+    },
+    "author": {
+      "type": "object",
+      "required": [
+        "name",
+        "email"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "email": {
+          "type": "string",
+          "maxLength": 1000
+        }
+      },
+      "description": "Who the commit names as its author, when not the gateway's default."
+    },
+    "change": {
+      "type": "object",
+      "required": [
+        "path"
+      ],
+      "properties": {
+        "data": {
+          "type": "bytes",
+          "description": "The file's new contents; absent, with no `edits`, to delete it."
+        },
+        "path": {
+          "type": "string",
+          "maxLength": 4096,
+          "description": "Relative to the repository root."
+        },
+        "edits": {
+          "type": "array",
+          "items": {
+            "ref": "#edit",
+            "type": "ref"
+          },
+          "description": "Replacements in the file as the commit's parent holds it, made in order, when `data` is absent. The file keeps its mode. Fails with 409 when one's `old` is not in the file exactly once."
+        },
+        "executable": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "description": "One path written, edited or deleted."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Commits file changes to a branch through a gateway its owner has delegated writes to, without a clone. Commits to one branch that arrive together are built into one chain and written as one ref update. Requires a service token from the caller's PDS, audience the gateway's DID, for this method; the caller must be the owner or a collaborator."
+}

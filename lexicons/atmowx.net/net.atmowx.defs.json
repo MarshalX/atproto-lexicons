@@ -1,0 +1,101 @@
+{
+  "id": "net.atmowx.defs",
+  "defs": {
+    "location": {
+      "type": "object",
+      "required": [
+        "position"
+      ],
+      "properties": {
+        "geohash": {
+          "type": "string",
+          "maxLength": 12,
+          "description": "Denormalized geohash index hint. Precision is the owner's choice and doubles as a privacy knob."
+        },
+        "position": {
+          "refs": [
+            "community.lexicon.location.geo",
+            "community.lexicon.location.hthree",
+            "community.lexicon.location.address"
+          ],
+          "type": "union",
+          "closed": false,
+          "description": "The position, as a community location shape. Open union: additional shapes remain valid."
+        },
+        "elevation": {
+          "type": "integer",
+          "description": "Meters above mean sea level (whole meters)."
+        },
+        "sensorHeight": {
+          "ref": "net.atmowx.defs#quantity",
+          "type": "ref",
+          "description": "Sensor height above ground level, meters."
+        }
+      },
+      "description": "Where a station is sited. Elevation is strongly recommended: pressure data is hard to interpret without it."
+    },
+    "quantity": {
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "scale": {
+          "type": "integer",
+          "default": 0,
+          "description": "Power-of-ten exponent. Default 0."
+        },
+        "value": {
+          "type": "integer",
+          "description": "Significand."
+        }
+      },
+      "description": "A decimal number as a scaled integer: decimal = value * 10^scale. Publishers MUST NOT report more precision than the sensor resolves."
+    },
+    "measurement": {
+      "type": "object",
+      "required": [
+        "parameter",
+        "value",
+        "unit"
+      ],
+      "properties": {
+        "unit": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "SI unit name.",
+          "knownValues": [
+            "celsius",
+            "hectopascal",
+            "metersPerSecond",
+            "millimeters",
+            "millimetersPerHour",
+            "percent",
+            "wattsPerSquareMeter",
+            "meters",
+            "degrees",
+            "microgramsPerCubicMeter",
+            "partsPerMillion"
+          ]
+        },
+        "value": {
+          "ref": "net.atmowx.defs#quantity",
+          "type": "ref"
+        },
+        "height": {
+          "ref": "net.atmowx.defs#quantity",
+          "type": "ref",
+          "description": "Meters relative to ground level; negative values are below the surface (e.g. soil probes)."
+        },
+        "parameter": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Measurement name, lowerCamelCase by convention."
+        }
+      },
+      "description": "An arbitrary measurement for parameters not covered by the core observation fields. Units MUST be SI."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

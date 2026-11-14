@@ -1,0 +1,83 @@
+{
+  "id": "app.rocksky.event.getEvents",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "events"
+          ],
+          "properties": {
+            "events": {
+              "type": "array",
+              "items": {
+                "ref": "app.rocksky.event.defs#eventView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "to": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Only events that start at or before this time."
+          },
+          "did": {
+            "type": "string",
+            "format": "did",
+            "description": "Only events published by this repo."
+          },
+          "from": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Only events that end at or after this time. Defaults to the start of today (UTC) when neither `to` nor `includePast` is given."
+          },
+          "kind": {
+            "type": "string",
+            "description": "Only events of this kind (concert, festival...)."
+          },
+          "genre": {
+            "type": "string",
+            "description": "Only events whose genre matches (case-insensitive)."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 20,
+            "maximum": 100,
+            "minimum": 1,
+            "description": "The maximum number of events to return."
+          },
+          "artist": {
+            "type": "string",
+            "description": "Only events this artist plays: the artist's AT-URI, id or sha256."
+          },
+          "offset": {
+            "type": "integer",
+            "default": 0,
+            "minimum": 0,
+            "description": "The offset for pagination."
+          },
+          "rsvpBy": {
+            "type": "string",
+            "format": "did",
+            "description": "Only events this DID has RSVP'd to (going or interested)."
+          },
+          "includePast": {
+            "type": "boolean",
+            "description": "Return past events too, most recent first, instead of upcoming ones."
+          }
+        }
+      },
+      "description": "List indexed music events, soonest first. Without a time window only unexpired events are returned: those ending (or, with no end, starting) today or later, plus undated ones."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,56 @@
+{
+  "id": "app.zeens.message",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "convoId",
+          "recipient",
+          "body",
+          "enc",
+          "createdAt",
+          "app.zeens.v"
+        ],
+        "properties": {
+          "enc": {
+            "enum": [
+              "b64"
+            ],
+            "type": "string",
+            "description": "Obfuscation scheme for the body. 'b64' = base64 of UTF-8 bytes."
+          },
+          "body": {
+            "type": "string",
+            "maxLength": 16384,
+            "description": "Base64-obfuscated message text (UTF-8 bytes, base64-encoded). Obfuscation only, not encryption."
+          },
+          "convoId": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "Deterministic 1:1 conversation id = sha256(sorted([didA, didB]).join('|')). Both parties derive the same id without coordination."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Client-declared send time."
+          },
+          "recipient": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the intended recipient."
+          },
+          "app.zeens.v": {
+            "type": "integer",
+            "description": "Zeens version marker (always 1)."
+          }
+        }
+      },
+      "description": "A single chat message, written to the SENDER's repo. The body is base64-obfuscated (NOT encrypted) so it isn't plainly readable when browsing the repo, but it is not secret — anyone can decode it. Chats are public on the user's PDS. The convoId groups a 1:1 conversation. Carries the app.zeens.v marker so the firehose recognises it."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

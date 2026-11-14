@@ -1,0 +1,104 @@
+{
+  "id": "dev.knotless.createOrgRepo",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "org",
+            "name"
+          ],
+          "properties": {
+            "org": {
+              "type": "string",
+              "format": "did",
+              "description": "The organization."
+            },
+            "name": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "The repository's name, its record key."
+            },
+            "private": {
+              "type": "boolean",
+              "description": "Whether to make it private: a space of its own on the organization's PDS, which only its members read. Public when absent."
+            },
+            "runners": {
+              "type": "array",
+              "items": {
+                "ref": "#account",
+                "type": "ref"
+              },
+              "maxLength": 20,
+              "description": "The accounts that run its workflows: those the gateway's appview offers when absent."
+            },
+            "description": {
+              "type": "string",
+              "maxLength": 3000,
+              "description": "What the repository is, shown under its name.",
+              "maxGraphemes": 300
+            },
+            "defaultBranch": {
+              "type": "string",
+              "maxLength": 255,
+              "description": "The branch its HEAD names, without refs/heads/: main when absent."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "runners",
+            "members"
+          ],
+          "properties": {
+            "members": {
+              "type": "array",
+              "items": {
+                "ref": "#account",
+                "type": "ref"
+              },
+              "description": "The members of the organization who may push to it: on a public one, those anyone may see."
+            },
+            "runners": {
+              "type": "array",
+              "items": {
+                "ref": "#account",
+                "type": "ref"
+              },
+              "description": "Its runners: a private one's can read it."
+            },
+            "uninvited": {
+              "type": "string",
+              "maxLength": 3000,
+              "description": "Why a private one's runners were not told of it, when they were not."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Makes the repository as `knotless repo create` does: public unless asked for private, naming the runners given or those the gateway's appview offers, with no branches until the first push."
+    },
+    "account": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        }
+      },
+      "description": "An account, by DID."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Creates a repository in an organization's account, through the gateway the organization delegated writes to, which makes it as the organization, as `knotless repo create` does. The caller must be an admin of it who joined. Requires a service token from the caller's PDS, audience the gateway's DID, for this method."
+}

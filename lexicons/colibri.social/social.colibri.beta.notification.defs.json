@@ -1,0 +1,77 @@
+{
+  "id": "social.colibri.beta.notification.defs",
+  "defs": {
+    "notificationView": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "author",
+        "channel",
+        "community",
+        "indexedAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Opaque identifier, used to mark this notification seen."
+        },
+        "kind": {
+          "type": "string",
+          "description": "Why it was raised.",
+          "knownValues": [
+            "mention",
+            "reply",
+            "message"
+          ]
+        },
+        "author": {
+          "ref": "social.colibri.beta.actor.defs#profileView",
+          "type": "ref",
+          "description": "Who caused it."
+        },
+        "seenAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the user marked it seen."
+        },
+        "thread": {
+          "type": "string",
+          "format": "space-ref",
+          "description": "The thread it happened in, when it happened in a thread rather than in the channel itself. `channel` stays the thread's parent channel, so a client can route to the thread inside it."
+        },
+        "channel": {
+          "type": "string",
+          "format": "space-ref",
+          "description": "The channel it happened in."
+        },
+        "message": {
+          "ref": "social.colibri.beta.channel.defs#messageView",
+          "type": "ref",
+          "description": "The message, when still readable."
+        },
+        "community": {
+          "type": "string",
+          "format": "did",
+          "description": "The community it happened in."
+        },
+        "indexedAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the AppView raised it."
+        },
+        "threadName": {
+          "type": "string",
+          "description": "The name of the thread in thread, when it is set and the thread is still indexed."
+        },
+        "mentionRole": {
+          "type": "string",
+          "description": "Name of the role whose mention raised this, for role mentions."
+        }
+      },
+      "description": "A notification for the requesting user."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

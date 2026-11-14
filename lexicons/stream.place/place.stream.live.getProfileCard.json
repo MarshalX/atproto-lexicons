@@ -1,0 +1,33 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Get an OG image associated with a given account.",
+      "errors": [
+        {
+          "description": null,
+          "name": "RepoNotFound"
+        }
+      ],
+      "output": {
+        "encoding": "*/*",
+        "schema": null
+      },
+      "parameters": {
+        "properties": {
+          "id": {
+            "description": "The DID or handle of the account.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "place.stream.live.getProfileCard",
+  "lexicon": 1
+}

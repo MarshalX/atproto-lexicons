@@ -1,0 +1,53 @@
+{
+  "id": "social.colibri.beta.channel.listUnreadStatus",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request has no valid service auth."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "statuses"
+          ],
+          "properties": {
+            "statuses": {
+              "type": "array",
+              "items": {
+                "ref": "social.colibri.beta.channel.defs#unreadStatus",
+                "type": "ref"
+              },
+              "description": "Unread state per channel."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "description": "Maximum number of statuses to return."
+          },
+          "community": {
+            "type": "string",
+            "format": "did",
+            "description": "Restricts the results to one community. Absent returns unread state across all of the requesting user's communities."
+          }
+        }
+      },
+      "description": "Lists per-channel unread state for the requesting user."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

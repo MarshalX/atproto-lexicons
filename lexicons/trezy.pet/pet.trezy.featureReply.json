@@ -1,0 +1,38 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "The featured keeper's answer for one week, keyed by that ISO week. Either a note to quote in the post (text, possibly empty) or decline: true for 'not this time'. Written only by pet.trezy.replyToFeature.",
+      "key": "any",
+      "record": {
+        "properties": {
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "decline": {
+            "type": "boolean"
+          },
+          "feature": {
+            "description": "The publisher's pet.trezy.feature record this answers.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "text": {
+            "maxGraphemes": 140,
+            "maxLength": 1400,
+            "type": "string"
+          }
+        },
+        "required": [
+          "feature",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "pet.trezy.featureReply",
+  "lexicon": 1
+}

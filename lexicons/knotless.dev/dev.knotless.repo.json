@@ -1,0 +1,383 @@
+{
+  "id": "dev.knotless.repo",
+  "defs": {
+    "gate": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        }
+      },
+      "description": "An account a protected branch's pulls wait for a review from."
+    },
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "key",
+          "name",
+          "createdAt"
+        ],
+        "properties": {
+          "key": {
+            "type": "string",
+            "format": "tid",
+            "description": "Minted when the repository is created; never reused. The `repo` of its dev.knotless.ref, dev.knotless.claim and dev.knotless.pack records."
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "Equal to the record key."
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "ref": "dev.knotless.defs#link",
+              "type": "ref"
+            },
+            "maxLength": 5,
+            "description": "Links shown on the repository's pages, in display order: its website first."
+          },
+          "rules": {
+            "type": "array",
+            "items": {
+              "ref": "#rule",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "description": "Protected branches. The gateway holds collaborators to them; the owner, who writes these records directly, is held only by their own client."
+          },
+          "agents": {
+            "type": "array",
+            "items": {
+              "ref": "#agent",
+              "type": "ref"
+            },
+            "maxLength": 32,
+            "description": "Accounts, such as a coding agent, whose pulls the repository's runners check as they move, as they do a collaborator's, but as code no one vouches for: given no secrets, reading caches apart, and keeping nothing they write. An account named here counts as an agent even if it is a collaborator too."
+          },
+          "forkOf": {
+            "ref": "dev.knotless.defs#repoRef",
+            "type": "ref",
+            "description": "The repository this one was forked from."
+          },
+          "labels": {
+            "type": "array",
+            "items": {
+              "ref": "#label",
+              "type": "ref"
+            },
+            "maxLength": 200,
+            "description": "The labels its pulls and issues may carry. The owner and collaborators put them on with dev.knotless.label records; readers show none but these."
+          },
+          "topics": {
+            "type": "array",
+            "items": {
+              "ref": "#topic",
+              "type": "ref"
+            },
+            "maxLength": 20,
+            "description": "What the repository is about, as rust or atproto, in display order. Readers list repositories by them."
+          },
+          "gateway": {
+            "type": "string",
+            "format": "did",
+            "description": "A gateway the owner has delegated writes to. Collaborators push and commit through it; it batches concurrent commits to a branch into one write."
+          },
+          "readers": {
+            "type": "array",
+            "items": {
+              "ref": "#reader",
+              "type": "ref"
+            },
+            "maxLength": 1000,
+            "description": "For a private repository, the accounts it is shared with to read but not to push: members of its space. An appview takes this as the owner's word that they may hear of what is said there."
+          },
+          "runners": {
+            "type": "array",
+            "items": {
+              "ref": "#runner",
+              "type": "ref"
+            },
+            "maxLength": 32,
+            "description": "Accounts that run the repository's workflows. Readers show the dev.knotless.check records these accounts write about the repository, and no one else's."
+          },
+          "appviews": {
+            "type": "array",
+            "items": {
+              "ref": "#appview",
+              "type": "ref"
+            },
+            "maxLength": 32,
+            "description": "Deprecated, and no longer read: knotless.dev indexes every private repository its members read there, named here or not. Was, for a private repository, the appviews its owner let keep an index of it."
+          },
+          "transfer": {
+            "ref": "dev.knotless.defs#repoRef",
+            "type": "ref",
+            "description": "Where the owner has offered to move the repository: a record in another account, named before it exists. Once that account holds a dev.knotless.repo there whose `transferredFrom` names this one, the repository has moved, and readers follow."
+          },
+          "triagers": {
+            "type": "array",
+            "items": {
+              "ref": "#triager",
+              "type": "ref"
+            },
+            "maxLength": 32,
+            "description": "Accounts, such as a triage bot, whose dev.knotless.label records readers honor for the scopes named, and below anyone's who labels as the owner or a collaborator."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "archivedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the owner archived the repository: read only from then. Clients push and commit nothing to it, nor write pulls, issues, comments or states about it; a gateway takes no pushes or commits for it; runners leave it; and readers show it as archived. Dropped to unarchive it."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000,
+            "maxGraphemes": 300
+          },
+          "collaborators": {
+            "type": "array",
+            "items": {
+              "ref": "#collaborator",
+              "type": "ref"
+            },
+            "maxLength": 1000,
+            "description": "Accounts that may push. They push through a gateway the owner has delegated writes to, which checks this list."
+          },
+          "defaultBranch": {
+            "type": "string",
+            "maxLength": 255,
+            "description": "The branch HEAD points at, without refs/heads/."
+          },
+          "transferredFrom": {
+            "ref": "dev.knotless.defs#repoRef",
+            "type": "ref",
+            "description": "The repository this one was moved from. Readers count records naming that one as naming this one, if its owner agreed: its `transfer`, or the redirect left in its place, leads here."
+          }
+        }
+      },
+      "description": "Keyed by the repository's name, so a clone URL resolves with one getRecord. `key` prefixes the record keys of everything the repository holds; a rename writes a record under the new name with the same key, deletes the old one and leaves a dev.knotless.redirect under the old name."
+    },
+    "rule": {
+      "type": "object",
+      "required": [
+        "branch"
+      ],
+      "properties": {
+        "queue": {
+          "type": "boolean",
+          "description": "Pulls into this branch land only through the merge queue: a merge queues them instead, unless the owner forces it, and through a gateway the branch moves for no one but the owner and the runner that lands the queue. Absent is false."
+        },
+        "branch": {
+          "type": "string",
+          "maxLength": 255,
+          "description": "The branch, without refs/heads/."
+        },
+        "history": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "`linear`: the branch takes no merge commits, so pulls merge into it by squashing. `merges`: it takes them. Absent, or a value a reader does not know, is read as `linear`, so a rule is never held more loosely than it was written.",
+          "knownValues": [
+            "linear",
+            "merges"
+          ]
+        },
+        "reviews": {
+          "ref": "#reviews",
+          "type": "ref",
+          "description": "The reviews a pull needs before it merges into this branch. Absent, none."
+        }
+      },
+      "description": "A protected branch: through a gateway it only moves forward and is never deleted, and, as its rule says, takes no merge commits, takes pulls only through the merge queue, or takes a pull only once it is reviewed."
+    },
+    "agent": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        }
+      },
+      "description": "An account whose pulls are checked as they move, as code no one vouches for."
+    },
+    "label": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Unique among the repository's labels. Up to its last `/`, if it has one, it names the label's scope, as kind/bug's is kind.",
+          "maxGraphemes": 50
+        },
+        "color": {
+          "type": "string",
+          "maxLength": 7,
+          "description": "A hex color, as #d73a4a."
+        },
+        "exclusive": {
+          "type": "boolean",
+          "description": "At most one of its scope's exclusive labels stands at a time, as priority/high and priority/low: setting one takes the others off."
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "What the label means, for those who put it on.",
+          "maxGraphemes": 200
+        }
+      },
+      "description": "A label pulls and issues may carry."
+    },
+    "scope": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "As kind is kind/bug's: a label's name up to its last `/`."
+        }
+      },
+      "description": "A scope of labels a triager may put on."
+    },
+    "topic": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 50,
+          "description": "Lowercase letters, digits and dashes, as rust or web-components.",
+          "maxGraphemes": 50
+        }
+      },
+      "description": "A word for what a repository is about."
+    },
+    "reader": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        }
+      },
+      "description": "An account a private repository is shared with to read."
+    },
+    "runner": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        }
+      },
+      "description": "An account whose dev.knotless.check records about the repository readers trust."
+    },
+    "appview": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "The appview's service DID, as did:web:knotless.dev."
+        }
+      },
+      "description": "An appview the owner lets keep an index of a private repository."
+    },
+    "reviews": {
+      "type": "object",
+      "properties": {
+        "gates": {
+          "type": "array",
+          "items": {
+            "ref": "#gate",
+            "type": "ref"
+          },
+          "maxLength": 10,
+          "description": "Accounts, such as review agents, whose review of the pull's head it waits for, though they may not write to the repository: the merge queue holds it until each has reviewed its head, and one asking for changes blocks it until that account reviews again. Their approvals count toward nothing else. An approval of the head from the owner or a collaborator, given after a gate's newest review, stands in for that gate's. Absent, none."
+        },
+        "approvals": {
+          "type": "integer",
+          "maximum": 10,
+          "minimum": 0,
+          "description": "How many approvals the pull needs, from accounts other than its author. Absent is 0."
+        },
+        "codeOwners": {
+          "type": "boolean",
+          "description": "Each path the pull changes that the CODEOWNERS file on the target branch gives owners needs an approval from one of them. Absent is false."
+        },
+        "dismissStale": {
+          "type": "boolean",
+          "description": "Only an approval of the pull's head as it is now counts: one of an earlier head no longer does. Absent is false, and any standing approval counts."
+        }
+      },
+      "description": "The reviews a protected branch asks of a pull before it merges, counted from those who may write to the repository: its owner and collaborators. A review is a dev.knotless.comment with a verdict, and each reviewer's newest one stands. A standing request for changes from one of them blocks the merge. A reader that finds a field here it does not know merges into the branch only once it knows it, so a rule is never held more loosely than it was written."
+    },
+    "triager": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "ref": "#scope",
+            "type": "ref"
+          },
+          "maxLength": 50,
+          "description": "The scopes of the labels it may put on. None, when absent."
+        }
+      },
+      "description": "An account that puts labels of some scopes on pulls and issues. Its labels give way to the owner's and collaborators', whenever they were set; an account named here counts as a triager even if it is a collaborator too."
+    },
+    "collaborator": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        }
+      },
+      "description": "An account that may push to the repository."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A git repository hosted in this account: in its public repo, or, for a private repository, in a dev.knotless.space space keyed by the name."
+}

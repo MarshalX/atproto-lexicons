@@ -1,0 +1,29 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "A Substratum Drive root on the owner PDS. The drive display name is NOT stored here; it lives in the metadata file on the private Swarm blockstore (ADR 91).",
+      "properties": {
+        "driveId": {
+          "description": "The UUID of the drive",
+          "type": "string"
+        },
+        "manifestCid": {
+          "description": "Root CID of the drive metadata file on the private blockstore (optional until first built)",
+          "type": "string"
+        },
+        "ownerDid": {
+          "format": "did",
+          "type": "string"
+        }
+      },
+      "required": [
+        "driveId",
+        "ownerDid"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "cloud.substratum.filesystem.drive",
+  "lexicon": 1
+}

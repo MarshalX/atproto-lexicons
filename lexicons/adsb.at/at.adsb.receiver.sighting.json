@@ -1,0 +1,91 @@
+{
+  "id": "at.adsb.receiver.sighting",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "windowStart",
+          "windowEnd",
+          "manifest",
+          "telemetry",
+          "sources",
+          "createdAt"
+        ],
+        "properties": {
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 32
+            },
+            "maxLength": 50,
+            "minLength": 1,
+            "description": "Deduplicated list of decoder source types that contributed position fixes in this batch window."
+          },
+          "manifest": {
+            "type": "array",
+            "items": {
+              "ref": "#manifestEntry",
+              "type": "ref"
+            },
+            "maxLength": 1000,
+            "minLength": 1,
+            "description": "Lightweight list of all aircraft observed in this window."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "telemetry": {
+            "type": "blob",
+            "accept": [
+              "application/zstd"
+            ],
+            "maxSize": 2000000,
+            "description": "Zstd-compressed JSON object keyed by ICAO hex, values are arrays of at.adsb.flight.defs#position objects."
+          },
+          "windowEnd": {
+            "type": "string",
+            "format": "datetime",
+            "description": "End of the observation window (exclusive)."
+          },
+          "rawCapture": {
+            "type": "blob",
+            "accept": [
+              "application/vnd.at-adsb.raw-capture+zstd"
+            ],
+            "maxSize": 2000000,
+            "description": "Raw demodulated SDR frames captured during this window, in ATRX envelope format. Optional — strengthens provenance but not required."
+          },
+          "windowStart": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Start of the observation window (inclusive)."
+          }
+        }
+      },
+      "description": "A receiver's batch sighting covering a configurable observation window."
+    },
+    "manifestEntry": {
+      "type": "object",
+      "required": [
+        "icaoHex"
+      ],
+      "properties": {
+        "icaoHex": {
+          "type": "string",
+          "maxLength": 6,
+          "minLength": 6,
+          "description": "ICAO 24-bit hex address (uppercased)."
+        }
+      },
+      "description": "An aircraft observed in this batch window."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A batch of aircraft observations from a single receiver covering a configurable time window (default 60 seconds). Contains a manifest of observed aircraft and blobbed telemetry data."
+}

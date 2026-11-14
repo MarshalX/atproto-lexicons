@@ -1,0 +1,188 @@
+{
+  "id": "app.gainforest.ac.audio",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "metadata",
+          "createdAt"
+        ],
+        "properties": {
+          "blob": {
+            "ref": "app.gainforest.common.defs#audio",
+            "type": "ref",
+            "description": "The audio file blob stored on the PDS. May be a compressed preview variant when the archival original is referenced via accessUri. At least one of blob or accessUri should be present."
+          },
+          "name": {
+            "type": "string",
+            "description": "A short human-readable name or label for this audio recording.",
+            "maxGraphemes": 256
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxGraphemes": 64
+            },
+            "maxLength": 20,
+            "description": "Freeform tags for the recording (e.g., 'dawn-chorus', 'rain', 'chainsaw', 'anthropogenic-noise'). Aligns with AC ac:tag."
+          },
+          "license": {
+            "type": "string",
+            "description": "License for this recording (e.g., CC-BY-4.0, CC0-1.0). Aligns with AC dcterms:rights.",
+            "maxGraphemes": 256
+          },
+          "siteRef": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the organization site record where this audio was captured."
+          },
+          "metadata": {
+            "ref": "#metadata",
+            "type": "ref",
+            "description": "Technical audio metadata (codec, sample rate, duration, frequency bounds, etc.)."
+          },
+          "accessUri": {
+            "type": "string",
+            "format": "uri",
+            "description": "URI to the original full-resolution audio resource (e.g. object storage URL). When present, the PDS blob is a compressed variant and this points to the archival original. Aligns with AC ac:accessURI.",
+            "maxGraphemes": 2048
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp of record creation in the ATProto PDS."
+          },
+          "thumbnail": {
+            "ref": "app.gainforest.common.defs#imageThumbnail",
+            "type": "ref",
+            "description": "Thumbnail image for display in list views."
+          },
+          "recordedBy": {
+            "type": "string",
+            "description": "Name of the person or agent who made the recording. Aligns with AC dc:creator. For automated deployments, this is the person who deployed the device.",
+            "maxGraphemes": 512
+          },
+          "description": {
+            "ref": "app.gainforest.common.defs#richtext",
+            "type": "ref",
+            "description": "A longer human-readable description of the audio recording content."
+          },
+          "spectrogram": {
+            "ref": "app.gainforest.common.defs#spectrogram",
+            "type": "ref",
+            "description": "Spectrogram image of the recording (visual frequency-time representation)."
+          },
+          "deploymentRef": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the ac.deployment record describing the recording device setup (device model, gain, location, schedule, etc.)."
+          },
+          "occurrenceRef": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the dwc.occurrence record this audio is evidence for. Use when this recording documents a specific species detection or biodiversity observation."
+          },
+          "variantLiteral": {
+            "type": "string",
+            "description": "AC variant describing the quality/size of the PDS blob relative to the archival original. Aligns with AC ac:variant.",
+            "knownValues": [
+              "Thumbnail",
+              "Lower Quality",
+              "Medium Quality",
+              "Good Quality",
+              "Best Quality",
+              "Offline"
+            ],
+            "maxGraphemes": 64
+          }
+        }
+      },
+      "description": "An audio recording record with technical metadata and optional links to occurrence, deployment, and site records."
+    },
+    "metadata": {
+      "type": "object",
+      "required": [
+        "channels",
+        "duration",
+        "sampleRate",
+        "recordedAt"
+      ],
+      "properties": {
+        "codec": {
+          "type": "string",
+          "description": "Audio codec (e.g., 'PCM', 'FLAC', 'MP3', 'AAC').",
+          "maxGraphemes": 32
+        },
+        "bitDepth": {
+          "type": "integer",
+          "maximum": 64,
+          "minimum": 8,
+          "description": "Bits per sample (e.g., 16, 24, 32)."
+        },
+        "channels": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of audio channels (1 = mono, 2 = stereo)."
+        },
+        "duration": {
+          "type": "string",
+          "description": "Duration of the recording in seconds (e.g., '300.0').",
+          "maxGraphemes": 32
+        },
+        "fileFormat": {
+          "type": "string",
+          "description": "File format (e.g., 'WAV', 'FLAC', 'MP3'). Aligns with AC dc:format.",
+          "maxGraphemes": 32
+        },
+        "recordedAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "Date and time the audio was captured (start of recording). Aligns with AC xmp:CreateDate."
+        },
+        "sampleRate": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Sample rate in Hz (e.g., 44100, 48000, 384000 for ultrasonic). Aligns with AC mo:sample_rate."
+        },
+        "fileSizeBytes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "File size in bytes."
+        },
+        "maxFrequencyHz": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Highest frequency present in the recording in Hz. Aligns with AC ac:freqHigh."
+        },
+        "minFrequencyHz": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Lowest frequency present in the recording in Hz. Aligns with AC ac:freqLow."
+        },
+        "filterLowPassHz": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Low-pass filter cutoff frequency in Hz applied during or after recording. Aligns with AC ac:filterLowPass."
+        },
+        "filterHighPassHz": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "High-pass filter cutoff frequency in Hz applied during or after recording. Aligns with AC ac:filterHighPass."
+        },
+        "signalToNoiseRatio": {
+          "type": "string",
+          "description": "Signal-to-noise ratio in dB.",
+          "maxGraphemes": 32
+        }
+      },
+      "description": "Technical audio metadata. These are properties of the audio file itself, not the recording context (location, weather, device). Aligns with AC Resource Creation Vocabulary and Music Ontology terms."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Generic audio resource record aligned with the TDWG Audiovisual Core standard (http://www.tdwg.org/standards/638). Represents a single audio recording (field recording, soundscape, species call) with its technical metadata. Links to a dwc.occurrence as evidence and optionally to an ac.deployment describing the recording device setup. Does not carry location, weather, habitat, or device fields — those belong on dwc.event, dwc.occurrence, or ac.deployment respectively."
+}

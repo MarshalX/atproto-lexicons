@@ -1,0 +1,44 @@
+{
+  "id": "app.standard-reader.resolveUrl",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "refs": [
+            "app.standard-reader.defs#resolveViewArticle",
+            "app.standard-reader.defs#resolveViewPublication",
+            "app.standard-reader.defs#resolveViewReaderLink",
+            "app.standard-reader.defs#resolveViewUnknown"
+          ],
+          "type": "union"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [],
+        "properties": {
+          "did": {
+            "type": "string",
+            "format": "did"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "urls": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            }
+          }
+        }
+      },
+      "description": "Match a web page URL to an indexed standard.site article or publication."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

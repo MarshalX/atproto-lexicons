@@ -1,0 +1,52 @@
+{
+  "id": "app.standard-reader.getPublications",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "ref": "app.standard-reader.defs#cursorPagePublications",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [],
+        "properties": {
+          "q": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "sort": {
+            "type": "string",
+            "default": "readers",
+            "maxLength": 32,
+            "knownValues": [
+              "readers",
+              "active",
+              "az"
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "default": 24,
+            "maximum": 60,
+            "minimum": 1
+          },
+          "topic": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "cursor": {
+            "type": "string",
+            "maxLength": 8192
+          }
+        }
+      },
+      "description": "Browse the publication directory with topic filter, sort, and cursor pagination."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

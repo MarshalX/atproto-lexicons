@@ -1,0 +1,55 @@
+{
+  "id": "site.mochott.comment",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "content",
+          "createdAt"
+        ],
+        "properties": {
+          "page": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "For comics: the work.sequential.page or work.sequential.slice of the chapter the comment is about. Replies keep their parent's value."
+          },
+          "panel": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "For comics: index into the panels of the page or strip the comment is about. Replies keep their parent's value."
+          },
+          "parent": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT URI of the parent comment record. Used for single-level threading."
+          },
+          "content": {
+            "type": "string",
+            "maxLength": 30000,
+            "description": "The text content of the comment.",
+            "maxGraphemes": 3000
+          },
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT URI of the record being commented on: a site.mochott.article, or a work.sequential.chapter or work.sequential.strip."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp when the comment was created."
+          }
+        }
+      },
+      "description": "Record representing a comment on an article or comic. Deleting this record removes the comment."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 2,
+  "description": "A comment on an article or a comic chapter or strip. Supports single-level threading via the optional parent field."
+}

@@ -1,0 +1,132 @@
+{
+  "id": "buzz.bookhive.getList",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "list",
+            "items"
+          ],
+          "properties": {
+            "list": {
+              "ref": "#listView",
+              "type": "ref"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "ref": "#listItemView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "uri"
+        ],
+        "properties": {
+          "uri": {
+            "type": "string",
+            "description": "AT-URI of the list"
+          }
+        }
+      },
+      "description": "Get a book list with its items and hydrated book metadata."
+    },
+    "listView": {
+      "type": "object",
+      "required": [
+        "uri",
+        "cid",
+        "userDid",
+        "name",
+        "createdAt"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string"
+        },
+        "uri": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ordered": {
+          "type": "boolean"
+        },
+        "userDid": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "itemCount": {
+          "type": "integer"
+        },
+        "userHandle": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "listItemView": {
+      "type": "object",
+      "required": [
+        "uri",
+        "addedAt"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string"
+        },
+        "cover": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "hiveId": {
+          "type": "string"
+        },
+        "rating": {
+          "type": "integer"
+        },
+        "addedAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "authors": {
+          "type": "string"
+        },
+        "position": {
+          "type": "integer"
+        },
+        "thumbnail": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

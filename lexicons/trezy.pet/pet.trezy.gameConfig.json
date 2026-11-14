@@ -1,0 +1,109 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "The game's tunable numbers — caps, and the curves that decay a pet's care — published in the game's own repo (did:plc:ollch4g7tes2reb5eceiwuol) at rkey `self`. Only records from that DID are ever read — record.index:pet.trezy.gameConfig refuses the rest, and a forged config is worth more to an attacker than a forged tier because it raises every cap at once. These are records rather than constants because an upgrade system is coming: players will unlock higher caps as records in their OWN repo, so every cap resolves as base-from-here plus that player's unlocks, and the upgrade system adds records instead of restructuring readers.",
+      "key": "literal:self",
+      "record": {
+        "properties": {
+          "activePetCap": {
+            "description": "How many pets can be on the stage at once. Only active pets earn, so this is the ceiling on income rather than a display limit. Replaces the literal 3 in createPet's active-slot CASE and the MAX_PETS constant deleted in Task 4.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "dayLengthSeconds": {
+            "description": "How many real seconds one game day lasts. At 21600 a game day is six real hours, a game hour is fifteen real minutes, and four game days pass per real day. ⚠ IT MUST DIVIDE 86400 EVENLY, so game days begin exactly at UTC 00:00, 06:00, 12:00 and 18:00 — a value that leaves a remainder makes game noon drift around the real day, which nobody notices for weeks and nobody can explain afterwards. ⚠ AND IT IS WHY A UTC SLEEP SCHEDULE IS BEARABLE AT ALL: at 1× a single UTC window puts half the planet's pets asleep every afternoon and awake every night with no way to see the other half of the cycle, while at 4× every player passes through the whole cycle several times a day wherever they live. Three readers need it — the client to grey a button out, createInteraction to refuse an interaction, resolveFeeding to place a replayed feed — so readers must FAULT when it is absent rather than defaulting, for the same reason as interactionCooldown.",
+            "minimum": 3600,
+            "type": "integer"
+          },
+          "happinessDecayRate": {
+            "description": "Seconds for one petting to fall from full to nothing. Same rules and the same four readers as hungerDecayRate; kept separate because the two halves of care need not fade at the same speed, even where they currently do.",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "hungerDecayRate": {
+            "description": "Seconds for one feeding to fall from full to nothing — a duration, not a per-second rate, despite the name. THE SAME NUMBER DECIDES WHAT A PET LOOKS LIKE AND WHAT IT EARNED: collectCoins and getWallet price a stretch of care from this curve, while getStats and getLeaderboard draw the bar from it. It lives here because it was a literal in all four of those files and they drifted: a rebalance to a once-a-day return schedule landed on the two that pay and missed the two that display, so the game paid as though a day away was fine and simultaneously showed the pet with nothing left. Readers must FAULT when it is absent or unusable rather than falling back to a default, because a silent default is exactly how that drift became invisible.",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "interactionCooldown": {
+            "description": "Seconds after feeding or petting before the SAME action is allowed on the SAME pet again. Two scripts need it and they must agree: createInteraction ENFORCES it, and getStats REPORTS how much of it is left so the buttons can show a countdown rather than discovering the rule by being refused. It was a literal `30 * 60` in createInteraction and a second copy as COOLDOWN_MS in the web client, which is the same three-way drift hazard the decay rates had — with a worse failure, because a client that thinks the wait is shorter than the server does invites the player to click a button that then refuses them. Readers must FAULT when it is absent rather than defaulting, for the same reason as the decay rates.",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "levelThresholds": {
+            "description": "Interactions needed for each level, in order: entry N is the count at which a pet reaches level N. The first entry MUST be 0 (every pet is at least level 1) and each entry MUST be larger than the one before. ⚠ ONE COPY FOR EVERY READER. This was a literal in getStats, getLeaderboard and games.achievements, which is the exact shape that let the decay curve drift; readers FAULT when it is absent or malformed rather than falling back to a compiled-in ladder.",
+            "items": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "minLength": 2,
+            "type": "array"
+          },
+          "sleepWindows": {
+            "description": "When each kind of animal sleeps, in game hours: `start` inclusive, `end` exclusive, matched against a species' own `activity`. A pattern appears once per window it has, and a pattern that never sleeps — `cathemeral` — appears not at all. ⚠ A FLAT ARRAY RATHER THAN AN OBJECT KEYED BY PATTERN, because a lexicon object must declare its properties while `activity` is knownValues and deliberately open: a map would freeze the six known patterns into this schema and need a lexicon deploy to publish a seventh. The array also collapses two rules into one — a pattern with no rows and a pattern this build has never heard of both match nothing, so both stay awake down the same code path. ⚠ `start` MAY EXCEED `end`, WHICH WRAPS MIDNIGHT, and two of the published windows do; a reader testing only `hour >= start and hour < end` reports those animals as never sleeping. Readers FAULT when this is absent or malformed, like levelThresholds — but a species whose `activity` matches nothing here is AWAKE and must never fault, because one species record published ahead of a release would otherwise stop feeding for everybody.",
+            "items": {
+              "ref": "#sleepWindow",
+              "type": "ref"
+            },
+            "type": "array"
+          },
+          "stageMoneyCap": {
+            "description": "A SANITY BOUND, NOT A GAME MECHANIC — and it used to be the other way round, which is why this says so. It caps what can accrue between one settle and the next: while it is met, active pets stop producing entirely. It no longer shapes play, because DECAY already does that job better: care quality falls to zero within about a day and a half, so a pet earns roughly one care cycle however long somebody stays away, and a player who never returns is bounded without any ceiling being involved. Set it well clear of what honest play can reach — a full stage of well-kept pets makes a few hundred coins from one session — so that it can only ever fire on a bug in the curve. A cap tight enough to bind in normal play punishes the ONE THING the design asks for, which is that checking in once a day is enough: with money banking itself, the only way a player could dodge a tight cap is to open the game more often. Raising it is safe at any time; lowering it below what a player has already accrued is not.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "starterGrantCap": {
+            "description": "The most the server will grant a player for their very first pet. A new player has no income until they have a pet and no pet until they can pay for one, so createPet grants the price of the pet they choose and buys it on their behalf — but only up to this much, or a hand-rolled call would make an epic the free starter. A species dearer than this falls through to the ordinary affordability check and refuses cannot-afford. NOT the lowest tier's price: at 50 the grantable pool would be the two purchasable commons, which is smaller than the three onboarding offers and excludes both slimes. Raising it is safe; lowering it only affects players who have not had their grant yet, because a grant is once per DID and recorded in trezy_pet_grants.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "terrariumFoodCap": {
+            "description": "How many morsels may lie on a player's ground at once. Basic food is free and unlimited, so without a ceiling a player can carpet three viewports of world; dropFood refuses past this with \"There's plenty down there already.\" ⚠ ITS REAL MEANING IS A TIME HORIZON, AND THAT HORIZON IS DERIVED FROM THE OTHER TWO NUMBERS HERE, NOT INDEPENDENT OF THEM: cap divided by activePetCap is how many morsels each pet gets, and each is worth one interactionCooldown. At 12, an activePetCap of 3 and a cooldown of 1800 that is four morsels a pet and about two hours of feeding — but doubling activePetCap halves the horizon without this number changing, so the two must be reconsidered together. Readers must FAULT when it is absent or unusable rather than defaulting, for the same reason as the decay rates and the cooldown: a silent default is how a rule the game is paced by changes without anybody deciding to change it.",
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "stageMoneyCap",
+          "activePetCap",
+          "starterGrantCap",
+          "hungerDecayRate",
+          "happinessDecayRate",
+          "interactionCooldown",
+          "terrariumFoodCap"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    },
+    "sleepWindow": {
+      "properties": {
+        "activity": {
+          "description": "The `activity` value on a species record this window applies to. Not knownValues here: this side of the join is data, and constraining it would refuse a window for a pattern published later.",
+          "type": "string"
+        },
+        "end": {
+          "description": "Game hour the animal wakes, exclusive. Less than `start` means the window crosses game midnight.",
+          "maximum": 23,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "start": {
+          "description": "First game hour of the nap, inclusive.",
+          "maximum": 23,
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "activity",
+        "start",
+        "end"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "pet.trezy.gameConfig",
+  "lexicon": 1
+}

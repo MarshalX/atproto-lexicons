@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>README banner, 1600 x 440</title>
+  <link rel="stylesheet" href="../website/css/fonts.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+
+    :root {
+      --background: linear-gradient(165deg, #C9DFFF 0%, #E2EEFF 48%, #F5F8FC 100%);
+      --edge: #D3E1F4;
+      --ink: #0A1628;
+      --muted: #34445A;
+      --wordmark: #46566D;
+      --accent: #0B6BDB;
+      --tile: #0B6BDB;
+      --glyph: #FFFFFF;
+      --decor: rgba(11, 107, 219, 0.16);
+      --code-edge: #0A1322;
+    }
+    :root.dark {
+      --background: linear-gradient(165deg, #10294F 0%, #0A1833 48%, #050A14 100%);
+      --edge: #1A2740;
+      --ink: #E8EEF8;
+      --muted: #B4C3DA;
+      --wordmark: #B4C3DA;
+      --accent: #62AAFF;
+      --tile: #4C9DFF;
+      --glyph: #03101F;
+      --decor: rgba(122, 184, 255, 0.18);
+      --code-edge: #26375A;
+    }
+
+    html, body { background: transparent; }
+    .banner {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 1600px;
+      height: 440px;
+      padding: 48px 72px 52px;
+      overflow: hidden;
+      border: 2px solid var(--edge);
+      border-radius: 32px;
+      background: var(--background);
+      color: var(--ink);
+      font-family: 'Geist', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .mono { font-family: 'Geist Mono', monospace; }
+
+    .backdrop {
+      position: absolute;
+      inset: 0;
+      color: var(--decor);
+      font-size: 20px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .backdrop span { position: absolute; }
+    .backdrop .small { font-size: 17px; }
+
+    .top {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 32px;
+      letter-spacing: -0.01em;
+    }
+    .brand svg { width: 60px; height: 60px; }
+    .brand b { font-weight: 600; }
+    .brand span { color: var(--wordmark); }
+    .install {
+      padding: 12px 20px;
+      border: 2px solid var(--code-edge);
+      border-radius: 14px;
+      background: #0A1322;
+      color: #DCE5F3;
+      font-size: 24px;
+    }
+    .install span { color: #7F92B0; }
+
+    .headline { position: relative; }
+    h1 {
+      font-size: 80px;
+      font-weight: 600;
+      line-height: 0.98;
+      letter-spacing: -0.045em;
+    }
+    h1 span { color: var(--accent); }
+    .headline p {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 28px;
+      letter-spacing: -0.01em;
+    }
+  </style>
+</head>
+<body>
+<!-- banner.html?theme=dark draws the variant for dark pages -->
+<script>
+  document.documentElement.classList.toggle('dark', new URLSearchParams(location.search).get('theme') === 'dark');
+</script>
+<div class="banner">
+  <div class="backdrop mono">
+    <span style="left: 1130px; top: 158px">org.tangled.git.refs</span>
+    <span style="left: 1390px; top: 208px" class="small">adsb.at</span>
+    <span style="left: 1215px; top: 262px">fm.teal.feed.play</span>
+    <span style="left: 1080px; top: 322px" class="small">lexicon.community</span>
+    <span style="left: 1235px; top: 376px">dev.sensorthings.observation</span>
+  </div>
+
+  <div class="top">
+    <div class="brand mono">
+      <svg viewBox="0 0 28 28"><rect width="28" height="28" rx="8" fill="var(--tile)"/><path d="M11.2 8.4c-1.7 0-2.5.8-2.5 2.4v1.3c0 1.1-.5 1.7-1.7 1.9 1.2.2 1.7.8 1.7 1.9v1.3c0 1.6.8 2.4 2.5 2.4M16.8 8.4c1.7 0 2.5.8 2.5 2.4v1.3c0 1.1.5 1.7 1.7 1.9-1.2.2-1.7.8-1.7 1.9v1.3c0 1.6-.8 2.4-2.5 2.4" fill="none" stroke="var(--glyph)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="14" cy="14" r="1.9" fill="var(--glyph)"/></svg>
+      <div><b>lex</b><span>.atproto.blue</span></div>
+    </div>
+    <div class="install mono"><span>$ </span>pip install atproto-lexicons</div>
+  </div>
+
+  <div class="headline">
+    <h1>Third-party lexicons,<br><span>ready to import.</span></h1>
+    <p>Atmosphere lexicons for the atproto Python SDK</p>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,118 @@
+{
+  "id": "app.standard-reader.collection",
+  "defs": {
+    "item": {
+      "type": "object",
+      "required": [
+        "document"
+      ],
+      "properties": {
+        "note": {
+          "refs": [
+            "at.markpub.markdown"
+          ],
+          "type": "union",
+          "description": "Optional Markpub markdown note shown ahead of the piece (legacy plain string accepted on read during migration)."
+        },
+        "document": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT URI of an included site.standard.document."
+        }
+      }
+    },
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "document",
+          "items",
+          "createdAt"
+        ],
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "ref": "app.standard-reader.collection#item",
+              "type": "ref"
+            },
+            "maxLength": 42,
+            "description": "Ordered curated articles plus optional per-item notes."
+          },
+          "colophon": {
+            "ref": "app.standard-reader.collection#colophon",
+            "type": "ref"
+          },
+          "document": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT URI of the site.standard.document record this collection renders."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the collection manifest was first published."
+          },
+          "editorial": {
+            "ref": "app.standard-reader.collection#editorial",
+            "type": "ref"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the collection manifest was last edited."
+          }
+        }
+      },
+      "description": "Curated magazine collection manifest for a site.standard.document. Uses the same record key as the document it extends so both records can be fetched with one predictable pair of GETs."
+    },
+    "colophon": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "refs": [
+            "at.markpub.markdown"
+          ],
+          "type": "union",
+          "description": "Colophon body as Markpub markdown (legacy plain string accepted on read during migration)."
+        }
+      },
+      "description": "Optional closing credits on the magazine end spread."
+    },
+    "editorial": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "refs": [
+            "at.markpub.markdown"
+          ],
+          "type": "union",
+          "description": "Editorial body as Markpub markdown (legacy plain string accepted on read during migration)."
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 160
+        }
+      },
+      "description": "Optional editorial intro shown ahead of the curated pieces."
+    },
+    "documentLink": {
+      "type": "object",
+      "required": [
+        "uri"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT URI of the app.standard-reader.collection sidecar record."
+        }
+      },
+      "description": "Inverse link entry for site.standard.document#links pointing back at this collection sidecar."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

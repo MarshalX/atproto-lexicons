@@ -1,0 +1,29 @@
+{
+  "id": "com.nerdballot.adminChallenge",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "nonce",
+          "createdAt"
+        ],
+        "properties": {
+          "nonce": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A one-time code proving that the account signing in to Nerd Ballot's admin pages controls this repository. Deleted after use."
+}

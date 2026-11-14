@@ -1,0 +1,78 @@
+{
+  "id": "social.coves.actor.getPosts",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "Actor not found"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "feed"
+          ],
+          "properties": {
+            "feed": {
+              "type": "array",
+              "items": {
+                "ref": "social.coves.feed.defs#feedViewPost",
+                "type": "ref"
+              }
+            },
+            "cursor": {
+              "type": "string",
+              "maxLength": 500
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "actor"
+        ],
+        "properties": {
+          "actor": {
+            "type": "string",
+            "maxLength": 2048,
+            "description": "DID or handle of the user, or a bridged user's fediverse address as name@host or @name@host (e.g. alice@lemmy.world)"
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "filter": {
+            "type": "string",
+            "default": "posts-with-replies",
+            "maxLength": 64,
+            "description": "Filter for post types",
+            "knownValues": [
+              "posts-with-replies",
+              "posts-no-replies",
+              "posts-with-media"
+            ]
+          },
+          "community": {
+            "type": "string",
+            "format": "at-identifier",
+            "description": "Filter to posts in a specific community"
+          }
+        }
+      },
+      "description": "Get a user's posts for their profile page."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

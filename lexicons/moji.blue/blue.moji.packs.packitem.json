@@ -1,0 +1,36 @@
+{
+  "id": "blue.moji.packs.packitem",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "pack",
+          "createdAt"
+        ],
+        "properties": {
+          "pack": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Reference (AT-URI) to the pack record (blue.moji.packs.pack)."
+          },
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Reference (AT-URI) to the Bluemoji item record (blue.moji.collection.item)."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Record representing a Bluemoji's inclusion in a specific pack. The AppView will ignore duplicate item records."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

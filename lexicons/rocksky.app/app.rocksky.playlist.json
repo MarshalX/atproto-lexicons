@@ -1,0 +1,68 @@
+{
+  "id": "app.rocksky.playlist",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "createdAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 512,
+            "minLength": 1,
+            "description": "The name of the playlist."
+          },
+          "picture": {
+            "type": "blob",
+            "accept": [
+              "image/png",
+              "image/jpeg"
+            ],
+            "maxSize": 2000000,
+            "description": "The picture of the playlist."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "The date the playlist was created."
+          },
+          "tidalLink": {
+            "type": "string",
+            "description": "The Tidal link of the playlist."
+          },
+          "pictureUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "The URL of the picture of the artist."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256,
+            "minLength": 1,
+            "description": "The playlist description."
+          },
+          "spotifyLink": {
+            "type": "string",
+            "description": "The Spotify link of the playlist."
+          },
+          "youtubeLink": {
+            "type": "string",
+            "description": "The YouTube link of the playlist."
+          },
+          "appleMusicLink": {
+            "type": "string",
+            "description": "The Apple Music link of the playlist."
+          }
+        }
+      },
+      "description": "A declaration of a playlist."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

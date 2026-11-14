@@ -1,0 +1,46 @@
+{
+  "id": "so.sprk.embed.mention",
+  "defs": {
+    "main": {
+      "type": "object",
+      "required": [
+        "placement",
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "placement": {
+          "ref": "so.sprk.embed.defs#placement",
+          "type": "ref"
+        }
+      }
+    },
+    "view": {
+      "type": "object",
+      "required": [
+        "placement",
+        "did"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "actor": {
+          "ref": "so.sprk.actor.defs#profileViewBasic",
+          "type": "ref"
+        },
+        "placement": {
+          "ref": "so.sprk.embed.defs#placement",
+          "type": "ref"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Interactive mention embed."
+}

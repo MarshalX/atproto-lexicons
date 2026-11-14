@@ -1,0 +1,30 @@
+{
+  "id": "dev.knotless.releaseYank",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt"
+        ],
+        "properties": {
+          "repo": {
+            "type": "string",
+            "format": "tid",
+            "description": "The `key` of the dev.knotless.repo that published the release, which also begins this record's key."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Kept in the repository owner's account, keyed as the release it withdraws is. Deleting it takes the yank back."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "That the owner of a repository withdrew a version of a package it publishes: the dev.knotless.release of the same key in the same account, which itself never changes, stays there to read, but is no longer its package's latest."
+}

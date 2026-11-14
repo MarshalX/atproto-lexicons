@@ -1,0 +1,67 @@
+{
+  "id": "cx.vmx.matadisco",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "publishedAt",
+          "resource"
+        ],
+        "properties": {
+          "tags": {
+            "ref": "#tags",
+            "type": "ref"
+          },
+          "preview": {
+            "ref": "#preview",
+            "type": "ref"
+          },
+          "resource": {
+            "type": "string",
+            "format": "uri",
+            "description": "A URI that links to resource containing the metadata"
+          },
+          "publishedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "The time the original metadata/data was published"
+          }
+        }
+      },
+      "description": "A Matadisco record"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 200,
+        "minLength": 1
+      },
+      "maxLength": 20,
+      "description": "Tags that describe the metadata. A tag might have a corresponding top-level key with the same name."
+    },
+    "preview": {
+      "type": "object",
+      "required": [
+        "mimeType"
+      ],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "The URL to the preview"
+        },
+        "mimeType": {
+          "type": "string",
+          "description": "The media type the preview has"
+        }
+      },
+      "description": "Preview of the data"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

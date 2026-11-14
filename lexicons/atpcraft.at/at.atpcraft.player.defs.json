@@ -1,0 +1,173 @@
+{
+  "id": "at.atpcraft.player.defs",
+  "defs": {
+    "score": {
+      "type": "object",
+      "required": [
+        "objective",
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "integer"
+        },
+        "objective": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Scoreboard objective name."
+        }
+      }
+    },
+    "aspect": {
+      "type": "object",
+      "required": [
+        "name",
+        "blob"
+      ],
+      "properties": {
+        "blob": {
+          "type": "blob",
+          "accept": [
+            "application/octet-stream"
+          ],
+          "maxSize": 16777216,
+          "description": "Aspect payload uploaded as a blob."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 64,
+          "knownValues": [
+            "core",
+            "advancements",
+            "stats",
+            "ops",
+            "scoreboard",
+            "team",
+            "inventory",
+            "ender_chest",
+            "equipment",
+            "effects",
+            "respawn",
+            "recipes"
+          ]
+        }
+      },
+      "description": "One opaque player-data aspect. The payload is always uploaded as a blob; the record holds its reference."
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "username",
+        "dimension",
+        "position",
+        "health",
+        "food",
+        "xpLevel",
+        "gameMode"
+      ],
+      "properties": {
+        "food": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Food level."
+        },
+        "team": {
+          "ref": "#teamSummary",
+          "type": "ref"
+        },
+        "health": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Current health as a decimal string (the atproto data model has no floats), e.g. \"19.5\"."
+        },
+        "scores": {
+          "type": "array",
+          "items": {
+            "ref": "#score",
+            "type": "ref"
+          },
+          "maxLength": 1024,
+          "description": "Scoreboard scores, sorted by objective name."
+        },
+        "xpLevel": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Experience level."
+        },
+        "gameMode": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Game mode.",
+          "knownValues": [
+            "survival",
+            "creative",
+            "adventure",
+            "spectator"
+          ]
+        },
+        "position": {
+          "ref": "#position",
+          "type": "ref"
+        },
+        "username": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Minecraft username at snapshot time."
+        },
+        "dimension": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Dimension identifier, e.g. minecraft:overworld."
+        }
+      },
+      "description": "Human-readable, server-signed summary of the player's state at snapshot time. Informative; the authoritative state is the opaque aspect payloads."
+    },
+    "position": {
+      "type": "object",
+      "required": [
+        "x",
+        "y",
+        "z"
+      ],
+      "properties": {
+        "x": {
+          "type": "integer"
+        },
+        "y": {
+          "type": "integer"
+        },
+        "z": {
+          "type": "integer"
+        }
+      },
+      "description": "Block coordinates (floored; the atproto data model has no floats)."
+    },
+    "teamSummary": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Team name."
+        },
+        "prefix": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Team prefix as plain text."
+        },
+        "suffix": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Team suffix as plain text."
+        }
+      },
+      "description": "The player's team at snapshot time (informative; plain-text prefix/suffix)."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Shared definitions for ATPcraft player data records."
+}

@@ -1,0 +1,45 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "errors": [
+        {
+          "description": "No shelf record exists at the given AT-URI.",
+          "name": "NotFound"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "shelf": {
+              "ref": "net.olamaelcu.livtet.biblio.defs#shelfView",
+              "type": "ref"
+            }
+          },
+          "required": [
+            "shelf"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "uri": {
+            "description": "AT-URI of the shelf record.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "uri"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "Get a hydrated view of a shelf record.",
+  "id": "net.olamaelcu.livtet.biblio.getShelf",
+  "lexicon": 1
+}

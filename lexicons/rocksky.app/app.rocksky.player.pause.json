@@ -1,0 +1,19 @@
+{
+  "id": "app.rocksky.player.pause",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "playerId": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Pause the currently playing track"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

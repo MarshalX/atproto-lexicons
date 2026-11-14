@@ -1,0 +1,71 @@
+{
+  "id": "social.grain.unspecced.getLocations",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "locations": {
+              "type": "array",
+              "items": {
+                "ref": "social.grain.unspecced.getLocations#locationItem",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "pins": {
+            "type": "boolean",
+            "description": "Return every place carrying only what a map needs — name, h3Index, galleryCount — instead of the top 30 with thumbnails and cell lists. The full shape is ~1.1KB per place, so all of them would be ~780KB; lean it is ~70 bytes each."
+          }
+        }
+      },
+      "description": "Get top locations by gallery count."
+    },
+    "locationItem": {
+      "type": "object",
+      "required": [
+        "name",
+        "h3Index",
+        "galleryCount"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "thumbs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          },
+          "maxLength": 4,
+          "description": "Up to four representative photo thumbnails, most recent first. Lets the index render without a feed request per location."
+        },
+        "h3Cells": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "All H3 cells whose galleries map to this place. Ordered by gallery count desc."
+        },
+        "h3Index": {
+          "type": "string",
+          "description": "Canonical H3 cell for the place (densest cell in the group)."
+        },
+        "galleryCount": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

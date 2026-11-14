@@ -1,0 +1,43 @@
+{
+  "id": "app.zeens.notification.getUnreadCount",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "count"
+          ],
+          "properties": {
+            "count": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "recipient",
+          "actors"
+        ],
+        "properties": {
+          "actors": {
+            "type": "string",
+            "description": "Required comma-separated allowlist of author DIDs (the Zeens membership set). Only notifications authored by one of these DIDs are counted, so activity from Bluesky or another atproto client never drives the badge. An empty list counts zero."
+          },
+          "recipient": {
+            "type": "string",
+            "format": "did"
+          }
+        }
+      },
+      "description": "Get the count of unread notifications for a Zeens user (count newer than the user's seenAt cursor)."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,140 @@
+{
+  "id": "social.dracome.catalog.submission.edition",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "work",
+          "title",
+          "createdAt"
+        ],
+        "properties": {
+          "work": {
+            "ref": "#workSubmissionRef",
+            "type": "ref",
+            "description": "Reference to the parent work-submission record."
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 1024,
+            "description": "This edition's own title (usually matches the work's title, but may differ for a retitled or translated edition)."
+          },
+          "coverUri": {
+            "type": "string",
+            "format": "uri",
+            "description": "Optional URL to a cover image for this specific edition, hosted by the submitter. Runtime validation MUST restrict this to https:// URLs."
+          },
+          "language": {
+            "type": "string",
+            "format": "language",
+            "description": "Optional ISO 639-1 or BCP 47 language code for this edition."
+          },
+          "subtitle": {
+            "type": "string",
+            "maxLength": 1024,
+            "description": "Optional this edition's own subtitle."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "ISO 8601 UTC timestamp with trailing Z when this record was created."
+          },
+          "pageCount": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Optional number of pages in this edition. Not populated when editionFormat is audiobook; see durationSeconds."
+          },
+          "sourceUri": {
+            "type": "string",
+            "format": "uri",
+            "description": "Optional URL to this edition's page on the submitter's own site."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Optional ISO 8601 UTC timestamp with trailing Z when this record was last updated by republishing."
+          },
+          "derivedFrom": {
+            "ref": "social.dracome.catalog.submission.work#derivedFromRef",
+            "type": "ref",
+            "description": "Optional reference to the record this submission's data was derived from. Carries no meaning to Dracome's ingestion; exists for downstream consumers to walk provenance."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 8192,
+            "description": "Optional free-text description specific to this edition, if different from the work's."
+          },
+          "editionName": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Optional label for a specific print or release (e.g., 'First Edition', 'Hardcover')."
+          },
+          "identifiers": {
+            "type": "array",
+            "items": {
+              "ref": "social.dracome.work.defs#catalogIdentifier",
+              "type": "ref"
+            },
+            "maxLength": 16,
+            "description": "Optional external identifiers (edition-specific ISBN, etc.), plus the submitter's proprietary identifier."
+          },
+          "seriesTitle": {
+            "type": "string",
+            "maxLength": 512,
+            "description": "Optional series this edition belongs to."
+          },
+          "editionFormat": {
+            "ref": "social.dracome.work.defs#editionFormat",
+            "type": "ref",
+            "description": "Optional physical or media format (paperback, hardcover, ebook, audiobook, board_book, spiral_bound, library_binding, pamphlet)."
+          },
+          "publisherName": {
+            "type": "string",
+            "maxLength": 512,
+            "description": "Optional name of this edition's publisher."
+          },
+          "seriesPosition": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Optional position within the series (e.g., '3' or '3.5')."
+          },
+          "durationSeconds": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Optional total duration in seconds for audiobook editions. Only populated when editionFormat is audiobook; pageCount and durationSeconds are never both set on the same edition."
+          },
+          "publicationDate": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Optional this edition's publication date, at whatever precision is known."
+          }
+        }
+      },
+      "description": "A submission record carrying candidate catalog data for an edition of a previously-submitted work, published by a trusted submitter to their own PDS. Repeatable; a submitter may create, update, or delete edition-submission records over time."
+    },
+    "workSubmissionRef": {
+      "type": "object",
+      "required": [
+        "uri"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid",
+          "description": "Optional content hash of the work record at time of reference; informational only."
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the owning social.dracome.catalog.submission.work record."
+        }
+      },
+      "description": "A reference to the parent work-submission record."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,47 @@
+{
+  "id": "social.colibri.permissionMessaging",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Messages & membership",
+      "detail": "Send and edit messages, react, join communities, and submit membership applications.",
+      "permissions": [
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "social.colibri.message",
+            "social.colibri.reaction"
+          ]
+        },
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "social.colibri.membership",
+            "social.colibri.approval"
+          ]
+        },
+        {
+          "lxm": [
+            "social.colibri.channel.listReactions"
+          ],
+          "type": "permission",
+          "resource": "rpc",
+          "inheritAud": true
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

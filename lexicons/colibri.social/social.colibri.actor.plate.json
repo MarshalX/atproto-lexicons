@@ -1,0 +1,49 @@
+{
+  "id": "social.colibri.actor.plate",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "color",
+          "picture"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 320,
+            "description": "Plate name as exposed to the user.",
+            "maxGraphemes": 32
+          },
+          "$type": {
+            "type": "string",
+            "format": "nsid",
+            "description": "The type of the record."
+          },
+          "color": {
+            "type": "string",
+            "maxLength": 7,
+            "description": "The base plate color, blended with the image."
+          },
+          "picture": {
+            "type": "blob",
+            "accept": [
+              "image/jpeg",
+              "image/png",
+              "image/gif",
+              "image/webp"
+            ],
+            "description": "The plate image, blended with the color."
+          }
+        }
+      },
+      "description": "A Colibri name plate used to decorate member rows."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 1
+}

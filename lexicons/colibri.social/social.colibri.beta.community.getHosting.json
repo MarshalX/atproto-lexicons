@@ -1,0 +1,107 @@
+{
+  "id": "social.colibri.beta.community.getHosting",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request is missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The requesting user lacks permission for this community."
+        },
+        {
+          "name": "CommunityNotFound",
+          "description": "No community exists at that identifier."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "hosting"
+          ],
+          "properties": {
+            "hosting": {
+              "ref": "#hostingView",
+              "type": "ref",
+              "description": "Where the community's account lives."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "community"
+        ],
+        "properties": {
+          "community": {
+            "type": "string",
+            "format": "did",
+            "description": "The community."
+          }
+        }
+      },
+      "description": "Describes where a community's account lives and whether the AppView can still act for it. Only administrators of the community can read it."
+    },
+    "hostingView": {
+      "type": "object",
+      "required": [
+        "kind",
+        "account",
+        "server",
+        "needsSignIn"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "description": "colibri when the account lives on this AppView's server and the AppView holds its password. own when the account belongs to the community's owner and the AppView acts through a sign-in.",
+          "knownValues": [
+            "colibri",
+            "own"
+          ]
+        },
+        "server": {
+          "type": "string",
+          "format": "uri",
+          "description": "The server the account lives on, as the AppView last reached it."
+        },
+        "account": {
+          "type": "string",
+          "description": "The account's handle, or its DID when it has none."
+        },
+        "connectedAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the AppView was last connected to the account."
+        },
+        "connectedBy": {
+          "type": "string",
+          "format": "did",
+          "description": "The user who signed in as the account, for kind own."
+        },
+        "needsSignIn": {
+          "type": "boolean",
+          "description": "Whether the AppView lost access and needs the owner to sign in again. New writes fail until then."
+        },
+        "needsSignInSince": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the AppView lost access."
+        },
+        "handOverExpiresAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the password from handOverHost stops working, while a hand-over is active."
+        }
+      },
+      "description": "Where a community's account lives and whether the AppView can act for it."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

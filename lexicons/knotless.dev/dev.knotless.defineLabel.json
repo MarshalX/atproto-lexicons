@@ -1,0 +1,87 @@
+{
+  "id": "dev.knotless.defineLabel",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "repo",
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 100,
+              "description": "Up to its last `/`, if it has one, its scope, as kind/bug's is kind.",
+              "maxGraphemes": 50
+            },
+            "repo": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+            },
+            "color": {
+              "type": "string",
+              "maxLength": 7,
+              "description": "A hex color, as #d73a4a."
+            },
+            "exclusive": {
+              "type": "boolean",
+              "description": "Whether, of its scope's exclusive labels, it stands alone: setting one takes the others off."
+            },
+            "description": {
+              "type": "string",
+              "maxLength": 1000,
+              "description": "What the label means, for those who put it on.",
+              "maxGraphemes": 200
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository."
+        },
+        {
+          "name": "InvalidRequest",
+          "description": "The name is empty or too long, or the color is no hex color."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The account logged in is not the repository's owner."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "labels"
+          ],
+          "properties": {
+            "labels": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.repo#label",
+                "type": "ref"
+              },
+              "description": "The labels it defines now."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Adds the label to the repository's dev.knotless.repo record, in place of any of its name, as `knotless label define` does. Its owner can, logged in to this appview's web pages: the appview writes with the session it keeps for that account, which the pages' session cookie names. For an organization's repository, so can an admin who joined it, logged in to the pages or with a service token from their own PDS for this method: the appview's gateway, which the organization delegated its writes to, writes as the organization."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Defines a label pulls and issues of a repository may carry."
+}

@@ -1,0 +1,47 @@
+{
+  "id": "at.turtleme.chat.message",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "text",
+          "room",
+          "createdAt"
+        ],
+        "properties": {
+          "room": {
+            "type": "string",
+            "format": "uri",
+            "description": "The room the message was sent to. 'https://turtleme.at/chat/global' is the global room. Because this is a link, a backlink index can list a room's messages without a dedicated AppView. A message written into a clan, an at.turtleme.chat.clan permissioned space, carries that space's at:// URI here instead; it lives in the author's permissioned repository for the space rather than their public one."
+          },
+          "text": {
+            "type": "string",
+            "maxLength": 1000,
+            "description": "The message body. It may carry Old School RuneScape style chat codes in the form 'colour:effect:message', for example 'red:wave:hello there'. A client that does not recognise the codes should display the string verbatim rather than stripping it.",
+            "maxGraphemes": 200
+          },
+          "facets": {
+            "type": "array",
+            "items": {
+              "ref": "app.bsky.richtext.facet",
+              "type": "ref"
+            },
+            "maxLength": 20,
+            "description": "Rich text over byte ranges of 'text', in Bluesky's facet shape. turtle meat writes and reads only mentions (app.bsky.richtext.facet#mention), each pointing at the DID the handle in the text meant when the line was sent. There is no threading: a mention points at an account, not at a message. Byte offsets count the whole of 'text', colour and effect codes included."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Timestamp declared by the sending client. It is not verified, so readers that care about ordering should prefer the record key."
+          }
+        }
+      },
+      "description": "A single message sent to a turtle meat chat room. Messages live in the author's own repository; a room is assembled by reading the backlinks that point at it."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

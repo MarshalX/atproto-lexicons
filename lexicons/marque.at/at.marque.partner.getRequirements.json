@@ -1,0 +1,152 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Return required registrant and registry fields for up to 50 domains before createCheckout.",
+      "errors": [
+        {
+          "name": "InvalidRequest"
+        },
+        {
+          "name": "RequirementsUnavailable"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "results": {
+              "items": {
+                "ref": "#requirement",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "results"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "domains": {
+            "items": {
+              "maxLength": 253,
+              "type": "string"
+            },
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "array"
+          }
+        },
+        "required": [
+          "domains"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    },
+    "option": {
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "requires": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "description",
+        "value"
+      ],
+      "type": "object"
+    },
+    "requirement": {
+      "properties": {
+        "additionalData": {
+          "items": {
+            "ref": "#spec",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "companyRegistrationNumberRequired": {
+          "type": "boolean"
+        },
+        "customerAdditionalData": {
+          "items": {
+            "ref": "#spec",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "domain": {
+          "maxLength": 253,
+          "type": "string"
+        },
+        "passportNumberRequired": {
+          "type": "boolean"
+        },
+        "taxNumberRequired": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "domain",
+        "passportNumberRequired",
+        "companyRegistrationNumberRequired",
+        "taxNumberRequired",
+        "additionalData",
+        "customerAdditionalData"
+      ],
+      "type": "object"
+    },
+    "spec": {
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "options": {
+          "items": {
+            "ref": "#option",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "pattern": {
+          "type": "string"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "syntax": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "required",
+        "type"
+      ],
+      "type": "object"
+    }
+  },
+  "description": "Load registry-specific registration requirements for partner checkouts.",
+  "id": "at.marque.partner.getRequirements",
+  "lexicon": 1
+}

@@ -1,0 +1,36 @@
+{
+  "id": "app.rocksky.actor.status",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "track",
+          "startedAt"
+        ],
+        "properties": {
+          "track": {
+            "ref": "app.rocksky.actor.defs#trackView",
+            "type": "ref",
+            "description": "The track currently being played."
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the status expires. Defaults to startedAt plus track duration plus idle time."
+          },
+          "startedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the track started playing."
+          }
+        }
+      },
+      "description": "The current listening status of the actor. Only one can be active at a time (rkey: self)."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

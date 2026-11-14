@@ -1,0 +1,64 @@
+{
+  "id": "at.adsb.aircraft.identity",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "icaoHex",
+          "createdAt"
+        ],
+        "properties": {
+          "icaoHex": {
+            "type": "string",
+            "maxLength": 6,
+            "minLength": 6,
+            "description": "ICAO 24-bit aircraft address in hexadecimal (e.g. 'A1B2C3')."
+          },
+          "category": {
+            "type": "string",
+            "maxLength": 4,
+            "description": "ADS-B emitter category (e.g. 'A3' for large aircraft)."
+          },
+          "operator": {
+            "type": "string",
+            "maxLength": 1280,
+            "description": "Aircraft operator name (e.g. 'United Airlines').",
+            "maxGraphemes": 128
+          },
+          "typeName": {
+            "type": "string",
+            "maxLength": 1280,
+            "description": "Human-readable aircraft type (e.g. 'Boeing 737-800').",
+            "maxGraphemes": 128
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "operatorIcao": {
+            "type": "string",
+            "maxLength": 3,
+            "description": "ICAO airline/operator code (e.g. 'UAL')."
+          },
+          "registration": {
+            "type": "string",
+            "maxLength": 20,
+            "description": "Aircraft registration or tail number (e.g. 'N12345')."
+          },
+          "icaoTypeDesignator": {
+            "type": "string",
+            "maxLength": 4,
+            "description": "ICAO aircraft type designator (e.g. 'B738', 'A320')."
+          }
+        }
+      },
+      "description": "An aircraft identified by its ICAO 24-bit address."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "An aircraft identified by its ICAO 24-bit address. Stores static identity and registration information. Created on first sighting by a receiver."
+}

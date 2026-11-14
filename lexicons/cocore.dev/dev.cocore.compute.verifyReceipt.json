@@ -1,0 +1,64 @@
+{
+  "id": "dev.cocore.compute.verifyReceipt",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "InvalidRequest",
+          "description": "The `uri` parameter is missing."
+        },
+        {
+          "name": "NotFound",
+          "description": "The receipt, or its referenced job/attestation, is not indexed."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "ok",
+            "trustLevel",
+            "findings"
+          ],
+          "properties": {
+            "ok": {
+              "type": "boolean"
+            },
+            "findings": {
+              "type": "array",
+              "items": {
+                "ref": "dev.cocore.defs#verifyFinding",
+                "type": "ref"
+              }
+            },
+            "trustLevel": {
+              "enum": [
+                "self-attested",
+                "hardware-attested"
+              ],
+              "type": "string"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "uri"
+        ],
+        "properties": {
+          "uri": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The receipt record URI to verify."
+          }
+        }
+      },
+      "description": "Verify an indexed receipt offline-equivalently: structural checks against its job + attestation, a P-256 ECDSA signature check of `enclaveSignature` against the attestation public key, lexicon-schema validation, and — when an MDA cert chain is present — a hardware-attestation check bound to the signing key. `trustLevel` rises to `hardware-attested` only when a valid Apple chain certifies the receipt-signing key."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

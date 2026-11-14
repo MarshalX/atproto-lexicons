@@ -1,0 +1,47 @@
+{
+  "id": "com.gamethesky.fightthesky.fighter",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "build",
+          "style",
+          "createdAt"
+        ],
+        "properties": {
+          "look": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Cosmetic: the fighter's three paint colors, as `rrggbb.rrggbb.rrggbb` (body, trim, gloves). The sim never sees it."
+          },
+          "build": {
+            "ref": "com.gamethesky.fightthesky.run#build",
+            "type": "ref",
+            "description": "The fighter's build: twelve points at most over four stats of 1–5, and a special. It changes the sim, so a verifier replaying a ghost fight uses exactly this."
+          },
+          "style": {
+            "type": "string",
+            "maxLength": 16,
+            "description": "How the CPU plays this fighter when it's a ghost: a rusher closes in and swings, a turtle blocks and punishes, a zoner keeps range and throws, a tricky one jumps, sweeps and dashes.",
+            "knownValues": [
+              "rusher",
+              "turtle",
+              "zoner",
+              "tricky"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "A player's fighter, published into their own repo so anyone can fight its ghost: the build the sim uses, the style the CPU plays it in, and the paint it wears. One per account, at rkey `self`; saving again overwrites it. A ghost run pins the version it fought by CID, so overwriting changes no old result."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,49 @@
+{
+  "id": "app.standard-reader.getHomeFeed",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "scope": {
+              "type": "string",
+              "maxLength": 32
+            },
+            "latest": {
+              "type": "array",
+              "items": {
+                "ref": "app.standard-reader.defs#documentView",
+                "type": "ref"
+              }
+            },
+            "featured": {
+              "ref": "app.standard-reader.defs#documentView",
+              "type": "ref"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [],
+        "properties": {
+          "scope": {
+            "type": "string",
+            "default": "subscriptions",
+            "maxLength": 32,
+            "knownValues": [
+              "subscriptions",
+              "all"
+            ]
+          }
+        }
+      },
+      "description": "Signed-in home page critical path: featured lead and latest rows."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

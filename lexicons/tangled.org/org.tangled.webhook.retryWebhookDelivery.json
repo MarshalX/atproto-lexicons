@@ -1,0 +1,45 @@
+{
+  "id": "org.tangled.webhook.retryWebhookDelivery",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "repo",
+            "webhook",
+            "delivery"
+          ],
+          "properties": {
+            "repo": {
+              "type": "string",
+              "format": "did",
+              "description": "DID of the repository as minted by the knot."
+            },
+            "webhook": {
+              "type": "string",
+              "description": "Webhook ID that owns the delivery."
+            },
+            "delivery": {
+              "type": "string",
+              "description": "Delivery ID to retry."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "WebhookNotFound"
+        },
+        {
+          "name": "DeliveryNotFound"
+        }
+      ],
+      "description": "Re-send a specific webhook delivery."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,223 @@
+{
+  "id": "social.dracome.work.defs",
+  "defs": {
+    "workType": {
+      "type": "string",
+      "maxLength": 64,
+      "description": "Structural content form of the work (not its distribution format).",
+      "knownValues": [
+        "novel",
+        "poetry",
+        "comic",
+        "manga",
+        "audio_drama",
+        "non_fiction"
+      ]
+    },
+    "catalogRef": {
+      "type": "object",
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "Optional canonical URI for this work or edition. Runtime validation MUST restrict this to https:// or at:// values."
+        },
+        "dracomeKey": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Optional proprietary Dracome catalog key for this work or edition. Dracome's own systems use it both for internal lookups and as the identifier accepted by Dracome's XRPC API calls; it is not a portable identifier, so consumers outside Dracome's own systems should resolve via identifiers instead."
+        },
+        "identifiers": {
+          "type": "array",
+          "items": {
+            "ref": "#catalogIdentifier",
+            "type": "ref"
+          },
+          "maxLength": 16,
+          "description": "External identifiers (ISBNs, Open Library keys, etc.) that let any client resolve this work or edition without depending on Dracome-specific data."
+        }
+      },
+      "description": "A portable reference to a work or edition in the Dracome catalog, intended to remain resolvable outside of Dracome's own systems."
+    },
+    "catalogTarget": {
+      "type": "object",
+      "required": [
+        "work",
+        "edition"
+      ],
+      "properties": {
+        "work": {
+          "ref": "#catalogRef",
+          "type": "ref",
+          "description": "The work being targeted by this record. Always present."
+        },
+        "edition": {
+          "ref": "#catalogRef",
+          "type": "ref",
+          "description": "The specific edition being targeted. Always present."
+        }
+      },
+      "description": "Exact target identity for an edition-scoped record. Carries the edition and its parent work; there is no work-only target."
+    },
+    "editionFormat": {
+      "type": "string",
+      "maxLength": 64,
+      "description": "Physical or media format of a specific edition. The set of known values is derived from the Dracome catalog's own normalized edition-format values and may grow; consumers MUST tolerate unknown values.",
+      "knownValues": [
+        "paperback",
+        "hardcover",
+        "ebook",
+        "audiobook",
+        "board_book",
+        "spiral_bound",
+        "library_binding",
+        "pamphlet"
+      ]
+    },
+    "catalogSnapshot": {
+      "type": "object",
+      "required": [
+        "workType",
+        "title",
+        "contributors",
+        "edition"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "maxLength": 1024,
+          "description": "Primary title of the work, sourced from the work's own canonical title."
+        },
+        "edition": {
+          "ref": "#catalogSnapshotEdition",
+          "type": "ref",
+          "description": "Edition-scoped metadata of the targeted edition. Always present."
+        },
+        "subtitle": {
+          "type": "string",
+          "maxLength": 1024,
+          "description": "Secondary title of the work, present only when the work has one, sourced from the work's own canonical subtitle."
+        },
+        "workType": {
+          "ref": "#workType",
+          "type": "ref",
+          "description": "Structural content form of the referenced work (novel, poetry, comic, manga, audio_drama, or non_fiction)."
+        },
+        "contributors": {
+          "type": "array",
+          "items": {
+            "ref": "#snapshotContributor",
+            "type": "ref"
+          },
+          "maxLength": 32,
+          "description": "Ordered list of contributors (authors, translators, illustrators, etc.) credited on the work or edition. May be empty when the work has no credited contributor."
+        }
+      },
+      "description": "A portable, identity-oriented snapshot of combined work-and-edition catalog metadata, captured at record write time. Alongside the record's target, it lets any AT Protocol consumer independently resolve this work or edition without depending on Dracome as a central catalog authority. Work-scoped fields are always present at the top level; edition-scoped fields are grouped under the nested `edition` sub-object, which is always present."
+    },
+    "catalogIdentifier": {
+      "type": "object",
+      "required": [
+        "scheme",
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "The identifier value itself, formatted according to scheme (for example the raw ISBN digits, or an Open Library key such as OL12345W)."
+        },
+        "scheme": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "The identifier scheme: `isbn-10` (ISBN-10), `isbn-13` (ISBN-13), `ol-work` (Open Library work key, e.g. OL12345W), `ol-edition` (Open Library edition key, e.g. OL12345M), `bookhive` (BookHive proprietary ID), `dnb` (German National Library ID), `gnd` (GND authority record number), `viaf` (VIAF ID), `wikidata` (Wikidata entity), `oclc` (OCLC WorldCat ID).",
+          "knownValues": [
+            "isbn-10",
+            "isbn-13",
+            "ol-work",
+            "ol-edition",
+            "bookhive",
+            "dnb",
+            "gnd",
+            "viaf",
+            "wikidata",
+            "oclc"
+          ]
+        }
+      },
+      "description": "A single external identifier for a work or edition, such as an ISBN or an Open Library key."
+    },
+    "snapshotContributor": {
+      "type": "object",
+      "required": [
+        "name",
+        "role"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Display name of the credited person, in natural reading order (given name(s) before family name, e.g. 'Jane Doe', not library-cataloging-style 'Doe, Jane')."
+        },
+        "role": {
+          "ref": "social.dracome.contributor.defs#contributorRole",
+          "type": "ref",
+          "description": "The role this person held in creating this work or edition (e.g. author, translator, illustrator)."
+        },
+        "contributor": {
+          "ref": "social.dracome.contributor.defs#contributorProfileRef",
+          "type": "ref",
+          "description": "Optional reference to this person's contributor profile, when such a profile is known to exist on their PDS."
+        }
+      },
+      "description": "A person credited on a work or edition. The role and display name are always present. The profile reference is optional, carrying the AT-URI of that person's contributor profile when one exists and is known."
+    },
+    "catalogSnapshotEdition": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "maxLength": 1024,
+          "description": "Primary title of the specific edition, present only when it is captured independently of the work's canonical title — for example a translated edition's title. When present, this is authoritative for display over the top-level work title."
+        },
+        "format": {
+          "ref": "#editionFormat",
+          "type": "ref",
+          "description": "Physical or media format of the specific edition, if known."
+        },
+        "language": {
+          "type": "string",
+          "format": "language",
+          "description": "ISO 639-1 or BCP 47 language code for the edition language."
+        },
+        "subtitle": {
+          "type": "string",
+          "maxLength": 1024,
+          "description": "Secondary title of the specific edition, present only when the edition has one. When present, this is authoritative for display over the top-level work subtitle."
+        },
+        "pageCount": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of pages in the specific edition, if known. Not populated when the edition's format is audiobook; see durationSeconds."
+        },
+        "publisherName": {
+          "type": "string",
+          "maxLength": 512,
+          "description": "Name of the publisher of the specific edition, if known."
+        },
+        "durationSeconds": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total duration in seconds for audiobook editions, captured at record write time. Only populated when the edition's format is audiobook; pageCount and durationSeconds are never both set on the same snapshot."
+        },
+        "publicationYear": {
+          "type": "integer",
+          "description": "Year the specific edition was published. This is the edition's publication year, not necessarily the original work's first publication year."
+        }
+      },
+      "description": "Edition-scoped metadata nested inside #catalogSnapshot. All fields are independently optional."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

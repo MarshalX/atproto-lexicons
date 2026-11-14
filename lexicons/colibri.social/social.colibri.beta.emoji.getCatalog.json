@@ -1,0 +1,46 @@
+{
+  "id": "social.colibri.beta.emoji.getCatalog",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "UpstreamFailure",
+          "description": "A PDS call the AppView depends on failed."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "catalog"
+          ],
+          "properties": {
+            "catalog": {
+              "ref": "social.colibri.beta.emoji.defs#catalogView",
+              "type": "ref",
+              "description": "The repo's emoji and packs."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "owner"
+        ],
+        "properties": {
+          "owner": {
+            "type": "string",
+            "format": "did",
+            "description": "The community or user whose emoji to list."
+          }
+        }
+      },
+      "description": "Lists the custom emoji and packs in one repo, from every supported emoji provider. Works for communities and users alike, since the records are public."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

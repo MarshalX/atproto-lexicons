@@ -1,0 +1,45 @@
+{
+  "id": "com.publicdomainrelay.temp.market.bidderDiscovery",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "endpointUrl",
+          "appliesTo",
+          "updatedAt",
+          "createdAt"
+        ],
+        "properties": {
+          "appliesTo": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "nsid"
+            },
+            "minLength": 1,
+            "description": "Payload NSIDs this bidder handles (e.g. com.publicdomainrelay.temp.compute.vm)."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "ISO 8601 timestamp of the last liveness update. The bidder updates this periodically; the registry treats a record as stale when updatedAt is older than a configured threshold (default 5 minutes)."
+          },
+          "endpointUrl": {
+            "type": "string",
+            "description": "Service DID ref (e.g. did:web:HOST#pdr_temp_market) where submitRfp calls should be routed."
+          }
+        }
+      },
+      "description": "Published by a bidder in its own repo to announce availability. The bidder periodically updates `updatedAt` to signal liveness. The market registry polls this record to decide whether the bidder is still active."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

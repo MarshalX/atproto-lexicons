@@ -1,0 +1,28 @@
+{
+  "id": "net.wafrn.feed.bite",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "properties": {
+          "subject": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "required": [
+        "subject",
+        "createdAt"
+      ],
+      "description": "Record declaring a 'bite' of a piece of subject content."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

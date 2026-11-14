@@ -1,0 +1,51 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Record granting moderation permissions to a user for this streamer's content.",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "createdAt": {
+            "description": "Client-declared timestamp when this moderator was added.",
+            "format": "datetime",
+            "type": "string"
+          },
+          "expirationTime": {
+            "description": "Optional expiration time for this delegation. If set, the delegation is invalid after this time.",
+            "format": "datetime",
+            "type": "string"
+          },
+          "moderator": {
+            "description": "The DID of the user granted moderator permissions.",
+            "format": "did",
+            "type": "string"
+          },
+          "permissions": {
+            "description": "Array of permissions granted to this moderator. 'ban' covers blocks/bans (with optional expiration), 'hide' covers message gates, 'livestream.manage' allows updating livestream metadata.",
+            "items": {
+              "enum": [
+                "ban",
+                "hide",
+                "livestream.manage",
+                "message.pin",
+                "vod.comment.hide"
+              ],
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "moderator",
+          "permissions",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "place.stream.moderation.permission",
+  "lexicon": 1
+}

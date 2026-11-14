@@ -1,0 +1,59 @@
+{
+  "id": "social.coves.community.post.get",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "InvalidRequest",
+          "description": "Invalid URI format or empty array"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "posts"
+          ],
+          "properties": {
+            "posts": {
+              "type": "array",
+              "items": {
+                "refs": [
+                  "social.coves.community.post.defs#postView",
+                  "social.coves.community.post.defs#notFoundPost",
+                  "social.coves.community.post.defs#removedPost",
+                  "social.coves.community.post.defs#blockedPost"
+                ],
+                "type": "union"
+              },
+              "description": "Array of post views. May include notFound, blocked, or removed entries for posts that cannot be shown."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "uris"
+        ],
+        "properties": {
+          "uris": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 25,
+            "minLength": 1,
+            "description": "List of post AT-URIs to fetch (max 25)"
+          }
+        }
+      },
+      "description": "Get posts by AT-URI. Supports batch fetching for feed hydration. Returns posts in same order as input URIs. Auth optional: when authenticated, viewer state is populated."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

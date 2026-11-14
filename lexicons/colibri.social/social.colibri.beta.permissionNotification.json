@@ -1,0 +1,27 @@
+{
+  "id": "social.colibri.beta.permissionNotification",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Colibri notifications",
+      "detail": "Read your Colibri notifications and mark them as seen.",
+      "permissions": [
+        {
+          "lxm": [
+            "social.colibri.beta.notification.listNotifications",
+            "social.colibri.beta.notification.getUnreadCount",
+            "social.colibri.beta.notification.getUnseen",
+            "social.colibri.beta.notification.updateSeen",
+            "social.colibri.beta.notification.updateSeenForMessage",
+            "social.colibri.beta.notification.clear"
+          ],
+          "type": "permission",
+          "resource": "rpc",
+          "inheritAud": true
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

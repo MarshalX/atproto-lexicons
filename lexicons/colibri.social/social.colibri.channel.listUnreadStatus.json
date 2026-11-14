@@ -1,0 +1,55 @@
+{
+  "id": "social.colibri.channel.listUnreadStatus",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "Missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The caller lacks the permission this method requires."
+        },
+        {
+          "name": "InvalidRequest",
+          "description": "A parameter or body field was missing or malformed."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "channels"
+          ],
+          "properties": {
+            "channels": {
+              "type": "array",
+              "items": {
+                "ref": "lex:social.colibri.channel.defs#unreadStatus",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "community"
+        ],
+        "properties": {
+          "community": {
+            "type": "string",
+            "format": "at-uri"
+          }
+        }
+      },
+      "description": "Lists the unread status of every channel in a community for the authenticated user."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

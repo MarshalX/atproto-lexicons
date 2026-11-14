@@ -1,0 +1,125 @@
+{
+  "id": "at.atmosynth.patchPresentation",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "createdAt"
+        ],
+        "properties": {
+          "frames": {
+            "type": "array",
+            "items": {
+              "ref": "#frame",
+              "type": "ref"
+            },
+            "maxLength": 256,
+            "description": "The patch's frames, each a named, coloured rectangle on the canvas the positions are on. Nothing lists which blocks a frame holds: what stands inside it is in it, and moves with it. Where neither of two frames is inside the other, the later one here is drawn above. Optional: absent is no frames."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "positions": {
+            "type": "array",
+            "items": {
+              "ref": "#position",
+              "type": "ref"
+            },
+            "description": "Where each block stands, one entry to an instance at most. An entry naming an instance the patch does not have is ignored, and an instance named by none is placed by the reader's own layout. Optional: absent is every block placed that way."
+          }
+        }
+      },
+      "description": "A patch's presentation, in the repository that holds the patch and under the patch's own record key: the key is the link, and nothing in it names the patch. A patch and its presentation are written together. A patch with none, or whose presentation cannot be read, is still drawn: from its instances' deprecated `position` fields where they say anything, and otherwise by the reader's own layout."
+    },
+    "frame": {
+      "type": "object",
+      "required": [
+        "id",
+        "colour",
+        "x",
+        "y",
+        "width",
+        "height"
+      ],
+      "properties": {
+        "x": {
+          "type": "integer",
+          "description": "The left edge, on the canvas the positions are on."
+        },
+        "y": {
+          "type": "integer",
+          "description": "The top edge."
+        },
+        "id": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1,
+          "description": "This frame's name within the presentation, never shown. Unique in it, and kept for as long as the frame is, so that two people editing one frame at once are editing the same one."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 320,
+          "minLength": 1,
+          "description": "What the creator called it, written on its top border. Optional: absent is a frame with no label.",
+          "maxGraphemes": 64
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "How far it reaches right of `x`: its right edge is at `x + width`, which is outside it."
+        },
+        "colour": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "The hue it is drawn in, by name rather than as a colour value, so that every reader draws it right for its own theme and contrast. A reader meeting a name it does not know draws the frame in its neutral colour.",
+          "knownValues": [
+            "red",
+            "orange",
+            "yellow",
+            "green",
+            "teal",
+            "blue",
+            "purple",
+            "pink"
+          ]
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "How far it reaches down from `y`: its bottom edge is at `y + height`, which is outside it."
+        }
+      },
+      "description": "A named, coloured rectangle round blocks. A block is inside a frame when its position, its top-left corner, is inside the rectangle; a frame is inside another when its whole rectangle is. Moving a frame moves every block and every frame inside it when the move begins."
+    },
+    "position": {
+      "type": "object",
+      "required": [
+        "instanceId",
+        "x",
+        "y"
+      ],
+      "properties": {
+        "x": {
+          "type": "integer"
+        },
+        "y": {
+          "type": "integer"
+        },
+        "instanceId": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1,
+          "description": "The instance this is the position of: an `instanceId` of the patch."
+        }
+      },
+      "description": "Where one block stands: the top-left corner of the block, on the patch's canvas, in the units the canvas is drawn in."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "How a patch is drawn: where its blocks stand, and its frames. It is kept beside the patch rather than in it, and nothing in it changes what is heard, so whatever only plays a patch never reads it. A field that only says how a patch is drawn belongs here, never in the patch."
+}

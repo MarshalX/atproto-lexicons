@@ -1,0 +1,133 @@
+{
+  "id": "dev.knotless.createComment",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "repo",
+            "subject",
+            "body"
+          ],
+          "properties": {
+            "body": {
+              "type": "string",
+              "maxLength": 20000,
+              "description": "What it says, in Markdown."
+            },
+            "repo": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+            },
+            "lines": {
+              "type": "array",
+              "items": {
+                "ref": "#lineComment",
+                "type": "ref"
+              },
+              "maxLength": 100,
+              "description": "Comments on lines of a pull's diff, at its head as it is now, each starting a thread, written at once: as the review's when it has a body or a verdict, else on their own."
+            },
+            "images": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#image",
+                "type": "ref"
+              },
+              "maxLength": 32,
+              "description": "Pictures uploaded with dev.knotless.uploadImage; those the body links to are attached."
+            },
+            "subject": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The dev.knotless.pull or dev.knotless.issue commented on; or a dev.knotless.comment to answer, in the thread it starts or is in."
+            },
+            "verdict": {
+              "type": "string",
+              "maxLength": 64,
+              "description": "For a review of a pull: `approve`, or `changes` to ask for changes.",
+              "knownValues": [
+                "approve",
+                "changes"
+              ]
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri"
+          ],
+          "properties": {
+            "uri": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The dev.knotless.comment record written: with lines, the review, or without one the first line comment."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Writes a dev.knotless.comment record in the account logged in to this appview's web pages, as `knotless comment add` does: with a verdict, a review of the pull's head as it is now. Requires the session cookie the pages' login sets: the appview writes with the session it keeps for that account. Clients holding their own session write the record themselves."
+    },
+    "lineComment": {
+      "type": "object",
+      "required": [
+        "path",
+        "line",
+        "body"
+      ],
+      "properties": {
+        "body": {
+          "type": "string",
+          "maxLength": 20000,
+          "description": "What it says, in Markdown."
+        },
+        "line": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "The last line commented on, counting from 1, in the file as it is on that side."
+        },
+        "path": {
+          "type": "string",
+          "maxLength": 1024,
+          "description": "The file's path on the side commented on."
+        },
+        "side": {
+          "type": "string",
+          "maxLength": 16,
+          "description": "`new`, the side the pull brings in, or `old`, the side it leaves. Absent, `new`.",
+          "knownValues": [
+            "old",
+            "new"
+          ]
+        },
+        "startLine": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "The first, for more than one line."
+        }
+      },
+      "description": "A comment on lines of a pull's diff."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Comments on a pull or an issue, or on lines of a pull's diff, or answers a comment, or reviews a pull, as the account logged in to this appview's pages."
+}

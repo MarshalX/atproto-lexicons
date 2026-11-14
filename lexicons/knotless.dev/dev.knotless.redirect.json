@@ -1,0 +1,31 @@
+{
+  "id": "dev.knotless.redirect",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "to",
+          "createdAt"
+        ],
+        "properties": {
+          "to": {
+            "ref": "dev.knotless.defs#repoRef",
+            "type": "ref",
+            "description": "The repository under the name it has now."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Keyed by the old name. A rename repoints every redirect to the repository at its new name, so each is one hop. A repository created under the name replaces the redirect."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Left under a repository's old name when it is renamed, so clone URLs, remotes and links that use the old name still reach it."
+}

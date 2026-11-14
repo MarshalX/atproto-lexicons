@@ -1,0 +1,65 @@
+{
+  "id": "social.dracome.actor.profile",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "createdAt"
+        ],
+        "properties": {
+          "bio": {
+            "type": "string",
+            "maxLength": 8192,
+            "description": "Optional free-text biography.",
+            "maxGraphemes": 2048
+          },
+          "mood": {
+            "type": "string",
+            "maxLength": 600,
+            "description": "Optional short, frequently-updated free text distinct from bio (e.g. current read or mood).",
+            "maxGraphemes": 60
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 1024,
+            "description": "Display name in natural reading order (given name(s) before family name, e.g. 'Jane Doe', not library-cataloging order 'Doe, Jane').",
+            "maxGraphemes": 256
+          },
+          "avatar": {
+            "ref": "social.dracome.embed.defs#image",
+            "type": "ref",
+            "description": "Optional profile avatar image. Aspect-ratio enforcement (square) happens client-side, pre-upload; no aspectRatio field is carried on the lexicon."
+          },
+          "banner": {
+            "ref": "social.dracome.embed.defs#image",
+            "type": "ref",
+            "description": "Optional profile banner image. Aspect-ratio enforcement (wide) happens client-side, pre-upload; no aspectRatio field is carried on the lexicon."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "ISO 8601 UTC datetime with trailing Z when this profile was created."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Optional ISO 8601 UTC datetime with trailing Z when this profile was last updated."
+          },
+          "personalName": {
+            "type": "string",
+            "maxLength": 2048,
+            "description": "Optional full or legal name if different from the display name, also in natural reading order.",
+            "maxGraphemes": 512
+          }
+        }
+      },
+      "description": "A shared base profile for any Dracome user, published to the user's own PDS as a singleton record. Carries the user's display name and optional biographical information."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,112 @@
+{
+  "id": "social.colibri.beta.role.create",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "community",
+            "name",
+            "permissions"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 32,
+              "minLength": 1,
+              "description": "Display name."
+            },
+            "badge": {
+              "ref": "social.colibri.beta.community.defs#roleIconBadge",
+              "type": "ref",
+              "description": "An icon badge. Image badges are set with social.colibri.beta.role.putBadgeImage."
+            },
+            "color": {
+              "type": "string",
+              "maxLength": 7,
+              "description": "Hex colour as #rrggbb."
+            },
+            "hoisted": {
+              "type": "boolean",
+              "description": "Whether holders are listed separately in the member list."
+            },
+            "position": {
+              "type": "integer",
+              "description": "Hierarchy position. Higher outranks lower."
+            },
+            "community": {
+              "type": "string",
+              "format": "did",
+              "description": "The community to create the role in."
+            },
+            "emojiBadge": {
+              "ref": "social.colibri.beta.community.defs#roleEmojiBadge",
+              "type": "ref",
+              "description": "An emoji badge. Cannot be combined with badge."
+            },
+            "mentionable": {
+              "type": "boolean",
+              "description": "Whether @role mentions resolve to this role."
+            },
+            "permissions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "description": "A namespaced permission identifier."
+              },
+              "description": "Permissions granted by this role."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request is missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The caller lacks the role.manage permission."
+        },
+        {
+          "name": "CommunityNotFound",
+          "description": "No community exists at the given DID."
+        },
+        {
+          "name": "InvalidRequest",
+          "description": "The arguments are inconsistent or malformed beyond schema validation."
+        },
+        {
+          "name": "RoleHierarchy",
+          "description": "The requested position is at or above the caller's highest role position, or the permissions include one the caller does not hold."
+        },
+        {
+          "name": "CredentialsUnavailable",
+          "description": "The AppView cannot act as the community because its stored credentials are missing or unusable."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "role"
+          ],
+          "properties": {
+            "role": {
+              "ref": "social.colibri.beta.community.defs#roleView",
+              "type": "ref",
+              "description": "The newly created role."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Creates a role in a community."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

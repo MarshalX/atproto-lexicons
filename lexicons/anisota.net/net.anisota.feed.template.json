@@ -1,0 +1,158 @@
+{
+  "id": "net.anisota.feed.template",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "text",
+          "createdAt"
+        ],
+        "properties": {
+          "use": {
+            "type": "string",
+            "default": "any",
+            "description": "Where the composer offers the template: as a reply, on a new post, or both.",
+            "knownValues": [
+              "any",
+              "reply",
+              "post"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 640,
+            "description": "What the template is called in the picker, e.g. 'Is there an app?'.",
+            "maxGraphemes": 64
+          },
+          "text": {
+            "type": "string",
+            "maxLength": 3000,
+            "description": "The post text, with optional {{key}} placeholders. May be empty when the template only carries an embed (a quote of an existing post, say). The filled result is held to the post limit by the composer, not here.",
+            "maxGraphemes": 300
+          },
+          "embed": {
+            "refs": [
+              "app.bsky.embed.record",
+              "app.bsky.embed.external",
+              "app.bsky.embed.images",
+              "app.bsky.embed.recordWithMedia"
+            ],
+            "type": "union",
+            "description": "Attached to every post made from the template. A record embed is how a template points at an existing post to quote."
+          },
+          "group": {
+            "type": "string",
+            "maxLength": 640,
+            "description": "Optional heading the picker files the template under, e.g. 'Questions' or 'Bug reports'.",
+            "maxGraphemes": 64
+          },
+          "langs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "language"
+            },
+            "maxLength": 3,
+            "description": "Languages of the template text, when the writer set them. Clients may use them as a hint; they are not applied to posts automatically."
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 64
+            },
+            "maxLength": 20,
+            "description": "Words that, when they appear in the post being replied to, make the composer suggest this template first. Matched on the client, case-insensitively."
+          },
+          "shortcut": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Optional short word. Typing a slash followed by it in the composer offers this template."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Client-declared timestamp when this template was created."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Client-declared timestamp when this template was last edited."
+          },
+          "variables": {
+            "type": "array",
+            "items": {
+              "ref": "#variable",
+              "type": "ref"
+            },
+            "maxLength": 12,
+            "description": "How to ask for each placeholder. A placeholder with no entry here is still asked for, with its key as the label. Context keys ('their.*', 'my.*', 'today') need no entry; one only supplies a label for when the context is missing, as when a reply template is used on a new post."
+          }
+        }
+      },
+      "description": "A reusable post or reply: a stock answer, a fill-in-the-blanks message, or a pointer to an existing post to quote. The composer turns a template into an ordinary app.bsky.feed.post; nothing about the template travels with the published post. Text may contain {{key}} placeholders. Keys beginning with 'their.' or 'my.', and the key 'today', are filled by the client from context (the post being replied to, the signed-in account, the date); every other key is asked for when the template is used. Facets are deliberately absent: their byte offsets would shift once placeholders are filled, so the composer detects mentions, links and tags after filling, as it does for anything typed. How often a template is used is kept on the device, so using one never rewrites this record."
+    },
+    "variable": {
+      "type": "object",
+      "required": [
+        "key"
+      ],
+      "properties": {
+        "key": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "The placeholder this describes, without braces: 'idea' for {{idea}}."
+        },
+        "hint": {
+          "type": "string",
+          "maxLength": 2000,
+          "description": "An example or note shown under the answer field.",
+          "maxGraphemes": 200
+        },
+        "kind": {
+          "type": "string",
+          "default": "text",
+          "description": "'text' asks for a free answer; 'choice' offers the strings in 'choices'.",
+          "knownValues": [
+            "text",
+            "choice"
+          ]
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 640,
+          "description": "The question asked when the template is used, e.g. 'What did they suggest?'.",
+          "maxGraphemes": 64
+        },
+        "choices": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 3000,
+            "maxGraphemes": 300
+          },
+          "maxLength": 12,
+          "description": "The options for a 'choice' placeholder. Each is inserted as written."
+        },
+        "default": {
+          "type": "string",
+          "maxLength": 3000,
+          "description": "Pre-filled answer, which can be changed when the template is used.",
+          "maxGraphemes": 300
+        },
+        "optional": {
+          "type": "boolean",
+          "default": false,
+          "description": "When true the placeholder may be left blank, and it is removed from the text."
+        }
+      },
+      "description": "How the composer asks for one {{key}} placeholder."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

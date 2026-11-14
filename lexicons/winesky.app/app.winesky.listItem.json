@@ -1,0 +1,43 @@
+{
+  "id": "app.winesky.listItem",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "list",
+          "drink",
+          "parentPostUri",
+          "createdAt"
+        ],
+        "properties": {
+          "list": {
+            "type": "string",
+            "format": "at-uri"
+          },
+          "drink": {
+            "ref": "app.winesky.collectionItem#drink",
+            "type": "ref"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "parentPostUri": {
+            "type": "string",
+            "format": "at-uri"
+          },
+          "triggerPostUri": {
+            "type": "string",
+            "format": "at-uri"
+          }
+        }
+      },
+      "description": "A drink on a Winesky list. Created when a user adds adds it via @winesky.app on Bluesky. Embeds the drink element from app.winesky.review, and refers to the post that triggered the element creation."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

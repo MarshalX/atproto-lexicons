@@ -1,0 +1,55 @@
+{
+  "id": "social.grain.unspecced.addSpaceMember",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "space",
+            "actor"
+          ],
+          "properties": {
+            "actor": {
+              "type": "string",
+              "description": "Handle or DID of the account to share with."
+            },
+            "space": {
+              "type": "string"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "NotAuthorized",
+          "description": "Only the gallery's author may add members."
+        },
+        {
+          "name": "ActorNotFound",
+          "description": "The handle could not be resolved."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "did"
+          ],
+          "properties": {
+            "did": {
+              "type": "string",
+              "format": "did"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Share an existing private gallery with another account. Adds them to the space's member list on the author's PDS, which is what the authority consults when it mints a credential."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

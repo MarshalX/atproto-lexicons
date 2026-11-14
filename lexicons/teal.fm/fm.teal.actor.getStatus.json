@@ -1,0 +1,49 @@
+{
+  "id": "fm.teal.actor.getStatus",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "did",
+            "isListening"
+          ],
+          "properties": {
+            "did": {
+              "type": "string",
+              "format": "did"
+            },
+            "status": {
+              "ref": "fm.teal.feed.defs#playView",
+              "type": "ref"
+            },
+            "message": {
+              "type": "string"
+            },
+            "isListening": {
+              "type": "boolean"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "actor"
+        ],
+        "properties": {
+          "actor": {
+            "type": "string",
+            "description": "The actor's DID or AT Protocol handle."
+          }
+        }
+      },
+      "description": "Get an actor's currently listening status."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

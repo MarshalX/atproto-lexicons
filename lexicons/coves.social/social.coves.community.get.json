@@ -1,0 +1,32 @@
+{
+  "id": "social.coves.community.get",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "ref": "social.coves.community.defs#communityViewDetailed",
+          "type": "ref",
+          "description": "Detailed community view with stats and viewer state"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "community"
+        ],
+        "properties": {
+          "community": {
+            "type": "string",
+            "maxLength": 320,
+            "description": "Community identifier: a DID (did:plc:...), an atProto handle (c-gaming.coves.social or gaming.coves.social), a scoped identifier with or without the ! prefix (gaming@coves.social, comicstrips@lemmy.world), or a bare name for a community on this instance (gaming)"
+          }
+        }
+      },
+      "description": "Get detailed information about a community. Authentication optional; viewer state will be included if authenticated."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

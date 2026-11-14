@@ -1,0 +1,56 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Durable household invite offer authored by the inviter (ADR 82).",
+      "properties": {
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "expiresAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "groupId": {
+          "type": "string"
+        },
+        "inviteId": {
+          "type": "string"
+        },
+        "inviteeDid": {
+          "format": "did",
+          "type": "string"
+        },
+        "inviteeHandle": {
+          "type": "string"
+        },
+        "status": {
+          "knownValues": [
+            "pending",
+            "accepted",
+            "declined",
+            "expired",
+            "revoked"
+          ],
+          "type": "string"
+        },
+        "targetPlaceId": {
+          "description": "Operated Place offering trusted space (e.g. personal_node:{peerId}).",
+          "type": "string"
+        }
+      },
+      "required": [
+        "inviteId",
+        "inviteeDid",
+        "status",
+        "expiresAt",
+        "createdAt",
+        "targetPlaceId"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "cloud.substratum.place.inviteOffer",
+  "lexicon": 1
+}

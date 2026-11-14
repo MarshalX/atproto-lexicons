@@ -1,0 +1,53 @@
+{
+  "id": "town.delve.unspecced.getTrendingTopics",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "topics",
+            "suggested"
+          ],
+          "properties": {
+            "topics": {
+              "type": "array",
+              "items": {
+                "ref": "town.delve.unspecced.defs#trendingTopic",
+                "type": "ref"
+              }
+            },
+            "suggested": {
+              "type": "array",
+              "items": {
+                "ref": "town.delve.unspecced.defs#trendingTopic",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 10,
+            "maximum": 25,
+            "minimum": 1
+          },
+          "viewer": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the account making the request (not included for public/unauthenticated queries). Used to boost followed accounts in ranking."
+          }
+        }
+      },
+      "description": "Get a list of trending topics"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

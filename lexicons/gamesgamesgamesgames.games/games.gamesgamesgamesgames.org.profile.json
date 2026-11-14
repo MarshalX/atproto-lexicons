@@ -1,0 +1,90 @@
+{
+  "id": "games.gamesgamesgamesgames.org.profile",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "displayName",
+          "createdAt"
+        ],
+        "properties": {
+          "media": {
+            "type": "array",
+            "items": {
+              "ref": "games.gamesgamesgamesgames.defs#mediaItem",
+              "type": "ref"
+            }
+          },
+          "avatar": {
+            "type": "blob",
+            "accept": [
+              "image/png",
+              "image/jpeg"
+            ],
+            "maxSize": 10000000,
+            "description": "Image to be displayed on profile page. AKA, 'profile picture'"
+          },
+          "parent": {
+            "type": "string",
+            "format": "at-uri"
+          },
+          "status": {
+            "type": "string",
+            "knownValues": [
+              "active",
+              "inactive",
+              "merged",
+              "acquired",
+              "defunct"
+            ]
+          },
+          "country": {
+            "type": "string"
+          },
+          "websites": {
+            "type": "array",
+            "items": {
+              "ref": "games.gamesgamesgamesgames.defs#website",
+              "type": "ref"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "foundedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000,
+            "description": "Free-form profile description text."
+          },
+          "displayName": {
+            "type": "string",
+            "maxLength": 640
+          },
+          "externalIds": {
+            "ref": "games.gamesgamesgamesgames.defs#externalIds",
+            "type": "ref"
+          },
+          "descriptionFacets": {
+            "type": "array",
+            "items": {
+              "ref": "app.bsky.richtext.facet",
+              "type": "ref"
+            },
+            "description": "Annotations of text (mentions, URLs, hashtags, etc)"
+          }
+        }
+      },
+      "description": "A declaration of a Pentaract org profile."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

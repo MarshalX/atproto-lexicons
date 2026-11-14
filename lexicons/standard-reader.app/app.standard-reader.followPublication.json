@@ -1,0 +1,34 @@
+{
+  "id": "app.standard-reader.followPublication",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "publication"
+          ],
+          "properties": {
+            "publication": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "Publication AT-URI"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "description": "Subscribe to a site.standard.publication."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

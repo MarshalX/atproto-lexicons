@@ -1,0 +1,42 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Get whether or not user A is following user B.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "follow": {
+              "ref": "com.atproto.repo.strongRef",
+              "type": "ref"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "subjectDID": {
+            "description": "The DID of the user potentially being followed",
+            "format": "did",
+            "type": "string"
+          },
+          "userDID": {
+            "description": "The DID of the potentially-following user",
+            "format": "did",
+            "type": "string"
+          }
+        },
+        "required": [
+          "userDID",
+          "subjectDID"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "place.stream.graph.getFollowingUser",
+  "lexicon": 1
+}

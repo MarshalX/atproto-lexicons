@@ -1,0 +1,44 @@
+{
+  "id": "id.sifa.confirmation",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "relation",
+          "createdAt"
+        ],
+        "properties": {
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "StrongRef to the record that names you. Deliberately unconstrained by collection, so the same record type confirms a co-speaker credit, a project membership, or any later relation. Resolve by AT-URI: the CID is an integrity hint pinning the version seen at confirmation time, and must not be used as a join key, because the claimer editing their record changes its CID without invalidating the confirmation."
+          },
+          "relation": {
+            "ref": "id.sifa.defs#confirmationRelation",
+            "type": "ref",
+            "description": "What is being confirmed. Open set, so a consumer that does not recognise the relation can still tell that the named person affirmed something."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Client-declared timestamp when this confirmation was created."
+          },
+          "subjectName": {
+            "type": "string",
+            "maxLength": 3000,
+            "description": "Name or title the subject record carried at confirmation time: the project name, the presentation title, and so on. Stored here, in the confirming person's repository, so the claimer cannot alter it. Lets a consumer detect that the claim has drifted since it was affirmed, and flag or withdraw the confirmation when the subject is later renamed into something the person never agreed to.",
+            "maxGraphemes": 300
+          }
+        }
+      },
+      "description": "Record affirming that the referenced record correctly names the author of this record."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Confirmation that a record naming you is accurate. Lives in the PDS of the confirming person, which for most relations is the person who was named and for the colleague relation is a colleague or the organization, never the record owner. One record type serves every people-link Sifa supports: co-speaker credits on a presentation delivery, membership of a project, and further relations as they are added. The claim itself is public in the claimer's repository from the moment it is written, before and regardless of any confirmation. What confirmation changes is display: an unconfirmed claim renders without the named person's display name, avatar, or profile link. Confirmation does not put the claimer's record on the named person's profile, and consumers must not render it there. That record belongs to the claimer, who can edit or rename it at will; a profile shows only records its owner controls."
+}

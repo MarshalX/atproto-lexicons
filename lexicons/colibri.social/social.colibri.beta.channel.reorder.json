@@ -1,0 +1,76 @@
+{
+  "id": "social.colibri.beta.channel.reorder",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "community",
+            "category",
+            "channels"
+          ],
+          "properties": {
+            "category": {
+              "type": "string",
+              "format": "record-key",
+              "description": "The category to reorder."
+            },
+            "channels": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "record-key",
+                "description": "A channel's space key."
+              },
+              "description": "The complete new order for the category's channels, by channel space key."
+            },
+            "community": {
+              "type": "string",
+              "format": "did",
+              "description": "The community the category belongs to."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request has no valid service auth."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The requesting user lacks the channel.update permission."
+        },
+        {
+          "name": "CommunityNotFound",
+          "description": "No community matches the given DID."
+        },
+        {
+          "name": "CategoryNotFound",
+          "description": "No category matches the given record key."
+        },
+        {
+          "name": "InvalidRequest",
+          "description": "The given channels do not match the category's current set of channels."
+        },
+        {
+          "name": "CredentialsUnavailable",
+          "description": "The AppView cannot act as the community because its stored credentials are missing or unusable."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "description": "Sets the channel order within one category."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

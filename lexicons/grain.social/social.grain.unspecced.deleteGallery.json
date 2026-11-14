@@ -1,0 +1,33 @@
+{
+  "id": "social.grain.unspecced.deleteGallery",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "rkey"
+          ],
+          "properties": {
+            "rkey": {
+              "type": "string",
+              "description": "Record key of the gallery to delete."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "description": "Delete a gallery and all associated records (items, photos, EXIF, favorites, comments)."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

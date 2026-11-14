@@ -1,0 +1,62 @@
+{
+  "id": "is.currents.feed.save",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "content",
+          "createdAt"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "maxLength": 10000,
+            "description": "Optional user-authored note attached to the save.",
+            "maxGraphemes": 1000
+          },
+          "labels": {
+            "refs": [
+              "com.atproto.label.defs#selfLabels"
+            ],
+            "type": "union",
+            "description": "Self-declared content-warning labels the creator attaches to this save."
+          },
+          "content": {
+            "refs": [
+              "is.currents.content.image"
+            ],
+            "type": "union",
+            "closed": false,
+            "description": "The saved content payload."
+          },
+          "resaveOf": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong reference to the original save record when this save is a resave."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "originUrl": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 2000,
+            "description": "Original source URL for the saved item, if known."
+          },
+          "collection": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong reference to the collection record containing this save."
+          }
+        }
+      },
+      "description": "A saved item in one of the creator's collections."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

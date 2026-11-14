@@ -1,0 +1,50 @@
+{
+  "id": "social.grain.unspecced.listGroups",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "groups"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "groups": {
+              "type": "array",
+              "items": {
+                "ref": "social.grain.group.defs#groupView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "gallery": {
+            "type": "string",
+            "format": "at-uri"
+          }
+        }
+      },
+      "description": "Groups worth browsing, most recently active first. With `gallery`, each group carries the viewer's standing for that gallery."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

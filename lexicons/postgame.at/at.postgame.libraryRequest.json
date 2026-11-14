@@ -1,0 +1,37 @@
+{
+  "id": "at.postgame.libraryRequest",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "The library status to add the game with. Defaults to backlogged.",
+            "knownValues": [
+              "backlogged"
+            ]
+          },
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The record that names the game: an app.bsky.feed.post whose link card, links or text include a postgame.at/games/{igdbId} URL."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "A request to add a game to the user's library, written by an automation (e.g. an Airglow rule that fires when the user replies \"backlog\" to a Bluesky post) rather than by postgame. postgame resolves the game from the subject's postgame.at game link the next time the user signs in, writes the at.postgame.game record, and deletes the request."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

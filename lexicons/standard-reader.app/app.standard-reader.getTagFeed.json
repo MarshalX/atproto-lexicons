@@ -1,0 +1,77 @@
+{
+  "id": "app.standard-reader.getTagFeed",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "view",
+            "items"
+          ],
+          "properties": {
+            "view": {
+              "type": "string",
+              "maxLength": 32
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "refs": [
+                  "app.standard-reader.defs#publicationView",
+                  "app.standard-reader.defs#documentView"
+                ],
+                "type": "union"
+              }
+            },
+            "cursor": {
+              "type": "string",
+              "nullable": true,
+              "maxLength": 8192
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "tag"
+        ],
+        "properties": {
+          "tag": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "sort": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "view": {
+            "type": "string",
+            "default": "articles",
+            "maxLength": 32,
+            "knownValues": [
+              "articles",
+              "publications"
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "default": 20,
+            "maximum": 50,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string",
+            "maxLength": 8192
+          }
+        }
+      },
+      "description": "Articles or publications carrying a given tag."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,80 @@
+{
+  "id": "social.colibri.beta.thread.repoint",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "thread",
+            "channel"
+          ],
+          "properties": {
+            "anchor": {
+              "ref": "social.colibri.beta.defs#spaceRecordRef",
+              "type": "ref",
+              "description": "The message the thread should hang under, for a thread whose anchor was moved. It has to sit in the destination channel, and may be a message the AppView has not indexed yet. Absent keeps the anchor as it is."
+            },
+            "thread": {
+              "type": "string",
+              "format": "space-ref",
+              "description": "The thread to move."
+            },
+            "channel": {
+              "type": "string",
+              "format": "space-ref",
+              "description": "The text channel to move it to."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request has no valid service auth."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The requesting user lacks the thread.manage permission and did not write both the thread's current anchor and the message it is being repointed at."
+        },
+        {
+          "name": "ThreadNotFound",
+          "description": "No thread matches the given space reference."
+        },
+        {
+          "name": "ChannelNotFound",
+          "description": "No channel matches the given space reference."
+        },
+        {
+          "name": "InvalidRequest",
+          "description": "The destination channel belongs to another community, is not a text channel, or is the channel the thread is already in while no new anchor was given."
+        },
+        {
+          "name": "CredentialsUnavailable",
+          "description": "The AppView cannot act as the community because its stored credentials are missing or unusable."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "thread"
+          ],
+          "properties": {
+            "thread": {
+              "ref": "social.colibri.beta.thread.defs#threadView",
+              "type": "ref",
+              "description": "The thread, after the move."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Moves a thread to another channel by rewriting the channel its record links to, and optionally repoints it at another message. Who may read the thread follows the new channel. Left without an anchor the thread keeps the one it has, so its marker sits wherever that message now lives."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

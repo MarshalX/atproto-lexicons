@@ -1,0 +1,65 @@
+{
+  "id": "ai.syui.card.user",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "card",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "card": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "cp",
+                "rare",
+                "cid",
+                "unique"
+              ],
+              "properties": {
+                "cp": {
+                  "type": "integer",
+                  "description": "Card power"
+                },
+                "id": {
+                  "type": "integer",
+                  "description": "Card type ID"
+                },
+                "cid": {
+                  "type": "string",
+                  "description": "Unique card instance ID"
+                },
+                "rare": {
+                  "type": "integer",
+                  "description": "Rarity level"
+                },
+                "unique": {
+                  "type": "boolean",
+                  "description": "Unique card flag"
+                }
+              }
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "User card collection"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

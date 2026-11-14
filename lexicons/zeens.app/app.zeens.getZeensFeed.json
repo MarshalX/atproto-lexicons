@@ -1,0 +1,37 @@
+{
+  "id": "app.zeens.getZeensFeed",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "q": {
+            "type": "string",
+            "description": "Search term matched against zeen title (preferred) then description."
+          },
+          "uris": {
+            "type": "string",
+            "description": "Comma-separated zeen AT-URIs, up to 100. Returns only those of them that are published and still have a photo, so a page that lists zeens from the author's repo can drop the rest."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 36,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Browse published zeens across users, newest first by publishedAt (the date the zeen became readable, stamped once and preserved across edits — not indexed_at, which reorders on a backfill). Drafts, page-less records and zeens with no publishedAt are excluded. Optional `q` filters by title (preferred) then description text.",
+      "target_collection": "app.zeens.zeen"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

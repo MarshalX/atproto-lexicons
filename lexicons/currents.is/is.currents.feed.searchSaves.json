@@ -1,0 +1,59 @@
+{
+  "id": "is.currents.feed.searchSaves",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "saves"
+          ],
+          "properties": {
+            "saves": {
+              "type": "array",
+              "items": {
+                "ref": "is.currents.feed.defs#saveView",
+                "type": "ref"
+              }
+            },
+            "cursor": {
+              "type": "string"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "q"
+        ],
+        "properties": {
+          "q": {
+            "type": "string",
+            "maxLength": 2048,
+            "description": "Full-text search query."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "excludeSaved": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true and the request is authenticated, exclude saves the viewer has already saved (matched by blob CID). Ignored for unauthenticated requests."
+          }
+        }
+      },
+      "description": "Search saves by text query across all actors. Auth is optional; if provided, viewer-specific state is included."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

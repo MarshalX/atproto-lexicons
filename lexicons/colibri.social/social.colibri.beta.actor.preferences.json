@@ -1,0 +1,19 @@
+{
+  "id": "social.colibri.beta.actor.preferences",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "name": "Colibri preferences",
+      "type": "space",
+      "collections": [
+        "social.colibri.beta.actor.block",
+        "social.colibri.beta.actor.mute",
+        "social.colibri.beta.actor.settings",
+        "social.colibri.beta.channel.read"
+      ],
+      "description": "A user's own Colibri settings, mutes, blocks and read state."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

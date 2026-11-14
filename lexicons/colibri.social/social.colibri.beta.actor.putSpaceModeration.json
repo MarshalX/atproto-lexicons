@@ -1,0 +1,61 @@
+{
+  "id": "social.colibri.beta.actor.putSpaceModeration",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "community"
+          ],
+          "properties": {
+            "remove": {
+              "type": "boolean",
+              "description": "Removes the community's options so it follows the global ones. Ignored when hideModeratedMessages is present."
+            },
+            "community": {
+              "type": "string",
+              "format": "did",
+              "description": "The community."
+            },
+            "hideModeratedMessages": {
+              "type": "boolean",
+              "description": "The new option for this community. Absent together with remove returns the community to the global option."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request has no valid service auth."
+        },
+        {
+          "name": "InvalidRequest",
+          "description": "Neither hideModeratedMessages nor remove is present."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "preferences"
+          ],
+          "properties": {
+            "preferences": {
+              "ref": "social.colibri.beta.actor.defs#preferences",
+              "type": "ref",
+              "description": "The requesting user's settings, after the update."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Pushes one of the requesting user's social.colibri.beta.actor.spaceModeration records to the AppView, so it takes effect immediately instead of waiting for a sync notification. The client writes or deletes the record in its own personal space first, then calls this."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

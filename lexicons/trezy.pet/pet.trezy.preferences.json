@@ -1,0 +1,41 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "record": {
+        "description": "How this player wants the game presented to them, everywhere. ⚠ THIS LIVES IN A PERMISSIONED SPACE, NOT IN THE PUBLIC REPO, and that is the whole reason the collection was moved. A typeface preference says something about how well somebody reads; in a public repo, com.atproto.repo.listRecords hands that to anybody who asks. In a space it is readable only by members, and this space has exactly one. Nothing here is signed: a space already answers who may write, and forging your own font changes your own font.",
+        "properties": {
+          "featureOffered": {
+            "description": "Whether this player has been asked if their pets may be Pet of the Week. ⚠ ACCOUNT ROW ONLY, like typeOffered: being asked is a fact about a person, and asking again on every new device would turn a one-time question into a nag.",
+            "type": "boolean"
+          },
+          "typeMode": {
+            "description": "The typeface for any device that has no opinion of its own. Optional, and a client MUST fall back to its own default rather than trusting an unrecognised value.",
+            "knownValues": [
+              "pixel",
+              "softer",
+              "system"
+            ],
+            "type": "string"
+          },
+          "typeOffered": {
+            "description": "Whether this player has been told the game uses pixel type and shown how to change it. ⚠ IT LIVES ON THE ACCOUNT ROW AND NEVER ON A DEVICE ROW. Having been asked is a fact about a person, not about a browser — per-device, the accessibility notice fires again on every new phone, tablet and laptop, which turns an accommodation into a nag.",
+            "type": "boolean"
+          },
+          "updatedAt": {
+            "format": "datetime",
+            "type": "string"
+          }
+        },
+        "required": [
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "pet.trezy.preferences",
+  "lexicon": 1
+}

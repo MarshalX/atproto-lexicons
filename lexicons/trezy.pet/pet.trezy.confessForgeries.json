@@ -1,0 +1,55 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Looks for records of the caller's that an ingest guard refused, and if there are any, writes the note twice: once into the game's own repo through a linked repo, where the caller cannot reach it, and once into the caller's repo, where they can delete it. Called on sign-in. It changes nothing about what the account may do — the forged records were refused at ingest, so the ledger was never wrong — and it is safe to call on every visit: an unchanged list rewrites nothing.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "central": {
+              "description": "What happened to the game's copy — the one that matters. `written` is new or updated, `unchanged` means the note already said this, `unavailable` means the linked repo could not be reached and NOTHING was recorded durably.",
+              "knownValues": [
+                "written",
+                "unchanged",
+                "unavailable"
+              ],
+              "type": "string"
+            },
+            "error": {
+              "description": "Present instead of a result. `rejections-unavailable` means the store could not be read, which must NOT be treated as an innocent account — a caller that took it that way would overwrite a real note with an empty one.",
+              "knownValues": [
+                "rejections-unavailable"
+              ],
+              "type": "string"
+            },
+            "forgeries": {
+              "description": "How many refused records the caller has. Zero is the ordinary answer and the successful one.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "message": {
+              "type": "string"
+            },
+            "own": {
+              "description": "What happened to the caller's copy. `refused` is ordinary rather than alarming: they may simply not have granted the collection, and the durable copy does not depend on it.",
+              "knownValues": [
+                "written",
+                "unchanged",
+                "refused"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "forgeries"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "pet.trezy.confessForgeries",
+  "lexicon": 1
+}

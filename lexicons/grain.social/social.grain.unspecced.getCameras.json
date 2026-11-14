@@ -1,0 +1,50 @@
+{
+  "id": "social.grain.unspecced.getCameras",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "cameras": {
+              "type": "array",
+              "items": {
+                "ref": "social.grain.unspecced.getCameras#cameraItem",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Get top cameras by photo count."
+    },
+    "cameraItem": {
+      "type": "object",
+      "required": [
+        "camera",
+        "photoCount"
+      ],
+      "properties": {
+        "camera": {
+          "type": "string"
+        },
+        "thumbs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          },
+          "maxLength": 4,
+          "description": "Up to four representative photo thumbnails, most recent first. Lets the index render without a feed request per camera."
+        },
+        "photoCount": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

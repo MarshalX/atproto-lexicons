@@ -1,0 +1,62 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "errors": [
+        {
+          "description": "No shelf record exists at the given AT-URI.",
+          "name": "NotFound"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "bookShelves": {
+              "items": {
+                "ref": "net.olamaelcu.livtet.biblio.defs#bookShelfView",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "cursor": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "bookShelves"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "description": "Opaque pagination cursor.",
+            "type": "string"
+          },
+          "limit": {
+            "default": 50,
+            "description": "Maximum number of bookStatus records to return.",
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "shelf": {
+            "description": "AT-URI of the shelf to list books for.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "shelf"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "List the books on a given shelf, ordered by their position.",
+  "id": "net.olamaelcu.livtet.biblio.listBooksOnShelf",
+  "lexicon": 1
+}

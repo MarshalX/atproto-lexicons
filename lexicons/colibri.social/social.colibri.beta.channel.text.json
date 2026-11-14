@@ -1,0 +1,19 @@
+{
+  "id": "social.colibri.beta.channel.text",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "name": "Colibri text channel",
+      "type": "space",
+      "collections": [
+        "social.colibri.beta.channel",
+        "social.colibri.beta.message",
+        "social.colibri.beta.reaction",
+        "social.colibri.beta.label"
+      ],
+      "description": "A text channel. The space key is the channel's identity, and the channel's own configuration is the social.colibri.beta.channel record at key 'self' inside it."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

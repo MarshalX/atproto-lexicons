@@ -1,0 +1,106 @@
+{
+  "id": "wiki.lichen.listNotes",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "NotFound"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "notes"
+          ],
+          "properties": {
+            "notes": {
+              "type": "array",
+              "items": {
+                "ref": "#noteView",
+                "type": "ref"
+              }
+            },
+            "cursor": {
+              "type": "string",
+              "description": "Absent on the last page."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "wiki"
+        ],
+        "properties": {
+          "wiki": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the wiki record."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "includeDeleted": {
+            "type": "boolean",
+            "default": false,
+            "description": "Also list deleted notes, each marked by its status."
+          }
+        }
+      },
+      "description": "List a public wiki's notes, each with its head revision. Compare latestRevisionUri with what you hold, then call getNote for the notes that changed."
+    },
+    "noteView": {
+      "type": "object",
+      "required": [
+        "uri",
+        "slug",
+        "title",
+        "latestRevisionUri",
+        "updatedAt"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the note record. The rkey is a TID, so read it from here or address the note by wiki and slug."
+        },
+        "slug": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "description": "Present on a deleted note, which is listed only with includeDeleted.",
+          "knownValues": [
+            "live",
+            "deleted"
+          ]
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "The head revision's own timestamp, so appviews holding the same history agree. An unusable stamp falls back to our ingest time."
+        },
+        "latestRevisionUri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "The head revision, the same value getNote returns. Compare it with what you hold to spot a change. Set it as parentRevision to write."
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

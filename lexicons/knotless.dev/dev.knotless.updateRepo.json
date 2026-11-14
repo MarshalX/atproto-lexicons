@@ -1,0 +1,107 @@
+{
+  "id": "dev.knotless.updateRepo",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "repo"
+          ],
+          "properties": {
+            "repo": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+            },
+            "links": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#link",
+                "type": "ref"
+              },
+              "maxLength": 5,
+              "description": "The links its pages show, in order, each an http or https address: its website first. Replaces those it had; empty drops them. Left as they are when absent."
+            },
+            "topics": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.repo#topic",
+                "type": "ref"
+              },
+              "maxLength": 20,
+              "description": "What it is about, in order, each of lowercase letters, digits and dashes. Replaces those it had; empty drops them. Left as they are when absent."
+            },
+            "description": {
+              "type": "string",
+              "maxLength": 3000,
+              "description": "What the repository is; empty drops it. Left as it is when absent.",
+              "maxGraphemes": 300
+            },
+            "defaultBranch": {
+              "type": "string",
+              "maxLength": 255,
+              "description": "The branch its HEAD names, without refs/heads/. Left as it is when absent."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "NotFound",
+          "description": "No such repository."
+        },
+        {
+          "name": "InvalidRequest",
+          "description": "None was given, the description is too long, a link is not an http or https address or there are too many, a topic is not lowercase letters, digits and dashes or there are too many, or the repository has no such branch."
+        },
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is logged in to the pages, or its session has ended."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The account logged in is not the repository's owner."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "links": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#link",
+                "type": "ref"
+              },
+              "description": "The links its pages show now; absent when there are none."
+            },
+            "topics": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.repo#topic",
+                "type": "ref"
+              },
+              "description": "What it is about now; absent when it names nothing."
+            },
+            "description": {
+              "type": "string",
+              "description": "What it says it is now; absent when it says nothing."
+            },
+            "defaultBranch": {
+              "type": "string",
+              "description": "The branch its HEAD names now."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Rewrites the repository's dev.knotless.repo record with a new description, new links, new topics or a new default branch, any of them, as `knotless repo edit` does. The default branch must be one of its branches, once it has any. Its owner can, logged in to this appview's web pages: the appview writes with the session it keeps for that account, which the pages' session cookie names. For an organization's repository, so can an admin who joined it, logged in to the pages or with a service token from their own PDS for this method: the appview's gateway, which the organization delegated its writes to, writes as the organization."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Changes what a repository says it is, the links its pages show, what it is about and the branch its HEAD names."
+}

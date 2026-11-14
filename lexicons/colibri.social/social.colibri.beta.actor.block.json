@@ -1,0 +1,31 @@
+{
+  "id": "social.colibri.beta.actor.block",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "subject": {
+            "type": "string",
+            "format": "did",
+            "description": "The blocked user."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the block was created."
+          }
+        }
+      },
+      "description": "A blocked user. One record per block, so unblocking is a delete. The block is private: it stops notifications from the blocked user and collapses their messages for the blocker only, and the blocked user is never told."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

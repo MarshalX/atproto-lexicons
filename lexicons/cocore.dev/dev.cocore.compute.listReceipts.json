@@ -1,0 +1,49 @@
+{
+  "id": "dev.cocore.compute.listReceipts",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "receipts"
+          ],
+          "properties": {
+            "receipts": {
+              "type": "array",
+              "items": {
+                "ref": "dev.cocore.defs#indexedRecord",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "job": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Filter to receipts referencing this job record URI."
+          },
+          "provider": {
+            "type": "string",
+            "format": "did",
+            "description": "Filter to receipts signed by this provider DID."
+          },
+          "requester": {
+            "type": "string",
+            "format": "did",
+            "description": "Filter to receipts whose `requester` is this DID."
+          }
+        }
+      },
+      "description": "Indexed `dev.cocore.compute.receipt` records (capped at 200), optionally filtered by provider DID, requester DID, and/or job URI."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

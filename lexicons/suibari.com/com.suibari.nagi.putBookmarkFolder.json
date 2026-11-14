@@ -1,0 +1,72 @@
+{
+  "id": "com.suibari.nagi.putBookmarkFolder",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "lang": {
+              "type": "string",
+              "knownValues": [
+                "ja",
+                "en"
+              ]
+            },
+            "name": {
+              "type": "string",
+              "maxLength": 80,
+              "minLength": 1
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "id",
+            "name",
+            "isDefault",
+            "count",
+            "createdAt",
+            "updatedAt"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "count": {
+              "type": "integer"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "datetime"
+            },
+            "isDefault": {
+              "type": "boolean"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "datetime"
+            }
+          }
+        },
+        "encoding": "application/json"
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

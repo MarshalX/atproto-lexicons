@@ -1,0 +1,127 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "deadline": {
+      "properties": {
+        "feedCooldownRemaining": {
+          "description": "Seconds until this pet may be fed again; 0 means hungry now. Named to match getStats, which reports the same quantity for a single pet.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "pet": {
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "pet",
+        "feedCooldownRemaining"
+      ],
+      "type": "object"
+    },
+    "drop": {
+      "properties": {
+        "droppedAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "food": {
+          "type": "string"
+        },
+        "rkey": {
+          "type": "string"
+        },
+        "x": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "rkey",
+        "food",
+        "x",
+        "droppedAt"
+      ],
+      "type": "object"
+    },
+    "eaten": {
+      "properties": {
+        "eatenAt": {
+          "description": "When the pet would have eaten it — in the past, since the whole point is that this already happened. The matching pet.trezy.activity carries the same value as its createdAt.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "food": {
+          "type": "string"
+        },
+        "pet": {
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "pet",
+        "food",
+        "eatenAt"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "Settle what happened in the terrarium while nobody was watching, and report the state feeding needs. Called on load. HappyView has no scheduler — the only job trigger is job.run:<type>, fired by jobs.create — so an absence is replayed here rather than ticked by a cron. The player cannot tell the difference: they close the tab with four morsels down and come back to find the pets fed and one morsel left. What they gain is that the gap is computed at the moment it can be REPORTED, and that resolution runs while their OAuth session is definitely alive, which a background job could not rely on.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {},
+          "required": [],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "deadlines": {
+              "description": "How long until each staged pet may be fed again. ⚠ EVERY STAGED PET APPEARS HERE, INCLUDING ONES THAT DID NOT EAT. The client reads a pet missing from this list as 'not known yet' and excludes it from claiming food entirely, so an omission is a pet that can never be fed. This is also the only thing that tells a client every pet's cooldown at once: getPets returns at-uris only, and getStats answers for one pet.",
+              "items": {
+                "ref": "#deadline",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "drops": {
+              "description": "The terrarium as it stands AFTER resolution: the client's opening morsel list, so load is one call rather than two.",
+              "items": {
+                "ref": "#drop",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "eaten": {
+              "description": "What was eaten during the absence, in the order the replay filed it — the homecoming's material. Empty when nothing was. NOT sorted: the walk offers each morsel to the hungriest pet, and the sleep rule advances a feed past a nap, so an entry can be dated EARLIER than the one before it. It read \"oldest first\", which was an adoption-clamp edge case before sleep and is now wrong about a quarter of a mixed terrarium's feeds. A caller that needs chronological order must sort.",
+              "items": {
+                "ref": "#eaten",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "error": {
+              "description": "Present instead of the answer. A stable machine code the client branches on — add codes, never rename them. ⚠ THE CLIENT MUST TREAT A REFUSAL AS 'UNKNOWN', NEVER AS 'NOBODY IS HUNGRY': the first stops pets claiming food, the second would render a world where nothing is ever hungry and quietly disable feeding.",
+              "knownValues": [
+                "not-authenticated",
+                "unavailable"
+              ],
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "pet.trezy.resolveFeeding",
+  "lexicon": 1
+}

@@ -1,0 +1,39 @@
+{
+  "id": "app.rocksky.actor.getActorNeighbours",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "neighbours": {
+              "type": "array",
+              "items": {
+                "ref": "app.rocksky.actor.defs#neighbourViewBasic",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "did"
+        ],
+        "properties": {
+          "did": {
+            "type": "string",
+            "format": "at-identifier",
+            "description": "The DID or handle of the actor"
+          }
+        }
+      },
+      "description": "Get neighbours for an actor"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

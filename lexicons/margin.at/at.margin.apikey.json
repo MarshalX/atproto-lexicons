@@ -1,0 +1,35 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "An API key hash for the Margin application.",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "keyHash": {
+            "description": "SHA256 hash of the API key.",
+            "type": "string"
+          },
+          "name": {
+            "description": "Human-readable name for the API key.",
+            "maxLength": 64,
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "keyHash",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "at.margin.apikey",
+  "lexicon": 1
+}

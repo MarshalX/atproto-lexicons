@@ -1,0 +1,38 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "A mutable named pointer to a version. Resolve the manifest through the referenced version. The record key is '{projectName}.{channelName}', making uniqueness per (project, name) mechanical and enabling AppView-free resolution. Channel names follow the project-name grammar (lowercase alphanumerics, interior hyphens, no dots). Valid only when same-DID with the referenced project and version.",
+      "key": "any",
+      "record": {
+        "properties": {
+          "channel": {
+            "description": "Channel name (e.g. latest, next). Follows the project-name grammar. MUST match the record rkey after the first dot.",
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "project": {
+            "description": "The software.release.project this pointer belongs to. Must be same-DID.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "version": {
+            "description": "Strong reference to the software.release.version this channel currently points to. Must belong to the same project.",
+            "ref": "com.atproto.repo.strongRef#main",
+            "type": "ref"
+          }
+        },
+        "required": [
+          "project",
+          "channel",
+          "version"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "software.release.channel",
+  "lexicon": 1
+}

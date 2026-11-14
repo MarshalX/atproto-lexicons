@@ -1,0 +1,44 @@
+{
+  "id": "social.colibri.channel.getReadCursor",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "Missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "InvalidRequest",
+          "description": "A parameter or body field was missing or malformed."
+        },
+        {
+          "name": "NotFound",
+          "description": "The referenced record does not exist."
+        }
+      ],
+      "output": {
+        "schema": {
+          "ref": "lex:social.colibri.channel.defs#readCursor",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "channel"
+        ],
+        "properties": {
+          "channel": {
+            "type": "string",
+            "format": "at-uri"
+          }
+        }
+      },
+      "description": "Returns the authenticated user's read cursor for a channel."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

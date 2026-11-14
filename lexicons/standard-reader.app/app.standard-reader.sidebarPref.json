@@ -1,0 +1,76 @@
+{
+  "id": "app.standard-reader.sidebarPref",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "updatedAt"
+        ],
+        "properties": {
+          "collapsed": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 1000,
+            "description": "AT URIs of the list groups the reader has collapsed in the sidebar."
+          },
+          "hiddenNav": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 64
+            },
+            "maxLength": 32,
+            "description": "Stable ids of the primary sidebar nav items the reader has hidden (e.g. 'home', 'latest', 'discover', 'search', 'saved', 'collections'). Subscriptions and its list groups are never hideable."
+          },
+          "listOrder": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 1000,
+            "description": "Legacy: ordered AT URIs of the reader's list groups (own + saved), used as a fallback top-level list order only while `treeOrder` is empty. Superseded by `treeOrder`, which also carries ungrouped subscriptions interleaved with lists; new writes should prefer `treeOrder`."
+          },
+          "treeOrder": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 512
+            },
+            "maxLength": 2000,
+            "description": "Manual top-level order of the sidebar's subscriptions tree: list-group AT URIs interleaved with ungrouped publication AT URIs / person DIDs, exactly as arranged via drag-and-drop. Applies only when `subscriptionSort` is 'default'. Entries not present are appended in their natural order. Takes precedence over the legacy `listOrder` once populated."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When these preferences were last changed."
+          },
+          "customizeNav": {
+            "type": "boolean",
+            "description": "Whether the reader has enabled 'Customize sidebar'. When true, the `hiddenNav` items are hidden; when false or absent, every primary nav item is shown regardless of `hiddenNav`."
+          },
+          "subscriptionSort": {
+            "type": "string",
+            "maxLength": 16,
+            "description": "How the sidebar's subscriptions are ordered: 'default' (the reader's manual arrangement per `treeOrder`, or natural/stored order — the default), 'recent' (most recent activity first, interleaving publications and people), 'alpha' (name), or 'unread' (highest unread count first). Absent means 'default'.",
+            "knownValues": [
+              "default",
+              "recent",
+              "alpha",
+              "unread"
+            ]
+          }
+        }
+      },
+      "description": "A reader's personal sidebar preferences: the top-level arrangement of list groups and ungrouped subscriptions (one level deep), which groups are collapsed, how automatic sort orders subscriptions, and which primary nav items are hidden. A singleton record (rkey `self`)."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

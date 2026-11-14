@@ -1,0 +1,40 @@
+{
+  "id": "app.zeens.getCommunityActivity",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "owner",
+          "actor"
+        ],
+        "properties": {
+          "actor": {
+            "type": "string",
+            "format": "did",
+            "description": "The photographer."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "owner": {
+            "type": "string",
+            "format": "did",
+            "description": "The community account."
+          }
+        }
+      },
+      "description": "What `owner` did with `actor`'s photos: items added to a community collection and rejections, newest first, plus the actor's auto-approve standing.",
+      "target_collection": "app.zeens.collectionItem"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,44 @@
+{
+  "id": "social.colibri.beta.notification.markReadFromNotification",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "token"
+          ],
+          "properties": {
+            "token": {
+              "type": "string",
+              "maxLength": 4096,
+              "description": "The readToken from the push payload."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "InvalidToken",
+          "description": "The token is malformed, its signature does not verify, or the channel it names no longer exists."
+        },
+        {
+          "name": "ExpiredToken",
+          "description": "The token is older than seven days."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "description": "Marks a channel or thread read through the message a push notification announced, from the notification's Mark as read action. Takes no auth: the signed token from the push payload's readToken names the user, the channel and the message, and expires after seven days. Moves the user's read cursor forward, marks that channel's notifications through the message seen, and tells the user's sessions and push devices."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

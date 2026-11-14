@@ -1,0 +1,101 @@
+{
+  "id": "app.blampow.actor.profile",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "properties": {
+          "links": {
+            "type": "array",
+            "items": {
+              "ref": "com.atproto.repo.strongRef",
+              "type": "ref"
+            },
+            "maxLength": 10,
+            "description": "Links shown on the profile, in display order. Each ref points to an app.blampow.actor.link record in this repo."
+          },
+          "avatar": {
+            "type": "blob",
+            "accept": [
+              "image/png",
+              "image/jpeg",
+              "image/webp"
+            ],
+            "maxSize": 1000000
+          },
+          "banner": {
+            "type": "blob",
+            "accept": [
+              "image/png",
+              "image/jpeg",
+              "image/webp"
+            ],
+            "maxSize": 1000000,
+            "description": "A wide image across the top of the profile, about 3:1."
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "ref": "#event",
+              "type": "ref"
+            },
+            "maxLength": 100,
+            "description": "The account's choices for the community.lexicon.calendar.rsvp records in this repo: which events the profile shows. RSVPs without one are shown when showAllEvents is on. Events are only shown until they end, and with the RSVP's note, if it has one."
+          },
+          "website": {
+            "type": "string",
+            "maxLength": 2048
+          },
+          "pronouns": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "isCreator": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the account uses BlamPow's creator features (the Creator Studio). It can be turned on and off at any time."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 2560,
+            "maxGraphemes": 256
+          },
+          "displayName": {
+            "type": "string",
+            "maxLength": 640,
+            "maxGraphemes": 64
+          },
+          "showAllEvents": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the profile shows every event the account RSVPs to as going or interested, except those hidden in events, rather than only those events turns on."
+          }
+        }
+      },
+      "description": "A declaration of a Blampow user's profile."
+    },
+    "event": {
+      "type": "object",
+      "required": [
+        "rsvp"
+      ],
+      "properties": {
+        "rsvp": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref",
+          "description": "A community.lexicon.calendar.rsvp record in this repo."
+        },
+        "hidden": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the profile leaves the event out. When false or missing, it's shown."
+        }
+      },
+      "description": "One of the account's RSVPs, and whether the profile shows it. Matched to the RSVP by its URI, so the RSVP can change (e.g. its note) without losing the choice."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

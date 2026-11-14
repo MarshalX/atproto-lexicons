@@ -1,0 +1,487 @@
+{
+  "id": "com.suibari.nagi.getPreferences",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "readPositions",
+            "emojiFavorites"
+          ],
+          "properties": {
+            "diaryDay": {
+              "ref": "#diaryDay",
+              "type": "ref"
+            },
+            "feedTabs": {
+              "type": "array",
+              "items": {
+                "ref": "#feedTab",
+                "type": "ref"
+              },
+              "maxLength": 16,
+              "description": "フィードのタブ。表示順そのまま。"
+            },
+            "replyFreq": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 0,
+              "description": "botたんからの返信確率（0〜100%）。Bluesky側のfreq設定と共用。"
+            },
+            "adventRead": {
+              "ref": "#adventRead",
+              "type": "ref",
+              "description": "今年のアドベントカレンダーの既読と、開封演出を見終えた自分のカードの日。"
+            },
+            "tagFavorites": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "maxLength": 64
+              },
+              "maxLength": 32,
+              "description": "お気に入りタグ。# を除いた小文字の正規形で、表示順そのまま。"
+            },
+            "preferredName": {
+              "type": "string",
+              "maxLength": 120,
+              "description": "botたんに呼んでほしい名前。省略時は未設定＝表示名で呼ばれる。",
+              "maxGraphemes": 40
+            },
+            "readPositions": {
+              "type": "array",
+              "items": {
+                "ref": "#readPosition",
+                "type": "ref"
+              }
+            },
+            "emojiFavorites": {
+              "type": "array",
+              "items": {
+                "type": "unknown"
+              },
+              "maxLength": 32,
+              "description": "お気に入り絵文字パレット。表示順そのまま。要素は #unicodeFavorite または #customFavorite。"
+            },
+            "feedTabsUpdatedAt": {
+              "type": "string",
+              "format": "datetime",
+              "description": "省略時は、この利用者がまだ一度もタブをカスタムしていないことを表す（クライアントは既定タブを使う）。"
+            },
+            "chronicleReadYears": {
+              "type": "array",
+              "items": {
+                "ref": "com.suibari.nagi.getChronicle#readYear",
+                "type": "ref"
+              },
+              "description": "年ごとの既読ハッシュ。過去の版は蓄積せず、現在の年表内容と一致する版だけを保存する。"
+            },
+            "languagePreferences": {
+              "ref": "#languagePreferences",
+              "type": "ref"
+            },
+            "lastBookmarkFolderId": {
+              "type": "string",
+              "maxLength": 64
+            },
+            "moderationPreferences": {
+              "ref": "#moderationPreferences",
+              "type": "ref"
+            },
+            "tagFavoritesUpdatedAt": {
+              "type": "string",
+              "format": "datetime",
+              "description": "省略時は、この利用者のお気に入りタグがまだ一度も同期されていないことを表す。"
+            },
+            "emojiFavoritesUpdatedAt": {
+              "type": "string",
+              "format": "datetime",
+              "description": "省略時は、この利用者のお気に入りがまだ一度も同期されていないことを表す。"
+            },
+            "notificationPreferences": {
+              "ref": "#notificationPreferences",
+              "type": "ref"
+            },
+            "lastBookmarkFolderUpdatedAt": {
+              "type": "string",
+              "format": "datetime"
+            },
+            "languagePreferencesUpdatedAt": {
+              "type": "string",
+              "format": "datetime"
+            },
+            "moderationPreferencesUpdatedAt": {
+              "type": "string",
+              "format": "datetime"
+            },
+            "notificationPreferencesUpdatedAt": {
+              "type": "string",
+              "format": "datetime",
+              "description": "省略時は、この利用者がまだ一度も通知設定を保存していないことを表す（すべて既定）。"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "端末をまたいで同期する本人の設定（既読位置、お気に入り絵文字、フィードタブ、投稿・翻訳言語、コンテンツ表示、通知、最後のブックマークフォルダ）を返す。他ユーザーからは参照できない。"
+    },
+    "feedTab": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "maxLength": 512,
+          "description": "kind が bsky のときの app.bsky.feed.generator の AT-URI。source が following なら持たない。"
+        },
+        "kind": {
+          "type": "string",
+          "maxLength": 32,
+          "knownValues": [
+            "list",
+            "global",
+            "custom",
+            "hashtag",
+            "search",
+            "bsky"
+          ]
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "表示名のスナップショット。権威は query / uri 側。"
+        },
+        "query": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "kind が search のときは自由文の保存クエリ、hashtag のときはタグ（先頭の # を除いた小文字）。"
+        },
+        "source": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "kind が list / custom のときの参照先（list=home, custom=affirmation）。kind が bsky のときは following（Bluesky のホームタイムライン）だけを取り、uri と排他。",
+          "knownValues": [
+            "home",
+            "affirmation",
+            "following"
+          ]
+        }
+      },
+      "description": "フィードのタブ1枚。必要なフィールドは kind ごとに異なる（list / custom は source、hashtag / search は query、bsky は uri または source=following）。"
+    },
+    "diaryDay": {
+      "type": "object",
+      "required": [
+        "startHour",
+        "current"
+      ],
+      "properties": {
+        "current": {
+          "ref": "#diaryDayCurrent",
+          "type": "ref"
+        },
+        "pending": {
+          "ref": "#diaryDayPending",
+          "type": "ref"
+        },
+        "startHour": {
+          "type": "integer",
+          "maximum": 23,
+          "minimum": 0,
+          "description": "本人が選んだ区切りの時刻（18〜23, 0〜6）。既定は22。"
+        },
+        "manualTimezone": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "本人が選んだタイムゾーン。あれば自動検出より優先する。"
+        },
+        "detectedTimezone": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Nagi を開いたときにブラウザから届いたタイムゾーン。"
+        }
+      },
+      "description": "日記の「1日」を決める設定。本人にだけ返す。PDS レコードには書かない。"
+    },
+    "adventRead": {
+      "type": "object",
+      "required": [
+        "year",
+        "lastSeenDay",
+        "openedDays"
+      ],
+      "properties": {
+        "year": {
+          "type": "integer"
+        },
+        "openedDays": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "maxLength": 25
+        },
+        "lastSeenDay": {
+          "type": "integer",
+          "maximum": 25,
+          "minimum": 0
+        }
+      }
+    },
+    "readPosition": {
+      "type": "object",
+      "required": [
+        "section",
+        "indexedAt",
+        "uri"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "maxLength": 2048
+        },
+        "section": {
+          "type": "string",
+          "maxLength": 32,
+          "knownValues": [
+            "bot",
+            "community",
+            "list",
+            "channels",
+            "news"
+          ]
+        },
+        "indexedAt": {
+          "type": "string",
+          "format": "datetime"
+        }
+      },
+      "description": "「ここまで読んだ」位置。新旧の比較は (indexedAt, uri) の辞書順で行う。"
+    },
+    "customFavorite": {
+      "type": "object",
+      "required": [
+        "kind",
+        "emoji"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "custom"
+        },
+        "emoji": {
+          "type": "unknown"
+        }
+      },
+      "description": "Bluemoji のスナップショット。url などは表示のたびに再解決されるので、権威は uri のみ。"
+    },
+    "diaryDayCurrent": {
+      "type": "object",
+      "required": [
+        "timezone",
+        "startHour"
+      ],
+      "properties": {
+        "timezone": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "startHour": {
+          "type": "integer",
+          "maximum": 23,
+          "minimum": 0
+        },
+        "effectiveFrom": {
+          "type": "string",
+          "maxLength": 10
+        }
+      },
+      "description": "今開いている日に使っている設定。effectiveFrom はその設定が有効になった日（言語からの推定のままなら省略）。"
+    },
+    "diaryDayPending": {
+      "type": "object",
+      "required": [
+        "timezone",
+        "startHour",
+        "effectiveFrom"
+      ],
+      "properties": {
+        "timezone": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "startHour": {
+          "type": "integer",
+          "maximum": 23,
+          "minimum": 0
+        },
+        "effectiveFrom": {
+          "type": "string",
+          "maxLength": 10
+        }
+      },
+      "description": "まだ有効になっていない変更。effectiveFrom の日の日記から反映される。"
+    },
+    "unicodeFavorite": {
+      "type": "object",
+      "required": [
+        "kind",
+        "emoji"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "const": "unicode"
+        },
+        "emoji": {
+          "type": "string",
+          "maxLength": 64
+        }
+      }
+    },
+    "languagePreferences": {
+      "type": "object",
+      "required": [
+        "post",
+        "translation",
+        "provider",
+        "autoTranslate"
+      ],
+      "properties": {
+        "post": {
+          "type": "string",
+          "maxLength": 16
+        },
+        "provider": {
+          "type": "string",
+          "knownValues": [
+            "kagi",
+            "deepl",
+            "google"
+          ]
+        },
+        "translation": {
+          "type": "string",
+          "maxLength": 16
+        },
+        "autoTranslate": {
+          "type": "boolean"
+        }
+      }
+    },
+    "moderationPreferences": {
+      "type": "object",
+      "required": [
+        "automatic",
+        "selfAi",
+        "selfNsfw"
+      ],
+      "properties": {
+        "selfAi": {
+          "type": "string",
+          "knownValues": [
+            "warn",
+            "hide",
+            "ignore"
+          ]
+        },
+        "selfNsfw": {
+          "type": "string",
+          "knownValues": [
+            "warn",
+            "hide",
+            "ignore"
+          ]
+        },
+        "automatic": {
+          "type": "string",
+          "knownValues": [
+            "warn",
+            "hide",
+            "ignore"
+          ]
+        }
+      }
+    },
+    "notificationPreference": {
+      "type": "object",
+      "required": [
+        "list",
+        "push"
+      ],
+      "properties": {
+        "list": {
+          "type": "boolean"
+        },
+        "push": {
+          "type": "boolean"
+        }
+      },
+      "description": "list は通知欄に出すか、push はプッシュ通知するか。"
+    },
+    "notificationPreferences": {
+      "type": "object",
+      "properties": {
+        "gift": {
+          "ref": "#notificationPreference",
+          "type": "ref"
+        },
+        "mood": {
+          "ref": "#notificationPreference",
+          "type": "ref"
+        },
+        "diary": {
+          "ref": "#notificationPreference",
+          "type": "ref"
+        },
+        "reply": {
+          "ref": "#notificationPreference",
+          "type": "ref"
+        },
+        "mention": {
+          "ref": "#notificationPreference",
+          "type": "ref"
+        },
+        "analysis": {
+          "ref": "#notificationPreference",
+          "type": "ref"
+        },
+        "reaction": {
+          "ref": "#notificationPreference",
+          "type": "ref"
+        },
+        "seasonal": {
+          "ref": "#notificationPreference",
+          "type": "ref"
+        },
+        "chronicle": {
+          "ref": "#notificationPreference",
+          "type": "ref"
+        },
+        "botInteraction": {
+          "ref": "#notificationPreference",
+          "type": "ref"
+        }
+      },
+      "description": "通知の種別ごとの設定。Bluesky の app.bsky.notification.defs#preferences に倣う。省略したカテゴリは list / push とも true。botInteraction は botたんからの返信・メンション・リアクション（その3種別では人からのものと分けて扱う）。seasonal は季節の特別なお知らせ（アドベントカレンダーなど期間限定の催し）。"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

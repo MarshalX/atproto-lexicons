@@ -1,0 +1,136 @@
+{
+  "id": "dev.knotless.listRuns",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "runs",
+            "workflows"
+          ],
+          "properties": {
+            "runs": {
+              "type": "array",
+              "items": {
+                "ref": "#runView",
+                "type": "ref"
+              }
+            },
+            "cursor": {
+              "type": "string",
+              "maxLength": 2048,
+              "description": "Absent on the last page."
+            },
+            "minutes": {
+              "type": "array",
+              "items": {
+                "ref": "dev.knotless.defs#minutesView",
+                "type": "ref"
+              },
+              "description": "The minutes each of the repository's runners counts for its owner, where it has counted any; none for a private repository."
+            },
+            "workflows": {
+              "type": "array",
+              "items": {
+                "ref": "#workflowView",
+                "type": "ref"
+              },
+              "description": "The workflows in .knotless/workflows on the default branch, by name."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "repo"
+        ],
+        "properties": {
+          "repo": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The repository's dev.knotless.repo record. Its authority may be a handle; a name the repository had before, or an owner it moved from with its agreement, finds it under the name it has now."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 30,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string",
+            "maxLength": 2048,
+            "description": "The `cursor` of the page before."
+          },
+          "workflow": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Only the runs of this workflow, by name."
+          }
+        }
+      },
+      "description": "The runs of a public repository's workflows that the runners its record names reported, newest first, of every workflow or of one: each as its check, with what it ran on. And the workflows on its default branch, those that run only when asked for by name among them. A page at a time: follow `cursor` until it is absent. No authentication; responses are not personalized."
+    },
+    "runView": {
+      "type": "object",
+      "required": [
+        "check",
+        "ref"
+      ],
+      "properties": {
+        "ref": {
+          "type": "string",
+          "maxLength": 1024,
+          "description": "The ref it ran at, in full: for a pull's run its head branch, for a merge queue batch's the branch it lands on."
+        },
+        "pull": {
+          "ref": "dev.knotless.defs#itemViewBasic",
+          "type": "ref",
+          "description": "For a run of a pull's head, the pull."
+        },
+        "batch": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "For a run of a merge queue's batch, how many pulls it lands."
+        },
+        "check": {
+          "ref": "dev.knotless.defs#checkView",
+          "type": "ref"
+        },
+        "subject": {
+          "type": "string",
+          "description": "For a run of a commit pushed to the ref, the first line of its message, where this server has the commit."
+        }
+      },
+      "description": "One run of a workflow, with what it ran on."
+    },
+    "workflowView": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "about": {
+          "type": "string",
+          "description": "The first sentence of the comment its file opens with."
+        },
+        "asked": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether it runs only when asked for by name, on no push or pull."
+        }
+      },
+      "description": "A workflow file on the default branch."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "What a repository's runners ran: every run of its workflows, and the workflows themselves."
+}

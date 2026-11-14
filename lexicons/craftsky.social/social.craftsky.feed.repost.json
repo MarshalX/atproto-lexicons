@@ -1,0 +1,31 @@
+{
+  "id": "social.craftsky.feed.repost",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "subject": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong reference to the post being reposted."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Client-declared creation timestamp of the repost."
+          }
+        }
+      },
+      "description": "Record declaring a repost of a Craftsky post. The subject should be a social.craftsky.feed.post record."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

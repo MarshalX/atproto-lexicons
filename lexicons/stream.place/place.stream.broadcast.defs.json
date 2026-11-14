@@ -1,0 +1,33 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "broadcastOriginView": {
+      "properties": {
+        "author": {
+          "ref": "app.bsky.actor.defs#profileViewBasic",
+          "type": "ref"
+        },
+        "cid": {
+          "format": "cid",
+          "type": "string"
+        },
+        "record": {
+          "type": "unknown"
+        },
+        "uri": {
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "cid",
+        "author",
+        "record"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "place.stream.broadcast.defs",
+  "lexicon": 1
+}

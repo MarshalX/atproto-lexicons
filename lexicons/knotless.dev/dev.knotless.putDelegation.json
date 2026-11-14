@@ -1,0 +1,33 @@
+{
+  "id": "dev.knotless.putDelegation",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "url",
+            "state"
+          ],
+          "properties": {
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "The authorization page for the caller to open."
+            },
+            "state": {
+              "type": "string",
+              "maxLength": 64,
+              "description": "Names the delegation to dev.knotless.getDelegation."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Starts delegating the caller's writes to a gateway. The gateway, an OAuth client of the caller's PDS, pushes an authorization request for the caller and answers with the page where the caller approves it; once they do, the gateway keeps the session, replacing any it held, to write on the caller's behalf for collaborators and batched commits. Requires a service token from the caller's PDS, audience the gateway's DID, for this method."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

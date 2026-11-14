@@ -1,0 +1,94 @@
+{
+  "id": "social.colibri.beta.bridge.removeReaction",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "community",
+            "registration",
+            "channel",
+            "rkey"
+          ],
+          "properties": {
+            "rkey": {
+              "type": "string",
+              "format": "record-key",
+              "description": "Record key of the reaction."
+            },
+            "channel": {
+              "type": "string",
+              "format": "space-ref",
+              "description": "The linked channel or thread the record lives in."
+            },
+            "community": {
+              "type": "string",
+              "format": "did",
+              "description": "The community the registration belongs to."
+            },
+            "registration": {
+              "type": "string",
+              "format": "tid",
+              "description": "Record key of the registration."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request is missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "CommunityNotFound",
+          "description": "No community exists at the given DID."
+        },
+        {
+          "name": "RegistrationNotFound",
+          "description": "The community has no bridge registration with that id."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The caller is not the bridge this registration belongs to."
+        },
+        {
+          "name": "RegistrationDisabled",
+          "description": "An admin has paused this registration."
+        },
+        {
+          "name": "ChannelNotLinked",
+          "description": "The channel is not linked to this registration."
+        },
+        {
+          "name": "RateLimited",
+          "description": "The bridge sent too many requests. Retry after the interval in the response headers."
+        },
+        {
+          "name": "CredentialsUnavailable",
+          "description": "The AppView cannot act as the community because its stored credentials are missing or unusable."
+        },
+        {
+          "name": "RecordNotFound",
+          "description": "No record exists at the given key in that channel."
+        },
+        {
+          "name": "NotBridged",
+          "description": "The target record was not written for this registration."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "description": "Removes a reaction the calling bridge added."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

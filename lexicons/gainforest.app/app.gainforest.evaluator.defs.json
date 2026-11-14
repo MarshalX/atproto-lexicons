@@ -1,0 +1,509 @@
+{
+  "id": "app.gainforest.evaluator.defs",
+  "defs": {
+    "methodInfo": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Human-readable name of the method or model (e.g., 'GainForest BioClassifier').",
+          "maxGraphemes": 256
+        },
+        "version": {
+          "type": "string",
+          "description": "Version string of the method or model (e.g., '2.1.0').",
+          "maxGraphemes": 64
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uri"
+          },
+          "maxLength": 10,
+          "description": "URIs to papers, documentation, or repositories describing this method."
+        },
+        "modelCheckpoint": {
+          "type": "string",
+          "description": "Identifier for the specific model checkpoint used (e.g., date or hash).",
+          "maxGraphemes": 128
+        }
+      },
+      "description": "Provenance metadata describing the method used to produce an evaluation."
+    },
+    "subjectRef": {
+      "type": "object",
+      "required": [
+        "uri"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid",
+          "description": "CID pinning the exact version of the target record."
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the target record."
+        }
+      },
+      "description": "Reference to a target record that is being evaluated."
+    },
+    "qualityFlag": {
+      "type": "object",
+      "required": [
+        "field",
+        "issue"
+      ],
+      "properties": {
+        "field": {
+          "type": "string",
+          "description": "The field name that has the quality issue.",
+          "maxGraphemes": 64
+        },
+        "issue": {
+          "type": "string",
+          "description": "Description of the quality issue.",
+          "maxGraphemes": 256
+        },
+        "severity": {
+          "type": "string",
+          "description": "Severity level of the quality issue.",
+          "knownValues": [
+            "error",
+            "warning",
+            "info"
+          ],
+          "maxGraphemes": 64
+        }
+      },
+      "description": "A single data quality flag indicating an issue with a specific field."
+    },
+    "candidateTaxon": {
+      "type": "object",
+      "required": [
+        "scientificName",
+        "confidence",
+        "rank"
+      ],
+      "properties": {
+        "rank": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Rank position among candidates (1 = best match)."
+        },
+        "genus": {
+          "type": "string",
+          "description": "Genus of the candidate taxon.",
+          "maxGraphemes": 128
+        },
+        "family": {
+          "type": "string",
+          "description": "Family of the candidate taxon.",
+          "maxGraphemes": 128
+        },
+        "kingdom": {
+          "type": "string",
+          "description": "Kingdom of the candidate taxon.",
+          "maxGraphemes": 128
+        },
+        "confidence": {
+          "type": "integer",
+          "maximum": 1000,
+          "minimum": 0,
+          "description": "Confidence score (0-1000, where 1000 = 100.0%)."
+        },
+        "gbifTaxonKey": {
+          "type": "string",
+          "description": "GBIF backbone taxonomy key for the candidate.",
+          "maxGraphemes": 64
+        },
+        "scientificName": {
+          "type": "string",
+          "description": "Full scientific name of the candidate taxon.",
+          "maxGraphemes": 512
+        }
+      },
+      "description": "A candidate taxon identification with confidence score and rank."
+    },
+    "speciesIdResult": {
+      "type": "object",
+      "required": [
+        "candidates"
+      ],
+      "properties": {
+        "remarks": {
+          "type": "string",
+          "description": "Additional notes about the species identification.",
+          "maxGraphemes": 2048
+        },
+        "candidates": {
+          "type": "array",
+          "items": {
+            "ref": "#candidateTaxon",
+            "type": "ref"
+          },
+          "maxLength": 20,
+          "description": "Ranked list of candidate species identifications."
+        },
+        "inputFeature": {
+          "type": "string",
+          "description": "Which feature of the subject record was used as input (e.g., 'mediaEvidence').",
+          "maxGraphemes": 64
+        }
+      },
+      "description": "AI or human species recognition result with ranked candidate identifications."
+    },
+    "dataQualityResult": {
+      "type": "object",
+      "required": [
+        "flags"
+      ],
+      "properties": {
+        "flags": {
+          "type": "array",
+          "items": {
+            "ref": "#qualityFlag",
+            "type": "ref"
+          },
+          "maxLength": 50,
+          "description": "List of quality issues found in the record."
+        },
+        "remarks": {
+          "type": "string",
+          "description": "Additional notes about the quality assessment.",
+          "maxGraphemes": 2048
+        },
+        "completenessScore": {
+          "type": "integer",
+          "maximum": 1000,
+          "minimum": 0,
+          "description": "Overall completeness score (0-1000, where 1000 = 100.0%)."
+        }
+      },
+      "description": "Data quality assessment result with per-field quality flags."
+    },
+    "measurementResult": {
+      "type": "object",
+      "required": [
+        "measurements"
+      ],
+      "properties": {
+        "remarks": {
+          "type": "string",
+          "description": "Additional notes about the measurements.",
+          "maxGraphemes": 2048
+        },
+        "measurements": {
+          "type": "array",
+          "items": {
+            "ref": "#derivedMeasurement",
+            "type": "ref"
+          },
+          "maxLength": 20,
+          "description": "List of derived measurements."
+        }
+      },
+      "description": "Derived measurements produced by an evaluator from source data (e.g., remote sensing metrics)."
+    },
+    "bioacousticsResult": {
+      "type": "object",
+      "required": [
+        "detections"
+      ],
+      "properties": {
+        "remarks": {
+          "type": "string",
+          "description": "Additional notes about the bioacoustics analysis.",
+          "maxGraphemes": 2048
+        },
+        "detections": {
+          "type": "array",
+          "items": {
+            "ref": "#bioacousticsDetection",
+            "type": "ref"
+          },
+          "maxLength": 100,
+          "description": "Detected species/sounds within the audio recording."
+        },
+        "soundscapeIndex": {
+          "type": "string",
+          "description": "Acoustic diversity index value.",
+          "maxGraphemes": 32
+        },
+        "totalDurationAnalyzedSeconds": {
+          "type": "string",
+          "description": "Total audio duration analyzed in seconds.",
+          "maxGraphemes": 32
+        }
+      },
+      "description": "Result of audio-based species detection."
+    },
+    "derivedMeasurement": {
+      "type": "object",
+      "required": [
+        "measurementType",
+        "measurementValue"
+      ],
+      "properties": {
+        "measurementType": {
+          "type": "string",
+          "description": "The nature of the measurement (e.g., 'canopy cover', 'NDVI', 'tree height').",
+          "maxGraphemes": 256
+        },
+        "measurementUnit": {
+          "type": "string",
+          "description": "The units for the measurement value (e.g., '%', 'm', 'kg').",
+          "maxGraphemes": 64
+        },
+        "measurementValue": {
+          "type": "string",
+          "description": "The value of the measurement.",
+          "maxGraphemes": 1024
+        },
+        "measurementMethod": {
+          "type": "string",
+          "description": "Description of the method used to obtain the measurement.",
+          "maxGraphemes": 1024
+        }
+      },
+      "description": "A single measurement derived by an evaluator from source data."
+    },
+    "verificationResult": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Verification status: confirmed, rejected, or uncertain.",
+          "knownValues": [
+            "confirmed",
+            "rejected",
+            "uncertain"
+          ],
+          "maxGraphemes": 64
+        },
+        "remarks": {
+          "type": "string",
+          "description": "Notes about the verification decision.",
+          "maxGraphemes": 2048
+        },
+        "verifiedBy": {
+          "type": "string",
+          "description": "Name of the person who performed the verification.",
+          "maxGraphemes": 256
+        },
+        "verifiedByID": {
+          "type": "string",
+          "description": "Persistent identifier (e.g., ORCID) of the verifier.",
+          "maxGraphemes": 256
+        },
+        "suggestedCorrections": {
+          "type": "string",
+          "description": "Suggested corrections if the original identification was rejected or uncertain.",
+          "maxGraphemes": 5000
+        }
+      },
+      "description": "Expert verification result for a previous identification or evaluation."
+    },
+    "deforestationResult": {
+      "type": "object",
+      "required": [
+        "changeType"
+      ],
+      "properties": {
+        "remarks": {
+          "type": "string",
+          "description": "Additional notes about the deforestation detection.",
+          "maxGraphemes": 2048
+        },
+        "changeType": {
+          "type": "string",
+          "description": "Type of land-use change detected.",
+          "knownValues": [
+            "deforestation",
+            "degradation",
+            "reforestation",
+            "afforestation",
+            "no-change",
+            "fire",
+            "flooding",
+            "urbanization"
+          ],
+          "maxGraphemes": 64
+        },
+        "baselineDate": {
+          "type": "string",
+          "description": "ISO 8601 date of baseline comparison.",
+          "maxGraphemes": 64
+        },
+        "detectionDate": {
+          "type": "string",
+          "description": "ISO 8601 date of detection.",
+          "maxGraphemes": 64
+        },
+        "satelliteSource": {
+          "type": "string",
+          "description": "Satellite data source (e.g., 'Sentinel-2', 'Landsat-8', 'Planet').",
+          "maxGraphemes": 128
+        },
+        "changePercentage": {
+          "type": "string",
+          "description": "Percentage of monitored area affected.",
+          "maxGraphemes": 16
+        },
+        "areaAffectedHectares": {
+          "type": "string",
+          "description": "Area affected by the change in hectares.",
+          "maxGraphemes": 32
+        }
+      },
+      "description": "Deforestation/land-use change detection result."
+    },
+    "classificationResult": {
+      "type": "object",
+      "required": [
+        "category",
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "string",
+          "description": "The assigned classification value (e.g., 'critical', 'tropical-rainforest').",
+          "maxGraphemes": 256
+        },
+        "remarks": {
+          "type": "string",
+          "description": "Additional notes about the classification.",
+          "maxGraphemes": 2048
+        },
+        "category": {
+          "type": "string",
+          "description": "The classification category (e.g., 'conservation-priority', 'habitat-type').",
+          "maxGraphemes": 128
+        }
+      },
+      "description": "Generic categorical classification result (e.g., conservation priority, habitat type)."
+    },
+    "bioacousticsDetection": {
+      "type": "object",
+      "required": [
+        "startTimeSeconds",
+        "endTimeSeconds"
+      ],
+      "properties": {
+        "soundType": {
+          "type": "string",
+          "description": "Type of sound detected.",
+          "knownValues": [
+            "call",
+            "song",
+            "alarm",
+            "drumming",
+            "echolocation",
+            "stridulation",
+            "anthropogenic",
+            "geophony",
+            "unknown"
+          ],
+          "maxGraphemes": 64
+        },
+        "commonName": {
+          "type": "string",
+          "description": "Common name of the identified species.",
+          "maxGraphemes": 256
+        },
+        "confidence": {
+          "type": "integer",
+          "maximum": 1000,
+          "minimum": 0,
+          "description": "Confidence score (0-1000, where 1000 = 100.0%)."
+        },
+        "endTimeSeconds": {
+          "type": "string",
+          "description": "End time in seconds from recording start.",
+          "maxGraphemes": 16
+        },
+        "maxFrequencyHz": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Upper frequency bound of detection in Hz."
+        },
+        "minFrequencyHz": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Lower frequency bound of detection in Hz."
+        },
+        "scientificName": {
+          "type": "string",
+          "description": "Identified species scientific name.",
+          "maxGraphemes": 512
+        },
+        "startTimeSeconds": {
+          "type": "string",
+          "description": "Start time in seconds from recording start.",
+          "maxGraphemes": 16
+        }
+      },
+      "description": "A single detection within an audio recording."
+    },
+    "carbonEstimationResult": {
+      "type": "object",
+      "required": [
+        "estimationType",
+        "value",
+        "unit"
+      ],
+      "properties": {
+        "unit": {
+          "type": "string",
+          "description": "Unit of the estimated value (e.g., 'tCO2e', 'tC/ha', 'tCO2e/year').",
+          "maxGraphemes": 32
+        },
+        "value": {
+          "type": "string",
+          "description": "Estimated carbon value.",
+          "maxGraphemes": 32
+        },
+        "remarks": {
+          "type": "string",
+          "description": "Additional notes about the carbon estimation.",
+          "maxGraphemes": 2048
+        },
+        "methodology": {
+          "type": "string",
+          "description": "Estimation methodology used.",
+          "maxGraphemes": 512
+        },
+        "uncertainty": {
+          "type": "string",
+          "description": "Uncertainty range (e.g., '±15%').",
+          "maxGraphemes": 32
+        },
+        "estimationType": {
+          "type": "string",
+          "description": "Type of carbon estimation.",
+          "knownValues": [
+            "above-ground-biomass",
+            "below-ground-biomass",
+            "soil-carbon",
+            "total-carbon-stock",
+            "annual-sequestration",
+            "avoided-emissions"
+          ],
+          "maxGraphemes": 64
+        }
+      },
+      "description": "Carbon stock or sequestration estimation."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Shared type definitions for decentralized evaluator services. Evaluators attach structured, typed evaluation data to records (a more sophisticated evolution of the labeler pattern)."
+}

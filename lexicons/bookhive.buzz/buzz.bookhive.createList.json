@@ -1,0 +1,63 @@
+{
+  "id": "buzz.bookhive.createList",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 100,
+              "minLength": 1,
+              "description": "The name of the list"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "maxLength": 50
+              },
+              "description": "Optional tags"
+            },
+            "ordered": {
+              "type": "boolean",
+              "description": "Whether the list is ordered"
+            },
+            "description": {
+              "type": "string",
+              "maxLength": 500,
+              "description": "Optional description of the list"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri",
+            "cid"
+          ],
+          "properties": {
+            "cid": {
+              "type": "string"
+            },
+            "uri": {
+              "type": "string"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Create a new book list."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,74 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "earner": {
+      "description": "One pet's share of what has accrued since the wallet's anchor.",
+      "properties": {
+        "pending": {
+          "description": "Coins this pet has earned and not yet banked.",
+          "type": "integer"
+        },
+        "pet": {
+          "description": "The pet that earned it.",
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "pet",
+        "pending"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "balance": {
+              "type": "integer"
+            },
+            "collected": {
+              "type": "integer"
+            },
+            "error": {
+              "type": "string"
+            },
+            "lastUpdated": {
+              "description": "THE ACCRUAL ANCHOR, NOT A WRITE TIME. Income is measured FROM this moment, so it is where the next payout starts rather than when this record was last saved. The two usually coincide, because a settle banks everything and moves the anchor to now — but a PARTIAL collect advances it only as far as the coins actually taken, leaving it EARLIER than the write that produced it. Reading it as \"when the wallet was last written\" has already cost this project one wrong diagnosis. It is deliberately NOT renamed: it sits inside the signed payload, so changing it would invalidate every wallet attestation ever issued and require rewriting records in players' repos. Absent from the record until the first collect, in which case this reports the moment accrual began instead.",
+              "format": "datetime",
+              "type": "string"
+            },
+            "pending": {
+              "type": "integer"
+            },
+            "pets": {
+              "description": "What each pet has earned since the wallet's anchor, so a client can show the money arriving FROM the pets that made it rather than as a number that silently changes. Only pets that earned something appear. Shares are floored individually and capped in proportion when the total exceeds stageMoneyCap, so they may sum to a coin or two under `pending` — they are for showing, and `pending` is the figure to trust.",
+              "items": {
+                "ref": "#earner",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "did": {
+            "format": "did",
+            "type": "string"
+          }
+        },
+        "required": [
+          "did"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "pet.trezy.getWallet",
+  "lexicon": 1
+}

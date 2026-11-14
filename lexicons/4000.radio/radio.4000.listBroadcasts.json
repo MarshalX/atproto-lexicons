@@ -1,0 +1,46 @@
+{
+  "id": "radio.4000.listBroadcasts",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "broadcasts"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "broadcasts": {
+              "type": "array",
+              "items": {
+                "ref": "radio.4000.defs#broadcastView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 100,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Radios broadcasting now. Does not require auth."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

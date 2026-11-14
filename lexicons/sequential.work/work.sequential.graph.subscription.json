@@ -1,0 +1,31 @@
+{
+  "id": "work.sequential.graph.subscription",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "series",
+          "createdAt"
+        ],
+        "properties": {
+          "series": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI reference to the series record being subscribed to (ex: at://did:plc:abc123/work.sequential.series/xyz789). Use the DID form (at://did:...), not a handle."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "The date and time the subscription was created."
+          }
+        }
+      },
+      "description": "Record declaring a subscription to a series."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

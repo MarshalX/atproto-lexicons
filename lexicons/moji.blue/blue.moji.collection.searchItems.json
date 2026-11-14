@@ -1,0 +1,60 @@
+{
+  "id": "blue.moji.collection.searchItems",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "items"
+          ],
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "ref": "blue.moji.collection.item#itemView",
+                "type": "ref"
+              }
+            },
+            "cursor": {
+              "type": "string"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "q"
+        ],
+        "properties": {
+          "q": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "description": "Search query, matched against the alias and alt text."
+          },
+          "repo": {
+            "type": "string",
+            "format": "at-identifier",
+            "description": "Restrict results to a single repo's collection. Network-wide search when omitted."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 25,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Search Bluemoji by alias or alt text. Searches network-wide by default (subject to takedown filtering) — pass 'repo' to restrict to a single repo's own collection, e.g. for a composer picker limited to the signed-in user's emoji. Intended as shared infrastructure so clients don't need to maintain their own emoji search index for :-autocomplete pickers."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

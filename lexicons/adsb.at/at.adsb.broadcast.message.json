@@ -1,0 +1,81 @@
+{
+  "id": "at.adsb.broadcast.message",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "icaoHex",
+          "rssi",
+          "seen"
+        ],
+        "properties": {
+          "rc": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Radius of containment in metres. Derived from NIC."
+          },
+          "nic": {
+            "type": "integer",
+            "maximum": 11,
+            "minimum": 0,
+            "description": "Navigation Integrity Category (0-11). Higher is more precise."
+          },
+          "rssi": {
+            "type": "string",
+            "maxLength": 10,
+            "description": "Received signal strength indicator in dBFS."
+          },
+          "seen": {
+            "type": "string",
+            "maxLength": 10,
+            "description": "Seconds since last message from this aircraft."
+          },
+          "squawk": {
+            "type": "string",
+            "maxLength": 4,
+            "minLength": 4,
+            "description": "Transponder squawk code (e.g. '2636')."
+          },
+          "icaoHex": {
+            "type": "string",
+            "maxLength": 6,
+            "minLength": 6,
+            "description": "ICAO 24-bit hex address (uppercased)."
+          },
+          "seenPos": {
+            "type": "string",
+            "maxLength": 10,
+            "description": "Seconds since last position fix from this aircraft."
+          },
+          "aircraft": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong reference to the at.adsb.aircraft.identity record for this aircraft."
+          },
+          "callsign": {
+            "type": "string",
+            "maxLength": 8,
+            "description": "Flight callsign as broadcast (e.g. 'UAL123')."
+          },
+          "position": {
+            "ref": "at.adsb.flight.defs#position",
+            "type": "ref",
+            "description": "Most recent position fix for this aircraft."
+          },
+          "messageCount": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Total messages received from this aircraft in the current tracking session."
+          }
+        }
+      },
+      "description": "Current state of a tracked aircraft as observed by a single receiver."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A real-time aircraft state update, broadcast via at.adsb.broadcast.subscribeEvents. Ephemeral — not written to a PDS."
+}

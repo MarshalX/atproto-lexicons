@@ -1,0 +1,16 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "collections": [
+        "xyz.opnshelf.movie",
+        "xyz.opnshelf.episode"
+      ],
+      "key": "literal:self",
+      "title": "Opnshelf Watches",
+      "type": "space"
+    }
+  },
+  "id": "xyz.opnshelf.watches",
+  "lexicon": 1
+}

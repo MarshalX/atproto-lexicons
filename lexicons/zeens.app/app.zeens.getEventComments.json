@@ -1,0 +1,42 @@
+{
+  "id": "app.zeens.getEventComments",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "event"
+        ],
+        "properties": {
+          "event": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the parent app.zeens.event record."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "viewer": {
+            "type": "string",
+            "format": "did",
+            "description": "Viewer DID, used to report viewer.like per comment."
+          }
+        }
+      },
+      "description": "List comments on an event via app.zeens.eventComment, newest-first by createdAt. Returns a flat list (each carrying its optional parent ref) so the client can thread organiser replies. Each comment is hydrated with the author's profile and its own like_count + the viewer's like state.",
+      "target_collection": "app.zeens.eventComment"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

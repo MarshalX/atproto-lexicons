@@ -1,0 +1,31 @@
+{
+  "id": "app.rocksky.event.getEvent",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "ref": "app.rocksky.event.defs#eventView",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "uri"
+        ],
+        "properties": {
+          "uri": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the community.lexicon.calendar.event or app.rocksky.event.music record."
+          }
+        }
+      },
+      "description": "Get a music event by the AT-URI of either its calendar event record or its app.rocksky.event.music record."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

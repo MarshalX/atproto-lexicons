@@ -1,0 +1,32 @@
+{
+  "id": "so.sprk.authDeleteContent",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Delete Spark Content",
+      "detail": "Clean up Spark account history: posts, replies, reposts, likes, thread controls, stories, and audio records.",
+      "title:lang": {},
+      "detail:lang": {},
+      "permissions": [
+        {
+          "type": "permission",
+          "action": [
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "so.sprk.feed.like",
+            "so.sprk.feed.post",
+            "so.sprk.feed.reply",
+            "so.sprk.feed.repost",
+            "so.sprk.feed.threadgate",
+            "so.sprk.sound.audio",
+            "so.sprk.story.post"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

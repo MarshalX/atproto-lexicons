@@ -1,0 +1,36 @@
+{
+  "id": "app.zeens.getMemberFollows",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "actor"
+        ],
+        "properties": {
+          "actor": {
+            "type": "string",
+            "description": "DID of the user whose Zeens follows to list."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Pagination cursor from previous response."
+          }
+        }
+      },
+      "description": "Accounts the given actor follows who are themselves on Zeens (have authored at least one app.zeens.postMeta record)."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

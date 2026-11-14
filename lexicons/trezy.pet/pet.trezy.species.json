@@ -1,0 +1,368 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "animation": {
+      "properties": {
+        "frames": {
+          "items": {
+            "ref": "#frame",
+            "type": "ref"
+          },
+          "minLength": 1,
+          "type": "array"
+        },
+        "name": {
+          "description": "The tag name from Aseprite — `idle`, `run`, `slide-loop`. Behaviours reference these by name, and a behaviour naming an animation that is not here does not throw: the pet simply stops animating. build-species.ts refuses to emit that combination.",
+          "maxLength": 64,
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "frames"
+      ],
+      "type": "object"
+    },
+    "behavior": {
+      "description": "One weighted option in the behaviour tree. The params a type needs differ by type, which lexicon cannot express as a discriminated union, so every param is optional here and build-species.ts validates the combination that each type actually requires.",
+      "properties": {
+        "animation": {
+          "description": "For `idle` and `move`: the animation to play throughout.",
+          "maxLength": 64,
+          "type": "string"
+        },
+        "endAnimation": {
+          "description": "For `slide` and `jump`: the recovery, played once.",
+          "maxLength": 64,
+          "type": "string"
+        },
+        "endMoveFrame": {
+          "description": "For `jump`: the frame of the end animation at which it lands.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "hoverAnimation": {
+          "description": "For `fly`: held on the spot after arriving somewhere, before it picks the next destination or comes down. Optional — a species without one simply turns and goes again.",
+          "maxLength": 64,
+          "type": "string"
+        },
+        "loopAnimation": {
+          "description": "For `slide` and `jump`: the sustained middle, repeated while travelling.",
+          "maxLength": 64,
+          "type": "string"
+        },
+        "maxDuration": {
+          "description": "For `idle`: seconds, the longest. For `fly`: the longest it stays up.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "minDuration": {
+          "description": "For `idle`: seconds, the shortest the pet will stand still. For `fly`: seconds aloft before it looks for somewhere to land.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "speed": {
+          "description": "World pixels per second. Characterisation rather than realism — the turtle is slow because a slow turtle is funny, and the spread across species is what makes a mixed stage read as a menagerie.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "startAnimation": {
+          "description": "For `slide` and `jump`: the wind-up, played once.",
+          "maxLength": 64,
+          "type": "string"
+        },
+        "startMoveFrame": {
+          "description": "For `jump`: the frame of the start animation at which the pet actually leaves the ground, so the launch matches the drawing.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "type": {
+          "description": "NOT an enum, for the same reason `tier` is not: a new behaviour should be publishable. A client that meets a type it does not implement must skip that option and keep the rest, never refuse the species.",
+          "knownValues": [
+            "idle",
+            "move",
+            "slide",
+            "jump",
+            "fly"
+          ],
+          "maxLength": 32,
+          "type": "string"
+        },
+        "weight": {
+          "description": "Relative likelihood against the species's other options. Zero is a legitimate way to keep a behaviour published but dormant.",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "type",
+        "weight"
+      ],
+      "type": "object"
+    },
+    "datum": {
+      "properties": {
+        "key": {
+          "maxLength": 64,
+          "type": "string"
+        },
+        "value": {
+          "maxLength": 256,
+          "type": "string"
+        }
+      },
+      "required": [
+        "key",
+        "value"
+      ],
+      "type": "object"
+    },
+    "frame": {
+      "description": "One frame: where it sits in the atlas, and how long it is held.",
+      "properties": {
+        "duration": {
+          "description": "Milliseconds, as Aseprite exports it.",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "h": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "w": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "x": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "y": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "w",
+        "h",
+        "duration"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "A species the game knows about, published in the game's own repo (did:plc:ollch4g7tes2reb5eceiwuol). Only records from that DID are ever read — record.index:pet.trezy.species refuses the rest. THIS RECORD IS THE WHOLE SPECIES: identity, economy, artwork and temperament. The client compiles in nothing about any species and derives nothing from a filename; it draws what these records say and caches the answer. A species not published here does not exist to the game, and changing one here changes it for every client without an app deploy.",
+      "key": "any",
+      "record": {
+        "properties": {
+          "activity": {
+            "description": "When the animal keeps its hours. ⚠ A FIELD RATHER THAN A GROUP, BECAUSE THESE ARE MUTUALLY EXCLUSIVE AND GROUPS ARE NOT. `groups` overlap on purpose — a bat is a mammal and a flier at once — so nothing there can enforce exactly-one, and a species tagged both `nocturnal` and `diurnal` would be nonsense no reader could resolve. It also has to be exactly one for the mechanic that will read it: a pet dozes outside its own hours, and 'outside' is undefined for an animal with two answers.\n\nThe vocabulary, widest first: `diurnal` is daylight; `nocturnal` is night; `crepuscular` is both twilights; `matutinal` is dawn ONLY and `vespertinal` is dusk ONLY, the two halves crepuscular rolls together; `cathemeral` is no fixed rhythm, which is the honest answer for a slime.\n\n⚠ `matutinal` AND `vespertinal` ARE PUBLISHED AHEAD OF ANY USER, DELIBERATELY. No species on the roster is either one today. They are listed so the vocabulary is settled before somebody needs it — a reader implementing dozing should handle all six now rather than discover two of them later. NOT an enum, for the same reason `tier` is not: the list documents what exists and constrains nothing, so a seventh is a record edit rather than a client deploy.\n\n(Spelled `vespertinal` to match the -al pattern of the others; `vespertine` is the commoner form in the literature and means the same thing. Do not 'correct' one to the other — the string is stored on records.)",
+            "knownValues": [
+              "diurnal",
+              "nocturnal",
+              "crepuscular",
+              "matutinal",
+              "vespertinal",
+              "cathemeral"
+            ],
+            "maxLength": 64,
+            "type": "string"
+          },
+          "behaviors": {
+            "description": "How the species acts when left alone, as weighted options for the behaviour tree. Authored, unlike `sprite` — this is temperament, a game-design judgement that no export contains.",
+            "items": {
+              "ref": "#behavior",
+              "type": "ref"
+            },
+            "minLength": 1,
+            "type": "array"
+          },
+          "displayName": {
+            "maxLength": 64,
+            "type": "string"
+          },
+          "groups": {
+            "description": "The `pet.trezy.group` records this species belongs to, by id. AN ARRAY BECAUSE MEMBERSHIP OVERLAPS AND MIXES LEVELS: a bat is `mammals`, `bats`, `fliers` and `nocturnal`, and a penguin is `birds` and `swimmers` without being a mammal at all. A single field would have forced a species to pick one true thing about itself and drop the others — which is why the vocabulary can hold a class, a family and a habit side by side rather than having to settle on one rank. Order is not significant; readers sort by the group's own `rank`.",
+            "items": {
+              "maxLength": 64,
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "id": {
+            "description": "The species key. Stored on every ledger row already sold, so renaming one is not safe — a rename is a new species plus a migration, never an edit.",
+            "maxLength": 64,
+            "type": "string"
+          },
+          "price": {
+            "description": "Overrides the tier's price for this species alone. Absent is the normal case — an override per species would mean the tiers are wrong.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "purchasable": {
+            "description": "ABSENT MEANS TRUE. False means the species exists in every other sense — tier, sprite, ownable, on the leaderboard — but the shop will not sell it because it is reached another way. A reader writing `if purchasable then` makes every species unsellable.",
+            "type": "boolean"
+          },
+          "sprite": {
+            "description": "Everything needed to draw the animal, including the atlas itself as a blob. Generated from the artist's Aseprite export by scripts/build-species.ts and never hand-edited.",
+            "ref": "#sprite",
+            "type": "ref"
+          },
+          "starter": {
+            "description": "Offered as a first pet. ABSENT MEANS NO, and the flag is a whitelist rather than a hint: when any species carries it, the starter picker offers exactly those and the price rule is not consulted. When none does, the picker falls back to everything the starter grant can afford, which is what it did before this field existed. Kept here rather than as a list on gameConfig because it is a fact about the species, and because a full species record already travels to every client in getDefinitions — a list elsewhere would need the query, its output lexicon and its Lua changed to say the same thing.",
+            "type": "boolean"
+          },
+          "tier": {
+            "description": "The id of a pet.trezy.tier record, which carries the price. Deliberately NOT an enum: adding a tier must be publishing one record, not editing this file, regenerating and redeploying the client. knownValues documents the tiers that exist today and constrains nothing.",
+            "knownValues": [
+              "common",
+              "uncommon",
+              "rare",
+              "epic",
+              "legendary"
+            ],
+            "maxLength": 64,
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "displayName",
+          "tier",
+          "sprite",
+          "behaviors"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    },
+    "rect": {
+      "properties": {
+        "h": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "w": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "x": {
+          "type": "integer"
+        },
+        "y": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "x",
+        "y",
+        "w",
+        "h"
+      ],
+      "type": "object"
+    },
+    "size": {
+      "properties": {
+        "h": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "w": {
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "w",
+        "h"
+      ],
+      "type": "object"
+    },
+    "slice": {
+      "properties": {
+        "bounds": {
+          "ref": "#rect",
+          "type": "ref"
+        },
+        "data": {
+          "description": "The slice's user-data, as key/value pairs. Aseprite stores this as a free-text string like `type=ground-contact`; it is split at build time so no reader has to. `type` is the only key the game reads today, and unknown keys are carried through rather than dropped.",
+          "items": {
+            "ref": "#datum",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "name": {
+          "maxLength": 64,
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "bounds"
+      ],
+      "type": "object"
+    },
+    "sprite": {
+      "description": "The drawable half of a species. Mirrors the client's SpriteSheet shape exactly so the client does no parsing: it reads these fields straight into the renderer. The Aseprite JSON is NOT carried verbatim — that format numbers frames per tag and stores tag membership as index ranges into an insertion-ordered object, which has caused two separate animation bugs in this project. The ranges are resolved here, once, at build time.",
+      "properties": {
+        "animations": {
+          "description": "Named animations. AN ARRAY, NOT A MAP, because lexicon has no map type and an `unknown` blob here would put this back to being parsed by hand at both ends. The client keys it by name on read.",
+          "items": {
+            "ref": "#animation",
+            "type": "ref"
+          },
+          "minLength": 1,
+          "type": "array"
+        },
+        "atlas": {
+          "accept": [
+            "image/png"
+          ],
+          "description": "The packed spritesheet PNG, stored in this repo. A blob rather than a URL into the app's public directory, so the artwork and the frame rectangles that index into it version together and CANNOT disagree — a repacked atlas with stale coordinates draws slivers of the wrong animal, which is the exact drift this record exists to end. Pixel-art atlases are a few KB; the cap is generous by three orders of magnitude and is only there to catch a mistake.",
+          "maxSize": 1000000,
+          "type": "blob"
+        },
+        "box": {
+          "description": "Tight opaque bounds across EVERY FRAME OF EVERY ANIMATION, in source pixels, with the creature centred on its ground contact. The box a crowd view packs cells from.\n\n⚠ MEASURED FROM THE ATLAS AT BUILD TIME, NEVER AUTHORED. It lived in the client as a 76-entry table for exactly as long as the client also held the art; once the art moved to its own repo nothing in the client could re-derive it, and a table of measurements nobody can check is a table that rots silently — a clipped ear, a crowd quietly back to overlapping.\n\n⚠ NOT `frameSize`, WHICH IS THE CANVAS RATHER THAN THE ANIMAL. Widths here run from 13 to 69 against a frame that is typically 64×64, so sizing a cell from the frame leaves a piglin swimming in five times its own area.\n\nOPTIONAL, AND ABSENCE IS NOT AN ERROR: a reader without it falls back to a box large enough for anything drawn. Records published before this field existed simply do not have it.",
+          "ref": "#size",
+          "type": "ref"
+        },
+        "frameSize": {
+          "description": "One frame's dimensions — the window the animal is drawn inside, typically 64×64 with the creature somewhere within it rather than filling it.",
+          "ref": "#size",
+          "type": "ref"
+        },
+        "portrait": {
+          "description": "Tight opaque bounds of the FIRST FRAME OF THE `idle` TAG alone, same centring as `box`. The crop a single-pet portrait uses.\n\n⚠ A SECOND MEASUREMENT RATHER THAN A DERIVATION OF `box`, BECAUSE ONE FRAME IS NOT THE LOOP. The widest animal reaches 69 across its full run and 59 on its idle frame; a portrait cropped to 69 leaves every pet floating, and a crowd cell sized at 59 clips the frames the idle pose does not reach. Neither number can be computed from the other.\n\nOPTIONAL on the same terms as `box`.",
+          "ref": "#size",
+          "type": "ref"
+        },
+        "size": {
+          "description": "The atlas's own pixel dimensions. Needed to place background-position offsets without waiting for the image to load.",
+          "ref": "#size",
+          "type": "ref"
+        },
+        "slices": {
+          "description": "Authored regions: the hitbox a pointer can grab, and the ground-contact box that decides where the animal's feet are. Absent or unlabelled slices fall back to a measured box, so this may be empty.",
+          "items": {
+            "ref": "#slice",
+            "type": "ref"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "atlas",
+        "size",
+        "frameSize",
+        "animations",
+        "slices"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "pet.trezy.species",
+  "lexicon": 1
+}

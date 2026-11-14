@@ -1,0 +1,46 @@
+{
+  "id": "site.mochott.account.getAuthorization",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "authorized",
+            "authorizeUrl"
+          ],
+          "properties": {
+            "authorized": {
+              "type": "boolean",
+              "description": "mochott holds a live authorization for the account."
+            },
+            "authorizeUrl": {
+              "type": "string",
+              "format": "uri",
+              "description": "Where the account signs in to mochott. After signing in it lands on the mochott dashboard, or with display=popup on a page that closes itself."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "display": {
+            "type": "string",
+            "description": "How the client opens authorizeUrl. 'popup': in a popup window; the sign-in then ends on a mochott page that closes itself (the PDS's authorization page sends Cross-Origin-Opener-Policy, so window.opener is gone and nothing is posted back: check again when the client's window regains focus). Omitted or unknown: the sign-in ends on the mochott dashboard.",
+            "knownValues": [
+              "popup"
+            ]
+          }
+        }
+      },
+      "description": "A client writing long posts asks this before the first one. Without the authorization, mochott cannot delete an article whose long post was deleted in an app that deletes posts alone; the client should then open authorizeUrl so the account signs in to mochott once."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 2,
+  "description": "Whether mochott holds the requesting account's authorization (OAuth). Requires auth."
+}

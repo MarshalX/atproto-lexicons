@@ -1,0 +1,236 @@
+{
+  "id": "at.postgame.game",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "game",
+          "status",
+          "createdAt"
+        ],
+        "properties": {
+          "game": {
+            "ref": "#gameRef",
+            "type": "ref"
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "owned": {
+            "type": "boolean",
+            "description": "True if the user owns this game, false if they have said they don't; omitted when not set"
+          },
+          "format": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "How the user has the game. Known values are 'physical', 'digital', and 'other'; omitted when not set",
+            "knownValues": [
+              "physical",
+              "digital",
+              "other"
+            ]
+          },
+          "rating": {
+            "type": "integer",
+            "maximum": 10,
+            "minimum": 1,
+            "description": "Rating stored as stars×2 (e.g. 7 = 3.5 stars)"
+          },
+          "replay": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Points to the original playthrough record if this is a replay"
+          },
+          "status": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Collection status. Canonical values are 'playing', 'wishlisted', 'backlogged', and 'played'; the remaining known values are legacy and only appear in older records ('started' → playing, 'wishlist' → wishlisted, 'shelved' → backlogged, 'finished'/'abandoned' → played with a playedStatus)",
+            "knownValues": [
+              "playing",
+              "wishlisted",
+              "backlogged",
+              "played",
+              "started",
+              "wishlist",
+              "finished",
+              "shelved",
+              "abandoned"
+            ]
+          },
+          "edition": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "Free-text edition, e.g. 'Deluxe' or 'Collector's edition'"
+          },
+          "isReplay": {
+            "type": "boolean",
+            "description": "True if this entry represents a replay of a previously played game"
+          },
+          "platform": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "playtime": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Time the user has played the game, in minutes, as they entered it; omitted when not set"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "resumedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Set when a shelved or finished game is moved back to 'playing'; distinguishes a resume from an initial start"
+          },
+          "startedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the entry's status last changed, including a sub-status change such as backlogged to shelved or playing to endless. Not bumped by details-only edits"
+          },
+          "finishedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "playedStatus": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "How a played game concluded. Canonical values are 'completed', 'mastered', 'retired', and 'abandoned'; 'shelved' is legacy and only appears in older records",
+            "knownValues": [
+              "completed",
+              "mastered",
+              "retired",
+              "abandoned",
+              "shelved"
+            ]
+          },
+          "statusChange": {
+            "ref": "#statusChange",
+            "type": "ref"
+          },
+          "librarySource": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "Free-text store or service the game is kept on, e.g. 'Steam' or 'Nintendo eShop'"
+          },
+          "playingStatus": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Refines a 'playing' status; 'endless' means a game with no finish line (multiplayer, live service) that the user keeps coming back to. Shown as 'Ongoing'",
+            "knownValues": [
+              "endless"
+            ]
+          },
+          "backloggedStatus": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Refines a 'backlogged' status; 'shelved' means the game was started but is paused for now",
+            "knownValues": [
+              "shelved"
+            ]
+          }
+        }
+      },
+      "description": "A game in a user's collection"
+    },
+    "gameRef": {
+      "type": "object",
+      "required": [
+        "igdbId",
+        "title"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "maxLength": 256
+        },
+        "ctaUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "genres": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 64
+          }
+        },
+        "igdbId": {
+          "type": "integer"
+        },
+        "igdbUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "coverUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "backdropUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "identifiers": {
+          "ref": "#gameIdentifiers",
+          "type": "ref"
+        },
+        "releaseDate": {
+          "type": "integer",
+          "description": "Release date as a Unix timestamp in seconds, sourced from IGDB"
+        }
+      }
+    },
+    "statusChange": {
+      "type": "object",
+      "required": [
+        "status",
+        "at"
+      ],
+      "properties": {
+        "at": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "status": {
+          "type": "string",
+          "description": "The primary status the entry moved to. The sub-status (playedStatus, backloggedStatus, playingStatus) is on the record itself.",
+          "knownValues": [
+            "playing",
+            "played",
+            "backlogged",
+            "wishlisted"
+          ]
+        }
+      },
+      "description": "Present only on the write that set the entry's status: when it was added, or when it moved to a different primary status (playing, played, backlogged, wishlisted). Any later write that doesn't change the status removes it, and imports never set it. Lets automations (e.g. Airglow) react once to a start or a finish instead of to every edit of the entry."
+    },
+    "gameIdentifiers": {
+      "type": "object",
+      "properties": {
+        "slug": {
+          "type": "string"
+        },
+        "atUri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT URI to a canonical game record on a shared game database"
+        },
+        "steamId": {
+          "type": "string"
+        }
+      },
+      "description": "Cross-service identifiers for a game"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

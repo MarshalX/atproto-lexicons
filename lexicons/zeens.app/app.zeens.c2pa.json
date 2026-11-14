@@ -1,0 +1,178 @@
+{
+  "id": "app.zeens.c2pa",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "images",
+          "createdAt"
+        ],
+        "properties": {
+          "images": {
+            "type": "array",
+            "items": {
+              "ref": "#credential",
+              "type": "ref"
+            },
+            "maxLength": 4,
+            "minLength": 1,
+            "description": "One entry per photo with a credential the creator chose to show. Sparse: a photo without one, or with the toggle off, has no entry. `index` and `blob` say which photo an entry is for."
+          },
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the post these credentials belong to."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Content Credentials (C2PA) read from a post's original photos at upload, for the photos the creator chose to show them on. The rkey matches the rkey of the associated post record, as with app.zeens.postMeta. This is a summary of what the C2PA manifest said, not the manifest itself: the manifest can carry an uncropped ingredient thumbnail and the photographer's GPS, so it is deliberately not republished. The summary is the creator's statement, signed by their repo; `status` records what the validator found, and a labeler may attest it independently."
+    },
+    "action": {
+      "type": "object",
+      "required": [
+        "action"
+      ],
+      "properties": {
+        "action": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "The C2PA action identifier, e.g. c2pa.color_adjustments, c2pa.cropped, or a vendor's own such as com.adobe.*. Stored raw so a reader maps it to words at render time."
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 300,
+          "description": "The producer's own description of the action, when it gave one. The only words a reader has for a vendor action it does not know."
+        },
+        "softwareAgent": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "The software that performed this action, when it differs from the manifest's generator."
+        }
+      }
+    },
+    "capture": {
+      "type": "object",
+      "properties": {
+        "device": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "The capture device that signed, e.g. \"Leica M11-P\"."
+        },
+        "signer": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Organisation on the capture manifest's signing certificate."
+        },
+        "signedAt": {
+          "type": "string",
+          "format": "datetime"
+        }
+      }
+    },
+    "credential": {
+      "type": "object",
+      "required": [
+        "index",
+        "blob",
+        "status",
+        "signer"
+      ],
+      "properties": {
+        "blob": {
+          "type": "string",
+          "format": "cid",
+          "description": "CID of the blob as stored on the PDS. Binds the entry to one exact image, so a reordered or replaced photo cannot inherit another photo's credential. The stored blob is usually a re-encode of the original, which is what `embedded` reports."
+        },
+        "index": {
+          "type": "integer",
+          "maximum": 3,
+          "minimum": 0,
+          "description": "Position of the photo in the post's embed."
+        },
+        "signer": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Organisation on the signing certificate, e.g. \"Adobe Inc.\" or \"Leica Camera AG\"."
+        },
+        "status": {
+          "type": "string",
+          "description": "What validation found. trusted: the signer chains to the official C2PA Trust List. legacy: the signer chains only to the frozen Interim Trust List. unrecognised: the manifest is intact but its signer is on neither list. A manifest that failed validation is never written.",
+          "knownValues": [
+            "trusted",
+            "legacy",
+            "unrecognised"
+          ]
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "ref": "#action",
+            "type": "ref"
+          },
+          "maxLength": 32,
+          "description": "Actions from the active manifest, in the order recorded."
+        },
+        "capture": {
+          "ref": "#capture",
+          "type": "ref",
+          "description": "Present when the photo's provenance reaches back to a camera that signed the capture, either because the active manifest is the camera's own or because an ingredient's is."
+        },
+        "embedded": {
+          "type": "boolean",
+          "description": "True when the stored blob is the original file, byte for byte, so anyone can re-verify its credential from the PDS: from the manifest inside it, or for a cloud manifest by following the file's pointer. False when the upload was re-encoded, which strips both."
+        },
+        "signedAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "Time of the manifest's signature, from its trusted timestamp when it has one."
+        },
+        "generator": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "The app or device that produced the active manifest, with its version, e.g. \"Adobe Lightroom Classic 14.3\"."
+        },
+        "ingredients": {
+          "type": "array",
+          "items": {
+            "ref": "#ingredient",
+            "type": "ref"
+          },
+          "maxLength": 16,
+          "description": "Source files the active manifest names, e.g. the raw file a Lightroom export was made from. Titles and whether each carries a credential of its own, never thumbnails: an ingredient's thumbnail is often the uncropped original."
+        },
+        "digitalSourceType": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "IPTC digital source type of the asset, as a URI, e.g. http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture or .../trainedAlgorithmicMedia. The strongest signal of generative AI involvement."
+        }
+      }
+    },
+    "ingredient": {
+      "type": "object",
+      "required": [
+        "credential"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "The ingredient's title as its manifest records it, usually a file name."
+        },
+        "credential": {
+          "type": "boolean",
+          "description": "True when the ingredient carries a Content Credential of its own."
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

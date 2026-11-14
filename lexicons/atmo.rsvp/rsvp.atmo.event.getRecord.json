@@ -1,0 +1,286 @@
+{
+  "id": "rsvp.atmo.event.getRecord",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri",
+            "did",
+            "collection",
+            "rkey",
+            "time_us"
+          ],
+          "properties": {
+            "cid": {
+              "type": "string"
+            },
+            "did": {
+              "type": "string",
+              "format": "did"
+            },
+            "uri": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "rkey": {
+              "type": "string"
+            },
+            "rsvps": {
+              "ref": "#hydrateRsvps",
+              "type": "ref"
+            },
+            "space": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "Present when the record was read from a permissioned space; its value is the space URI."
+            },
+            "record": {
+              "ref": "community.lexicon.calendar.event#main",
+              "type": "ref"
+            },
+            "time_us": {
+              "type": "integer"
+            },
+            "profiles": {
+              "type": "array",
+              "items": {
+                "ref": "#profileEntry",
+                "type": "ref"
+              }
+            },
+            "collection": {
+              "type": "string",
+              "format": "nsid"
+            },
+            "rsvpsCount": {
+              "type": "integer",
+              "description": "Total rsvps count"
+            },
+            "rsvpsGoingCount": {
+              "type": "integer",
+              "description": "rsvps count where status = going"
+            },
+            "rsvpsNotgoingCount": {
+              "type": "integer",
+              "description": "rsvps count where status = notgoing"
+            },
+            "rsvpsInterestedCount": {
+              "type": "integer",
+              "description": "rsvps count where status = interested"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "uri"
+        ],
+        "properties": {
+          "uri": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT URI of the record"
+          },
+          "profiles": {
+            "type": "boolean",
+            "description": "Include profile + identity info keyed by DID"
+          },
+          "spaceUri": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "If set, fetch from this permissioned space (requires service-auth JWT or a read-grant invite token)."
+          },
+          "inviteToken": {
+            "type": "string",
+            "description": "Read-grant invite token for anonymous bearer access. Replaces JWT auth when supplied."
+          },
+          "hydrateRsvps": {
+            "type": "integer",
+            "maximum": 50,
+            "minimum": 1,
+            "description": "Number of rsvps records to embed"
+          }
+        }
+      },
+      "description": "Get a single community.lexicon.calendar.event record by AT URI"
+    },
+    "hydrateRsvps": {
+      "type": "object",
+      "properties": {
+        "going": {
+          "type": "array",
+          "items": {
+            "ref": "#hydrateRsvpsRecord",
+            "type": "ref"
+          }
+        },
+        "other": {
+          "type": "array",
+          "items": {
+            "ref": "#hydrateRsvpsRecord",
+            "type": "ref"
+          }
+        },
+        "notgoing": {
+          "type": "array",
+          "items": {
+            "ref": "#hydrateRsvpsRecord",
+            "type": "ref"
+          }
+        },
+        "interested": {
+          "type": "array",
+          "items": {
+            "ref": "#hydrateRsvpsRecord",
+            "type": "ref"
+          }
+        }
+      }
+    },
+    "profileEntry": {
+      "type": "object",
+      "required": [
+        "did"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string"
+        },
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "rkey": {
+          "type": "string"
+        },
+        "handle": {
+          "type": "string"
+        },
+        "record": {
+          "ref": "#appBskyActorProfile",
+          "type": "ref"
+        },
+        "collection": {
+          "type": "string",
+          "format": "nsid"
+        }
+      }
+    },
+    "hydrateRsvpsRecord": {
+      "type": "object",
+      "required": [
+        "uri",
+        "did",
+        "collection",
+        "rkey",
+        "time_us"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string"
+        },
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "rkey": {
+          "type": "string"
+        },
+        "space": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "Present when the record was read from a permissioned space."
+        },
+        "record": {
+          "ref": "community.lexicon.calendar.rsvp#main",
+          "type": "ref"
+        },
+        "time_us": {
+          "type": "integer"
+        },
+        "collection": {
+          "type": "string",
+          "format": "nsid"
+        }
+      }
+    },
+    "appBskyActorProfile": {
+      "type": "object",
+      "properties": {
+        "avatar": {
+          "type": "blob",
+          "accept": [
+            "image/png",
+            "image/jpeg"
+          ],
+          "maxSize": 1000000,
+          "description": "Small image to be displayed next to posts from account. AKA, 'profile picture'"
+        },
+        "banner": {
+          "type": "blob",
+          "accept": [
+            "image/png",
+            "image/jpeg"
+          ],
+          "maxSize": 1000000,
+          "description": "Larger horizontal image to display behind profile view."
+        },
+        "labels": {
+          "refs": [
+            "com.atproto.label.defs#selfLabels"
+          ],
+          "type": "union",
+          "description": "Self-label values, specific to the Bluesky application, on the overall account."
+        },
+        "website": {
+          "type": "string",
+          "format": "uri"
+        },
+        "pronouns": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Free-form pronouns text.",
+          "maxGraphemes": 20
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "pinnedPost": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref"
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 2560,
+          "description": "Free-form profile description text.",
+          "maxGraphemes": 256
+        },
+        "displayName": {
+          "type": "string",
+          "maxLength": 640,
+          "maxGraphemes": 64
+        },
+        "joinedViaStarterPack": {
+          "ref": "com.atproto.repo.strongRef",
+          "type": "ref"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

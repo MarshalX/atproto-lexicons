@@ -1,0 +1,91 @@
+{
+  "id": "com.suibari.nagi.createKossoriPost",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "text",
+            "createdAt"
+          ],
+          "properties": {
+            "text": {
+              "type": "string",
+              "maxLength": 30000,
+              "maxGraphemes": 3000
+            },
+            "langs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "language"
+              },
+              "maxLength": 3
+            },
+            "reply": {
+              "ref": "com.suibari.nagi.post#replyRef",
+              "type": "ref",
+              "description": "こっそりスレッドへの返信。ルートが自分のこっそり投稿でなければ拒否される。"
+            },
+            "facets": {
+              "type": "array",
+              "items": {
+                "ref": "app.bsky.richtext.facet",
+                "type": "ref"
+              }
+            },
+            "botSilent": {
+              "type": "boolean"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "datetime"
+            },
+            "silentReply": {
+              "type": "boolean",
+              "description": "true の返信は直接の返信先へ通知しない。返信以外では効果を持たない。"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired"
+        },
+        {
+          "name": "InvalidRequest"
+        },
+        {
+          "name": "ReplyNotAllowed",
+          "description": "他人のこっそりスレッドには返信できない。"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri",
+            "cid"
+          ],
+          "properties": {
+            "cid": {
+              "type": "string",
+              "format": "cid"
+            },
+            "uri": {
+              "type": "string",
+              "format": "at-uri"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "こっそり投稿を作成する。本文は PDS レコードにせず AppView にのみ保存し、著者本人と botたん以外には返さない。URI は著者 DID を含まない AppView 発行の不透明なものになる。画像・リンクカード・チャンネル所属は扱わない。"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

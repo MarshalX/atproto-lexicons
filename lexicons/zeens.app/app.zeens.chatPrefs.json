@@ -1,0 +1,41 @@
+{
+  "id": "app.zeens.chatPrefs",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "allow",
+          "createdAt",
+          "app.zeens.v"
+        ],
+        "properties": {
+          "allow": {
+            "enum": [
+              "off",
+              "mutuals",
+              "everyone"
+            ],
+            "type": "string",
+            "default": "mutuals",
+            "description": "off = no one can message. mutuals = only people you both follow. everyone = anyone, but a first message from a non-mutual lands in Requests until you reply."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When this preference was last set."
+          },
+          "app.zeens.v": {
+            "type": "integer",
+            "description": "Zeens version marker (always 1)."
+          }
+        }
+      },
+      "description": "A user's chat privacy preference: who may start a conversation with them. This is a public policy flag (not message content), so storing it in a public repo is fine. One record per user (rkey 'self'). The server-side gate and the AppView indexer both enforce it. Carries the app.zeens.v marker."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

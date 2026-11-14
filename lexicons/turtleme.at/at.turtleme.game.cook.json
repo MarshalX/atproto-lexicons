@@ -1,0 +1,18 @@
+{
+  "id": "at.turtleme.game.cook",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "output": {
+        "schema": {
+          "ref": "at.turtleme.game.defs#state",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "Put one raw sea turtle on the range. One call, one roll, one result: whether it burnt is turtle meat's die and not the caller's. A cook takes four ticks, and asking again inside that is refused, so the range runs at the speed a range runs at however the button is being pressed. Requires an atproto service auth token addressed to did:web:turtleme.at#turtle_game and naming this method, so a token issued for one call cannot be spent on another."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

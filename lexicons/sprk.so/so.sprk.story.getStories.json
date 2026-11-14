@@ -1,0 +1,45 @@
+{
+  "id": "so.sprk.story.getStories",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "stories"
+          ],
+          "properties": {
+            "stories": {
+              "type": "array",
+              "items": {
+                "ref": "so.sprk.story.defs#storyView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "uris"
+        ],
+        "properties": {
+          "uris": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "description": "List of story AT-URIs to return hydrated views for."
+          }
+        }
+      },
+      "description": "Gets story views for a specified list of stories (by AT-URI). This is sometimes referred to as 'hydrating' a story reference list."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

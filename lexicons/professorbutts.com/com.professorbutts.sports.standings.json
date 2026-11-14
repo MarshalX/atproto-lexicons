@@ -1,0 +1,101 @@
+{
+  "id": "com.professorbutts.sports.standings",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "sport",
+          "league",
+          "name",
+          "standings",
+          "updatedAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "e.g. 'Drivers' Championship', 'Constructors' Championship', 'FedEx Cup', 'World Ranking'."
+          },
+          "next": {
+            "ref": "#nextSession",
+            "type": "ref",
+            "description": "The next session that will change these standings, shown on the card."
+          },
+          "sport": {
+            "type": "string",
+            "maxLength": 64,
+            "knownValues": [
+              "golf",
+              "motorsport"
+            ]
+          },
+          "table": {
+            "type": "string",
+            "knownValues": [
+              "drivers",
+              "constructors",
+              "teams",
+              "points",
+              "ranking"
+            ]
+          },
+          "league": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "e.g. F1, NASCAR Cup, NASCAR Truck, PGA, LPGA."
+          },
+          "season": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "source": {
+            "type": "string",
+            "format": "uri"
+          },
+          "standings": {
+            "type": "array",
+            "items": {
+              "ref": "com.professorbutts.sports.defs#entrant",
+              "type": "ref"
+            },
+            "maxLength": 200,
+            "description": "Ordered by position. Use entrant.score for the display figure ('340 pts', '8.51 avg') and points for the number."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "afterEvent": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "Last event counted, e.g. 'Mexico City GP'."
+          }
+        }
+      },
+      "description": "Record key like 'f1-2026-drivers', 'f1-2026-constructors', 'nascar-cup-2026-points', 'pga-2026-fedex', 'owgr'."
+    },
+    "nextSession": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "e.g. 'Sao Paulo GP FP1', 'Homestead Cup race', 'RSM Classic R1'."
+        },
+        "startsAt": {
+          "type": "string",
+          "format": "datetime"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Season standings for a leaderboard sport: F1 drivers' or constructors' championship, NASCAR points, golf rankings. Shown when no event is on. One record per table, updated in place."
+}

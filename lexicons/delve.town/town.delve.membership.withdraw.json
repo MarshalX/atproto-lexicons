@@ -1,0 +1,45 @@
+{
+  "id": "town.delve.membership.withdraw",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "properties": {
+            "revision": {
+              "type": "integer"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "MembershipChanged"
+        },
+        {
+          "name": "MembershipDisabled"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "membership"
+          ],
+          "properties": {
+            "membership": {
+              "ref": "town.delve.membership.defs#membership",
+              "type": "ref"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Leave the town. Existing posts stay; nothing new is indexed. Requires auth."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

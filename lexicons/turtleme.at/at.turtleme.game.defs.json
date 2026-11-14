@@ -1,0 +1,333 @@
+{
+  "id": "at.turtleme.game.defs",
+  "defs": {
+    "net": {
+      "type": "object",
+      "properties": {
+        "setAt": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "holding": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "What the net would yield if hauled now. A readout for drawing, not a promise: nothing is banked until it is hauled, and the server works the figure out again at that point."
+        }
+      },
+      "description": "The drift net, when it is in the water. Absent when it is not."
+    },
+    "cast": {
+      "type": "object",
+      "required": [
+        "seed",
+        "level",
+        "streak",
+        "left",
+        "mark",
+        "elapsed"
+      ],
+      "properties": {
+        "left": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Strikes the cast has left, landed or missed."
+        },
+        "mark": {
+          "ref": "at.turtleme.game.defs#mark",
+          "type": "ref"
+        },
+        "seed": {
+          "type": "integer",
+          "description": "What the run's windows are drawn from."
+        },
+        "level": {
+          "type": "integer",
+          "maximum": 99,
+          "minimum": 0,
+          "description": "The Fishing level the cast opened at, which with the streak gives the width of the window and the pace of the marker. Held for the run, so a level gained mid-cast does not widen the bar under the player."
+        },
+        "streak": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Strikes landed in a row, which is what narrows the window and quickens the marker."
+        },
+        "elapsed": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "How far into the run this reply reckons it is. A client sets its own clock from it, so the offset it reports for a strike is measured against the run turtle meat is timing."
+        }
+      },
+      "description": "A run of strikes. The seed every window is drawn from, the level the run opened at and the marker's state are all turtle meat's, so a client can draw the bar to the millisecond without being able to widen it, slow it or move the gold sliver."
+    },
+    "mark": {
+      "type": "object",
+      "required": [
+        "at",
+        "dir",
+        "since",
+        "index"
+      ],
+      "properties": {
+        "at": {
+          "type": "number",
+          "maximum": 100,
+          "minimum": 0,
+          "description": "Where across the bar the marker was left, as a percentage of it."
+        },
+        "dir": {
+          "type": "integer",
+          "description": "Which way it is travelling: 1 towards the right end, -1 towards the left."
+        },
+        "index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Which placement of the run's windows is on the bar. A turn at either end lays down the next one."
+        },
+        "since": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The moment of the run, in milliseconds, at which it started moving again. Until then it is held still for the splash to play over, and a strike thrown before it is refused."
+        }
+      },
+      "description": "Where the marker was left after the last strike, and which window that laid down. With the run's seed, level and streak it is the whole bar: where the marker is at any later moment of the run follows from it and the clock, which is how a client and turtle meat draw and judge the same bar without describing it to one another."
+    },
+    "reef": {
+      "type": "object",
+      "required": [
+        "across",
+        "shoal"
+      ],
+      "properties": {
+        "laid": {
+          "type": "boolean",
+          "description": "Whether the shoal has gone down yet. It goes down on the first sweep, clear of it."
+        },
+        "over": {
+          "type": "string",
+          "description": "How the board ended, or null while it is still being played.",
+          "knownValues": [
+            "clear",
+            "scattered",
+            "left"
+          ]
+        },
+        "known": {
+          "type": "array",
+          "items": {
+            "ref": "#patch",
+            "type": "ref"
+          },
+          "description": "Covered patches the open numbers prove safe, with what each one counts, alongside `opened`. What sweepReef hands over as `known`, for the whole board at once."
+        },
+        "shoal": {
+          "type": "integer",
+          "description": "How many sea turtles are under it, which the nets in the corner count down."
+        },
+        "swept": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "How many patches have been opened."
+        },
+        "across": {
+          "type": "integer",
+          "description": "How many patches across the board is. It is square."
+        },
+        "opened": {
+          "type": "array",
+          "items": {
+            "ref": "#patch",
+            "type": "ref"
+          },
+          "description": "Every patch opened so far and what each one counts, on getState while the board is being played, so a page that has lost the board can draw it again. Nothing the sweeps that opened them did not already say."
+        }
+      },
+      "description": "A reef board, as much of it as a player is allowed to know. Where the shoal lies is deliberately absent: a board laid out in the page is a board whose shoal is sitting in memory, and a player who looked would not be guessing at anything."
+    },
+    "rest": {
+      "type": "object",
+      "properties": {
+        "reef": {
+          "type": "string",
+          "format": "datetime",
+          "description": "After a reef, however it ended."
+        },
+        "strike": {
+          "type": "string",
+          "format": "datetime",
+          "description": "After a run of strikes, however it ended. Null when the water has never been worked."
+        }
+      },
+      "description": "The moments two stretches of water are worth working again. Held as the moment it is up rather than a countdown, so closing the page does not hand the time back."
+    },
+    "spot": {
+      "type": "object",
+      "required": [
+        "since"
+      ],
+      "properties": {
+        "since": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When this spot appeared."
+        },
+        "movesAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When it wanders off, drawn from the moment it appeared and nothing else, so that both sides get the same answer without being told it."
+        }
+      },
+      "description": "A fishing spot. Where it is on the water is the page's business; when it leaves is not, because casting at water nobody is standing over has to be refusable."
+    },
+    "patch": {
+      "type": "object",
+      "required": [
+        "index",
+        "count"
+      ],
+      "properties": {
+        "count": {
+          "type": "integer",
+          "maximum": 8,
+          "minimum": 0
+        },
+        "index": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Which patch, counted along each row from the top left."
+        }
+      },
+      "description": "One patch of a reef and how many of the eight patches around it a turtle is under."
+    },
+    "skill": {
+      "type": "object",
+      "required": [
+        "xp"
+      ],
+      "properties": {
+        "xp": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "state": {
+      "type": "object",
+      "required": [
+        "did",
+        "seq",
+        "proof"
+      ],
+      "properties": {
+        "gp": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Coins. Held here rather than by the client because a shop, an exchange and a player's own claim about what they can afford are the same question."
+        },
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "net": {
+          "ref": "#net",
+          "type": "ref"
+        },
+        "seq": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Increases whenever the state changes, and never otherwise. Publishing a receipt whose sequence has already been counted is a no-op rather than an error."
+        },
+        "cast": {
+          "ref": "#cast",
+          "type": "ref",
+          "description": "The run of strikes being played, when there is one. Null between casts, and once a run has ended by itself: what that leaves behind is a rest, which `rest` carries."
+        },
+        "reef": {
+          "ref": "#reef",
+          "type": "ref",
+          "description": "The reef board being played, when there is one. Null between boards."
+        },
+        "rest": {
+          "ref": "#rest",
+          "type": "ref",
+          "description": "When the two stretches of water that rest are worth working again."
+        },
+        "shop": {
+          "type": "unknown",
+          "description": "What each of the shop's shelves is holding right now, keyed by item, for a page that has to draw a counter. A shelf nobody has traded at is absent and sits at its usual quantity."
+        },
+        "spot": {
+          "ref": "#spot",
+          "type": "ref",
+          "description": "The fishing spot being stood over, when there is one. Null when there is not."
+        },
+        "items": {
+          "type": "unknown",
+          "description": "How many of each kind the player is carrying, keyed by item. Which of the inventory's slots a stack sits in is the client's business and is not recorded."
+        },
+        "proof": {
+          "type": "string",
+          "maxLength": 4096,
+          "description": "A compact JWS over these figures, signed by turtle meat. Writing it into at.turtleme.player.state is what puts a player on the leaderboard; not writing it is how they stay off."
+        },
+        "stats": {
+          "type": "unknown",
+          "description": "Lifetime tallies."
+        },
+        "market": {
+          "ref": "#market",
+          "type": "ref",
+          "description": "What a sea turtle is going for, as turtle meat last fetched it. Present only on the methods that need a price, and null when none recent enough to trade on could be had."
+        },
+        "cooking": {
+          "ref": "#skill",
+          "type": "ref"
+        },
+        "fishing": {
+          "ref": "#skill",
+          "type": "ref"
+        },
+        "outcome": {
+          "type": "unknown",
+          "description": "What the call just did, in facts rather than sentences: what was caught, bought, cooked or refused. The page puts it into words, because phrasing is not a number anyone else can see. Absent on a read. An outcome carrying `stale: true` means another call settled first and nothing was written; the state beside it is what is actually true."
+        },
+        "bankedTurtles": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Turtles held at the Grand Exchange rather than in the inventory."
+        }
+      },
+      "description": "A player's progress as the server holds it, with a receipt for publishing it. Every method returns this, so that a client always leaves a call holding something it can write to its own repository."
+    },
+    "market": {
+      "type": "object",
+      "required": [
+        "high",
+        "low"
+      ],
+      "properties": {
+        "at": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When turtle meat fetched it."
+        },
+        "low": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "What sellers are getting, so what a sell offer fills at, before the 2% tax."
+        },
+        "high": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "What buyers are paying, so what a buy offer fills at."
+        },
+        "stale": {
+          "type": "boolean",
+          "description": "True when the price service could not be reached and this is the last quote that arrived. Still traded on, up to a point, because a price from twenty minutes ago is a price."
+        }
+      },
+      "description": "The Grand Exchange quote the server settles against, fetched from the Old School RuneScape Wiki's real-time API rather than taken from the caller. The graph on the page is drawn from the same API directly; this is the number a trade actually happens at."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

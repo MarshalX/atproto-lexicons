@@ -1,0 +1,60 @@
+{
+  "id": "com.suibari.nagi.setMute",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "subjectType",
+            "subject",
+            "muted"
+          ],
+          "properties": {
+            "muted": {
+              "type": "boolean"
+            },
+            "subject": {
+              "type": "string",
+              "description": "actor なら対象の DID、tag ならハッシュタグ（先頭の # は無くてよく、小文字へ正規化される）。"
+            },
+            "subjectType": {
+              "type": "string",
+              "knownValues": [
+                "actor",
+                "tag"
+              ]
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired"
+        },
+        {
+          "name": "InvalidRequest"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "muted"
+          ],
+          "properties": {
+            "muted": {
+              "type": "boolean"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "ユーザーまたはハッシュタグのミュートを設定・解除する。ミュートは AppView にのみ保存され、他ユーザーからは参照できない。"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

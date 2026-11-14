@@ -1,0 +1,54 @@
+{
+  "id": "games.gamesgamesgamesgames.listClaims",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "claims"
+          ],
+          "properties": {
+            "claims": {
+              "type": "array",
+              "items": {
+                "ref": "games.gamesgamesgamesgames.getClaim#claimView",
+                "type": "ref"
+              }
+            },
+            "cursor": {
+              "type": "string"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 25,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "knownValues": [
+              "pending",
+              "approved",
+              "denied"
+            ]
+          }
+        }
+      },
+      "description": "List ownership claims, optionally filtered by status."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

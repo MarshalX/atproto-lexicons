@@ -1,0 +1,75 @@
+{
+  "id": "buzz.bookhive.getAuthorBooks",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "author",
+            "books",
+            "totalBooks",
+            "totalPages"
+          ],
+          "properties": {
+            "page": {
+              "type": "integer"
+            },
+            "books": {
+              "type": "array",
+              "items": {
+                "ref": "buzz.bookhive.hiveBook#main",
+                "type": "ref"
+              }
+            },
+            "author": {
+              "type": "string"
+            },
+            "totalBooks": {
+              "type": "integer"
+            },
+            "totalPages": {
+              "type": "integer"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "author"
+        ],
+        "properties": {
+          "page": {
+            "type": "integer",
+            "default": 1,
+            "minimum": 1
+          },
+          "sort": {
+            "type": "string",
+            "description": "Sort order. Defaults to popularity.",
+            "knownValues": [
+              "popularity",
+              "reviews"
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "author": {
+            "type": "string",
+            "description": "The author name to look up"
+          }
+        }
+      },
+      "description": "Get books by a specific author."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

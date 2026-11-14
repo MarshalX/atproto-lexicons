@@ -1,0 +1,70 @@
+{
+  "id": "social.grain.unspecced.getSitemap",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "entries",
+            "pageCount"
+          ],
+          "properties": {
+            "entries": {
+              "type": "array",
+              "items": {
+                "ref": "social.grain.unspecced.getSitemap#sitemapEntry",
+                "type": "ref"
+              }
+            },
+            "pageCount": {
+              "type": "integer",
+              "description": "How many pages of this kind there are, so the sitemap index can list them all."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "kind"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "knownValues": [
+              "profiles",
+              "galleries"
+            ]
+          },
+          "page": {
+            "type": "integer",
+            "default": 0,
+            "minimum": 0
+          }
+        }
+      },
+      "description": "One page of the public profiles or galleries a search engine may index, for the sitemap. Leaves out anything labeled, taken down, or in a space."
+    },
+    "sitemapEntry": {
+      "type": "object",
+      "required": [
+        "path"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "The page's path on this site, named by handle where the account has one."
+        },
+        "lastmod": {
+          "type": "string",
+          "format": "datetime"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

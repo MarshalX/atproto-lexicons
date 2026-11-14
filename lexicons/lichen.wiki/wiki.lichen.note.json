@@ -1,0 +1,45 @@
+{
+  "id": "wiki.lichen.note",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "slug",
+          "title",
+          "wikiRef",
+          "createdAt"
+        ],
+        "properties": {
+          "slug": {
+            "type": "string",
+            "maxLength": 2560,
+            "description": "Permanent human-readable identifier, used in URLs. Fixed at creation. The note with slug '_sidebar' is the wiki's navigation.",
+            "maxGraphemes": 256
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 2560,
+            "description": "The note's title at creation. The newest title on a noteRevision replaces it.",
+            "maxGraphemes": 256
+          },
+          "wikiRef": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the parent wiki record."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the note was created."
+          }
+        }
+      },
+      "description": "A note within a wiki. The rkey is a TID. Human-readable slug lives in the record body."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

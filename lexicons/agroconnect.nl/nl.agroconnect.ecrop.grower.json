@@ -1,0 +1,62 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "The details of the grower (e.g. the farmer) that is responsible for the cultivation of the crop.",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "emailAddress": {
+            "description": "E-mail address of the party",
+            "type": "string"
+          },
+          "iban": {
+            "description": "International Bank Account Number (IBAN) of the party",
+            "type": "string"
+          },
+          "name": {
+            "description": "Name of the party",
+            "type": "string"
+          },
+          "personName": {
+            "description": "Persons name",
+            "type": "string"
+          },
+          "phoneNumber": {
+            "description": "Phone number of the party",
+            "type": "string"
+          },
+          "postalAddress": {
+            "ref": "nl.agroconnect.ecrop.defs#postalAddressType",
+            "type": "ref"
+          },
+          "telefaxNumber": {
+            "description": "Telefax number of the party",
+            "type": "string"
+          },
+          "thirdPartyIds": {
+            "description": "List of alternative identifiers (\\\"AKA, also-know-as\\\") with which the resource is identified by third parties (e.g. a gln, or chamber of commerce number)",
+            "ref": "nl.agroconnect.ecrop.defs#thirdPartyIdsType",
+            "type": "ref"
+          },
+          "visitorsAddress": {
+            "ref": "nl.agroconnect.ecrop.defs#visitorsAddressType",
+            "type": "ref"
+          },
+          "websiteUrl": {
+            "description": "Address of the website of the party",
+            "type": "string"
+          }
+        },
+        "required": [
+          "thirdPartyIds",
+          "name"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "nl.agroconnect.ecrop.grower",
+  "lexicon": 1
+}

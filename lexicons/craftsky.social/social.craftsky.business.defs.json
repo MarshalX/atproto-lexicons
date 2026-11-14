@@ -1,0 +1,138 @@
+{
+  "id": "social.craftsky.business.defs",
+  "defs": {
+    "image": {
+      "type": "object",
+      "required": [
+        "image"
+      ],
+      "properties": {
+        "alt": {
+          "type": "string",
+          "maxLength": 10000,
+          "description": "Optional alt text describing the image.",
+          "maxGraphemes": 1000
+        },
+        "image": {
+          "type": "blob",
+          "accept": [
+            "image/jpeg",
+            "image/png",
+            "image/webp"
+          ],
+          "maxSize": 2000000
+        },
+        "aspectRatio": {
+          "ref": "#aspectRatio",
+          "type": "ref",
+          "description": "Optional aspect ratio metadata for rendering."
+        }
+      },
+      "description": "A business product or event image with optional accessibility and layout metadata."
+    },
+    "price": {
+      "type": "object",
+      "required": [
+        "amount",
+        "currency"
+      ],
+      "properties": {
+        "amount": {
+          "type": "string",
+          "maxLength": 17,
+          "description": "Nonnegative decimal amount interpreted according to the currency minor-unit scale."
+        },
+        "currency": {
+          "type": "string",
+          "maxLength": 3,
+          "minLength": 3,
+          "description": "Uppercase ISO 4217 alphabetic currency code."
+        }
+      },
+      "description": "Seller-authored display price amount and ISO 4217 currency code."
+    },
+    "action": {
+      "type": "object",
+      "required": [
+        "type",
+        "destination"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Open action type; clients apply behavior only to values they recognize.",
+          "knownValues": [
+            "shop",
+            "browse-patterns",
+            "request-custom-order",
+            "book-class",
+            "book-appointment",
+            "view-event-calendar",
+            "email",
+            "visit-website",
+            "wholesale-enquiries"
+          ]
+        },
+        "destination": {
+          "type": "string",
+          "format": "uri",
+          "description": "External web or email destination selected by the author."
+        }
+      },
+      "description": "The declaration's primary external action."
+    },
+    "product": {
+      "type": "object",
+      "required": [
+        "title",
+        "uri"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "description": "External product destination."
+        },
+        "image": {
+          "ref": "#image",
+          "type": "ref",
+          "description": "Optional product image for interoperable records; Craftsky writes require it."
+        },
+        "price": {
+          "ref": "#price",
+          "type": "ref",
+          "description": "Optional seller-authored display price."
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 1500,
+          "description": "Seller-authored product title.",
+          "maxGraphemes": 150
+        }
+      },
+      "description": "An external product card in authored display order."
+    },
+    "aspectRatio": {
+      "type": "object",
+      "required": [
+        "width",
+        "height"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "description": "Image aspect ratio metadata used for layout hints."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Shared objects used by Craftsky business declarations and events."
+}

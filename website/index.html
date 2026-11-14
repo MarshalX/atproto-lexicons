@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Third-party atproto lexicons for Python · lex.atproto.blue</title>
+  <meta name="description" content="Search {{lexicons}} third-party AT Protocol lexicons from {{services}} services. Each one ships as typed models and client methods for the atproto Python SDK.">
+  <meta name="author" content="Ilya (Marshal)">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#CFE2FF">
+  <link rel="canonical" href="https://lex.atproto.blue/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="lex.atproto.blue">
+  <meta property="og:url" content="https://lex.atproto.blue/">
+  <meta property="og:title" content="Third-party lexicons, ready to import">
+  <meta property="og:description" content="{{lexicons}} lexicons from {{services}} services, each shipped as typed models and client methods for the atproto Python SDK.">
+  <meta property="og:image" content="https://lex.atproto.blue/images/og.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="lex.atproto.blue: third-party lexicons, ready to import. Atmosphere lexicons for the atproto Python SDK.">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="favicon.ico" sizes="32x32">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+
+  <script>
+    (function () {
+      var theme;
+      try { theme = localStorage.getItem('theme'); } catch (e) {}
+      if (theme !== 'light' && theme !== 'dark') theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
+
+  <link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="catalog.json" as="fetch" crossorigin>
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/catalog.css">
+  <link rel="stylesheet" href="css/sections.css">
+  <script type="module" src="js/main.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://lex.atproto.blue/#website",
+        "url": "https://lex.atproto.blue/",
+        "name": "lex.atproto.blue",
+        "description": "Catalog of third-party AT Protocol lexicons packaged for the atproto Python SDK.",
+        "inLanguage": "en",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": { "@type": "EntryPoint", "urlTemplate": "https://lex.atproto.blue/?q={search_term_string}" },
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "SoftwareSourceCode",
+        "name": "atproto-lexicons",
+        "description": "Typed Python models and client methods for third-party AT Protocol lexicons, generated for the atproto SDK and rebuilt daily.",
+        "url": "https://lex.atproto.blue/",
+        "codeRepository": "https://github.com/MarshalX/atproto-lexicons",
+        "programmingLanguage": "Python",
+        "runtimePlatform": "Python 3",
+        "license": "https://github.com/MarshalX/atproto-lexicons/blob/main/LICENSE",
+        "author": { "@type": "Person", "name": "Ilya (Marshal)", "url": "https://marshal.dev" }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-logo" viewBox="0 0 28 28"><rect width="28" height="28" rx="8" style="fill: var(--accent)"/><path d="M11.2 8.4c-1.7 0-2.5.8-2.5 2.4v1.3c0 1.1-.5 1.7-1.7 1.9 1.2.2 1.7.8 1.7 1.9v1.3c0 1.6.8 2.4 2.5 2.4M16.8 8.4c1.7 0 2.5.8 2.5 2.4v1.3c0 1.1.5 1.7 1.7 1.9-1.2.2-1.7.8-1.7 1.9v1.3c0 1.6-.8 2.4-2.5 2.4" style="fill: none; stroke: var(--on-accent); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round"/><circle cx="14" cy="14" r="1.9" style="fill: var(--on-accent)"/></symbol>
+    <symbol id="i-github" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
+    <symbol id="i-pypi" viewBox="0 0 24 24"><path d="M11.858 0c-.978.005-1.913.088-2.736.234C6.7.662 6.26 1.558 6.26 3.21v2.182h5.725v.727H4.111c-1.664 0-3.121 1-3.577 2.903-.526 2.181-.549 3.542 0 5.82.407 1.694 1.379 2.902 3.043 2.902h1.969v-2.616c0-1.89 1.635-3.557 3.576-3.557h5.72c1.591 0 2.862-1.31 2.862-2.91v-5.45c0-1.553-1.309-2.718-2.863-2.977A18 18 0 0 0 11.858 0M8.762 1.755c.591 0 1.074.491 1.074 1.095 0 .601-.483 1.087-1.074 1.087A1.08 1.08 0 0 1 7.688 2.85c0-.604.48-1.095 1.074-1.095m9.656 4.364v2.543c0 1.971-1.671 3.63-3.577 3.63H9.122c-1.566 0-2.862 1.34-2.862 2.91v5.452c0 1.551 1.349 2.464 2.862 2.91 1.813.532 3.55.628 5.72 0 1.44-.418 2.862-1.258 2.862-2.91V18.47h-5.719v-.727h8.582c1.664 0 2.284-1.16 2.862-2.903.598-1.793.573-3.518 0-5.819-.41-1.656-1.196-2.903-2.862-2.903zm-3.216 13.807a1.08 1.08 0 0 1 1.074 1.088c0 .604-.48 1.094-1.074 1.094-.592 0-1.075-.49-1.075-1.094 0-.601.483-1.088 1.075-1.088"/></symbol>
+    <symbol id="i-bluesky" viewBox="0 0 24 24"><path d="M5.202 2.857C7.954 4.922 10.913 9.11 12 11.358c1.087-2.247 4.046-6.436 6.798-8.501C20.783 1.366 24 .213 24 3.883c0 .732-.42 6.156-.667 7.037-.856 3.061-3.978 3.842-6.755 3.37 4.854.826 6.089 3.562 3.422 6.299-5.065 5.196-7.28-1.304-7.847-2.97-.104-.305-.152-.448-.153-.327 0-.121-.05.022-.153.327-.568 1.666-2.782 8.166-7.847 2.97-2.667-2.737-1.432-5.473 3.422-6.3-2.777.473-5.899-.308-6.755-3.369C.42 10.04 0 4.615 0 3.883c0-3.67 3.217-2.517 5.202-1.026"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M17.625 1.499c-2.32 0-4.354 1.203-5.625 3.03-1.271-1.827-3.305-3.03-5.625-3.03C3.129 1.499 0 4.253 0 8.249c0 4.275 3.068 7.847 5.828 10.227a33.14 33.14 0 0 0 5.616 3.876l.028.017.008.003-.001.003c.163.085.342.126.521.125.179.001.358-.041.521-.125l-.001-.003.008-.003.028-.017a33.14 33.14 0 0 0 5.616-3.876C20.932 16.096 24 12.524 24 8.249c0-3.996-3.129-6.75-6.375-6.75zm-.919 15.275a30.766 30.766 0 0 1-4.703 3.316l-.004-.002-.004.002a30.955 30.955 0 0 1-4.703-3.316c-2.677-2.307-5.047-5.298-5.047-8.523 0-2.754 2.121-4.5 4.125-4.5 2.06 0 3.914 1.479 4.544 3.684.143.495.596.797 1.086.796.49.001.943-.302 1.085-.796.63-2.205 2.484-3.684 4.544-3.684 2.004 0 4.125 1.746 4.125 4.5 0 3.225-2.37 6.216-5.048 8.523z"/></symbol>
+    <symbol id="i-star" viewBox="0 0 16 16"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 17L17 7M9 7h8v8"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke-width="2.4"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 8h.01"/></symbol>
+    <symbol id="i-warning" viewBox="0 0 24 24"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/></symbol>
+    <symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M6 18L18 6"/></symbol>
+    <symbol id="i-status-full" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-status-partial" viewBox="0 0 12 12"><circle cx="6" cy="6" r="4.25" stroke-width="1.5"/><path d="M6 1.75a4.25 4.25 0 0 1 0 8.5z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-status-unsupported" viewBox="0 0 12 12"><circle cx="6" cy="6" r="4.25" stroke-width="1.5"/><path d="M3.2 8.8L8.8 3.2" stroke-width="1.5" stroke-linecap="butt"/></symbol>
+    <symbol id="i-sync" viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 13.7-5.7L20 8M20 4v4h-4M20 12a8 8 0 0 1-13.7 5.7L4 16M4 20v-4h4"/></symbol>
+    <symbol id="i-typed" viewBox="0 0 24 24"><path d="M5 7V5h14v2M12 5v14M9 19h6"/></symbol>
+    <symbol id="i-lines" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l8-8M16 7l3 3"/></symbol>
+    <symbol id="i-waves" viewBox="0 0 24 24"><path d="M3 8c3 0 3-3 6-3s3 3 6 3 3-3 6-3M3 14c3 0 3-3 6-3s3 3 6 3 3-3 6-3M3 20c3 0 3-3 6-3s3 3 6 3 3-3 6-3"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></symbol>
+  </svg>
+
+  <a class="skip-link" href="#catalog">Skip to the catalog</a>
+
+  <div class="hero">
+    <div class="backdrop" aria-hidden="true" data-backdrop></div>
+
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="lex.atproto.blue, home">
+        <svg class="brand-mark" width="28" height="28" aria-hidden="true"><use href="#i-logo"/></svg>
+        <span class="brand-name"><b>lex</b><span>.atproto.blue</span></span>
+      </a>
+      <nav class="site-nav" id="site-nav" aria-label="Sections">
+        <a class="site-nav-link" href="#how">How it works</a>
+        <a class="site-nav-link" href="#sdk">The SDK</a>
+        <a class="site-nav-link site-nav-icon" href="https://github.com/MarshalX/atproto-lexicons" aria-label="Atmosphere lexicons on GitHub"><svg class="icon icon-solid" width="19" height="19" aria-hidden="true"><use href="#i-github"/></svg><span>GitHub</span></a>
+        <a class="site-nav-link site-nav-icon" href="https://pypi.org/project/atproto-lexicons/" aria-label="Atmosphere lexicons on PyPI"><svg class="icon icon-solid" width="19" height="19" aria-hidden="true"><use href="#i-pypi"/></svg><span>PyPI</span></a>
+      </nav>
+      <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">
+        <svg class="icon theme-toggle-moon" width="18" height="18" aria-hidden="true"><use href="#i-moon"/></svg>
+        <svg class="icon theme-toggle-sun" width="18" height="18" aria-hidden="true"><use href="#i-sun"/></svg>
+      </button>
+      <button class="icon-button nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+        <svg class="icon nav-toggle-open" width="22" height="22" aria-hidden="true"><use href="#i-menu"/></svg>
+        <svg class="icon nav-toggle-close" width="22" height="22" aria-hidden="true"><use href="#i-close"/></svg>
+      </button>
+    </header>
+
+    <section class="hero-body" id="top" aria-labelledby="hero-title">
+      <a class="eyebrow" href="#sdk">
+        <strong>Atmosphere lexicons</strong>
+        <span>for the atproto Python SDK<svg class="icon" width="14" height="14" aria-hidden="true"><use href="#i-arrow-right"/></svg></span>
+      </a>
+      <h1 id="hero-title">Third-party lexicons, <span class="accent">ready to import.</span></h1>
+      <p class="lead">Find the service you build on. {{lexicons}} lexicons from {{services}} services, each shipped as typed models and client methods for the atproto SDK.</p>
+
+      <div class="search" role="search">
+        <label class="visually-hidden" for="catalog-search">Search the catalog</label>
+        <div class="search-field">
+          <svg class="icon search-icon" width="22" height="22" aria-hidden="true"><use href="#i-search"/></svg>
+          <input id="catalog-search" type="search" name="q" placeholder="Search services and NSIDs" autocomplete="off" autocapitalize="none" spellcheck="false" enterkeyhint="search">
+          <button class="search-clear" type="button" data-search-clear aria-label="Clear search" hidden><svg class="icon" width="18" height="18" aria-hidden="true"><use href="#i-close"/></svg></button>
+          <kbd class="search-kbd" data-search-kbd aria-hidden="true">/</kbd>
+        </div>
+        <div class="suggestions" data-suggestions><span>Try</span></div>
+      </div>
+
+      <div class="install">
+        <span class="install-command"><span class="prompt" aria-hidden="true">$</span>pip install atproto-lexicons</span>
+        <button class="install-copy copy" type="button" data-copy="pip install atproto-lexicons" aria-label="Copy install command">
+          <svg class="icon copy-idle" width="15" height="15" aria-hidden="true"><use href="#i-copy"/></svg>
+          <svg class="icon copy-done" width="15" height="15" aria-hidden="true"><use href="#i-check"/></svg>
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <main>
+    <section class="catalog" id="catalog" aria-labelledby="catalog-title">
+      <h2 class="visually-hidden" id="catalog-title">Catalog</h2>
+      <div class="toolbar">
+        <div class="segmented" role="group" aria-label="Filter by support status" data-status-filter></div>
+        <span class="toolbar-spacer"></span>
+        <div class="dropdown" data-dropdown="kind"></div>
+        <div class="dropdown dropdown-end" data-dropdown="sort"></div>
+      </div>
+
+      <div class="catalog-meta">
+        <p data-result-count aria-live="polite"></p>
+        <p class="catalog-built" data-built></p>
+      </div>
+
+      <div class="catalog-card">
+        <div class="letters" role="group" aria-label="Filter by first letter" data-letters></div>
+        <div class="services" data-services></div>
+        <p class="catalog-status" data-catalog-status>Loading the catalog…</p>
+        <noscript><p class="catalog-status">The catalog needs JavaScript. The plain list is in <a href="https://github.com/MarshalX/atproto-lexicons/blob/main/SUPPORTED.md">SUPPORTED.md</a>.</p></noscript>
+
+        <div class="empty" data-empty hidden>
+          <h3 data-empty-filters>No service passes these filters</h3>
+          <h3 data-empty-search>Nothing matches <span class="empty-query">“<span data-empty-query></span>”</span></h3>
+          <p data-empty-search>No service, NSID or description in the catalog contains it. If the service publishes its lexicons, it can be added to the registry, and the next daily build will pick it up.</p>
+          <div class="empty-actions">
+            <a class="button button-primary" href="https://github.com/MarshalX/atproto-lexicons/blob/main/CONTRIBUTING.md#adding-a-service"><svg class="icon icon-solid" width="17" height="17" aria-hidden="true"><use href="#i-github"/></svg>Add a service</a>
+            <button class="button" type="button" data-reset>Clear filters</button>
+          </div>
+          <p class="empty-hint">Try a domain like <button class="inline-chip" type="button" data-example="domain"></button> or an NSID like <button class="inline-chip" type="button" data-example="nsid"></button></p>
+        </div>
+
+        <div class="show-all" data-show-all hidden>
+          <button type="button"><span data-show-all-label></span><svg class="icon" width="14" height="14" aria-hidden="true"><use href="#i-chevron"/></svg></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="how" id="how" aria-labelledby="how-title">
+      <div class="split">
+        <div class="prose">
+          <h2 id="how-title">Import it next to the SDK's own models.</h2>
+          <p>Third-party records, queries and procedures get the same typed models and namespaced client methods as <code>app.bsky</code>. Nothing to download, nothing to generate.</p>
+          <ol class="steps">
+            <li>
+              <span class="step-number" aria-hidden="true">1</span>
+              <span><strong>A registry lists the services</strong><span>That list is the catalog you searched above.</span></span>
+            </li>
+            <li>
+              <span class="step-number" aria-hidden="true">2</span>
+              <span><strong>Schemas are fetched the way the Lexicon spec says</strong><span>The DNS record first, then the schema records in the service's repository. Stored unmodified.</span></span>
+            </li>
+            <li>
+              <span class="step-number" aria-hidden="true">3</span>
+              <span><strong>The SDK's own code generator writes the package</strong><span>Versions are dates: each release is a snapshot of what the services published that day, made only when something changed.</span></span>
+            </li>
+          </ol>
+        </div>
+
+        <figure class="code-window code-window-raised" aria-label="Example: writing a Teal.fm play record with Atmosphere lexicons">
+          <div class="code-window-bar">
+            <span class="code-window-name">app.py</span>
+            <button class="code-copy copy" type="button" data-copy-from="example-package" aria-label="Copy code"><span class="copy-idle">Copy</span><span class="copy-done">Copied</span></button>
+          </div>
+          <pre class="code" id="example-package" data-code data-highlight="7-11"><code>from atproto_lexicons import models
+from atproto_lexicons.client import AtprotoLexiconsClient
+
+client = AtprotoLexiconsClient()
+client.login('handle.example.com', 'app-password')
+
+# a third-party record
+play = models.FmTealFeedPlay.Record(
+    track_name='Song', played_time=client.get_current_time_iso()
+)
+client.fm.teal.feed.play.create(client.me.did, play)
+
+# the namespaces of the SDK are still there
+client.app.bsky.feed.post.create(
+    client.me.did,
+    models.AppBskyFeedPost.Record(
+        text='hi', created_at=client.get_current_time_iso()
+    ),
+)</code></pre>
+        </figure>
+      </div>
+    </section>
+
+    <section class="sdk" id="sdk" aria-labelledby="sdk-title">
+      <div class="sdk-card">
+        <div class="split">
+          <div class="prose">
+            <h2 id="sdk-title">Built on the AT Protocol SDK for Python</h2>
+            <p>Atmosphere lexicons is an add-on. The SDK ships the Bluesky and core atproto lexicons, and everything else you need to build on the network.</p>
+            <div class="sdk-actions">
+              <a class="sdk-button sdk-button-primary" href="https://atproto.blue">Read the docs<svg class="icon" width="16" height="16" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+              <a class="sdk-button sdk-button-split" href="https://github.com/MarshalX/atproto" data-stars-link aria-label="Star the atproto SDK on GitHub">
+                <span><svg class="icon icon-solid" width="18" height="18" aria-hidden="true"><use href="#i-github"/></svg>Star</span>
+                <span class="sdk-stars" data-stars hidden><svg class="icon icon-solid" width="15" height="15" aria-hidden="true"><use href="#i-star"/></svg><span data-stars-count></span></span>
+              </a>
+              <a class="sdk-button" href="https://pypi.org/project/atproto/"><svg class="icon icon-solid" width="18" height="18" aria-hidden="true"><use href="#i-pypi"/></svg>PyPI</a>
+            </div>
+          </div>
+          <div class="sdk-samples">
+            <div class="sdk-install">
+              <span class="prompt" aria-hidden="true">$</span><span class="sdk-install-command">pip install atproto</span>
+              <button class="sdk-copy copy" type="button" data-copy="pip install atproto" aria-label="Copy SDK install command"><span class="copy-idle">Copy</span><span class="copy-done">Copied</span></button>
+            </div>
+            <figure class="code-window" aria-label="Example: posting with the atproto SDK">
+              <pre class="code" data-code><code>from atproto import Client
+
+client = Client()
+client.login('handle.example.com', 'app-password')
+client.send_post('Hello from Python')</code></pre>
+            </figure>
+          </div>
+        </div>
+        <ul class="features">
+          <li><svg class="icon" width="22" height="22" aria-hidden="true"><use href="#i-sync"/></svg><h3>Sync and async</h3><p>Client and AsyncClient, with the same methods.</p></li>
+          <li><svg class="icon" width="22" height="22" aria-hidden="true"><use href="#i-typed"/></svg><h3>Typed throughout</h3><p>Type hints on every model and method.</p></li>
+          <li><svg class="icon" width="22" height="22" aria-hidden="true"><use href="#i-lines"/></svg><h3>The whole XRPC surface</h3><p>A high-level client over every endpoint.</p></li>
+          <li><svg class="icon" width="22" height="22" aria-hidden="true"><use href="#i-key"/></svg><h3>OAuth and app passwords</h3><p>Both login flows.</p></li>
+          <li><svg class="icon" width="22" height="22" aria-hidden="true"><use href="#i-waves"/></svg><h3>Firehose and Jetstream</h3><p>Stream the network as it happens.</p></li>
+          <li><svg class="icon" width="22" height="22" aria-hidden="true"><use href="#i-chat"/></svg><h3>DMs and identity</h3><p>Direct messages, plus DID and handle resolvers.</p></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="brand">
+          <svg class="brand-mark" width="24" height="24" aria-hidden="true"><use href="#i-logo"/></svg>
+          <span class="brand-name"><b>lex</b><span>.atproto.blue</span></span>
+        </span>
+        <p>Atmosphere lexicons for the atproto Python SDK.</p>
+      </div>
+      <nav aria-label="Package">
+        <h2>Atmosphere lexicons</h2>
+        <a href="https://github.com/MarshalX/atproto-lexicons"><svg class="icon icon-solid" width="15" height="15" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a>
+        <a href="https://pypi.org/project/atproto-lexicons/"><svg class="icon icon-solid" width="15" height="15" aria-hidden="true"><use href="#i-pypi"/></svg>PyPI</a>
+        <a class="footer-indent" href="https://github.com/MarshalX/atproto-lexicons/blob/main/CONTRIBUTING.md#adding-a-service">Add a service</a>
+      </nav>
+      <nav aria-label="SDK">
+        <h2>atproto SDK</h2>
+        <a href="https://atproto.blue">Docs at atproto.blue</a>
+        <a href="https://github.com/MarshalX/atproto"><svg class="icon icon-solid" width="15" height="15" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a>
+        <a href="https://pypi.org/project/atproto/"><svg class="icon icon-solid" width="15" height="15" aria-hidden="true"><use href="#i-pypi"/></svg>PyPI</a>
+      </nav>
+      <nav aria-label="Author">
+        <h2>Ilya Siamionau</h2>
+        <a href="https://marshal.dev">marshal.dev</a>
+        <a href="https://github.com/sponsors/MarshalX"><svg class="icon icon-solid icon-sponsor" width="15" height="15" aria-hidden="true"><use href="#i-heart"/></svg>GitHub Sponsors</a>
+        <a href="https://bsky.app/profile/marshal.dev"><svg class="icon icon-solid" width="15" height="15" aria-hidden="true"><use href="#i-bluesky"/></svg>@marshal.dev</a>
+      </nav>
+    </div>
+    <div class="footer-legal">
+      <div>
+        <span class="footer-copyright">© 2026 Ilya (Marshal) 🦁</span>
+        <span>An independent project, not affiliated with or endorsed by Bluesky, AT Protocol or the listed services. Schemas belong to their authors.</span>
+      </div>
+    </div>
+  </footer>
+
+  <p class="visually-hidden" role="status" data-announcer></p>
+</body>
+</html>

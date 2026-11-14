@@ -1,0 +1,109 @@
+{
+  "id": "org.shelfcheck.shelf.entry",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "status",
+          "title",
+          "authors",
+          "ids",
+          "createdAt"
+        ],
+        "properties": {
+          "ids": {
+            "ref": "org.shelfcheck.defs#bookIds",
+            "type": "ref"
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 60000,
+            "description": "Free-form private notes or a public review.",
+            "maxGraphemes": 15000
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 1024,
+            "description": "Display title, denormalized so the record is self-contained."
+          },
+          "rating": {
+            "type": "integer",
+            "maximum": 100,
+            "minimum": 0,
+            "description": "User rating, 0-100 (half-star resolution: 10 == 0.5★, 20 == 1★, ..., 100 == 5★)."
+          },
+          "source": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Where this entry originated, for provenance: e.g. 'goodreads', 'hardcover', 'storygraph', 'bookhive', 'lyndi', 'manual'."
+          },
+          "status": {
+            "type": "string",
+            "knownValues": [
+              "org.shelfcheck.defs#wantToRead",
+              "org.shelfcheck.defs#reading",
+              "org.shelfcheck.defs#finished",
+              "org.shelfcheck.defs#abandoned"
+            ]
+          },
+          "authors": {
+            "type": "array",
+            "items": {
+              "ref": "org.shelfcheck.defs#authorRef",
+              "type": "ref"
+            },
+            "maxLength": 32,
+            "minLength": 1
+          },
+          "coverUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Remote cover image URL. Cover blobs are intentionally not uploaded to the PDS; clients may render via Open Library, the source URL, or their own cache."
+          },
+          "subjects": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 256
+            },
+            "maxLength": 64
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "pageCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "sourceUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Canonical link back to the source record (e.g. the Goodreads or BookHive page)."
+          },
+          "startedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "finishedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "firstPublishYear": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A user's shelf entry for a book. Exactly one record per book per user (deduplicate by ids.olWorkId, then by isbn13, then by fuzzy title+author). Status, dates, rating and notes are all carried inline; aggregators and other apps may render the same record as a 'wantToRead' card or a 'finished' review depending on the status field."
+}

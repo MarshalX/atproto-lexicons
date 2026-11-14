@@ -1,0 +1,80 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "customHeader": {
+      "description": "Custom HTTP header configuration",
+      "properties": {
+        "name": {
+          "description": "HTTP header name (e.g., 'Cache-Control', 'X-Frame-Options')",
+          "maxLength": 100,
+          "type": "string"
+        },
+        "path": {
+          "description": "Optional glob pattern to apply this header to specific paths (e.g., '*.html', '/assets/*'). If not specified, applies to all paths.",
+          "maxLength": 500,
+          "type": "string"
+        },
+        "value": {
+          "description": "HTTP header value",
+          "maxLength": 1000,
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "value"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "Configuration settings for a static site hosted on wisp.place",
+      "key": "any",
+      "record": {
+        "properties": {
+          "cleanUrls": {
+            "default": false,
+            "description": "Enable clean URL routing. When enabled, '/about' will attempt to serve '/about.html' or '/about/index.html' automatically.",
+            "type": "boolean"
+          },
+          "custom404": {
+            "description": "Custom 404 error page file path. Incompatible with directoryListing and spaMode.",
+            "maxLength": 500,
+            "type": "string"
+          },
+          "directoryListing": {
+            "default": false,
+            "description": "Enable directory listing mode for paths that resolve to directories without an index file. Incompatible with spaMode.",
+            "type": "boolean"
+          },
+          "headers": {
+            "description": "Custom HTTP headers to set on responses",
+            "items": {
+              "ref": "#customHeader",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "type": "array"
+          },
+          "indexFiles": {
+            "description": "Ordered list of files to try when serving a directory. Defaults to ['index.html'] if not specified.",
+            "items": {
+              "maxLength": 255,
+              "type": "string"
+            },
+            "maxLength": 10,
+            "type": "array"
+          },
+          "spaMode": {
+            "description": "File to serve for all routes (e.g., 'index.html'). When set, enables SPA mode where all non-file requests are routed to this file. Incompatible with directoryListing and custom404.",
+            "maxLength": 500,
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "place.wisp.settings",
+  "lexicon": 1
+}

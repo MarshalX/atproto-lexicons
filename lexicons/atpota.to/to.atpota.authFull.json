@@ -1,0 +1,90 @@
+{
+  "id": "to.atpota.authFull",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "atpotato",
+      "detail": "Plant and tend flowers in the gardens on atpota.to, keep a garden of your own, save how many times you've petted Poe, save how Poe's stream overlay and its scenes are set up, and let Poe know it's you (or forget you, when you ask).",
+      "permissions": [
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "to.atpota.garden.patch"
+          ]
+        },
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "to.atpota.garden.sprout"
+          ]
+        },
+        {
+          "type": "permission",
+          "action": [
+            "create"
+          ],
+          "resource": "repo",
+          "collection": [
+            "to.atpota.garden.tend"
+          ]
+        },
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "update"
+          ],
+          "resource": "repo",
+          "collection": [
+            "to.atpota.poe.pets"
+          ]
+        },
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "update"
+          ],
+          "resource": "repo",
+          "collection": [
+            "to.atpota.poe.overlay"
+          ]
+        },
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "to.atpota.poe.scene"
+          ]
+        },
+        {
+          "aud": "*",
+          "lxm": [
+            "to.atpota.poe.chat",
+            "to.atpota.poe.forget"
+          ],
+          "type": "permission",
+          "resource": "rpc"
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

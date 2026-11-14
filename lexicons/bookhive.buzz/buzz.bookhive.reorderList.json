@@ -1,0 +1,34 @@
+{
+  "id": "buzz.bookhive.reorderList",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "listUri",
+            "itemUris"
+          ],
+          "properties": {
+            "listUri": {
+              "type": "string",
+              "description": "AT-URI of the list"
+            },
+            "itemUris": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Item URIs in the new desired order"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Reorder items in a list."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

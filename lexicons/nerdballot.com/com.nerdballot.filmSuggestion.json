@@ -1,0 +1,69 @@
+{
+  "id": "com.nerdballot.filmSuggestion",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "version",
+          "title",
+          "createdAt"
+        ],
+        "properties": {
+          "note": {
+            "type": "string",
+            "maxLength": 10000,
+            "maxGraphemes": 1000
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 3000,
+            "maxGraphemes": 300
+          },
+          "tmdbId": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "The Movie Database (TMDB) film id, when the film was picked from a TMDB lookup."
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "directors": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 1000,
+              "maxGraphemes": 100
+            },
+            "maxLength": 10
+          },
+          "releaseDate": {
+            "type": "string",
+            "maxLength": 10,
+            "description": "YYYY, YYYY-MM or YYYY-MM-DD."
+          },
+          "evidenceUrls": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri",
+              "maxLength": 1000
+            },
+            "maxLength": 5,
+            "description": "Links showing the film and its US theatrical release."
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A voter's suggestion that Nerd Ballot add a film to its catalog. Suggestions are reviewed by hand and never become eligible automatically."
+}

@@ -1,0 +1,91 @@
+{
+  "id": "app.zeens.scheduledPost",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "publishAt",
+          "collection",
+          "rkey",
+          "post",
+          "createdAt"
+        ],
+        "properties": {
+          "c2pa": {
+            "type": "array",
+            "items": {
+              "type": "unknown"
+            },
+            "maxLength": 4,
+            "description": "The app.zeens.c2pa#credential entries, if any, written as that record's images at publish time."
+          },
+          "meta": {
+            "type": "unknown",
+            "description": "The app.zeens.postMeta record body, if any. post and createdAt are replaced at publish time."
+          },
+          "post": {
+            "type": "unknown",
+            "description": "The post record body. createdAt is replaced with the publish time."
+          },
+          "rkey": {
+            "type": "string",
+            "format": "record-key",
+            "description": "The rkey the post and its postMeta are written at. Minted at scheduling time so a cross-link URL in the caption is correct in advance, and so publishing twice fails instead of posting twice."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "publishAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When to publish. The worker reads this from the record at publish time, so editing it here is how a post is rescheduled."
+          },
+          "collection": {
+            "type": "string",
+            "format": "nsid",
+            "description": "Where the post is written: Bluesky, or Zeens-only.",
+            "knownValues": [
+              "app.bsky.feed.post",
+              "app.zeens.post"
+            ]
+          },
+          "collections": {
+            "type": "array",
+            "items": {
+              "ref": "#scheduledCollection",
+              "type": "ref"
+            },
+            "maxLength": 20,
+            "description": "Collections the post joins once it exists. Each item's rkey is minted at scheduling time so adding it is idempotent."
+          }
+        }
+      },
+      "description": "A post waiting to be published. Holds the finished post record and its postMeta exactly as they will be written, so publishing is a copy and nothing is recomputed. Lives on the author's own PDS rather than on Zeens' servers; the images are uploaded at scheduling time and this record keeps them referenced until publish. NOT PRIVATE: like every repo record it is publicly readable before publishAt. Deliberately absent from the AppView's lexicons and firehose collections, so it is never indexed as content."
+    },
+    "scheduledCollection": {
+      "type": "object",
+      "required": [
+        "uri",
+        "rkey"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "The app.zeens.collection to join."
+        },
+        "rkey": {
+          "type": "string",
+          "format": "record-key",
+          "description": "The rkey the app.zeens.collectionItem is written at."
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

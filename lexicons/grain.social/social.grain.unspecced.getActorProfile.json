@@ -1,0 +1,34 @@
+{
+  "id": "social.grain.unspecced.getActorProfile",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "ref": "social.grain.actor.defs#profileViewDetailed",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "actor"
+        ],
+        "properties": {
+          "actor": {
+            "type": "string",
+            "format": "at-identifier"
+          },
+          "viewer": {
+            "type": "string",
+            "format": "did"
+          }
+        }
+      },
+      "description": "Get an actor's profile with gallery stats and follow relationships."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

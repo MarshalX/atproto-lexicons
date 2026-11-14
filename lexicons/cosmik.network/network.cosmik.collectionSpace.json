@@ -1,0 +1,18 @@
+{
+  "id": "network.cosmik.collectionSpace",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "name": "Semble Collection",
+      "type": "space",
+      "collections": [
+        "network.cosmik.collection",
+        "network.cosmik.card",
+        "network.cosmik.cardRemoval"
+      ],
+      "description": "A permissioned Semble collection and its contents. Authority is the collection owner's DID (or a team DID); presence of a card record in the space is membership in the collection."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,822 @@
+{
+  "id": "site.mochott.layout",
+  "defs": {
+    "hero": {
+      "type": "object",
+      "required": [
+        "heading"
+      ],
+      "properties": {
+        "text": {
+          "type": "string",
+          "maxLength": 900,
+          "maxGraphemes": 300
+        },
+        "align": {
+          "type": "string",
+          "default": "left",
+          "maxLength": 64,
+          "knownValues": [
+            "left",
+            "center"
+          ]
+        },
+        "image": {
+          "type": "blob",
+          "accept": [
+            "image/png",
+            "image/jpeg",
+            "image/webp",
+            "image/gif"
+          ],
+          "maxSize": 1000000
+        },
+        "heading": {
+          "type": "string",
+          "maxLength": 300,
+          "maxGraphemes": 100
+        },
+        "buttonUri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 2048,
+          "description": "An http(s) URL. Renderers must ignore any other scheme."
+        },
+        "buttonLabel": {
+          "type": "string",
+          "maxLength": 150,
+          "description": "Shown only together with buttonUri.",
+          "maxGraphemes": 50
+        }
+      },
+      "description": "A large image with a heading, a short text and a button over it. Without an image the accent colour is drawn instead."
+    },
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "sections",
+          "createdAt"
+        ],
+        "properties": {
+          "theme": {
+            "ref": "#theme",
+            "type": "ref"
+          },
+          "header": {
+            "ref": "#header",
+            "type": "ref"
+          },
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The page this layout renders: the account's own site.mochott.profile or site.mochott.minisite record."
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "refs": [
+                "#tileSection",
+                "#flowSection"
+              ],
+              "type": "union"
+            },
+            "maxLength": 20,
+            "description": "Sections from top to bottom, below the page header."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Layout of one page. One account has one layout per page: the record key is 'self' for the account's profile home, and equals the minisite record's key for that minisite's home. Other keys are reserved for additional pages. The subject must be a record in the same repository; layouts pointing at another account's records are ignored. A minisite's home only shows blocks about that minisite: renderers skip archive, tagList and seriesList blocks on it, and the tag, series and minisite filters of article lists."
+    },
+    "text": {
+      "type": "object",
+      "required": [
+        "content"
+      ],
+      "properties": {
+        "content": {
+          "ref": "site.mochott.article#tiptapDocument",
+          "type": "ref"
+        }
+      }
+    },
+    "embed": {
+      "type": "object",
+      "required": [
+        "uri"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "description": "Embedded media. Only providers on the renderer's allowlist are shown, and the player loads on click."
+    },
+    "image": {
+      "type": "object",
+      "required": [
+        "image",
+        "alt"
+      ],
+      "properties": {
+        "alt": {
+          "type": "string",
+          "maxLength": 10000,
+          "description": "Alternative text. May be empty for a purely decorative image.",
+          "maxGraphemes": 1000
+        },
+        "image": {
+          "type": "blob",
+          "accept": [
+            "image/png",
+            "image/jpeg",
+            "image/webp",
+            "image/gif"
+          ],
+          "maxSize": 1000000
+        },
+        "caption": {
+          "type": "string",
+          "maxLength": 3000,
+          "maxGraphemes": 300
+        },
+        "aspectRatio": {
+          "ref": "#aspectRatio",
+          "type": "ref"
+        }
+      }
+    },
+    "theme": {
+      "type": "object",
+      "properties": {
+        "preset": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Color and typeface preset. Unknown values fall back to 'standard'.",
+          "knownValues": [
+            "standard",
+            "wakaba",
+            "yoru"
+          ]
+        },
+        "cardStyle": {
+          "type": "string",
+          "maxLength": 64,
+          "knownValues": [
+            "soft",
+            "outline",
+            "flat"
+          ]
+        }
+      }
+    },
+    "header": {
+      "type": "object",
+      "properties": {
+        "links": {
+          "type": "string",
+          "default": "buttons",
+          "maxLength": 64,
+          "description": "How the subject's social links are shown. Unknown values fall back to 'buttons'.",
+          "knownValues": [
+            "buttons",
+            "icons",
+            "text",
+            "hidden"
+          ]
+        },
+        "style": {
+          "type": "string",
+          "default": "standard",
+          "maxLength": 64,
+          "description": "'standard' puts the icon beside the name, 'center' stacks them centred, 'cover' draws a large cover image with the icon over its edge. Unknown values fall back to 'standard'.",
+          "knownValues": [
+            "standard",
+            "center",
+            "cover"
+          ]
+        },
+        "showDescription": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "description": "How the page header is drawn: the subject's name, description, icon, cover image and links. The header always comes first and is not part of the sections; what it shows is the subject's own record. Only the profile home uses it; a minisite draws its own header."
+    },
+    "record": {
+      "type": "object",
+      "required": [
+        "uri"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 600,
+          "description": "The record's name as it was when placed (for sh.tangled.repo, its name or record key). Refreshed when the page is published.",
+          "maxGraphemes": 200
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 3000,
+          "description": "The record's description as it was when placed. Refreshed when the page is published.",
+          "maxGraphemes": 1000
+        }
+      },
+      "description": "Card for an AT Protocol record, drawn by a renderer chosen from the record's collection (e.g. sh.tangled.repo). Collections without a renderer are skipped."
+    },
+    "spacer": {
+      "type": "object",
+      "properties": {},
+      "description": "Empty cell used to leave a gap in a tile section."
+    },
+    "archive": {
+      "type": "object",
+      "properties": {
+        "view": {
+          "type": "string",
+          "default": "year",
+          "maxLength": 64,
+          "knownValues": [
+            "year",
+            "month"
+          ]
+        },
+        "weekStart": {
+          "type": "string",
+          "default": "monday",
+          "maxLength": 64,
+          "knownValues": [
+            "monday",
+            "sunday"
+          ]
+        }
+      },
+      "description": "Post counts per month, by publish date in Japan time."
+    },
+    "gallery": {
+      "type": "object",
+      "required": [
+        "images"
+      ],
+      "properties": {
+        "view": {
+          "type": "string",
+          "default": "grid",
+          "maxLength": 64,
+          "description": "'grid' lays the images out in a grid, 'scroll' in one row to scroll sideways, 'slides' one at a time. Unknown values fall back to 'grid'.",
+          "knownValues": [
+            "grid",
+            "scroll",
+            "slides"
+          ]
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "ref": "#galleryImage",
+            "type": "ref"
+          },
+          "maxLength": 20,
+          "minLength": 1
+        }
+      },
+      "description": "Several images shown together."
+    },
+    "heading": {
+      "type": "object",
+      "required": [
+        "text"
+      ],
+      "properties": {
+        "text": {
+          "type": "string",
+          "maxLength": 300,
+          "maxGraphemes": 100
+        },
+        "level": {
+          "type": "integer",
+          "default": 2,
+          "maximum": 3,
+          "minimum": 2
+        }
+      }
+    },
+    "tagList": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "default": 10,
+          "maximum": 30,
+          "minimum": 1
+        }
+      }
+    },
+    "flowItem": {
+      "type": "object",
+      "required": [
+        "id",
+        "block"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 16
+        },
+        "block": {
+          "refs": [
+            "#text",
+            "#heading",
+            "#articleList",
+            "#otherServices",
+            "#customBlock",
+            "#pinnedArticle",
+            "#archive",
+            "#tagList",
+            "#seriesList",
+            "#minisiteCard",
+            "#linkCard",
+            "#linkButton",
+            "#image",
+            "#gallery",
+            "#hero",
+            "#socialLinks",
+            "#record",
+            "#embed",
+            "#blueskyPosts"
+          ],
+          "type": "union"
+        },
+        "background": {
+          "ref": "#background",
+          "type": "ref"
+        },
+        "hideOnMobile": {
+          "type": "boolean"
+        }
+      }
+    },
+    "linkCard": {
+      "type": "object",
+      "required": [
+        "uri"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "uri"
+        },
+        "thumb": {
+          "type": "blob",
+          "accept": [
+            "image/png",
+            "image/jpeg",
+            "image/webp"
+          ],
+          "maxSize": 1000000
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 3000,
+          "maxGraphemes": 300
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 10000,
+          "maxGraphemes": 1000
+        }
+      },
+      "description": "Card for an external page. The OGP fields are a snapshot taken when the card was edited; viewers never trigger a fetch."
+    },
+    "tileItem": {
+      "type": "object",
+      "required": [
+        "id",
+        "size",
+        "block"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 16
+        },
+        "size": {
+          "type": "string",
+          "maxLength": 8,
+          "description": "Width x height in cells. A tile wider than its grid (the section's columns on desktop, 2 on mobile) takes the full width and keeps its shape. A size the block does not support is replaced by the block's first supported size.",
+          "knownValues": [
+            "1x1",
+            "2x1",
+            "1x2",
+            "2x2",
+            "4x1",
+            "4x2"
+          ]
+        },
+        "block": {
+          "refs": [
+            "#pinnedArticle",
+            "#archive",
+            "#tagList",
+            "#seriesList",
+            "#minisiteCard",
+            "#linkCard",
+            "#linkButton",
+            "#image",
+            "#gallery",
+            "#hero",
+            "#socialLinks",
+            "#spacer",
+            "#record",
+            "#embed",
+            "#blueskyPosts"
+          ],
+          "type": "union"
+        },
+        "background": {
+          "ref": "#background",
+          "type": "ref"
+        },
+        "hideOnMobile": {
+          "type": "boolean"
+        }
+      }
+    },
+    "tagFilter": {
+      "type": "object",
+      "required": [
+        "tag"
+      ],
+      "properties": {
+        "tag": {
+          "type": "string",
+          "maxLength": 640,
+          "maxGraphemes": 64
+        }
+      }
+    },
+    "background": {
+      "type": "string",
+      "maxLength": 64,
+      "description": "Theme color token. Never a raw color, so every theme keeps its contrast.",
+      "knownValues": [
+        "none",
+        "surface",
+        "accent"
+      ]
+    },
+    "linkButton": {
+      "type": "object",
+      "required": [
+        "uri",
+        "label"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "uri"
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 300,
+          "maxGraphemes": 50
+        }
+      }
+    },
+    "seriesList": {
+      "type": "object",
+      "properties": {
+        "view": {
+          "type": "string",
+          "default": "list",
+          "maxLength": 64,
+          "description": "'cover' shows each series with the cover image of its first article.",
+          "knownValues": [
+            "list",
+            "card",
+            "cover"
+          ]
+        },
+        "series": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "at-uri"
+          },
+          "maxLength": 10,
+          "description": "Series to show, in order. Absent means all series, newest first."
+        }
+      }
+    },
+    "articleList": {
+      "type": "object",
+      "properties": {
+        "sort": {
+          "type": "string",
+          "default": "recent",
+          "maxLength": 64,
+          "description": "'popular' orders by the number of likes. A popular list shows its own articles only and has no further pages.",
+          "knownValues": [
+            "recent",
+            "popular"
+          ]
+        },
+        "view": {
+          "type": "string",
+          "default": "list",
+          "maxLength": 64,
+          "knownValues": [
+            "card",
+            "list",
+            "magazine"
+          ]
+        },
+        "limit": {
+          "type": "integer",
+          "default": 5,
+          "maximum": 20,
+          "minimum": 1
+        },
+        "filter": {
+          "refs": [
+            "#tagFilter",
+            "#seriesFilter",
+            "#minisiteFilter",
+            "#categoryFilter"
+          ],
+          "type": "union",
+          "description": "Absent means all articles of the subject: the author's articles on a profile, the minisite's articles on a minisite (in the minisite's own order). The category filter is for minisite homes only; the others are for the profile home only."
+        }
+      }
+    },
+    "aspectRatio": {
+      "type": "object",
+      "required": [
+        "width",
+        "height"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "customBlock": {
+      "type": "object",
+      "required": [
+        "blockUri"
+      ],
+      "properties": {
+        "values": {
+          "type": "unknown",
+          "description": "Field values keyed by the block's field keys."
+        },
+        "blockUri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "snapshot": {
+          "type": "unknown",
+          "description": "Copy of the block definition at the time it was placed, so the page keeps rendering if the block changes or is deleted."
+        }
+      },
+      "description": "A site.mochott.block placed on the page, stored the same way as in an article."
+    },
+    "flowSection": {
+      "type": "object",
+      "required": [
+        "id",
+        "items"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 16
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "ref": "#flowItem",
+            "type": "ref"
+          },
+          "maxLength": 30
+        },
+        "columns": {
+          "type": "integer",
+          "default": 1,
+          "maximum": 4,
+          "minimum": 1
+        },
+        "heading": {
+          "type": "string",
+          "maxLength": 300,
+          "maxGraphemes": 100
+        }
+      },
+      "description": "One to four columns whose height follows the content. Collapses to one column on mobile."
+    },
+    "socialLinks": {
+      "type": "object",
+      "properties": {},
+      "description": "The social links of the account's site.mochott.profile record. Deprecated: the page header shows them; editors no longer offer this block, renderers still draw it."
+    },
+    "tileSection": {
+      "type": "object",
+      "required": [
+        "id",
+        "items"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 16
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "ref": "#tileItem",
+            "type": "ref"
+          },
+          "maxLength": 30
+        },
+        "columns": {
+          "type": "integer",
+          "default": 4,
+          "maximum": 6,
+          "minimum": 2
+        },
+        "heading": {
+          "type": "string",
+          "maxLength": 300,
+          "maxGraphemes": 100
+        }
+      },
+      "description": "A grid of square cells, `columns` wide on desktop and 2 on mobile. Items are packed in order. Future section kinds may be added; renderers skip kinds they do not know."
+    },
+    "blueskyPosts": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "default": 3,
+          "maximum": 10,
+          "minimum": 1
+        },
+        "pinned": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show the account's pinned post first."
+        },
+        "reposts": {
+          "type": "boolean",
+          "default": false,
+          "description": "Also show posts the account reposted."
+        },
+        "overflow": {
+          "type": "string",
+          "default": "fade",
+          "maxLength": 64,
+          "description": "In a tile, what happens to posts that do not fit: 'fade' cuts them off with a fade, 'scroll' scrolls inside the tile and reads further posts as the reader reaches the end. Blocks in a flow section grow to fit and ignore it.",
+          "knownValues": [
+            "fade",
+            "scroll"
+          ]
+        },
+        "mediaOnly": {
+          "type": "boolean",
+          "default": false,
+          "description": "Only posts with images or a video, drawn as a grid of their first image."
+        }
+      },
+      "description": "Recent Bluesky posts (app.bsky.feed.post) of the account that owns the layout, read by the reader's browser from a Bluesky AppView. Replies are never shown, and neither are posts labeled sexual, nudity, porn or graphic-media."
+    },
+    "galleryImage": {
+      "type": "object",
+      "required": [
+        "image",
+        "alt"
+      ],
+      "properties": {
+        "alt": {
+          "type": "string",
+          "maxLength": 10000,
+          "description": "Alternative text. May be empty for a purely decorative image.",
+          "maxGraphemes": 1000
+        },
+        "image": {
+          "type": "blob",
+          "accept": [
+            "image/png",
+            "image/jpeg",
+            "image/webp",
+            "image/gif"
+          ],
+          "maxSize": 1000000
+        },
+        "aspectRatio": {
+          "ref": "#aspectRatio",
+          "type": "ref"
+        }
+      }
+    },
+    "minisiteCard": {
+      "type": "object",
+      "required": [
+        "minisite"
+      ],
+      "properties": {
+        "minisite": {
+          "type": "string",
+          "format": "at-uri"
+        }
+      }
+    },
+    "seriesFilter": {
+      "type": "object",
+      "required": [
+        "series"
+      ],
+      "properties": {
+        "series": {
+          "type": "string",
+          "format": "at-uri"
+        }
+      }
+    },
+    "otherServices": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "default": 6,
+          "maximum": 20,
+          "minimum": 1
+        }
+      },
+      "description": "The author's articles on other standard.site services."
+    },
+    "pinnedArticle": {
+      "type": "object",
+      "required": [
+        "article"
+      ],
+      "properties": {
+        "article": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "Always shows the latest version. Skipped when the article is gone or hidden."
+        }
+      }
+    },
+    "categoryFilter": {
+      "type": "object",
+      "required": [
+        "category"
+      ],
+      "properties": {
+        "category": {
+          "type": "string",
+          "maxLength": 32
+        }
+      },
+      "description": "Articles of one of the minisite's own categories (its slug). Shows nothing once the minisite no longer has that category."
+    },
+    "minisiteFilter": {
+      "type": "object",
+      "required": [
+        "minisite"
+      ],
+      "properties": {
+        "minisite": {
+          "type": "string",
+          "format": "at-uri"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "revision": 5,
+  "description": "A block-based page layout. Renders the home of a mochott profile or of a minisite."
+}

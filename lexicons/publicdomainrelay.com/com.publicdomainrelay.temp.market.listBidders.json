@@ -1,0 +1,74 @@
+{
+  "id": "com.publicdomainrelay.temp.market.listBidders",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "InvalidRequest"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "bidders"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "bidders": {
+              "type": "array",
+              "items": {
+                "ref": "#bidderItem",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "cursor": {
+            "type": "string"
+          },
+          "maxResults": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 200,
+            "minimum": 1
+          },
+          "payloadNsid": {
+            "type": "string",
+            "format": "nsid"
+          }
+        }
+      },
+      "description": "List active bidders indexed by the market registry."
+    },
+    "bidderItem": {
+      "type": "object",
+      "required": [
+        "bidderDid",
+        "appliesTo"
+      ],
+      "properties": {
+        "appliesTo": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "bidderDid": {
+          "type": "string",
+          "format": "did"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

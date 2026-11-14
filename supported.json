@@ -1,0 +1,1934 @@
+{
+  "services": [
+    {
+      "domain": "4000.radio",
+      "status": "full",
+      "lexicons": 13,
+      "generated": 13,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 5,
+        "query": 6,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "adsb.at",
+      "status": "full",
+      "lexicons": 12,
+      "generated": 12,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 8,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 2
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "aesthetic.computer",
+      "status": "full",
+      "lexicons": 7,
+      "generated": 7,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 7,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "agroconnect.nl",
+      "status": "full",
+      "lexicons": 17,
+      "generated": 17,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 14,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "anisota.net",
+      "status": "full",
+      "lexicons": 12,
+      "generated": 12,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 11,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "astro-colibri.science",
+      "status": "full",
+      "lexicons": 2,
+      "generated": 2,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 2,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "atcr.io",
+      "status": "partial",
+      "lexicons": 28,
+      "generated": 26,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 12,
+        "query": 3,
+        "procedure": 9,
+        "subscription": 1
+      },
+      "skipped_lexicons": [
+        "io.atcr.hold.space",
+        "io.atcr.repo.private"
+      ],
+      "skipped_methods": [],
+      "weakened_lexicons": [
+        "io.atcr.hold.listTiers"
+      ]
+    },
+    {
+      "domain": "atmo.rsvp",
+      "status": "partial",
+      "lexicons": 31,
+      "generated": 30,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 0,
+        "query": 14,
+        "procedure": 14,
+        "subscription": 0
+      },
+      "skipped_lexicons": [
+        "rsvp.atmo.dev.space"
+      ],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "atmosynth.at",
+      "status": "full",
+      "lexicons": 14,
+      "generated": 14,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 13,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "atmowx.net",
+      "status": "full",
+      "lexicons": 5,
+      "generated": 5,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 2,
+        "query": 2,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "atni.me",
+      "status": "full",
+      "lexicons": 5,
+      "generated": 5,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 4,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "atpcraft.at",
+      "status": "partial",
+      "lexicons": 5,
+      "generated": 5,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 4,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": [
+        "at.atpcraft.player.skin"
+      ]
+    },
+    {
+      "domain": "atpota.to",
+      "status": "partial",
+      "lexicons": 8,
+      "generated": 8,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 7,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": [
+        "to.atpota.poe.scene"
+      ]
+    },
+    {
+      "domain": "atstore.fyi",
+      "status": "full",
+      "lexicons": 11,
+      "generated": 11,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 5,
+        "query": 4,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "blacksky.community",
+      "status": "full",
+      "lexicons": 3,
+      "generated": 3,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 3,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "blampow.app",
+      "status": "full",
+      "lexicons": 2,
+      "generated": 2,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 2,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "bluefeed.app",
+      "status": "unsupported",
+      "lexicons": 1,
+      "generated": 0,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 1,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [
+        "app.bluefeed.feed.generator"
+      ],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "bookhive.buzz",
+      "status": "full",
+      "lexicons": 23,
+      "generated": 23,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 4,
+        "query": 11,
+        "procedure": 6,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "bridgebeats.link",
+      "status": "full",
+      "lexicons": 1,
+      "generated": 1,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 1,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "certified.app",
+      "status": "full",
+      "lexicons": 15,
+      "generated": 15,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 12,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "chavatar.app",
+      "status": "full",
+      "lexicons": 8,
+      "generated": 8,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 5,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "cocore.dev",
+      "status": "partial",
+      "lexicons": 40,
+      "generated": 40,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 14,
+        "query": 17,
+        "procedure": 7,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": [
+        "dev.cocore.account.listProfiles",
+        "dev.cocore.compute.listJobs",
+        "dev.cocore.compute.listProviders",
+        "dev.cocore.compute.listReceipts",
+        "dev.cocore.compute.listSettlements",
+        "dev.cocore.compute.modelActivity",
+        "dev.cocore.compute.verifyReceipt",
+        "dev.cocore.compute.verifySettlement",
+        "dev.cocore.inference.status"
+      ]
+    },
+    {
+      "domain": "colibri.social",
+      "status": "partial",
+      "lexicons": 211,
+      "generated": 203,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 37,
+        "query": 52,
+        "procedure": 88,
+        "subscription": 0
+      },
+      "skipped_lexicons": [
+        "social.colibri.beta.actor.preferences",
+        "social.colibri.beta.channel.text",
+        "social.colibri.beta.channel.thread",
+        "social.colibri.beta.channel.voice",
+        "social.colibri.beta.community.configuration",
+        "social.colibri.beta.community.members",
+        "social.colibri.beta.community.moderation",
+        "social.colibri.beta.community.profile"
+      ],
+      "skipped_methods": [
+        "social.colibri.actor.getData",
+        "social.colibri.channel.getReadCursor"
+      ],
+      "weakened_lexicons": [
+        "social.colibri.actor.defs",
+        "social.colibri.actor.deleteAccount",
+        "social.colibri.actor.getData",
+        "social.colibri.actor.getDeletionStatus",
+        "social.colibri.actor.listCommunities",
+        "social.colibri.actor.listMutes",
+        "social.colibri.actor.profile",
+        "social.colibri.channel.defs",
+        "social.colibri.channel.getChannelView",
+        "social.colibri.channel.getReadCursor",
+        "social.colibri.channel.listMessages",
+        "social.colibri.channel.listReactions",
+        "social.colibri.channel.listUnreadStatus",
+        "social.colibri.message",
+        "social.colibri.moderation",
+        "social.colibri.richtext.facet",
+        "social.colibri.role"
+      ]
+    },
+    {
+      "domain": "cosmik.network",
+      "status": "partial",
+      "lexicons": 10,
+      "generated": 8,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 6,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [
+        "network.cosmik.collectionSpace",
+        "network.cosmik.library"
+      ],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "coves.social",
+      "status": "full",
+      "lexicons": 73,
+      "generated": 73,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 14,
+        "query": 24,
+        "procedure": 22,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "craftsky.social",
+      "status": "full",
+      "lexicons": 18,
+      "generated": 18,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 6,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "currents.is",
+      "status": "full",
+      "lexicons": 23,
+      "generated": 23,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 5,
+        "query": 14,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "dailygame.space",
+      "status": "full",
+      "lexicons": 4,
+      "generated": 4,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 3,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "delve.town",
+      "status": "full",
+      "lexicons": 169,
+      "generated": 169,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 19,
+        "query": 87,
+        "procedure": 34,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "destinationcharged.com",
+      "status": "full",
+      "lexicons": 1,
+      "generated": 1,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 1,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "dracome.social",
+      "status": "full",
+      "lexicons": 18,
+      "generated": 18,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 12,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "fedproxy.com",
+      "status": "partial",
+      "lexicons": 5,
+      "generated": 5,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 3,
+        "query": 0,
+        "procedure": 1,
+        "subscription": 1
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": [
+        "com.fedproxy.temp.xrpc.getRegistrationNonce",
+        "com.fedproxy.temp.xrpc.registration"
+      ]
+    },
+    {
+      "domain": "fisl.dev",
+      "status": "full",
+      "lexicons": 1,
+      "generated": 1,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 1,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "flashes.blue",
+      "status": "full",
+      "lexicons": 3,
+      "generated": 3,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 3,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "gainforest.app",
+      "status": "full",
+      "lexicons": 35,
+      "generated": 35,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 31,
+        "query": 1,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "gamesgamesgamesgames.games",
+      "status": "partial",
+      "lexicons": 94,
+      "generated": 94,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 22,
+        "query": 43,
+        "procedure": 17,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": [
+        "games.gamesgamesgamesgames.getReviews"
+      ]
+    },
+    {
+      "domain": "gamethesky.com",
+      "status": "full",
+      "lexicons": 12,
+      "generated": 12,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 12,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "grain.social",
+      "status": "partial",
+      "lexicons": 72,
+      "generated": 65,
+      "provided_by_sdk": 5,
+      "kinds": {
+        "record": 13,
+        "query": 34,
+        "procedure": 15,
+        "subscription": 0
+      },
+      "skipped_lexicons": [
+        "social.grain.group",
+        "social.grain.privateGallery"
+      ],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "hypercerts.org",
+      "status": "full",
+      "lexicons": 17,
+      "generated": 17,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 14,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "jgs.me",
+      "status": "full",
+      "lexicons": 2,
+      "generated": 2,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 2,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "keytrace.dev",
+      "status": "full",
+      "lexicons": 7,
+      "generated": 7,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 5,
+        "query": 1,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "kipclip.com",
+      "status": "full",
+      "lexicons": 2,
+      "generated": 2,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 2,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "knotless.dev",
+      "status": "partial",
+      "lexicons": 183,
+      "generated": 181,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 32,
+        "query": 64,
+        "procedure": 84,
+        "subscription": 0
+      },
+      "skipped_lexicons": [
+        "dev.knotless.orgSpace",
+        "dev.knotless.space"
+      ],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "leaflet.pub",
+      "status": "full",
+      "lexicons": 51,
+      "generated": 51,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 14,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "lexicon.community",
+      "status": "full",
+      "lexicons": 21,
+      "generated": 21,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 9,
+        "query": 4,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "lichen.wiki",
+      "status": "full",
+      "lexicons": 10,
+      "generated": 10,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 5,
+        "query": 4,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "linkedclaims.com",
+      "status": "full",
+      "lexicons": 1,
+      "generated": 1,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 1,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "logue.is",
+      "status": "full",
+      "lexicons": 19,
+      "generated": 19,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 2,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "margin.at",
+      "status": "full",
+      "lexicons": 10,
+      "generated": 10,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 9,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "marque.at",
+      "status": "full",
+      "lexicons": 14,
+      "generated": 14,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 5,
+        "query": 6,
+        "procedure": 1,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "mochott.site",
+      "status": "full",
+      "lexicons": 29,
+      "generated": 29,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 20,
+        "query": 3,
+        "procedure": 1,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "moji.blue",
+      "status": "full",
+      "lexicons": 24,
+      "generated": 24,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 4,
+        "query": 11,
+        "procedure": 4,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "mytinygiraffe.com",
+      "status": "full",
+      "lexicons": 1,
+      "generated": 1,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 1,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "nahdig.com",
+      "status": "full",
+      "lexicons": 4,
+      "generated": 4,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 4,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "nerdballot.com",
+      "status": "full",
+      "lexicons": 7,
+      "generated": 7,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 7,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "offprint.app",
+      "status": "partial",
+      "lexicons": 29,
+      "generated": 26,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 5,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [
+        "app.offprint.actor.profile",
+        "app.offprint.block.horizontalRule",
+        "app.offprint.richtext.facet"
+      ],
+      "skipped_methods": [],
+      "weakened_lexicons": [
+        "app.offprint.block.callout",
+        "app.offprint.block.heading",
+        "app.offprint.block.image",
+        "app.offprint.block.text",
+        "app.offprint.content"
+      ]
+    },
+    {
+      "domain": "olamaelcu.net",
+      "status": "partial",
+      "lexicons": 20,
+      "generated": 20,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 5,
+        "query": 14,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": [
+        "net.olamaelcu.livtet.biblio.defs",
+        "net.olamaelcu.livtet.biblio.getActorProfile"
+      ]
+    },
+    {
+      "domain": "opnshelf.xyz",
+      "status": "partial",
+      "lexicons": 15,
+      "generated": 10,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 8,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [
+        "xyz.opnshelf.library",
+        "xyz.opnshelf.lists",
+        "xyz.opnshelf.notes",
+        "xyz.opnshelf.settings",
+        "xyz.opnshelf.watches"
+      ],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "pckt.blog",
+      "status": "full",
+      "lexicons": 39,
+      "generated": 39,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 7,
+        "query": 1,
+        "procedure": 3,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "pinkleap.social",
+      "status": "full",
+      "lexicons": 5,
+      "generated": 5,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 5,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "plyr.fm",
+      "status": "partial",
+      "lexicons": 12,
+      "generated": 8,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 4,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [
+        "fm.plyr.privateMedia",
+        "fm.plyr.stg.jam",
+        "fm.plyr.stg.preferences",
+        "fm.plyr.stg.privateMedia"
+      ],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "podping.at",
+      "status": "full",
+      "lexicons": 2,
+      "generated": 2,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 2,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "postgame.at",
+      "status": "full",
+      "lexicons": 7,
+      "generated": 7,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 7,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "professorbutts.com",
+      "status": "full",
+      "lexicons": 5,
+      "generated": 5,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 3,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "publicdomainrelay.com",
+      "status": "partial",
+      "lexicons": 38,
+      "generated": 38,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 25,
+        "query": 1,
+        "procedure": 11,
+        "subscription": 1
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": [
+        "com.publicdomainrelay.temp.market.accept",
+        "com.publicdomainrelay.temp.market.accepts.free",
+        "com.publicdomainrelay.temp.market.accepts.x402",
+        "com.publicdomainrelay.temp.market.bid",
+        "com.publicdomainrelay.temp.market.bids.free",
+        "com.publicdomainrelay.temp.market.bids.x402",
+        "com.publicdomainrelay.temp.market.event",
+        "com.publicdomainrelay.temp.market.receipt",
+        "com.publicdomainrelay.temp.market.receipts.free",
+        "com.publicdomainrelay.temp.market.receipts.x402",
+        "com.publicdomainrelay.temp.market.rfp"
+      ]
+    },
+    {
+      "domain": "pythonplayer123.dev",
+      "status": "full",
+      "lexicons": 5,
+      "generated": 5,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 5,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "rcape.org",
+      "status": "full",
+      "lexicons": 3,
+      "generated": 3,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 3,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "release.software",
+      "status": "full",
+      "lexicons": 5,
+      "generated": 5,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 4,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "rocksky.app",
+      "status": "partial",
+      "lexicons": 83,
+      "generated": 83,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 15,
+        "query": 40,
+        "procedure": 15,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [
+        "app.rocksky.feed.getStories",
+        "app.rocksky.mirror.putMirrorSource"
+      ],
+      "weakened_lexicons": [
+        "app.rocksky.actor.status",
+        "app.rocksky.album.defs",
+        "app.rocksky.artist.getArtistRecentListeners",
+        "app.rocksky.feed.getStories",
+        "app.rocksky.mirror.getMirrorSources",
+        "app.rocksky.mirror.putMirrorSource",
+        "app.rocksky.player.defs"
+      ]
+    },
+    {
+      "domain": "rpg.actor",
+      "status": "full",
+      "lexicons": 5,
+      "generated": 5,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 4,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "sensorthings.dev",
+      "status": "full",
+      "lexicons": 11,
+      "generated": 11,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 10,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "sequential.work",
+      "status": "full",
+      "lexicons": 17,
+      "generated": 17,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 12,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "shelf.cafe",
+      "status": "full",
+      "lexicons": 3,
+      "generated": 3,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 3,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "shelfcheck.org",
+      "status": "full",
+      "lexicons": 4,
+      "generated": 4,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 3,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "sifa.id",
+      "status": "full",
+      "lexicons": 31,
+      "generated": 31,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 23,
+        "query": 1,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "skyblur.uk",
+      "status": "full",
+      "lexicons": 8,
+      "generated": 8,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 2,
+        "query": 0,
+        "procedure": 5,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "sprk.so",
+      "status": "full",
+      "lexicons": 89,
+      "generated": 89,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 12,
+        "query": 42,
+        "procedure": 11,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "standard-reader.app",
+      "status": "partial",
+      "lexicons": 71,
+      "generated": 71,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 13,
+        "query": 35,
+        "procedure": 19,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [
+        "app.standard-reader.resolveUrl"
+      ],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "standard.site",
+      "status": "full",
+      "lexicons": 8,
+      "generated": 2,
+      "provided_by_sdk": 6,
+      "kinds": {
+        "record": 5,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "stream.place",
+      "status": "partial",
+      "lexicons": 56,
+      "generated": 51,
+      "provided_by_sdk": 5,
+      "kinds": {
+        "record": 17,
+        "query": 13,
+        "procedure": 17,
+        "subscription": 1
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": [
+        "place.stream.segment",
+        "place.stream.video"
+      ]
+    },
+    {
+      "domain": "substratum.cloud",
+      "status": "full",
+      "lexicons": 17,
+      "generated": 17,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 1,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "suibari.com",
+      "status": "full",
+      "lexicons": 101,
+      "generated": 101,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 14,
+        "query": 49,
+        "procedure": 36,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "sylvanus.garden",
+      "status": "full",
+      "lexicons": 6,
+      "generated": 6,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 6,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "syui.ai",
+      "status": "full",
+      "lexicons": 12,
+      "generated": 12,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 12,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "tangled.org",
+      "status": "full",
+      "lexicons": 64,
+      "generated": 64,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 18,
+        "query": 11,
+        "procedure": 17,
+        "subscription": 1
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "teal.fm",
+      "status": "full",
+      "lexicons": 18,
+      "generated": 18,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 4,
+        "query": 11,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "tokimeki.tech",
+      "status": "partial",
+      "lexicons": 28,
+      "generated": 24,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 22,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [
+        "tech.tokimeki.forum.public",
+        "tech.tokimeki.forum.server",
+        "tech.tokimeki.kaku.preference",
+        "tech.tokimeki.space.personal"
+      ],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "transparencia.tech",
+      "status": "full",
+      "lexicons": 8,
+      "generated": 8,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 7,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "trezy.pet",
+      "status": "full",
+      "lexicons": 48,
+      "generated": 48,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 17,
+        "query": 14,
+        "procedure": 16,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "turtleme.at",
+      "status": "partial",
+      "lexicons": 22,
+      "generated": 20,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 4,
+        "query": 0,
+        "procedure": 15,
+        "subscription": 0
+      },
+      "skipped_lexicons": [
+        "at.turtleme.chat.clan",
+        "at.turtleme.game.defs"
+      ],
+      "skipped_methods": [
+        "at.turtleme.game.buy",
+        "at.turtleme.game.cast",
+        "at.turtleme.game.castReef",
+        "at.turtleme.game.castSpot",
+        "at.turtleme.game.cook",
+        "at.turtleme.game.exchange",
+        "at.turtleme.game.fishSpot",
+        "at.turtleme.game.getState",
+        "at.turtleme.game.haulNet",
+        "at.turtleme.game.leaveReef",
+        "at.turtleme.game.reelIn",
+        "at.turtleme.game.sell",
+        "at.turtleme.game.setNet",
+        "at.turtleme.game.strike",
+        "at.turtleme.game.sweepReef"
+      ],
+      "weakened_lexicons": [
+        "at.turtleme.game.buy",
+        "at.turtleme.game.cast",
+        "at.turtleme.game.castReef",
+        "at.turtleme.game.castSpot",
+        "at.turtleme.game.cook",
+        "at.turtleme.game.exchange",
+        "at.turtleme.game.fishSpot",
+        "at.turtleme.game.getState",
+        "at.turtleme.game.haulNet",
+        "at.turtleme.game.leaveReef",
+        "at.turtleme.game.reelIn",
+        "at.turtleme.game.sell",
+        "at.turtleme.game.setNet",
+        "at.turtleme.game.strike",
+        "at.turtleme.game.sweepReef"
+      ]
+    },
+    {
+      "domain": "userinput.app",
+      "status": "full",
+      "lexicons": 16,
+      "generated": 16,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 14,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "vmx.cx",
+      "status": "full",
+      "lexicons": 1,
+      "generated": 1,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 1,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "wafrn.net",
+      "status": "full",
+      "lexicons": 4,
+      "generated": 4,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 4,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "winesky.app",
+      "status": "full",
+      "lexicons": 8,
+      "generated": 8,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 7,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "wisp.place",
+      "status": "partial",
+      "lexicons": 7,
+      "generated": 5,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 3,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [
+        "place.wisp.fs",
+        "place.wisp.subfs"
+      ],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "witchsky.app",
+      "status": "full",
+      "lexicons": 6,
+      "generated": 6,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 4,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "xptracker.app",
+      "status": "full",
+      "lexicons": 2,
+      "generated": 2,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 1,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "zeens.app",
+      "status": "full",
+      "lexicons": 58,
+      "generated": 58,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 17,
+        "query": 40,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "zelk.space",
+      "status": "full",
+      "lexicons": 8,
+      "generated": 8,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 8,
+        "query": 0,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    },
+    {
+      "domain": "zzstoatzz.io",
+      "status": "full",
+      "lexicons": 9,
+      "generated": 9,
+      "provided_by_sdk": 0,
+      "kinds": {
+        "record": 8,
+        "query": 1,
+        "procedure": 0,
+        "subscription": 0
+      },
+      "skipped_lexicons": [],
+      "skipped_methods": [],
+      "weakened_lexicons": []
+    }
+  ],
+  "warnings": [
+    "Skipped app.bluefeed.feed.generator.json: defs.main.record.key: Value error, Record key must be 'any', 'nsid', 'tid' or 'literal:<record key>'",
+    "Skipped app.offprint.actor.profile.json: defs.main.record.key: Value error, Record key must be 'any', 'nsid', 'tid' or 'literal:<record key>'",
+    "Skipped app.offprint.block.horizontalRule.json: defs.main.object.properties: Input should be a valid dictionary",
+    "Skipped app.offprint.richtext.facet.json: defs.bold.object.properties: Input should be a valid dictionary; defs.code.object.properties: Input should be a valid dictionary; defs.italic.object.properties: Input should be a valid dictionary; defs.underline.object.properties: Input should be a valid dictionary; defs.strikethrough.object.properties: Input should be a valid dictionary",
+    "Skipped at.turtleme.chat.clan.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped at.turtleme.game.defs.json: defs.mark.object.properties.at: Input tag 'number' found using 'type' does not match any of the expected tags: 'unknown', 'cid-link', 'bytes', 'boolean', 'integer', 'string', 'ref', 'union', 'array', 'blob', 'object'",
+    "Skipped dev.knotless.orgSpace.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped dev.knotless.space.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped fm.plyr.privateMedia.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped fm.plyr.stg.jam.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped fm.plyr.stg.preferences.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped fm.plyr.stg.privateMedia.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped io.atcr.hold.space.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped io.atcr.repo.private.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped network.cosmik.collectionSpace.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped network.cosmik.library.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped place.wisp.fs.json: defs.main.record.key: Field required",
+    "Skipped place.wisp.subfs.json: defs.main.record.key: Field required",
+    "Skipped rsvp.atmo.dev.space.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped social.colibri.beta.actor.preferences.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped social.colibri.beta.channel.text.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped social.colibri.beta.channel.thread.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped social.colibri.beta.channel.voice.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped social.colibri.beta.community.configuration.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped social.colibri.beta.community.members.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped social.colibri.beta.community.moderation.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped social.colibri.beta.community.profile.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped social.grain.group.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped social.grain.privateGallery.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped tech.tokimeki.forum.public.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped tech.tokimeki.forum.server.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped tech.tokimeki.kaku.preference.json: defs.main.record.key: Value error, Record key must be 'any', 'nsid', 'tid' or 'literal:<record key>'",
+    "Skipped tech.tokimeki.space.personal.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped xyz.opnshelf.library.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped xyz.opnshelf.lists.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped xyz.opnshelf.notes.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped xyz.opnshelf.settings.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped xyz.opnshelf.watches.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Unresolved reference 'network.attested.signature#signatures' in com.fedproxy.temp.xrpc.getRegistrationNonce: 'network.attested.signature' (model 'Signatures') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'app.rocksky.artist.defs#recentListenerView' in app.rocksky.artist.getArtistRecentListeners: 'app.rocksky.artist.defs#recentListenerView' names a definition that 'app.rocksky.artist.defs' does not have.",
+    "Unresolved reference 'app.rocksky.feed.defs#storiesView' in app.rocksky.feed.getStories: 'app.rocksky.feed.defs#storiesView' names a definition that 'app.rocksky.feed.defs' does not have.",
+    "Unresolved reference 'app.rocksky.mirror.defs#mirrorSourceView' in app.rocksky.mirror.getMirrorSources: 'app.rocksky.mirror.defs' (model 'MirrorSourceView') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'app.rocksky.mirror.defs#mirrorSourceView' in app.rocksky.mirror.putMirrorSource: 'app.rocksky.mirror.defs' (model 'MirrorSourceView') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'at.turtleme.game.defs#state' in at.turtleme.game.buy: 'at.turtleme.game.defs' (model 'State') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'at.turtleme.game.defs#state' in at.turtleme.game.cast: 'at.turtleme.game.defs' (model 'State') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'at.turtleme.game.defs#state' in at.turtleme.game.castReef: 'at.turtleme.game.defs' (model 'State') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'at.turtleme.game.defs#state' in at.turtleme.game.castSpot: 'at.turtleme.game.defs' (model 'State') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'at.turtleme.game.defs#state' in at.turtleme.game.cook: 'at.turtleme.game.defs' (model 'State') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'at.turtleme.game.defs#state' in at.turtleme.game.exchange: 'at.turtleme.game.defs' (model 'State') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'at.turtleme.game.defs#state' in at.turtleme.game.fishSpot: 'at.turtleme.game.defs' (model 'State') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'at.turtleme.game.defs#state' in at.turtleme.game.getState: 'at.turtleme.game.defs' (model 'State') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'at.turtleme.game.defs#state' in at.turtleme.game.haulNet: 'at.turtleme.game.defs' (model 'State') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'at.turtleme.game.defs#state' in at.turtleme.game.leaveReef: 'at.turtleme.game.defs' (model 'State') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'at.turtleme.game.defs#state' in at.turtleme.game.reelIn: 'at.turtleme.game.defs' (model 'State') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'at.turtleme.game.defs#state' in at.turtleme.game.sell: 'at.turtleme.game.defs' (model 'State') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'at.turtleme.game.defs#state' in at.turtleme.game.setNet: 'at.turtleme.game.defs' (model 'State') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'at.turtleme.game.defs#state' in at.turtleme.game.strike: 'at.turtleme.game.defs' (model 'State') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'at.turtleme.game.defs#state' in at.turtleme.game.sweepReef: 'at.turtleme.game.defs' (model 'State') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'dev.cocore.defs#indexedRecord' in dev.cocore.account.listProfiles: 'dev.cocore.defs' (model 'IndexedRecord') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'dev.cocore.defs#indexedRecord' in dev.cocore.compute.listJobs: 'dev.cocore.defs' (model 'IndexedRecord') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'dev.cocore.defs#indexedRecord' in dev.cocore.compute.listProviders: 'dev.cocore.defs' (model 'IndexedRecord') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'dev.cocore.defs#indexedRecord' in dev.cocore.compute.listReceipts: 'dev.cocore.defs' (model 'IndexedRecord') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'dev.cocore.defs#indexedRecord' in dev.cocore.compute.listSettlements: 'dev.cocore.defs' (model 'IndexedRecord') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'dev.cocore.defs#verifyFinding' in dev.cocore.compute.verifyReceipt: 'dev.cocore.defs' (model 'VerifyFinding') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'dev.cocore.defs#verifyFinding' in dev.cocore.compute.verifySettlement: 'dev.cocore.defs' (model 'VerifyFinding') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'dev.cocore.defs#indexedRecord' in dev.cocore.inference.status: 'dev.cocore.defs' (model 'IndexedRecord') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference '#defs/tierInfo' in io.atcr.hold.listTiers: '#defs/tierInfo' names a definition that 'io.atcr.hold.listTiers' does not have.",
+    "Unresolved reference 'net.olamaelcu.livtet.actor.profile#main' in net.olamaelcu.livtet.biblio.getActorProfile: 'net.olamaelcu.livtet.actor.profile' (model 'Main') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'lex:social.colibri.actor.deleteAccount#deletedCounts' in social.colibri.actor.deleteAccount: 'lex:social.colibri.actor.deleteAccount#deletedCounts' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.actor.defs#actorView' in social.colibri.actor.getData: 'lex:social.colibri.actor.defs#actorView' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.actor.getDeletionStatus#deletionCounts' in social.colibri.actor.getDeletionStatus: 'lex:social.colibri.actor.getDeletionStatus#deletionCounts' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.actor.getDeletionStatus#soleOwnedCommunity' in social.colibri.actor.getDeletionStatus: 'lex:social.colibri.actor.getDeletionStatus#soleOwnedCommunity' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.actor.listCommunities#communityView' in social.colibri.actor.listCommunities: 'lex:social.colibri.actor.listCommunities#communityView' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.actor.listMutes#mute' in social.colibri.actor.listMutes: 'lex:social.colibri.actor.listMutes#mute' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.notification.defs#unseenNotification' in social.colibri.channel.getChannelView: 'lex:social.colibri.notification.defs#unseenNotification' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.channel.defs#message' in social.colibri.channel.getChannelView: 'lex:social.colibri.channel.defs#message' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.channel.defs#readCursor' in social.colibri.channel.getChannelView: 'lex:social.colibri.channel.defs#readCursor' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.channel.defs#readCursor' in social.colibri.channel.getReadCursor: 'lex:social.colibri.channel.defs#readCursor' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.channel.defs#message' in social.colibri.channel.listMessages: 'lex:social.colibri.channel.defs#message' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.channel.defs#reactionView' in social.colibri.channel.listReactions: 'lex:social.colibri.channel.defs#reactionView' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.channel.defs#unreadStatus' in social.colibri.channel.listUnreadStatus: 'lex:social.colibri.channel.defs#unreadStatus' is not a reference.",
+    "Unresolved reference 'app.offprint.richtext.facet' in app.offprint.block.callout: 'app.offprint.richtext.facet' (model 'Main') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'app.offprint.richtext.facet' in app.offprint.block.heading: 'app.offprint.richtext.facet' (model 'Main') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'app.offprint.richtext.facet' in app.offprint.block.image: 'app.offprint.richtext.facet' (model 'Main') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'app.offprint.richtext.facet' in app.offprint.block.text: 'app.offprint.richtext.facet' (model 'Main') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'app.offprint.block.horizontalRule' in app.offprint.content: 'app.offprint.block.horizontalRule' (model 'Main') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'app.rocksky.song.defs.songViewBasic' in app.rocksky.album.defs: 'app.rocksky.song.defs.songViewBasic' (model 'Main') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'app.rocksky.song.defs.songViewBasic' in app.rocksky.player.defs: 'app.rocksky.song.defs.songViewBasic' (model 'Main') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'social.popfeed.richtext.facet' in games.gamesgamesgamesgames.getReviews: 'social.popfeed.richtext.facet' (model 'Main') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'community.lexicon.media.book.defs#editionView' in net.olamaelcu.livtet.biblio.defs: 'community.lexicon.media.book.defs' (model 'EditionView') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'community.lexicon.media.book.review#main' in net.olamaelcu.livtet.biblio.defs: 'community.lexicon.media.book.review' (model 'Main') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'lex:social.colibri.actor.defs#profileTheme' in social.colibri.actor.defs: 'lex:social.colibri.actor.defs#profileTheme' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.actor.defs#actorStatus' in social.colibri.actor.defs: 'lex:social.colibri.actor.defs#actorStatus' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.actor.defs#actorData' in social.colibri.actor.defs: 'lex:social.colibri.actor.defs#actorData' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.actor.defs#profileGradient' in social.colibri.actor.defs: 'lex:social.colibri.actor.defs#profileGradient' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.actor.profile#themeGradient' in social.colibri.actor.profile: 'lex:social.colibri.actor.profile#themeGradient' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.actor.defs#actorView' in social.colibri.channel.defs: 'lex:social.colibri.actor.defs#actorView' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.richtext.facet' in social.colibri.channel.defs: 'lex:social.colibri.richtext.facet' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.channel.defs#message' in social.colibri.channel.defs: 'lex:social.colibri.channel.defs#message' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.channel.defs#reactionView' in social.colibri.channel.defs: 'lex:social.colibri.channel.defs#reactionView' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.channel.defs#attachment' in social.colibri.channel.defs: 'lex:social.colibri.channel.defs#attachment' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.richtext.facet#byteSlice' in social.colibri.richtext.facet: 'lex:social.colibri.richtext.facet#byteSlice' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.richtext.facet#channel' in social.colibri.richtext.facet: 'lex:social.colibri.richtext.facet#channel' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.richtext.facet#bold' in social.colibri.richtext.facet: 'lex:social.colibri.richtext.facet#bold' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.richtext.facet#italic' in social.colibri.richtext.facet: 'lex:social.colibri.richtext.facet#italic' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.richtext.facet#underline' in social.colibri.richtext.facet: 'lex:social.colibri.richtext.facet#underline' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.richtext.facet#strikethrough' in social.colibri.richtext.facet: 'lex:social.colibri.richtext.facet#strikethrough' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.richtext.facet#code' in social.colibri.richtext.facet: 'lex:social.colibri.richtext.facet#code' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.richtext.facet#codeblock' in social.colibri.richtext.facet: 'lex:social.colibri.richtext.facet#codeblock' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.richtext.facet#quote' in social.colibri.richtext.facet: 'lex:social.colibri.richtext.facet#quote' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.richtext.facet#heading' in social.colibri.richtext.facet: 'lex:social.colibri.richtext.facet#heading' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.richtext.facet#list' in social.colibri.richtext.facet: 'lex:social.colibri.richtext.facet#list' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.richtext.facet#subtext' in social.colibri.richtext.facet: 'lex:social.colibri.richtext.facet#subtext' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.richtext.facet#spoiler' in social.colibri.richtext.facet: 'lex:social.colibri.richtext.facet#spoiler' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.richtext.facet#mention' in social.colibri.richtext.facet: 'lex:social.colibri.richtext.facet#mention' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.richtext.facet#role' in social.colibri.richtext.facet: 'lex:social.colibri.richtext.facet#role' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.richtext.facet#link' in social.colibri.richtext.facet: 'lex:social.colibri.richtext.facet#link' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.richtext.facet#time' in social.colibri.richtext.facet: 'lex:social.colibri.richtext.facet#time' is not a reference.",
+    "Unresolved reference 'app.rocksky.actor.defs#trackView' in app.rocksky.actor.status: 'app.rocksky.actor.defs#trackView' names a definition that 'app.rocksky.actor.defs' does not have.",
+    "Unresolved reference 'at.atpcraft.player.defs#endorsement' in at.atpcraft.player.skin: 'at.atpcraft.player.defs#endorsement' names a definition that 'at.atpcraft.player.defs' does not have.",
+    "Unresolved reference 'network.attested.signature#signatures' in com.fedproxy.temp.xrpc.registration: 'network.attested.signature' (model 'Signatures') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'network.attested.signature#signatures' in com.publicdomainrelay.temp.market.accept: 'network.attested.signature' (model 'Signatures') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'network.attested.signature#signatures' in com.publicdomainrelay.temp.market.accepts.free: 'network.attested.signature' (model 'Signatures') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'network.attested.signature#signatures' in com.publicdomainrelay.temp.market.accepts.x402: 'network.attested.signature' (model 'Signatures') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'network.attested.signature#signatures' in com.publicdomainrelay.temp.market.bid: 'network.attested.signature' (model 'Signatures') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'network.attested.signature#signatures' in com.publicdomainrelay.temp.market.bids.free: 'network.attested.signature' (model 'Signatures') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'network.attested.signature#signatures' in com.publicdomainrelay.temp.market.bids.x402: 'network.attested.signature' (model 'Signatures') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'network.attested.signature#signatures' in com.publicdomainrelay.temp.market.event: 'network.attested.signature' (model 'Signatures') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'network.attested.signature#signatures' in com.publicdomainrelay.temp.market.receipt: 'network.attested.signature' (model 'Signatures') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'network.attested.signature#signatures' in com.publicdomainrelay.temp.market.receipts.free: 'network.attested.signature' (model 'Signatures') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'network.attested.signature#signatures' in com.publicdomainrelay.temp.market.receipts.x402: 'network.attested.signature' (model 'Signatures') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'network.attested.signature#signatures' in com.publicdomainrelay.temp.market.rfp: 'network.attested.signature' (model 'Signatures') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'place.stream.metadata.contentRights' in place.stream.segment: 'place.stream.metadata.contentRights' (model 'Main') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'place.stream.metadata.contentWarnings' in place.stream.segment: 'place.stream.metadata.contentWarnings' (model 'Main') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'place.stream.metadata.distributionPolicy' in place.stream.segment: 'place.stream.metadata.distributionPolicy' (model 'Main') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'place.stream.media.defs#sourceTracks' in place.stream.video: 'place.stream.media.defs' (model 'SourceTracks') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'place.stream.media.defs#sourceClip' in place.stream.video: 'place.stream.media.defs' (model 'SourceClip') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'place.stream.metadata.contentRights' in place.stream.video: 'place.stream.metadata.contentRights' (model 'Main') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'place.stream.metadata.contentWarnings' in place.stream.video: 'place.stream.metadata.contentWarnings' (model 'Main') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'lex:social.colibri.actor.profile#theme' in social.colibri.actor.profile: 'lex:social.colibri.actor.profile#theme' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.richtext.facet' in social.colibri.message: 'lex:social.colibri.richtext.facet' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.message#attachment' in social.colibri.message: 'lex:social.colibri.message#attachment' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.moderation#subject' in social.colibri.moderation: 'lex:social.colibri.moderation#subject' is not a reference.",
+    "Unresolved reference 'lex:social.colibri.role#channelOverride' in social.colibri.role: 'lex:social.colibri.role#channelOverride' is not a reference.",
+    "Unresolved reference '#frame' in to.atpota.poe.scene: '#frame' names a definition that 'to.atpota.poe.scene' does not have.",
+    "Unresolved reference 'dev.cocore.defs#activityWindows' in dev.cocore.compute.modelActivity: 'dev.cocore.defs' (model 'ActivityWindows') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Skipped method app.rocksky.feed.getStories: its body 'app.rocksky.feed.defs#storiesView' is not available",
+    "Skipped method app.rocksky.mirror.putMirrorSource: its body 'app.rocksky.mirror.defs#mirrorSourceView' is not available",
+    "Skipped method app.standard-reader.resolveUrl: its body is a union, which is not supported yet",
+    "Skipped method at.turtleme.game.buy: its body 'at.turtleme.game.defs#state' is not available",
+    "Skipped method at.turtleme.game.cast: its body 'at.turtleme.game.defs#state' is not available",
+    "Skipped method at.turtleme.game.castReef: its body 'at.turtleme.game.defs#state' is not available",
+    "Skipped method at.turtleme.game.castSpot: its body 'at.turtleme.game.defs#state' is not available",
+    "Skipped method at.turtleme.game.cook: its body 'at.turtleme.game.defs#state' is not available",
+    "Skipped method at.turtleme.game.exchange: its body 'at.turtleme.game.defs#state' is not available",
+    "Skipped method at.turtleme.game.fishSpot: its body 'at.turtleme.game.defs#state' is not available",
+    "Skipped method at.turtleme.game.getState: its body 'at.turtleme.game.defs#state' is not available",
+    "Skipped method at.turtleme.game.haulNet: its body 'at.turtleme.game.defs#state' is not available",
+    "Skipped method at.turtleme.game.leaveReef: its body 'at.turtleme.game.defs#state' is not available",
+    "Skipped method at.turtleme.game.reelIn: its body 'at.turtleme.game.defs#state' is not available",
+    "Skipped method at.turtleme.game.sell: its body 'at.turtleme.game.defs#state' is not available",
+    "Skipped method at.turtleme.game.setNet: its body 'at.turtleme.game.defs#state' is not available",
+    "Skipped method at.turtleme.game.strike: its body 'at.turtleme.game.defs#state' is not available",
+    "Skipped method at.turtleme.game.sweepReef: its body 'at.turtleme.game.defs#state' is not available",
+    "Skipped method social.colibri.actor.getData: its body 'lex:social.colibri.actor.defs#actorView' is not available",
+    "Skipped method social.colibri.channel.getReadCursor: its body 'lex:social.colibri.channel.defs#readCursor' is not available"
+  ]
+}

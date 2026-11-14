@@ -1,0 +1,41 @@
+{
+  "id": "app.standard-reader.getFollowedByPeopleYouFollow",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "items"
+          ],
+          "properties": {
+            "items": {
+              "type": "array",
+              "items": {
+                "ref": "app.standard-reader.defs#publicationView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [],
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 12,
+            "maximum": 100,
+            "minimum": 1
+          }
+        }
+      },
+      "description": "Publications followed by Bluesky accounts the caller follows."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

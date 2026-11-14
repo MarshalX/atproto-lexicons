@@ -1,0 +1,53 @@
+{
+  "id": "rsvp.atmo.space.invite.redeem",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "token"
+          ],
+          "properties": {
+            "token": {
+              "type": "string"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "InvalidInvite"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "spaceUri",
+            "perms"
+          ],
+          "properties": {
+            "perms": {
+              "type": "string",
+              "knownValues": [
+                "read",
+                "write"
+              ]
+            },
+            "spaceUri": {
+              "type": "string",
+              "format": "at-uri"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Redeem an invite token. The JWT issuer becomes a member of the space with the invite's perms."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

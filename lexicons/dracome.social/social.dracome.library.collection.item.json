@@ -1,0 +1,68 @@
+{
+  "id": "social.dracome.library.collection.item",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "collection",
+          "catalogTarget",
+          "catalogSnapshot",
+          "position",
+          "addedAt"
+        ],
+        "properties": {
+          "addedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Canonical UTC instant serialized as ISO 8601 with a trailing Z suffix."
+          },
+          "position": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Sparse integer ordering within one custom collection. Gaps are allowed so reorder writes can stay bounded."
+          },
+          "collection": {
+            "ref": "#collectionRef",
+            "type": "ref",
+            "description": "Reference to the custom collection this item belongs to."
+          },
+          "catalogTarget": {
+            "ref": "social.dracome.work.defs#catalogTarget",
+            "type": "ref",
+            "description": "The work and edition that this membership item represents. Mutable."
+          },
+          "catalogSnapshot": {
+            "ref": "social.dracome.work.defs#catalogSnapshot",
+            "type": "ref",
+            "description": "Point-in-time catalog metadata for the added work or edition, captured when this record was last written. Refreshed on every update."
+          }
+        }
+      },
+      "description": "A membership item placing one edition in a custom collection. Duplicate convention: the rkey is a TID minted once at first create and never changes. Several records may exist for one actor and edition (for example from out-of-band writers); consumers SHOULD treat the record with the greatest `addedAt` as the winner and break ties by the lowest TID, ignoring the others. This is a convention, not an enforced contract: AppViews MUST tolerate a differing winner, and may see a record's catalogTarget change over time."
+    },
+    "collectionRef": {
+      "type": "object",
+      "required": [
+        "uri"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid",
+          "description": "Optional content hash (CID) of the owning collection record at the time this reference was written. Informational only; not part of the logical membership identity."
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the owning social.dracome.library.collection record."
+        }
+      },
+      "description": "A reference to the custom collection (social.dracome.library.collection record) that owns this membership item."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

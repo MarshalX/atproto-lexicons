@@ -1,0 +1,40 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "One week's arrivals post, held in the publisher's repo, keyed by the ISO week (e.g. 2026-W40). It is both the history and the idempotency guard: a run that finds this week's record posts nothing. ⚠ ONLY THE PUBLISHER'S COPY COUNTS — the index refuses this collection from any other repo, or anybody could stop the week's post by writing their own.",
+      "key": "any",
+      "record": {
+        "properties": {
+          "count": {
+            "description": "Every pet that arrived that week, including the ones beyond the video's cap.",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "post": {
+            "format": "at-uri",
+            "type": "string"
+          },
+          "postedAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "week": {
+            "maxLength": 8,
+            "type": "string"
+          }
+        },
+        "required": [
+          "week",
+          "count",
+          "post",
+          "postedAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "pet.trezy.newPets",
+  "lexicon": 1
+}

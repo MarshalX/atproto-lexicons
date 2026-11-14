@@ -1,0 +1,87 @@
+{
+  "id": "net.anisota.authFullApp",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Full Anisota App Permissions",
+      "detail": "Manage posts, interactions, chronicles, expeditions, spells, harvests, player state, lists, and all other Anisota features.",
+      "permissions": [
+        {
+          "type": "permission",
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "net.anisota.feed.post",
+            "net.anisota.feed.like",
+            "net.anisota.feed.repost",
+            "net.anisota.feed.list",
+            "net.anisota.feed.listItem",
+            "net.anisota.feed.hand",
+            "net.anisota.feed.draft",
+            "net.anisota.feed.template",
+            "net.anisota.feed.perception",
+            "net.anisota.feed.lens",
+            "net.anisota.chronicle.log",
+            "net.anisota.chronicle.log.daily",
+            "net.anisota.chronicle.log.weekly",
+            "net.anisota.chronicle.log.monthly",
+            "net.anisota.chronicle.log.yearly",
+            "net.anisota.chronicle.level",
+            "net.anisota.chronicle.collection",
+            "net.anisota.chronicle.inventory",
+            "net.anisota.chronicle.achievement",
+            "net.anisota.chronicle.milestone",
+            "net.anisota.chronicle.expedition",
+            "net.anisota.chronicle.expedition.camp",
+            "net.anisota.chronicle.walk",
+            "net.anisota.chronicle.walk.camp",
+            "net.anisota.chronicle.progress",
+            "net.anisota.chronicle.fieldwork",
+            "net.anisota.fieldwork.state",
+            "net.anisota.forest.survey",
+            "net.anisota.forest.landmark",
+            "net.anisota.harvest.minigame",
+            "net.anisota.player.state",
+            "net.anisota.spell.custom",
+            "net.anisota.spell.book",
+            "net.anisota.settings",
+            "net.anisota.graph.mute",
+            "net.anisota.graph.listMute",
+            "net.anisota.graph.scopedMute",
+            "net.anisota.graph.list",
+            "net.anisota.graph.wordlist",
+            "net.anisota.observatory.element",
+            "net.anisota.observatory.layout",
+            "net.anisota.observatory.preset",
+            "net.anisota.lab.sigil",
+            "net.anisota.lab.synth",
+            "net.anisota.lab.inkblot",
+            "net.anisota.lab.inkblot.perception",
+            "net.anisota.lab.nightsky.session",
+            "net.anisota.lab.carving",
+            "net.anisota.lab.petri",
+            "net.anisota.lab.plasmodium",
+            "net.anisota.lab.poetry",
+            "net.anisota.lab.redaction"
+          ]
+        },
+        {
+          "type": "permission",
+          "action": [
+            "delete"
+          ],
+          "resource": "repo",
+          "collection": [
+            "net.anisota.spell.stats"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

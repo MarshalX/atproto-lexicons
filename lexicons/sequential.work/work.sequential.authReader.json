@@ -1,0 +1,27 @@
+{
+  "id": "work.sequential.authReader",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "permission-set",
+      "title": "Read comics",
+      "detail": "Subscribe to series, like, comment on and annotate chapters and strips, and keep reading lists.",
+      "description": "Permissions for reader apps: the records readers write in their own repos.",
+      "permissions": [
+        {
+          "type": "permission",
+          "resource": "repo",
+          "collection": [
+            "work.sequential.graph.subscription",
+            "work.sequential.graph.list",
+            "work.sequential.feed.like",
+            "work.sequential.feed.comment",
+            "work.sequential.feed.annotation"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

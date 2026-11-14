@@ -1,0 +1,49 @@
+{
+  "id": "dev.cocore.account.revokeApiKey",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "maxLength": 200,
+              "minLength": 1,
+              "description": "The `id` of the key to revoke (from createApiKey or listApiKeys)."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "No valid session cookie or bearer key was presented."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "revoked"
+          ],
+          "properties": {
+            "revoked": {
+              "type": "boolean",
+              "description": "True if a live key owned by the caller was revoked by this call; false if no matching unrevoked key existed."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Revoke one of the authenticated account's API keys. The key stops authenticating immediately, but the row is retained with `revokedAt` set so it stays visible in listApiKeys as a revoked key (audit trail). Use deleteApiKey to remove it entirely. Scoped to the caller's DID — you cannot revoke another account's key. Idempotent: revoking an already-revoked or unknown key returns `revoked: false`."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

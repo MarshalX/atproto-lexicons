@@ -1,0 +1,149 @@
+{
+  "id": "social.coves.community.post.update",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri"
+          ],
+          "properties": {
+            "uri": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "AT-URI of the post to update"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "maxLength": 640,
+                "maxGraphemes": 64
+              },
+              "maxLength": 8,
+              "description": "Updated topic tags"
+            },
+            "embed": {
+              "refs": [
+                "social.coves.embed.images",
+                "social.coves.embed.imagesWithAttachment",
+                "social.coves.embed.video",
+                "social.coves.embed.external",
+                "social.coves.embed.post"
+              ],
+              "type": "union",
+              "description": "Updated embedded content (note: changing embed type may be restricted)"
+            },
+            "langs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "language"
+              },
+              "maxLength": 3,
+              "description": "Updated languages (ISO 639-1)"
+            },
+            "title": {
+              "type": "string",
+              "maxLength": 3000,
+              "description": "Updated title",
+              "maxGraphemes": 300
+            },
+            "facets": {
+              "type": "array",
+              "items": {
+                "ref": "social.coves.richtext.facet",
+                "type": "ref"
+              },
+              "maxLength": 200,
+              "description": "Updated annotations for rich text (mentions, links, formatting, block structure)"
+            },
+            "labels": {
+              "ref": "com.atproto.label.defs#selfLabels",
+              "type": "ref",
+              "description": "Updated self-applied content labels"
+            },
+            "content": {
+              "type": "string",
+              "maxLength": 500000,
+              "description": "Updated content - main text for text posts, description for media, etc.",
+              "maxGraphemes": 50000
+            },
+            "editNote": {
+              "type": "string",
+              "maxLength": 3000,
+              "description": "DEPRECATED, retained for backward compatibility: an optional note explaining the edit. This field ships on main; removing it is a non-additive break, so it stays declared as an optional input until a new-NSID change retires it.",
+              "maxGraphemes": 300
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "PostNotFound",
+          "description": "Post not found"
+        },
+        {
+          "name": "NotAuthorized",
+          "description": "User is not authorized to edit this post"
+        },
+        {
+          "name": "ConcurrentModification",
+          "description": "The post changed between being read and being written, so the edit was composed against content that no longer stands. Re-read the post and re-apply the edit; the server does not merge, because re-applying server-side would silently erase a change the editor never saw."
+        },
+        {
+          "name": "NoAuthorCredentials",
+          "description": "The service holds no credentials it can write to the author's repository with. Distinct from an expired caller session: signing in again is the fix for a person and no fix at all for a non-interactive author whose stored grant was revoked."
+        },
+        {
+          "name": "EditWindowExpired",
+          "description": "DEPRECATED, retained for backward compatibility: no edit window is enforced - a post is editable by its author for as long as it exists. This name ships on main; removing a declared error is a non-additive break, so it stays declared until a new-NSID change retires it."
+        },
+        {
+          "name": "InvalidUpdate",
+          "description": "DEPRECATED, retained for backward compatibility: never emitted. Refusals this once covered are answered by name instead - an edit naming a different community is an InvalidRequest validation error, and a post whose collection is not editable is the same. This name ships on main; removing a declared error is a non-additive break, so it stays declared until a new-NSID change retires it."
+        },
+        {
+          "name": "InvalidEmbed",
+          "description": "The embed does not satisfy its lexicon (social.coves.embed.*) or the embed write rules; the message describes the failure"
+        },
+        {
+          "name": "TooManyImages",
+          "description": "The embed carries more than 8 images"
+        },
+        {
+          "name": "InvalidImageFacet",
+          "description": "An #image facet breaks a placement rule: its index does not name an image of an images embed, it shares its facet with another feature, it places an index already placed, its range is empty, or its range lies inside a #code or #codeBlock range"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri",
+            "cid"
+          ],
+          "properties": {
+            "cid": {
+              "type": "string",
+              "format": "cid",
+              "description": "New CID of the updated post"
+            },
+            "uri": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "AT-URI of the updated post"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Update an existing post"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,29 @@
+{
+  "id": "dev.cocore.compute.listProviders",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "providers"
+          ],
+          "properties": {
+            "providers": {
+              "type": "array",
+              "items": {
+                "ref": "dev.cocore.defs#indexedRecord",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "List every indexed `dev.cocore.compute.provider` record (capped at 100). Read-only cache over the firehose; the provider's PDS is authoritative."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

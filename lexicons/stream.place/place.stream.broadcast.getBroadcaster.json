@@ -1,0 +1,49 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Get information about a Streamplace broadcaster.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "admins": {
+              "description": "Array of DIDs authorized as admins",
+              "items": {
+                "format": "did",
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "broadcaster": {
+              "description": "DID of the Streamplace broadcaster to which this server belongs",
+              "format": "did",
+              "type": "string"
+            },
+            "moqURL": {
+              "description": "moqt:// URL of this server's Media over QUIC listener, which peers push streams to and pull them from; a certhash query parameter pins the server certificate (SHA-256, hex) when it is self-signed. Absent when the listener is off.",
+              "format": "uri",
+              "type": "string"
+            },
+            "server": {
+              "description": "DID of this particular Streamplace server",
+              "format": "did",
+              "type": "string"
+            }
+          },
+          "required": [
+            "broadcaster"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {},
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "place.stream.broadcast.getBroadcaster",
+  "lexicon": 1
+}

@@ -1,0 +1,62 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "errors": [
+        {
+          "description": "No book record exists at the given AT-URI.",
+          "name": "NotFound"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "reviews": {
+              "items": {
+                "ref": "net.olamaelcu.livtet.biblio.defs#reviewView",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "book": {
+            "description": "AT-URI of the catalog edition to fetch reviews for.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "cursor": {
+            "description": "Opaque pagination cursor.",
+            "type": "string"
+          },
+          "limit": {
+            "default": 25,
+            "description": "Maximum number of review records to return.",
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "book"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "List reviews for a given book, ordered by most recent first.",
+  "id": "net.olamaelcu.livtet.biblio.getReviewsByBook",
+  "lexicon": 1
+}

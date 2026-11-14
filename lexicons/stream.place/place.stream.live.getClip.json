@@ -1,0 +1,49 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Clip a livestream between two instants as a flat (faststart) MP4. The clip is cut on MUXL segment boundaries: it holds every segment whose start falls within [start, end], so it may begin up to one segment late and run up to one segment past end. Segments come from the node's livestream recordings and from the recent stream it holds in memory; each segment's C2PA signature passes through verbatim. Only published (live) segments are clipped. Requires a signed-in caller: an OAuth session, or a service-auth token bound to this method (lxm), so third-party apps can call it through the PDS with the rpc:place.stream.live.getClip scope.",
+      "errors": [
+        {
+          "description": "This node has no published segments of the stream in the requested range.",
+          "name": "ClipNotFound"
+        },
+        {
+          "description": "Part of the requested range is still being recorded and is held only by the node the streamer is streaming to; retry there, or later once the recording has been written.",
+          "name": "ClipUnavailable"
+        }
+      ],
+      "output": {
+        "encoding": "video/mp4",
+        "schema": null
+      },
+      "parameters": {
+        "properties": {
+          "end": {
+            "description": "End of the clip (wall-clock time). Must be after start, at most one hour later.",
+            "format": "datetime",
+            "type": "string"
+          },
+          "start": {
+            "description": "Start of the clip (wall-clock time).",
+            "format": "datetime",
+            "type": "string"
+          },
+          "streamer": {
+            "description": "The streamer: a DID or a Bluesky handle (resolved to its DID).",
+            "type": "string"
+          }
+        },
+        "required": [
+          "streamer",
+          "start",
+          "end"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "place.stream.live.getClip",
+  "lexicon": 1
+}

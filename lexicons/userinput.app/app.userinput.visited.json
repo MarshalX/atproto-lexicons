@@ -1,0 +1,37 @@
+{
+  "id": "app.userinput.visited",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "space",
+          "firstVisited",
+          "lastVisited"
+        ],
+        "properties": {
+          "space": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The visited space. Carries the full identity (owner DID + rkey + cid); the record key alone is only a dedup key."
+          },
+          "lastVisited": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the author most recently visited this space. Bumped on every recorded visit; the 'boards you've visited' list sorts by this."
+          },
+          "firstVisited": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the author first visited this space. Preserved across re-visits."
+          }
+        }
+      },
+      "description": "A private-ish bookmark marking a space the author has visited, written to the author's own repo. The record key matches the visited space's record key, so re-visiting overwrites the same record (one per space). Used to populate the author's 'boards you've visited' list quickly, ordered by lastVisited."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,41 @@
+{
+  "id": "dev.knotless.unregisterPush",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "token"
+          ],
+          "properties": {
+            "token": {
+              "type": "string",
+              "maxLength": 200,
+              "description": "The device's push token from Apple, in hexadecimal."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthenticationRequired",
+          "description": "No account is asking."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "description": "Forgets a device of the asking account. A token it does not hold changes nothing."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Asks this appview to stop sending the asking account's notifications to a device."
+}

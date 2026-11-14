@@ -1,0 +1,55 @@
+{
+  "id": "app.standard-reader.getList",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "name",
+            "publications"
+          ],
+          "properties": {
+            "uri": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "name": {
+              "type": "string",
+              "maxLength": 128
+            },
+            "description": {
+              "type": "string",
+              "nullable": true,
+              "maxLength": 4096
+            },
+            "publications": {
+              "type": "array",
+              "items": {
+                "ref": "app.standard-reader.defs#publicationView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "list"
+        ],
+        "properties": {
+          "list": {
+            "type": "string",
+            "format": "at-uri"
+          }
+        }
+      },
+      "description": "Public metadata and member publications for an app.standard-reader.list AT-URI."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

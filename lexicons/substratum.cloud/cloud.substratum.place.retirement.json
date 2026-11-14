@@ -1,0 +1,38 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Operator-repo tombstone for a retired Place (ADR 70). Refresh / backfill skip this placeId.",
+      "properties": {
+        "displayName": {
+          "description": "Last known Place label at retirement (optional snapshot).",
+          "type": "string"
+        },
+        "operatorDid": {
+          "format": "did",
+          "type": "string"
+        },
+        "placeId": {
+          "description": "Stable place id that was retired (e.g. personal_node:{peer_id}).",
+          "type": "string"
+        },
+        "reason": {
+          "description": "Optional retirement reason (e.g. duplicate, replaced).",
+          "type": "string"
+        },
+        "retiredAt": {
+          "format": "datetime",
+          "type": "string"
+        }
+      },
+      "required": [
+        "placeId",
+        "operatorDid",
+        "retiredAt"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "cloud.substratum.place.retirement",
+  "lexicon": 1
+}

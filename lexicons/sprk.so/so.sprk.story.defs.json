@@ -1,0 +1,91 @@
+{
+  "id": "so.sprk.story.defs",
+  "defs": {
+    "storyView": {
+      "type": "object",
+      "required": [
+        "uri",
+        "cid",
+        "author",
+        "record",
+        "indexedAt"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid"
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "media": {
+          "refs": [
+            "so.sprk.media.image#view",
+            "so.sprk.media.video#view"
+          ],
+          "type": "union"
+        },
+        "author": {
+          "ref": "so.sprk.actor.defs#profileViewBasic",
+          "type": "ref"
+        },
+        "embeds": {
+          "ref": "so.sprk.embed.defs#views",
+          "type": "ref"
+        },
+        "record": {
+          "type": "unknown"
+        },
+        "indexedAt": {
+          "type": "string",
+          "format": "datetime"
+        }
+      }
+    },
+    "interaction": {
+      "type": "object",
+      "properties": {
+        "item": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "event": {
+          "type": "string",
+          "knownValues": [
+            "so.sprk.feed.defs#clickthroughItem",
+            "so.sprk.feed.defs#clickthroughAuthor",
+            "so.sprk.feed.defs#clickthroughReposter",
+            "so.sprk.feed.defs#clickthroughEmbed",
+            "so.sprk.feed.defs#interactionSeen",
+            "so.sprk.feed.defs#interactionLike",
+            "so.sprk.feed.defs#interactionRepost",
+            "so.sprk.feed.defs#interactionShare"
+          ]
+        }
+      }
+    },
+    "storiesByAuthor": {
+      "type": "object",
+      "required": [
+        "author",
+        "stories"
+      ],
+      "properties": {
+        "author": {
+          "ref": "so.sprk.actor.defs#profileViewBasic",
+          "type": "ref"
+        },
+        "stories": {
+          "type": "array",
+          "items": {
+            "ref": "#storyView",
+            "type": "ref"
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

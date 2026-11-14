@@ -1,0 +1,72 @@
+{
+  "id": "social.colibri.beta.community.listInvitations",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request is missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The requesting user lacks the invitation.create permission."
+        },
+        {
+          "name": "CommunityNotFound",
+          "description": "No community exists with that DID."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "invitations"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string",
+              "description": "A cursor for fetching the next page."
+            },
+            "invitations": {
+              "type": "array",
+              "items": {
+                "ref": "social.colibri.beta.community.defs#invitationView",
+                "type": "ref"
+              },
+              "description": "The community's invitations."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "community"
+        ],
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "description": "The maximum number of results to return."
+          },
+          "cursor": {
+            "type": "string",
+            "description": "The cursor from a previous call, for fetching the next page."
+          },
+          "community": {
+            "type": "string",
+            "format": "did",
+            "description": "The community to list invitations for."
+          }
+        }
+      },
+      "description": "Lists a community's invitation codes."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

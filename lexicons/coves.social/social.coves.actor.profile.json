@@ -1,0 +1,81 @@
+{
+  "id": "social.coves.actor.profile",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "avatar": {
+            "type": "blob",
+            "accept": [
+              "image/png",
+              "image/jpeg",
+              "image/webp"
+            ],
+            "maxSize": 1000000
+          },
+          "banner": {
+            "type": "blob",
+            "accept": [
+              "image/png",
+              "image/jpeg",
+              "image/webp"
+            ],
+            "maxSize": 2000000
+          },
+          "origin": {
+            "type": "string",
+            "maxLength": 253,
+            "description": "Bridge-written home instance hostname (e.g. lemmy.world); display only. maxLength counts UTF-8 bytes."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "originUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Bridge-written URL of the account on its home instance; display only."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 2560,
+            "description": "User bio/description with rich text support",
+            "maxGraphemes": 256
+          },
+          "displayName": {
+            "type": "string",
+            "maxLength": 640,
+            "description": "Optional display name",
+            "maxGraphemes": 64
+          },
+          "originSoftware": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Bridge-written home instance software; display only. maxLength counts UTF-8 bytes."
+          },
+          "originUsername": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "Bridge-written username on the home instance; display only. maxLength counts UTF-8 bytes."
+          },
+          "descriptionFacets": {
+            "type": "array",
+            "items": {
+              "ref": "social.coves.richtext.facet",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "description": "Rich text annotations for the description"
+          }
+        }
+      },
+      "description": "A user's profile information"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

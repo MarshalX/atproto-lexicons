@@ -1,0 +1,35 @@
+{
+  "id": "dev.knotless.leaveOrg",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "org"
+          ],
+          "properties": {
+            "org": {
+              "type": "string",
+              "format": "did",
+              "description": "The organization."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "ref": "dev.knotless.removeOrgMember#removed",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "Answers where the caller stood before."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Takes the caller out of an organization they left by deleting their dev.knotless.orgAcceptance record, through the gateway the organization delegated writes to: out of its records, its space and its private repositories' spaces, but for repositories shared with them on their own. The membership ended with the record; this takes back what the organization had let them read. Requires a service token from the caller's PDS, audience the gateway's DID, for this method."
+}

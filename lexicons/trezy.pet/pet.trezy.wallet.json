@@ -1,0 +1,35 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "record": {
+        "properties": {
+          "collected": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "lastUpdated": {
+            "description": "THE ACCRUAL ANCHOR, NOT A WRITE TIME. Income is measured FROM this moment, so it is where the next payout starts rather than when this record was last saved. The two usually coincide, because a settle banks everything and moves the anchor to now — but a PARTIAL collect advances it only as far as the coins actually taken, leaving it EARLIER than the write that produced it. Reading it as \"when the wallet was last written\" has already cost this project one wrong diagnosis. It is deliberately NOT renamed: it sits inside the signed payload, so changing it would invalidate every wallet attestation ever issued and require rewriting records in players' repos.",
+            "format": "datetime",
+            "type": "string"
+          },
+          "signatures": {
+            "items": {
+              "type": "unknown"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "collected",
+          "lastUpdated"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "pet.trezy.wallet",
+  "lexicon": 1
+}

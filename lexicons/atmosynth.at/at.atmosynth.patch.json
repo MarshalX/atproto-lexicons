@@ -1,0 +1,1228 @@
+{
+  "id": "at.atmosynth.patch",
+  "defs": {
+    "lane": {
+      "type": "object",
+      "required": [
+        "bars"
+      ],
+      "properties": {
+        "bars": {
+          "type": "integer",
+          "maximum": 64,
+          "minimum": 1,
+          "description": "How long this lane is, in bars of the patch's time signature. Where `sixteenths` is present it is the length and this is the whole bars that covers, rounded up."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 320,
+          "minLength": 1,
+          "description": "What the creator called this lane. Optional permanently: a lane that says nothing is called by its place.",
+          "maxGraphemes": 32
+        },
+        "points": {
+          "type": "array",
+          "items": {
+            "ref": "#lanePoint",
+            "type": "ref"
+          },
+          "maxLength": 512,
+          "description": "The points, in order of `at`, one to a tick. Before the first point the lane is at the first point's value and after the last at the last's; a lane with no points is at nothing."
+        },
+        "resolution": {
+          "ref": "#resolution",
+          "type": "ref",
+          "description": "The grid this lane's points are drawn and snapped to. It is a guide and not a part of what is played: changing it moves no point already written. Optional permanently: absent is sixteenths."
+        },
+        "sixteenths": {
+          "type": "integer",
+          "maximum": 16384,
+          "minimum": 1,
+          "description": "How long this lane is, in sixteenth notes, where it is not a whole number of bars. It keeps its length when the time signature changes. Optional permanently: absent is `bars` of the patch's bar."
+        }
+      },
+      "description": "One automation lane: a line drawn over a whole number of bars, or of sixteenths where it says so, counted from the downbeat the patterns share and going round at its own length, so a point in bar 3 of a four-bar lane is heard in bar 3 of every four."
+    },
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "descriptionVersion",
+          "name",
+          "description",
+          "moduleInstances",
+          "createdAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 128
+            },
+            "description": "Freely created tags, lower-cased on write so one hashtag matches one set of patches."
+          },
+          "tempo": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "The tempo this patch was written at, in beats per minute, a beat being a quarter note whatever the time signature says, from 20 to 300 to the hundredth, written as its decimal text — \"120\", \"128.34\" — as every number in this description that need not be whole is. It is what a sequenced patch counts its bars against, so a patch that plays itself arrives at the speed its creator meant. It seeds the player's own tempo rather than replacing it: how fast a visitor plays is still theirs, and moving it moves everything counting against it. A record written before the tempo could hold hundredths carries it as a whole number instead, 120, and a reader reads that as it reads \"120\", permanently; a value that is not a number reads as 120 and never makes the record unreadable. Optional permanently — a patch that says nothing is played at whatever tempo the player already had."
+          },
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "knownValues": [
+                "Lead",
+                "Pad",
+                "Bass",
+                "Plucked",
+                "Percussion",
+                "Keys",
+                "Brass",
+                "Strings",
+                "Vocal",
+                "SFX"
+              ]
+            },
+            "description": "Zero or more of the ten fixed types. A patch may carry several."
+          },
+          "output": {
+            "ref": "#outputRef",
+            "type": "ref",
+            "description": "Which instance reaches the audio output."
+          },
+          "tuning": {
+            "ref": "#tuning",
+            "type": "ref",
+            "description": "Which pitch each key of this patch sounds at, as a Scala .scl file and its .kbm key map say it. Every frequency a key is played at comes from it — an oscillator a module does not drive itself, a module's note signal, and a sample, which sounds at its key what an oscillator at that key would — and a pitch bend is applied after it, in twelve-tone semitones. The concert pitch is still the one frequency here: the tuning's reference key sounds where twelve-tone equal temperament puts it at the patch's concert pitch. A key the map sends nowhere sounds nothing. Optional permanently: a patch that says nothing is in twelve-tone equal temperament, which is what every patch written before the field existed says."
+          },
+          "lineage": {
+            "type": "array",
+            "items": {
+              "ref": "#lineage",
+              "type": "ref"
+            },
+            "maxLength": 64,
+            "description": "The patches this one came from: the one it was forked from, if it was, and every one imported into it. Only the direct ones — each of those names its own — so the whole of where a patch came from is read by following these upward. The modules it pins and the samples it fills are not repeated here: they are already in its instances. Optional permanently: a patch that says nothing came from nothing but its modules. A patch written before this field existed may say its fork as `forkedFrom` instead, `{uri, creatorDid, patchId?}`, which a reader treats as a lineage of relation `fork`; it is never written again."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "connections": {
+            "type": "array",
+            "items": {
+              "ref": "#connection",
+              "type": "ref"
+            }
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000
+          },
+          "midiRouting": {
+            "type": "array",
+            "items": {
+              "ref": "#midiRoute",
+              "type": "ref"
+            },
+            "description": "The note plane: which note inputs receive note events, and from which note source — a sequencer, or the player's keys and MIDI devices. \"MIDI\" is the historical name; what travels here is notes, whatever produced them."
+          },
+          "concertPitch": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "The frequency A4 sounds at in this patch, in hertz, from 380 to 500, written as its decimal text — \"432\", \"415.3\" — as every number in this description that need not be whole is. Every note's frequency is tuned against it, which is what an oscillator a module does not drive itself and a module's note signal play at; under a `tuning` it anchors the tuning's reference key, which sounds where twelve-tone equal temperament puts it at this pitch. A sample is not retuned by it: its own reference pitch is a note rather than a frequency, and it plays as recorded. Optional permanently: a patch that says nothing is tuned to 440, which is what every patch written before the field existed says."
+          },
+          "inputRouting": {
+            "type": "array",
+            "items": {
+              "ref": "#inputRoute",
+              "type": "ref"
+            },
+            "description": "What reaches the input of each sequencer, each Keyboard, each note range, each transpose, each pitch assignment and each one-shot: which note sources a sequencer hears, to record from and — unless it says otherwise (`thru`) — to pass on to whatever it plays; which a note range hears, to pass on what falls inside its range (`noteRange`); which a transpose or a pitch assignment hears, to pass on at another pitch (`transpose`, `assignedNote`); which a one-shot hears, to pass on lasting one length (`noteLength`); and which a Keyboard hears, to pass on exactly as it arrived (its thru), under the origin each note already has, so that a pattern wired into a Keyboard reaches whatever the hands do. A sequencer with nothing wired here records nothing, and the others pass on nothing but what they source. A reader that predates a Keyboard's input reads a route into one as reaching nothing. Note wiring that leads back to a block it started from is a circle, and a patch holding one cannot be played. Optional permanently: a patch that says nothing has nothing wired into any of them, which is what every patch written before the input existed says."
+          },
+          "timeSignature": {
+            "ref": "#timeSignature",
+            "type": "ref",
+            "description": "How many of which note one bar of this patch is. Every length here counted in bars — a pattern, a section, an automation lane — is counted in this bar, so a pattern of four bars is twelve beats in 3/4. Optional permanently: a patch that says nothing is in 4/4, which is what every patch written before the field existed says."
+          },
+          "patternRouting": {
+            "type": "array",
+            "items": {
+              "ref": "#patternRoute",
+              "type": "ref"
+            },
+            "description": "The song plane: which sequencers and automation blocks each arranger or scenes block chooses the patterns or lanes of. A sequencer or an automation block has one pattern input, so it appears here at most once. Optional permanently: a patch that says nothing has no arranger in it, and every sequencer plays the pattern it names as active and every automation block the lane."
+          },
+          "moduleInstances": {
+            "type": "array",
+            "items": {
+              "ref": "#moduleInstance",
+              "type": "ref"
+            }
+          },
+          "descriptionVersion": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Version of the patch description this record follows."
+          }
+        }
+      },
+      "description": "A patch, held in its creator's own repository."
+    },
+    "song": {
+      "type": "object",
+      "properties": {
+        "end": {
+          "type": "string",
+          "description": "What happens when the last section ends: `stop` leaves the sequencers it arranges silent, `loop` plays the song again from its first section, and `hold` keeps playing the last section. Optional permanently: absent is `stop`.",
+          "knownValues": [
+            "stop",
+            "loop",
+            "hold"
+          ]
+        },
+        "sections": {
+          "type": "array",
+          "items": {
+            "ref": "#section",
+            "type": "ref"
+          },
+          "maxLength": 64,
+          "description": "The sections, in the order they are played."
+        }
+      },
+      "description": "An arranger's song: sections played one after another from its first beat. Each section starts every pattern it names from that pattern's first step, and lets go of whatever is still sounding when it ends, so a pattern shorter than its section repeats and one longer is cut off."
+    },
+    "glide": {
+      "type": "object",
+      "properties": {
+        "ms": {
+          "type": "integer",
+          "maximum": 5000,
+          "minimum": 1,
+          "description": "How long a note takes to reach the next, in milliseconds."
+        },
+        "rate": {
+          "type": "string",
+          "description": "Or: how long, as a note value at the tempo. The same vocabulary the grid is written in.",
+          "knownValues": [
+            "bar",
+            "1/2",
+            "1/4",
+            "1/8",
+            "1/16",
+            "1/32",
+            "1/64",
+            "1/128"
+          ]
+        },
+        "fromLast": {
+          "type": "boolean",
+          "description": "Whether a note struck after a rest slides in from the note before it. Absent is yes, so every note of the pattern slides; false is fingered portamento, where only a note held over the next one slides into it and a note after a rest starts where it means to."
+        }
+      },
+      "description": "How one sequencer's notes slide into one another. Its presence is the switch: an instance carrying it slides, and one carrying nothing does not. The speed is written one of two ways, and which field is present says which — a duration, or a note value at the player's tempo, so a slide that is a sixteenth long stays a sixteenth when the song is played faster. A slide moves one note to the next, so a pattern with a glide plays one note at a time."
+    },
+    "scene": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 320,
+          "minLength": 1,
+          "description": "What the creator called this scene. Optional permanently: a scene that says nothing is called by its letter.",
+          "maxGraphemes": 32
+        },
+        "loops": {
+          "type": "array",
+          "items": {
+            "ref": "#sectionLoop",
+            "type": "ref"
+          },
+          "maxLength": 64,
+          "description": "Which pattern each sequencer plays in this scene. A sequencer wired to the scenes block with no entry here rests while it plays."
+        }
+      },
+      "description": "One scene: which pattern each sequencer wired to the scenes block plays while it is the scene playing. It lasts until another scene is chosen."
+    },
+    "swing": {
+      "type": "object",
+      "required": [
+        "amount",
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "string",
+          "description": "The note whose every second one is played late: eighths, whose pairs are each a beat, or sixteenths, whose pairs are each half of one.",
+          "knownValues": [
+            "1/8",
+            "1/16"
+          ]
+        },
+        "amount": {
+          "type": "integer",
+          "maximum": 75,
+          "minimum": 51,
+          "description": "Where the second note of each pair is heard, in percent of the pair. Fifty would be straight, which is written as no swing at all; seventy-five is a dotted note and the note after it."
+        }
+      },
+      "description": "Every second eighth or sixteenth of a pattern played late. The notes stay at the ticks they are written at, and the swing is applied as the pattern is played: each pair of notes counted from the pattern's start is heard with its second note `amount` percent of the way through the pair rather than half of it, and a note between two lines moves in proportion, so nothing changes order. A pair the pattern's end cuts short is played straight. A reader meeting a value or an amount it does not swing by plays the pattern straight."
+    },
+    "tuning": {
+      "type": "object",
+      "required": [
+        "degrees"
+      ],
+      "properties": {
+        "keys": {
+          "ref": "#tuningKeys",
+          "type": "ref",
+          "description": "Which degree each key plays: a .kbm file. Optional permanently: absent is the map Scala assumes without one, in which every key plays the next degree, key 60 plays the first and key 69 is the reference."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "What the tuning is called: a .scl file's description line."
+        },
+        "degrees": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "maxLength": 128,
+          "minLength": 1,
+          "description": "The tuning's degrees above its first, which is the unison and is not written, exactly as Scala writes a pitch: a value with a point in it is cents (\"701.955\", \"-3.5\", \"1200.\"), and anything else a ratio of whole numbers above nothing (\"3/2\", or \"2\" for 2/1), which is kept as text so that it stays exact. The last is the period, the interval after which the degrees repeat, and is above the unison."
+        }
+      },
+      "description": "A tuning: its degrees, each an interval above its first note, and which degree each key plays."
+    },
+    "lineage": {
+      "type": "object",
+      "required": [
+        "relation",
+        "uri",
+        "creatorDid"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        },
+        "patchId": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "relation": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "`fork`: this patch began as a copy of that one, and a patch is forked from one at most. `import`: that patch was put inside this one, each patch named once however often it was. A reader meeting another value still has a parent, and should say only that this patch came from it.",
+          "knownValues": [
+            "fork",
+            "import"
+          ]
+        },
+        "creatorDid": {
+          "type": "string",
+          "format": "did"
+        }
+      },
+      "description": "One patch this one came from, how, and its creator. Preserved even when that patch is later deleted, because it is written here and not there."
+    },
+    "section": {
+      "type": "object",
+      "required": [
+        "bars"
+      ],
+      "properties": {
+        "bars": {
+          "type": "integer",
+          "maximum": 64,
+          "minimum": 1,
+          "description": "How long this section is, in bars of the patch's time signature."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 320,
+          "minLength": 1,
+          "description": "What the creator called this section. Optional permanently: a section that says nothing is called by its place.",
+          "maxGraphemes": 32
+        },
+        "loops": {
+          "type": "array",
+          "items": {
+            "ref": "#sectionLoop",
+            "type": "ref"
+          },
+          "maxLength": 64,
+          "description": "Which pattern each sequencer plays for this section. A sequencer wired to the arranger with no entry here rests for the section."
+        }
+      },
+      "description": "One section of a song: how long it is, and which pattern each arranged sequencer plays for that long."
+    },
+    "inputRef": {
+      "type": "object",
+      "required": [
+        "instanceId",
+        "audioInput"
+      ],
+      "properties": {
+        "audioInput": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        },
+        "instanceId": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        }
+      }
+    },
+    "nodeSeed": {
+      "type": "object",
+      "required": [
+        "node",
+        "seed"
+      ],
+      "properties": {
+        "node": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1,
+          "description": "The id of a `dsp` node in the instance's module. One entry per node."
+        },
+        "seed": {
+          "type": "string",
+          "maxLength": 10,
+          "minLength": 1,
+          "description": "The seed, a whole number from 0 to 4294967295 written in decimal digits — \"2654435769\" — as text, as the patch's other numbers are. Nothing else is a seed: no sign, no fraction, no exponent, no space. A reader meeting text that is not one plays the node from its default seed, as if the entry named none (see `seeds`)."
+        }
+      },
+      "description": "The seed one DSP JS node of the instance's module starts from."
+    },
+    "position": {
+      "type": "object",
+      "required": [
+        "x",
+        "y"
+      ],
+      "properties": {
+        "x": {
+          "type": "integer"
+        },
+        "y": {
+          "type": "integer"
+        }
+      },
+      "description": "Deprecated, with `moduleInstance.position`: where a record written before placed a block, its top-left corner on the canvas."
+    },
+    "bendPoint": {
+      "type": "object",
+      "required": [
+        "at",
+        "value"
+      ],
+      "properties": {
+        "at": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The tick of the note this point is at, counted from the note's own start at 96 ticks to the beat, so a phrase bent at one tempo is bent the same way at another."
+        },
+        "value": {
+          "type": "string",
+          "description": "How far the note is bent here, in semitones, from -96 to 96, written as its decimal text, as every number in this description that need not be whole is. Upwards is positive."
+        }
+      },
+      "description": "One point of a note's bend: how far from its pitch the note is at a moment of it."
+    },
+    "lanePoint": {
+      "type": "object",
+      "required": [
+        "at",
+        "value"
+      ],
+      "properties": {
+        "at": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The tick of the lane this point is at, counted from its start at 96 ticks to the beat, and less than the lane's length."
+        },
+        "hold": {
+          "type": "boolean",
+          "description": "Whether the value is held until the next point, which is jumped to, rather than travelled to in a straight line. Optional permanently: absent is a straight line, and only `true` is written."
+        },
+        "value": {
+          "type": "string",
+          "description": "The value here, a number from 0 to 1 written as its decimal text, as every number in this description that need not be whole is."
+        }
+      },
+      "description": "One point of an automation lane: a value at a moment."
+    },
+    "midiRoute": {
+      "type": "object",
+      "required": [
+        "instanceId",
+        "midiInput"
+      ],
+      "properties": {
+        "from": {
+          "ref": "#noteOutputRef",
+          "type": "ref",
+          "description": "The note output these notes leave. Absent where they come from the player."
+        },
+        "midiInput": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1,
+          "description": "The note input, one of the module's `midiInputs`, these notes arrive at. It receives note events from any note source; \"MIDI\" is the historical name."
+        },
+        "instanceId": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        }
+      },
+      "description": "Where one instance's notes come from. `instanceId` and `midiInput` name the note input they arrive at; `from` names the note output they leave. \"MIDI\" in these names is historical: a route carries note events from any note source, a sequencer as much as a MIDI device. **A route with no `from` comes from the player** — the on-screen keys, the computer keyboard and every MIDI device at once — which is what every route written before note sources existed says, and what it goes on saying."
+    },
+    "moduleRef": {
+      "type": "object",
+      "required": [
+        "moduleId",
+        "versionKey",
+        "authorDid"
+      ],
+      "properties": {
+        "moduleId": {
+          "type": "string",
+          "maxLength": 128,
+          "minLength": 1
+        },
+        "authorDid": {
+          "type": "string",
+          "format": "did"
+        },
+        "versionKey": {
+          "type": "string",
+          "maxLength": 128,
+          "minLength": 1,
+          "description": "The pinned version's record key, which is also the `versionKey` that version carries. A reader fetches the module record at this key."
+        }
+      },
+      "description": "A pin to one exact published version of a module. Resolving it fetches that record, whoever authored it."
+    },
+    "noteEvent": {
+      "type": "object",
+      "required": [
+        "note"
+      ],
+      "properties": {
+        "at": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The tick of the pattern this note is struck at, counted from its start at 96 ticks to the beat. Ticks rather than steps of the grid, because a note is at a moment and the grid is a guide over it: 96 is divided exactly by every grid this description offers, so a note keeps its moment however the grid is changed."
+        },
+        "id": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "What this note is known by: a short string unique within its pattern, given when the note is made (drawn, recorded, pasted, or duplicated within its pattern), since two notes of one pattern may share a tick and a pitch and are still two notes. A pattern duplicated whole keeps its notes' ids. Optional permanently: a note written before notes had ids is known by `<at>:<note>:<n>`, its tick, its pitch and how many notes of that tick and pitch stand before it in the list, counting from 0."
+        },
+        "bend": {
+          "type": "array",
+          "items": {
+            "ref": "#bendPoint",
+            "type": "ref"
+          },
+          "maxLength": 256,
+          "description": "How this note is bent while it is held, as the hand that played it bent it with a wheel or a finger: points in order of `at`, one to a tick, joined by straight lines. Before the first point the note is at the first point's value and after the last it stays at the last's; nothing at or after `hold` is heard, since a note let go is bent no further. Optional permanently: a note that says nothing is played at the pitch it is written at, which is what every pattern written before a note could be bent says, and an unbent note writes no field."
+        },
+        "hold": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "How many ticks this note is held for. Counted in ticks rather than in seconds for the reason the start is: a phrase written at 90 is the same phrase, held notes and all, at 140. A pattern is a record of voices, so a note is held for as long as this says, over another note of its pitch and past the pattern's end into the next pass, as a key held over the end of the pattern is, and never longer than the pattern."
+        },
+        "note": {
+          "type": "integer",
+          "maximum": 127,
+          "minimum": 0,
+          "description": "The MIDI note number. 60 is middle C."
+        },
+        "step": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Which step of the grid this note is on, counted from the start of the pattern. The older way of saying where a note is, read from every pattern published before a note carried a tick and written by none."
+        },
+        "length": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "How many steps of the grid this note is held for, where its start is written as a step. Absent is one, which is what every pattern written before notes had a length says."
+        },
+        "velocity": {
+          "type": "integer",
+          "maximum": 127,
+          "minimum": 1,
+          "description": "How hard this note is struck, on the MIDI scale. It is part of what is played rather than how it is listened to — a phrase is written with its accents in it, and a pattern where every note lands identically is a pattern nobody wrote. Optional permanently: a note that says nothing is struck at 100, which is what every pattern written before a note could say says, and a note struck at 100 writes no field. Nought is not offered, since a note that could never be heard is a note taken off the pattern rather than one written onto it."
+        },
+        "probability": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 1,
+          "description": "How likely this note is to be struck each time the pattern comes round, in percent, asked afresh on every pass. Optional permanently: a note that says nothing is struck every time, which is what every pattern written before a note could say otherwise says, and a certain note writes no field. Nought is not offered, for the reason a velocity of nought is not."
+        }
+      },
+      "description": "One note struck at one moment of the pattern, held from it, and struck as hard and as often as it says. It is written one of two ways: a note written now says the tick it is at and how many ticks it is held for, and a note written while the grid was part of what a note was says the step of that grid and how many of those steps it was held for. Both are read; the first is written. Any number of a pattern's notes may share a tick and a pitch, and each is a voice of its own."
+    },
+    "noteRange": {
+      "type": "object",
+      "properties": {
+        "lowest": {
+          "type": "integer",
+          "maximum": 127,
+          "minimum": 0,
+          "description": "The lowest note passed on. Absent is the lowest there is."
+        },
+        "highest": {
+          "type": "integer",
+          "maximum": 127,
+          "minimum": 0,
+          "description": "The highest note passed on, at or above the lowest. Absent is the highest there is."
+        }
+      },
+      "description": "The notes a note range passes on: from its lowest to its highest, both included, as MIDI note numbers (60 is middle C). Either end may be left out, and an end left out is open, so a range with only a lowest passes that note and everything above it. The same note at both ends is one key or one pad."
+    },
+    "outputRef": {
+      "type": "object",
+      "required": [
+        "instanceId",
+        "audioOutput"
+      ],
+      "properties": {
+        "instanceId": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        },
+        "audioOutput": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        }
+      }
+    },
+    "connection": {
+      "type": "object",
+      "required": [
+        "from",
+        "to"
+      ],
+      "properties": {
+        "to": {
+          "ref": "#inputRef",
+          "type": "ref"
+        },
+        "from": {
+          "ref": "#outputRef",
+          "type": "ref"
+        }
+      },
+      "description": "An audio connection between two module instances, naming the declared ports at each end."
+    },
+    "inputRoute": {
+      "type": "object",
+      "required": [
+        "from",
+        "instanceId"
+      ],
+      "properties": {
+        "from": {
+          "ref": "#noteOutputRef",
+          "type": "ref",
+          "description": "The note output these notes leave: a keyboard's, a sequencer's or a note range's."
+        },
+        "instanceId": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1,
+          "description": "The sequencer or the note range, at its input."
+        }
+      },
+      "description": "One note source wired into the input of a sequencer, a Keyboard or a note processor. Notes arriving at a sequencer's are what it records, and what it passes on to the instances it plays unless its instance says `thru: false`; notes arriving at a Keyboard's are passed on as they arrived, always; notes arriving at a note range's are passed on where they fall inside its range."
+    },
+    "resolution": {
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "unit": {
+          "type": "string",
+          "description": "Three of them into the time of two, or not. Absent is normal. A dotted grid is not offered: it does not divide a bar evenly, so it would leave a pattern whose steps do not line up with its own length.",
+          "knownValues": [
+            "normal",
+            "triplet"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "description": "The note value one step is worth. `bar` is one bar of the patch's time signature; every other value is a note, the same length in any bar.",
+          "knownValues": [
+            "bar",
+            "1/2",
+            "1/4",
+            "1/8",
+            "1/16",
+            "1/32",
+            "1/64",
+            "1/128"
+          ]
+        }
+      },
+      "description": "One note value, as a length and what that length is multiplied by. The same vocabulary the player's own musical time is counted in."
+    },
+    "tuningKeys": {
+      "type": "object",
+      "required": [
+        "size",
+        "first",
+        "last",
+        "middle",
+        "reference",
+        "periodDegree"
+      ],
+      "properties": {
+        "map": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": -1
+          },
+          "maxLength": 128,
+          "description": "The degree each key of one repetition plays, from the middle key up, `size` of them: 0 is the unison, the number of degrees the period, and -1 a key that sounds nothing."
+        },
+        "last": {
+          "type": "integer",
+          "maximum": 127,
+          "minimum": 0,
+          "description": "The highest key that sounds."
+        },
+        "size": {
+          "type": "integer",
+          "maximum": 128,
+          "minimum": 0,
+          "description": "How many keys one repetition of the map spans. 0 is a linear map, in which every key plays the next degree and the degrees repeat at their period; `map` is then empty and `periodDegree` is not read."
+        },
+        "first": {
+          "type": "integer",
+          "maximum": 127,
+          "minimum": 0,
+          "description": "The lowest key that sounds."
+        },
+        "middle": {
+          "type": "integer",
+          "maximum": 127,
+          "minimum": 0,
+          "description": "The key that plays the first degree, the unison, and where the map's repetitions are counted from."
+        },
+        "reference": {
+          "type": "integer",
+          "maximum": 127,
+          "minimum": 0,
+          "description": "The key the concert pitch anchors: it sounds where twelve-tone equal temperament puts it at the patch's concert pitch. It must play a degree."
+        },
+        "periodDegree": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "The degree one repetition of the map spans, its formal octave: each repetition up plays every key's degree that far above the last."
+        }
+      },
+      "description": "A key map, as a Scala .kbm file says it, except that it names no frequency: the reference key sounds where twelve-tone equal temperament puts it at the patch's concert pitch."
+    },
+    "midiControl": {
+      "type": "object",
+      "required": [
+        "parameter",
+        "controller"
+      ],
+      "properties": {
+        "to": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "The value the control reaches at 127, as from is at 0. It may be below from, which is a control that turns the parameter down as it is turned up."
+        },
+        "from": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "The value the control reaches at 0, in the parameter's own units and as its decimal form. Given with to or not at all; neither is the parameter's whole declared range. A value outside that range is read as the nearer end of it."
+        },
+        "parameter": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1,
+          "description": "The id of the exposed parameter this control moves. One parameter is moved by at most one controller; one controller may move several parameters."
+        },
+        "controller": {
+          "type": "integer",
+          "maximum": 127,
+          "minimum": 0,
+          "description": "The control change number. Five are spoken for by MIDI itself and cannot be bound: 64, the sustain pedal, and 6, 38, 100 and 101, which carry registered-parameter traffic."
+        }
+      },
+      "description": "Deprecated, with midiControls: what a record written before said of one binding. One MIDI control change bound to one of the module's exposed parameters. The controller's 0 to 127 sweeps the parameter across the range the module declares — along the parameter's scale, so a logarithmic one moves by equal ratios — or across the part of it this binding names with from and to; where the module declares a closed value set instead, it sweeps across those values in order. A control is read from every input on every channel, like every other MIDI message here: there is nothing to configure."
+    },
+    "notePattern": {
+      "type": "object",
+      "required": [
+        "bars",
+        "resolution"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1,
+          "description": "What the first pattern is known by: a short string unique among this sequencer's patterns, given when a pattern is made and never shown, so what names a pattern from outside the record (a controller's button) finds it wherever it now stands. Optional permanently: a pattern that says none is known by its place, \"0\" for the first, unless another pattern has written that as its id, when it is \"<place>~<n>\" for the least n nothing has; an id written twice names the first pattern carrying it. An edit that changes where patterns stand writes every pattern's id first."
+        },
+        "bars": {
+          "type": "integer",
+          "maximum": 8,
+          "minimum": 1,
+          "description": "How long the first pattern is, in bars of the patch's time signature (`timeSignature`), which is 4/4 where it says none. Each pattern keeps its own length: one may be four bars and the next five. Where `sixteenths` is present it is the length and this is the whole bars that covers, rounded up, so a reader that knows only bars plays the pattern with a silent tail rather than refusing it."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 320,
+          "minLength": 1,
+          "description": "What the creator called the first pattern. Optional permanently: a pattern that says nothing is called by its place, which is what every pattern written before a pattern could be named says.",
+          "maxGraphemes": 32
+        },
+        "swing": {
+          "ref": "#swing",
+          "type": "ref",
+          "description": "How the first pattern swings. Optional permanently: a pattern that says nothing is played straight, which is what every pattern written before a pattern could swing says."
+        },
+        "active": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Which pattern is played, counting the one written here as zero, or, while the sequencer is `resting`, the one last played. Absent is the first. It is in the record because it is what a visitor opening the patch hears — unlike stopping a sequencer, which is how a browser is listening and is written nowhere. Every pattern counts from the same downbeat and wraps at its own length whether or not it is the one being heard, so switching between them reveals where the other had got to rather than starting it."
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "ref": "#noteEvent",
+            "type": "ref"
+          },
+          "maxLength": 2048,
+          "description": "The notes in the first pattern. A moment carrying no note is a rest; a note starting outside the pattern's length is not played."
+        },
+        "resting": {
+          "type": "boolean",
+          "description": "Whether the sequencer is resting: playing none of its patterns, by a choice of the patch, so a visitor opening it hears it resting. It goes on counting while it rests, so a pattern chosen again comes in at once where it would have been. What it had struck plays out, and what reaches its input is passed on as `thru` says. `active` stays the pattern last heard, which a reader that knows nothing of resting plays. A sequencer an arranger or a scenes block chooses for is rested only by that block, and this is not read. Optional permanently: absent is playing `active`, so only `true` is written."
+        },
+        "alternates": {
+          "type": "array",
+          "items": {
+            "ref": "#alternatePattern",
+            "type": "ref"
+          },
+          "description": "The patterns after the first, as many as the creator writes: the record's own size is the only bound. Absent while the sequencer holds a single pattern, which is what every sequencer written before there could be more than one says. A reader written when a sequencer held at most eight plays the first eight."
+        },
+        "resolution": {
+          "ref": "#resolution",
+          "type": "ref",
+          "description": "The grid every pattern on this sequencer is drawn and snapped to. It is a guide and not a part of what is played: it decides where a note being put down lands, and changing it moves nothing already written, so a pattern may hold a note no line of the current grid passes through."
+        },
+        "sixteenths": {
+          "type": "integer",
+          "maximum": 2048,
+          "minimum": 1,
+          "description": "How long the first pattern is, in sixteenth notes, where it is not a whole number of bars: three beats is twelve. It is a length in the beat rather than the bar, so a pattern that says it keeps its length when the time signature changes. Optional permanently: absent is `bars` of the patch's bar, which is what every pattern written before a pattern could end inside a bar says."
+        }
+      },
+      "description": "The patterns one sequencer holds, and the grid they are written on. A pattern is a whole number of bars, or of sixteenths where it says so, and the notes in it are counted in ticks of the beat, so a pattern means the same thing at any tempo — what a tick is worth in seconds is the player's tempo's business and not the pattern's. The first pattern is written here, where a sequencer's one pattern was written before it could hold more; any after it are alternates."
+    },
+    "sceneLaunch": {
+      "type": "object",
+      "properties": {
+        "restart": {
+          "type": "boolean",
+          "description": "Whether the patterns a scene names start from their first step where it takes over, or carry on from where they already were. Optional permanently: absent is from their first step, so only `false` is written."
+        },
+        "quantize": {
+          "type": "string",
+          "description": "Where a scene chosen takes over: `none` at once, or on the next beat, bar, two bars or four bars of the patch's time signature — a beat being the note its lower number names — counted from the downbeat the patterns count from. Optional permanently: absent is `bar`.",
+          "knownValues": [
+            "none",
+            "beat",
+            "bar",
+            "2bars",
+            "4bars"
+          ]
+        }
+      },
+      "description": "When a scene chosen takes over, and where its patterns start."
+    },
+    "sectionLoop": {
+      "type": "object",
+      "required": [
+        "instanceId",
+        "loop"
+      ],
+      "properties": {
+        "loop": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Which of the sequencer's patterns it plays, counting the one its `notePattern` writes first as zero, or which of the automation block's lanes. One it does not hold is played as its last."
+        },
+        "instanceId": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1,
+          "description": "The sequencer, or the automation block."
+        }
+      }
+    },
+    "patternRoute": {
+      "type": "object",
+      "required": [
+        "from",
+        "instanceId"
+      ],
+      "properties": {
+        "from": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1,
+          "description": "The arranger, or the scenes block."
+        },
+        "instanceId": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1,
+          "description": "The sequencer or automation block, at its pattern input."
+        }
+      },
+      "description": "One sequencer whose patterns, or one automation block whose lanes, an arranger or a scenes block chooses."
+    },
+    "noteOutputRef": {
+      "type": "object",
+      "required": [
+        "instanceId",
+        "noteOutput"
+      ],
+      "properties": {
+        "instanceId": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        },
+        "noteOutput": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        }
+      }
+    },
+    "timeSignature": {
+      "type": "object",
+      "required": [
+        "numerator",
+        "denominator"
+      ],
+      "properties": {
+        "numerator": {
+          "type": "integer",
+          "maximum": 32,
+          "minimum": 1,
+          "description": "How many beats one bar holds: the upper number."
+        },
+        "denominator": {
+          "enum": [
+            2,
+            4,
+            8,
+            16
+          ],
+          "type": "integer",
+          "description": "The note a beat is: 2 a half, 4 a quarter, 8 an eighth, 16 a sixteenth. The lower number."
+        }
+      },
+      "description": "A time signature as it is printed over a stave: how many beats one bar holds, over the note a beat is. The tempo counts quarter notes whatever the lower number is; what the two decide is how long a bar is, and so where every bar line falls."
+    },
+    "moduleInstance": {
+      "type": "object",
+      "required": [
+        "instanceId",
+        "module",
+        "voiceScope"
+      ],
+      "properties": {
+        "lane": {
+          "type": "integer",
+          "maximum": 7,
+          "minimum": 0,
+          "description": "Which of `lanes` plays, counting the first as zero. Choosing a lane is an edit like choosing a sequencer's pattern, so it is written here, and the patch opens on it. Optional permanently: absent is the first, and a reader plays one past the last as the last."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 320,
+          "minLength": 1,
+          "description": "What the creator called this instance, so that two uses of one module — a sequencer playing the bass beside one playing the chords — are told apart by what each does. It lives here, in the patch, because what a use of a module is for is a decision about this use and not about the module. Optional permanently: an instance that says nothing is called by its module's name, which is what every record written before an instance could be named says.",
+          "maxGraphemes": 32
+        },
+        "song": {
+          "ref": "#song",
+          "type": "ref",
+          "description": "The song this instance plays, where its module is an arranger: which pattern each sequencer wired to it plays, section by section. It lives here, in the patch, for the reason a pattern does: what is played is a decision about this use of the module. Absent on every instance whose module is not an arranger."
+        },
+        "thru": {
+          "type": "boolean",
+          "description": "Whether the notes reaching this instance's input are passed on to whatever it plays, where its module is a sequencer: a keyboard wired into it is then heard through it as well as recorded by it. It lives here, in the patch, because what a sequencer passes on is part of how the patch sounds. A Keyboard always passes on what reaches its input and reads no `thru`. Optional permanently: an instance that says nothing passes them on, and only `false` is ever written."
+        },
+        "glide": {
+          "ref": "#glide",
+          "type": "ref",
+          "description": "Whether the notes this instance plays slide into one another, and how. It lives here, in the patch, beside the unison and for the unison's reason: how a line slides is a decision about this use of the module, and forks with the patch. The player's own glide is a setting of their browser and says nothing about this one, so a pattern written to slide slides for everyone who opens the patch, and a pattern that does not is never made monophonic by the player's. Optional permanently: an instance that says nothing has no glide, which is what every record written before this field existed says."
+        },
+        "lanes": {
+          "type": "array",
+          "items": {
+            "ref": "#lane",
+            "type": "ref"
+          },
+          "maxLength": 8,
+          "description": "The automation lanes this instance holds, where its module is an automation block: each so many bars or sixteenths of values from nothing to one, played in time with the patterns. One plays at a time, as one of a sequencer's patterns does, and an arranger or a scenes block wired to the block's pattern input chooses which. It lives here, in the patch, for the reason a pattern does: what is played is a decision about this use of the module. Absent on every instance whose module is not an automation block."
+        },
+        "scene": {
+          "type": "integer",
+          "maximum": 25,
+          "minimum": 0,
+          "description": "Which of `scenes` is playing, counting the first as zero. Choosing a scene is an edit like choosing a sequencer's pattern, so it is written here, and the patch opens on it. Optional permanently: absent is the first, and a reader plays one past the last as the last."
+        },
+        "seeds": {
+          "type": "array",
+          "items": {
+            "ref": "#nodeSeed",
+            "type": "ref"
+          },
+          "maxLength": 4,
+          "description": "The seed each of the module's DSP JS nodes starts from: what a node draws at random is drawn from it, so the patch sounds the same every time it is played, and two uses of one module differ. It lives here, in the patch, because it is a decision about this use of the module: made at random when the module is added, copied by a fork, and rolled again only when the creator asks. A DSP JS node no entry names, which is every node of every record written before this field existed, starts from its default seed: the 32-bit FNV-1a hash (offset basis 0x811c9dc5, prime 0x01000193) of the UTF-8 bytes of the instance's `instanceId`, one zero byte, and the UTF-8 bytes of the node's `id`, read as a whole number from 0 to 4294967295, so two uses of one module draw differently with nothing stored. An entry naming a node that is not a DSP JS node of the module is ignored, as a fill for a slot the module does not declare is."
+        },
+        "module": {
+          "ref": "#moduleRef",
+          "type": "ref"
+        },
+        "scenes": {
+          "type": "array",
+          "items": {
+            "ref": "#scene",
+            "type": "ref"
+          },
+          "maxLength": 26,
+          "description": "The scenes this instance switches between, where its module is a scenes block: which pattern each sequencer wired to it plays in each. It lives here for the reason a song does. Absent on every instance whose module is not a scenes block."
+        },
+        "unison": {
+          "type": "integer",
+          "maximum": 6,
+          "minimum": 1,
+          "description": "How many voices each note this instance plays is sounded by, detuned narrowly against each other and centred on the note. It lives here, in the patch, for the reason the pattern above it does: how a pattern is voiced is a decision about this use of the module. The player's own unison is a setting of their browser and says nothing about this one, so a pattern written thick stays thick for everyone who opens the patch. Optional permanently: an instance that says nothing plays one voice per note, which is what every record written before this field existed says."
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Whether this instance does its work. An instance that is switched off makes no sound of its own, and anything reaching its audio inputs leaves its audio outputs unaltered. Optional permanently: an instance that says nothing is on, which is what every record written before this field existed says."
+        },
+        "position": {
+          "ref": "#position",
+          "type": "ref",
+          "description": "Deprecated: a writer leaves it out, and where a block stands is the patch's presentation's to say (`at.atmosynth.patchPresentation`, under the patch's own record key), since nothing about it changes what is heard. A record written before carries it: a reader draws the block here where the patch has no presentation, or its presentation gives this instance no position. Where both say, the presentation wins."
+        },
+        "noteRange": {
+          "ref": "#noteRange",
+          "type": "ref",
+          "description": "Which notes this instance passes on, where its module is a note range. It lives here, in the patch, for the reason a pattern does: which pad or which half of a keyboard plays which sound is a decision about this use of the module, and forks with the patch. Absent on every instance whose module is not a note range, and on one that passes every note."
+        },
+        "transpose": {
+          "type": "integer",
+          "maximum": 127,
+          "minimum": -127,
+          "description": "How many semitones this instance moves every note it passes on, where its module is a transpose: twelve is an octave up, and a negative number is down. A note moved past the lowest or the highest MIDI note is not passed on. It lives here, in the patch, for the reason a note range does. Absent on every instance whose module is not a transpose, and on one that moves nothing."
+        },
+        "instanceId": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        },
+        "noteLength": {
+          "type": "integer",
+          "maximum": 10000,
+          "minimum": 1,
+          "description": "How many milliseconds every note this instance passes on lasts, where its module is a one-shot, however briefly or long whatever played it held it: a pad tapped in front of a drum plays the drum's whole hit. When the length is up the note is let go of and its sound follows its own release. Only how long a note lasts changes: each still starts when it was struck, at its own pitch and the strength it was played with. It lives here, in the patch, for the reason a note range does. Absent on every instance whose module is not a one-shot; on a one-shot, absent is 100 milliseconds."
+        },
+        "voiceScope": {
+          "enum": [
+            "perNote",
+            "perPatch"
+          ],
+          "type": "string",
+          "description": "Whether this instance is built once for each sounding note or once for the whole patch. One of the two, always: the choice is made when the module is added, from what the module is, and is the creator's to move afterwards. There is no third value and no leaving it out — an instance that said nothing left the answer to be worked out afresh every time the patch was played, which is a decision nobody could see and nobody could change."
+        },
+        "notePattern": {
+          "ref": "#notePattern",
+          "type": "ref",
+          "description": "The pattern this instance loops, where its module is a sequencer. It lives here, in the patch, for the reason a sample slot fill does: what is played is a decision about this use of the module, and writing one never touches the module's record. Absent on every instance whose module is not a sequencer."
+        },
+        "sceneLaunch": {
+          "ref": "#sceneLaunch",
+          "type": "ref",
+          "description": "When a scene chosen on this instance takes over, and where the patterns it names start. Optional permanently: absent is on the next bar, from their first step."
+        },
+        "assignedNote": {
+          "type": "integer",
+          "maximum": 127,
+          "minimum": 0,
+          "description": "The one note this instance passes every note on at, whichever note arrived, where its module is a pitch assignment: a MIDI note number (60 is middle C). Only the pitch changes: each note still starts and stops when it did, at the strength it was played with. It lives here, in the patch, for the reason a note range does: which pitch a pad plays its sound at is a decision about this use of the module. Absent on every instance whose module is not a pitch assignment, and on one that passes every note at its own pitch."
+        },
+        "midiControls": {
+          "type": "array",
+          "items": {
+            "ref": "#midiControl",
+            "type": "ref"
+          },
+          "description": "Deprecated: a reader never plays these and a writer leaves them out. Which knob moves what is how one player's hands become sound, so it is kept by whoever plays, never in the patch: in a shared patch, bindings here would be everyone's, and one player's controller would move what another bound. A record written before may still carry them; a reader MAY offer them once to the patch's creator as their own."
+        },
+        "parameterValues": {
+          "type": "array",
+          "items": {
+            "ref": "#parameterValue",
+            "type": "ref"
+          }
+        },
+        "sampleSlotFills": {
+          "type": "array",
+          "items": {
+            "ref": "#sampleSlotFill",
+            "type": "ref"
+          },
+          "description": "Samples this instance supplies for the module's declared slots. A fill lives here, in the patch, so writing one never touches the module."
+        }
+      },
+      "description": "One use of one module version. A patch may use the same module more than once; each instance is separately addressable and carries its own parameter values and slot fills."
+    },
+    "parameterValue": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        },
+        "value": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "The value this patch sets the parameter to, always as text. A number is its decimal form — \"0.5\", and \"2\" for a whole one — because the ATproto data model has no floating-point type and a string is the only type that carries both a number and a word. Where the module declares a closed set of values instead, this is one of those strings, and a label that looks like a number stays the label it is: the module's own description says which of the two this parameter is."
+        },
+        "useDefault": {
+          "type": "boolean",
+          "description": "Set where the patch explicitly defers to the module's default rather than recording a value."
+        }
+      },
+      "description": "A value for one of the module's exposed parameters, or an explicit fall-back to the module's declared default."
+    },
+    "sampleSlotFill": {
+      "type": "object",
+      "required": [
+        "slotId",
+        "blob",
+        "ownerDid"
+      ],
+      "properties": {
+        "blob": {
+          "type": "blob",
+          "accept": [
+            "audio/wav",
+            "audio/flac"
+          ],
+          "maxSize": 10485760
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 320,
+          "minLength": 1,
+          "description": "What the creator calls this sample — Kick, Snare, Open hat — so a kit's pads are told apart by what each plays. It lives on the fill because it is a name for the sample that fills the slot: replaced with the sample, and gone with it. Optional permanently: a fill that says nothing is called by its slot, which is what every record written before a sample could be named says.",
+          "maxGraphemes": 32
+        },
+        "slotId": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1
+        },
+        "ownerDid": {
+          "type": "string",
+          "format": "did"
+        }
+      }
+    },
+    "alternatePattern": {
+      "type": "object",
+      "required": [
+        "bars"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1,
+          "description": "What this pattern is known by, on the terms of the first pattern's `id`. Optional permanently: a pattern that says none is known by its place."
+        },
+        "bars": {
+          "type": "integer",
+          "maximum": 8,
+          "minimum": 1,
+          "description": "How long this pattern is, in bars of the patch's time signature. Where `sixteenths` is present it is the length and this is the whole bars that covers, rounded up."
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 320,
+          "minLength": 1,
+          "description": "What the creator called this pattern. Optional permanently: a pattern that says nothing is called by its place.",
+          "maxGraphemes": 32
+        },
+        "swing": {
+          "ref": "#swing",
+          "type": "ref",
+          "description": "How this pattern swings. Each pattern swings for itself. Optional permanently: a pattern that says nothing is played straight."
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "ref": "#noteEvent",
+            "type": "ref"
+          },
+          "maxLength": 2048,
+          "description": "The notes in this pattern."
+        },
+        "sixteenths": {
+          "type": "integer",
+          "maximum": 2048,
+          "minimum": 1,
+          "description": "How long this pattern is, in sixteenth notes, where it is not a whole number of bars. It keeps its length when the time signature changes. Optional permanently: absent is `bars` of the patch's bar."
+        }
+      },
+      "description": "One of the patterns after the first on a sequencer. It has its own length and its own notes, and shares the grid written beside the first."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A synth patch: which modules it uses, how they are wired, what their parameters are set to, and how it is played. A patch plus the module records it pins is everything needed to reproduce it."
+}

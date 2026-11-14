@@ -1,0 +1,36 @@
+{
+  "id": "so.sprk.feed.sendInteractions",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "interactions"
+          ],
+          "properties": {
+            "interactions": {
+              "type": "array",
+              "items": {
+                "ref": "so.sprk.feed.defs#interaction",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "description": "Send information about interactions with feed items back to the feed generator that served them."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

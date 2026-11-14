@@ -1,0 +1,137 @@
+{
+  "id": "social.coves.community.comment.create",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "reply",
+            "content"
+          ],
+          "properties": {
+            "embed": {
+              "refs": [
+                "social.coves.embed.images",
+                "social.coves.embed.imagesWithAttachment",
+                "social.coves.embed.post"
+              ],
+              "type": "union",
+              "description": "Embedded media or quoted posts"
+            },
+            "langs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "language"
+              },
+              "maxLength": 3,
+              "description": "Languages used in the comment content (ISO 639-1)"
+            },
+            "reply": {
+              "type": "object",
+              "required": [
+                "root",
+                "parent"
+              ],
+              "properties": {
+                "root": {
+                  "ref": "com.atproto.repo.strongRef",
+                  "type": "ref",
+                  "description": "Strong reference to the original post that started the thread"
+                },
+                "parent": {
+                  "ref": "com.atproto.repo.strongRef",
+                  "type": "ref",
+                  "description": "Strong reference to the immediate parent (post or comment) being replied to"
+                }
+              },
+              "description": "References for maintaining thread structure. Root always points to the original post, parent points to the immediate parent (post or comment)."
+            },
+            "facets": {
+              "type": "array",
+              "items": {
+                "ref": "social.coves.richtext.facet",
+                "type": "ref"
+              },
+              "maxLength": 200,
+              "description": "Annotations for rich text (mentions, links, formatting, block structure)"
+            },
+            "labels": {
+              "ref": "com.atproto.label.defs#selfLabels",
+              "type": "ref",
+              "description": "Self-applied content labels"
+            },
+            "content": {
+              "type": "string",
+              "maxLength": 100000,
+              "description": "Comment text content",
+              "maxGraphemes": 10000
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "InvalidReply",
+          "description": "The reply reference is invalid, malformed, or refers to non-existent content"
+        },
+        {
+          "name": "ContentTooLong",
+          "description": "Comment content exceeds maximum length constraints"
+        },
+        {
+          "name": "ContentEmpty",
+          "description": "Comment content is empty or contains only whitespace"
+        },
+        {
+          "name": "NotAuthorized",
+          "description": "User is not authorized to create comments on this content"
+        },
+        {
+          "name": "InvalidFacets",
+          "description": "Rich text facets are malformed, exceed limits, or reference byte ranges outside the content"
+        },
+        {
+          "name": "InvalidImageFacet",
+          "description": "An #image facet breaks a placement rule: its index does not name an image of an images embed, it shares its facet with another feature, it places an index already placed, its range is empty, or its range lies inside a #code or #codeBlock range"
+        },
+        {
+          "name": "InvalidEmbed",
+          "description": "The embed is not a social.coves.embed.images, social.coves.embed.imagesWithAttachment with a quoted post, or social.coves.embed.post that satisfies its lexicon and the embed write rules; the message describes the failure"
+        },
+        {
+          "name": "TooManyImages",
+          "description": "The embed carries more than 8 images"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "uri",
+            "cid"
+          ],
+          "properties": {
+            "cid": {
+              "type": "string",
+              "format": "cid",
+              "description": "CID of the created comment record"
+            },
+            "uri": {
+              "type": "string",
+              "format": "at-uri",
+              "description": "AT-URI of the created comment"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Create a comment on a post or another comment. Comments support nested threading, rich text, embeds, and self-labeling."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

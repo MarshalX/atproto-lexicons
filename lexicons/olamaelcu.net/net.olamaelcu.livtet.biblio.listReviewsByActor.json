@@ -1,0 +1,57 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "description": "Opaque pagination cursor; absent when no further reviews are known.",
+              "type": "string"
+            },
+            "reviews": {
+              "items": {
+                "ref": "net.olamaelcu.livtet.biblio.defs#reviewView",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "reviews"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "description": "Opaque pagination cursor.",
+            "type": "string"
+          },
+          "did": {
+            "description": "DID of the account whose reviews to list.",
+            "format": "did",
+            "type": "string"
+          },
+          "limit": {
+            "default": 25,
+            "description": "Maximum number of review records to return.",
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "did"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "List the reviews one account has written, most recent first. Reads the same records `getReviewsByBook` does, keyed by author instead of by book, so a profile page can show activity without a per-request PDS scan.",
+  "id": "net.olamaelcu.livtet.biblio.listReviewsByActor",
+  "lexicon": 1
+}

@@ -1,0 +1,292 @@
+{
+  "id": "social.craftsky.project.sewing.defs",
+  "defs": {
+    "bag": {
+      "type": "token",
+      "description": "Bags."
+    },
+    "hat": {
+      "type": "token",
+      "description": "Hats and caps."
+    },
+    "rug": {
+      "type": "token",
+      "description": "Rugs and mats."
+    },
+    "top": {
+      "type": "token",
+      "description": "Tops."
+    },
+    "belt": {
+      "type": "token",
+      "description": "Belts."
+    },
+    "game": {
+      "type": "token",
+      "description": "Games and game pieces."
+    },
+    "mask": {
+      "type": "token",
+      "description": "Masks and face coverings."
+    },
+    "robe": {
+      "type": "token",
+      "description": "Robes."
+    },
+    "tote": {
+      "type": "token",
+      "description": "Tote bags."
+    },
+    "trim": {
+      "type": "token",
+      "description": "Trims."
+    },
+    "vest": {
+      "type": "token",
+      "description": "Vests."
+    },
+    "dress": {
+      "type": "token",
+      "description": "Dresses."
+    },
+    "pants": {
+      "type": "token",
+      "description": "Pants or trousers."
+    },
+    "patch": {
+      "type": "token",
+      "description": "Patches."
+    },
+    "pouch": {
+      "type": "token",
+      "description": "Pouches and small cases."
+    },
+    "scarf": {
+      "type": "token",
+      "description": "Scarves."
+    },
+    "shirt": {
+      "type": "token",
+      "description": "Shirts."
+    },
+    "skirt": {
+      "type": "token",
+      "description": "Skirts."
+    },
+    "strap": {
+      "type": "token",
+      "description": "Straps."
+    },
+    "tunic": {
+      "type": "token",
+      "description": "Tunics."
+    },
+    "basket": {
+      "type": "token",
+      "description": "Baskets."
+    },
+    "blouse": {
+      "type": "token",
+      "description": "Blouses."
+    },
+    "lining": {
+      "type": "token",
+      "description": "Linings."
+    },
+    "mobile": {
+      "type": "token",
+      "description": "Mobiles and hanging toys."
+    },
+    "napkin": {
+      "type": "token",
+      "description": "Napkins."
+    },
+    "petToy": {
+      "type": "token",
+      "description": "Pet toys."
+    },
+    "pillow": {
+      "type": "token",
+      "description": "Pillows and cushions."
+    },
+    "pocket": {
+      "type": "token",
+      "description": "Pockets."
+    },
+    "puppet": {
+      "type": "token",
+      "description": "Puppets."
+    },
+    "repair": {
+      "type": "token",
+      "description": "Repairs."
+    },
+    "sachet": {
+      "type": "token",
+      "description": "Sachets."
+    },
+    "shorts": {
+      "type": "token",
+      "description": "Shorts."
+    },
+    "wallet": {
+      "type": "token",
+      "description": "Wallets."
+    },
+    "bedding": {
+      "type": "token",
+      "description": "Bedding."
+    },
+    "blanket": {
+      "type": "token",
+      "description": "Blankets."
+    },
+    "coaster": {
+      "type": "token",
+      "description": "Coasters."
+    },
+    "curtain": {
+      "type": "token",
+      "description": "Curtains and window coverings."
+    },
+    "hemming": {
+      "type": "token",
+      "description": "Hemming alterations."
+    },
+    "jewelry": {
+      "type": "token",
+      "description": "Jewelry and wearable adornments."
+    },
+    "mending": {
+      "type": "token",
+      "description": "Mending work."
+    },
+    "softToy": {
+      "type": "token",
+      "description": "Plushies, stuffed animals, dolls, and other soft toys."
+    },
+    "applique": {
+      "type": "token",
+      "description": "Appliques."
+    },
+    "headband": {
+      "type": "token",
+      "description": "Headbands."
+    },
+    "jumpsuit": {
+      "type": "token",
+      "description": "Jumpsuits and rompers."
+    },
+    "leggings": {
+      "type": "token",
+      "description": "Leggings."
+    },
+    "placemat": {
+      "type": "token",
+      "description": "Placemats."
+    },
+    "playFood": {
+      "type": "token",
+      "description": "Play food."
+    },
+    "swimwear": {
+      "type": "token",
+      "description": "Swimwear."
+    },
+    "container": {
+      "type": "token",
+      "description": "Containers and storage items."
+    },
+    "lampshade": {
+      "type": "token",
+      "description": "Lampshades."
+    },
+    "potholder": {
+      "type": "token",
+      "description": "Potholders and hot pads."
+    },
+    "refashion": {
+      "type": "token",
+      "description": "Refashioning an existing item."
+    },
+    "shoeCover": {
+      "type": "token",
+      "description": "Shoe covers and footwear accessories."
+    },
+    "sleepwear": {
+      "type": "token",
+      "description": "Sleepwear and pajamas."
+    },
+    "babyOnesie": {
+      "type": "token",
+      "description": "Baby onesies and bodysuits."
+    },
+    "coatJacket": {
+      "type": "token",
+      "description": "Coats and jackets."
+    },
+    "decorative": {
+      "type": "token",
+      "description": "Decorative home items."
+    },
+    "petBedding": {
+      "type": "token",
+      "description": "Pet bedding."
+    },
+    "craftSupply": {
+      "type": "token",
+      "description": "Reusable craft supplies or organizers."
+    },
+    "dollClothes": {
+      "type": "token",
+      "description": "Doll clothes."
+    },
+    "petClothing": {
+      "type": "token",
+      "description": "Pet clothing."
+    },
+    "shrugBolero": {
+      "type": "token",
+      "description": "Shrugs and boleros."
+    },
+    "tableRunner": {
+      "type": "token",
+      "description": "Table runners."
+    },
+    "braceSupport": {
+      "type": "token",
+      "description": "Braces, supports, and wraps."
+    },
+    "costumePiece": {
+      "type": "token",
+      "description": "Costume pieces and props."
+    },
+    "heatColdPack": {
+      "type": "token",
+      "description": "Heat or cold packs and covers."
+    },
+    "petAccessory": {
+      "type": "token",
+      "description": "Pet accessories."
+    },
+    "glovesMittens": {
+      "type": "token",
+      "description": "Gloves and mittens."
+    },
+    "intimateApparel": {
+      "type": "token",
+      "description": "Intimate apparel and undergarments."
+    },
+    "adaptiveClothing": {
+      "type": "token",
+      "description": "Adaptive clothing."
+    },
+    "wheelchairAccessory": {
+      "type": "token",
+      "description": "Wheelchair accessories."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Subtype tokens for sewing projects. Referenced from social.craftsky.project.sewing#details.projectSubtype via knownValues."
+}

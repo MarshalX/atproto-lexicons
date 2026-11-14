@@ -1,0 +1,15 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "collections": [
+        "xyz.opnshelf.note"
+      ],
+      "key": "literal:self",
+      "title": "Opnshelf Notes",
+      "type": "space"
+    }
+  },
+  "id": "xyz.opnshelf.notes",
+  "lexicon": 1
+}

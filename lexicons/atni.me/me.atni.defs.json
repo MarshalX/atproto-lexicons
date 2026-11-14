@@ -1,0 +1,66 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "animeFormat": {
+      "knownValues": [
+        "tv",
+        "movie",
+        "special",
+        "ova",
+        "ona",
+        "music"
+      ],
+      "type": "string"
+    },
+    "animeId": {
+      "description": "External anime catalogue reference, with some fallback data.",
+      "properties": {
+        "fid": {
+          "description": "The catalogue's identifier.",
+          "maxLength": 128,
+          "minLength": 1,
+          "type": "string"
+        },
+        "format": {
+          "ref": "#animeFormat",
+          "type": "ref"
+        },
+        "source": {
+          "description": "The catalogue this identifier belongs to.",
+          "knownValues": [
+            "wikidata",
+            "anidb"
+          ],
+          "type": "string"
+        },
+        "title": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "type": "string"
+        },
+        "year": {
+          "minimum": 1900,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "source",
+        "fid",
+        "title"
+      ],
+      "type": "object"
+    },
+    "status": {
+      "knownValues": [
+        "planned",
+        "inprogress",
+        "completed",
+        "onhold",
+        "dropped"
+      ],
+      "type": "string"
+    }
+  },
+  "id": "me.atni.defs",
+  "lexicon": 1
+}

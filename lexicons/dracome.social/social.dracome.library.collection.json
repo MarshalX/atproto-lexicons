@@ -1,0 +1,52 @@
+{
+  "id": "social.dracome.library.collection",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "title",
+          "createdAt"
+        ],
+        "properties": {
+          "cover": {
+            "type": "blob",
+            "accept": [
+              "image/*"
+            ],
+            "maxSize": 2000000,
+            "description": "Optional cover image for the custom collection, stored as a blob in the actor's PDS. Renderable cover URLs are resolved from this reference at read time; it is not itself a transport URL."
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 1024,
+            "minLength": 1,
+            "description": "Display title of the custom collection. Mutable, and duplicate titles across an actor's collections are allowed.",
+            "maxGraphemes": 256
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Canonical UTC instant serialized as ISO 8601 with a trailing Z suffix."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Canonical UTC instant serialized as ISO 8601 with a trailing Z suffix."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 8192,
+            "description": "Optional free-text description of the custom collection.",
+            "maxGraphemes": 2048
+          }
+        }
+      },
+      "description": "A custom collection header owned by an actor. Items are separate social.dracome.library.collection.item records that reference this record by AT-URI. The rkey is a TID minted once at first create and never changes."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

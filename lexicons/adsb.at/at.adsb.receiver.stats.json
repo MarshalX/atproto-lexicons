@@ -1,0 +1,121 @@
+{
+  "id": "at.adsb.receiver.stats",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "periodStart",
+          "periodEnd",
+          "aircraftSeen",
+          "messagesReceived",
+          "createdAt"
+        ],
+        "properties": {
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "periodEnd": {
+            "type": "string",
+            "format": "datetime",
+            "description": "End of the reporting period (exclusive)."
+          },
+          "maxRangeNm": {
+            "type": "string",
+            "maxLength": 20,
+            "description": "Furthest aircraft detected during the period, in nautical miles."
+          },
+          "periodStart": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Start of the reporting period (inclusive)."
+          },
+          "signalStats": {
+            "ref": "#signalSummary",
+            "type": "ref",
+            "description": "Signal quality metrics for the period."
+          },
+          "aircraftSeen": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Unique aircraft observed during the period."
+          },
+          "messagesReceived": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Total messages decoded during the period."
+          },
+          "positionsReported": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Position reports decoded during the period."
+          },
+          "protocolBreakdown": {
+            "type": "array",
+            "items": {
+              "ref": "#protocolCount",
+              "type": "ref"
+            },
+            "maxLength": 10,
+            "description": "Message counts by protocol, if the station receives multiple protocols."
+          }
+        }
+      },
+      "description": "A periodic performance summary for a receiver station."
+    },
+    "protocolCount": {
+      "type": "object",
+      "required": [
+        "protocol",
+        "messageCount"
+      ],
+      "properties": {
+        "protocol": {
+          "type": "string",
+          "maxLength": 256,
+          "description": "Protocol identifier.",
+          "knownValues": [
+            "at.adsb.receiver.station#adsb",
+            "at.adsb.receiver.station#mlat",
+            "at.adsb.receiver.station#uat",
+            "at.adsb.receiver.station#acars",
+            "at.adsb.receiver.station#vdl2",
+            "at.adsb.receiver.station#hfdl"
+          ]
+        },
+        "messageCount": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "description": "Message count for a single protocol during a reporting period."
+    },
+    "signalSummary": {
+      "type": "object",
+      "properties": {
+        "meanSignalDbfs": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Mean signal level in dBFS."
+        },
+        "noiseLevelDbfs": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Mean noise floor in dBFS."
+        },
+        "strongSignalsPct": {
+          "type": "string",
+          "maxLength": 20,
+          "description": "Percentage of messages with signal above -3 dBFS."
+        }
+      },
+      "description": "Signal quality summary for a reporting period."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Periodic performance summary for a receiver station. Created at regular intervals (e.g. hourly or daily)."
+}

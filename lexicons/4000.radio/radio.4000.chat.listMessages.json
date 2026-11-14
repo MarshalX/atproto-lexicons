@@ -1,0 +1,53 @@
+{
+  "id": "radio.4000.chat.listMessages",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "messages"
+          ],
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "messages": {
+              "type": "array",
+              "items": {
+                "ref": "radio.4000.defs#chatMessageView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "radio"
+        ],
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "radio": {
+            "type": "string",
+            "format": "did"
+          },
+          "cursor": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Messages of a radio's chat room, newest first. Does not require auth."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

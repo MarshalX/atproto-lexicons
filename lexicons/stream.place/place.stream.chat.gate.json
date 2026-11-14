@@ -1,0 +1,25 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Record defining a single gated chat message.",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "hiddenMessage": {
+            "description": "URI of the hidden chat message.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "hiddenMessage"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "place.stream.chat.gate",
+  "lexicon": 1
+}

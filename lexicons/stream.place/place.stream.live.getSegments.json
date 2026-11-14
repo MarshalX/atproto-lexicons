@@ -1,0 +1,49 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Get a list of livestream segments for a user",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "segments": {
+              "items": {
+                "ref": "place.stream.segment#segmentView",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "before": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "limit": {
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "userDID": {
+            "description": "The DID of the potentially-following user",
+            "format": "did",
+            "type": "string"
+          }
+        },
+        "required": [
+          "userDID"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "place.stream.live.getSegments",
+  "lexicon": 1
+}

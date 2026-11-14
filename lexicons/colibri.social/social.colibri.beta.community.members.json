@@ -1,0 +1,18 @@
+{
+  "id": "social.colibri.beta.community.members",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "name": "Colibri community members",
+      "type": "space",
+      "collections": [
+        "social.colibri.beta.member",
+        "social.colibri.beta.role",
+        "social.colibri.beta.label"
+      ],
+      "description": "A community's membership and the roles that can be assigned within it."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}
