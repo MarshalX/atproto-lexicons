@@ -1,54 +1,54 @@
 {
-  "id": "social.grain.unspecced.searchGalleries",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "Full-text search for galleries, returning full gallery views.",
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
           "properties": {
+            "cursor": {
+              "type": "string"
+            },
             "items": {
-              "type": "array",
               "items": {
                 "ref": "social.grain.gallery.defs#galleryView",
                 "type": "ref"
-              }
-            },
-            "cursor": {
-              "type": "string"
+              },
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "cursor": {
+            "type": "string"
+          },
+          "fuzzy": {
+            "default": true,
+            "type": "boolean"
+          },
+          "limit": {
+            "default": 30,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "q": {
+            "description": "Search query",
+            "type": "string"
+          }
+        },
         "required": [
           "q"
         ],
-        "properties": {
-          "q": {
-            "type": "string",
-            "description": "Search query"
-          },
-          "fuzzy": {
-            "type": "boolean",
-            "default": true
-          },
-          "limit": {
-            "type": "integer",
-            "default": 30,
-            "maximum": 100,
-            "minimum": 1
-          },
-          "cursor": {
-            "type": "string"
-          }
-        }
+        "type": "params"
       },
-      "description": "Full-text search for galleries, returning full gallery views."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.searchGalleries",
   "lexicon": 1
 }

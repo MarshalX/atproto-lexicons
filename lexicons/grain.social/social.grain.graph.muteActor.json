@@ -1,33 +1,33 @@
 {
-  "id": "social.grain.graph.muteActor",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Mute an actor. Mutes are private and only affect the muter's feeds.",
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "actor": {
+              "format": "did",
+              "type": "string"
+            }
+          },
           "required": [
             "actor"
           ],
-          "properties": {
-            "actor": {
-              "type": "string",
-              "format": "did"
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "properties": {}
-        },
-        "encoding": "application/json"
+          "properties": {},
+          "type": "object"
+        }
       },
-      "description": "Mute an actor. Mutes are private and only affect the muter's feeds."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.graph.muteActor",
   "lexicon": 1
 }

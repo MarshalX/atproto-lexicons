@@ -65,15 +65,6 @@
             "removeBadge": {
               "type": "boolean",
               "description": "Removes the role's badge, whichever kind it is. Ignored when badge or emojiBadge is also given."
-            },
-            "channelOverrides": {
-              "type": "array",
-              "items": {
-                "ref": "social.colibri.beta.community.defs#roleChannelOverride",
-                "type": "ref",
-                "description": "A per-channel permission override."
-              },
-              "description": "Per-channel overrides."
             }
           }
         },

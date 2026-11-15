@@ -1,41 +1,41 @@
 {
-  "id": "social.grain.actor.profile",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "A declaration of a basic account profile.",
       "key": "literal:self",
-      "type": "record",
       "record": {
-        "type": "object",
         "properties": {
           "avatar": {
-            "type": "blob",
             "accept": [
               "image/png",
               "image/jpeg"
             ],
+            "description": "Small image to be displayed next to posts from account. AKA, 'profile picture'",
             "maxSize": 1000000,
-            "description": "Small image to be displayed next to posts from account. AKA, 'profile picture'"
+            "type": "blob"
           },
           "createdAt": {
-            "type": "string",
-            "format": "datetime"
+            "format": "datetime",
+            "type": "string"
           },
           "description": {
-            "type": "string",
-            "maxLength": 2560,
             "description": "Free-form profile description text.",
-            "maxGraphemes": 256
+            "maxGraphemes": 256,
+            "maxLength": 2560,
+            "type": "string"
           },
           "displayName": {
-            "type": "string",
+            "maxGraphemes": 64,
             "maxLength": 640,
-            "maxGraphemes": 64
+            "type": "string"
           }
-        }
+        },
+        "type": "object"
       },
-      "description": "A declaration of a basic account profile."
+      "type": "record"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.actor.profile",
   "lexicon": 1
 }

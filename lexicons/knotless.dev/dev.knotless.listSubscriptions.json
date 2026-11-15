@@ -1,68 +1,67 @@
 {
-  "id": "dev.knotless.listSubscriptions",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "The repositories the asking account watches or ignores, and the pulls and issues it subscribed to or muted, the latest choice first, as the appview keeps them. What it never chose for is heard of as its part in it says, and is not listed. A repository it can no longer find is left out. Requires authentication: a service token, or the session cookie the pages' login sets.",
       "errors": [
         {
-          "name": "AuthenticationRequired",
-          "description": "No account asks."
+          "description": "No account asks.",
+          "name": "AuthenticationRequired"
         },
         {
-          "name": "NotFound",
-          "description": "This appview keeps no index."
+          "description": "This appview keeps no index.",
+          "name": "NotFound"
         }
       ],
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "subscriptions"
-          ],
           "properties": {
             "cursor": {
-              "type": "string",
-              "description": "Absent on the last page."
+              "description": "Absent on the last page.",
+              "type": "string"
             },
             "subscriptions": {
-              "type": "array",
               "items": {
                 "ref": "#subscription",
                 "type": "ref"
-              }
+              },
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "parameters": {
-        "type": "params",
-        "properties": {
-          "limit": {
-            "type": "integer",
-            "default": 50,
-            "maximum": 100,
-            "minimum": 1
           },
-          "cursor": {
-            "type": "string",
-            "maxLength": 512,
-            "description": "Where the page before ended."
-          }
+          "required": [
+            "subscriptions"
+          ],
+          "type": "object"
         }
       },
-      "description": "The repositories the asking account watches or ignores, and the pulls and issues it subscribed to or muted, the latest choice first, as the appview keeps them. What it never chose for is heard of as its part in it says, and is not listed. A repository it can no longer find is left out. Requires authentication: a service token, or the session cookie the pages' login sets."
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "description": "Where the page before ended.",
+            "maxLength": 512,
+            "type": "string"
+          },
+          "limit": {
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "type": "params"
+      },
+      "type": "query"
     },
     "subscription": {
-      "type": "object",
-      "required": [
-        "subject",
-        "level"
-      ],
+      "description": "What an account chose to hear of one repository, pull or issue.",
       "properties": {
+        "createdAt": {
+          "description": "When it chose, from which it counts. Absent when there is no choice.",
+          "format": "datetime",
+          "type": "string"
+        },
         "level": {
-          "type": "string",
-          "maxLength": 64,
           "description": "As dev.knotless.putSubscription takes it; `participating` when there is no choice.",
           "knownValues": [
             "participating",
@@ -71,23 +70,24 @@
             "ignore",
             "subscribed",
             "muted"
-          ]
+          ],
+          "maxLength": 64,
+          "type": "string"
         },
         "subject": {
-          "type": "string",
+          "description": "The repository's dev.knotless.repo record, by the name it has now, or the pull or issue.",
           "format": "at-uri",
-          "description": "The repository's dev.knotless.repo record, by the name it has now, or the pull or issue."
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "datetime",
-          "description": "When it chose, from which it counts. Absent when there is no choice."
+          "type": "string"
         }
       },
-      "description": "What an account chose to hear of one repository, pull or issue."
+      "required": [
+        "subject",
+        "level"
+      ],
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "What the asking account chose to hear of repositories, pulls and issues."
+  "description": "What the asking account chose to hear of repositories, pulls and issues.",
+  "id": "dev.knotless.listSubscriptions",
+  "lexicon": 1
 }

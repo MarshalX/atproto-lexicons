@@ -1,56 +1,117 @@
 {
-  "id": "social.grain.unspecced.listPoolFeed",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "Every gallery in every pool the viewer is a member of, newest first. Assembled per viewer at request time: which groups they belong to is a public fact in the index, but what is in each pool is a permissioned space, read with a credential that group's host issues. Nothing here is shared between viewers or cached.",
       "errors": [
         {
-          "name": "NotAuthorized",
-          "description": "No pool the viewer belongs to would answer."
+          "description": "No pool the viewer belongs to would answer.",
+          "name": "NotAuthorized"
         }
       ],
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "galleries",
-            "groups"
-          ],
           "properties": {
+            "galleries": {
+              "items": {
+                "ref": "#poolFeedItem",
+                "type": "ref"
+              },
+              "type": "array"
+            },
             "groups": {
-              "type": "array",
+              "description": "The pools these came out of, so a card can say whose it is.",
               "items": {
                 "ref": "social.grain.group.defs#groupView",
                 "type": "ref"
               },
-              "description": "The pools these came out of, so a card can say whose it is."
-            },
-            "galleries": {
-              "type": "array",
-              "items": {
-                "ref": "#poolFeedItem",
-                "type": "ref"
-              }
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "parameters": {
-        "type": "params",
-        "properties": {
-          "limit": {
-            "type": "integer",
-            "default": 30,
-            "maximum": 100,
-            "minimum": 1
-          }
+          },
+          "required": [
+            "galleries",
+            "groups"
+          ],
+          "type": "object"
         }
       },
-      "description": "Every gallery in every pool the viewer is a member of, newest first. Assembled per viewer at request time: which groups they belong to is a public fact in the index, but what is in each pool is a permissioned space, read with a credential that group's host issues. Nothing here is shared between viewers or cached."
+      "parameters": {
+        "properties": {
+          "limit": {
+            "default": 30,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "type": "params"
+      },
+      "type": "query"
     },
     "poolFeedItem": {
-      "type": "object",
+      "properties": {
+        "avatar": {
+          "description": "The author's Grain profile picture, a public record of their own.",
+          "type": "string"
+        },
+        "commentCount": {
+          "type": "integer"
+        },
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "did": {
+          "description": "Whose gallery it is.",
+          "format": "did",
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "favCount": {
+          "type": "integer"
+        },
+        "group": {
+          "description": "Whose pool it is in.",
+          "format": "did",
+          "type": "string"
+        },
+        "handle": {
+          "type": "string"
+        },
+        "items": {
+          "items": {
+            "ref": "social.grain.unspecced.getPrivateGallery#privateItem",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "photoCount": {
+          "type": "integer"
+        },
+        "rkey": {
+          "type": "string"
+        },
+        "space": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "uri": {
+          "description": "What a favourite or a comment names.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "viewerFav": {
+          "type": "string"
+        }
+      },
       "required": [
         "space",
         "group",
@@ -60,70 +121,9 @@
         "photoCount",
         "items"
       ],
-      "properties": {
-        "did": {
-          "type": "string",
-          "format": "did",
-          "description": "Whose gallery it is."
-        },
-        "uri": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "What a favourite or a comment names."
-        },
-        "rkey": {
-          "type": "string"
-        },
-        "group": {
-          "type": "string",
-          "format": "did",
-          "description": "Whose pool it is in."
-        },
-        "items": {
-          "type": "array",
-          "items": {
-            "ref": "social.grain.unspecced.getPrivateGallery#privateItem",
-            "type": "ref"
-          }
-        },
-        "space": {
-          "type": "string"
-        },
-        "title": {
-          "type": "string"
-        },
-        "avatar": {
-          "type": "string",
-          "description": "The author's Grain profile picture, a public record of their own."
-        },
-        "handle": {
-          "type": "string"
-        },
-        "favCount": {
-          "type": "integer"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "datetime"
-        },
-        "viewerFav": {
-          "type": "string"
-        },
-        "photoCount": {
-          "type": "integer"
-        },
-        "description": {
-          "type": "string"
-        },
-        "displayName": {
-          "type": "string"
-        },
-        "commentCount": {
-          "type": "integer"
-        }
-      }
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.listPoolFeed",
   "lexicon": 1
 }

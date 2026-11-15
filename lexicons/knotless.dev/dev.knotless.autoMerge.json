@@ -1,58 +1,58 @@
 {
-  "id": "dev.knotless.autoMerge",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "Kept in the account of whoever wrote it; for a private repository, in their repo inside the repository's space. Readers honour `set` only from the repository's owner or a collaborator, and `cancelled` from them or the pull's author. For each pull, the latest honoured record wins, by record key. A runner the repository names merges a pull set so once its checks pass at its head merged with its base.",
       "key": "tid",
-      "type": "record",
       "record": {
-        "type": "object",
+        "properties": {
+          "base": {
+            "description": "For `set`, the branch the pull targeted as it was set. Retargeted since, it is cancelled.",
+            "maxLength": 256,
+            "type": "string"
+          },
+          "commit": {
+            "description": "For `set`, the hex object ID of the pull's head as it was set. A later head counts only when the pull's head repository belongs to someone who may merge it: a push by anyone else cancels it.",
+            "maxLength": 64,
+            "minLength": 40,
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "repo": {
+            "description": "The repository the pull is on.",
+            "ref": "dev.knotless.defs#repoRef",
+            "type": "ref"
+          },
+          "state": {
+            "description": "`set` has it merge once its checks pass; `cancelled` takes that back.",
+            "knownValues": [
+              "set",
+              "cancelled"
+            ],
+            "maxLength": 64,
+            "type": "string"
+          },
+          "subject": {
+            "description": "The dev.knotless.pull set to merge, or no longer.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
         "required": [
           "repo",
           "subject",
           "state",
           "createdAt"
         ],
-        "properties": {
-          "base": {
-            "type": "string",
-            "maxLength": 256,
-            "description": "For `set`, the branch the pull targeted as it was set. Retargeted since, it is cancelled."
-          },
-          "repo": {
-            "ref": "dev.knotless.defs#repoRef",
-            "type": "ref",
-            "description": "The repository the pull is on."
-          },
-          "state": {
-            "type": "string",
-            "maxLength": 64,
-            "description": "`set` has it merge once its checks pass; `cancelled` takes that back.",
-            "knownValues": [
-              "set",
-              "cancelled"
-            ]
-          },
-          "commit": {
-            "type": "string",
-            "maxLength": 64,
-            "minLength": 40,
-            "description": "For `set`, the hex object ID of the pull's head as it was set. A later head counts only when the pull's head repository belongs to someone who may merge it: a push by anyone else cancels it."
-          },
-          "subject": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The dev.knotless.pull set to merge, or no longer."
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "datetime"
-          }
-        }
+        "type": "object"
       },
-      "description": "Kept in the account of whoever wrote it; for a private repository, in their repo inside the repository's space. Readers honour `set` only from the repository's owner or a collaborator, and `cancelled` from them or the pull's author. For each pull, the latest honoured record wins, by record key. A runner the repository names merges a pull set so once its checks pass at its head merged with its base."
+      "type": "record"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "A pull set to merge by itself once its checks pass, or that setting cancelled."
+  "description": "A pull set to merge by itself once its checks pass, or that setting cancelled.",
+  "id": "dev.knotless.autoMerge",
+  "lexicon": 1
 }

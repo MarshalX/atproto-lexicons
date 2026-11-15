@@ -1,82 +1,95 @@
 {
-  "id": "social.grain.unspecced.listPoolGalleries",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "Every gallery in a group's pool, newest first. Assembled at request time from the repos of the members who wrote them — a pool space never reaches a firehose, so none of it is in the index — and readable only by a member the group's host issues a credential to.",
       "errors": [
         {
-          "name": "NotAuthorized",
-          "description": "The viewer is not a member of this pool."
+          "description": "The viewer is not a member of this pool.",
+          "name": "NotAuthorized"
         }
       ],
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "galleries": {
+              "items": {
+                "ref": "#poolGallery",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "space": {
+              "type": "string"
+            }
+          },
           "required": [
             "space",
             "galleries"
           ],
-          "properties": {
-            "space": {
-              "type": "string"
-            },
-            "galleries": {
-              "type": "array",
-              "items": {
-                "ref": "#poolGallery",
-                "type": "ref"
-              }
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "group": {
+            "format": "did",
+            "type": "string"
+          },
+          "limit": {
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
         "required": [
           "group"
         ],
-        "properties": {
-          "group": {
-            "type": "string",
-            "format": "did"
-          },
-          "limit": {
-            "type": "integer",
-            "default": 50,
-            "maximum": 100,
-            "minimum": 1
-          }
-        }
+        "type": "params"
       },
-      "description": "Every gallery in a group's pool, newest first. Assembled at request time from the repos of the members who wrote them — a pool space never reaches a firehose, so none of it is in the index — and readable only by a member the group's host issues a credential to."
+      "type": "query"
     },
     "poolGallery": {
-      "type": "object",
-      "required": [
-        "space",
-        "did",
-        "rkey",
-        "title",
-        "photoCount"
-      ],
       "properties": {
-        "did": {
-          "type": "string",
-          "format": "did",
-          "description": "Whose gallery it is."
-        },
-        "uri": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "What a favourite or a comment names."
-        },
-        "rkey": {
+        "avatar": {
+          "description": "The author's Grain profile picture, a public record of their own.",
           "type": "string"
+        },
+        "commentCount": {
+          "type": "integer"
         },
         "cover": {
           "ref": "social.grain.unspecced.getPrivateGallery#privateItem",
           "type": "ref"
+        },
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "did": {
+          "description": "Whose gallery it is.",
+          "format": "did",
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "favCount": {
+          "type": "integer"
+        },
+        "handle": {
+          "type": "string"
+        },
+        "photoCount": {
+          "type": "integer"
+        },
+        "rkey": {
+          "type": "string"
         },
         "space": {
           "type": "string"
@@ -84,38 +97,25 @@
         "title": {
           "type": "string"
         },
-        "avatar": {
-          "type": "string",
-          "description": "The author's Grain profile picture, a public record of their own."
-        },
-        "handle": {
+        "uri": {
+          "description": "What a favourite or a comment names.",
+          "format": "at-uri",
           "type": "string"
-        },
-        "favCount": {
-          "type": "integer"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "datetime"
         },
         "viewerFav": {
           "type": "string"
-        },
-        "photoCount": {
-          "type": "integer"
-        },
-        "description": {
-          "type": "string"
-        },
-        "displayName": {
-          "type": "string"
-        },
-        "commentCount": {
-          "type": "integer"
         }
-      }
+      },
+      "required": [
+        "space",
+        "did",
+        "rkey",
+        "title",
+        "photoCount"
+      ],
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.listPoolGalleries",
   "lexicon": 1
 }

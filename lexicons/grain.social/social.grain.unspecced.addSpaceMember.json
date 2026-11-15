@@ -1,55 +1,55 @@
 {
-  "id": "social.grain.unspecced.addSpaceMember",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Share an existing private gallery with another account. Adds them to the space's member list on the author's PDS, which is what the authority consults when it mints a credential.",
+      "errors": [
+        {
+          "description": "Only the gallery's author may add members.",
+          "name": "NotAuthorized"
+        },
+        {
+          "description": "The handle could not be resolved.",
+          "name": "ActorNotFound"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "space",
-            "actor"
-          ],
           "properties": {
             "actor": {
-              "type": "string",
-              "description": "Handle or DID of the account to share with."
+              "description": "Handle or DID of the account to share with.",
+              "type": "string"
             },
             "space": {
               "type": "string"
             }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "NotAuthorized",
-          "description": "Only the gallery's author may add members."
-        },
-        {
-          "name": "ActorNotFound",
-          "description": "The handle could not be resolved."
+          },
+          "required": [
+            "space",
+            "actor"
+          ],
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "did": {
+              "format": "did",
+              "type": "string"
+            }
+          },
           "required": [
             "did"
           ],
-          "properties": {
-            "did": {
-              "type": "string",
-              "format": "did"
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
-      "description": "Share an existing private gallery with another account. Adds them to the space's member list on the author's PDS, which is what the authority consults when it mints a credential."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.addSpaceMember",
   "lexicon": 1
 }

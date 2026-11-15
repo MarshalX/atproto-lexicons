@@ -139,6 +139,72 @@
       ],
       "type": "object"
     },
+    "contributorView": {
+      "description": "A contributor record with the address it is published at.",
+      "properties": {
+        "born": {
+          "description": "Birth date, exactly YYYY-MM-DD.",
+          "type": "string"
+        },
+        "cid": {
+          "description": "CID of the last published version of the record, when the catalog has published it. Omitted from list responses.",
+          "format": "cid",
+          "type": "string"
+        },
+        "createdAt": {
+          "description": "When the contributor record was created.",
+          "ref": "net.olamaelcu.livtet.biblio.defs#timestamp",
+          "type": "ref"
+        },
+        "description": {
+          "description": "Biography or description of the contributor.",
+          "type": "string"
+        },
+        "died": {
+          "description": "Death date, exactly YYYY-MM-DD.",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "The contributor's display name.",
+          "type": "string"
+        },
+        "identifiers": {
+          "description": "Identifiers denoting the contributor.",
+          "items": {
+            "ref": "community.lexicon.media.book.defs#identifier",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "image": {
+          "accept": [
+            "image/*"
+          ],
+          "description": "Portrait image blob, when the publishing repository owns the bytes.",
+          "type": "blob"
+        },
+        "imageUrl": {
+          "description": "Portrait image URL, when the record carries one.",
+          "format": "uri",
+          "type": "string"
+        },
+        "nameInverted": {
+          "description": "Name in filing or sorting order, when known.",
+          "type": "string"
+        },
+        "uri": {
+          "description": "AT-URI of the contributor record.",
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "displayName",
+        "createdAt"
+      ],
+      "type": "object"
+    },
     "formatView": {
       "properties": {
         "description": {
@@ -264,6 +330,68 @@
         "percent"
       ],
       "type": "string"
+    },
+    "publisherView": {
+      "description": "A publisher record with the address it is published at.",
+      "properties": {
+        "cid": {
+          "description": "CID of the last published version of the record, when the catalog has published it. Omitted from list responses.",
+          "format": "cid",
+          "type": "string"
+        },
+        "createdAt": {
+          "description": "When the publisher record was created.",
+          "ref": "net.olamaelcu.livtet.biblio.defs#timestamp",
+          "type": "ref"
+        },
+        "description": {
+          "description": "Description of the publisher.",
+          "type": "string"
+        },
+        "ended": {
+          "description": "Date the publisher ceased operating, exactly YYYY-MM-DD.",
+          "type": "string"
+        },
+        "identifiers": {
+          "description": "Identifiers denoting the publisher.",
+          "items": {
+            "ref": "community.lexicon.media.book.defs#identifier",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "image": {
+          "accept": [
+            "image/*"
+          ],
+          "description": "Logo or image blob, when the publishing repository owns the bytes.",
+          "type": "blob"
+        },
+        "imageUrl": {
+          "description": "Logo or image URL, when the record carries one.",
+          "format": "uri",
+          "type": "string"
+        },
+        "name": {
+          "description": "Publisher name.",
+          "type": "string"
+        },
+        "started": {
+          "description": "Date the publisher began operating, exactly YYYY-MM-DD.",
+          "type": "string"
+        },
+        "uri": {
+          "description": "AT-URI of the publisher record.",
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "name",
+        "createdAt"
+      ],
+      "type": "object"
     },
     "readingStatus": {
       "description": "Reading status for a book.",
@@ -412,10 +540,13 @@
     "shelfWithBooksView": {
       "properties": {
         "books": {
-          "description": "Books on the shelf, in order.",
+          "description": "Books on the shelf — status rows and membership edges — lowest `metadata.position` first, then record URI.",
           "items": {
-            "ref": "net.olamaelcu.livtet.biblio.defs#bookShelfView",
-            "type": "ref"
+            "refs": [
+              "net.olamaelcu.livtet.biblio.defs#bookShelfView",
+              "net.olamaelcu.livtet.biblio.defs#shelfItemView"
+            ],
+            "type": "union"
           },
           "type": "array"
         },

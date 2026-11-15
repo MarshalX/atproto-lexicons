@@ -1,108 +1,108 @@
 {
-  "id": "dev.knotless.getAccountData",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
+    "collectionCount": {
+      "description": "How many records the account holds in one collection.",
+      "properties": {
+        "collection": {
+          "description": "The collection, as dev.knotless.issue.",
+          "format": "nsid",
+          "type": "string"
+        },
+        "count": {
+          "description": "How many records it holds there.",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "collection",
+        "count"
+      ],
+      "type": "object"
+    },
     "main": {
-      "type": "query",
+      "description": "Counts the records the asking account holds in each dev.knotless.* collection, read from its PDS rather than the index, and names its repositories, public and private, with how many other accounts push to or read each: what dev.knotless.deleteAccountData would delete, as `knotless account delete-data` lists it. A private repository's records are in its space, counted as one space. Only the account itself, logged in to this appview's web pages, can ask: the appview reads its spaces with the session it keeps for it, which the pages' session cookie names.",
       "errors": [
         {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
         }
       ],
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "collections": {
+              "description": "Each dev.knotless.* collection the account holds records in, in the order of their names.",
+              "items": {
+                "ref": "#collectionCount",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "did": {
+              "description": "The account.",
+              "format": "did",
+              "type": "string"
+            },
+            "repos": {
+              "description": "The account's repositories, public ones first, each by name.",
+              "items": {
+                "ref": "#repoData",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "spaces": {
+              "description": "The spaces the account owns for private repositories: one for each, and one for each name a rename of one left.",
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
           "required": [
             "did",
             "collections",
             "repos",
             "spaces"
           ],
-          "properties": {
-            "did": {
-              "type": "string",
-              "format": "did",
-              "description": "The account."
-            },
-            "repos": {
-              "type": "array",
-              "items": {
-                "ref": "#repoData",
-                "type": "ref"
-              },
-              "description": "The account's repositories, public ones first, each by name."
-            },
-            "spaces": {
-              "type": "integer",
-              "minimum": 0,
-              "description": "The spaces the account owns for private repositories: one for each, and one for each name a rename of one left."
-            },
-            "collections": {
-              "type": "array",
-              "items": {
-                "ref": "#collectionCount",
-                "type": "ref"
-              },
-              "description": "Each dev.knotless.* collection the account holds records in, in the order of their names."
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
-      "description": "Counts the records the asking account holds in each dev.knotless.* collection, read from its PDS rather than the index, and names its repositories, public and private, with how many other accounts push to or read each: what dev.knotless.deleteAccountData would delete, as `knotless account delete-data` lists it. A private repository's records are in its space, counted as one space. Only the account itself, logged in to this appview's web pages, can ask: the appview reads its spaces with the session it keeps for it, which the pages' session cookie names."
+      "type": "query"
     },
     "repoData": {
-      "type": "object",
+      "description": "One of the account's repositories, and how many other accounts it concerns.",
+      "properties": {
+        "collaborators": {
+          "description": "The other accounts its record lets push to it.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "members": {
+          "description": "For a private one, the other accounts that read it, its runners left out.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "name": {
+          "description": "Its name, its dev.knotless.repo record's key.",
+          "maxLength": 100,
+          "type": "string"
+        },
+        "private": {
+          "description": "Whether it is private, in a space of its own.",
+          "type": "boolean"
+        }
+      },
       "required": [
         "name",
         "private",
         "collaborators"
       ],
-      "properties": {
-        "name": {
-          "type": "string",
-          "maxLength": 100,
-          "description": "Its name, its dev.knotless.repo record's key."
-        },
-        "members": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "For a private one, the other accounts that read it, its runners left out."
-        },
-        "private": {
-          "type": "boolean",
-          "description": "Whether it is private, in a space of its own."
-        },
-        "collaborators": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "The other accounts its record lets push to it."
-        }
-      },
-      "description": "One of the account's repositories, and how many other accounts it concerns."
-    },
-    "collectionCount": {
-      "type": "object",
-      "required": [
-        "collection",
-        "count"
-      ],
-      "properties": {
-        "count": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "How many records it holds there."
-        },
-        "collection": {
-          "type": "string",
-          "format": "nsid",
-          "description": "The collection, as dev.knotless.issue."
-        }
-      },
-      "description": "How many records the account holds in one collection."
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "What knotless data the asking account holds, before it deletes it."
+  "description": "What knotless data the asking account holds, before it deletes it.",
+  "id": "dev.knotless.getAccountData",
+  "lexicon": 1
 }

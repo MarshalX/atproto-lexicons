@@ -1,40 +1,40 @@
 {
-  "id": "dev.knotless.inviteRunner",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Tells a runner, through the appview, that the caller's private repository names it among its runners; or a triager, among its triagers. Nothing written in a space reaches the firehose, so a runner learns of a private repository only so, from dev.knotless.listRunnerInvites; it then reads the repository's record, as a member of its space, before running anything. Inviting it again moves the invite to the end of its list. Requires a service token from the caller's PDS, audience the appview's DID, for this method.",
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "name": {
+              "description": "The repository's name: its record key in the caller's space.",
+              "maxLength": 100,
+              "type": "string"
+            },
+            "runner": {
+              "description": "The runner, or triager, invited.",
+              "format": "did",
+              "type": "string"
+            }
+          },
           "required": [
             "runner",
             "name"
           ],
-          "properties": {
-            "name": {
-              "type": "string",
-              "maxLength": 100,
-              "description": "The repository's name: its record key in the caller's space."
-            },
-            "runner": {
-              "type": "string",
-              "format": "did",
-              "description": "The runner, or triager, invited."
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "properties": {}
-        },
-        "encoding": "application/json"
+          "properties": {},
+          "type": "object"
+        }
       },
-      "description": "Tells a runner, through the appview, that the caller's private repository names it among its runners; or a triager, among its triagers. Nothing written in a space reaches the firehose, so a runner learns of a private repository only so, from dev.knotless.listRunnerInvites; it then reads the repository's record, as a member of its space, before running anything. Inviting it again moves the invite to the end of its list. Requires a service token from the caller's PDS, audience the appview's DID, for this method."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "dev.knotless.inviteRunner",
   "lexicon": 1
 }

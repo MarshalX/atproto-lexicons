@@ -1,10 +1,7 @@
 {
-  "id": "social.grain.group",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "key": "any",
-      "name": "Group pool",
-      "type": "space",
       "collections": [
         "social.grain.gallery",
         "social.grain.gallery.item",
@@ -12,9 +9,12 @@
         "social.grain.favorite",
         "social.grain.comment"
       ],
-      "description": "A group's pool of galleries: the photos its members put in, and their favourites and comments on them, held together as one space. The group is its authority and its space key is self. Each member's records stay in their own repo; the space says who may read them, which is the group's members. A favourite or a comment belongs here rather than in the public repo for the same reason the photos do: in the public repo it would name a private gallery to the whole network."
+      "description": "A group's pool of galleries: the photos its members put in, and their favourites and comments on them, held together as one space. The group is its authority and its space key is self. Each member's records stay in their own repo; the space says who may read them, which is the group's members. A favourite or a comment belongs here rather than in the public repo for the same reason the photos do: in the public repo it would name a private gallery to the whole network.",
+      "key": "any",
+      "name": "Group pool",
+      "type": "space"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.group",
   "lexicon": 1
 }

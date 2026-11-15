@@ -1,55 +1,55 @@
 {
-  "id": "dev.knotless.addRunner",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Names an account in the repository's record as one of its runners, as `knotless runner add` does, as its owner logged in to this appview's web pages, or, for an organization's repository, an admin who joined it, logged in to the pages or with a service token from their own PDS for this method, for whom the appview's gateway writes as the organization. A private repository's runner is made a member of it, to read it, and is told of it through dev.knotless.inviteRunner. Answers with the runners it names after. Requires the session cookie the pages' login sets, or an admin's service token.",
+      "errors": [
+        {
+          "description": "No such repository, or no such account.",
+          "name": "NotFound"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        },
+        {
+          "description": "Nothing changed, as the reason says: the account is not the owner.",
+          "name": "UpstreamFailure"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "repo": {
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "runner": {
+              "description": "The account a knotless runner reports as, by handle or DID.",
+              "format": "at-identifier",
+              "type": "string"
+            }
+          },
           "required": [
             "repo",
             "runner"
           ],
-          "properties": {
-            "repo": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
-            },
-            "runner": {
-              "type": "string",
-              "format": "at-identifier",
-              "description": "The account a knotless runner reports as, by handle or DID."
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "NotFound",
-          "description": "No such repository, or no such account."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
-        },
-        {
-          "name": "UpstreamFailure",
-          "description": "Nothing changed, as the reason says: the account is not the owner."
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
           "ref": "dev.knotless.listRunners#runners",
           "type": "ref"
-        },
-        "encoding": "application/json"
+        }
       },
-      "description": "Names an account in the repository's record as one of its runners, as `knotless runner add` does, as its owner logged in to this appview's web pages, or, for an organization's repository, an admin who joined it, logged in to the pages or with a service token from their own PDS for this method, for whom the appview's gateway writes as the organization. A private repository's runner is made a member of it, to read it, and is told of it through dev.knotless.inviteRunner. Answers with the runners it names after. Requires the session cookie the pages' login sets, or an admin's service token."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Names an account among a repository's runners, as its owner logged in to this appview's pages."
+  "description": "Names an account among a repository's runners, as its owner logged in to this appview's pages.",
+  "id": "dev.knotless.addRunner",
+  "lexicon": 1
 }

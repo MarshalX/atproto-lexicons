@@ -1,77 +1,77 @@
 {
-  "id": "dev.knotless.removeOrgMember",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Answers where the account stood before: nothing changes for an account the organization did not invite.",
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "member": {
+              "description": "The account to take out.",
+              "format": "did",
+              "type": "string"
+            },
+            "org": {
+              "description": "The organization.",
+              "format": "did",
+              "type": "string"
+            }
+          },
           "required": [
             "org",
             "member"
           ],
-          "properties": {
-            "org": {
-              "type": "string",
-              "format": "did",
-              "description": "The organization."
-            },
-            "member": {
-              "type": "string",
-              "format": "did",
-              "description": "The account to take out."
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
       "output": {
+        "encoding": "application/json",
         "schema": {
           "ref": "#removed",
           "type": "ref"
-        },
-        "encoding": "application/json"
+        }
       },
-      "description": "Answers where the account stood before: nothing changes for an account the organization did not invite."
+      "type": "procedure"
     },
     "removed": {
-      "type": "object",
-      "required": [
-        "org",
-        "who",
-        "organization"
-      ],
+      "description": "What taking an account out of an organization did.",
       "properties": {
         "org": {
-          "type": "string",
+          "description": "The organization's handle, or its DID when none resolves back to it.",
           "maxLength": 300,
-          "description": "The organization's handle, or its DID when none resolves back to it."
+          "type": "string"
+        },
+        "organization": {
+          "description": "Whether the account is an organization.",
+          "type": "boolean"
         },
         "was": {
-          "type": "string",
-          "maxLength": 64,
           "description": "Where they stood before: invited, lapsed (invited over 7 days ago), or a public or hidden member. Absent when they were not invited.",
           "knownValues": [
             "invited",
             "lapsed",
             "public",
             "hidden"
-          ]
+          ],
+          "maxLength": 64,
+          "type": "string"
         },
         "who": {
-          "type": "string",
+          "description": "The account's handle, or its DID when none resolves back to it.",
           "maxLength": 300,
-          "description": "The account's handle, or its DID when none resolves back to it."
-        },
-        "organization": {
-          "type": "boolean",
-          "description": "Whether the account is an organization."
+          "type": "string"
         }
       },
-      "description": "What taking an account out of an organization did."
+      "required": [
+        "org",
+        "who",
+        "organization"
+      ],
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Takes a member out of an organization, or withdraws an invitation, through the gateway the organization delegated writes to, which writes as the organization: out of its records, its space and its private repositories' spaces, but for repositories shared with them on their own. The caller must be an admin of it who joined. Requires a service token from the caller's PDS, audience the gateway's DID, for this method."
+  "description": "Takes a member out of an organization, or withdraws an invitation, through the gateway the organization delegated writes to, which writes as the organization: out of its records, its space and its private repositories' spaces, but for repositories shared with them on their own. The caller must be an admin of it who joined. Requires a service token from the caller's PDS, audience the gateway's DID, for this method.",
+  "id": "dev.knotless.removeOrgMember",
+  "lexicon": 1
 }

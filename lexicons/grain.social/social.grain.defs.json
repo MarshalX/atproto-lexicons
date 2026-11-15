@@ -1,25 +1,25 @@
 {
-  "id": "social.grain.defs",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "aspectRatio": {
-      "type": "object",
+      "description": "width:height represents an aspect ratio. It may be approximate, and may not correspond to absolute dimensions in any given unit.",
+      "properties": {
+        "height": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "width": {
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
       "required": [
         "width",
         "height"
       ],
-      "properties": {
-        "width": {
-          "type": "integer",
-          "minimum": 1
-        },
-        "height": {
-          "type": "integer",
-          "minimum": 1
-        }
-      },
-      "description": "width:height represents an aspect ratio. It may be approximate, and may not correspond to absolute dimensions in any given unit."
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.defs",
   "lexicon": 1
 }

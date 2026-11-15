@@ -1,55 +1,55 @@
 {
-  "id": "dev.knotless.leaveQueue",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Takes a queued pull out of its target branch's merge queue, as `knotless queue leave` does, as the account logged in to this appview's web pages. The owner and collaborators may. Requires the session cookie the pages' login sets.",
+      "errors": [
+        {
+          "description": "No such repository.",
+          "name": "NotFound"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        },
+        {
+          "description": "It did not leave, as the reason says: it was not queued, or the account may not take it out.",
+          "name": "UpstreamFailure"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "pull": {
+              "description": "The dev.knotless.pull record.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "repo": {
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
           "required": [
             "repo",
             "pull"
           ],
-          "properties": {
-            "pull": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The dev.knotless.pull record."
-            },
-            "repo": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "NotFound",
-          "description": "No such repository."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
-        },
-        {
-          "name": "UpstreamFailure",
-          "description": "It did not leave, as the reason says: it was not queued, or the account may not take it out."
+          "type": "object"
         }
-      ],
-      "output": {
-        "schema": {
-          "type": "object",
-          "properties": {}
-        },
-        "encoding": "application/json"
       },
-      "description": "Takes a queued pull out of its target branch's merge queue, as `knotless queue leave` does, as the account logged in to this appview's web pages. The owner and collaborators may. Requires the session cookie the pages' login sets."
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Takes a pull out of its branch's merge queue as the account logged in to this appview's pages."
+  "description": "Takes a pull out of its branch's merge queue as the account logged in to this appview's pages.",
+  "id": "dev.knotless.leaveQueue",
+  "lexicon": 1
 }

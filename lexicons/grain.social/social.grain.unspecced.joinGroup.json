@@ -1,48 +1,48 @@
 {
-  "id": "social.grain.unspecced.joinGroup",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Ask a group's group host to admit the viewer: Grain mints service auth for the host from the viewer's PDS and calls fyi.opensocial.requestJoin. Admitted immediately when the group is open; queued for its moderators when it takes requests.",
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "group": {
+              "format": "did",
+              "type": "string"
+            },
+            "message": {
+              "maxLength": 1000,
+              "type": "string"
+            }
+          },
           "required": [
             "group"
           ],
-          "properties": {
-            "group": {
-              "type": "string",
-              "format": "did"
-            },
-            "message": {
-              "type": "string",
-              "maxLength": 1000
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "status"
-          ],
           "properties": {
             "status": {
-              "type": "string",
               "knownValues": [
                 "admitted",
                 "pending"
-              ]
+              ],
+              "type": "string"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "status"
+          ],
+          "type": "object"
+        }
       },
-      "description": "Ask a group's group host to admit the viewer: Grain mints service auth for the host from the viewer's PDS and calls fyi.opensocial.requestJoin. Admitted immediately when the group is open; queued for its moderators when it takes requests."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.joinGroup",
   "lexicon": 1
 }

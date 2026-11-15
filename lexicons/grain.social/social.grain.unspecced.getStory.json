@@ -1,34 +1,34 @@
 {
-  "id": "social.grain.unspecced.getStory",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
           "properties": {
             "story": {
               "ref": "social.grain.story.defs#storyView",
               "type": "ref"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "story": {
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
         "required": [
           "story"
         ],
-        "properties": {
-          "story": {
-            "type": "string",
-            "format": "at-uri"
-          }
-        }
-      }
+        "type": "params"
+      },
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.getStory",
   "lexicon": 1
 }

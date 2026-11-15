@@ -1,72 +1,127 @@
 {
-  "id": "dev.knotless.theme",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "Kept in the account that made it, keyed by a TID. Choosing one copies its palette into the chooser's preferences (dev.knotless.getPreferences#appearancePref), so a theme changed or deleted later leaves those who chose it as they were.",
       "key": "tid",
-      "type": "record",
       "record": {
-        "type": "object",
+        "properties": {
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "name": {
+            "description": "What the theme is called, as its card shows it.",
+            "maxGraphemes": 64,
+            "maxLength": 640,
+            "type": "string"
+          },
+          "palette": {
+            "ref": "#palette",
+            "type": "ref"
+          }
+        },
         "required": [
           "name",
           "palette",
           "createdAt"
         ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "maxLength": 640,
-            "description": "What the theme is called, as its card shows it.",
-            "maxGraphemes": 64
-          },
-          "palette": {
-            "ref": "#palette",
-            "type": "ref"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "datetime"
-          }
-        }
+        "type": "object"
       },
-      "description": "Kept in the account that made it, keyed by a TID. Choosing one copies its palette into the chooser's preferences (dev.knotless.getPreferences#appearancePref), so a theme changed or deleted later leaves those who chose it as they were."
-    },
-    "syntax": {
-      "type": "object",
-      "properties": {
-        "tags": {
-          "type": "string",
-          "maxLength": 7,
-          "description": "Markup's tags."
-        },
-        "types": {
-          "type": "string",
-          "maxLength": 7
-        },
-        "numbers": {
-          "type": "string",
-          "maxLength": 7
-        },
-        "strings": {
-          "type": "string",
-          "maxLength": 7
-        },
-        "comments": {
-          "type": "string",
-          "maxLength": 7
-        },
-        "keywords": {
-          "type": "string",
-          "maxLength": 7
-        },
-        "functions": {
-          "type": "string",
-          "maxLength": 7
-        }
-      },
-      "description": "The colours code is highlighted in, each a hex colour as #rrggbb."
+      "type": "record"
     },
     "palette": {
-      "type": "object",
+      "description": "The colours of a theme, each named for what it colours rather than its hue, as a hex colour #rrggbb. A colour left out is light's or dark's, as colorScheme says, or for a surface or a text, mixed from background and text. Readers pass over a colour not as #rrggbb.",
+      "properties": {
+        "accent": {
+          "description": "Links.",
+          "maxLength": 7,
+          "type": "string"
+        },
+        "attention": {
+          "description": "What waits, and notices.",
+          "maxLength": 7,
+          "type": "string"
+        },
+        "background": {
+          "description": "The page's surface.",
+          "maxLength": 7,
+          "type": "string"
+        },
+        "border": {
+          "description": "Lines between parts of a page.",
+          "maxLength": 7,
+          "type": "string"
+        },
+        "colorScheme": {
+          "description": "Whether the theme is light or dark: what it falls back on, and how the browser draws what the pages do not, as scrollbars and form controls.",
+          "knownValues": [
+            "light",
+            "dark"
+          ],
+          "maxLength": 16,
+          "type": "string"
+        },
+        "danger": {
+          "description": "What failed, is removed, or is dangerous.",
+          "maxLength": 7,
+          "type": "string"
+        },
+        "done": {
+          "description": "What is done: a pull merged.",
+          "maxLength": 7,
+          "type": "string"
+        },
+        "neutral": {
+          "description": "What closed or was skipped.",
+          "maxLength": 7,
+          "type": "string"
+        },
+        "onPrimary": {
+          "description": "Text on the main buttons.",
+          "maxLength": 7,
+          "type": "string"
+        },
+        "panel": {
+          "description": "A surface a little apart from the page's: headers, cards.",
+          "maxLength": 7,
+          "type": "string"
+        },
+        "primary": {
+          "description": "The main buttons.",
+          "maxLength": 7,
+          "type": "string"
+        },
+        "soft": {
+          "description": "A surface further apart: code blocks, hovered rows.",
+          "maxLength": 7,
+          "type": "string"
+        },
+        "success": {
+          "description": "What is open, passed, or added.",
+          "maxLength": 7,
+          "type": "string"
+        },
+        "syntax": {
+          "ref": "#syntax",
+          "type": "ref"
+        },
+        "text": {
+          "description": "The body's text.",
+          "maxLength": 7,
+          "type": "string"
+        },
+        "textFaint": {
+          "description": "Text said more quietly still: hints, placeholders.",
+          "maxLength": 7,
+          "type": "string"
+        },
+        "textMuted": {
+          "description": "Text said quietly: times, counts.",
+          "maxLength": 7,
+          "type": "string"
+        }
+      },
       "required": [
         "colorScheme",
         "background",
@@ -74,100 +129,45 @@
         "primary",
         "accent"
       ],
+      "type": "object"
+    },
+    "syntax": {
+      "description": "The colours code is highlighted in, each a hex colour as #rrggbb.",
       "properties": {
-        "done": {
-          "type": "string",
+        "comments": {
           "maxLength": 7,
-          "description": "What is done: a pull merged."
+          "type": "string"
         },
-        "soft": {
-          "type": "string",
+        "functions": {
           "maxLength": 7,
-          "description": "A surface further apart: code blocks, hovered rows."
+          "type": "string"
         },
-        "text": {
-          "type": "string",
+        "keywords": {
           "maxLength": 7,
-          "description": "The body's text."
+          "type": "string"
         },
-        "panel": {
-          "type": "string",
+        "numbers": {
           "maxLength": 7,
-          "description": "A surface a little apart from the page's: headers, cards."
+          "type": "string"
         },
-        "accent": {
-          "type": "string",
+        "strings": {
           "maxLength": 7,
-          "description": "Links."
+          "type": "string"
         },
-        "border": {
-          "type": "string",
+        "tags": {
+          "description": "Markup's tags.",
           "maxLength": 7,
-          "description": "Lines between parts of a page."
+          "type": "string"
         },
-        "danger": {
-          "type": "string",
+        "types": {
           "maxLength": 7,
-          "description": "What failed, is removed, or is dangerous."
-        },
-        "syntax": {
-          "ref": "#syntax",
-          "type": "ref"
-        },
-        "neutral": {
-          "type": "string",
-          "maxLength": 7,
-          "description": "What closed or was skipped."
-        },
-        "primary": {
-          "type": "string",
-          "maxLength": 7,
-          "description": "The main buttons."
-        },
-        "success": {
-          "type": "string",
-          "maxLength": 7,
-          "description": "What is open, passed, or added."
-        },
-        "attention": {
-          "type": "string",
-          "maxLength": 7,
-          "description": "What waits, and notices."
-        },
-        "onPrimary": {
-          "type": "string",
-          "maxLength": 7,
-          "description": "Text on the main buttons."
-        },
-        "textFaint": {
-          "type": "string",
-          "maxLength": 7,
-          "description": "Text said more quietly still: hints, placeholders."
-        },
-        "textMuted": {
-          "type": "string",
-          "maxLength": 7,
-          "description": "Text said quietly: times, counts."
-        },
-        "background": {
-          "type": "string",
-          "maxLength": 7,
-          "description": "The page's surface."
-        },
-        "colorScheme": {
-          "type": "string",
-          "maxLength": 16,
-          "description": "Whether the theme is light or dark: what it falls back on, and how the browser draws what the pages do not, as scrollbars and form controls.",
-          "knownValues": [
-            "light",
-            "dark"
-          ]
+          "type": "string"
         }
       },
-      "description": "The colours of a theme, each named for what it colours rather than its hue, as a hex colour #rrggbb. A colour left out is light's or dark's, as colorScheme says, or for a surface or a text, mixed from background and text. Readers pass over a colour not as #rrggbb."
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "A theme an account made for knotless's pages, for anyone to draw them in."
+  "description": "A theme an account made for knotless's pages, for anyone to draw them in.",
+  "id": "dev.knotless.theme",
+  "lexicon": 1
 }

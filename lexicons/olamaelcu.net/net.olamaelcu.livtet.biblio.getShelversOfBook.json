@@ -16,7 +16,7 @@
               "type": "string"
             },
             "dids": {
-              "description": "Distinct DIDs, in the order their shelving record was found.",
+              "description": "Distinct DIDs in `min(uri)` order. Every uri starts with `at://<did>/…`, so this is lexicographic DID order — which is what makes the keyset cursor strict.",
               "items": {
                 "format": "did",
                 "type": "string"
@@ -48,11 +48,6 @@
             "maximum": 100,
             "minimum": 1,
             "type": "integer"
-          },
-          "shelvingRkey": {
-            "description": "rkey the matching bookStatus records must carry. Records derive it from the catalog edition URI (last segment after the final '/'), so it is computed from `bookUri` when omitted; pass it explicitly only to follow a non-conforming writer.",
-            "maxLength": 512,
-            "type": "string"
           }
         },
         "required": [

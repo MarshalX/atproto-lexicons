@@ -1,82 +1,82 @@
 {
-  "id": "dev.knotless.requestRerun",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Writes a dev.knotless.rerun record, as `knotless run rerun` does, in the account logged in to this appview's web pages, which must be the repository's owner: its runners run the ref, or the pull's head, again where it points when they read it. Name one ref or one pull. With workflow, only that one: of the pull's, or at the ref, one that runs on a push to it or whose trigger is to be asked for, its steps seeing env. Requires the session cookie the pages' login sets.",
+      "errors": [
+        {
+          "description": "No such repository.",
+          "name": "NotFound"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        },
+        {
+          "description": "Nothing was asked, as the reason says: the account is not the owner, the repository names no runners, or what was named is not there.",
+          "name": "UpstreamFailure"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "repo"
-          ],
           "properties": {
             "env": {
-              "type": "array",
+              "description": "With a ref and a workflow, variables its steps see, over the workflow's own of the same names.",
               "items": {
                 "ref": "dev.knotless.rerun#var",
                 "type": "ref"
               },
               "maxLength": 32,
-              "description": "With a ref and a workflow, variables its steps see, over the workflow's own of the same names."
-            },
-            "ref": {
-              "type": "string",
-              "maxLength": 1024,
-              "description": "The ref to run: a branch or a tag by name, or in full."
+              "type": "array"
             },
             "pull": {
-              "type": "string",
+              "description": "Or the dev.knotless.pull record whose head to run.",
               "format": "at-uri",
-              "description": "Or the dev.knotless.pull record whose head to run."
+              "type": "string"
+            },
+            "ref": {
+              "description": "The ref to run: a branch or a tag by name, or in full.",
+              "maxLength": 1024,
+              "type": "string"
             },
             "repo": {
-              "type": "string",
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it.",
               "format": "at-uri",
-              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+              "type": "string"
             },
             "workflow": {
-              "type": "string",
+              "description": "The one workflow to run, by name.",
               "maxLength": 64,
-              "description": "The one workflow to run, by name."
+              "type": "string"
             }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "NotFound",
-          "description": "No such repository."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
-        },
-        {
-          "name": "UpstreamFailure",
-          "description": "Nothing was asked, as the reason says: the account is not the owner, the repository names no runners, or what was named is not there."
+          },
+          "required": [
+            "repo"
+          ],
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "uri": {
+              "description": "The dev.knotless.rerun record written.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
           "required": [
             "uri"
           ],
-          "properties": {
-            "uri": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The dev.knotless.rerun record written."
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
-      "description": "Writes a dev.knotless.rerun record, as `knotless run rerun` does, in the account logged in to this appview's web pages, which must be the repository's owner: its runners run the ref, or the pull's head, again where it points when they read it. Name one ref or one pull. With workflow, only that one: of the pull's, or at the ref, one that runs on a push to it or whose trigger is to be asked for, its steps seeing env. Requires the session cookie the pages' login sets."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Asks a repository's runners to run a ref's or a pull's workflows again, as the owner logged in to this appview's pages."
+  "description": "Asks a repository's runners to run a ref's or a pull's workflows again, as the owner logged in to this appview's pages.",
+  "id": "dev.knotless.requestRerun",
+  "lexicon": 1
 }

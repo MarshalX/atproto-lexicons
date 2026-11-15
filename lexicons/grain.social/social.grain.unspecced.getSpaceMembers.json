@@ -1,68 +1,68 @@
 {
-  "id": "social.grain.unspecced.getSpaceMembers",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "Who a private gallery is shared with. Read from the space's authority, which is the only place the member list exists, so only the gallery's author can ask.",
       "errors": [
         {
-          "name": "NotAuthorized",
-          "description": "Only the gallery's author may list its members."
+          "description": "Only the gallery's author may list its members.",
+          "name": "NotAuthorized"
         }
       ],
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "members"
-          ],
           "properties": {
             "members": {
-              "type": "array",
               "items": {
                 "ref": "#memberView",
                 "type": "ref"
-              }
+              },
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "members"
+          ],
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
-        "required": [
-          "space"
-        ],
         "properties": {
           "space": {
             "type": "string"
           }
-        }
+        },
+        "required": [
+          "space"
+        ],
+        "type": "params"
       },
-      "description": "Who a private gallery is shared with. Read from the space's authority, which is the only place the member list exists, so only the gallery's author can ask."
+      "type": "query"
     },
     "memberView": {
-      "type": "object",
-      "required": [
-        "did"
-      ],
       "properties": {
-        "did": {
-          "type": "string",
-          "format": "did"
-        },
         "avatar": {
-          "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "type": "string"
         },
-        "handle": {
+        "did": {
+          "format": "did",
           "type": "string"
         },
         "displayName": {
           "type": "string"
+        },
+        "handle": {
+          "type": "string"
         }
-      }
+      },
+      "required": [
+        "did"
+      ],
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.getSpaceMembers",
   "lexicon": 1
 }

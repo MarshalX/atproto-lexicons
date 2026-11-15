@@ -1,77 +1,77 @@
 {
-  "id": "dev.knotless.listReleases",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "A repository's releases, of every package or of one, newest first, a page at a time: follow `cursor` until it is absent. Each marks whether it is its package's latest, and whether it is a container image. None for a private repository, which cannot publish, or from an appview that keeps no index. No authentication needed.",
       "errors": [
         {
-          "name": "NotFound",
-          "description": "No such repository."
+          "description": "No such repository.",
+          "name": "NotFound"
         }
       ],
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "releases"
-          ],
           "properties": {
             "cursor": {
-              "type": "string",
-              "description": "Absent on the last page."
+              "description": "Absent on the last page.",
+              "type": "string"
             },
             "packages": {
-              "type": "array",
+              "description": "Each package the repository publishes, by name, whatever `package` asked for, for a filter to name. Absent when it publishes none.",
               "items": {
                 "ref": "dev.knotless.defs#packageView",
                 "type": "ref"
               },
-              "description": "Each package the repository publishes, by name, whatever `package` asked for, for a filter to name. Absent when it publishes none."
+              "type": "array"
             },
             "releases": {
-              "type": "array",
               "items": {
                 "ref": "dev.knotless.defs#releaseView",
                 "type": "ref"
-              }
+              },
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "releases"
+          ],
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "cursor": {
+            "description": "How many the pages before held.",
+            "maxLength": 32,
+            "type": "string"
+          },
+          "limit": {
+            "default": 30,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "package": {
+            "description": "Only this package's releases; every package's if absent.",
+            "maxLength": 214,
+            "type": "string"
+          },
+          "repo": {
+            "description": "The repository's dev.knotless.repo record. Its authority may be a handle; a name the repository had before, or an owner it moved from with its agreement, finds it under the name it has now.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
         "required": [
           "repo"
         ],
-        "properties": {
-          "repo": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The repository's dev.knotless.repo record. Its authority may be a handle; a name the repository had before, or an owner it moved from with its agreement, finds it under the name it has now."
-          },
-          "limit": {
-            "type": "integer",
-            "default": 30,
-            "maximum": 100,
-            "minimum": 1
-          },
-          "cursor": {
-            "type": "string",
-            "maxLength": 32,
-            "description": "How many the pages before held."
-          },
-          "package": {
-            "type": "string",
-            "maxLength": 214,
-            "description": "Only this package's releases; every package's if absent."
-          }
-        }
+        "type": "params"
       },
-      "description": "A repository's releases, of every package or of one, newest first, a page at a time: follow `cursor` until it is absent. Each marks whether it is its package's latest, and whether it is a container image. None for a private repository, which cannot publish, or from an appview that keeps no index. No authentication needed."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "The releases a repository publishes."
+  "description": "The releases a repository publishes.",
+  "id": "dev.knotless.listReleases",
+  "lexicon": 1
 }

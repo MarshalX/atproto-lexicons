@@ -27,6 +27,15 @@
             "maxSize": 1000000,
             "type": "blob"
           },
+          "banner": {
+            "accept": [
+              "image/png",
+              "image/jpeg"
+            ],
+            "description": "Larger, very horizontal picture displayed on user profiles.",
+            "maxSize": 5000000,
+            "type": "blob"
+          },
           "createdAt": {
             "format": "datetime",
             "type": "string"

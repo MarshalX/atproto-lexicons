@@ -1,45 +1,45 @@
 {
-  "id": "dev.knotless.deleteTheme",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Deletes the dev.knotless.theme record from the account logged in to this appview's web pages. Those who chose it keep its colours, copied into their preferences. Requires the session cookie the pages' login sets.",
+      "errors": [
+        {
+          "description": "No theme of the account's own.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "uri": {
+              "description": "The theme, one of the account's own.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
           "required": [
             "uri"
           ],
-          "properties": {
-            "uri": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The theme, one of the account's own."
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "InvalidRequest",
-          "description": "No theme of the account's own."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
+          "type": "object"
         }
-      ],
-      "output": {
-        "schema": {
-          "type": "object",
-          "properties": {}
-        },
-        "encoding": "application/json"
       },
-      "description": "Deletes the dev.knotless.theme record from the account logged in to this appview's web pages. Those who chose it keep its colours, copied into their preferences. Requires the session cookie the pages' login sets."
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Takes back a theme the account logged in to this appview's pages published."
+  "description": "Takes back a theme the account logged in to this appview's pages published.",
+  "id": "dev.knotless.deleteTheme",
+  "lexicon": 1
 }

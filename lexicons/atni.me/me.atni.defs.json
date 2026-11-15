@@ -38,6 +38,10 @@
           "minLength": 1,
           "type": "string"
         },
+        "totalEpisodes": {
+          "minimum": 0,
+          "type": "integer"
+        },
         "year": {
           "minimum": 1900,
           "type": "integer"

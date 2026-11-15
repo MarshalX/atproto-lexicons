@@ -1,33 +1,33 @@
 {
-  "id": "social.grain.graph.unmuteActor",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Unmute an actor.",
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "actor": {
+              "format": "did",
+              "type": "string"
+            }
+          },
           "required": [
             "actor"
           ],
-          "properties": {
-            "actor": {
-              "type": "string",
-              "format": "did"
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "properties": {}
-        },
-        "encoding": "application/json"
+          "properties": {},
+          "type": "object"
+        }
       },
-      "description": "Unmute an actor."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.graph.unmuteActor",
   "lexicon": 1
 }

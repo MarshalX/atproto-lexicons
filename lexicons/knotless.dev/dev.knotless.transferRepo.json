@@ -1,69 +1,69 @@
 {
-  "id": "dev.knotless.transferRepo",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Names, in the repository's dev.knotless.repo record, the account and name it is offered to, as `knotless repo transfer` does, or with no `to` takes the offer back. It moves when that account takes it up (dev.knotless.acceptTransfer). A private repository cannot move. Only its owner, logged in to this appview's web pages, can: the appview writes with the session it keeps for that account, which the pages' session cookie names.",
+      "errors": [
+        {
+          "description": "No such repository.",
+          "name": "NotFound"
+        },
+        {
+          "description": "The account is the owner's own, there is no such account, or the repository is private.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        },
+        {
+          "description": "The account logged in is not the repository's owner.",
+          "name": "Forbidden"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "name": {
+              "description": "The name it would have there: its own when absent.",
+              "maxLength": 100,
+              "type": "string"
+            },
+            "repo": {
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "to": {
+              "description": "The account to offer it to, by handle or DID. Absent, the offer is withdrawn.",
+              "format": "at-identifier",
+              "type": "string"
+            }
+          },
           "required": [
             "repo"
           ],
-          "properties": {
-            "to": {
-              "type": "string",
-              "format": "at-identifier",
-              "description": "The account to offer it to, by handle or DID. Absent, the offer is withdrawn."
-            },
-            "name": {
-              "type": "string",
-              "maxLength": 100,
-              "description": "The name it would have there: its own when absent."
-            },
-            "repo": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "NotFound",
-          "description": "No such repository."
-        },
-        {
-          "name": "InvalidRequest",
-          "description": "The account is the owner's own, there is no such account, or the repository is private."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
-        },
-        {
-          "name": "Forbidden",
-          "description": "The account logged in is not the repository's owner."
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
           "properties": {
             "transfer": {
+              "description": "Where it is offered now; absent once withdrawn.",
               "ref": "dev.knotless.defs#repoViewBasic",
-              "type": "ref",
-              "description": "Where it is offered now; absent once withdrawn."
+              "type": "ref"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "type": "object"
+        }
       },
-      "description": "Names, in the repository's dev.knotless.repo record, the account and name it is offered to, as `knotless repo transfer` does, or with no `to` takes the offer back. It moves when that account takes it up (dev.knotless.acceptTransfer). A private repository cannot move. Only its owner, logged in to this appview's web pages, can: the appview writes with the session it keeps for that account, which the pages' session cookie names."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Offers a repository to another account, or withdraws the offer."
+  "description": "Offers a repository to another account, or withdraws the offer.",
+  "id": "dev.knotless.transferRepo",
+  "lexicon": 1
 }

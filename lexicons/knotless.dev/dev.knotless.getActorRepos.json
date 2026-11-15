@@ -1,57 +1,57 @@
 {
-  "id": "dev.knotless.getActorRepos",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "Every repository an account's PDS holds, newest first, as its dev.knotless.repo records say now rather than as an appview has indexed them. No authentication needed; asked as the account itself, with a service token or the pages' session cookie, its private repositories are listed too, and the answer is that account's alone.",
       "errors": [
         {
-          "name": "ProfileNotFound",
-          "description": "No account by that DID or handle, or its PDS cannot be reached."
+          "description": "No account by that DID or handle, or its PDS cannot be reached.",
+          "name": "ProfileNotFound"
         }
       ],
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "repos"
-          ],
           "properties": {
             "repos": {
-              "type": "array",
-              "items": {
-                "ref": "dev.knotless.defs#repoView",
-                "type": "ref"
-              }
-            },
-            "shared": {
-              "type": "array",
               "items": {
                 "ref": "dev.knotless.defs#repoView",
                 "type": "ref"
               },
-              "description": "Asked as the account itself: the private repositories of other accounts it was proven a member of on this server, newest first, each private. Left out otherwise, or when there are none."
+              "type": "array"
+            },
+            "shared": {
+              "description": "Asked as the account itself: the private repositories of other accounts it was proven a member of on this server, newest first, each private. Left out otherwise, or when there are none.",
+              "items": {
+                "ref": "dev.knotless.defs#repoView",
+                "type": "ref"
+              },
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "repos"
+          ],
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "actor": {
+            "description": "The account, by DID or handle.",
+            "format": "at-identifier",
+            "type": "string"
+          }
+        },
         "required": [
           "actor"
         ],
-        "properties": {
-          "actor": {
-            "type": "string",
-            "format": "at-identifier",
-            "description": "The account, by DID or handle."
-          }
-        }
+        "type": "params"
       },
-      "description": "Every repository an account's PDS holds, newest first, as its dev.knotless.repo records say now rather than as an appview has indexed them. No authentication needed; asked as the account itself, with a service token or the pages' session cookie, its private repositories are listed too, and the answer is that account's alone."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "The repositories an account holds, read from its PDS."
+  "description": "The repositories an account holds, read from its PDS.",
+  "id": "dev.knotless.getActorRepos",
+  "lexicon": 1
 }

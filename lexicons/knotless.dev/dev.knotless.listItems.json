@@ -1,115 +1,115 @@
 {
-  "id": "dev.knotless.listItems",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "A repository's pulls or its issues, open or closed, newest first, a page at a time: follow `cursor` until it is absent. `q` filters them as GitHub's search does. No authentication needed; asked as an account, with a service token or the pages' session cookie, a private repository it is a member of is read too, and the answer is that account's alone.",
       "errors": [
         {
-          "name": "NotFound",
-          "description": "No such repository; or this appview keeps no index, so it knows no pulls or issues."
+          "description": "No such repository; or this appview keeps no index, so it knows no pulls or issues.",
+          "name": "NotFound"
         }
       ],
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "authors": {
+              "description": "Who opened pulls or issues of its kind, in any state, the most recent first, for a filter to name. Absent when there are none.",
+              "items": {
+                "ref": "dev.knotless.defs#actorView",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "closedCount": {
+              "description": "How many of its kind are closed or merged, of those `q` matches.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "cursor": {
+              "description": "Absent on the last page.",
+              "type": "string"
+            },
+            "items": {
+              "items": {
+                "ref": "dev.knotless.defs#itemView",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "labels": {
+              "description": "The labels the repository defines, in its order, for a filter to name. Absent when it defines none.",
+              "items": {
+                "ref": "dev.knotless.repo#label",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "openCount": {
+              "description": "How many of its kind are open, of those `q` matches.",
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
           "required": [
             "items",
             "openCount",
             "closedCount"
           ],
-          "properties": {
-            "items": {
-              "type": "array",
-              "items": {
-                "ref": "dev.knotless.defs#itemView",
-                "type": "ref"
-              }
-            },
-            "cursor": {
-              "type": "string",
-              "description": "Absent on the last page."
-            },
-            "labels": {
-              "type": "array",
-              "items": {
-                "ref": "dev.knotless.repo#label",
-                "type": "ref"
-              },
-              "description": "The labels the repository defines, in its order, for a filter to name. Absent when it defines none."
-            },
-            "authors": {
-              "type": "array",
-              "items": {
-                "ref": "dev.knotless.defs#actorView",
-                "type": "ref"
-              },
-              "description": "Who opened pulls or issues of its kind, in any state, the most recent first, for a filter to name. Absent when there are none."
-            },
-            "openCount": {
-              "type": "integer",
-              "minimum": 0,
-              "description": "How many of its kind are open, of those `q` matches."
-            },
-            "closedCount": {
-              "type": "integer",
-              "minimum": 0,
-              "description": "How many of its kind are closed or merged, of those `q` matches."
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
-        "required": [
-          "repo",
-          "kind"
-        ],
         "properties": {
-          "q": {
-            "type": "string",
-            "maxLength": 1024,
-            "description": "A filter, in words: `label:<name>` (each must be on it), `-label:<name>`, `no:label`, `author:<handle or did>` (any of them), `state:open|closed|merged` (over `state`), `is:pull|issue`, and words its title or body holds, ignoring case. Double quotes keep a value or words together; a qualifier it does not know is a word. The counts are of those it matches."
+          "cursor": {
+            "description": "How many the pages before held.",
+            "maxLength": 32,
+            "type": "string"
           },
           "kind": {
-            "type": "string",
-            "maxLength": 16,
             "knownValues": [
               "pull",
               "issue"
-            ]
-          },
-          "repo": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The repository's dev.knotless.repo record. Its authority may be a handle; a name the repository had before, or an owner it moved from with its agreement, finds it under the name it has now."
+            ],
+            "maxLength": 16,
+            "type": "string"
           },
           "limit": {
-            "type": "integer",
             "default": 50,
             "maximum": 100,
-            "minimum": 1
+            "minimum": 1,
+            "type": "integer"
+          },
+          "q": {
+            "description": "A filter, in words: `label:<name>` (each must be on it), `-label:<name>`, `no:label`, `author:<handle or did>` (any of them), `state:open|closed|merged` (over `state`), `is:pull|issue`, and words its title or body holds, ignoring case. Double quotes keep a value or words together; a qualifier it does not know is a word. The counts are of those it matches.",
+            "maxLength": 1024,
+            "type": "string"
+          },
+          "repo": {
+            "description": "The repository's dev.knotless.repo record. Its authority may be a handle; a name the repository had before, or an owner it moved from with its agreement, finds it under the name it has now.",
+            "format": "at-uri",
+            "type": "string"
           },
           "state": {
-            "type": "string",
-            "maxLength": 16,
             "description": "Open ones, or those closed and merged; open if absent.",
             "knownValues": [
               "open",
               "closed"
-            ]
-          },
-          "cursor": {
-            "type": "string",
-            "maxLength": 32,
-            "description": "How many the pages before held."
+            ],
+            "maxLength": 16,
+            "type": "string"
           }
-        }
+        },
+        "required": [
+          "repo",
+          "kind"
+        ],
+        "type": "params"
       },
-      "description": "A repository's pulls or its issues, open or closed, newest first, a page at a time: follow `cursor` until it is absent. `q` filters them as GitHub's search does. No authentication needed; asked as an account, with a service token or the pages' session cookie, a private repository it is a member of is read too, and the answer is that account's alone."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "A repository's pulls or issues."
+  "description": "A repository's pulls or issues.",
+  "id": "dev.knotless.listItems",
+  "lexicon": 1
 }

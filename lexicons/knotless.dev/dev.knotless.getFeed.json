@@ -1,330 +1,156 @@
 {
-  "id": "dev.knotless.getFeed",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
-    "main": {
-      "type": "query",
-      "output": {
-        "schema": {
-          "type": "object",
-          "required": [
-            "events"
-          ],
-          "properties": {
-            "cursor": {
-              "type": "string",
-              "description": "Where the next page starts, when there may be one."
-            },
-            "events": {
-              "type": "array",
-              "items": {
-                "ref": "#eventView",
-                "type": "ref"
-              }
-            }
-          }
+    "actorView": {
+      "properties": {
+        "avatar": {
+          "description": "The account's picture, as in dev.knotless.getProfile#profileView.",
+          "format": "uri",
+          "type": "string"
         },
-        "encoding": "application/json"
-      },
-      "parameters": {
-        "type": "params",
-        "properties": {
-          "kind": {
-            "type": "string",
-            "description": "Only what is of this kind: refs pushed and deleted, pulls or issues opened and moved between states, comments, repositories starred, or repositories created and forked. A kind the appview does not know answers nothing.",
-            "knownValues": [
-              "pushes",
-              "pulls",
-              "issues",
-              "comments",
-              "stars",
-              "repos"
-            ]
-          },
-          "actor": {
-            "type": "string",
-            "format": "did",
-            "description": "Only what this account did: the repositories it created, the refs it pushed, the pulls, issues, comments and changes of state it wrote, and the repositories it starred."
-          },
-          "limit": {
-            "type": "integer",
-            "default": 40,
-            "maximum": 100,
-            "minimum": 1
-          },
-          "cursor": {
-            "type": "string",
-            "description": "Where the page starts: a previous page's cursor."
-          },
-          "filter": {
-            "type": "string",
-            "default": "everyone",
-            "description": "Whose doings: `everyone`'s, or with `following`, those of the account asking and whom it follows, which needs an account to ask.",
-            "knownValues": [
-              "everyone",
-              "following"
-            ]
-          }
+        "bot": {
+          "description": "Whether its knotless profile says it is a bot, as in dev.knotless.defs#actorView.",
+          "type": "boolean"
+        },
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "handle": {
+          "description": "The handle the account claims, when it resolves back to it; else the DID.",
+          "type": "string"
         }
       },
-      "description": "What happened on the public repositories an appview has indexed, newest first: repositories created and forked, refs pushed and deleted, pulls and issues opened, discussed and moved between states, and repositories starred. With filter `following`, what the account asking and those it follows did, and anything done on its repositories and those it starred; without, the same for anyone, but no stars. Without `actor`, what a repository's bots said or pushed on it is left out: the runners and triagers its record names, but its owner and collaborators. A pull a runner merged landing the merge queue is shown as merged by whoever queued it."
-    },
-    "opened": {
-      "type": "object",
       "required": [
-        "subject",
-        "title"
+        "did",
+        "handle"
       ],
+      "type": "object"
+    },
+    "changed": {
+      "description": "A pull or an issue moved to another state.",
       "properties": {
-        "title": {
+        "state": {
+          "knownValues": [
+            "open",
+            "closed",
+            "merged"
+          ],
           "type": "string"
         },
         "subject": {
-          "type": "string",
           "format": "at-uri",
-          "description": "The dev.knotless.pull or dev.knotless.issue record."
+          "type": "string"
         },
         "subjectState": {
-          "type": "string",
           "description": "Where the subject stands now, whoever moved it there.",
           "knownValues": [
             "open",
             "closed",
             "merged"
-          ]
+          ],
+          "type": "string"
+        },
+        "title": {
+          "description": "The subject's title.",
+          "type": "string"
         }
       },
-      "description": "A pull or an issue opened."
-    },
-    "pushed": {
-      "type": "object",
-      "required": [
-        "ref",
-        "created",
-        "count",
-        "new",
-        "commits"
-      ],
-      "properties": {
-        "to": {
-          "type": "string",
-          "description": "The commit the ref was left at, in hex: what the push brought, which a page can link to after the ref is gone."
-        },
-        "new": {
-          "type": "integer",
-          "maximum": 100,
-          "minimum": 0,
-          "description": "Of those, the commits no other ref of the repository had before, and no event before it on the same page lists; the rest are only counted."
-        },
-        "ref": {
-          "type": "string",
-          "description": "The full ref name, such as refs/heads/main."
-        },
-        "count": {
-          "type": "integer",
-          "maximum": 100,
-          "minimum": 0,
-          "description": "Commits the push brought; 100 means at least that many. A forced push's leave out those it brought again: the same author, at the same time, with the same message as a commit it left behind."
-        },
-        "forced": {
-          "type": "boolean",
-          "description": "Whether the ref moved to where it no longer reaches some of what it did, as a rebase or a rewrite does. Absent when not."
-        },
-        "commits": {
-          "type": "array",
-          "items": {
-            "ref": "#commitView",
-            "type": "ref"
-          },
-          "maxLength": 10,
-          "description": "The newest of the new ones, newest first."
-        },
-        "created": {
-          "type": "boolean",
-          "description": "Whether the ref was new."
-        }
-      },
-      "description": "A ref created or moved, or moved again and again by one account, each move within an hour of the last, as one. A new ref brings what the repository's default branch did not reach just before, nor its fork source's; a fork's copies of its source's refs are not events."
-    },
-    "changed": {
-      "type": "object",
       "required": [
         "subject",
         "title",
         "state"
       ],
+      "type": "object"
+    },
+    "commented": {
+      "description": "A comment or review on a pull or an issue.",
       "properties": {
-        "state": {
-          "type": "string",
-          "knownValues": [
-            "open",
-            "closed",
-            "merged"
-          ]
-        },
-        "title": {
-          "type": "string",
-          "description": "The subject's title."
-        },
         "subject": {
-          "type": "string",
-          "format": "at-uri"
+          "format": "at-uri",
+          "type": "string"
         },
         "subjectState": {
-          "type": "string",
           "description": "Where the subject stands now, whoever moved it there.",
           "knownValues": [
             "open",
             "closed",
             "merged"
-          ]
-        }
-      },
-      "description": "A pull or an issue moved to another state."
-    },
-    "created": {
-      "type": "object",
-      "properties": {
-        "forkOf": {
-          "ref": "#repoView",
-          "type": "ref"
+          ],
+          "type": "string"
         },
-        "description": {
-          "type": "string",
-          "maxLength": 3000,
-          "maxGraphemes": 300
-        }
-      },
-      "description": "A repository created, or forked from another."
-    },
-    "deleted": {
-      "type": "object",
-      "required": [
-        "ref"
-      ],
-      "properties": {
-        "ref": {
+        "text": {
+          "description": "The comment, as Markdown.",
+          "type": "string"
+        },
+        "title": {
+          "description": "The subject's title.",
+          "type": "string"
+        },
+        "verdict": {
+          "knownValues": [
+            "approve",
+            "changes"
+          ],
           "type": "string"
         }
       },
-      "description": "A ref deleted."
-    },
-    "starred": {
-      "type": "object",
-      "properties": {
-        "subject": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The dev.knotless.repo record starred."
-        }
-      },
-      "description": "The event's repository starred."
-    },
-    "repoView": {
-      "type": "object",
-      "required": [
-        "did",
-        "handle",
-        "name"
-      ],
-      "properties": {
-        "did": {
-          "type": "string",
-          "format": "did",
-          "description": "The repository's owner."
-        },
-        "name": {
-          "type": "string",
-          "maxLength": 100
-        },
-        "handle": {
-          "type": "string",
-          "description": "The owner's handle, as in #actorView."
-        }
-      },
-      "description": "A repository, under the name it has now."
-    },
-    "actorView": {
-      "type": "object",
-      "required": [
-        "did",
-        "handle"
-      ],
-      "properties": {
-        "bot": {
-          "type": "boolean",
-          "description": "Whether its knotless profile says it is a bot, as in dev.knotless.defs#actorView."
-        },
-        "did": {
-          "type": "string",
-          "format": "did"
-        },
-        "avatar": {
-          "type": "string",
-          "format": "uri",
-          "description": "The account's picture, as in dev.knotless.getProfile#profileView."
-        },
-        "handle": {
-          "type": "string",
-          "description": "The handle the account claims, when it resolves back to it; else the DID."
-        }
-      }
-    },
-    "commented": {
-      "type": "object",
       "required": [
         "subject",
         "title",
         "text"
       ],
+      "type": "object"
+    },
+    "commitView": {
       "properties": {
-        "text": {
-          "type": "string",
-          "description": "The comment, as Markdown."
+        "merge": {
+          "description": "Whether the commit has more than one parent. Absent when not.",
+          "type": "boolean"
         },
-        "title": {
-          "type": "string",
-          "description": "The subject's title."
+        "message": {
+          "type": "string"
         },
-        "subject": {
-          "type": "string",
-          "format": "at-uri"
-        },
-        "verdict": {
-          "type": "string",
-          "knownValues": [
-            "approve",
-            "changes"
-          ]
-        },
-        "subjectState": {
-          "type": "string",
-          "description": "Where the subject stands now, whoever moved it there.",
-          "knownValues": [
-            "open",
-            "closed",
-            "merged"
-          ]
+        "sha": {
+          "type": "string"
         }
       },
-      "description": "A comment or review on a pull or an issue."
-    },
-    "eventView": {
-      "type": "object",
       "required": [
-        "createdAt",
-        "actor",
-        "repo",
-        "action"
+        "sha",
+        "message"
       ],
+      "type": "object"
+    },
+    "created": {
+      "description": "A repository created, or forked from another.",
       "properties": {
-        "repo": {
+        "description": {
+          "maxGraphemes": 300,
+          "maxLength": 3000,
+          "type": "string"
+        },
+        "forkOf": {
           "ref": "#repoView",
           "type": "ref"
-        },
-        "actor": {
-          "ref": "#actorView",
-          "type": "ref"
-        },
+        }
+      },
+      "type": "object"
+    },
+    "deleted": {
+      "description": "A ref deleted.",
+      "properties": {
+        "ref": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "ref"
+      ],
+      "type": "object"
+    },
+    "eventView": {
+      "description": "Something an account did to a repository.",
+      "properties": {
         "action": {
           "refs": [
             "#created",
@@ -337,35 +163,209 @@
           ],
           "type": "union"
         },
+        "actor": {
+          "ref": "#actorView",
+          "type": "ref"
+        },
         "createdAt": {
-          "type": "string",
+          "description": "When the record saying so was made.",
           "format": "datetime",
-          "description": "When the record saying so was made."
+          "type": "string"
+        },
+        "repo": {
+          "ref": "#repoView",
+          "type": "ref"
         }
       },
-      "description": "Something an account did to a repository."
-    },
-    "commitView": {
-      "type": "object",
       "required": [
-        "sha",
-        "message"
+        "createdAt",
+        "actor",
+        "repo",
+        "action"
       ],
+      "type": "object"
+    },
+    "main": {
+      "description": "What happened on the public repositories an appview has indexed, newest first: repositories created and forked, refs pushed and deleted, pulls and issues opened, discussed and moved between states, and repositories starred. With filter `following`, what the account asking and those it follows did, and anything done on its repositories and those it starred; without, the same for anyone, but no stars. Without `actor`, what a repository's bots said or pushed on it is left out: the runners and triagers its record names, but its owner and collaborators. A pull a runner merged landing the merge queue is shown as merged by whoever queued it.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "description": "Where the next page starts, when there may be one.",
+              "type": "string"
+            },
+            "events": {
+              "items": {
+                "ref": "#eventView",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "events"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "actor": {
+            "description": "Only what this account did: the repositories it created, the refs it pushed, the pulls, issues, comments and changes of state it wrote, and the repositories it starred.",
+            "format": "did",
+            "type": "string"
+          },
+          "cursor": {
+            "description": "Where the page starts: a previous page's cursor.",
+            "type": "string"
+          },
+          "filter": {
+            "default": "everyone",
+            "description": "Whose doings: `everyone`'s, or with `following`, those of the account asking and whom it follows, which needs an account to ask.",
+            "knownValues": [
+              "everyone",
+              "following"
+            ],
+            "type": "string"
+          },
+          "kind": {
+            "description": "Only what is of this kind: refs pushed and deleted, pulls or issues opened and moved between states, comments, repositories starred, or repositories created and forked. A kind the appview does not know answers nothing.",
+            "knownValues": [
+              "pushes",
+              "pulls",
+              "issues",
+              "comments",
+              "stars",
+              "repos"
+            ],
+            "type": "string"
+          },
+          "limit": {
+            "default": 40,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "type": "params"
+      },
+      "type": "query"
+    },
+    "opened": {
+      "description": "A pull or an issue opened.",
       "properties": {
-        "sha": {
+        "subject": {
+          "description": "The dev.knotless.pull or dev.knotless.issue record.",
+          "format": "at-uri",
           "type": "string"
         },
-        "merge": {
-          "type": "boolean",
-          "description": "Whether the commit has more than one parent. Absent when not."
+        "subjectState": {
+          "description": "Where the subject stands now, whoever moved it there.",
+          "knownValues": [
+            "open",
+            "closed",
+            "merged"
+          ],
+          "type": "string"
         },
-        "message": {
+        "title": {
           "type": "string"
         }
-      }
+      },
+      "required": [
+        "subject",
+        "title"
+      ],
+      "type": "object"
+    },
+    "pushed": {
+      "description": "A ref created or moved, or moved again and again by one account, each move within an hour of the last, as one. A new ref brings what the repository's default branch did not reach just before, nor its fork source's; a fork's copies of its source's refs are not events.",
+      "properties": {
+        "commits": {
+          "description": "The newest of the new ones, newest first.",
+          "items": {
+            "ref": "#commitView",
+            "type": "ref"
+          },
+          "maxLength": 10,
+          "type": "array"
+        },
+        "count": {
+          "description": "Commits the push brought; 100 means at least that many. A forced push's leave out those it brought again: the same author, at the same time, with the same message as a commit it left behind.",
+          "maximum": 100,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "created": {
+          "description": "Whether the ref was new.",
+          "type": "boolean"
+        },
+        "forced": {
+          "description": "Whether the ref moved to where it no longer reaches some of what it did, as a rebase or a rewrite does. Absent when not.",
+          "type": "boolean"
+        },
+        "new": {
+          "description": "Of those, the commits no other ref of the repository had before, and no event before it on the same page lists; the rest are only counted.",
+          "maximum": 100,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "ref": {
+          "description": "The full ref name, such as refs/heads/main.",
+          "type": "string"
+        },
+        "to": {
+          "description": "The commit the ref was left at, in hex: what the push brought, which a page can link to after the ref is gone.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "ref",
+        "created",
+        "count",
+        "new",
+        "commits"
+      ],
+      "type": "object"
+    },
+    "repoView": {
+      "description": "A repository, under the name it has now.",
+      "properties": {
+        "did": {
+          "description": "The repository's owner.",
+          "format": "did",
+          "type": "string"
+        },
+        "handle": {
+          "description": "The owner's handle, as in #actorView.",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 100,
+          "type": "string"
+        }
+      },
+      "required": [
+        "did",
+        "handle",
+        "name"
+      ],
+      "type": "object"
+    },
+    "starred": {
+      "description": "The event's repository starred.",
+      "properties": {
+        "subject": {
+          "description": "The dev.knotless.repo record starred.",
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "What happened on the public repositories an appview has indexed, newest first."
+  "description": "What happened on the public repositories an appview has indexed, newest first.",
+  "id": "dev.knotless.getFeed",
+  "lexicon": 1
 }

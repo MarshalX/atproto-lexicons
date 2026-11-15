@@ -1,75 +1,75 @@
 {
-  "id": "dev.knotless.getCommit",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "A commit, and what it changed, file by file, as `git show` has it. No authentication needed; asked as an account, with a service token or the pages' session cookie, a private repository it is a member of is read too, and the answer is that account's alone.",
       "errors": [
         {
-          "name": "NotFound",
-          "description": "No such repository, revision, path or record."
+          "description": "No such repository, revision, path or record.",
+          "name": "NotFound"
         }
       ],
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "commit",
-            "files"
-          ],
           "properties": {
+            "commit": {
+              "ref": "dev.knotless.defs#commitView",
+              "type": "ref"
+            },
             "files": {
-              "type": "array",
+              "description": "The files it changed, as an editor's file tree lists them, in each directory its directories before its files, each by name: of those `paths` names, if any.",
               "items": {
                 "ref": "dev.knotless.defs#fileDiffView",
                 "type": "ref"
               },
-              "description": "The files it changed, as an editor's file tree lists them, in each directory its directories before its files, each by name: of those `paths` names, if any."
-            },
-            "commit": {
-              "ref": "dev.knotless.defs#commitView",
-              "type": "ref"
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "commit",
+            "files"
+          ],
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "firstRows": {
+            "default": false,
+            "description": "The rows of the first files only, as a page draws them at once: from the first, those whose rows would be shown, up to 10 files and 1500 changed lines, passing over any that changes more than 400. The rest come without their rows, but with how many there are, to be asked for by `paths`.",
+            "type": "boolean"
+          },
+          "paths": {
+            "description": "Only these files, rows and all, by their paths after the change, or before it for one deleted; a renamed file is found as such only when both its paths are named.",
+            "items": {
+              "maxLength": 4096,
+              "type": "string"
+            },
+            "maxLength": 50,
+            "type": "array"
+          },
+          "repo": {
+            "description": "The repository's dev.knotless.repo record. Its authority may be a handle; a name the repository had before, or an owner it moved from with its agreement, finds it under the name it has now.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "sha": {
+            "description": "The commit, by object name or anything else git takes.",
+            "maxLength": 1024,
+            "type": "string"
+          }
+        },
         "required": [
           "repo",
           "sha"
         ],
-        "properties": {
-          "sha": {
-            "type": "string",
-            "maxLength": 1024,
-            "description": "The commit, by object name or anything else git takes."
-          },
-          "repo": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The repository's dev.knotless.repo record. Its authority may be a handle; a name the repository had before, or an owner it moved from with its agreement, finds it under the name it has now."
-          },
-          "paths": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "maxLength": 4096
-            },
-            "maxLength": 50,
-            "description": "Only these files, rows and all, by their paths after the change, or before it for one deleted; a renamed file is found as such only when both its paths are named."
-          },
-          "firstRows": {
-            "type": "boolean",
-            "default": false,
-            "description": "The rows of the first files only, as a page draws them at once: from the first, those whose rows would be shown, up to 10 files and 1500 changed lines, passing over any that changes more than 400. The rest come without their rows, but with how many there are, to be asked for by `paths`."
-          }
-        }
+        "type": "params"
       },
-      "description": "A commit, and what it changed, file by file, as `git show` has it. No authentication needed; asked as an account, with a service token or the pages' session cookie, a private repository it is a member of is read too, and the answer is that account's alone."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "A commit and what it changed."
+  "description": "A commit and what it changed.",
+  "id": "dev.knotless.getCommit",
+  "lexicon": 1
 }

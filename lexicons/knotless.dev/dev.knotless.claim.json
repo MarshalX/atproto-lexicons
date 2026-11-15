@@ -1,65 +1,65 @@
 {
-  "id": "dev.knotless.claim",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "Keyed `<repo key>.<ref hash>.<generation moved from>`. Two writers that read the same generation both try to create the same key, and the PDS accepts only the first; the dev.knotless.ref update travelling with it in the same applyWrites is refused along with it. Never updated.",
       "key": "any",
-      "type": "record",
       "record": {
-        "type": "object",
+        "properties": {
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "from": {
+            "description": "The hex object ID the ref pointed at before; absent when the ref is new.",
+            "maxLength": 64,
+            "minLength": 40,
+            "type": "string"
+          },
+          "generation": {
+            "description": "The generation the ref moved from.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "name": {
+            "description": "The full ref name, such as refs/heads/main.",
+            "maxLength": 1024,
+            "type": "string"
+          },
+          "pack": {
+            "description": "The record key of the dev.knotless.pack written with the move, if any.",
+            "format": "record-key",
+            "type": "string"
+          },
+          "pusher": {
+            "description": "The account that moved the ref, when not the repository's owner: a collaborator or runner pushing through the gateway, which sets it from the caller's verified service token. Readers credit it only while the repository names it among its collaborators or runners.",
+            "format": "did",
+            "type": "string"
+          },
+          "repo": {
+            "description": "The `key` of the dev.knotless.repo the ref belongs to.",
+            "format": "tid",
+            "type": "string"
+          },
+          "to": {
+            "description": "The hex object ID the ref points at after; absent when the ref is deleted.",
+            "maxLength": 64,
+            "minLength": 40,
+            "type": "string"
+          }
+        },
         "required": [
           "repo",
           "name",
           "generation",
           "createdAt"
         ],
-        "properties": {
-          "to": {
-            "type": "string",
-            "maxLength": 64,
-            "minLength": 40,
-            "description": "The hex object ID the ref points at after; absent when the ref is deleted."
-          },
-          "from": {
-            "type": "string",
-            "maxLength": 64,
-            "minLength": 40,
-            "description": "The hex object ID the ref pointed at before; absent when the ref is new."
-          },
-          "name": {
-            "type": "string",
-            "maxLength": 1024,
-            "description": "The full ref name, such as refs/heads/main."
-          },
-          "pack": {
-            "type": "string",
-            "format": "record-key",
-            "description": "The record key of the dev.knotless.pack written with the move, if any."
-          },
-          "repo": {
-            "type": "string",
-            "format": "tid",
-            "description": "The `key` of the dev.knotless.repo the ref belongs to."
-          },
-          "pusher": {
-            "type": "string",
-            "format": "did",
-            "description": "The account that moved the ref, when not the repository's owner: a collaborator or runner pushing through the gateway, which sets it from the caller's verified service token. Readers credit it only while the repository names it among its collaborators or runners."
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "datetime"
-          },
-          "generation": {
-            "type": "integer",
-            "minimum": 0,
-            "description": "The generation the ref moved from."
-          }
-        }
+        "type": "object"
       },
-      "description": "Keyed `<repo key>.<ref hash>.<generation moved from>`. Two writers that read the same generation both try to create the same key, and the PDS accepts only the first; the dev.knotless.ref update travelling with it in the same applyWrites is refused along with it. Never updated."
+      "type": "record"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "The move of a ref off one generation: its key is the compare-and-swap, its body the reflog entry."
+  "description": "The move of a ref off one generation: its key is the compare-and-swap, its body the reflog entry.",
+  "id": "dev.knotless.claim",
+  "lexicon": 1
 }

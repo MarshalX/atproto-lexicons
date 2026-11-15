@@ -1,69 +1,69 @@
 {
-  "id": "social.grain.unspecced.getBlocks",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
-    "main": {
-      "type": "query",
-      "output": {
-        "schema": {
-          "type": "object",
-          "properties": {
-            "items": {
-              "type": "array",
-              "items": {
-                "ref": "social.grain.unspecced.getBlocks#blockItem",
-                "type": "ref"
-              }
-            },
-            "cursor": {
-              "type": "string"
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "parameters": {
-        "type": "params",
-        "properties": {
-          "limit": {
-            "type": "integer",
-            "default": 50,
-            "maximum": 100,
-            "minimum": 1
-          },
-          "cursor": {
-            "type": "string"
-          }
-        }
-      },
-      "description": "Get the viewer's blocked users."
-    },
     "blockItem": {
-      "type": "object",
-      "required": [
-        "did",
-        "blockUri"
-      ],
       "properties": {
-        "did": {
-          "type": "string",
-          "format": "did"
-        },
         "avatar": {
+          "type": "string"
+        },
+        "blockUri": {
+          "format": "at-uri",
+          "type": "string"
+        },
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "displayName": {
           "type": "string"
         },
         "handle": {
           "type": "string"
-        },
-        "blockUri": {
-          "type": "string",
-          "format": "at-uri"
-        },
-        "displayName": {
-          "type": "string"
         }
-      }
+      },
+      "required": [
+        "did",
+        "blockUri"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "Get the viewer's blocked users.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "items": {
+              "items": {
+                "ref": "social.grain.unspecced.getBlocks#blockItem",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "type": "string"
+          },
+          "limit": {
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "type": "params"
+      },
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.getBlocks",
   "lexicon": 1
 }

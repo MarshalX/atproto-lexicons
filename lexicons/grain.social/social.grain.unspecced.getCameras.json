@@ -1,50 +1,50 @@
 {
-  "id": "social.grain.unspecced.getCameras",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
-    "main": {
-      "type": "query",
-      "output": {
-        "schema": {
-          "type": "object",
-          "properties": {
-            "cameras": {
-              "type": "array",
-              "items": {
-                "ref": "social.grain.unspecced.getCameras#cameraItem",
-                "type": "ref"
-              }
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "description": "Get top cameras by photo count."
-    },
     "cameraItem": {
-      "type": "object",
-      "required": [
-        "camera",
-        "photoCount"
-      ],
       "properties": {
         "camera": {
           "type": "string"
         },
-        "thumbs": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "format": "uri"
-          },
-          "maxLength": 4,
-          "description": "Up to four representative photo thumbnails, most recent first. Lets the index render without a feed request per camera."
-        },
         "photoCount": {
           "type": "integer"
+        },
+        "thumbs": {
+          "description": "Up to four representative photo thumbnails, most recent first. Lets the index render without a feed request per camera.",
+          "items": {
+            "format": "uri",
+            "type": "string"
+          },
+          "maxLength": 4,
+          "type": "array"
         }
-      }
+      },
+      "required": [
+        "camera",
+        "photoCount"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "Get top cameras by photo count.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cameras": {
+              "items": {
+                "ref": "social.grain.unspecced.getCameras#cameraItem",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.getCameras",
   "lexicon": 1
 }

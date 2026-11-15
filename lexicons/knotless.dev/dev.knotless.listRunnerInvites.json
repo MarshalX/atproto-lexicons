@@ -1,76 +1,76 @@
 {
-  "id": "dev.knotless.listRunnerInvites",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
-    "main": {
-      "type": "query",
-      "output": {
-        "schema": {
-          "type": "object",
-          "required": [
-            "invites"
-          ],
-          "properties": {
-            "cursor": {
-              "type": "string",
-              "maxLength": 32,
-              "description": "Where this page ended: the cursor to ask from for invites after it, kept even when it is the last."
-            },
-            "invites": {
-              "type": "array",
-              "items": {
-                "ref": "#invite",
-                "type": "ref"
-              }
-            }
-          }
+    "invite": {
+      "description": "A private repository that invited the caller.",
+      "properties": {
+        "createdAt": {
+          "description": "When it last invited the caller.",
+          "format": "datetime",
+          "type": "string"
         },
-        "encoding": "application/json"
-      },
-      "parameters": {
-        "type": "params",
-        "properties": {
-          "limit": {
-            "type": "integer",
-            "default": 100,
-            "maximum": 500,
-            "minimum": 1
-          },
-          "cursor": {
-            "type": "string",
-            "maxLength": 32,
-            "description": "Those after the invite a page ended at."
-          }
+        "did": {
+          "description": "The repository's owner.",
+          "format": "did",
+          "type": "string"
+        },
+        "name": {
+          "description": "The repository's name: its record key.",
+          "maxLength": 100,
+          "type": "string"
         }
       },
-      "description": "The invites dev.knotless.inviteRunner left for the caller, oldest first: the private repositories that say they name it among their runners, or triagers. Requires a service token from the caller's PDS, audience the appview's DID, for this method."
-    },
-    "invite": {
-      "type": "object",
       "required": [
         "did",
         "name",
         "createdAt"
       ],
-      "properties": {
-        "did": {
-          "type": "string",
-          "format": "did",
-          "description": "The repository's owner."
-        },
-        "name": {
-          "type": "string",
-          "maxLength": 100,
-          "description": "The repository's name: its record key."
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "datetime",
-          "description": "When it last invited the caller."
+      "type": "object"
+    },
+    "main": {
+      "description": "The invites dev.knotless.inviteRunner left for the caller, oldest first: the private repositories that say they name it among their runners, or triagers. Requires a service token from the caller's PDS, audience the appview's DID, for this method.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "description": "Where this page ended: the cursor to ask from for invites after it, kept even when it is the last.",
+              "maxLength": 32,
+              "type": "string"
+            },
+            "invites": {
+              "items": {
+                "ref": "#invite",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "invites"
+          ],
+          "type": "object"
         }
       },
-      "description": "A private repository that invited the caller."
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "description": "Those after the invite a page ended at.",
+            "maxLength": 32,
+            "type": "string"
+          },
+          "limit": {
+            "default": 100,
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "type": "params"
+      },
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "dev.knotless.listRunnerInvites",
   "lexicon": 1
 }

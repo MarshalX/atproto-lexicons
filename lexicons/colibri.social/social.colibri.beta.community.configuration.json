@@ -3,8 +3,8 @@
   "defs": {
     "main": {
       "key": "literal:self",
-      "name": "Colibri community settings",
       "type": "space",
+      "title": "Colibri community settings",
       "collections": [
         "social.colibri.beta.category",
         "social.colibri.beta.community.settings",

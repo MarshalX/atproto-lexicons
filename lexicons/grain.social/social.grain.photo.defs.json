@@ -1,65 +1,123 @@
 {
-  "id": "social.grain.photo.defs",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "exifView": {
-      "type": "object",
-      "required": [
-        "uri",
-        "cid",
-        "photo",
-        "createdAt"
-      ],
       "properties": {
         "cid": {
-          "type": "string",
-          "format": "cid"
+          "format": "cid",
+          "type": "string"
+        },
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "dateTimeOriginal": {
+          "type": "string"
+        },
+        "exposureTime": {
+          "type": "string"
+        },
+        "fNumber": {
+          "type": "string"
+        },
+        "flash": {
+          "type": "string"
+        },
+        "focalLengthIn35mmFormat": {
+          "type": "string"
         },
         "iSO": {
           "type": "integer"
         },
-        "uri": {
-          "type": "string",
-          "format": "at-uri"
-        },
-        "make": {
+        "lensMake": {
           "type": "string"
         },
-        "flash": {
+        "lensModel": {
+          "type": "string"
+        },
+        "make": {
           "type": "string"
         },
         "model": {
           "type": "string"
         },
         "photo": {
-          "type": "string",
-          "format": "at-uri"
-        },
-        "fNumber": {
+          "format": "at-uri",
           "type": "string"
         },
-        "lensMake": {
-          "type": "string"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "datetime"
-        },
-        "lensModel": {
-          "type": "string"
-        },
-        "exposureTime": {
-          "type": "string"
-        },
-        "dateTimeOriginal": {
-          "type": "string"
-        },
-        "focalLengthIn35mmFormat": {
+        "uri": {
+          "format": "at-uri",
           "type": "string"
         }
-      }
+      },
+      "required": [
+        "uri",
+        "cid",
+        "photo",
+        "createdAt"
+      ],
+      "type": "object"
+    },
+    "galleryState": {
+      "description": "Metadata about the photo's relationship with the subject content. Only has meaningful content when photo is attached to a gallery.",
+      "properties": {
+        "item": {
+          "format": "at-uri",
+          "type": "string"
+        },
+        "itemCreatedAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "itemPosition": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "item",
+        "itemCreatedAt",
+        "itemPosition"
+      ],
+      "type": "object"
     },
     "photoView": {
-      "type": "object",
+      "properties": {
+        "alt": {
+          "description": "Alt text description of the image, for accessibility.",
+          "type": "string"
+        },
+        "aspectRatio": {
+          "ref": "social.grain.defs#aspectRatio",
+          "type": "ref"
+        },
+        "cid": {
+          "format": "cid",
+          "type": "string"
+        },
+        "exif": {
+          "description": "EXIF metadata for the photo, if available.",
+          "ref": "social.grain.photo.defs#exifView",
+          "type": "ref"
+        },
+        "fullsize": {
+          "description": "Fully-qualified URL where a large version of the image can be fetched. May or may not be the exact original blob. For example, CDN location provided by the App View.",
+          "format": "uri",
+          "type": "string"
+        },
+        "gallery": {
+          "ref": "#galleryState",
+          "type": "ref"
+        },
+        "thumb": {
+          "description": "Fully-qualified URL where a thumbnail of the image can be fetched. For example, CDN location provided by the App View.",
+          "format": "uri",
+          "type": "string"
+        },
+        "uri": {
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
       "required": [
         "uri",
         "cid",
@@ -67,67 +125,9 @@
         "fullsize",
         "aspectRatio"
       ],
-      "properties": {
-        "alt": {
-          "type": "string",
-          "description": "Alt text description of the image, for accessibility."
-        },
-        "cid": {
-          "type": "string",
-          "format": "cid"
-        },
-        "uri": {
-          "type": "string",
-          "format": "at-uri"
-        },
-        "exif": {
-          "ref": "social.grain.photo.defs#exifView",
-          "type": "ref",
-          "description": "EXIF metadata for the photo, if available."
-        },
-        "thumb": {
-          "type": "string",
-          "format": "uri",
-          "description": "Fully-qualified URL where a thumbnail of the image can be fetched. For example, CDN location provided by the App View."
-        },
-        "gallery": {
-          "ref": "#galleryState",
-          "type": "ref"
-        },
-        "fullsize": {
-          "type": "string",
-          "format": "uri",
-          "description": "Fully-qualified URL where a large version of the image can be fetched. May or may not be the exact original blob. For example, CDN location provided by the App View."
-        },
-        "aspectRatio": {
-          "ref": "social.grain.defs#aspectRatio",
-          "type": "ref"
-        }
-      }
-    },
-    "galleryState": {
-      "type": "object",
-      "required": [
-        "item",
-        "itemCreatedAt",
-        "itemPosition"
-      ],
-      "properties": {
-        "item": {
-          "type": "string",
-          "format": "at-uri"
-        },
-        "itemPosition": {
-          "type": "integer"
-        },
-        "itemCreatedAt": {
-          "type": "string",
-          "format": "datetime"
-        }
-      },
-      "description": "Metadata about the photo's relationship with the subject content. Only has meaningful content when photo is attached to a gallery."
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.photo.defs",
   "lexicon": 1
 }

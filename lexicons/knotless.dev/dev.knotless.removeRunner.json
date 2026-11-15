@@ -1,55 +1,55 @@
 {
-  "id": "dev.knotless.removeRunner",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Takes an account out of the runners the repository's record names, as `knotless runner remove` does, as the account logged in to this appview's web pages, which must be its owner: its checks of the repository no longer show. A private repository's runner stays a member of it until unshared. Answers with the runners it names after. Requires the session cookie the pages' login sets, or an admin's service token.",
+      "errors": [
+        {
+          "description": "No such repository, or no such account.",
+          "name": "NotFound"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        },
+        {
+          "description": "Nothing changed, as the reason says: the account is not the owner.",
+          "name": "UpstreamFailure"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "repo": {
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "runner": {
+              "description": "The account a knotless runner reports as, by handle or DID.",
+              "format": "at-identifier",
+              "type": "string"
+            }
+          },
           "required": [
             "repo",
             "runner"
           ],
-          "properties": {
-            "repo": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
-            },
-            "runner": {
-              "type": "string",
-              "format": "at-identifier",
-              "description": "The account a knotless runner reports as, by handle or DID."
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "NotFound",
-          "description": "No such repository, or no such account."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
-        },
-        {
-          "name": "UpstreamFailure",
-          "description": "Nothing changed, as the reason says: the account is not the owner."
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
           "ref": "dev.knotless.listRunners#runners",
           "type": "ref"
-        },
-        "encoding": "application/json"
+        }
       },
-      "description": "Takes an account out of the runners the repository's record names, as `knotless runner remove` does, as the account logged in to this appview's web pages, which must be its owner: its checks of the repository no longer show. A private repository's runner stays a member of it until unshared. Answers with the runners it names after. Requires the session cookie the pages' login sets, or an admin's service token."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Stops naming an account among a repository's runners, as its owner logged in to this appview's pages."
+  "description": "Stops naming an account among a repository's runners, as its owner logged in to this appview's pages.",
+  "id": "dev.knotless.removeRunner",
+  "lexicon": 1
 }

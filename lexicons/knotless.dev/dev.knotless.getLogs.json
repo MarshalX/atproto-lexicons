@@ -1,45 +1,43 @@
 {
-  "id": "dev.knotless.getLogs",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "line": {
-      "type": "object",
+      "description": "One line, as logged.",
+      "properties": {
+        "line": {
+          "description": "The JSON line, as written to the log: its time, level, message and the fields the event had.",
+          "type": "unknown"
+        }
+      },
       "required": [
         "line"
       ],
-      "properties": {
-        "line": {
-          "type": "unknown",
-          "description": "The JSON line, as written to the log: its time, level, message and the fields the event had."
-        }
-      },
-      "description": "One line, as logged."
+      "type": "object"
     },
     "main": {
-      "type": "query",
+      "description": "The lines an appview logged, for its operators, oldest first: all of one request's by its trace, or the last of a message, a level or a duration. It takes a service token for this method from one of the accounts it names as its operators, or the session cookie of one logged in to its pages. Kept across restarts, at most 30 days. Each read is itself logged, with who asked.",
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "lines"
-          ],
           "properties": {
             "lines": {
-              "type": "array",
+              "description": "The lines asked for, oldest first.",
               "items": {
                 "ref": "#line",
                 "type": "ref"
               },
-              "description": "The lines asked for, oldest first."
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "lines"
+          ],
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
         "properties": {
           "level": {
-            "type": "string",
             "description": "Only lines at this level or above.",
             "knownValues": [
               "error",
@@ -47,25 +45,16 @@
               "info",
               "debug",
               "trace"
-            ]
+            ],
+            "type": "string"
           },
           "limit": {
-            "type": "integer",
+            "description": "How many, the last of those asked for. Unless given, 500 for a trace, so a request's lines come whole, and 100 otherwise.",
             "maximum": 500,
             "minimum": 1,
-            "description": "How many, the last of those asked for. Unless given, 500 for a trace, so a request's lines come whole, and 100 otherwise."
-          },
-          "minMs": {
-            "type": "integer",
-            "minimum": 0,
-            "description": "Only lines that took this many milliseconds or more."
-          },
-          "trace": {
-            "type": "string",
-            "description": "All of one request's lines, by the trace ID each carries and its answer's x-trace-id names."
+            "type": "integer"
           },
           "message": {
-            "type": "string",
             "description": "Only lines with this message.",
             "knownValues": [
               "request",
@@ -78,13 +67,24 @@
               "mcp resource failed",
               "mirror sync",
               "logs read"
-            ]
+            ],
+            "type": "string"
+          },
+          "minMs": {
+            "description": "Only lines that took this many milliseconds or more.",
+            "minimum": 0,
+            "type": "integer"
+          },
+          "trace": {
+            "description": "All of one request's lines, by the trace ID each carries and its answer's x-trace-id names.",
+            "type": "string"
           }
-        }
+        },
+        "type": "params"
       },
-      "description": "The lines an appview logged, for its operators, oldest first: all of one request's by its trace, or the last of a message, a level or a duration. It takes a service token for this method from one of the accounts it names as its operators, or the session cookie of one logged in to its pages. Kept across restarts, at most 30 days. Each read is itself logged, with who asked."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "dev.knotless.getLogs",
   "lexicon": 1
 }

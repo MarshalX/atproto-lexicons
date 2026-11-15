@@ -1,44 +1,44 @@
 {
-  "id": "dev.knotless.getStep",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "A shared step at its latest version, from the dev.knotless.release records of its package, `@step/<name>`: what it does, takes and asks for, each version published, and the public repositories whose default branch pins it in `.knotless/uses.lock`. No authentication; responses are not personalized.",
       "errors": [
         {
-          "name": "NotFound",
-          "description": "No such repository, no step of that name in it, or no index on this appview."
+          "description": "No such repository, no step of that name in it, or no index on this appview.",
+          "name": "NotFound"
         }
       ],
       "output": {
+        "encoding": "application/json",
         "schema": {
           "ref": "dev.knotless.defs#stepViewDetailed",
           "type": "ref"
-        },
-        "encoding": "application/json"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "name": {
+            "description": "The step's name.",
+            "maxLength": 64,
+            "type": "string"
+          },
+          "repo": {
+            "description": "The step's repository, by its dev.knotless.repo record. Its authority may be a handle.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
         "required": [
           "repo",
           "name"
         ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "maxLength": 64,
-            "description": "The step's name."
-          },
-          "repo": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The step's repository, by its dev.knotless.repo record. Its authority may be a handle."
-          }
-        }
+        "type": "params"
       },
-      "description": "A shared step at its latest version, from the dev.knotless.release records of its package, `@step/<name>`: what it does, takes and asks for, each version published, and the public repositories whose default branch pins it in `.knotless/uses.lock`. No authentication; responses are not personalized."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "One shared step a repository publishes."
+  "description": "One shared step a repository publishes.",
+  "id": "dev.knotless.getStep",
+  "lexicon": 1
 }

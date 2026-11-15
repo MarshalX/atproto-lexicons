@@ -1,58 +1,58 @@
 {
-  "id": "dev.knotless.getTemplate",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "The template a repository asks its pulls or issues to be written from, as `knotless pull template` reads it: `.knotless/pull.md` or `.knotless/issue.md`, at a pull's base branch or else the default branch. Opening one whose body has none of the template's sections is refused. No authentication; responses are not personalized.",
       "errors": [
         {
-          "name": "NotFound",
-          "description": "No such repository."
+          "description": "No such repository.",
+          "name": "NotFound"
         }
       ],
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
           "properties": {
             "template": {
-              "type": "string",
-              "description": "The template, in Markdown; absent when the repository has none."
+              "description": "The template, in Markdown; absent when the repository has none.",
+              "type": "string"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
-        "required": [
-          "repo",
-          "kind"
-        ],
         "properties": {
           "base": {
-            "type": "string",
+            "description": "For a pull, the branch it is to merge into: the template there.",
             "maxLength": 1024,
-            "description": "For a pull, the branch it is to merge into: the template there."
+            "type": "string"
           },
           "kind": {
-            "type": "string",
-            "maxLength": 64,
             "description": "What is to be opened.",
             "knownValues": [
               "pull",
               "issue"
-            ]
+            ],
+            "maxLength": 64,
+            "type": "string"
           },
           "repo": {
-            "type": "string",
+            "description": "The repository's dev.knotless.repo record. Its authority may be a handle.",
             "format": "at-uri",
-            "description": "The repository's dev.knotless.repo record. Its authority may be a handle."
+            "type": "string"
           }
-        }
+        },
+        "required": [
+          "repo",
+          "kind"
+        ],
+        "type": "params"
       },
-      "description": "The template a repository asks its pulls or issues to be written from, as `knotless pull template` reads it: `.knotless/pull.md` or `.knotless/issue.md`, at a pull's base branch or else the default branch. Opening one whose body has none of the template's sections is refused. No authentication; responses are not personalized."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "What a repository asks a new pull's or issue's body to follow."
+  "description": "What a repository asks a new pull's or issue's body to follow.",
+  "id": "dev.knotless.getTemplate",
+  "lexicon": 1
 }

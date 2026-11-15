@@ -1,80 +1,80 @@
 {
-  "id": "dev.knotless.protectBranch",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Adds the branch to the protected branches of the repository's dev.knotless.repo record, in place of any rule it had, as `knotless branch protect` does: through the gateway it then only moves forward, is never deleted, and unless merges is set takes no merge commits; with queue, pulls land on it only through the merge queue; with reviews, a pull merges into it only once reviewed as they ask. Its owner can, logged in to this appview's web pages: the appview writes with the session it keeps for that account, which the pages' session cookie names. For an organization's repository, so can an admin who joined it, logged in to the pages or with a service token from their own PDS for this method: the appview's gateway, which the organization delegated its writes to, writes as the organization.",
+      "errors": [
+        {
+          "description": "No such repository.",
+          "name": "NotFound"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        },
+        {
+          "description": "The account logged in is not the repository's owner.",
+          "name": "Forbidden"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "branch": {
+              "description": "The branch, without refs/heads/.",
+              "maxLength": 255,
+              "type": "string"
+            },
+            "merges": {
+              "description": "Whether it takes merge commits; otherwise pulls merge into it squashed.",
+              "type": "boolean"
+            },
+            "queue": {
+              "description": "Whether pulls land on it only through the merge queue.",
+              "type": "boolean"
+            },
+            "repo": {
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "reviews": {
+              "description": "The reviews a pull needs before it merges into the branch. Absent, none.",
+              "ref": "dev.knotless.repo#reviews",
+              "type": "ref"
+            }
+          },
           "required": [
             "repo",
             "branch"
           ],
-          "properties": {
-            "repo": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
-            },
-            "queue": {
-              "type": "boolean",
-              "description": "Whether pulls land on it only through the merge queue."
-            },
-            "branch": {
-              "type": "string",
-              "maxLength": 255,
-              "description": "The branch, without refs/heads/."
-            },
-            "merges": {
-              "type": "boolean",
-              "description": "Whether it takes merge commits; otherwise pulls merge into it squashed."
-            },
-            "reviews": {
-              "ref": "dev.knotless.repo#reviews",
-              "type": "ref",
-              "description": "The reviews a pull needs before it merges into the branch. Absent, none."
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "NotFound",
-          "description": "No such repository."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
-        },
-        {
-          "name": "Forbidden",
-          "description": "The account logged in is not the repository's owner."
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "rules"
-          ],
           "properties": {
             "rules": {
-              "type": "array",
+              "description": "The protected branches now.",
               "items": {
                 "ref": "dev.knotless.repo#rule",
                 "type": "ref"
               },
-              "description": "The protected branches now."
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "rules"
+          ],
+          "type": "object"
+        }
       },
-      "description": "Adds the branch to the protected branches of the repository's dev.knotless.repo record, in place of any rule it had, as `knotless branch protect` does: through the gateway it then only moves forward, is never deleted, and unless merges is set takes no merge commits; with queue, pulls land on it only through the merge queue; with reviews, a pull merges into it only once reviewed as they ask. Its owner can, logged in to this appview's web pages: the appview writes with the session it keeps for that account, which the pages' session cookie names. For an organization's repository, so can an admin who joined it, logged in to the pages or with a service token from their own PDS for this method: the appview's gateway, which the organization delegated its writes to, writes as the organization."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Protects a branch of a repository."
+  "description": "Protects a branch of a repository.",
+  "id": "dev.knotless.protectBranch",
+  "lexicon": 1
 }

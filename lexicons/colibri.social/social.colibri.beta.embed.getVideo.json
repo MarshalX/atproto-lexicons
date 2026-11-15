@@ -1,0 +1,55 @@
+{
+  "id": "social.colibri.beta.embed.getVideo",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "InvalidRequest",
+          "description": "url, exp or sig is missing or malformed."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The signature is invalid or expired."
+        },
+        {
+          "name": "NotFetchable",
+          "description": "The origin could not be reached or answered with an error."
+        },
+        {
+          "name": "UnsupportedImage",
+          "description": "The origin served something other than an allowed video type."
+        }
+      ],
+      "output": {
+        "encoding": "video/*"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "url",
+          "exp",
+          "sig"
+        ],
+        "properties": {
+          "exp": {
+            "type": "integer",
+            "description": "Unix time in seconds after which the link stops working."
+          },
+          "sig": {
+            "type": "string",
+            "description": "Signature over the kind, url and exp, issued by this AppView."
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "The video on the origin."
+          }
+        }
+      },
+      "description": "Proxies a video from a link embed through the AppView, so the viewer's address never reaches the origin. The URL comes signed in an embed view, which lets a video element load it without a bearer header. The origin's content type must be an allowed video type. Supports HTTP range requests."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

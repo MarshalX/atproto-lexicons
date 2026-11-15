@@ -1,70 +1,70 @@
 {
-  "id": "dev.knotless.getCompare",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "The repositories a pull into a repository can come from, itself and its forks, and, given a branch, what that branch has since it left the base, as a pull from it would show. No authentication; responses are not personalized.",
       "errors": [
         {
-          "name": "NotFound",
-          "description": "No such repository, or no such branch on either."
+          "description": "No such repository, or no such branch on either.",
+          "name": "NotFound"
         }
       ],
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "heads"
-          ],
           "properties": {
+            "changes": {
+              "description": "What the branch brings in, given one.",
+              "ref": "dev.knotless.defs#changesView",
+              "type": "ref"
+            },
             "heads": {
-              "type": "array",
+              "description": "The repositories a pull can come from: this one first, then its forks the index knows, oldest first.",
               "items": {
                 "ref": "dev.knotless.defs#repoViewBasic",
                 "type": "ref"
               },
-              "description": "The repositories a pull can come from: this one first, then its forks the index knows, oldest first."
-            },
-            "changes": {
-              "ref": "dev.knotless.defs#changesView",
-              "type": "ref",
-              "description": "What the branch brings in, given one."
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "heads"
+          ],
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "base": {
+            "description": "The branch to merge into; the default branch if not given.",
+            "maxLength": 1024,
+            "type": "string"
+          },
+          "branch": {
+            "description": "The branch to bring in. Without one, only the repositories are answered.",
+            "maxLength": 1024,
+            "type": "string"
+          },
+          "head": {
+            "description": "The repository the branch is on: this one, if not given, or a fork of it.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "repo": {
+            "description": "The repository to merge into: its dev.knotless.repo record. Its authority may be a handle.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
         "required": [
           "repo"
         ],
-        "properties": {
-          "base": {
-            "type": "string",
-            "maxLength": 1024,
-            "description": "The branch to merge into; the default branch if not given."
-          },
-          "head": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The repository the branch is on: this one, if not given, or a fork of it."
-          },
-          "repo": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The repository to merge into: its dev.knotless.repo record. Its authority may be a handle."
-          },
-          "branch": {
-            "type": "string",
-            "maxLength": 1024,
-            "description": "The branch to bring in. Without one, only the repositories are answered."
-          }
-        }
+        "type": "params"
       },
-      "description": "The repositories a pull into a repository can come from, itself and its forks, and, given a branch, what that branch has since it left the base, as a pull from it would show. No authentication; responses are not personalized."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "What a pull from a branch would bring into a repository, before it is opened."
+  "description": "What a pull from a branch would bring into a repository, before it is opened.",
+  "id": "dev.knotless.getCompare",
+  "lexicon": 1
 }

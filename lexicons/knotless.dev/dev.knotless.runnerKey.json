@@ -1,32 +1,32 @@
 {
-  "id": "dev.knotless.runnerKey",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "Kept in the runner's account. An owner seals each secret it gives the runner to this key, with HPKE (RFC 9180) in base mode: DHKEM(P-256, HKDF-SHA256), HKDF-SHA256 and AES-128-GCM, so only the runner, which keeps the private half, can open it. The runner writes it again when its key changes; a value sealed to an older key names that key.",
       "key": "literal:self",
-      "type": "record",
       "record": {
-        "type": "object",
+        "properties": {
+          "createdAt": {
+            "description": "When the runner published this key.",
+            "format": "datetime",
+            "type": "string"
+          },
+          "key": {
+            "description": "The public key, as a P-256 did:key.",
+            "format": "did",
+            "type": "string"
+          }
+        },
         "required": [
           "key",
           "createdAt"
         ],
-        "properties": {
-          "key": {
-            "type": "string",
-            "format": "did",
-            "description": "The public key, as a P-256 did:key."
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "datetime",
-            "description": "When the runner published this key."
-          }
-        }
+        "type": "object"
       },
-      "description": "Kept in the runner's account. An owner seals each secret it gives the runner to this key, with HPKE (RFC 9180) in base mode: DHKEM(P-256, HKDF-SHA256), HKDF-SHA256 and AES-128-GCM, so only the runner, which keeps the private half, can open it. The runner writes it again when its key changes; a value sealed to an older key names that key."
+      "type": "record"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "The key a knotless runner opens the secrets owners give it with."
+  "description": "The key a knotless runner opens the secrets owners give it with.",
+  "id": "dev.knotless.runnerKey",
+  "lexicon": 1
 }

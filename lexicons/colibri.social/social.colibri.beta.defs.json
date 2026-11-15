@@ -51,6 +51,38 @@
         }
       },
       "description": "A reference to a record in a named space, for pointing at something outside the space the pointer lives in."
+    },
+    "permissionOverride": {
+      "type": "object",
+      "properties": {
+        "deny": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "A permission identifier."
+          },
+          "description": "Permissions denied here. A permission listed in both allow and deny is denied."
+        },
+        "role": {
+          "type": "string",
+          "format": "record-key",
+          "description": "The record key of the role this override applies to."
+        },
+        "allow": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "A permission identifier."
+          },
+          "description": "Permissions granted here."
+        },
+        "member": {
+          "type": "string",
+          "format": "did",
+          "description": "The member this override applies to."
+        }
+      },
+      "description": "Allow and deny lists for one role or one member, scoped to the channel or category that holds them. Exactly one of role and member is set. A permission in neither list inherits from the category, then from the target's role permissions."
     }
   },
   "$type": "com.atproto.lexicon.schema",

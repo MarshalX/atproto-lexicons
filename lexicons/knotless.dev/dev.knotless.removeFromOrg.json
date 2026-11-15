@@ -1,57 +1,57 @@
 {
-  "id": "dev.knotless.removeFromOrg",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "As the organization itself, or one of its admins, asks the organization's gateway to take the account out (dev.knotless.removeOrgMember). Requires the session cookie the pages' login sets: the appview acts with the session it keeps for that account. Clients holding their own session call the organization's gateway themselves.",
+      "errors": [
+        {
+          "description": "The change was refused: by the organization's gateway, or as the account may not make it.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "member": {
+              "description": "The account to take out.",
+              "format": "did",
+              "type": "string"
+            },
+            "org": {
+              "description": "The organization.",
+              "format": "did",
+              "type": "string"
+            }
+          },
           "required": [
             "org",
             "member"
           ],
-          "properties": {
-            "org": {
-              "type": "string",
-              "format": "did",
-              "description": "The organization."
-            },
-            "member": {
-              "type": "string",
-              "format": "did",
-              "description": "The account to take out."
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "InvalidRequest",
-          "description": "The change was refused: by the organization's gateway, or as the account may not make it."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
           "properties": {
             "warning": {
-              "type": "string",
+              "description": "Set when the change was made only in part, saying what is left.",
               "maxLength": 2000,
-              "description": "Set when the change was made only in part, saying what is left."
+              "type": "string"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "type": "object"
+        }
       },
-      "description": "As the organization itself, or one of its admins, asks the organization's gateway to take the account out (dev.knotless.removeOrgMember). Requires the session cookie the pages' login sets: the appview acts with the session it keeps for that account. Clients holding their own session call the organization's gateway themselves."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Takes an account out of an organization as the account logged in to this appview's pages, or withdraws its invitation, as `knotless org remove` does."
+  "description": "Takes an account out of an organization as the account logged in to this appview's pages, or withdraws its invitation, as `knotless org remove` does.",
+  "id": "dev.knotless.removeFromOrg",
+  "lexicon": 1
 }

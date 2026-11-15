@@ -1,0 +1,73 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "A publisher entity. The name and identifiers mirror `community.lexicon.media.book.defs#publisher`; operational dates and descriptive metadata live here.",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "createdAt": {
+            "description": "Time this publisher record was created, not a founding date.",
+            "format": "datetime",
+            "type": "string"
+          },
+          "description": {
+            "description": "Free-text description of the publisher.",
+            "maxGraphemes": 1024,
+            "maxLength": 8192,
+            "type": "string"
+          },
+          "ended": {
+            "description": "Date the publisher ceased operating, exactly YYYY-MM-DD, with the same real-calendar validation as started.",
+            "maxLength": 10,
+            "minLength": 10,
+            "type": "string"
+          },
+          "identifiers": {
+            "description": "Identifiers denoting this publisher in global or provider namespaces, compared exactly by issuer and value.",
+            "items": {
+              "ref": "community.lexicon.media.book.defs#identifier",
+              "type": "ref"
+            },
+            "maxLength": 16,
+            "type": "array"
+          },
+          "image": {
+            "accept": [
+              "image/*"
+            ],
+            "description": "Optional logo or image. The blob must belong to the repository containing this record, so a catalog that does not own the bytes must use imageUrl instead. May coexist with imageUrl.",
+            "type": "blob"
+          },
+          "imageUrl": {
+            "description": "Optional logo or image URL. Unlike image, a URL does not preserve the bytes in the repository.",
+            "format": "uri",
+            "type": "string"
+          },
+          "name": {
+            "description": "Publisher name, as displayed. Identifiers, not this name, are the matching mechanism.",
+            "maxGraphemes": 64,
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "started": {
+            "description": "Date the publisher began operating, as a full ISO 8601 calendar date, exactly YYYY-MM-DD. Partial dates are not allowed, and the value must be a real calendar date: Lexicon strings cannot carry a regex, so writers must validate the pattern and the calendar (reject 2023-02-29, month 00 or 13, day 00 or 32).",
+            "maxLength": 10,
+            "minLength": 10,
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "description": "A publishing organization (publisher house, imprint, or self-publishing author-as-publisher), published by the catalog as a stable reference target for the inline `community.lexicon.media.book.defs#publisher` entry on edition records. Records are keyed by TID and addressed under the catalog publisher's DID.",
+  "id": "net.olamaelcu.livtet.biblio.publisher",
+  "lexicon": 1
+}

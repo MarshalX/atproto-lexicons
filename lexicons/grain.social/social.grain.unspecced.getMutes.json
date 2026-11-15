@@ -1,64 +1,64 @@
 {
-  "id": "social.grain.unspecced.getMutes",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "Get the viewer's muted users.",
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
           "properties": {
+            "cursor": {
+              "type": "string"
+            },
             "items": {
-              "type": "array",
               "items": {
                 "ref": "social.grain.unspecced.getMutes#muteItem",
                 "type": "ref"
-              }
-            },
-            "cursor": {
-              "type": "string"
+              },
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "parameters": {
-        "type": "params",
-        "properties": {
-          "limit": {
-            "type": "integer",
-            "default": 50,
-            "maximum": 100,
-            "minimum": 1
           },
-          "cursor": {
-            "type": "string"
-          }
+          "type": "object"
         }
       },
-      "description": "Get the viewer's muted users."
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "type": "string"
+          },
+          "limit": {
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "type": "params"
+      },
+      "type": "query"
     },
     "muteItem": {
-      "type": "object",
-      "required": [
-        "did"
-      ],
       "properties": {
-        "did": {
-          "type": "string",
-          "format": "did"
-        },
         "avatar": {
           "type": "string"
         },
-        "handle": {
+        "did": {
+          "format": "did",
           "type": "string"
         },
         "displayName": {
           "type": "string"
+        },
+        "handle": {
+          "type": "string"
         }
-      }
+      },
+      "required": [
+        "did"
+      ],
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.getMutes",
   "lexicon": 1
 }

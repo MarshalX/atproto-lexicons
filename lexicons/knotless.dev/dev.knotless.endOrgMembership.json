@@ -1,51 +1,51 @@
 {
-  "id": "dev.knotless.endOrgMembership",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Deletes the account's dev.knotless.orgAcceptance records naming the organization, then asks its gateway to take the account out (dev.knotless.leaveOrg). The membership ends with the records: a gateway that does not answer leaves a warning. Requires the session cookie the pages' login sets: the appview acts with the session it keeps for that account. Clients holding their own session call the organization's gateway themselves.",
+      "errors": [
+        {
+          "description": "The change was refused: by the organization's gateway, or as the account may not make it.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "org": {
+              "description": "The organization.",
+              "format": "did",
+              "type": "string"
+            }
+          },
           "required": [
             "org"
           ],
-          "properties": {
-            "org": {
-              "type": "string",
-              "format": "did",
-              "description": "The organization."
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "InvalidRequest",
-          "description": "The change was refused: by the organization's gateway, or as the account may not make it."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
           "properties": {
             "warning": {
-              "type": "string",
+              "description": "Set when the change was made only in part, saying what is left.",
               "maxLength": 2000,
-              "description": "Set when the change was made only in part, saying what is left."
+              "type": "string"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "type": "object"
+        }
       },
-      "description": "Deletes the account's dev.knotless.orgAcceptance records naming the organization, then asks its gateway to take the account out (dev.knotless.leaveOrg). The membership ends with the records: a gateway that does not answer leaves a warning. Requires the session cookie the pages' login sets: the appview acts with the session it keeps for that account. Clients holding their own session call the organization's gateway themselves."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Leaves an organization as the account logged in to this appview's pages, or declines its invitation, as `knotless org leave` does."
+  "description": "Leaves an organization as the account logged in to this appview's pages, or declines its invitation, as `knotless org leave` does.",
+  "id": "dev.knotless.endOrgMembership",
+  "lexicon": 1
 }

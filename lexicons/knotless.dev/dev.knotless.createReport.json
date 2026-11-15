@@ -1,25 +1,19 @@
 {
-  "id": "dev.knotless.createReport",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Sends com.atproto.moderation.createReport to the moderation service this appview names, with a service token from the account logged in to its web pages, as `knotless mod report` does. Requires the session cookie the pages' login sets.",
+      "errors": [
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "subject",
-            "reason"
-          ],
           "properties": {
-            "text": {
-              "type": "string",
-              "maxLength": 20000,
-              "description": "More on why, for the moderators.",
-              "maxGraphemes": 2000
-            },
             "reason": {
-              "type": "string",
-              "maxLength": 64,
               "description": "Why, as com.atproto.moderation.defs names reasons, by the last word of each.",
               "knownValues": [
                 "spam",
@@ -28,42 +22,48 @@
                 "sexual",
                 "rude",
                 "other"
-              ]
+              ],
+              "maxLength": 64,
+              "type": "string"
             },
             "subject": {
-              "type": "string",
+              "description": "What is reported: an account's handle or DID, a repository's knotless:// URL, or the at:// URI of a record, such as a pull, an issue or a comment.",
               "maxLength": 8192,
-              "description": "What is reported: an account's handle or DID, a repository's knotless:// URL, or the at:// URI of a record, such as a pull, an issue or a comment."
+              "type": "string"
+            },
+            "text": {
+              "description": "More on why, for the moderators.",
+              "maxGraphemes": 2000,
+              "maxLength": 20000,
+              "type": "string"
             }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
+          },
+          "required": [
+            "subject",
+            "reason"
+          ],
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "reportId": {
+              "description": "The report's number, as the moderation service gave it.",
+              "type": "integer"
+            }
+          },
           "required": [
             "reportId"
           ],
-          "properties": {
-            "reportId": {
-              "type": "integer",
-              "description": "The report's number, as the moderation service gave it."
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
-      "description": "Sends com.atproto.moderation.createReport to the moderation service this appview names, with a service token from the account logged in to its web pages, as `knotless mod report` does. Requires the session cookie the pages' login sets."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Reports an account, a repository, or what someone wrote about one, to the moderation service, as the account logged in to this appview's pages."
+  "description": "Reports an account, a repository, or what someone wrote about one, to the moderation service, as the account logged in to this appview's pages.",
+  "id": "dev.knotless.createReport",
+  "lexicon": 1
 }

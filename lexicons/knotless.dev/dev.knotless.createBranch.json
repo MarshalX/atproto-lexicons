@@ -1,72 +1,72 @@
 {
-  "id": "dev.knotless.createBranch",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Points a new branch at a commit or branch, the default branch when none is named, as `knotless branch` does. As the account logged in to this appview's web pages: directly for the owner, through the repository's gateway for a collaborator, which refuses anyone else.",
+      "errors": [
+        {
+          "description": "No such repository.",
+          "name": "NotFound"
+        },
+        {
+          "description": "The branch exists already, there is no such commit or branch to start at, or the gateway refused it.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "from": {
+              "description": "The commit, by hex, or branch it starts at: the default branch when absent.",
+              "maxLength": 255,
+              "type": "string"
+            },
+            "name": {
+              "description": "The branch, without refs/heads/.",
+              "maxLength": 255,
+              "type": "string"
+            },
+            "repo": {
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
           "required": [
             "repo",
             "name"
           ],
-          "properties": {
-            "from": {
-              "type": "string",
-              "maxLength": 255,
-              "description": "The commit, by hex, or branch it starts at: the default branch when absent."
-            },
-            "name": {
-              "type": "string",
-              "maxLength": 255,
-              "description": "The branch, without refs/heads/."
-            },
-            "repo": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "NotFound",
-          "description": "No such repository."
-        },
-        {
-          "name": "InvalidRequest",
-          "description": "The branch exists already, there is no such commit or branch to start at, or the gateway refused it."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "name": {
+              "description": "The branch, without refs/heads/.",
+              "type": "string"
+            },
+            "sha": {
+              "description": "The commit it points at, in hex, once made.",
+              "type": "string"
+            }
+          },
           "required": [
             "name"
           ],
-          "properties": {
-            "sha": {
-              "type": "string",
-              "description": "The commit it points at, in hex, once made."
-            },
-            "name": {
-              "type": "string",
-              "description": "The branch, without refs/heads/."
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
-      "description": "Points a new branch at a commit or branch, the default branch when none is named, as `knotless branch` does. As the account logged in to this appview's web pages: directly for the owner, through the repository's gateway for a collaborator, which refuses anyone else."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Creates a branch of a repository."
+  "description": "Creates a branch of a repository.",
+  "id": "dev.knotless.createBranch",
+  "lexicon": 1
 }

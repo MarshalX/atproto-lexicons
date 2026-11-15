@@ -1,52 +1,13 @@
 {
-  "id": "dev.knotless.issue",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "For a private repository, written in the author's repo inside the repository's space.",
       "key": "tid",
-      "type": "record",
       "record": {
-        "type": "object",
-        "required": [
-          "repo",
-          "title",
-          "createdAt"
-        ],
         "properties": {
-          "body": {
-            "type": "string",
-            "maxLength": 20000,
-            "description": "Markdown."
-          },
-          "repo": {
-            "ref": "dev.knotless.defs#repoRef",
-            "type": "ref",
-            "description": "The target repository."
-          },
-          "title": {
-            "type": "string",
-            "maxLength": 3000,
-            "maxGraphemes": 300
-          },
-          "facets": {
-            "type": "array",
-            "items": {
-              "ref": "dev.knotless.defs#facet",
-              "type": "ref"
-            },
-            "maxLength": 50,
-            "description": "The accounts its body mentions, by where: written as it is, from each `@handle` outside code and links."
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "datetime"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "datetime",
-            "description": "When its author last changed its title or body."
-          },
           "attachments": {
-            "type": "array",
+            "description": "What it carries beside its body: the pictures the body shows. Kinds unknown to a reader are passed over, and kept by a client changing it.",
             "items": {
               "refs": [
                 "dev.knotless.defs#image"
@@ -54,23 +15,62 @@
               "type": "union"
             },
             "maxLength": 32,
-            "description": "What it carries beside its body: the pictures the body shows. Kinds unknown to a reader are passed over, and kept by a client changing it."
+            "type": "array"
           },
-          "titleFacets": {
-            "type": "array",
+          "body": {
+            "description": "Markdown.",
+            "maxLength": 20000,
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "facets": {
+            "description": "The accounts its body mentions, by where: written as it is, from each `@handle` outside code and links.",
             "items": {
               "ref": "dev.knotless.defs#facet",
               "type": "ref"
             },
             "maxLength": 50,
-            "description": "The accounts its title mentions, by where."
+            "type": "array"
+          },
+          "repo": {
+            "description": "The target repository.",
+            "ref": "dev.knotless.defs#repoRef",
+            "type": "ref"
+          },
+          "title": {
+            "maxGraphemes": 300,
+            "maxLength": 3000,
+            "type": "string"
+          },
+          "titleFacets": {
+            "description": "The accounts its title mentions, by where.",
+            "items": {
+              "ref": "dev.knotless.defs#facet",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "type": "array"
+          },
+          "updatedAt": {
+            "description": "When its author last changed its title or body.",
+            "format": "datetime",
+            "type": "string"
           }
-        }
+        },
+        "required": [
+          "repo",
+          "title",
+          "createdAt"
+        ],
+        "type": "object"
       },
-      "description": "For a private repository, written in the author's repo inside the repository's space."
+      "type": "record"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "An issue on a repository, kept in its author's account."
+  "description": "An issue on a repository, kept in its author's account.",
+  "id": "dev.knotless.issue",
+  "lexicon": 1
 }

@@ -1,36 +1,36 @@
 {
-  "id": "dev.knotless.reaction",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "Kept in the reacting account, keyed by a TID: for what is said on a private repository, in the account's repo in its space, so that it names nothing to anyone else. Readers count one reaction per account, subject and content, however many records name them.",
       "key": "tid",
-      "type": "record",
       "record": {
-        "type": "object",
-        "required": [
-          "subject",
-          "content",
-          "createdAt"
-        ],
         "properties": {
           "content": {
             "ref": "dev.knotless.defs#reactionContent",
             "type": "ref"
           },
-          "subject": {
-            "ref": "com.atproto.repo.strongRef",
-            "type": "ref",
-            "description": "The dev.knotless.pull, dev.knotless.issue or dev.knotless.comment record reacted to, as it was then."
-          },
           "createdAt": {
-            "type": "string",
-            "format": "datetime"
+            "format": "datetime",
+            "type": "string"
+          },
+          "subject": {
+            "description": "The dev.knotless.pull, dev.knotless.issue or dev.knotless.comment record reacted to, as it was then.",
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref"
           }
-        }
+        },
+        "required": [
+          "subject",
+          "content",
+          "createdAt"
+        ],
+        "type": "object"
       },
-      "description": "Kept in the reacting account, keyed by a TID: for what is said on a private repository, in the account's repo in its space, so that it names nothing to anyone else. Readers count one reaction per account, subject and content, however many records name them."
+      "type": "record"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "An account's reaction to a pull, an issue or a comment, as one of a few emoji."
+  "description": "An account's reaction to a pull, an issue or a comment, as one of a few emoji.",
+  "id": "dev.knotless.reaction",
+  "lexicon": 1
 }

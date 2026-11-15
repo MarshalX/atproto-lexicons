@@ -1,105 +1,105 @@
 {
-  "id": "social.grain.unspecced.createPrivateGallery",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Create a gallery that lives in a permissioned space (proposal 0016) rather than in the public repo. The gallery, its photos and its items are written to the author's space repo, and only the accounts named in members can read them.",
+      "errors": [
+        {
+          "description": "The author's PDS does not serve permissioned spaces.",
+          "name": "SpacesUnsupported"
+        },
+        {
+          "description": "One of the named members could not be resolved.",
+          "name": "ActorNotFound"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "rkey",
-            "title"
-          ],
           "properties": {
-            "rkey": {
-              "type": "string",
-              "maxLength": 64,
-              "description": "Record key for the gallery. Doubles as the space's skey, so one gallery is one space."
-            },
-            "title": {
-              "type": "string",
-              "maxLength": 100
-            },
-            "photos": {
-              "type": "array",
-              "items": {
-                "ref": "#photoInput",
-                "type": "ref"
-              },
-              "maxLength": 100
+            "description": {
+              "maxLength": 1000,
+              "type": "string"
             },
             "members": {
-              "type": "array",
+              "description": "Handles or DIDs allowed to read the gallery. The author always can.",
               "items": {
                 "type": "string"
               },
               "maxLength": 100,
-              "description": "Handles or DIDs allowed to read the gallery. The author always can."
+              "type": "array"
             },
-            "description": {
-              "type": "string",
-              "maxLength": 1000
+            "photos": {
+              "items": {
+                "ref": "#photoInput",
+                "type": "ref"
+              },
+              "maxLength": 100,
+              "type": "array"
+            },
+            "rkey": {
+              "description": "Record key for the gallery. Doubles as the space's skey, so one gallery is one space.",
+              "maxLength": 64,
+              "type": "string"
+            },
+            "title": {
+              "maxLength": 100,
+              "type": "string"
             }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "SpacesUnsupported",
-          "description": "The author's PDS does not serve permissioned spaces."
-        },
-        {
-          "name": "ActorNotFound",
-          "description": "One of the named members could not be resolved."
+          },
+          "required": [
+            "rkey",
+            "title"
+          ],
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "space": {
+              "description": "The space URI the gallery lives in.",
+              "type": "string"
+            },
+            "uri": {
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
           "required": [
             "space",
             "uri"
           ],
-          "properties": {
-            "uri": {
-              "type": "string",
-              "format": "at-uri"
-            },
-            "space": {
-              "type": "string",
-              "description": "The space URI the gallery lives in."
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
-      "description": "Create a gallery that lives in a permissioned space (proposal 0016) rather than in the public repo. The gallery, its photos and its items are written to the author's space repo, and only the accounts named in members can read them."
+      "type": "procedure"
     },
     "photoInput": {
-      "type": "object",
-      "required": [
-        "photo",
-        "aspectRatio"
-      ],
       "properties": {
         "alt": {
           "type": "string"
         },
-        "photo": {
-          "type": "blob",
-          "accept": [
-            "image/*"
-          ],
-          "maxSize": 1000000
-        },
         "aspectRatio": {
           "ref": "social.grain.defs#aspectRatio",
           "type": "ref"
+        },
+        "photo": {
+          "accept": [
+            "image/*"
+          ],
+          "maxSize": 1000000,
+          "type": "blob"
         }
-      }
+      },
+      "required": [
+        "photo",
+        "aspectRatio"
+      ],
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.createPrivateGallery",
   "lexicon": 1
 }

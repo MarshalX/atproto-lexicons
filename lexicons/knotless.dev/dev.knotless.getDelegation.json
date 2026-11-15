@@ -1,39 +1,39 @@
 {
-  "id": "dev.knotless.getDelegation",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "Fails with 403 when the authorization was refused or did not log in as the caller, and with 404 for a delegation the caller did not start or that has ended.",
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "done": {
+              "description": "Whether the gateway now writes for the caller. False means ask again.",
+              "type": "boolean"
+            }
+          },
           "required": [
             "done"
           ],
-          "properties": {
-            "done": {
-              "type": "boolean",
-              "description": "Whether the gateway now writes for the caller. False means ask again."
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "state": {
+            "maxLength": 64,
+            "type": "string"
+          }
+        },
         "required": [
           "state"
         ],
-        "properties": {
-          "state": {
-            "type": "string",
-            "maxLength": 64
-          }
-        }
+        "type": "params"
       },
-      "description": "Fails with 403 when the authorization was refused or did not log in as the caller, and with 404 for a delegation the caller did not start or that has ended."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Waits, for a while, for a delegation the caller started with dev.knotless.putDelegation to be approved. Requires a service token from the caller's PDS, audience the gateway's DID, for this method."
+  "description": "Waits, for a while, for a delegation the caller started with dev.knotless.putDelegation to be approved. Requires a service token from the caller's PDS, audience the gateway's DID, for this method.",
+  "id": "dev.knotless.getDelegation",
+  "lexicon": 1
 }

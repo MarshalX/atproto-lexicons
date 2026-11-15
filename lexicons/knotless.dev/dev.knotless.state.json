@@ -1,82 +1,82 @@
 {
-  "id": "dev.knotless.state",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "Kept in the account of whoever changed it. Readers take the latest from someone allowed to make it: the subject's author, the repository's owner or a collaborator; `merged` only from the latter two; for a thread, also the pull's author.",
       "key": "tid",
-      "type": "record",
       "record": {
-        "type": "object",
-        "required": [
-          "repo",
-          "subject",
-          "createdAt"
-        ],
         "properties": {
           "base": {
-            "type": "string",
+            "description": "For a pull, the branch it targets from here on, without refs/heads/: set when the branch it targeted was renamed, or went as the pull with that head branch landed.",
             "maxLength": 255,
-            "description": "For a pull, the branch it targets from here on, without refs/heads/: set when the branch it targeted was renamed, or went as the pull with that head branch landed."
-          },
-          "from": {
-            "type": "string",
-            "maxLength": 64,
-            "minLength": 40,
-            "description": "For `merged`, the hex object ID the base was at before the merge: from..commit is what the pull brought in, whose commits readers may then show as its author's."
-          },
-          "pull": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "For `closed` on an issue, the dev.knotless.pull whose merge closed it, as its title or body named the issue after a closing keyword such as `Fixes`. Beside `since`, the pull a pull was moved off as it landed."
-          },
-          "repo": {
-            "ref": "dev.knotless.defs#repoRef",
-            "type": "ref",
-            "description": "The repository the pull or issue is on."
+            "type": "string"
           },
           "batch": {
-            "type": "string",
+            "description": "For `merged` by a merge queue, the hex object ID of the tip of the batch it landed in: the commit whose checks let it land. The pulls merged with the same `batch` were checked and landed together.",
             "maxLength": 64,
             "minLength": 40,
-            "description": "For `merged` by a merge queue, the hex object ID of the tip of the batch it landed in: the commit whose checks let it land. The pulls merged with the same `batch` were checked and landed together."
+            "type": "string"
+          },
+          "commit": {
+            "description": "The hex object ID of the merge commit, for `merged`.",
+            "maxLength": 64,
+            "minLength": 40,
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "from": {
+            "description": "For `merged`, the hex object ID the base was at before the merge: from..commit is what the pull brought in, whose commits readers may then show as its author's.",
+            "maxLength": 64,
+            "minLength": 40,
+            "type": "string"
+          },
+          "pull": {
+            "description": "For `closed` on an issue, the dev.knotless.pull whose merge closed it, as its title or body named the issue after a closing keyword such as `Fixes`. Beside `since`, the pull a pull was moved off as it landed.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "repo": {
+            "description": "The repository the pull or issue is on.",
+            "ref": "dev.knotless.defs#repoRef",
+            "type": "ref"
           },
           "since": {
-            "type": "string",
+            "description": "Beside `base`, for a pull moved there as the pull it was built on landed: that pull's head, the hex object ID its own changes start from.",
             "maxLength": 64,
             "minLength": 40,
-            "description": "Beside `base`, for a pull moved there as the pull it was built on landed: that pull's head, the hex object ID its own changes start from."
+            "type": "string"
           },
           "state": {
-            "type": "string",
-            "maxLength": 64,
             "description": "`merged` applies to pulls only; `resolved` and `open`, to a thread. Absent when the record only sets `base`: the state stands.",
             "knownValues": [
               "open",
               "closed",
               "merged",
               "resolved"
-            ]
-          },
-          "commit": {
-            "type": "string",
+            ],
             "maxLength": 64,
-            "minLength": 40,
-            "description": "The hex object ID of the merge commit, for `merged`."
+            "type": "string"
           },
           "subject": {
-            "type": "string",
+            "description": "The dev.knotless.pull or dev.knotless.issue whose state changed; or the dev.knotless.comment, with a `line`, that starts a thread.",
             "format": "at-uri",
-            "description": "The dev.knotless.pull or dev.knotless.issue whose state changed; or the dev.knotless.comment, with a `line`, that starts a thread."
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "datetime"
+            "type": "string"
           }
-        }
+        },
+        "required": [
+          "repo",
+          "subject",
+          "createdAt"
+        ],
+        "type": "object"
       },
-      "description": "Kept in the account of whoever changed it. Readers take the latest from someone allowed to make it: the subject's author, the repository's owner or a collaborator; `merged` only from the latter two; for a thread, also the pull's author."
+      "type": "record"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "A pull or issue opened, closed or merged, or a pull pointed at another target branch; or a thread on a pull's lines resolved or opened again."
+  "description": "A pull or issue opened, closed or merged, or a pull pointed at another target branch; or a thread on a pull's lines resolved or opened again.",
+  "id": "dev.knotless.state",
+  "lexicon": 1
 }

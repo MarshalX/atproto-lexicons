@@ -1,52 +1,52 @@
 {
-  "id": "social.grain.story",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
       "key": "tid",
-      "type": "record",
       "record": {
-        "type": "object",
-        "required": [
-          "media",
-          "aspectRatio",
-          "createdAt"
-        ],
         "properties": {
-          "media": {
-            "type": "blob",
-            "accept": [
-              "image/*",
-              "video/*"
-            ],
-            "maxSize": 5000000
-          },
-          "labels": {
-            "refs": [
-              "com.atproto.label.defs#selfLabels"
-            ],
-            "type": "union",
-            "description": "Self-label values for this story. Effectively content warnings."
-          },
           "address": {
             "ref": "community.lexicon.location.address",
             "type": "ref"
+          },
+          "aspectRatio": {
+            "ref": "social.grain.defs#aspectRatio",
+            "type": "ref"
+          },
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "labels": {
+            "description": "Self-label values for this story. Effectively content warnings.",
+            "refs": [
+              "com.atproto.label.defs#selfLabels"
+            ],
+            "type": "union"
           },
           "location": {
             "ref": "community.lexicon.location.hthree",
             "type": "ref"
           },
-          "createdAt": {
-            "type": "string",
-            "format": "datetime"
-          },
-          "aspectRatio": {
-            "ref": "social.grain.defs#aspectRatio",
-            "type": "ref"
+          "media": {
+            "accept": [
+              "image/*",
+              "video/*"
+            ],
+            "maxSize": 5000000,
+            "type": "blob"
           }
-        }
-      }
+        },
+        "required": [
+          "media",
+          "aspectRatio",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.story",
   "lexicon": 1
 }

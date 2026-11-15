@@ -1,0 +1,51 @@
+{
+  "id": "social.colibri.beta.polyfill.beginMigration",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request has no valid service auth."
+        },
+        {
+          "name": "InvalidRequest",
+          "description": "The arguments are inconsistent or malformed beyond schema validation."
+        },
+        {
+          "name": "SpacesUnsupported",
+          "description": "The user's PDS does not serve spaces yet."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "spaces"
+          ],
+          "properties": {
+            "spaces": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "space-ref"
+              },
+              "description": "The spaces whose repos still need to move."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Starts moving the requesting user's hosted repos to their PDS. Each repo enters the migrating state, in which the AppView still accepts its writes. Calling it again resumes an interrupted migration."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,31 +1,31 @@
 {
-  "id": "dev.knotless.follow",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "Kept in the following account, keyed by a TID. Readers count one follow per account and subject, however many records name it. Kept apart from app.bsky.graph.follow, so following someone's code is not following their posts.",
       "key": "tid",
-      "type": "record",
       "record": {
-        "type": "object",
+        "properties": {
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "subject": {
+            "description": "The account followed.",
+            "format": "did",
+            "type": "string"
+          }
+        },
         "required": [
           "subject",
           "createdAt"
         ],
-        "properties": {
-          "subject": {
-            "type": "string",
-            "format": "did",
-            "description": "The account followed."
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "datetime"
-          }
-        }
+        "type": "object"
       },
-      "description": "Kept in the following account, keyed by a TID. Readers count one follow per account and subject, however many records name it. Kept apart from app.bsky.graph.follow, so following someone's code is not following their posts."
+      "type": "record"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "An account one follows on knotless, to see what it does."
+  "description": "An account one follows on knotless, to see what it does.",
+  "id": "dev.knotless.follow",
+  "lexicon": 1
 }

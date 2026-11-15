@@ -1,59 +1,59 @@
 {
-  "id": "social.grain.unspecced.getStoryAuthors",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "Get authors who have active stories (posted within the last 24 hours).",
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "authors"
-          ],
           "properties": {
             "authors": {
-              "type": "array",
               "items": {
                 "ref": "social.grain.unspecced.getStoryAuthors#storyAuthor",
                 "type": "ref"
-              }
+              },
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "authors"
+          ],
+          "type": "object"
+        }
       },
-      "description": "Get authors who have active stories (posted within the last 24 hours)."
+      "type": "query"
     },
     "storyAuthor": {
-      "type": "object",
+      "properties": {
+        "lastViewedAt": {
+          "description": "createdAt of the newest of this author's live stories the requesting account has watched. Compare against latestAt to tell whether the viewer is caught up. Only present for an authenticated viewer who has watched at least one.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "latestAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "profile": {
+          "ref": "social.grain.actor.defs#profileView",
+          "type": "ref"
+        },
+        "storyCount": {
+          "type": "integer"
+        },
+        "unviewedCount": {
+          "description": "How many of this author's live stories the requesting account has not watched. Only present for an authenticated viewer.",
+          "type": "integer"
+        }
+      },
       "required": [
         "profile",
         "storyCount",
         "latestAt"
       ],
-      "properties": {
-        "profile": {
-          "ref": "social.grain.actor.defs#profileView",
-          "type": "ref"
-        },
-        "latestAt": {
-          "type": "string",
-          "format": "datetime"
-        },
-        "storyCount": {
-          "type": "integer"
-        },
-        "lastViewedAt": {
-          "type": "string",
-          "format": "datetime",
-          "description": "createdAt of the newest of this author's live stories the requesting account has watched. Compare against latestAt to tell whether the viewer is caught up. Only present for an authenticated viewer who has watched at least one."
-        },
-        "unviewedCount": {
-          "type": "integer",
-          "description": "How many of this author's live stories the requesting account has not watched. Only present for an authenticated viewer."
-        }
-      }
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.getStoryAuthors",
   "lexicon": 1
 }

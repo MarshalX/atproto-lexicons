@@ -1,33 +1,33 @@
 {
-  "id": "social.grain.unspecced.leaveGroup",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Leave a group: fyi.opensocial.leaveGroup on its host, with service auth from the viewer's PDS.",
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "group": {
+              "format": "did",
+              "type": "string"
+            }
+          },
           "required": [
             "group"
           ],
-          "properties": {
-            "group": {
-              "type": "string",
-              "format": "did"
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "properties": {}
-        },
-        "encoding": "application/json"
+          "properties": {},
+          "type": "object"
+        }
       },
-      "description": "Leave a group: fyi.opensocial.leaveGroup on its host, with service auth from the viewer's PDS."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.leaveGroup",
   "lexicon": 1
 }

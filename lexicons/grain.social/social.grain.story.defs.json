@@ -1,8 +1,73 @@
 {
-  "id": "social.grain.story.defs",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "storyView": {
-      "type": "object",
+      "properties": {
+        "address": {
+          "ref": "community.lexicon.location.address",
+          "type": "ref"
+        },
+        "aspectRatio": {
+          "ref": "social.grain.defs#aspectRatio",
+          "type": "ref"
+        },
+        "cid": {
+          "format": "cid",
+          "type": "string"
+        },
+        "commentCount": {
+          "type": "integer"
+        },
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "creator": {
+          "ref": "social.grain.actor.defs#profileView",
+          "type": "ref"
+        },
+        "crossPost": {
+          "ref": "social.grain.gallery.defs#crossPostInfo",
+          "type": "ref"
+        },
+        "expired": {
+          "description": "Whether the story has passed its 24-hour window.",
+          "type": "boolean"
+        },
+        "fullsize": {
+          "description": "Full-size URL for the story image.",
+          "format": "uri",
+          "type": "string"
+        },
+        "labels": {
+          "items": {
+            "ref": "com.atproto.label.defs#label",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "location": {
+          "ref": "community.lexicon.location.hthree",
+          "type": "ref"
+        },
+        "locationDisplay": {
+          "description": "Formatted location label for display.",
+          "type": "string"
+        },
+        "thumb": {
+          "description": "Thumbnail URL for the story image.",
+          "format": "uri",
+          "type": "string"
+        },
+        "uri": {
+          "format": "at-uri",
+          "type": "string"
+        },
+        "viewer": {
+          "ref": "#viewerState",
+          "type": "ref"
+        }
+      },
       "required": [
         "uri",
         "cid",
@@ -12,88 +77,23 @@
         "aspectRatio",
         "createdAt"
       ],
-      "properties": {
-        "cid": {
-          "type": "string",
-          "format": "cid"
-        },
-        "uri": {
-          "type": "string",
-          "format": "at-uri"
-        },
-        "thumb": {
-          "type": "string",
-          "format": "uri",
-          "description": "Thumbnail URL for the story image."
-        },
-        "labels": {
-          "type": "array",
-          "items": {
-            "ref": "com.atproto.label.defs#label",
-            "type": "ref"
-          }
-        },
-        "viewer": {
-          "ref": "#viewerState",
-          "type": "ref"
-        },
-        "address": {
-          "ref": "community.lexicon.location.address",
-          "type": "ref"
-        },
-        "creator": {
-          "ref": "social.grain.actor.defs#profileView",
-          "type": "ref"
-        },
-        "expired": {
-          "type": "boolean",
-          "description": "Whether the story has passed its 24-hour window."
-        },
-        "fullsize": {
-          "type": "string",
-          "format": "uri",
-          "description": "Full-size URL for the story image."
-        },
-        "location": {
-          "ref": "community.lexicon.location.hthree",
-          "type": "ref"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "datetime"
-        },
-        "crossPost": {
-          "ref": "social.grain.gallery.defs#crossPostInfo",
-          "type": "ref"
-        },
-        "aspectRatio": {
-          "ref": "social.grain.defs#aspectRatio",
-          "type": "ref"
-        },
-        "commentCount": {
-          "type": "integer"
-        },
-        "locationDisplay": {
-          "type": "string",
-          "description": "Formatted location label for display."
-        }
-      }
+      "type": "object"
     },
     "viewerState": {
-      "type": "object",
+      "description": "Metadata about the requesting account's relationship with the story.",
       "properties": {
         "fav": {
-          "type": "string",
-          "format": "at-uri"
+          "format": "at-uri",
+          "type": "string"
         },
         "viewed": {
-          "type": "boolean",
-          "description": "Whether the requesting account has watched this story. Only present when true."
+          "description": "Whether the requesting account has watched this story. Only present when true.",
+          "type": "boolean"
         }
       },
-      "description": "Metadata about the requesting account's relationship with the story."
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.story.defs",
   "lexicon": 1
 }

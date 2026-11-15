@@ -1,53 +1,53 @@
 {
-  "id": "social.grain.unspecced.getGroupSubmissions",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "Submissions to a group that no item has answered yet — the review queue.",
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "submissions"
-          ],
           "properties": {
             "cursor": {
               "type": "string"
             },
             "submissions": {
-              "type": "array",
               "items": {
                 "ref": "social.grain.group.defs#submissionView",
                 "type": "ref"
-              }
+              },
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "submissions"
+          ],
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "cursor": {
+            "type": "string"
+          },
+          "group": {
+            "format": "did",
+            "type": "string"
+          },
+          "limit": {
+            "default": 30,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
         "required": [
           "group"
         ],
-        "properties": {
-          "group": {
-            "type": "string",
-            "format": "did"
-          },
-          "limit": {
-            "type": "integer",
-            "default": 30,
-            "maximum": 100,
-            "minimum": 1
-          },
-          "cursor": {
-            "type": "string"
-          }
-        }
+        "type": "params"
       },
-      "description": "Submissions to a group that no item has answered yet — the review queue."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.getGroupSubmissions",
   "lexicon": 1
 }

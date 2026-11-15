@@ -1,72 +1,72 @@
 {
-  "id": "dev.knotless.updateProfile",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Changes the dev.knotless.profile record of the account logged in to this appview's web pages, as `knotless account profile` does: a field left out stays as it is, and one given empty is taken out, so the Bluesky profile's shows again. A profile left with nothing in it is deleted. Requires the session cookie the pages' login sets: the appview writes with the session it keeps for that account. Clients holding their own session write the record themselves.",
+      "errors": [
+        {
+          "description": "A field is too long, or a link is no http or https address.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
           "properties": {
             "bot": {
-              "type": "boolean",
-              "description": "Whether the account says it is a bot, as dev.knotless.profile's `bot`. Left out, it stays as it is."
+              "description": "Whether the account says it is a bot, as dev.knotless.profile's `bot`. Left out, it stays as it is.",
+              "type": "boolean"
+            },
+            "description": {
+              "description": "Free text about the account: its bio.",
+              "maxGraphemes": 256,
+              "maxLength": 2560,
+              "type": "string"
+            },
+            "displayName": {
+              "description": "The name shown over the account's handle.",
+              "maxGraphemes": 64,
+              "maxLength": 640,
+              "type": "string"
             },
             "links": {
-              "type": "array",
+              "description": "The links to show, in order, in place of those there were; none shows the Bluesky profile's.",
               "items": {
                 "ref": "dev.knotless.defs#link",
                 "type": "ref"
               },
               "maxLength": 10,
-              "description": "The links to show, in order, in place of those there were; none shows the Bluesky profile's."
+              "type": "array"
             },
             "pronouns": {
-              "type": "string",
-              "maxLength": 200,
               "description": "Free-form pronouns text.",
-              "maxGraphemes": 20
-            },
-            "description": {
-              "type": "string",
-              "maxLength": 2560,
-              "description": "Free text about the account: its bio.",
-              "maxGraphemes": 256
-            },
-            "displayName": {
-              "type": "string",
-              "maxLength": 640,
-              "description": "The name shown over the account's handle.",
-              "maxGraphemes": 64
+              "maxGraphemes": 20,
+              "maxLength": 200,
+              "type": "string"
             },
             "removeAvatar": {
-              "type": "boolean",
-              "description": "Takes the picture out, so the Bluesky profile's shows again. dev.knotless.uploadAvatar sets one."
+              "description": "Takes the picture out, so the Bluesky profile's shows again. dev.knotless.uploadAvatar sets one.",
+              "type": "boolean"
             }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "InvalidRequest",
-          "description": "A field is too long, or a link is no http or https address."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
+          },
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
           "ref": "dev.knotless.getOwnProfile#ownProfile",
           "type": "ref"
-        },
-        "encoding": "application/json"
+        }
       },
-      "description": "Changes the dev.knotless.profile record of the account logged in to this appview's web pages, as `knotless account profile` does: a field left out stays as it is, and one given empty is taken out, so the Bluesky profile's shows again. A profile left with nothing in it is deleted. Requires the session cookie the pages' login sets: the appview writes with the session it keeps for that account. Clients holding their own session write the record themselves."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Changes how the account logged in to this appview's pages shows on knotless."
+  "description": "Changes how the account logged in to this appview's pages shows on knotless.",
+  "id": "dev.knotless.updateProfile",
+  "lexicon": 1
 }

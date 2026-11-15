@@ -1,83 +1,152 @@
 {
-  "id": "dev.knotless.check",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
+    "batched": {
+      "description": "A pull in a merge queue's batch, as the run squashed it.",
+      "properties": {
+        "commit": {
+          "description": "The hex object ID of the pull's own commit in the batch.",
+          "maxLength": 64,
+          "minLength": 40,
+          "type": "string"
+        },
+        "head": {
+          "description": "The hex object ID of the pull's head that was squashed.",
+          "maxLength": 64,
+          "minLength": 40,
+          "type": "string"
+        },
+        "pull": {
+          "description": "The dev.knotless.pull record.",
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "pull",
+        "commit"
+      ],
+      "type": "object"
+    },
+    "image": {
+      "description": "A picture a run made, as an output.",
+      "properties": {
+        "alt": {
+          "description": "What the picture shows, from its file's name, for whoever reads it without seeing it: a person or an agent.",
+          "maxGraphemes": 300,
+          "maxLength": 3000,
+          "type": "string"
+        },
+        "image": {
+          "accept": [
+            "image/png",
+            "image/jpeg",
+            "image/webp",
+            "image/gif"
+          ],
+          "maxSize": 1000000,
+          "type": "blob"
+        }
+      },
+      "required": [
+        "image",
+        "alt"
+      ],
+      "type": "object"
+    },
     "main": {
+      "description": "Kept in the runner's account, keyed `<owner hash>.<repo key>.<ref hash>.<commit>.<workflow>`, where each hash is the first 26 characters of the lowercase unpadded base32 SHA-256 of the owner's DID or the full ref name (for a pull's run, the pull's AT-URI), so each commit keeps its own check of each workflow, replaced only when that commit runs again. A pull's run is keyed `<owner hash>.<repo key>.<pull hash>.<commit>.<baseCommit>.<workflow>`, so a run against a newer base is a check of its own. A merge queue's batch's run is keyed the same way, with the hash of `queue <branch>` (the branch's full ref name) in place of the pull's, its last commit and the branch's tip it was built on. A runner may delete checks of no more use: a batch's, a closed pull's, ones superseded by a newer run of the same workflow, and the default branch's after a while. Readers trust only a runner the repository names.",
       "key": "any",
-      "type": "record",
       "record": {
-        "type": "object",
-        "required": [
-          "repo",
-          "ref",
-          "commit",
-          "workflow",
-          "status",
-          "startedAt"
-        ],
         "properties": {
-          "log": {
-            "type": "blob",
-            "accept": [
-              "text/plain"
-            ],
-            "maxSize": 1000000,
-            "description": "Every step's output, interleaved as it was written; the tail, when there was more."
-          },
-          "ref": {
-            "type": "string",
-            "maxLength": 1024,
-            "description": "The full ref name the run was for, such as refs/heads/main; for a pull's run, its head branch in the repository the pull brings it from."
-          },
-          "pull": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The dev.knotless.pull record, for a run of the pull's head."
-          },
-          "repo": {
-            "ref": "dev.knotless.defs#repoRef",
-            "type": "ref",
-            "description": "The repository whose ref moved, or the target of the pull."
+          "baseCommit": {
+            "description": "For a pull's run, the hex object ID of the tip of the branch the pull is into that its head was merged with: the run is of that merge, as merging the pull would make it, so it is current only while both the head and the base are where they were. For a batch's run, the tip of the branch the batch was built on.",
+            "maxLength": 64,
+            "minLength": 40,
+            "type": "string"
           },
           "batch": {
-            "type": "array",
+            "description": "For a run of a merge queue's batch (dev.knotless.queue): the pulls it would land, in order, each squashed as a commit of its own onto `baseCommit`, the tip of the branch `ref` names, and `commit` the last of them. Once every run of the batch passes, the branch moves to `commit`.",
             "items": {
               "ref": "#batched",
               "type": "ref"
             },
             "maxLength": 64,
-            "description": "For a run of a merge queue's batch (dev.knotless.queue): the pulls it would land, in order, each squashed as a commit of its own onto `baseCommit`, the tip of the branch `ref` names, and `commit` the last of them. Once every run of the batch passes, the branch moves to `commit`."
+            "type": "array"
+          },
+          "commit": {
+            "description": "The hex object ID the ref pointed at.",
+            "maxLength": 64,
+            "minLength": 40,
+            "type": "string"
           },
           "error": {
-            "type": "string",
+            "description": "Why the workflow did not run: for `error`, or for a `failure` of a pull that does not merge, the paths that conflict.",
             "maxLength": 4096,
-            "description": "Why the workflow did not run: for `error`, or for a `failure` of a pull that does not merge, the paths that conflict."
+            "type": "string"
+          },
+          "finishedAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "generation": {
+            "description": "The ref's generation at that commit.",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "log": {
+            "accept": [
+              "text/plain"
+            ],
+            "description": "Every step's output, interleaved as it was written; the tail, when there was more.",
+            "maxSize": 1000000,
+            "type": "blob"
+          },
+          "outputs": {
+            "description": "What the run made to be looked at, such as screenshots of the pages a change moved, in the order of their names. Kinds unknown to a reader are passed over.",
+            "items": {
+              "refs": [
+                "#image"
+              ],
+              "type": "union"
+            },
+            "maxLength": 32,
+            "type": "array"
+          },
+          "pull": {
+            "description": "The dev.knotless.pull record, for a run of the pull's head.",
+            "format": "at-uri",
+            "type": "string"
           },
           "queue": {
-            "type": "string",
-            "maxLength": 64,
             "description": "For a pull's run, where its workflow runs in the merge queue, when not only on each batch: `first`, as the workflow's `queue: first` asks, is a pre-flight, which a queued pull must pass at its head before it goes into a batch.",
             "knownValues": [
               "first"
-            ]
-          },
-          "steps": {
-            "type": "array",
-            "items": {
-              "ref": "#step",
-              "type": "ref"
-            },
-            "maxLength": 256,
-            "description": "Each step the workflow has, in order. Absent for `error`."
-          },
-          "commit": {
-            "type": "string",
+            ],
             "maxLength": 64,
-            "minLength": 40,
-            "description": "The hex object ID the ref pointed at."
+            "type": "string"
+          },
+          "ref": {
+            "description": "The full ref name the run was for, such as refs/heads/main; for a pull's run, its head branch in the repository the pull brings it from.",
+            "maxLength": 1024,
+            "type": "string"
+          },
+          "repo": {
+            "description": "The repository whose ref moved, or the target of the pull.",
+            "ref": "dev.knotless.defs#repoRef",
+            "type": "ref"
+          },
+          "skipped": {
+            "description": "For a `success` that ran no step: why, as people read it, such as the paths its workflow names, none of which the change touched. Its steps are then each `skipped`.",
+            "maxGraphemes": 1000,
+            "maxLength": 4000,
+            "type": "string"
+          },
+          "startedAt": {
+            "format": "datetime",
+            "type": "string"
           },
           "status": {
-            "type": "string",
-            "maxLength": 64,
             "description": "`queued` is a run filed and waiting for a job on its runner, no step started yet: it is filed `running` once it starts, its `startedAt` then. `failure` is a step that exited non-zero or ran out of time, or a pull's head that conflicts with its base; `error` is the runner failing to run the workflow at all; `cancelled` is a run stopped before it finished: for a newer commit's run of the workflow on the same ref or pull, as its pull moved to another head or base or closed, as the merge queue dropped its batch, or as the runner stopped. A `success` with `skipped` ran no step, as the change touched none of the paths the workflow names, and passes as any `success` does.",
             "knownValues": [
               "queued",
@@ -86,142 +155,73 @@
               "failure",
               "error",
               "cancelled"
-            ]
+            ],
+            "maxLength": 64,
+            "type": "string"
           },
-          "outputs": {
-            "type": "array",
+          "steps": {
+            "description": "Each step the workflow has, in order. Absent for `error`.",
             "items": {
-              "refs": [
-                "#image"
-              ],
-              "type": "union"
+              "ref": "#step",
+              "type": "ref"
             },
-            "maxLength": 32,
-            "description": "What the run made to be looked at, such as screenshots of the pages a change moved, in the order of their names. Kinds unknown to a reader are passed over."
-          },
-          "skipped": {
-            "type": "string",
-            "maxLength": 4000,
-            "description": "For a `success` that ran no step: why, as people read it, such as the paths its workflow names, none of which the change touched. Its steps are then each `skipped`.",
-            "maxGraphemes": 1000
+            "maxLength": 256,
+            "type": "array"
           },
           "workflow": {
-            "type": "string",
+            "description": "The workflow's name, which is also the last part of the record key.",
             "maxLength": 64,
-            "description": "The workflow's name, which is also the last part of the record key."
-          },
-          "startedAt": {
-            "type": "string",
-            "format": "datetime"
-          },
-          "baseCommit": {
-            "type": "string",
-            "maxLength": 64,
-            "minLength": 40,
-            "description": "For a pull's run, the hex object ID of the tip of the branch the pull is into that its head was merged with: the run is of that merge, as merging the pull would make it, so it is current only while both the head and the base are where they were. For a batch's run, the tip of the branch the batch was built on."
-          },
-          "finishedAt": {
-            "type": "string",
-            "format": "datetime"
-          },
-          "generation": {
-            "type": "integer",
-            "minimum": 1,
-            "description": "The ref's generation at that commit."
+            "type": "string"
           }
-        }
+        },
+        "required": [
+          "repo",
+          "ref",
+          "commit",
+          "workflow",
+          "status",
+          "startedAt"
+        ],
+        "type": "object"
       },
-      "description": "Kept in the runner's account, keyed `<owner hash>.<repo key>.<ref hash>.<commit>.<workflow>`, where each hash is the first 26 characters of the lowercase unpadded base32 SHA-256 of the owner's DID or the full ref name (for a pull's run, the pull's AT-URI), so each commit keeps its own check of each workflow, replaced only when that commit runs again. A pull's run is keyed `<owner hash>.<repo key>.<pull hash>.<commit>.<baseCommit>.<workflow>`, so a run against a newer base is a check of its own. A merge queue's batch's run is keyed the same way, with the hash of `queue <branch>` (the branch's full ref name) in place of the pull's, its last commit and the branch's tip it was built on. A runner may delete checks of no more use: a batch's, a closed pull's, ones superseded by a newer run of the same workflow, and the default branch's after a while. Readers trust only a runner the repository names."
+      "type": "record"
     },
     "step": {
-      "type": "object",
-      "required": [
-        "name",
-        "status"
-      ],
       "properties": {
+        "durationMs": {
+          "description": "How long the step ran, in milliseconds.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "exitCode": {
+          "description": "Absent when the step was killed, for running out of time or as its run was cancelled.",
+          "type": "integer"
+        },
         "name": {
-          "type": "string",
+          "description": "The step's name in the workflow, or `step <n>` for one with none.",
           "maxLength": 256,
-          "description": "The step's name in the workflow, or `step <n>` for one with none."
+          "type": "string"
         },
         "status": {
-          "type": "string",
-          "maxLength": 64,
           "description": "`cancelled` is the step running when its run was cancelled.",
           "knownValues": [
             "success",
             "failure",
             "skipped",
             "cancelled"
-          ]
-        },
-        "exitCode": {
-          "type": "integer",
-          "description": "Absent when the step was killed, for running out of time or as its run was cancelled."
-        },
-        "durationMs": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "How long the step ran, in milliseconds."
-        }
-      }
-    },
-    "image": {
-      "type": "object",
-      "required": [
-        "image",
-        "alt"
-      ],
-      "properties": {
-        "alt": {
-          "type": "string",
-          "maxLength": 3000,
-          "description": "What the picture shows, from its file's name, for whoever reads it without seeing it: a person or an agent.",
-          "maxGraphemes": 300
-        },
-        "image": {
-          "type": "blob",
-          "accept": [
-            "image/png",
-            "image/jpeg",
-            "image/webp",
-            "image/gif"
           ],
-          "maxSize": 1000000
+          "maxLength": 64,
+          "type": "string"
         }
       },
-      "description": "A picture a run made, as an output."
-    },
-    "batched": {
-      "type": "object",
       "required": [
-        "pull",
-        "commit"
+        "name",
+        "status"
       ],
-      "properties": {
-        "head": {
-          "type": "string",
-          "maxLength": 64,
-          "minLength": 40,
-          "description": "The hex object ID of the pull's head that was squashed."
-        },
-        "pull": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The dev.knotless.pull record."
-        },
-        "commit": {
-          "type": "string",
-          "maxLength": 64,
-          "minLength": 40,
-          "description": "The hex object ID of the pull's own commit in the batch."
-        }
-      },
-      "description": "A pull in a merge queue's batch, as the run squashed it."
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "What a workflow did at a commit a ref pointed at, or at the head of a pull, as the runner that ran it reports."
+  "description": "What a workflow did at a commit a ref pointed at, or at the head of a pull, as the runner that ran it reports.",
+  "id": "dev.knotless.check",
+  "lexicon": 1
 }

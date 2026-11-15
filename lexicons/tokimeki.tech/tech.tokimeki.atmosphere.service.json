@@ -1,0 +1,174 @@
+{
+  "id": "tech.tokimeki.atmosphere.service",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "description",
+          "url",
+          "createdAt"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 2048
+          },
+          "icon": {
+            "type": "blob",
+            "accept": [
+              "image/png",
+              "image/jpeg",
+              "image/webp"
+            ],
+            "maxSize": 500000
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 640,
+            "maxGraphemes": 64
+          },
+          "tagline": {
+            "type": "string",
+            "maxLength": 640,
+            "description": "Short subtitle shown under the name on cards.",
+            "maxGraphemes": 64
+          },
+          "category": {
+            "type": "string",
+            "maxLength": 64,
+            "knownValues": [
+              "social",
+              "messaging",
+              "blog",
+              "art",
+              "photo",
+              "video",
+              "music",
+              "feeds",
+              "bookmarks",
+              "polls",
+              "tools",
+              "developer",
+              "games",
+              "community",
+              "other"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "localized": {
+            "type": "array",
+            "items": {
+              "ref": "#localizedText",
+              "type": "ref"
+            },
+            "maxLength": 20
+          },
+          "collections": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "nsid"
+            },
+            "maxLength": 20,
+            "description": "Record collections (NSIDs) this service writes to its users' repositories. Clients may show the service on the profiles of people whose repository contains one of them. Each NSID's authority must be the service domain (the host of url) or a subdomain of it."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 30000,
+            "description": "Full description shown on the detail page. Line breaks are preserved.",
+            "maxGraphemes": 3000
+          },
+          "screenshots": {
+            "type": "array",
+            "items": {
+              "ref": "#screenshot",
+              "type": "ref"
+            },
+            "maxLength": 10
+          }
+        }
+      }
+    },
+    "screenshot": {
+      "type": "object",
+      "required": [
+        "image"
+      ],
+      "properties": {
+        "alt": {
+          "type": "string",
+          "maxLength": 3000,
+          "maxGraphemes": 300
+        },
+        "image": {
+          "type": "blob",
+          "accept": [
+            "image/png",
+            "image/jpeg",
+            "image/webp"
+          ],
+          "maxSize": 1000000
+        },
+        "aspectRatio": {
+          "ref": "#aspectRatio",
+          "type": "ref"
+        }
+      }
+    },
+    "aspectRatio": {
+      "type": "object",
+      "required": [
+        "width",
+        "height"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "localizedText": {
+      "type": "object",
+      "required": [
+        "lang"
+      ],
+      "properties": {
+        "lang": {
+          "type": "string",
+          "format": "language"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 640,
+          "maxGraphemes": 64
+        },
+        "tagline": {
+          "type": "string",
+          "maxLength": 640,
+          "maxGraphemes": 64
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 30000,
+          "maxGraphemes": 3000
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A showcase listing for an AT Protocol service. Published by the service provider in their own repository and submitted to TOKIMEKI's Atmosphere index (tech.tokimeki.atmosphere.submitService), which verifies that the provider controls the service domain."
+}

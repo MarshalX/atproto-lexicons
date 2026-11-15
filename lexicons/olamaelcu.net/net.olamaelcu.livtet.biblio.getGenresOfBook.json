@@ -1,0 +1,77 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "errors": [
+        {
+          "description": "The uri is missing, malformed, or not an edition record URI.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "No catalog edition has that URI.",
+          "name": "RecordNotFound"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "genres": {
+              "description": "Genres in provider order; empty when none are known yet.",
+              "items": {
+                "properties": {
+                  "name": {
+                    "description": "Canonical genre name.",
+                    "type": "string"
+                  },
+                  "source": {
+                    "description": "Provider that supplied the genre.",
+                    "knownValues": [
+                      "openlibrary",
+                      "goodreads",
+                      "isbndb"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "source"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "uri": {
+              "description": "AT-URI of the edition these genres belong to.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "uri",
+            "genres"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "uri": {
+            "description": "AT-URI of the edition these genres belong to.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "uri"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "Fetch the genres of one catalog edition by its AT-URI. This is an anonymous catalog read served by the bibliograph edge from the catalog tables; it is never handled by HappyView. Genres come from OpenLibrary subjects and Goodreads book pages, mapped to a curated vocabulary.",
+  "id": "net.olamaelcu.livtet.biblio.getGenresOfBook",
+  "lexicon": 1
+}

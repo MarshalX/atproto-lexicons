@@ -1,148 +1,148 @@
 {
-  "id": "dev.knotless.getActorActivity",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
+    "dayView": {
+      "description": "What the account did on one day.",
+      "properties": {
+        "comments": {
+          "description": "Comments it wrote.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "day": {
+          "description": "The date in `tz`, as YYYY-MM-DD.",
+          "type": "string"
+        },
+        "issues": {
+          "description": "Issues it opened.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "pulls": {
+          "description": "Pulls it opened.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "pushes": {
+          "description": "Refs it moved, made or deleted, one for each claim.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "repos": {
+          "description": "Repositories it made.",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "day"
+      ],
+      "type": "object"
+    },
     "main": {
-      "type": "query",
+      "description": "How much an account did on each day since a time, by kind, as an appview has indexed it, and its repositories' pushes: when each was last pushed to, and how often on each of those days. Days are dates in the zone `tz`, and only days with something done are listed. Repositories and accounts taken down count for nothing. No authentication needed; asked with a service token or the pages' session cookie by the account itself, or by a member of its private repositories, those it may read are among `repos` too, and the answer is the asker's alone.",
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "days",
-            "repos"
-          ],
           "properties": {
             "days": {
-              "type": "array",
+              "description": "Oldest first.",
               "items": {
                 "ref": "#dayView",
                 "type": "ref"
               },
-              "description": "Oldest first."
+              "type": "array"
             },
             "repos": {
-              "type": "array",
+              "description": "Each of the account's repositories ever pushed to, by name.",
               "items": {
                 "ref": "#repoActivity",
                 "type": "ref"
               },
-              "description": "Each of the account's repositories ever pushed to, by name."
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "days",
+            "repos"
+          ],
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "actor": {
+            "description": "The account.",
+            "format": "did",
+            "type": "string"
+          },
+          "since": {
+            "description": "The first day counted is the one this falls on in `tz`; a year before now if not given.",
+            "format": "datetime",
+            "type": "string"
+          },
+          "tz": {
+            "description": "The IANA time zone whose days are counted, as `America/New_York`; UTC if not given or not known.",
+            "maxLength": 64,
+            "type": "string"
+          }
+        },
         "required": [
           "actor"
         ],
-        "properties": {
-          "tz": {
-            "type": "string",
-            "maxLength": 64,
-            "description": "The IANA time zone whose days are counted, as `America/New_York`; UTC if not given or not known."
-          },
-          "actor": {
-            "type": "string",
-            "format": "did",
-            "description": "The account."
-          },
-          "since": {
-            "type": "string",
-            "format": "datetime",
-            "description": "The first day counted is the one this falls on in `tz`; a year before now if not given."
-          }
-        }
+        "type": "params"
       },
-      "description": "How much an account did on each day since a time, by kind, as an appview has indexed it, and its repositories' pushes: when each was last pushed to, and how often on each of those days. Days are dates in the zone `tz`, and only days with something done are listed. Repositories and accounts taken down count for nothing. No authentication needed; asked with a service token or the pages' session cookie by the account itself, or by a member of its private repositories, those it may read are among `repos` too, and the answer is the asker's alone."
-    },
-    "dayView": {
-      "type": "object",
-      "required": [
-        "day"
-      ],
-      "properties": {
-        "day": {
-          "type": "string",
-          "description": "The date in `tz`, as YYYY-MM-DD."
-        },
-        "pulls": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Pulls it opened."
-        },
-        "repos": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Repositories it made."
-        },
-        "issues": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Issues it opened."
-        },
-        "pushes": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Refs it moved, made or deleted, one for each claim."
-        },
-        "comments": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Comments it wrote."
-        }
-      },
-      "description": "What the account did on one day."
-    },
-    "repoDay": {
-      "type": "object",
-      "required": [
-        "day",
-        "pushes"
-      ],
-      "properties": {
-        "day": {
-          "type": "string",
-          "description": "The date in `tz`, as YYYY-MM-DD."
-        },
-        "pushes": {
-          "type": "integer",
-          "minimum": 1,
-          "description": "Refs moved, made or deleted."
-        }
-      },
-      "description": "The pushes to a repository on one day."
+      "type": "query"
     },
     "repoActivity": {
-      "type": "object",
+      "description": "The pushes to one of the account's repositories.",
+      "properties": {
+        "days": {
+          "description": "The days since `since` it was pushed to, oldest first.",
+          "items": {
+            "ref": "#repoDay",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "name": {
+          "description": "The repository's name: its record key.",
+          "type": "string"
+        },
+        "pushedAt": {
+          "description": "When it was last pushed to, ever.",
+          "format": "datetime",
+          "type": "string"
+        }
+      },
       "required": [
         "name",
         "pushedAt",
         "days"
       ],
+      "type": "object"
+    },
+    "repoDay": {
+      "description": "The pushes to a repository on one day.",
       "properties": {
-        "days": {
-          "type": "array",
-          "items": {
-            "ref": "#repoDay",
-            "type": "ref"
-          },
-          "description": "The days since `since` it was pushed to, oldest first."
+        "day": {
+          "description": "The date in `tz`, as YYYY-MM-DD.",
+          "type": "string"
         },
-        "name": {
-          "type": "string",
-          "description": "The repository's name: its record key."
-        },
-        "pushedAt": {
-          "type": "string",
-          "format": "datetime",
-          "description": "When it was last pushed to, ever."
+        "pushes": {
+          "description": "Refs moved, made or deleted.",
+          "minimum": 1,
+          "type": "integer"
         }
       },
-      "description": "The pushes to one of the account's repositories."
+      "required": [
+        "day",
+        "pushes"
+      ],
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "How much an account did on each day, as an appview has indexed it."
+  "description": "How much an account did on each day, as an appview has indexed it.",
+  "id": "dev.knotless.getActorActivity",
+  "lexicon": 1
 }

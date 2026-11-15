@@ -1,59 +1,59 @@
 {
-  "id": "social.grain.gallery",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
       "key": "tid",
-      "type": "record",
       "record": {
-        "type": "object",
-        "required": [
-          "title",
-          "createdAt"
-        ],
         "properties": {
-          "title": {
-            "type": "string",
-            "maxLength": 100
+          "address": {
+            "ref": "community.lexicon.location.address",
+            "type": "ref"
+          },
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "description": {
+            "maxLength": 1000,
+            "type": "string"
           },
           "facets": {
-            "type": "array",
+            "description": "Annotations of description text (mentions, URLs, hashtags, etc)",
             "items": {
               "ref": "app.bsky.richtext.facet",
               "type": "ref"
             },
-            "description": "Annotations of description text (mentions, URLs, hashtags, etc)"
+            "type": "array"
           },
           "labels": {
+            "description": "Self-label values for this post. Effectively content warnings.",
             "refs": [
               "com.atproto.label.defs#selfLabels"
             ],
-            "type": "union",
-            "description": "Self-label values for this post. Effectively content warnings."
-          },
-          "address": {
-            "ref": "community.lexicon.location.address",
-            "type": "ref"
+            "type": "union"
           },
           "location": {
             "ref": "community.lexicon.location.hthree",
             "type": "ref"
           },
-          "createdAt": {
-            "type": "string",
-            "format": "datetime"
+          "title": {
+            "maxLength": 100,
+            "type": "string"
           },
           "updatedAt": {
-            "type": "string",
-            "format": "datetime"
-          },
-          "description": {
-            "type": "string",
-            "maxLength": 1000
+            "format": "datetime",
+            "type": "string"
           }
-        }
-      }
+        },
+        "required": [
+          "title",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.gallery",
   "lexicon": 1
 }

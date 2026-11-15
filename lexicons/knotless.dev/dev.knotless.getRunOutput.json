@@ -1,90 +1,90 @@
 {
-  "id": "dev.knotless.getRunOutput",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "What a running check's steps printed, as its runner sent it (dev.knotless.putRunOutput): the text after a cursor, the steps that ended and the one going, for a client that follows no server-sent events. The appview keeps the last megabyte of a run in memory while it runs, and a while after; the check's record keeps its log. With nothing new and the run going, it waits up to `wait` seconds for more. Answers as dev.knotless.getCheck does for the same viewer: anyone may read a public repository's, its members a private one's.",
       "errors": [
         {
-          "name": "InvalidRequest",
-          "description": "`uri` names no dev.knotless.check record."
+          "description": "`uri` names no dev.knotless.check record.",
+          "name": "InvalidRequest"
         },
         {
-          "name": "NotFound",
-          "description": "No such repository, no such check of it by a runner it names, or as many runs followed as the appview keeps."
+          "description": "No such repository, no such check of it by a runner it names, or as many runs followed as the appview keeps.",
+          "name": "NotFound"
         }
       ],
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "cursor": {
+              "description": "Where `text` ends, in this run: given back, it asks for what comes after.",
+              "type": "string"
+            },
+            "ended": {
+              "description": "Whether the run's steps are over: its record is filed with its result in a moment.",
+              "type": "boolean"
+            },
+            "going": {
+              "description": "The name of the step running now: none between steps.",
+              "type": "string"
+            },
+            "steps": {
+              "description": "The steps that ended so far, as the check's record will say.",
+              "items": {
+                "ref": "dev.knotless.check#step",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "text": {
+              "description": "What the steps printed after `cursor`, each step's after a line `==> <name>`, in whole lines masked as the log is: nothing before the runner first sends.",
+              "type": "string"
+            }
+          },
           "required": [
             "text",
             "cursor",
             "steps",
             "ended"
           ],
-          "properties": {
-            "text": {
-              "type": "string",
-              "description": "What the steps printed after `cursor`, each step's after a line `==> <name>`, in whole lines masked as the log is: nothing before the runner first sends."
-            },
-            "ended": {
-              "type": "boolean",
-              "description": "Whether the run's steps are over: its record is filed with its result in a moment."
-            },
-            "going": {
-              "type": "string",
-              "description": "The name of the step running now: none between steps."
-            },
-            "steps": {
-              "type": "array",
-              "items": {
-                "ref": "dev.knotless.check#step",
-                "type": "ref"
-              },
-              "description": "The steps that ended so far, as the check's record will say."
-            },
-            "cursor": {
-              "type": "string",
-              "description": "Where `text` ends, in this run: given back, it asks for what comes after."
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "cursor": {
+            "description": "Where an earlier answer ended: only what was printed after it is given. With none, or one of another run of the check, as a rerun at the same commit is, all that is kept.",
+            "maxLength": 128,
+            "type": "string"
+          },
+          "repo": {
+            "description": "The repository's dev.knotless.repo record, as dev.knotless.getCheck takes it.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "uri": {
+            "description": "The dev.knotless.check record, by a runner the repository names.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "wait": {
+            "description": "Seconds to wait for more when nothing was printed after `cursor` and the run has not ended.",
+            "maximum": 25,
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
         "required": [
           "repo",
           "uri"
         ],
-        "properties": {
-          "uri": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The dev.knotless.check record, by a runner the repository names."
-          },
-          "repo": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The repository's dev.knotless.repo record, as dev.knotless.getCheck takes it."
-          },
-          "wait": {
-            "type": "integer",
-            "maximum": 25,
-            "minimum": 0,
-            "description": "Seconds to wait for more when nothing was printed after `cursor` and the run has not ended."
-          },
-          "cursor": {
-            "type": "string",
-            "maxLength": 128,
-            "description": "Where an earlier answer ended: only what was printed after it is given. With none, or one of another run of the check, as a rerun at the same commit is, all that is kept."
-          }
-        }
+        "type": "params"
       },
-      "description": "What a running check's steps printed, as its runner sent it (dev.knotless.putRunOutput): the text after a cursor, the steps that ended and the one going, for a client that follows no server-sent events. The appview keeps the last megabyte of a run in memory while it runs, and a while after; the check's record keeps its log. With nothing new and the run going, it waits up to `wait` seconds for more. Answers as dev.knotless.getCheck does for the same viewer: anyone may read a public repository's, its members a private one's."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "What a check's run has printed so far, as its runner sends it to the appview."
+  "description": "What a check's run has printed so far, as its runner sends it to the appview.",
+  "id": "dev.knotless.getRunOutput",
+  "lexicon": 1
 }

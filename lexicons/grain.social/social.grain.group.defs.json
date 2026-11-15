@@ -1,134 +1,164 @@
 {
-  "id": "social.grain.group.defs",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
-    "rule": {
-      "type": "object",
-      "required": [
-        "uri",
-        "title"
-      ],
+    "groupRef": {
       "properties": {
-        "uri": {
-          "type": "string",
-          "format": "at-uri"
-        },
-        "text": {
+        "did": {
+          "format": "did",
           "type": "string"
         },
-        "title": {
+        "displayName": {
+          "type": "string"
+        },
+        "handle": {
+          "type": "string"
+        },
+        "item": {
+          "description": "The social.grain.group.item that pools this gallery.",
+          "format": "at-uri",
           "type": "string"
         }
-      }
-    },
-    "groupRef": {
-      "type": "object",
+      },
       "required": [
         "did",
         "handle",
         "item"
       ],
+      "type": "object"
+    },
+    "groupView": {
       "properties": {
+        "avatar": {
+          "format": "uri",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
         "did": {
-          "type": "string",
-          "format": "did"
-        },
-        "item": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The social.grain.group.item that pools this gallery."
-        },
-        "handle": {
+          "format": "did",
           "type": "string"
         },
         "displayName": {
           "type": "string"
-        }
-      }
-    },
-    "groupView": {
-      "type": "object",
-      "required": [
-        "did",
-        "handle"
-      ],
-      "properties": {
-        "did": {
-          "type": "string",
-          "format": "did"
-        },
-        "url": {
-          "type": "string",
-          "format": "uri",
-          "description": "The group's own site, from its opensocial profile. Where the group is actually run."
-        },
-        "rules": {
-          "type": "array",
-          "items": {
-            "ref": "#rule",
-            "type": "ref"
-          }
-        },
-        "avatar": {
-          "type": "string",
-          "format": "uri"
         },
         "handle": {
           "type": "string"
         },
-        "viewer": {
-          "ref": "#viewerState",
-          "type": "ref"
-        },
-        "poolCount": {
-          "type": "integer",
-          "description": "Galleries in the pool."
-        },
         "joinPolicy": {
-          "type": "string",
           "description": "How to get in, from the group's public profile.",
           "knownValues": [
             "open",
             "request",
             "invite"
-          ]
-        },
-        "description": {
+          ],
           "type": "string"
         },
-        "displayName": {
+        "lastActivityAt": {
+          "description": "When the pool last changed.",
+          "format": "datetime",
           "type": "string"
         },
         "pendingCount": {
-          "type": "integer",
-          "description": "Submissions awaiting review. Only present for a viewer acting as the group."
+          "description": "Submissions awaiting review. Only present for a viewer acting as the group.",
+          "type": "integer"
         },
-        "lastActivityAt": {
-          "type": "string",
-          "format": "datetime",
-          "description": "When the pool last changed."
+        "poolCount": {
+          "description": "Galleries in the pool.",
+          "type": "integer"
+        },
+        "rules": {
+          "items": {
+            "ref": "#rule",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "url": {
+          "description": "The group's own site, from its opensocial profile. Where the group is actually run.",
+          "format": "uri",
+          "type": "string"
+        },
+        "viewer": {
+          "ref": "#viewerState",
+          "type": "ref"
         }
-      }
+      },
+      "required": [
+        "did",
+        "handle"
+      ],
+      "type": "object"
     },
-    "viewerState": {
-      "type": "object",
+    "rule": {
       "properties": {
-        "acting": {
-          "type": "boolean",
-          "description": "The viewer is signed in as this group, so may accept and remove."
+        "text": {
+          "type": "string"
         },
-        "member": {
-          "type": "boolean",
-          "description": "The viewer has accepted membership of this group, as their own PDS lists it. A claim, not access: the host decides that."
+        "title": {
+          "type": "string"
         },
-        "submission": {
-          "ref": "#submissionState",
-          "type": "ref",
-          "description": "The viewer's standing for the gallery named in the request, if one was."
+        "uri": {
+          "format": "at-uri",
+          "type": "string"
         }
-      }
+      },
+      "required": [
+        "uri",
+        "title"
+      ],
+      "type": "object"
+    },
+    "submissionState": {
+      "properties": {
+        "item": {
+          "description": "The group's item record, once accepted.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "status": {
+          "knownValues": [
+            "pending",
+            "accepted",
+            "declined"
+          ],
+          "type": "string"
+        },
+        "uri": {
+          "description": "The submission record.",
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "status"
+      ],
+      "type": "object"
     },
     "submissionView": {
-      "type": "object",
+      "properties": {
+        "cid": {
+          "format": "cid",
+          "type": "string"
+        },
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "gallery": {
+          "ref": "social.grain.gallery.defs#galleryView",
+          "type": "ref"
+        },
+        "group": {
+          "format": "did",
+          "type": "string"
+        },
+        "uri": {
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
       "required": [
         "uri",
         "cid",
@@ -136,57 +166,27 @@
         "gallery",
         "createdAt"
       ],
-      "properties": {
-        "cid": {
-          "type": "string",
-          "format": "cid"
-        },
-        "uri": {
-          "type": "string",
-          "format": "at-uri"
-        },
-        "group": {
-          "type": "string",
-          "format": "did"
-        },
-        "gallery": {
-          "ref": "social.grain.gallery.defs#galleryView",
-          "type": "ref"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "datetime"
-        }
-      }
+      "type": "object"
     },
-    "submissionState": {
-      "type": "object",
-      "required": [
-        "uri",
-        "status"
-      ],
+    "viewerState": {
       "properties": {
-        "uri": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The submission record."
+        "acting": {
+          "description": "The viewer is signed in as this group, so may accept and remove.",
+          "type": "boolean"
         },
-        "item": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The group's item record, once accepted."
+        "member": {
+          "description": "The viewer has accepted membership of this group, as their own PDS lists it. A claim, not access: the host decides that.",
+          "type": "boolean"
         },
-        "status": {
-          "type": "string",
-          "knownValues": [
-            "pending",
-            "accepted",
-            "declined"
-          ]
+        "submission": {
+          "description": "The viewer's standing for the gallery named in the request, if one was.",
+          "ref": "#submissionState",
+          "type": "ref"
         }
-      }
+      },
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.group.defs",
   "lexicon": 1
 }

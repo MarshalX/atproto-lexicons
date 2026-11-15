@@ -1,71 +1,71 @@
 {
-  "id": "social.grain.unspecced.getLocations",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
-    "main": {
-      "type": "query",
-      "output": {
-        "schema": {
-          "type": "object",
-          "properties": {
-            "locations": {
-              "type": "array",
-              "items": {
-                "ref": "social.grain.unspecced.getLocations#locationItem",
-                "type": "ref"
-              }
-            }
-          }
+    "locationItem": {
+      "properties": {
+        "galleryCount": {
+          "type": "integer"
         },
-        "encoding": "application/json"
-      },
-      "parameters": {
-        "type": "params",
-        "properties": {
-          "pins": {
-            "type": "boolean",
-            "description": "Return every place carrying only what a map needs — name, h3Index, galleryCount — instead of the top 30 with thumbnails and cell lists. The full shape is ~1.1KB per place, so all of them would be ~780KB; lean it is ~70 bytes each."
-          }
+        "h3Cells": {
+          "description": "All H3 cells whose galleries map to this place. Ordered by gallery count desc.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "h3Index": {
+          "description": "Canonical H3 cell for the place (densest cell in the group).",
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "thumbs": {
+          "description": "Up to four representative photo thumbnails, most recent first. Lets the index render without a feed request per location.",
+          "items": {
+            "format": "uri",
+            "type": "string"
+          },
+          "maxLength": 4,
+          "type": "array"
         }
       },
-      "description": "Get top locations by gallery count."
-    },
-    "locationItem": {
-      "type": "object",
       "required": [
         "name",
         "h3Index",
         "galleryCount"
       ],
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "thumbs": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "format": "uri"
+      "type": "object"
+    },
+    "main": {
+      "description": "Get top locations by gallery count.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "locations": {
+              "items": {
+                "ref": "social.grain.unspecced.getLocations#locationItem",
+                "type": "ref"
+              },
+              "type": "array"
+            }
           },
-          "maxLength": 4,
-          "description": "Up to four representative photo thumbnails, most recent first. Lets the index render without a feed request per location."
-        },
-        "h3Cells": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "All H3 cells whose galleries map to this place. Ordered by gallery count desc."
-        },
-        "h3Index": {
-          "type": "string",
-          "description": "Canonical H3 cell for the place (densest cell in the group)."
-        },
-        "galleryCount": {
-          "type": "integer"
+          "type": "object"
         }
-      }
+      },
+      "parameters": {
+        "properties": {
+          "pins": {
+            "description": "Return every place carrying only what a map needs — name, h3Index, galleryCount — instead of the top 30 with thumbnails and cell lists. The full shape is ~1.1KB per place, so all of them would be ~780KB; lean it is ~70 bytes each.",
+            "type": "boolean"
+          }
+        },
+        "type": "params"
+      },
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.getLocations",
   "lexicon": 1
 }

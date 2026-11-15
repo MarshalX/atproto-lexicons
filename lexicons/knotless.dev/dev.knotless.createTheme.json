@@ -1,51 +1,51 @@
 {
-  "id": "dev.knotless.createTheme",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Writes a dev.knotless.theme record in the account logged in to this appview's web pages, for anyone to choose. Requires the session cookie the pages' login sets: the appview writes with the session it keeps for that account. Clients holding their own session write the record themselves.",
+      "errors": [
+        {
+          "description": "A name empty or too long, or a colour not as #rrggbb.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "name",
-            "palette"
-          ],
           "properties": {
             "name": {
-              "type": "string",
-              "maxLength": 640,
               "description": "What the theme is called.",
-              "maxGraphemes": 64
+              "maxGraphemes": 64,
+              "maxLength": 640,
+              "type": "string"
             },
             "palette": {
               "ref": "dev.knotless.theme#palette",
               "type": "ref"
             }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "InvalidRequest",
-          "description": "A name empty or too long, or a colour not as #rrggbb."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
+          },
+          "required": [
+            "name",
+            "palette"
+          ],
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
           "ref": "dev.knotless.defs#themeView",
           "type": "ref"
-        },
-        "encoding": "application/json"
+        }
       },
-      "description": "Writes a dev.knotless.theme record in the account logged in to this appview's web pages, for anyone to choose. Requires the session cookie the pages' login sets: the appview writes with the session it keeps for that account. Clients holding their own session write the record themselves."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Publishes a theme as the account logged in to this appview's pages."
+  "description": "Publishes a theme as the account logged in to this appview's pages.",
+  "id": "dev.knotless.createTheme",
+  "lexicon": 1
 }

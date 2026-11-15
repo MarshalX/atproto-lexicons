@@ -20,7 +20,7 @@
           "ownerOnly": {
             "type": "boolean",
             "default": false,
-            "description": "Whether only community admins may post in the category's channels. A channel that sets its own posting restriction overrides this."
+            "description": "Deprecated, superseded by permissionOverrides. Honoured only while permissionOverrides is absent."
           },
           "allowedRoles": {
             "type": "array",
@@ -29,7 +29,7 @@
               "format": "record-key",
               "description": "A role permitted to post."
             },
-            "description": "Roles allowed to post in the category's channels. Empty means no role restriction. A channel that sets its own posting restriction overrides this."
+            "description": "Deprecated, superseded by permissionOverrides. Honoured only while permissionOverrides is absent."
           },
           "channelOrder": {
             "type": "array",
@@ -47,7 +47,7 @@
               "format": "did",
               "description": "A member permitted to post."
             },
-            "description": "Members allowed to post in the category's channels in addition to allowedRoles."
+            "description": "Deprecated, superseded by permissionOverrides. Honoured only while permissionOverrides is absent."
           },
           "visibleToRoles": {
             "type": "array",
@@ -56,7 +56,7 @@
               "format": "record-key",
               "description": "A role permitted to read."
             },
-            "description": "Roles that may read the category's channels. Empty or absent means every member may read them. A channel with its own non-empty visibleToRoles or visibleToMembers overrides this. A non-empty list makes the category's other channels private, enforced the same way as a private channel."
+            "description": "Deprecated, superseded by permissionOverrides. Honoured only while permissionOverrides is absent."
           },
           "visibleToMembers": {
             "type": "array",
@@ -65,7 +65,16 @@
               "format": "did",
               "description": "A member permitted to read."
             },
-            "description": "Members that may read the category's channels in addition to visibleToRoles."
+            "description": "Deprecated, superseded by permissionOverrides. Honoured only while permissionOverrides is absent."
+          },
+          "permissionOverrides": {
+            "type": "array",
+            "items": {
+              "ref": "social.colibri.beta.defs#permissionOverride",
+              "type": "ref"
+            },
+            "maxLength": 200,
+            "description": "Per-role and per-member permission overrides for every channel in this category. A channel's own override for the same permission and target takes precedence."
           }
         }
       },

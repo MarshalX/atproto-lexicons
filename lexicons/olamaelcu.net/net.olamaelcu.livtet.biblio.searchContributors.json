@@ -1,0 +1,65 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "errors": [
+        {
+          "description": "q is missing or blank.",
+          "name": "InvalidQuery"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "description": "Opaque cursor for the next page; absent when no more matches exist.",
+              "type": "string"
+            },
+            "items": {
+              "items": {
+                "ref": "net.olamaelcu.livtet.biblio.defs#contributorView",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "description": "Opaque pagination cursor from a previous response. A malformed cursor restarts at the beginning rather than erroring.",
+            "maxLength": 512,
+            "type": "string"
+          },
+          "limit": {
+            "default": 25,
+            "description": "Maximum number of contributors to return.",
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "q": {
+            "description": "Text to match against the contributor's display name and identifier values. Case-insensitive substring match; a blank value is rejected.",
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "q"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "Search catalog contributors by name or identifier value. Anonymous and read-only; served by the bibliograph edge from the catalog tables. Results are ordered by exact-name match, then name prefix, then substring, with a stable name/URI tie-break.",
+  "id": "net.olamaelcu.livtet.biblio.searchContributors",
+  "lexicon": 1
+}

@@ -1,0 +1,109 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "identifiedFormat": {
+      "description": "The product one identifier denotes: its medium and the extent that medium is measured in. An identifier attached without a provider claim has neither, and is still listed.",
+      "properties": {
+        "durationSeconds": {
+          "description": "Duration of this product in seconds, when the provider reported one. A timestamp-denominated position's total comes from here.",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "format": {
+          "description": "The medium this identifier denotes, when the provider named one.",
+          "knownValues": [
+            "physical",
+            "ebook",
+            "audio"
+          ],
+          "type": "string"
+        },
+        "issuer": {
+          "description": "The identifier's issuing scheme, as the catalog spells it (isbn13, isbn10, asin, …).",
+          "type": "string"
+        },
+        "pages": {
+          "description": "Page count of this product, when the provider reported one. A page-denominated position's total comes from here.",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "progressUnit": {
+          "description": "The scale this identifier's extent is measured in, not the reader's preferred unit: timestamp when a duration is known, else page when a page count is known, else absent.",
+          "knownValues": [
+            "page",
+            "timestamp"
+          ],
+          "type": "string"
+        },
+        "value": {
+          "description": "The identifier value as issued.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "issuer",
+        "value"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "errors": [
+        {
+          "description": "The uri is missing, malformed, or not an edition record URI.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "No catalog edition has that URI.",
+          "name": "RecordNotFound"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "chapters": {
+              "description": "Chapter count of the edition, when one is known. A chapter-denominated position's total comes from here.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "identifiers": {
+              "description": "One claim per identifier, in the catalog's own rank order: isbn13, then isbn10, then asin, then any other issuer; ties broken by issuer and value. Consumers take the first claim whose medium matches and never re-sort.",
+              "items": {
+                "ref": "#identifiedFormat",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "uri": {
+              "description": "AT-URI of the edition these claims belong to.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "uri",
+            "identifiers"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "uri": {
+            "description": "AT-URI of the edition whose identifier claims to fetch.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "uri"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "Fetch the per-identifier format claims of one catalog edition. This is an anonymous catalog read served by the bibliograph edge from the catalog tables; it is never handled by HappyView. Each identifier carries its own medium and extent, because the edition record's format, pages and duration are an independent rank union over those claims and can describe a product no identifier claims.",
+  "id": "net.olamaelcu.livtet.biblio.getIdentifiedFormats",
+  "lexicon": 1
+}
