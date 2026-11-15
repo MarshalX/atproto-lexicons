@@ -1,31 +1,31 @@
 {
-  "id": "dev.knotless.star",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "Kept in the starring account, keyed by a TID. Only public repositories are starred: the record is public, and would name a private one. Readers count one star per account and repository, however many records name it.",
       "key": "tid",
-      "type": "record",
       "record": {
-        "type": "object",
+        "properties": {
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "subject": {
+            "description": "The repository starred.",
+            "ref": "dev.knotless.defs#repoRef",
+            "type": "ref"
+          }
+        },
         "required": [
           "subject",
           "createdAt"
         ],
-        "properties": {
-          "subject": {
-            "ref": "dev.knotless.defs#repoRef",
-            "type": "ref",
-            "description": "The repository starred."
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "datetime"
-          }
-        }
+        "type": "object"
       },
-      "description": "Kept in the starring account, keyed by a TID. Only public repositories are starred: the record is public, and would name a private one. Readers count one star per account and repository, however many records name it."
+      "type": "record"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "A repository an account stars, to keep track of it and say it likes it."
+  "description": "A repository an account stars, to keep track of it and say it likes it.",
+  "id": "dev.knotless.star",
+  "lexicon": 1
 }

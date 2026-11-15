@@ -1,76 +1,19 @@
 {
-  "id": "social.grain.unspecced.getFollowers",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
-    "main": {
-      "type": "query",
-      "output": {
-        "schema": {
-          "type": "object",
-          "properties": {
-            "items": {
-              "type": "array",
-              "items": {
-                "ref": "social.grain.unspecced.getFollowers#followerItem",
-                "type": "ref"
-              }
-            },
-            "cursor": {
-              "type": "string"
-            },
-            "totalCount": {
-              "type": "integer"
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "parameters": {
-        "type": "params",
-        "required": [
-          "actor"
-        ],
-        "properties": {
-          "actor": {
-            "type": "string",
-            "format": "at-identifier"
-          },
-          "limit": {
-            "type": "integer",
-            "default": 50,
-            "maximum": 100,
-            "minimum": 1
-          },
-          "cursor": {
-            "type": "string"
-          },
-          "viewer": {
-            "type": "string",
-            "format": "did"
-          }
-        }
-      },
-      "description": "Get followers for a given user."
-    },
-    "viewerState": {
-      "type": "object",
-      "properties": {
-        "following": {
-          "type": "string",
-          "format": "at-uri"
-        }
-      }
-    },
     "followerItem": {
-      "type": "object",
-      "required": [
-        "did"
-      ],
       "properties": {
-        "did": {
-          "type": "string",
-          "format": "did"
-        },
         "avatar": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "displayName": {
           "type": "string"
         },
         "handle": {
@@ -79,16 +22,73 @@
         "viewer": {
           "ref": "social.grain.unspecced.getFollowers#viewerState",
           "type": "ref"
+        }
+      },
+      "required": [
+        "did"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "Get followers for a given user.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "items": {
+              "items": {
+                "ref": "social.grain.unspecced.getFollowers#followerItem",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "totalCount": {
+              "type": "integer"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "actor": {
+            "format": "at-identifier",
+            "type": "string"
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "limit": {
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "viewer": {
+            "format": "did",
+            "type": "string"
+          }
         },
-        "description": {
-          "type": "string"
-        },
-        "displayName": {
+        "required": [
+          "actor"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    },
+    "viewerState": {
+      "properties": {
+        "following": {
+          "format": "at-uri",
           "type": "string"
         }
-      }
+      },
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.getFollowers",
   "lexicon": 1
 }

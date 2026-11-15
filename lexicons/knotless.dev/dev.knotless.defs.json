@@ -1,457 +1,178 @@
 {
-  "id": "dev.knotless.defs",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
-    "link": {
-      "type": "object",
-      "required": [
-        "url"
-      ],
-      "properties": {
-        "url": {
-          "type": "string",
-          "format": "uri",
-          "description": "Where it goes: an http or https address."
-        },
-        "title": {
-          "type": "string",
-          "maxLength": 320,
-          "description": "What to call it. Readers fall back to the address's host.",
-          "maxGraphemes": 40
-        }
-      },
-      "description": "A link shown on an account's profile or a repository's pages."
-    },
-    "facet": {
-      "type": "object",
-      "required": [
-        "index",
-        "features"
-      ],
-      "properties": {
-        "index": {
-          "ref": "#byteSlice",
-          "type": "ref"
-        },
-        "features": {
-          "type": "array",
-          "items": {
-            "refs": [
-              "#mention"
-            ],
-            "type": "union"
-          },
-          "maxLength": 8,
-          "description": "What the span is. Kinds unknown to a reader are passed over."
-        }
-      },
-      "description": "Where a text says more than its words, shaped as app.bsky.richtext.facet: the span it covers and what that span is. A pull's, an issue's or a comment's body has its own, and a pull's or an issue's title its own."
-    },
-    "image": {
-      "type": "object",
-      "required": [
-        "image"
-      ],
-      "properties": {
-        "image": {
-          "type": "blob",
-          "accept": [
-            "image/png",
-            "image/jpeg",
-            "image/webp",
-            "image/gif"
-          ],
-          "maxSize": 1000000
-        },
-        "width": {
-          "type": "integer",
-          "minimum": 1,
-          "description": "How wide it is drawn, in CSS pixels: its pixels over the density it was made at, so a screenshot taken at 2x shows at the size it was seen. Readers draw it no wider than where it goes, keeping its shape."
-        },
-        "height": {
-          "type": "integer",
-          "minimum": 1,
-          "description": "How high it is drawn, in CSS pixels, as `width` is."
-        }
-      },
-      "description": "A picture a pull's, an issue's or a comment's body shows, attached so its author's PDS keeps it. The body links to it on that PDS, as `com.atproto.sync.getBlob` serves it, saying what it shows as Markdown's alt text; readers may show it from elsewhere, as dev.knotless.getAttachment does."
-    },
-    "mention": {
-      "type": "object",
-      "required": [
-        "did"
-      ],
-      "properties": {
-        "did": {
-          "type": "string",
-          "format": "did"
-        }
-      },
-      "description": "An account the span, `@handle` in the text, mentions: kept by DID, so it names the account still after its handle changes. The account hears of it as a notification."
-    },
-    "repoRef": {
-      "type": "object",
-      "required": [
-        "uri",
-        "key"
-      ],
-      "properties": {
-        "key": {
-          "type": "string",
-          "format": "tid",
-          "description": "The repository's `key`."
-        },
-        "uri": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The dev.knotless.repo record, as it was named when this was written."
-        }
-      },
-      "description": "A repository, as another record names it. The URI's name is the one the repository had when the record was written; a rename changes it, and a later repository can take it. The owner in the URI and `key` stay the repository's own, and are what a reader matches on."
-    },
-    "itemView": {
-      "type": "object",
-      "required": [
-        "uri",
-        "kind",
-        "title",
-        "state",
-        "author",
-        "createdAt",
-        "comments"
-      ],
-      "properties": {
-        "uri": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "Its dev.knotless.pull or dev.knotless.issue record."
-        },
-        "kind": {
-          "type": "string",
-          "knownValues": [
-            "pull",
-            "issue"
-          ]
-        },
-        "draft": {
-          "type": "boolean",
-          "description": "A pull its author has not marked ready to merge. Not, when absent."
-        },
-        "state": {
-          "type": "string",
-          "description": "A merged pull is merged; a closed one, or an issue, closed.",
-          "knownValues": [
-            "open",
-            "closed",
-            "merged"
-          ]
-        },
-        "title": {
-          "type": "string"
-        },
-        "author": {
-          "ref": "#actorView",
-          "type": "ref",
-          "description": "Who opened it."
-        },
-        "labels": {
-          "type": "array",
-          "items": {
-            "ref": "dev.knotless.repo#label",
-            "type": "ref"
-          },
-          "description": "The labels it carries, as the repository defines them, in the order it does. Absent when it carries none."
-        },
-        "comments": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "How many comments are on it, its own body aside."
-        },
-        "assignees": {
-          "type": "array",
-          "items": {
-            "ref": "#actorView",
-            "type": "ref"
-          },
-          "description": "Those the repository's owner or collaborators assign it to, in the order assigned (dev.knotless.assignment). Absent when it is assigned to no one."
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "datetime"
-        },
-        "reviewers": {
-          "type": "array",
-          "items": {
-            "ref": "#actorView",
-            "type": "ref"
-          },
-          "description": "Those asked to review a pull, in the order asked: first by its author, then by the repository's owner or collaborators (dev.knotless.assignment), then the required reviewers the rule protecting its base names. Absent when no one is asked."
-        },
-        "updatedAt": {
-          "type": "string",
-          "format": "datetime",
-          "description": "When its author last changed its title or body, if they have."
-        },
-        "requiredReviewers": {
-          "type": "array",
-          "items": {
-            "ref": "#actorView",
-            "type": "ref"
-          },
-          "description": "Of reviewers, those the rule protecting the pull's base requires: asked of every pull into it, and stopped only by changing the rule. Absent when there are none."
-        }
-      },
-      "description": "A pull or an issue in a list of them."
-    },
-    "lineView": {
-      "type": "object",
-      "required": [
-        "path",
-        "line",
-        "outdated"
-      ],
-      "properties": {
-        "line": {
-          "type": "integer",
-          "minimum": 1,
-          "description": "The last line."
-        },
-        "path": {
-          "type": "string",
-          "description": "The file's path on that side."
-        },
-        "side": {
-          "type": "string",
-          "description": "`old` for the side the pull leaves; absent, `new`.",
-          "knownValues": [
-            "old",
-            "new"
-          ]
-        },
-        "lines": {
-          "type": "array",
-          "items": {
-            "ref": "#lineTextView",
-            "type": "ref"
-          },
-          "description": "The lines as they were at the comment's commit, and for one alone a few before it; absent when that commit can no longer be read."
-        },
-        "outdated": {
-          "type": "boolean",
-          "description": "Whether that side of the file has changed since the comment's commit, so its lines may no longer be where they were."
-        },
-        "startLine": {
-          "type": "integer",
-          "minimum": 1,
-          "description": "The first, for more than one."
-        }
-      },
-      "description": "The lines of a pull's diff a comment is on."
-    },
-    "repoMade": {
-      "type": "object",
-      "required": [
-        "uri",
-        "name"
-      ],
-      "properties": {
-        "uri": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "Its dev.knotless.repo record, by its owner's DID."
-        },
-        "name": {
-          "type": "string",
-          "maxLength": 100,
-          "description": "Its name, the record key."
-        }
-      },
-      "description": "A repository the pages made: created, forked, renamed or taken up."
-    },
-    "repoView": {
-      "type": "object",
-      "required": [
-        "uri",
-        "owner",
-        "name",
-        "createdAt"
-      ],
-      "properties": {
-        "uri": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "Its dev.knotless.repo record, under the name it has now."
-        },
-        "name": {
-          "type": "string",
-          "description": "The repository's name: its record key."
-        },
-        "owner": {
-          "ref": "#actorView",
-          "type": "ref"
-        },
-        "forkOf": {
-          "ref": "#repoViewBasic",
-          "type": "ref",
-          "description": "The repository it was forked from, if the appview knows it."
-        },
-        "private": {
-          "type": "boolean",
-          "description": "Whether it is private, in a space: listed only to its owner, asking."
-        },
-        "language": {
-          "ref": "#languageView",
-          "type": "ref",
-          "description": "The language most of its default branch is written in, as its file listing counts them. Absent when none is counted, or the appview could not read it."
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "datetime",
-          "description": "As its record says."
-        },
-        "forkCount": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "How many forks of it there are, as the appview has indexed. Given only where a list shows it, as an account's stars do."
-        },
-        "starCount": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "How many accounts starred it, as the appview has indexed. Given only where a list shows it, as an account's stars do."
-        },
-        "description": {
-          "type": "string"
-        }
-      },
-      "description": "A repository among others, from its dev.knotless.repo record."
-    },
-    "siteView": {
-      "type": "object",
-      "required": [
-        "url",
-        "deployedAt"
-      ],
-      "properties": {
-        "url": {
-          "type": "string",
-          "format": "uri",
-          "description": "Where it is served: under its owner's label of the pages domain, or, for a private repository, at a host of its own."
-        },
-        "check": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The dev.knotless.check of the run that built and deployed it, given only when the check is in the account of a runner the repository's record names."
-        },
-        "commit": {
-          "type": "string",
-          "description": "The hex object ID of the commit its record says the files were built from, as whoever deployed it said, unchecked."
-        },
-        "deployedAt": {
-          "type": "string",
-          "format": "datetime",
-          "description": "When it was deployed, as its record says."
-        }
-      },
-      "description": "A repository's website, as its dev.knotless.site record was last indexed."
-    },
-    "stepView": {
-      "type": "object",
-      "required": [
-        "uri",
-        "name",
-        "repo",
-        "version",
-        "secretCount",
-        "useCount",
-        "createdAt"
-      ],
-      "properties": {
-        "uri": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The dev.knotless.release record of its latest version."
-        },
-        "name": {
-          "type": "string",
-          "description": "The step's name: its file's, `.knotless/steps/<name>.yml`."
-        },
-        "repo": {
-          "ref": "#repoViewBasic",
-          "type": "ref",
-          "description": "The repository it is in."
-        },
-        "version": {
-          "type": "string",
-          "description": "Its latest version: the highest with no pre-release part, or the highest of all when each is a pre-release."
-        },
-        "useCount": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "How many public repositories pin it, at any version, in the `.knotless/uses.lock` of their default branch, as the appview last read each."
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "datetime",
-          "description": "When its latest version was published, as its record says."
-        },
-        "description": {
-          "type": "string",
-          "description": "What it does, as its step file says."
-        },
-        "secretCount": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "How many secrets it asks to be given."
-        }
-      },
-      "description": "A shared step, a file of workflow steps a repository publishes for others' workflows to use, at its latest version: from its dev.knotless.release records of the package `@step/<name>`."
-    },
     "actorView": {
-      "type": "object",
+      "description": "An account, as an appview shows it beside what it did.",
+      "properties": {
+        "avatar": {
+          "description": "The account's picture, as in dev.knotless.getProfile#profileView.",
+          "format": "uri",
+          "type": "string"
+        },
+        "bot": {
+          "description": "Whether its knotless profile says it is a bot, as the appview has indexed. Absent when it does not, and from an appview that keeps no index.",
+          "type": "boolean"
+        },
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "handle": {
+          "description": "The handle the account claims, when it resolves back to it; else the DID.",
+          "type": "string"
+        }
+      },
       "required": [
         "did",
         "handle"
       ],
+      "type": "object"
+    },
+    "actorViewerState": {
+      "description": "What the account asking a query has to do with an account.",
       "properties": {
-        "bot": {
-          "type": "boolean",
-          "description": "Whether its knotless profile says it is a bot, as the appview has indexed. Absent when it does not, and from an appview that keeps no index."
+        "blocking": {
+          "description": "Its dev.knotless.block record keeping the account out of all its repositories, if it has one.",
+          "format": "at-uri",
+          "type": "string"
         },
-        "did": {
-          "type": "string",
-          "format": "did"
-        },
-        "avatar": {
-          "type": "string",
-          "format": "uri",
-          "description": "The account's picture, as in dev.knotless.getProfile#profileView."
-        },
-        "handle": {
-          "type": "string",
-          "description": "The handle the account claims, when it resolves back to it; else the DID."
+        "following": {
+          "description": "Its dev.knotless.follow record naming the account, if it follows it.",
+          "format": "at-uri",
+          "type": "string"
         }
       },
-      "description": "An account, as an appview shows it beside what it did."
+      "type": "object"
     },
     "byteSlice": {
-      "type": "object",
+      "description": "A span of a text, by its UTF-8 bytes, counted from zero: the start inclusive, the end exclusive.",
+      "properties": {
+        "byteEnd": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "byteStart": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
       "required": [
         "byteStart",
         "byteEnd"
       ],
+      "type": "object"
+    },
+    "changesView": {
+      "description": "What a pull brings in: for a merged one, what its merge brought into the base; otherwise what its branch has since it left the base.",
       "properties": {
-        "byteEnd": {
-          "type": "integer",
-          "minimum": 0
+        "commits": {
+          "description": "Oldest first.",
+          "items": {
+            "ref": "#commitView",
+            "type": "ref"
+          },
+          "type": "array"
         },
-        "byteStart": {
-          "type": "integer",
-          "minimum": 0
+        "files": {
+          "description": "As an editor's file tree lists them: in each directory, its directories before its files, each by name.",
+          "items": {
+            "ref": "#fileDiffView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "head": {
+          "description": "For an open pull, the hex object ID of the commit its branch is at: what its checks and reviews are of.",
+          "type": "string"
+        },
+        "repo": {
+          "description": "The repository whose commit pages show its commits.",
+          "ref": "#repoViewBasic",
+          "type": "ref"
         }
       },
-      "description": "A span of a text, by its UTF-8 bytes, counted from zero: the start inclusive, the end exclusive."
+      "required": [
+        "repo",
+        "commits",
+        "files"
+      ],
+      "type": "object"
+    },
+    "checkImageView": {
+      "description": "A picture a check made: screenshots of the pages a change moved, say.",
+      "properties": {
+        "alt": {
+          "description": "What it shows.",
+          "type": "string"
+        },
+        "url": {
+          "description": "Where this appview serves it, as a path.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "alt",
+        "url"
+      ],
+      "type": "object"
     },
     "checkView": {
-      "type": "object",
+      "description": "The newest run of a workflow, as a runner the repository names in its record reported it.",
+      "properties": {
+        "commit": {
+          "description": "The commit it ran at, in hex.",
+          "type": "string"
+        },
+        "error": {
+          "description": "Why it could not run.",
+          "type": "string"
+        },
+        "finishedAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "images": {
+          "description": "The pictures it made to be looked at, in order.",
+          "items": {
+            "ref": "#checkImageView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "repo": {
+          "description": "The repository it is of, whose pages show it.",
+          "ref": "#repoViewBasic",
+          "type": "ref"
+        },
+        "skipped": {
+          "description": "For a `success` that ran nothing, as the change touched none of the paths its workflow names: why.",
+          "type": "string"
+        },
+        "startedAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "status": {
+          "description": "`queued` is a run filed and waiting for a job on its runner, no step started yet.",
+          "knownValues": [
+            "queued",
+            "running",
+            "success",
+            "failure",
+            "error",
+            "cancelled"
+          ],
+          "type": "string"
+        },
+        "uri": {
+          "description": "Its dev.knotless.check record.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "workflow": {
+          "type": "string"
+        }
+      },
       "required": [
         "uri",
         "repo",
@@ -461,156 +182,177 @@
         "startedAt",
         "images"
       ],
+      "type": "object"
+    },
+    "commentView": {
+      "description": "Something said on a pull or an issue.",
       "properties": {
-        "uri": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "Its dev.knotless.check record."
+        "author": {
+          "ref": "#actorView",
+          "type": "ref"
         },
-        "repo": {
-          "ref": "#repoViewBasic",
-          "type": "ref",
-          "description": "The repository it is of, whose pages show it."
-        },
-        "error": {
-          "type": "string",
-          "description": "Why it could not run."
-        },
-        "commit": {
-          "type": "string",
-          "description": "The commit it ran at, in hex."
-        },
-        "images": {
-          "type": "array",
-          "items": {
-            "ref": "#checkImageView",
-            "type": "ref"
-          },
-          "description": "The pictures it made to be looked at, in order."
-        },
-        "status": {
-          "type": "string",
-          "description": "`queued` is a run filed and waiting for a job on its runner, no step started yet.",
-          "knownValues": [
-            "queued",
-            "running",
-            "success",
-            "failure",
-            "error",
-            "cancelled"
-          ]
-        },
-        "skipped": {
-          "type": "string",
-          "description": "For a `success` that ran nothing, as the change touched none of the paths its workflow names: why."
-        },
-        "workflow": {
+        "body": {
+          "description": "What it says, as its author wrote it, in Markdown.",
           "type": "string"
         },
-        "startedAt": {
-          "type": "string",
-          "format": "datetime"
+        "commit": {
+          "description": "For a review of a pull, the hex object ID of the head it looked at; for a comment on its lines, the commit they are in.",
+          "type": "string"
         },
-        "finishedAt": {
-          "type": "string",
-          "format": "datetime"
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "dismisses": {
+          "description": "The review, another comment on the pull, this dismissed, its body saying why: from the owner or a collaborator.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "html": {
+          "description": "What it says, its Markdown made into HTML: raw HTML shown as text, and links made relative to the repository.",
+          "type": "string"
+        },
+        "line": {
+          "description": "For a comment on a pull's lines, which, as they stand now.",
+          "ref": "#lineView",
+          "type": "ref"
+        },
+        "reactions": {
+          "description": "How accounts reacted to it, by content, in the order dev.knotless.defs#reactionContent lists them. Absent when none did.",
+          "items": {
+            "ref": "#reactionCountView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "reply": {
+          "description": "The comment starting the thread on a pull's lines that this answers.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "resolved": {
+          "description": "For a comment starting a thread on a pull's lines, whether the thread is resolved.",
+          "type": "boolean"
+        },
+        "review": {
+          "description": "The review this was sent with, as one of its line comments.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "updatedAt": {
+          "description": "When its author last changed it, if they have.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "uri": {
+          "description": "Its dev.knotless.comment record.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "verdict": {
+          "description": "For a review, what it found.",
+          "knownValues": [
+            "approve",
+            "changes"
+          ],
+          "type": "string"
         }
       },
-      "description": "The newest run of a workflow, as a runner the repository names in its record reported it."
+      "required": [
+        "author",
+        "createdAt",
+        "html"
+      ],
+      "type": "object"
     },
-    "labelName": {
-      "type": "object",
+    "commitAuthorView": {
+      "description": "Who wrote a commit or helped to: by the name git gives, and by account when that is one of the repository's people whose address it is.",
+      "properties": {
+        "actor": {
+          "ref": "#actorView",
+          "type": "ref"
+        },
+        "agent": {
+          "description": "The coding agent whose address it is, when it is one the pages know the face of.",
+          "knownValues": [
+            "claude"
+          ],
+          "type": "string"
+        },
+        "name": {
+          "description": "The name git records.",
+          "type": "string"
+        }
+      },
       "required": [
         "name"
       ],
-      "properties": {
-        "name": {
-          "type": "string",
-          "maxLength": 100,
-          "description": "The label's name, as the repository defines it.",
-          "maxGraphemes": 50
-        }
-      },
-      "description": "A label a repository defines, by name, as one to put on a pull or an issue."
+      "type": "object"
     },
-    "stackView": {
-      "type": "object",
-      "required": [
-        "pulls"
-      ],
+    "commitRefView": {
+      "description": "A commit, by its object name.",
       "properties": {
-        "into": {
-          "type": "string",
-          "description": "The branch the lowest pull targets."
-        },
-        "pulls": {
-          "type": "array",
-          "items": {
-            "ref": "#stackPullView",
-            "type": "ref"
-          },
-          "description": "Highest first: the lowest, which lands first, is last."
+        "sha": {
+          "description": "In hex.",
+          "type": "string"
         }
       },
-      "description": "The chain of pulls a pull is part of, each built on the one below it."
-    },
-    "starState": {
-      "type": "object",
       "required": [
-        "starCount"
+        "sha"
       ],
-      "properties": {
-        "star": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The asker's dev.knotless.star record naming it; absent once unstarred."
-        },
-        "starCount": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "How many accounts starred it now."
-        }
-      },
-      "description": "A repository's stars, as starring or unstarring it leaves them."
-    },
-    "themeView": {
-      "type": "object",
-      "required": [
-        "uri",
-        "creator",
-        "name",
-        "palette",
-        "createdAt"
-      ],
-      "properties": {
-        "uri": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "Its dev.knotless.theme record."
-        },
-        "name": {
-          "type": "string",
-          "description": "What it is called."
-        },
-        "creator": {
-          "ref": "#actorView",
-          "type": "ref",
-          "description": "The account that made it."
-        },
-        "palette": {
-          "ref": "dev.knotless.theme#palette",
-          "type": "ref",
-          "description": "Its colours, only those given as #rrggbb."
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "datetime"
-        }
-      },
-      "description": "A theme made for the pages, from its dev.knotless.theme record."
+      "type": "object"
     },
     "commitView": {
-      "type": "object",
+      "description": "A commit, with the accounts that wrote it where the repository's pages believe their claims (dev.knotless.emails).",
+      "properties": {
+        "author": {
+          "ref": "#commitAuthorView",
+          "type": "ref"
+        },
+        "coauthors": {
+          "description": "Who its message's `Co-authored-by` trailers name.",
+          "items": {
+            "ref": "#commitAuthorView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "committedAt": {
+          "description": "When it was committed: what history runs in, as its author's date need not.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "committer": {
+          "description": "Who committed it, when someone other than its author did.",
+          "ref": "#commitAuthorView",
+          "type": "ref"
+        },
+        "date": {
+          "description": "When its author made it, which a rebase or a squash keeps.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "message": {
+          "description": "Its message, less the last line naming the pull it merged, if it did.",
+          "type": "string"
+        },
+        "parents": {
+          "items": {
+            "ref": "#commitRefView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "pull": {
+          "description": "The pull that brought it in: the one its message's last line names, as a squash or merge commit records it, when that is a pull on this repository; else the merged pull whose merge brought it into the branch, as a fast-forward's commits.",
+          "ref": "#itemViewBasic",
+          "type": "ref"
+        },
+        "sha": {
+          "description": "Its object name, in hex.",
+          "type": "string"
+        }
+      },
       "required": [
         "sha",
         "parents",
@@ -619,414 +361,121 @@
         "date",
         "message"
       ],
-      "properties": {
-        "sha": {
-          "type": "string",
-          "description": "Its object name, in hex."
-        },
-        "date": {
-          "type": "string",
-          "format": "datetime",
-          "description": "When its author made it, which a rebase or a squash keeps."
-        },
-        "pull": {
-          "ref": "#itemViewBasic",
-          "type": "ref",
-          "description": "The pull that brought it in: the one its message's last line names, as a squash or merge commit records it, when that is a pull on this repository; else the merged pull whose merge brought it into the branch, as a fast-forward's commits."
-        },
-        "author": {
-          "ref": "#commitAuthorView",
-          "type": "ref"
-        },
-        "message": {
-          "type": "string",
-          "description": "Its message, less the last line naming the pull it merged, if it did."
-        },
-        "parents": {
-          "type": "array",
-          "items": {
-            "ref": "#commitRefView",
-            "type": "ref"
-          }
-        },
-        "coauthors": {
-          "type": "array",
-          "items": {
-            "ref": "#commitAuthorView",
-            "type": "ref"
-          },
-          "description": "Who its message's `Co-authored-by` trailers name."
-        },
-        "committer": {
-          "ref": "#commitAuthorView",
-          "type": "ref",
-          "description": "Who committed it, when someone other than its author did."
-        },
-        "committedAt": {
-          "type": "string",
-          "format": "datetime",
-          "description": "When it was committed: what history runs in, as its author's date need not."
-        }
-      },
-      "description": "A commit, with the accounts that wrote it where the repository's pages believe their claims (dev.knotless.emails)."
-    },
-    "reviewView": {
-      "type": "object",
-      "required": [
-        "reviewer",
-        "verdict",
-        "uri",
-        "outdated",
-        "maintainer"
-      ],
-      "properties": {
-        "uri": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The dev.knotless.comment that reviewed it."
-        },
-        "gate": {
-          "type": "boolean",
-          "description": "Whether the rule protecting the pull's base names the reviewer as a gate, whose review of the head the pull waits for though it may not write."
-        },
-        "commit": {
-          "type": "string",
-          "description": "The hex object ID of the head it looked at."
-        },
-        "verdict": {
-          "type": "string",
-          "description": "`approve`, or `changes` for one that asked for changes.",
-          "knownValues": [
-            "approve",
-            "changes"
-          ]
-        },
-        "outdated": {
-          "type": "boolean",
-          "description": "Whether the open pull has moved past the head it looked at: an approval then stands for what the pull was, not what it is."
-        },
-        "reviewer": {
-          "ref": "#actorView",
-          "type": "ref"
-        },
-        "dismissed": {
-          "type": "boolean",
-          "description": "Whether the owner or a collaborator dismissed it (dev.knotless.dismissReview): it counts for nothing, for or against the pull, until its reviewer reviews again."
-        },
-        "maintainer": {
-          "type": "boolean",
-          "description": "Whether the reviewer is the repository's owner or a collaborator."
-        }
-      },
-      "description": "Where one reviewer stands on a pull: their latest comment with a verdict. A comment without one leaves it as it was, and a pull's author reviews nothing of their own."
-    },
-    "changesView": {
-      "type": "object",
-      "required": [
-        "repo",
-        "commits",
-        "files"
-      ],
-      "properties": {
-        "head": {
-          "type": "string",
-          "description": "For an open pull, the hex object ID of the commit its branch is at: what its checks and reviews are of."
-        },
-        "repo": {
-          "ref": "#repoViewBasic",
-          "type": "ref",
-          "description": "The repository whose commit pages show its commits."
-        },
-        "files": {
-          "type": "array",
-          "items": {
-            "ref": "#fileDiffView",
-            "type": "ref"
-          },
-          "description": "As an editor's file tree lists them: in each directory, its directories before its files, each by name."
-        },
-        "commits": {
-          "type": "array",
-          "items": {
-            "ref": "#commitView",
-            "type": "ref"
-          },
-          "description": "Oldest first."
-        }
-      },
-      "description": "What a pull brings in: for a merged one, what its merge brought into the base; otherwise what its branch has since it left the base."
-    },
-    "commentView": {
-      "type": "object",
-      "required": [
-        "author",
-        "createdAt",
-        "html"
-      ],
-      "properties": {
-        "uri": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "Its dev.knotless.comment record."
-        },
-        "body": {
-          "type": "string",
-          "description": "What it says, as its author wrote it, in Markdown."
-        },
-        "html": {
-          "type": "string",
-          "description": "What it says, its Markdown made into HTML: raw HTML shown as text, and links made relative to the repository."
-        },
-        "line": {
-          "ref": "#lineView",
-          "type": "ref",
-          "description": "For a comment on a pull's lines, which, as they stand now."
-        },
-        "reply": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The comment starting the thread on a pull's lines that this answers."
-        },
-        "author": {
-          "ref": "#actorView",
-          "type": "ref"
-        },
-        "commit": {
-          "type": "string",
-          "description": "For a review of a pull, the hex object ID of the head it looked at; for a comment on its lines, the commit they are in."
-        },
-        "review": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The review this was sent with, as one of its line comments."
-        },
-        "verdict": {
-          "type": "string",
-          "description": "For a review, what it found.",
-          "knownValues": [
-            "approve",
-            "changes"
-          ]
-        },
-        "resolved": {
-          "type": "boolean",
-          "description": "For a comment starting a thread on a pull's lines, whether the thread is resolved."
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "datetime"
-        },
-        "dismisses": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The review, another comment on the pull, this dismissed, its body saying why: from the owner or a collaborator."
-        },
-        "reactions": {
-          "type": "array",
-          "items": {
-            "ref": "#reactionCountView",
-            "type": "ref"
-          },
-          "description": "How accounts reacted to it, by content, in the order dev.knotless.defs#reactionContent lists them. Absent when none did."
-        },
-        "updatedAt": {
-          "type": "string",
-          "format": "datetime",
-          "description": "When its author last changed it, if they have."
-        }
-      },
-      "description": "Something said on a pull or an issue."
+      "type": "object"
     },
     "diffRowView": {
-      "type": "object",
-      "required": [
-        "kind",
-        "line",
-        "text"
-      ],
+      "description": "One row of a file's diff: a hunk header, a note, or a line with its old and new numbers.",
       "properties": {
-        "new": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Its number after."
-        },
-        "old": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Its number before."
-        },
         "kind": {
-          "type": "string",
-          "description": "`h` for a hunk header, `x` for a note, `a` for a line added, `d` for one removed, or empty for context."
+          "description": "`h` for a hunk header, `x` for a note, `a` for a line added, `d` for one removed, or empty for context.",
+          "type": "string"
         },
         "line": {
-          "type": "boolean",
-          "description": "Whether it is a line of the file."
+          "description": "Whether it is a line of the file.",
+          "type": "boolean"
+        },
+        "new": {
+          "description": "Its number after.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "old": {
+          "description": "Its number before.",
+          "minimum": 0,
+          "type": "integer"
         },
         "text": {
           "type": "string"
         }
       },
-      "description": "One row of a file's diff: a hunk header, a note, or a line with its old and new numbers."
-    },
-    "followState": {
-      "type": "object",
       "required": [
-        "followersCount"
+        "kind",
+        "line",
+        "text"
       ],
-      "properties": {
-        "following": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The asker's dev.knotless.follow record naming it; absent once unfollowed."
-        },
-        "followersCount": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "How many accounts follow it now."
-        }
-      },
-      "description": "An account's followers, as following or unfollowing it leaves them."
+      "type": "object"
     },
-    "minutesView": {
-      "type": "object",
-      "required": [
-        "runner",
-        "minutes",
-        "updatedAt"
-      ],
+    "facet": {
+      "description": "Where a text says more than its words, shaped as app.bsky.richtext.facet: the span it covers and what that span is. A pull's, an issue's or a comment's body has its own, and a pull's or an issue's title its own.",
       "properties": {
-        "runner": {
-          "ref": "#actorView",
-          "type": "ref",
-          "description": "The runner's account."
-        },
-        "freeing": {
-          "type": "array",
+        "features": {
+          "description": "What the span is. Kinds unknown to a reader are passed over.",
           "items": {
-            "ref": "dev.knotless.minutes#freeing",
-            "type": "ref"
+            "refs": [
+              "#mention"
+            ],
+            "type": "union"
           },
-          "description": "When minutes counted now stop counting, soonest first."
+          "maxLength": 8,
+          "type": "array"
         },
-        "minutes": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "The minutes steps took in the 30 days up to `updatedAt`."
-        },
-        "allowance": {
-          "type": "integer",
-          "minimum": 1,
-          "description": "The minutes in 30 days it gives the owner's runs before they go one at a time. Absent when there is no limit."
-        },
-        "updatedAt": {
-          "type": "string",
-          "format": "datetime",
-          "description": "When the runner last counted."
+        "index": {
+          "ref": "#byteSlice",
+          "type": "ref"
         }
       },
-      "description": "The minutes a runner the repository names counts for its owner's public repositories, from its dev.knotless.minutes record."
-    },
-    "packageView": {
-      "type": "object",
       "required": [
-        "name"
+        "index",
+        "features"
       ],
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The package's name."
-        },
-        "image": {
-          "type": "boolean",
-          "description": "True when its latest version, or its newest when none is latest, is a container image."
-        },
-        "latest": {
-          "type": "string",
-          "description": "Its latest version: the highest with no pre-release part. Absent when it has only pre-releases."
-        },
-        "releaseCount": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "How many versions of it are published."
-        }
-      },
-      "description": "One package a repository publishes."
-    },
-    "releaseView": {
-      "type": "object",
-      "required": [
-        "uri",
-        "package",
-        "version",
-        "files",
-        "createdAt"
-      ],
-      "properties": {
-        "uri": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "Its dev.knotless.release record."
-        },
-        "html": {
-          "type": "string",
-          "description": "`notes` made into HTML, as dev.knotless.getThread's comments are: raw HTML shown as text, and links made relative to the repository."
-        },
-        "check": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The dev.knotless.check of the run that built it, if its record names one."
-        },
-        "crate": {
-          "type": "boolean",
-          "description": "True when it is a crate, added with Cargo from its repository's registry, at `/cargo/<owner's DID>/<repository's key>/`, rather than downloaded."
-        },
-        "files": {
-          "type": "array",
-          "items": {
-            "ref": "#releaseFileView",
-            "type": "ref"
-          },
-          "description": "What it publishes, in its record's order."
-        },
-        "image": {
-          "type": "boolean",
-          "description": "True when its files are a container image's OCI layout: an `index.json` beside blobs named `sha256-<hex>`, pulled by `docker pull` rather than downloaded."
-        },
-        "notes": {
-          "type": "string",
-          "description": "What changed since the version before, in Markdown, as its record says."
-        },
-        "commit": {
-          "type": "string",
-          "description": "The hex object ID of the commit its files were built from, if its record names one."
-        },
-        "latest": {
-          "type": "boolean",
-          "description": "True for its package's latest version: the highest with no pre-release part that is not yanked."
-        },
-        "yanked": {
-          "type": "boolean",
-          "description": "True when its owner withdrew it, by a dev.knotless.releaseYank record: its files can still be read, but it is no one's latest."
-        },
-        "package": {
-          "type": "string",
-          "description": "The package's name."
-        },
-        "version": {
-          "type": "string",
-          "description": "Its Semantic Versioning 2.0 version."
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "datetime",
-          "description": "As its record says."
-        }
-      },
-      "description": "One version of a package a repository publishes, from its dev.knotless.release record, with its files and notes."
+      "type": "object"
     },
     "fileDiffView": {
-      "type": "object",
+      "description": "One file of a diff, or why its rows are not shown.",
+      "properties": {
+        "added": {
+          "description": "Lines added.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "hunkCount": {
+          "description": "Of those rows, how many are hunk headers, which a page may draw taller than a line.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "new": {
+          "description": "Its path after.",
+          "type": "string"
+        },
+        "note": {
+          "description": "Why its rows are not shown, when they are not.",
+          "type": "string"
+        },
+        "old": {
+          "description": "Its path before.",
+          "type": "string"
+        },
+        "ranges": {
+          "description": "The ranges its highlighting paints, encoded as the pages read them.",
+          "type": "string"
+        },
+        "removed": {
+          "description": "Lines removed.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "rowCount": {
+          "description": "Where its rows are left out but would be shown, as dev.knotless.getThread's filesOnly leaves them, how many there are: the room a page keeps for them until they come.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "rows": {
+          "items": {
+            "ref": "#diffRowView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "status": {
+          "knownValues": [
+            "added",
+            "deleted",
+            "renamed",
+            "modified"
+          ],
+          "type": "string"
+        }
+      },
       "required": [
         "old",
         "new",
@@ -1035,314 +484,426 @@
         "removed",
         "rows"
       ],
+      "type": "object"
+    },
+    "followState": {
+      "description": "An account's followers, as following or unfollowing it leaves them.",
       "properties": {
-        "new": {
-          "type": "string",
-          "description": "Its path after."
-        },
-        "old": {
-          "type": "string",
-          "description": "Its path before."
-        },
-        "note": {
-          "type": "string",
-          "description": "Why its rows are not shown, when they are not."
-        },
-        "rows": {
-          "type": "array",
-          "items": {
-            "ref": "#diffRowView",
-            "type": "ref"
-          }
-        },
-        "added": {
-          "type": "integer",
+        "followersCount": {
+          "description": "How many accounts follow it now.",
           "minimum": 0,
-          "description": "Lines added."
+          "type": "integer"
         },
-        "ranges": {
-          "type": "string",
-          "description": "The ranges its highlighting paints, encoded as the pages read them."
-        },
-        "status": {
-          "type": "string",
-          "knownValues": [
-            "added",
-            "deleted",
-            "renamed",
-            "modified"
-          ]
-        },
-        "removed": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Lines removed."
-        },
-        "rowCount": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Where its rows are left out but would be shown, as dev.knotless.getThread's filesOnly leaves them, how many there are: the room a page keeps for them until they come."
-        },
-        "hunkCount": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Of those rows, how many are hunk headers, which a page may draw taller than a line."
+        "following": {
+          "description": "The asker's dev.knotless.follow record naming it; absent once unfollowed.",
+          "format": "at-uri",
+          "type": "string"
         }
       },
-      "description": "One file of a diff, or why its rows are not shown."
+      "required": [
+        "followersCount"
+      ],
+      "type": "object"
+    },
+    "image": {
+      "description": "A picture a pull's, an issue's or a comment's body shows, attached so its author's PDS keeps it. The body links to it on that PDS, as `com.atproto.sync.getBlob` serves it, saying what it shows as Markdown's alt text; readers may show it from elsewhere, as dev.knotless.getAttachment does.",
+      "properties": {
+        "height": {
+          "description": "How high it is drawn, in CSS pixels, as `width` is.",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "image": {
+          "accept": [
+            "image/png",
+            "image/jpeg",
+            "image/webp",
+            "image/gif"
+          ],
+          "maxSize": 1000000,
+          "type": "blob"
+        },
+        "width": {
+          "description": "How wide it is drawn, in CSS pixels: its pixels over the density it was made at, so a screenshot taken at 2x shows at the size it was seen. Readers draw it no wider than where it goes, keeping its shape.",
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "image"
+      ],
+      "type": "object"
+    },
+    "itemView": {
+      "description": "A pull or an issue in a list of them.",
+      "properties": {
+        "assignees": {
+          "description": "Those the repository's owner or collaborators assign it to, in the order assigned (dev.knotless.assignment). Absent when it is assigned to no one.",
+          "items": {
+            "ref": "#actorView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "author": {
+          "description": "Who opened it.",
+          "ref": "#actorView",
+          "type": "ref"
+        },
+        "comments": {
+          "description": "How many comments are on it, its own body aside.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "draft": {
+          "description": "A pull its author has not marked ready to merge. Not, when absent.",
+          "type": "boolean"
+        },
+        "kind": {
+          "knownValues": [
+            "pull",
+            "issue"
+          ],
+          "type": "string"
+        },
+        "labels": {
+          "description": "The labels it carries, as the repository defines them, in the order it does. Absent when it carries none.",
+          "items": {
+            "ref": "dev.knotless.repo#label",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "requiredReviewers": {
+          "description": "Of reviewers, those the rule protecting the pull's base requires: asked of every pull into it, and stopped only by changing the rule. Absent when there are none.",
+          "items": {
+            "ref": "#actorView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "reviewers": {
+          "description": "Those asked to review a pull, in the order asked: first by its author, then by the repository's owner or collaborators (dev.knotless.assignment), then the required reviewers the rule protecting its base names. Absent when no one is asked.",
+          "items": {
+            "ref": "#actorView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "state": {
+          "description": "A merged pull is merged; a closed one, or an issue, closed.",
+          "knownValues": [
+            "open",
+            "closed",
+            "merged"
+          ],
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "description": "When its author last changed its title or body, if they have.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "uri": {
+          "description": "Its dev.knotless.pull or dev.knotless.issue record.",
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "kind",
+        "title",
+        "state",
+        "author",
+        "createdAt",
+        "comments"
+      ],
+      "type": "object"
+    },
+    "itemViewBasic": {
+      "description": "A pull or an issue, by its record and its title.",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "uri": {
+          "description": "Its dev.knotless.pull or dev.knotless.issue record.",
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "title"
+      ],
+      "type": "object"
+    },
+    "labelName": {
+      "description": "A label a repository defines, by name, as one to put on a pull or an issue.",
+      "properties": {
+        "name": {
+          "description": "The label's name, as the repository defines it.",
+          "maxGraphemes": 50,
+          "maxLength": 100,
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
     },
     "languageView": {
-      "type": "object",
+      "description": "One language a repository is written in.",
+      "properties": {
+        "bytes": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "color": {
+          "description": "Its color, as linguist has it.",
+          "type": "string"
+        },
+        "name": {
+          "description": "Its name, or `Other` for the languages each under one percent.",
+          "type": "string"
+        },
+        "permille": {
+          "description": "Its share of all the bytes counted, in tenths of a percent.",
+          "maximum": 1000,
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
       "required": [
         "name",
         "color",
         "bytes",
         "permille"
       ],
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Its name, or `Other` for the languages each under one percent."
-        },
-        "bytes": {
-          "type": "integer",
-          "minimum": 0
-        },
-        "color": {
-          "type": "string",
-          "description": "Its color, as linguist has it."
-        },
-        "permille": {
-          "type": "integer",
-          "maximum": 1000,
-          "minimum": 0,
-          "description": "Its share of all the bytes counted, in tenths of a percent."
-        }
-      },
-      "description": "One language a repository is written in."
+      "type": "object"
     },
     "lineTextView": {
-      "type": "object",
+      "description": "One line of a file.",
+      "properties": {
+        "number": {
+          "description": "Counting from 1.",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
       "required": [
         "number",
         "text"
       ],
+      "type": "object"
+    },
+    "lineView": {
+      "description": "The lines of a pull's diff a comment is on.",
       "properties": {
-        "text": {
+        "line": {
+          "description": "The last line.",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "lines": {
+          "description": "The lines as they were at the comment's commit, and for one alone a few before it; absent when that commit can no longer be read.",
+          "items": {
+            "ref": "#lineTextView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "outdated": {
+          "description": "Whether that side of the file has changed since the comment's commit, so its lines may no longer be where they were.",
+          "type": "boolean"
+        },
+        "path": {
+          "description": "The file's path on that side.",
           "type": "string"
         },
-        "number": {
-          "type": "integer",
+        "side": {
+          "description": "`old` for the side the pull leaves; absent, `new`.",
+          "knownValues": [
+            "old",
+            "new"
+          ],
+          "type": "string"
+        },
+        "startLine": {
+          "description": "The first, for more than one.",
           "minimum": 1,
-          "description": "Counting from 1."
+          "type": "integer"
         }
       },
-      "description": "One line of a file."
+      "required": [
+        "path",
+        "line",
+        "outdated"
+      ],
+      "type": "object"
+    },
+    "link": {
+      "description": "A link shown on an account's profile or a repository's pages.",
+      "properties": {
+        "title": {
+          "description": "What to call it. Readers fall back to the address's host.",
+          "maxGraphemes": 40,
+          "maxLength": 320,
+          "type": "string"
+        },
+        "url": {
+          "description": "Where it goes: an http or https address.",
+          "format": "uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "url"
+      ],
+      "type": "object"
+    },
+    "mention": {
+      "description": "An account the span, `@handle` in the text, mentions: kept by DID, so it names the account still after its handle changes. The account hears of it as a notification.",
+      "properties": {
+        "did": {
+          "format": "did",
+          "type": "string"
+        }
+      },
+      "required": [
+        "did"
+      ],
+      "type": "object"
+    },
+    "minutesView": {
+      "description": "The minutes a runner the repository names counts for its owner's public repositories, from its dev.knotless.minutes record.",
+      "properties": {
+        "allowance": {
+          "description": "The minutes in 30 days it gives the owner's runs before they go one at a time. Absent when there is no limit.",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "freeing": {
+          "description": "When minutes counted now stop counting, soonest first.",
+          "items": {
+            "ref": "dev.knotless.minutes#freeing",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "minutes": {
+          "description": "The minutes steps took in the 30 days up to `updatedAt`.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "runner": {
+          "description": "The runner's account.",
+          "ref": "#actorView",
+          "type": "ref"
+        },
+        "updatedAt": {
+          "description": "When the runner last counted.",
+          "format": "datetime",
+          "type": "string"
+        }
+      },
+      "required": [
+        "runner",
+        "minutes",
+        "updatedAt"
+      ],
+      "type": "object"
+    },
+    "packageView": {
+      "description": "One package a repository publishes.",
+      "properties": {
+        "image": {
+          "description": "True when its latest version, or its newest when none is latest, is a container image.",
+          "type": "boolean"
+        },
+        "latest": {
+          "description": "Its latest version: the highest with no pre-release part. Absent when it has only pre-releases.",
+          "type": "string"
+        },
+        "name": {
+          "description": "The package's name.",
+          "type": "string"
+        },
+        "releaseCount": {
+          "description": "How many versions of it are published.",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
     },
     "pullHeadView": {
-      "type": "object",
+      "description": "What a pull brings in: a branch of a repository.",
+      "properties": {
+        "branch": {
+          "type": "string"
+        },
+        "repo": {
+          "description": "The repository the branch is on, if the index knows it.",
+          "ref": "#repoViewBasic",
+          "type": "ref"
+        }
+      },
       "required": [
         "branch"
       ],
-      "properties": {
-        "repo": {
-          "ref": "#repoViewBasic",
-          "type": "ref",
-          "description": "The repository the branch is on, if the index knows it."
-        },
-        "branch": {
-          "type": "string"
-        }
-      },
-      "description": "What a pull brings in: a branch of a repository."
-    },
-    "releasesView": {
-      "type": "object",
-      "required": [
-        "count",
-        "release",
-        "packages"
-      ],
-      "properties": {
-        "count": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "How many releases it has published, of all its packages."
-        },
-        "release": {
-          "ref": "#releaseViewBasic",
-          "type": "ref",
-          "description": "The release to show for it: the latest of the package named as the repository, else the newest that is its package's latest, or the newest of all when each is a pre-release."
-        },
-        "packages": {
-          "type": "array",
-          "items": {
-            "ref": "#packageView",
-            "type": "ref"
-          },
-          "description": "Each package it publishes, by name."
-        }
-      },
-      "description": "What a repository publishes, in brief, for its pages to show under its name."
-    },
-    "commitRefView": {
-      "type": "object",
-      "required": [
-        "sha"
-      ],
-      "properties": {
-        "sha": {
-          "type": "string",
-          "description": "In hex."
-        }
-      },
-      "description": "A commit, by its object name."
-    },
-    "itemViewBasic": {
-      "type": "object",
-      "required": [
-        "uri",
-        "title"
-      ],
-      "properties": {
-        "uri": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "Its dev.knotless.pull or dev.knotless.issue record."
-        },
-        "title": {
-          "type": "string"
-        }
-      },
-      "description": "A pull or an issue, by its record and its title."
-    },
-    "reactionState": {
-      "type": "object",
-      "required": [
-        "subject",
-        "reactions"
-      ],
-      "properties": {
-        "subject": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The pull, issue or comment."
-        },
-        "reactions": {
-          "type": "array",
-          "items": {
-            "ref": "#reactionCountView",
-            "type": "ref"
-          },
-          "description": "By content, in the order dev.knotless.defs#reactionContent lists them; a content no account reacted with is left out."
-        }
-      },
-      "description": "The reactions to a pull, an issue or a comment."
-    },
-    "repoViewBasic": {
-      "type": "object",
-      "required": [
-        "did",
-        "handle",
-        "name"
-      ],
-      "properties": {
-        "did": {
-          "type": "string",
-          "format": "did",
-          "description": "The repository's owner."
-        },
-        "name": {
-          "type": "string",
-          "description": "The repository's name: its record key."
-        },
-        "handle": {
-          "type": "string",
-          "description": "The owner's handle, as in #actorView."
-        }
-      },
-      "description": "A repository, under the name it has now."
-    },
-    "stackPullView": {
-      "type": "object",
-      "required": [
-        "item"
-      ],
-      "properties": {
-        "item": {
-          "ref": "#itemView",
-          "type": "ref"
-        },
-        "branch": {
-          "type": "string",
-          "description": "Its head branch."
-        },
-        "merged": {
-          "type": "string",
-          "description": "The commit it landed as."
-        }
-      },
-      "description": "One pull of a stack."
-    },
-    "stepInputView": {
-      "type": "object",
-      "required": [
-        "name",
-        "required"
-      ],
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The input's name, as a workflow's `with` gives it."
-        },
-        "default": {
-          "type": "string",
-          "description": "Its value when a workflow does not give it."
-        },
-        "required": {
-          "type": "boolean",
-          "description": "True when a workflow using the step must give it."
-        },
-        "description": {
-          "type": "string",
-          "description": "What it is, as the step file says."
-        }
-      },
-      "description": "An input a shared step takes, which reaches its steps as the environment variable `INPUT_<NAME>`."
-    },
-    "checkImageView": {
-      "type": "object",
-      "required": [
-        "alt",
-        "url"
-      ],
-      "properties": {
-        "alt": {
-          "type": "string",
-          "description": "What it shows."
-        },
-        "url": {
-          "type": "string",
-          "description": "Where this appview serves it, as a path."
-        }
-      },
-      "description": "A picture a check made: screenshots of the pages a change moved, say."
+      "type": "object"
     },
     "queueStateView": {
-      "type": "object",
-      "required": [
-        "state",
-        "createdAt",
-        "said",
-        "checks"
-      ],
+      "description": "Where an open pull stands in its target branch's merge queue.",
       "properties": {
+        "aheadStartedAt": {
+          "description": "Queued in no batch, when the newest batch being checked ahead of it started.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "batchStartedAt": {
+          "description": "While its batch is being checked or landing, when that started.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "checks": {
+          "description": "While its batch is being checked or landing, the batch's checks; queued in no batch, its pre-flights' newest runs; once ejected by checks that failed, those.",
+          "items": {
+            "ref": "#checkView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "createdAt": {
+          "description": "When it was queued or ejected.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "reason": {
+          "description": "Why it was ejected, as the runner said.",
+          "type": "string"
+        },
         "said": {
-          "type": "string",
-          "description": "Where it stands, in words: `Queued, 3rd of 5, running its checks`, `In a batch of 4 being checked`, `Landing`, or why it was ejected."
+          "description": "Where it stands, in words: `Queued, 3rd of 5, running its checks`, `In a batch of 4 being checked`, `Landing`, or why it was ejected.",
+          "type": "string"
         },
         "stage": {
-          "type": "string",
           "description": "While queued, where it stands, as `dev.knotless.getQueue#queuedView` says.",
           "knownValues": [
             "queued",
@@ -1353,66 +914,51 @@
             "checking",
             "landing",
             "stacked"
-          ]
+          ],
+          "type": "string"
         },
         "state": {
-          "type": "string",
           "knownValues": [
             "queued",
             "ejected"
-          ]
-        },
-        "checks": {
-          "type": "array",
-          "items": {
-            "ref": "#checkView",
-            "type": "ref"
-          },
-          "description": "While its batch is being checked or landing, the batch's checks; queued in no batch, its pre-flights' newest runs; once ejected by checks that failed, those."
-        },
-        "reason": {
-          "type": "string",
-          "description": "Why it was ejected, as the runner said."
+          ],
+          "type": "string"
         },
         "typical": {
+          "description": "While queued, how long its merge queue typically takes.",
           "ref": "#queueTypicalView",
-          "type": "ref",
-          "description": "While queued, how long its merge queue typically takes."
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "datetime",
-          "description": "When it was queued or ejected."
-        },
-        "aheadStartedAt": {
-          "type": "string",
-          "format": "datetime",
-          "description": "Queued in no batch, when the newest batch being checked ahead of it started."
-        },
-        "batchStartedAt": {
-          "type": "string",
-          "format": "datetime",
-          "description": "While its batch is being checked or landing, when that started."
+          "type": "ref"
         }
       },
-      "description": "Where an open pull stands in its target branch's merge queue."
-    },
-    "stepSecretView": {
-      "type": "object",
       "required": [
-        "name"
+        "state",
+        "createdAt",
+        "said",
+        "checks"
       ],
+      "type": "object"
+    },
+    "queueTypicalView": {
+      "description": "How long a repository's merge queue typically takes, for saying when a queued pull should land: a pull in a batch lands a batch after the batch started; one in no batch is ready once its pre-flights would pass, or now if they have, and lands a batch after that or after the batch being checked ahead of it, whichever is later.",
       "properties": {
-        "name": {
-          "type": "string",
-          "description": "The secret's name."
+        "batchSeconds": {
+          "description": "A batch, from its first run starting to its last ending: the median of those that landed lately.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "preflightSeconds": {
+          "description": "A pull's pre-flights at a head, as long as the longest of them that passed: the median, or a batch's with none to go by.",
+          "minimum": 0,
+          "type": "integer"
         }
       },
-      "description": "A secret a shared step asks to be given, which a workflow passes it by name."
+      "required": [
+        "batchSeconds",
+        "preflightSeconds"
+      ],
+      "type": "object"
     },
     "reactionContent": {
-      "type": "string",
-      "maxLength": 32,
       "description": "What a reaction says, as GitHub's eight: a thumbs up, a thumbs down, a laugh, a party popper, a confused face, a heart, a rocket and eyes.",
       "knownValues": [
         "+1",
@@ -1423,213 +969,454 @@
         "heart",
         "rocket",
         "eyes"
-      ]
+      ],
+      "maxLength": 32,
+      "type": "string"
+    },
+    "reactionCountView": {
+      "description": "How many accounts reacted to something with one content.",
+      "properties": {
+        "content": {
+          "ref": "#reactionContent",
+          "type": "ref"
+        },
+        "count": {
+          "description": "How many accounts reacted so, each once.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "reaction": {
+          "description": "The asker's dev.knotless.reaction record of this content on it, if they reacted so.",
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "content",
+        "count"
+      ],
+      "type": "object"
+    },
+    "reactionState": {
+      "description": "The reactions to a pull, an issue or a comment.",
+      "properties": {
+        "reactions": {
+          "description": "By content, in the order dev.knotless.defs#reactionContent lists them; a content no account reacted with is left out.",
+          "items": {
+            "ref": "#reactionCountView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "subject": {
+          "description": "The pull, issue or comment.",
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "subject",
+        "reactions"
+      ],
+      "type": "object"
     },
     "releaseFileView": {
-      "type": "object",
+      "description": "One file of a release.",
+      "properties": {
+        "name": {
+          "description": "Its name, as it is downloaded.",
+          "type": "string"
+        },
+        "sha256": {
+          "description": "The lowercase hex SHA-256 of the file, which a reader checks it against.",
+          "type": "string"
+        },
+        "size": {
+          "description": "Bytes in the file.",
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
       "required": [
         "name",
         "size",
         "sha256"
       ],
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Its name, as it is downloaded."
-        },
-        "size": {
-          "type": "integer",
-          "minimum": 1,
-          "description": "Bytes in the file."
-        },
-        "sha256": {
-          "type": "string",
-          "description": "The lowercase hex SHA-256 of the file, which a reader checks it against."
-        }
-      },
-      "description": "One file of a release."
+      "type": "object"
     },
-    "repoViewerState": {
-      "type": "object",
+    "releaseView": {
+      "description": "One version of a package a repository publishes, from its dev.knotless.release record, with its files and notes.",
       "properties": {
-        "star": {
-          "type": "string",
+        "check": {
+          "description": "The dev.knotless.check of the run that built it, if its record names one.",
           "format": "at-uri",
-          "description": "Its dev.knotless.star record naming the repository, if it starred it."
-        },
-        "admin": {
-          "type": "boolean",
-          "description": "Whether the account asking may change its settings: as its owner, or as an admin who joined the organization that owns it, when that organization delegated its writes to this appview's gateway, which makes the changes as it. Renaming, deleting and transferring it stay the owner's own. Absent when it may not."
-        },
-        "labels": {
-          "type": "array",
-          "items": {
-            "ref": "dev.knotless.repo#label",
-            "type": "ref"
-          },
-          "description": "The labels it defines that the account asking may put on its pulls and issues, in its order: as its owner, a collaborator, or a triager of their scopes. Absent when there are none."
-        },
-        "transfer": {
-          "ref": "#repoViewBasic",
-          "type": "ref",
-          "description": "Where the owner has offered to move the repository, when it is offered to the account asking, which can take it up (dev.knotless.acceptTransfer)."
-        },
-        "subscription": {
-          "type": "string",
-          "maxLength": 64,
-          "description": "What the account asking chose to hear of it (dev.knotless.putSubscription): `all` it does, its `releases` alone, or nothing, as it `ignore`s it. Its owner, until it chooses, hears `all`. Absent when it hears only of what it takes part in.",
-          "knownValues": [
-            "all",
-            "releases",
-            "ignore"
-          ]
-        }
-      },
-      "description": "What the account asking a query has to do with a repository."
-    },
-    "stepCommandView": {
-      "type": "object",
-      "required": [
-        "name"
-      ],
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The command's name, as `command -v` finds it."
-        }
-      },
-      "description": "A command a shared step needs in the workflow's image, checked before its steps run."
-    },
-    "stepVersionView": {
-      "type": "object",
-      "required": [
-        "uri",
-        "version",
-        "commit",
-        "createdAt"
-      ],
-      "properties": {
-        "uri": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "Its dev.knotless.release record."
+          "type": "string"
         },
         "commit": {
-          "type": "string",
-          "description": "The hex object ID of the commit it was published at, which a lock pins."
+          "description": "The hex object ID of the commit its files were built from, if its record names one.",
+          "type": "string"
         },
-        "version": {
-          "type": "string",
-          "description": "Its Semantic Versioning 2.0 version."
+        "crate": {
+          "description": "True when it is a crate, added with Cargo from its repository's registry, at `/cargo/<owner's DID>/<repository's key>/`, rather than downloaded.",
+          "type": "boolean"
         },
         "createdAt": {
-          "type": "string",
+          "description": "As its record says.",
           "format": "datetime",
-          "description": "As its record says."
-        }
-      },
-      "description": "One published version of a shared step."
-    },
-    "actorViewerState": {
-      "type": "object",
-      "properties": {
-        "blocking": {
-          "type": "string",
+          "type": "string"
+        },
+        "files": {
+          "description": "What it publishes, in its record's order.",
+          "items": {
+            "ref": "#releaseFileView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "html": {
+          "description": "`notes` made into HTML, as dev.knotless.getThread's comments are: raw HTML shown as text, and links made relative to the repository.",
+          "type": "string"
+        },
+        "image": {
+          "description": "True when its files are a container image's OCI layout: an `index.json` beside blobs named `sha256-<hex>`, pulled by `docker pull` rather than downloaded.",
+          "type": "boolean"
+        },
+        "latest": {
+          "description": "True for its package's latest version: the highest with no pre-release part that is not yanked.",
+          "type": "boolean"
+        },
+        "notes": {
+          "description": "What changed since the version before, in Markdown, as its record says.",
+          "type": "string"
+        },
+        "package": {
+          "description": "The package's name.",
+          "type": "string"
+        },
+        "uri": {
+          "description": "Its dev.knotless.release record.",
           "format": "at-uri",
-          "description": "Its dev.knotless.block record keeping the account out of all its repositories, if it has one."
+          "type": "string"
         },
-        "following": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "Its dev.knotless.follow record naming the account, if it follows it."
+        "version": {
+          "description": "Its Semantic Versioning 2.0 version.",
+          "type": "string"
+        },
+        "yanked": {
+          "description": "True when its owner withdrew it, by a dev.knotless.releaseYank record: its files can still be read, but it is no one's latest.",
+          "type": "boolean"
         }
       },
-      "description": "What the account asking a query has to do with an account."
-    },
-    "commitAuthorView": {
-      "type": "object",
       "required": [
-        "name"
+        "uri",
+        "package",
+        "version",
+        "files",
+        "createdAt"
       ],
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The name git records."
-        },
-        "actor": {
-          "ref": "#actorView",
-          "type": "ref"
-        },
-        "agent": {
-          "type": "string",
-          "description": "The coding agent whose address it is, when it is one the pages know the face of.",
-          "knownValues": [
-            "claude"
-          ]
-        }
-      },
-      "description": "Who wrote a commit or helped to: by the name git gives, and by account when that is one of the repository's people whose address it is."
-    },
-    "queueTypicalView": {
-      "type": "object",
-      "required": [
-        "batchSeconds",
-        "preflightSeconds"
-      ],
-      "properties": {
-        "batchSeconds": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "A batch, from its first run starting to its last ending: the median of those that landed lately."
-        },
-        "preflightSeconds": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "A pull's pre-flights at a head, as long as the longest of them that passed: the median, or a batch's with none to go by."
-        }
-      },
-      "description": "How long a repository's merge queue typically takes, for saying when a queued pull should land: a pull in a batch lands a batch after the batch started; one in no batch is ready once its pre-flights would pass, or now if they have, and lands a batch after that or after the batch being checked ahead of it, whichever is later."
+      "type": "object"
     },
     "releaseViewBasic": {
-      "type": "object",
+      "description": "One version of a package a repository publishes, from its dev.knotless.release record: which, and when.",
+      "properties": {
+        "createdAt": {
+          "description": "As its record says.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "image": {
+          "description": "True when its files are a container image's OCI layout, pulled by `docker pull` rather than downloaded.",
+          "type": "boolean"
+        },
+        "latest": {
+          "description": "True for its package's latest version: the highest with no pre-release part that is not yanked.",
+          "type": "boolean"
+        },
+        "package": {
+          "description": "The package's name.",
+          "type": "string"
+        },
+        "uri": {
+          "description": "Its dev.knotless.release record.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "version": {
+          "description": "Its Semantic Versioning 2.0 version.",
+          "type": "string"
+        }
+      },
       "required": [
         "uri",
         "package",
         "version",
         "createdAt"
       ],
+      "type": "object"
+    },
+    "releasesView": {
+      "description": "What a repository publishes, in brief, for its pages to show under its name.",
       "properties": {
-        "uri": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "Its dev.knotless.release record."
+        "count": {
+          "description": "How many releases it has published, of all its packages.",
+          "minimum": 0,
+          "type": "integer"
         },
-        "image": {
-          "type": "boolean",
-          "description": "True when its files are a container image's OCI layout, pulled by `docker pull` rather than downloaded."
+        "packages": {
+          "description": "Each package it publishes, by name.",
+          "items": {
+            "ref": "#packageView",
+            "type": "ref"
+          },
+          "type": "array"
         },
-        "latest": {
-          "type": "boolean",
-          "description": "True for its package's latest version: the highest with no pre-release part that is not yanked."
-        },
-        "package": {
-          "type": "string",
-          "description": "The package's name."
-        },
-        "version": {
-          "type": "string",
-          "description": "Its Semantic Versioning 2.0 version."
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "datetime",
-          "description": "As its record says."
+        "release": {
+          "description": "The release to show for it: the latest of the package named as the repository, else the newest that is its package's latest, or the newest of all when each is a pre-release.",
+          "ref": "#releaseViewBasic",
+          "type": "ref"
         }
       },
-      "description": "One version of a package a repository publishes, from its dev.knotless.release record: which, and when."
+      "required": [
+        "count",
+        "release",
+        "packages"
+      ],
+      "type": "object"
+    },
+    "repoMade": {
+      "description": "A repository the pages made: created, forked, renamed or taken up.",
+      "properties": {
+        "name": {
+          "description": "Its name, the record key.",
+          "maxLength": 100,
+          "type": "string"
+        },
+        "uri": {
+          "description": "Its dev.knotless.repo record, by its owner's DID.",
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "name"
+      ],
+      "type": "object"
+    },
+    "repoRef": {
+      "description": "A repository, as another record names it. The URI's name is the one the repository had when the record was written; a rename changes it, and a later repository can take it. The owner in the URI and `key` stay the repository's own, and are what a reader matches on.",
+      "properties": {
+        "key": {
+          "description": "The repository's `key`.",
+          "format": "tid",
+          "type": "string"
+        },
+        "uri": {
+          "description": "The dev.knotless.repo record, as it was named when this was written.",
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "key"
+      ],
+      "type": "object"
+    },
+    "repoView": {
+      "description": "A repository among others, from its dev.knotless.repo record.",
+      "properties": {
+        "createdAt": {
+          "description": "As its record says.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "forkCount": {
+          "description": "How many forks of it there are, as the appview has indexed. Given only where a list shows it, as an account's stars do.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "forkOf": {
+          "description": "The repository it was forked from, if the appview knows it.",
+          "ref": "#repoViewBasic",
+          "type": "ref"
+        },
+        "language": {
+          "description": "The language most of its default branch is written in, as its file listing counts them. Absent when none is counted, or the appview could not read it.",
+          "ref": "#languageView",
+          "type": "ref"
+        },
+        "name": {
+          "description": "The repository's name: its record key.",
+          "type": "string"
+        },
+        "owner": {
+          "ref": "#actorView",
+          "type": "ref"
+        },
+        "private": {
+          "description": "Whether it is private, in a space: listed only to its owner, asking.",
+          "type": "boolean"
+        },
+        "starCount": {
+          "description": "How many accounts starred it, as the appview has indexed. Given only where a list shows it, as an account's stars do.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "uri": {
+          "description": "Its dev.knotless.repo record, under the name it has now.",
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "owner",
+        "name",
+        "createdAt"
+      ],
+      "type": "object"
+    },
+    "repoViewBasic": {
+      "description": "A repository, under the name it has now.",
+      "properties": {
+        "did": {
+          "description": "The repository's owner.",
+          "format": "did",
+          "type": "string"
+        },
+        "handle": {
+          "description": "The owner's handle, as in #actorView.",
+          "type": "string"
+        },
+        "name": {
+          "description": "The repository's name: its record key.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "did",
+        "handle",
+        "name"
+      ],
+      "type": "object"
     },
     "repoViewDetailed": {
-      "type": "object",
+      "description": "A repository, with what its pages show above themselves.",
+      "properties": {
+        "archivedAt": {
+          "description": "When its owner archived it, making it read only. Absent when it is not archived.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "card": {
+          "description": "The path, on this appview, of the picture a link to its pages unfurls into: a new one whenever the picture changes.",
+          "type": "string"
+        },
+        "collaboratorCount": {
+          "description": "How many accounts may push to it besides its owner: more than `collaborators` holds when the list was cut short.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "collaborators": {
+          "description": "The first twenty accounts that may push to it besides its owner, as its record names them.",
+          "items": {
+            "ref": "#actorView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "defaultBranch": {
+          "description": "The branch its HEAD names: empty, for a repository never pushed.",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "forkCount": {
+          "description": "How many forks of it there are, as the appview has indexed. Absent for a private repository, whose forks are private too, and from an appview that keeps no index.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "forkOf": {
+          "description": "The repository it was forked from, if the appview knows it.",
+          "ref": "#repoViewBasic",
+          "type": "ref"
+        },
+        "key": {
+          "description": "The repository's key, as its dev.knotless.repo record holds it, which a rename keeps: what dev.knotless.putSecret and dev.knotless.listSecrets name it by.",
+          "maxLength": 32,
+          "type": "string"
+        },
+        "links": {
+          "description": "Links its pages show, in display order, as its record names them: its website first. Only http and https addresses.",
+          "items": {
+            "ref": "#link",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "mergeQueue": {
+          "description": "Whether its pages lead to its merge queue: a rule of its record has a branch take pulls through it, or an open pull waits in it still. Absent when neither.",
+          "type": "boolean"
+        },
+        "name": {
+          "description": "The repository's name: its record key.",
+          "type": "string"
+        },
+        "openIssues": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "openPulls": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "owner": {
+          "ref": "#actorView",
+          "type": "ref"
+        },
+        "private": {
+          "description": "Whether it is private, in a space: shown only to its members, each logged in to this appview.",
+          "type": "boolean"
+        },
+        "releases": {
+          "description": "What it publishes, in brief, as the appview has indexed. Absent when it has published nothing, for a private repository, which cannot publish, and from an appview that keeps no index.",
+          "ref": "#releasesView",
+          "type": "ref"
+        },
+        "site": {
+          "description": "Its website, where this appview serves sites. Absent when it has none, or it is taken down.",
+          "ref": "#siteView",
+          "type": "ref"
+        },
+        "starCount": {
+          "description": "How many accounts starred it, as the appview has indexed. Absent for a private repository, which cannot be starred, and from an appview that keeps no index.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "topics": {
+          "description": "What it is about, as its record names them, in its order.",
+          "items": {
+            "ref": "dev.knotless.repo#topic",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "uri": {
+          "description": "Its dev.knotless.repo record, under the name it has now.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "viewer": {
+          "description": "What the account asking has to do with it; absent when no one asks.",
+          "ref": "#repoViewerState",
+          "type": "ref"
+        }
+      },
       "required": [
         "uri",
         "owner",
@@ -1639,121 +1426,408 @@
         "openIssues",
         "card"
       ],
+      "type": "object"
+    },
+    "repoViewerState": {
+      "description": "What the account asking a query has to do with a repository.",
       "properties": {
-        "key": {
-          "type": "string",
-          "maxLength": 32,
-          "description": "The repository's key, as its dev.knotless.repo record holds it, which a rename keeps: what dev.knotless.putSecret and dev.knotless.listSecrets name it by."
+        "admin": {
+          "description": "Whether the account asking may change its settings: as its owner, or as an admin who joined the organization that owns it, when that organization delegated its writes to this appview's gateway, which makes the changes as it. Renaming, deleting and transferring it stay the owner's own. Absent when it may not.",
+          "type": "boolean"
         },
-        "uri": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "Its dev.knotless.repo record, under the name it has now."
-        },
-        "card": {
-          "type": "string",
-          "description": "The path, on this appview, of the picture a link to its pages unfurls into: a new one whenever the picture changes."
-        },
-        "name": {
-          "type": "string",
-          "description": "The repository's name: its record key."
-        },
-        "site": {
-          "ref": "#siteView",
-          "type": "ref",
-          "description": "Its website, where this appview serves sites. Absent when it has none, or it is taken down."
-        },
-        "links": {
-          "type": "array",
+        "labels": {
+          "description": "The labels it defines that the account asking may put on its pulls and issues, in its order: as its owner, a collaborator, or a triager of their scopes. Absent when there are none.",
           "items": {
-            "ref": "#link",
+            "ref": "dev.knotless.repo#label",
             "type": "ref"
           },
-          "description": "Links its pages show, in display order, as its record names them: its website first. Only http and https addresses."
+          "type": "array"
         },
-        "owner": {
+        "star": {
+          "description": "Its dev.knotless.star record naming the repository, if it starred it.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "subscription": {
+          "description": "What the account asking chose to hear of it (dev.knotless.putSubscription): `all` it does, its `releases` alone, or nothing, as it `ignore`s it. Its owner, until it chooses, hears `all`. Absent when it hears only of what it takes part in.",
+          "knownValues": [
+            "all",
+            "releases",
+            "ignore"
+          ],
+          "maxLength": 64,
+          "type": "string"
+        },
+        "transfer": {
+          "description": "Where the owner has offered to move the repository, when it is offered to the account asking, which can take it up (dev.knotless.acceptTransfer).",
+          "ref": "#repoViewBasic",
+          "type": "ref"
+        }
+      },
+      "type": "object"
+    },
+    "reviewView": {
+      "description": "Where one reviewer stands on a pull: their latest comment with a verdict. A comment without one leaves it as it was, and a pull's author reviews nothing of their own.",
+      "properties": {
+        "commit": {
+          "description": "The hex object ID of the head it looked at.",
+          "type": "string"
+        },
+        "dismissed": {
+          "description": "Whether the owner or a collaborator dismissed it (dev.knotless.dismissReview): it counts for nothing, for or against the pull, until its reviewer reviews again.",
+          "type": "boolean"
+        },
+        "gate": {
+          "description": "Whether the rule protecting the pull's base names the reviewer as a gate, whose review of the head the pull waits for though it may not write.",
+          "type": "boolean"
+        },
+        "maintainer": {
+          "description": "Whether the reviewer is the repository's owner or a collaborator.",
+          "type": "boolean"
+        },
+        "outdated": {
+          "description": "Whether the open pull has moved past the head it looked at: an approval then stands for what the pull was, not what it is.",
+          "type": "boolean"
+        },
+        "reviewer": {
           "ref": "#actorView",
           "type": "ref"
         },
-        "forkOf": {
-          "ref": "#repoViewBasic",
-          "type": "ref",
-          "description": "The repository it was forked from, if the appview knows it."
-        },
-        "topics": {
-          "type": "array",
-          "items": {
-            "ref": "dev.knotless.repo#topic",
-            "type": "ref"
-          },
-          "description": "What it is about, as its record names them, in its order."
-        },
-        "viewer": {
-          "ref": "#repoViewerState",
-          "type": "ref",
-          "description": "What the account asking has to do with it; absent when no one asks."
-        },
-        "private": {
-          "type": "boolean",
-          "description": "Whether it is private, in a space: shown only to its members, each logged in to this appview."
-        },
-        "releases": {
-          "ref": "#releasesView",
-          "type": "ref",
-          "description": "What it publishes, in brief, as the appview has indexed. Absent when it has published nothing, for a private repository, which cannot publish, and from an appview that keeps no index."
-        },
-        "forkCount": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "How many forks of it there are, as the appview has indexed. Absent for a private repository, whose forks are private too, and from an appview that keeps no index."
-        },
-        "openPulls": {
-          "type": "integer",
-          "minimum": 0
-        },
-        "starCount": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "How many accounts starred it, as the appview has indexed. Absent for a private repository, which cannot be starred, and from an appview that keeps no index."
-        },
-        "archivedAt": {
-          "type": "string",
-          "format": "datetime",
-          "description": "When its owner archived it, making it read only. Absent when it is not archived."
-        },
-        "mergeQueue": {
-          "type": "boolean",
-          "description": "Whether its pages lead to its merge queue: a rule of its record has a branch take pulls through it, or an open pull waits in it still. Absent when neither."
-        },
-        "openIssues": {
-          "type": "integer",
-          "minimum": 0
-        },
-        "description": {
+        "uri": {
+          "description": "The dev.knotless.comment that reviewed it.",
+          "format": "at-uri",
           "type": "string"
         },
-        "collaborators": {
-          "type": "array",
-          "items": {
-            "ref": "#actorView",
-            "type": "ref"
-          },
-          "description": "The first twenty accounts that may push to it besides its owner, as its record names them."
-        },
-        "defaultBranch": {
-          "type": "string",
-          "description": "The branch its HEAD names: empty, for a repository never pushed."
-        },
-        "collaboratorCount": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "How many accounts may push to it besides its owner: more than `collaborators` holds when the list was cut short."
+        "verdict": {
+          "description": "`approve`, or `changes` for one that asked for changes.",
+          "knownValues": [
+            "approve",
+            "changes"
+          ],
+          "type": "string"
         }
       },
-      "description": "A repository, with what its pages show above themselves."
+      "required": [
+        "reviewer",
+        "verdict",
+        "uri",
+        "outdated",
+        "maintainer"
+      ],
+      "type": "object"
+    },
+    "siteView": {
+      "description": "A repository's website, as its dev.knotless.site record was last indexed.",
+      "properties": {
+        "check": {
+          "description": "The dev.knotless.check of the run that built and deployed it, given only when the check is in the account of a runner the repository's record names.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "commit": {
+          "description": "The hex object ID of the commit its record says the files were built from, as whoever deployed it said, unchecked.",
+          "type": "string"
+        },
+        "deployedAt": {
+          "description": "When it was deployed, as its record says.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "url": {
+          "description": "Where it is served: under its owner's label of the pages domain, or, for a private repository, at a host of its own.",
+          "format": "uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "url",
+        "deployedAt"
+      ],
+      "type": "object"
+    },
+    "stackPullView": {
+      "description": "One pull of a stack.",
+      "properties": {
+        "branch": {
+          "description": "Its head branch.",
+          "type": "string"
+        },
+        "item": {
+          "ref": "#itemView",
+          "type": "ref"
+        },
+        "merged": {
+          "description": "The commit it landed as.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "item"
+      ],
+      "type": "object"
+    },
+    "stackView": {
+      "description": "The chain of pulls a pull is part of, each built on the one below it.",
+      "properties": {
+        "into": {
+          "description": "The branch the lowest pull targets.",
+          "type": "string"
+        },
+        "pulls": {
+          "description": "Highest first: the lowest, which lands first, is last.",
+          "items": {
+            "ref": "#stackPullView",
+            "type": "ref"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "pulls"
+      ],
+      "type": "object"
+    },
+    "starState": {
+      "description": "A repository's stars, as starring or unstarring it leaves them.",
+      "properties": {
+        "star": {
+          "description": "The asker's dev.knotless.star record naming it; absent once unstarred.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "starCount": {
+          "description": "How many accounts starred it now.",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "starCount"
+      ],
+      "type": "object"
+    },
+    "stepCommandView": {
+      "description": "A command a shared step needs in the workflow's image, checked before its steps run.",
+      "properties": {
+        "name": {
+          "description": "The command's name, as `command -v` finds it.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "stepInputView": {
+      "description": "An input a shared step takes, which reaches its steps as the environment variable `INPUT_<NAME>`.",
+      "properties": {
+        "default": {
+          "description": "Its value when a workflow does not give it.",
+          "type": "string"
+        },
+        "description": {
+          "description": "What it is, as the step file says.",
+          "type": "string"
+        },
+        "name": {
+          "description": "The input's name, as a workflow's `with` gives it.",
+          "type": "string"
+        },
+        "required": {
+          "description": "True when a workflow using the step must give it.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "required"
+      ],
+      "type": "object"
+    },
+    "stepSecretView": {
+      "description": "A secret a shared step asks to be given, which a workflow passes it by name.",
+      "properties": {
+        "name": {
+          "description": "The secret's name.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "stepVersionView": {
+      "description": "One published version of a shared step.",
+      "properties": {
+        "commit": {
+          "description": "The hex object ID of the commit it was published at, which a lock pins.",
+          "type": "string"
+        },
+        "createdAt": {
+          "description": "As its record says.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "uri": {
+          "description": "Its dev.knotless.release record.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "version": {
+          "description": "Its Semantic Versioning 2.0 version.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "version",
+        "commit",
+        "createdAt"
+      ],
+      "type": "object"
+    },
+    "stepView": {
+      "description": "A shared step, a file of workflow steps a repository publishes for others' workflows to use, at its latest version: from its dev.knotless.release records of the package `@step/<name>`.",
+      "properties": {
+        "createdAt": {
+          "description": "When its latest version was published, as its record says.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "description": {
+          "description": "What it does, as its step file says.",
+          "type": "string"
+        },
+        "name": {
+          "description": "The step's name: its file's, `.knotless/steps/<name>.yml`.",
+          "type": "string"
+        },
+        "repo": {
+          "description": "The repository it is in.",
+          "ref": "#repoViewBasic",
+          "type": "ref"
+        },
+        "secretCount": {
+          "description": "How many secrets it asks to be given.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "uri": {
+          "description": "The dev.knotless.release record of its latest version.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "useCount": {
+          "description": "How many public repositories pin it, at any version, in the `.knotless/uses.lock` of their default branch, as the appview last read each.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "version": {
+          "description": "Its latest version: the highest with no pre-release part, or the highest of all when each is a pre-release.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "name",
+        "repo",
+        "version",
+        "secretCount",
+        "useCount",
+        "createdAt"
+      ],
+      "type": "object"
     },
     "stepViewDetailed": {
-      "type": "object",
+      "description": "A shared step at its latest version, as #stepView, with what it takes and asks for, its versions and some of the repositories that use it.",
+      "properties": {
+        "commit": {
+          "description": "The hex object ID of the commit its latest version was published at.",
+          "type": "string"
+        },
+        "createdAt": {
+          "description": "When its latest version was published, as its record says.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "description": {
+          "description": "What it does, as its step file says.",
+          "type": "string"
+        },
+        "inputs": {
+          "description": "Its inputs, by name.",
+          "items": {
+            "ref": "#stepInputView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "name": {
+          "description": "The step's name: its file's, `.knotless/steps/<name>.yml`.",
+          "type": "string"
+        },
+        "needs": {
+          "description": "The commands it needs in the workflow's image.",
+          "items": {
+            "ref": "#stepCommandView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "path": {
+          "description": "Its file in its repository: `.knotless/steps/<name>.yml`.",
+          "type": "string"
+        },
+        "repo": {
+          "description": "The repository it is in.",
+          "ref": "#repoViewBasic",
+          "type": "ref"
+        },
+        "secrets": {
+          "description": "The secrets it asks to be given, by name.",
+          "items": {
+            "ref": "#stepSecretView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "uri": {
+          "description": "The dev.knotless.release record of its latest version.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "useCount": {
+          "description": "How many public repositories pin it, as in #stepView.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "usedBy": {
+          "description": "Some of the repositories that pin it, at most 30.",
+          "items": {
+            "ref": "#repoViewBasic",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "uses": {
+          "description": "What a workflow step's `uses` names it by to take its latest major version: `<handle>/<repo>/<name>@<major>`, or `@0.<minor>` before 1.0.0.",
+          "type": "string"
+        },
+        "version": {
+          "description": "Its latest version, as in #stepView.",
+          "type": "string"
+        },
+        "versions": {
+          "description": "Each version published that is a step file, the highest first.",
+          "items": {
+            "ref": "#stepVersionView",
+            "type": "ref"
+          },
+          "type": "array"
+        }
+      },
       "required": [
         "uri",
         "name",
@@ -1770,120 +1844,46 @@
         "usedBy",
         "createdAt"
       ],
-      "properties": {
-        "uri": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The dev.knotless.release record of its latest version."
-        },
-        "name": {
-          "type": "string",
-          "description": "The step's name: its file's, `.knotless/steps/<name>.yml`."
-        },
-        "path": {
-          "type": "string",
-          "description": "Its file in its repository: `.knotless/steps/<name>.yml`."
-        },
-        "repo": {
-          "ref": "#repoViewBasic",
-          "type": "ref",
-          "description": "The repository it is in."
-        },
-        "uses": {
-          "type": "string",
-          "description": "What a workflow step's `uses` names it by to take its latest major version: `<handle>/<repo>/<name>@<major>`, or `@0.<minor>` before 1.0.0."
-        },
-        "needs": {
-          "type": "array",
-          "items": {
-            "ref": "#stepCommandView",
-            "type": "ref"
-          },
-          "description": "The commands it needs in the workflow's image."
-        },
-        "commit": {
-          "type": "string",
-          "description": "The hex object ID of the commit its latest version was published at."
-        },
-        "inputs": {
-          "type": "array",
-          "items": {
-            "ref": "#stepInputView",
-            "type": "ref"
-          },
-          "description": "Its inputs, by name."
-        },
-        "usedBy": {
-          "type": "array",
-          "items": {
-            "ref": "#repoViewBasic",
-            "type": "ref"
-          },
-          "description": "Some of the repositories that pin it, at most 30."
-        },
-        "secrets": {
-          "type": "array",
-          "items": {
-            "ref": "#stepSecretView",
-            "type": "ref"
-          },
-          "description": "The secrets it asks to be given, by name."
-        },
-        "version": {
-          "type": "string",
-          "description": "Its latest version, as in #stepView."
-        },
-        "useCount": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "How many public repositories pin it, as in #stepView."
-        },
-        "versions": {
-          "type": "array",
-          "items": {
-            "ref": "#stepVersionView",
-            "type": "ref"
-          },
-          "description": "Each version published that is a step file, the highest first."
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "datetime",
-          "description": "When its latest version was published, as its record says."
-        },
-        "description": {
-          "type": "string",
-          "description": "What it does, as its step file says."
-        }
-      },
-      "description": "A shared step at its latest version, as #stepView, with what it takes and asks for, its versions and some of the repositories that use it."
+      "type": "object"
     },
-    "reactionCountView": {
-      "type": "object",
-      "required": [
-        "content",
-        "count"
-      ],
+    "themeView": {
+      "description": "A theme made for the pages, from its dev.knotless.theme record.",
       "properties": {
-        "count": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "How many accounts reacted so, each once."
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
         },
-        "content": {
-          "ref": "#reactionContent",
+        "creator": {
+          "description": "The account that made it.",
+          "ref": "#actorView",
           "type": "ref"
         },
-        "reaction": {
-          "type": "string",
+        "name": {
+          "description": "What it is called.",
+          "type": "string"
+        },
+        "palette": {
+          "description": "Its colours, only those given as #rrggbb.",
+          "ref": "dev.knotless.theme#palette",
+          "type": "ref"
+        },
+        "uri": {
+          "description": "Its dev.knotless.theme record.",
           "format": "at-uri",
-          "description": "The asker's dev.knotless.reaction record of this content on it, if they reacted so."
+          "type": "string"
         }
       },
-      "description": "How many accounts reacted to something with one content."
+      "required": [
+        "uri",
+        "creator",
+        "name",
+        "palette",
+        "createdAt"
+      ],
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Definitions shared by the knotless lexicons."
+  "description": "Definitions shared by the knotless lexicons.",
+  "id": "dev.knotless.defs",
+  "lexicon": 1
 }

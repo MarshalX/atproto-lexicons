@@ -1,53 +1,53 @@
 {
-  "id": "social.grain.unspecced.getActorFavorites",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "Get galleries favorited by the authenticated actor. Only the actor themselves can view their favorites.",
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "items"
-          ],
           "properties": {
+            "cursor": {
+              "type": "string"
+            },
             "items": {
-              "type": "array",
               "items": {
                 "ref": "social.grain.gallery.defs#galleryView",
                 "type": "ref"
-              }
-            },
-            "cursor": {
-              "type": "string"
+              },
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "items"
+          ],
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
-        "required": [
-          "actor"
-        ],
         "properties": {
           "actor": {
-            "type": "string",
-            "format": "at-identifier"
-          },
-          "limit": {
-            "type": "integer",
-            "default": 30,
-            "maximum": 100,
-            "minimum": 1
+            "format": "at-identifier",
+            "type": "string"
           },
           "cursor": {
             "type": "string"
+          },
+          "limit": {
+            "default": 30,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
           }
-        }
+        },
+        "required": [
+          "actor"
+        ],
+        "type": "params"
       },
-      "description": "Get galleries favorited by the authenticated actor. Only the actor themselves can view their favorites."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.getActorFavorites",
   "lexicon": 1
 }

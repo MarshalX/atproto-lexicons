@@ -1,49 +1,49 @@
 {
-  "id": "dev.knotless.getActorStars",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "The public repositories an account starred, as the appview has indexed its dev.knotless.star records, the latest starred first. A star naming a repository the appview does not know, or one taken down, is left out. No authentication; responses are not personalized.",
       "errors": [
         {
-          "name": "ProfileNotFound",
-          "description": "No account by that DID or handle."
+          "description": "No account by that DID or handle.",
+          "name": "ProfileNotFound"
         }
       ],
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "repos"
-          ],
           "properties": {
             "repos": {
-              "type": "array",
               "items": {
                 "ref": "dev.knotless.defs#repoView",
                 "type": "ref"
-              }
+              },
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "repos"
+          ],
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "actor": {
+            "description": "The account, by DID or handle.",
+            "format": "at-identifier",
+            "type": "string"
+          }
+        },
         "required": [
           "actor"
         ],
-        "properties": {
-          "actor": {
-            "type": "string",
-            "format": "at-identifier",
-            "description": "The account, by DID or handle."
-          }
-        }
+        "type": "params"
       },
-      "description": "The public repositories an account starred, as the appview has indexed its dev.knotless.star records, the latest starred first. A star naming a repository the appview does not know, or one taken down, is left out. No authentication; responses are not personalized."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "The repositories an account starred."
+  "description": "The repositories an account starred.",
+  "id": "dev.knotless.getActorStars",
+  "lexicon": 1
 }

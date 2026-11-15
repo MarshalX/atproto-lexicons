@@ -1,102 +1,102 @@
 {
-  "id": "dev.knotless.getLastCommits",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
+    "entry": {
+      "description": "One entry of the directory, and the commit that last changed it.",
+      "properties": {
+        "name": {
+          "description": "The entry's name in the directory.",
+          "type": "string"
+        },
+        "sha": {
+          "description": "The commit that last changed it, in hex: one of `commits`.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "sha"
+      ],
+      "type": "object"
+    },
     "main": {
-      "type": "query",
+      "description": "The newest commit to change each entry of a directory at a revision, as its history shows it: a commit that left an entry as one of its parents had it did not change it. Asked apart from dev.knotless.getTree, as finding them can walk a long history. No authentication needed; asked as an account, with a service token or the pages' session cookie, a private repository it is a member of is read too, and the answer is that account's alone.",
       "errors": [
         {
-          "name": "NotFound",
-          "description": "No such repository, revision or directory."
+          "description": "No such repository, revision or directory.",
+          "name": "NotFound"
         }
       ],
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "commitCount": {
+              "description": "How many commits the ref's history holds, its own among them. Only when `path` is the root.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "commits": {
+              "description": "Each commit an entry names, once.",
+              "items": {
+                "ref": "dev.knotless.defs#commitView",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "entries": {
+              "description": "Each entry of the directory, in the tree's order.",
+              "items": {
+                "ref": "#entry",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "path": {
+              "description": "The directory, from the root; empty for the root.",
+              "type": "string"
+            },
+            "ref": {
+              "description": "The ref or commit shown, as `ref` named it, less any path.",
+              "type": "string"
+            }
+          },
           "required": [
             "ref",
             "path",
             "entries",
             "commits"
           ],
-          "properties": {
-            "ref": {
-              "type": "string",
-              "description": "The ref or commit shown, as `ref` named it, less any path."
-            },
-            "path": {
-              "type": "string",
-              "description": "The directory, from the root; empty for the root."
-            },
-            "commits": {
-              "type": "array",
-              "items": {
-                "ref": "dev.knotless.defs#commitView",
-                "type": "ref"
-              },
-              "description": "Each commit an entry names, once."
-            },
-            "entries": {
-              "type": "array",
-              "items": {
-                "ref": "#entry",
-                "type": "ref"
-              },
-              "description": "Each entry of the directory, in the tree's order."
-            },
-            "commitCount": {
-              "type": "integer",
-              "minimum": 0,
-              "description": "How many commits the ref's history holds, its own among them. Only when `path` is the root."
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "path": {
+            "description": "A directory in the tree, from its root.",
+            "maxLength": 4096,
+            "type": "string"
+          },
+          "ref": {
+            "description": "A branch, a tag or a commit, which may run on into the path, as dev.knotless.getTree takes it; the default branch if absent.",
+            "maxLength": 1024,
+            "type": "string"
+          },
+          "repo": {
+            "description": "The repository's dev.knotless.repo record, as dev.knotless.getTree takes it.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
         "required": [
           "repo"
         ],
-        "properties": {
-          "ref": {
-            "type": "string",
-            "maxLength": 1024,
-            "description": "A branch, a tag or a commit, which may run on into the path, as dev.knotless.getTree takes it; the default branch if absent."
-          },
-          "path": {
-            "type": "string",
-            "maxLength": 4096,
-            "description": "A directory in the tree, from its root."
-          },
-          "repo": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The repository's dev.knotless.repo record, as dev.knotless.getTree takes it."
-          }
-        }
+        "type": "params"
       },
-      "description": "The newest commit to change each entry of a directory at a revision, as its history shows it: a commit that left an entry as one of its parents had it did not change it. Asked apart from dev.knotless.getTree, as finding them can walk a long history. No authentication needed; asked as an account, with a service token or the pages' session cookie, a private repository it is a member of is read too, and the answer is that account's alone."
-    },
-    "entry": {
-      "type": "object",
-      "required": [
-        "name",
-        "sha"
-      ],
-      "properties": {
-        "sha": {
-          "type": "string",
-          "description": "The commit that last changed it, in hex: one of `commits`."
-        },
-        "name": {
-          "type": "string",
-          "description": "The entry's name in the directory."
-        }
-      },
-      "description": "One entry of the directory, and the commit that last changed it."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "The newest commit to change each entry of a directory."
+  "description": "The newest commit to change each entry of a directory.",
+  "id": "dev.knotless.getLastCommits",
+  "lexicon": 1
 }

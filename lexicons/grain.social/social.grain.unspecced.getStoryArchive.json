@@ -1,53 +1,53 @@
 {
-  "id": "social.grain.unspecced.getStoryArchive",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "Get all stories for an actor, including expired ones. For archive browsing.",
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "stories"
-          ],
           "properties": {
             "cursor": {
               "type": "string"
             },
             "stories": {
-              "type": "array",
               "items": {
                 "ref": "social.grain.story.defs#storyView",
                 "type": "ref"
-              }
+              },
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "stories"
+          ],
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
-        "required": [
-          "actor"
-        ],
         "properties": {
           "actor": {
-            "type": "string",
-            "format": "at-identifier"
-          },
-          "limit": {
-            "type": "integer",
-            "default": 50,
-            "maximum": 100,
-            "minimum": 1
+            "format": "at-identifier",
+            "type": "string"
           },
           "cursor": {
             "type": "string"
+          },
+          "limit": {
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
           }
-        }
+        },
+        "required": [
+          "actor"
+        ],
+        "type": "params"
       },
-      "description": "Get all stories for an actor, including expired ones. For archive browsing."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.getStoryArchive",
   "lexicon": 1
 }

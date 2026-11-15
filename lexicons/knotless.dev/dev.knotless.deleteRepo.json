@@ -1,58 +1,58 @@
 {
-  "id": "dev.knotless.deleteRepo",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Deletes the repository's dev.knotless.repo record and everything keyed by it (refs, claims, packs, releases, reruns), and, unless another account has taken it up, what its owner wrote about it (their pulls, issues, comments, states, labels, hides, queue entries, blocks, star, and reactions to those), as `knotless repo delete` does; for a private one, its space. What others wrote stays in their accounts. It cannot be undone. Only its owner, logged in to this appview's web pages, can: the appview writes with the session it keeps for that account, which the pages' session cookie names.",
+      "errors": [
+        {
+          "description": "No such repository.",
+          "name": "NotFound"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        },
+        {
+          "description": "The account logged in is not the repository's owner.",
+          "name": "Forbidden"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "repo": {
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
           "required": [
             "repo"
           ],
-          "properties": {
-            "repo": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "NotFound",
-          "description": "No such repository."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
-        },
-        {
-          "name": "Forbidden",
-          "description": "The account logged in is not the repository's owner."
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "uri": {
+              "description": "The record deleted.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
           "required": [
             "uri"
           ],
-          "properties": {
-            "uri": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The record deleted."
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
-      "description": "Deletes the repository's dev.knotless.repo record and everything keyed by it (refs, claims, packs, releases, reruns), and, unless another account has taken it up, what its owner wrote about it (their pulls, issues, comments, states, labels, hides, queue entries, blocks, star, and reactions to those), as `knotless repo delete` does; for a private one, its space. What others wrote stays in their accounts. It cannot be undone. Only its owner, logged in to this appview's web pages, can: the appview writes with the session it keeps for that account, which the pages' session cookie names."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Deletes a repository and everything in it."
+  "description": "Deletes a repository and everything in it.",
+  "id": "dev.knotless.deleteRepo",
+  "lexicon": 1
 }

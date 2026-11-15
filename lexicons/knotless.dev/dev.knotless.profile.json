@@ -1,62 +1,62 @@
 {
-  "id": "dev.knotless.profile",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "Keyed self. Each field stands in for the same one of the account's app.bsky.actor.profile, field by field: one left out shows the Bluesky profile's, so an account with no such record shows as its Bluesky profile says.",
       "key": "literal:self",
-      "type": "record",
       "record": {
-        "type": "object",
         "properties": {
+          "avatar": {
+            "accept": [
+              "image/png",
+              "image/jpeg"
+            ],
+            "description": "The account's picture. Served by readers from the account's PDS, since no Bluesky record names it.",
+            "maxSize": 1000000,
+            "type": "blob"
+          },
           "bot": {
-            "type": "boolean",
-            "description": "Whether the account is automated, such as a runner, a triager or a reviewer, as it says of itself. Readers leave out of feeds what it says and pushes, and may mark it as a bot. Absent when it is not."
+            "description": "Whether the account is automated, such as a runner, a triager or a reviewer, as it says of itself. Readers leave out of feeds what it says and pushes, and may mark it as a bot. Absent when it is not.",
+            "type": "boolean"
+          },
+          "description": {
+            "description": "Free text about the account: its bio.",
+            "maxGraphemes": 256,
+            "maxLength": 2560,
+            "type": "string"
+          },
+          "displayName": {
+            "description": "The name shown over the account's handle.",
+            "maxGraphemes": 64,
+            "maxLength": 640,
+            "type": "string"
           },
           "links": {
-            "type": "array",
+            "description": "Links shown on the profile, in display order. Stands in for the Bluesky profile's links, or, with none, its website.",
             "items": {
               "ref": "dev.knotless.defs#link",
               "type": "ref"
             },
             "maxLength": 10,
-            "description": "Links shown on the profile, in display order. Stands in for the Bluesky profile's links, or, with none, its website."
-          },
-          "avatar": {
-            "type": "blob",
-            "accept": [
-              "image/png",
-              "image/jpeg"
-            ],
-            "maxSize": 1000000,
-            "description": "The account's picture. Served by readers from the account's PDS, since no Bluesky record names it."
+            "type": "array"
           },
           "pronouns": {
-            "type": "string",
-            "maxLength": 200,
             "description": "Free-form pronouns text.",
-            "maxGraphemes": 20
+            "maxGraphemes": 20,
+            "maxLength": 200,
+            "type": "string"
           },
           "updatedAt": {
-            "type": "string",
-            "format": "datetime"
-          },
-          "description": {
-            "type": "string",
-            "maxLength": 2560,
-            "description": "Free text about the account: its bio.",
-            "maxGraphemes": 256
-          },
-          "displayName": {
-            "type": "string",
-            "maxLength": 640,
-            "description": "The name shown over the account's handle.",
-            "maxGraphemes": 64
+            "format": "datetime",
+            "type": "string"
           }
-        }
+        },
+        "type": "object"
       },
-      "description": "Keyed self. Each field stands in for the same one of the account's app.bsky.actor.profile, field by field: one left out shows the Bluesky profile's, so an account with no such record shows as its Bluesky profile says."
+      "type": "record"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "How an account shows on knotless, where that differs from its Bluesky profile."
+  "description": "How an account shows on knotless, where that differs from its Bluesky profile.",
+  "id": "dev.knotless.profile",
+  "lexicon": 1
 }

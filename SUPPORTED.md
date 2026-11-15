@@ -1,6 +1,6 @@
 # Supported services
 
-2374 of 2428 lexicons are packaged. Another 16 ship with the SDK itself.
+2402 of 2456 lexicons are packaged. Another 16 ship with the SDK itself.
 
 | Status | Services | Meaning |
 |---|---|---|
@@ -20,7 +20,7 @@
 | `atmo.rsvp` | Partial | 30 of 31 | 0 | 14 | 14 | 1 |  |
 | `atmosynth.at` | Full | 14 of 14 | 13 | 0 | 0 |  |  |
 | `atmowx.net` | Full | 5 of 5 | 2 | 2 | 0 |  |  |
-| `atni.me` | Full | 5 of 5 | 4 | 0 | 0 |  |  |
+| `atni.me` | Full | 4 of 4 | 3 | 0 | 0 |  |  |
 | `atpcraft.at` | Partial | 5 of 5 | 4 | 0 | 0 |  | 1 |
 | `atpota.to` | Partial | 8 of 8 | 7 | 0 | 0 |  | 1 |
 | `atstore.fyi` | Full | 11 of 11 | 5 | 4 | 0 |  |  |
@@ -32,7 +32,7 @@
 | `certified.app` | Full | 15 of 15 | 12 | 0 | 0 |  |  |
 | `chavatar.app` | Full | 8 of 8 | 5 | 0 | 0 |  |  |
 | `cocore.dev` | Partial | 40 of 40 | 14 | 17 | 7 |  | 9 |
-| `colibri.social` | Partial | 203 of 211 | 37 | 52 | 88 | 10 | 17 |
+| `colibri.social` | Partial | 217 of 225 | 37 | 59 | 92 | 10 | 17 |
 | `cosmik.network` | Partial | 8 of 10 | 6 | 0 | 0 | 2 |  |
 | `coves.social` | Full | 73 of 73 | 14 | 24 | 22 |  |  |
 | `craftsky.social` | Full | 18 of 18 | 6 | 0 | 0 |  |  |
@@ -45,7 +45,7 @@
 | `fisl.dev` | Full | 1 of 1 | 1 | 0 | 0 |  |  |
 | `flashes.blue` | Full | 3 of 3 | 3 | 0 | 0 |  |  |
 | `gainforest.app` | Full | 35 of 35 | 31 | 1 | 0 |  |  |
-| `gamesgamesgamesgames.games` | Partial | 94 of 94 | 22 | 43 | 17 |  | 1 |
+| `gamesgamesgamesgames.games` | Partial | 95 of 95 | 22 | 43 | 18 |  | 1 |
 | `gamethesky.com` | Full | 12 of 12 | 12 | 0 | 0 |  |  |
 | `grain.social` | Partial | 70 of 72 | 13 | 34 | 15 | 2 |  |
 | `hypercerts.org` | Full | 17 of 17 | 14 | 0 | 0 |  |  |
@@ -53,7 +53,7 @@
 | `keytrace.dev` | Full | 7 of 7 | 5 | 1 | 0 |  |  |
 | `kipclip.com` | Full | 2 of 2 | 2 | 0 | 0 |  |  |
 | `knotless.dev` | Partial | 181 of 183 | 32 | 64 | 84 | 2 |  |
-| `leaflet.pub` | Full | 51 of 51 | 14 | 0 | 0 |  |  |
+| `leaflet.pub` | Full | 52 of 52 | 15 | 0 | 0 |  |  |
 | `lexicon.community` | Full | 21 of 21 | 9 | 4 | 0 |  |  |
 | `lichen.wiki` | Full | 10 of 10 | 5 | 4 | 0 |  |  |
 | `linkedclaims.com` | Full | 1 of 1 | 1 | 0 | 0 |  |  |
@@ -66,7 +66,7 @@
 | `nahdig.com` | Full | 4 of 4 | 4 | 0 | 0 |  |  |
 | `nerdballot.com` | Full | 7 of 7 | 7 | 0 | 0 |  |  |
 | `offprint.app` | Partial | 26 of 29 | 5 | 0 | 0 | 3 | 5 |
-| `olamaelcu.net` | Partial | 20 of 20 | 5 | 14 | 0 |  | 2 |
+| `olamaelcu.net` | Partial | 32 of 32 | 8 | 21 | 2 |  | 6 |
 | `opnshelf.xyz` | Partial | 10 of 15 | 8 | 0 | 0 | 5 |  |
 | `pckt.blog` | Full | 39 of 39 | 7 | 1 | 3 |  |  |
 | `pinkleap.social` | Full | 5 of 5 | 5 | 0 | 0 |  |  |
@@ -96,7 +96,7 @@
 | `syui.ai` | Full | 12 of 12 | 12 | 0 | 0 |  |  |
 | `tangled.org` | Full | 64 of 64 | 18 | 11 | 17 |  |  |
 | `teal.fm` | Full | 18 of 18 | 4 | 11 | 0 |  |  |
-| `tokimeki.tech` | Partial | 24 of 28 | 22 | 0 | 0 | 4 |  |
+| `tokimeki.tech` | Partial | 25 of 29 | 23 | 0 | 0 | 4 |  |
 | `transparencia.tech` | Full | 8 of 8 | 7 | 0 | 0 |  |  |
 | `trezy.pet` | Full | 48 of 48 | 17 | 14 | 16 |  |  |
 | `turtleme.at` | Partial | 20 of 22 | 4 | 0 | 15 | 17 | 15 |

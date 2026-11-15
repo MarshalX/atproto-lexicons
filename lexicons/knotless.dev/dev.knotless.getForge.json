@@ -1,90 +1,90 @@
 {
-  "id": "dev.knotless.getForge",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
-    "main": {
-      "type": "query",
-      "output": {
-        "schema": {
-          "type": "object",
-          "required": [
-            "entries"
-          ],
-          "properties": {
-            "cursor": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "Absent on the last page."
-            },
-            "entries": {
-              "type": "array",
-              "items": {
-                "ref": "#entry",
-                "type": "ref"
-              }
-            }
-          }
+    "entry": {
+      "description": "One record, as written.",
+      "properties": {
+        "author": {
+          "description": "The account the record is in.",
+          "format": "did",
+          "type": "string"
         },
-        "encoding": "application/json"
-      },
-      "parameters": {
-        "type": "params",
-        "required": [
-          "repo",
-          "key"
-        ],
-        "properties": {
-          "key": {
-            "type": "string",
-            "format": "tid",
-            "description": "The repository's `key`. Records naming it are returned whatever name their URI has, with those naming a repository it was moved from with its owner's agreement."
-          },
-          "repo": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The repository's dev.knotless.repo record; only its owner is matched."
-          },
-          "limit": {
-            "type": "integer",
-            "default": 500,
-            "maximum": 1000,
-            "minimum": 1
-          },
-          "cursor": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The last URI of the page before."
-          }
+        "uri": {
+          "description": "The record's URI.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "value": {
+          "description": "The record verbatim: a dev.knotless.pull, issue, comment, state, hide or block.",
+          "type": "unknown"
         }
       },
-      "description": "Every pull, issue, comment, state change, hide and block anyone has written about a public repository, as an appview has indexed them from the firehose, less what its owner and the appview keep out. A page at a time, ordered by URI: follow `cursor` until it is absent. No authentication; responses are not personalized. Private repositories are never indexed: their readers list the members' records in the space."
-    },
-    "entry": {
-      "type": "object",
       "required": [
         "uri",
         "author",
         "value"
       ],
-      "properties": {
-        "uri": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The record's URI."
-        },
-        "value": {
-          "type": "unknown",
-          "description": "The record verbatim: a dev.knotless.pull, issue, comment, state, hide or block."
-        },
-        "author": {
-          "type": "string",
-          "format": "did",
-          "description": "The account the record is in."
+      "type": "object"
+    },
+    "main": {
+      "description": "Every pull, issue, comment, state change, hide and block anyone has written about a public repository, as an appview has indexed them from the firehose, less what its owner and the appview keep out. A page at a time, ordered by URI: follow `cursor` until it is absent. No authentication; responses are not personalized. Private repositories are never indexed: their readers list the members' records in the space.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "description": "Absent on the last page.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "entries": {
+              "items": {
+                "ref": "#entry",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "entries"
+          ],
+          "type": "object"
         }
       },
-      "description": "One record, as written."
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "description": "The last URI of the page before.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "key": {
+            "description": "The repository's `key`. Records naming it are returned whatever name their URI has, with those naming a repository it was moved from with its owner's agreement.",
+            "format": "tid",
+            "type": "string"
+          },
+          "limit": {
+            "default": 500,
+            "maximum": 1000,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "repo": {
+            "description": "The repository's dev.knotless.repo record; only its owner is matched.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "repo",
+          "key"
+        ],
+        "type": "params"
+      },
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Every pull, issue, comment and state change anyone has written about a public repository, as an appview has indexed them from the firehose."
+  "description": "Every pull, issue, comment and state change anyone has written about a public repository, as an appview has indexed them from the firehose.",
+  "id": "dev.knotless.getForge",
+  "lexicon": 1
 }

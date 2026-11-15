@@ -1,36 +1,36 @@
 {
-  "id": "dev.knotless.block",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "Kept in the owner's account, keyed by a TID; one naming a private repository is in their repo inside its space. Readers honor it only from the owner, and leave out what the subject writes about the owner's repositories, or about `repo` alone.",
       "key": "tid",
-      "type": "record",
       "record": {
-        "type": "object",
+        "properties": {
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "repo": {
+            "description": "The one repository it is kept out of; all the owner's when left out.",
+            "ref": "dev.knotless.defs#repoRef",
+            "type": "ref"
+          },
+          "subject": {
+            "description": "The account kept out.",
+            "format": "did",
+            "type": "string"
+          }
+        },
         "required": [
           "subject",
           "createdAt"
         ],
-        "properties": {
-          "repo": {
-            "ref": "dev.knotless.defs#repoRef",
-            "type": "ref",
-            "description": "The one repository it is kept out of; all the owner's when left out."
-          },
-          "subject": {
-            "type": "string",
-            "format": "did",
-            "description": "The account kept out."
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "datetime"
-          }
-        }
+        "type": "object"
       },
-      "description": "Kept in the owner's account, keyed by a TID; one naming a private repository is in their repo inside its space. Readers honor it only from the owner, and leave out what the subject writes about the owner's repositories, or about `repo` alone."
+      "type": "record"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "An account a repository's owner keeps out, as app.bsky.graph.block blocks one."
+  "description": "An account a repository's owner keeps out, as app.bsky.graph.block blocks one.",
+  "id": "dev.knotless.block",
+  "lexicon": 1
 }

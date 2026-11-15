@@ -1,57 +1,57 @@
 {
-  "id": "social.grain.unspecced.getCommentThread",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "Get comments for a subject (gallery or story), sorted oldest-first with author profiles.",
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "comments"
-          ],
           "properties": {
-            "cursor": {
-              "type": "string"
-            },
             "comments": {
-              "type": "array",
               "items": {
                 "ref": "social.grain.comment.defs#commentView",
                 "type": "ref"
-              }
+              },
+              "type": "array"
+            },
+            "cursor": {
+              "type": "string"
             },
             "totalCount": {
               "type": "integer"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "comments"
+          ],
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
-        "required": [
-          "subject"
-        ],
         "properties": {
-          "limit": {
-            "type": "integer",
-            "default": 20,
-            "maximum": 100,
-            "minimum": 1
-          },
           "cursor": {
             "type": "string"
           },
+          "limit": {
+            "default": 20,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
           "subject": {
-            "type": "string",
+            "description": "The subject URI to fetch comments for.",
             "format": "at-uri",
-            "description": "The subject URI to fetch comments for."
+            "type": "string"
           }
-        }
+        },
+        "required": [
+          "subject"
+        ],
+        "type": "params"
       },
-      "description": "Get comments for a subject (gallery or story), sorted oldest-first with author profiles."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.getCommentThread",
   "lexicon": 1
 }

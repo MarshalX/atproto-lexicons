@@ -1,78 +1,78 @@
 {
-  "id": "social.grain.unspecced.searchProfiles",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "Full-text search for user profiles.",
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
           "properties": {
+            "cursor": {
+              "type": "string"
+            },
             "items": {
-              "type": "array",
               "items": {
                 "ref": "social.grain.unspecced.searchProfiles#profileSearchResult",
                 "type": "ref"
-              }
-            },
-            "cursor": {
-              "type": "string"
+              },
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "cursor": {
+            "type": "string"
+          },
+          "fuzzy": {
+            "default": true,
+            "type": "boolean"
+          },
+          "limit": {
+            "default": 30,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "q": {
+            "description": "Search query",
+            "type": "string"
+          }
+        },
         "required": [
           "q"
         ],
-        "properties": {
-          "q": {
-            "type": "string",
-            "description": "Search query"
-          },
-          "fuzzy": {
-            "type": "boolean",
-            "default": true
-          },
-          "limit": {
-            "type": "integer",
-            "default": 30,
-            "maximum": 100,
-            "minimum": 1
-          },
-          "cursor": {
-            "type": "string"
-          }
-        }
+        "type": "params"
       },
-      "description": "Full-text search for user profiles."
+      "type": "query"
     },
     "profileSearchResult": {
-      "type": "object",
-      "required": [
-        "did"
-      ],
       "properties": {
-        "did": {
-          "type": "string",
-          "format": "did"
-        },
         "avatar": {
-          "type": "string"
-        },
-        "handle": {
           "type": "string"
         },
         "description": {
           "type": "string"
         },
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
         "displayName": {
           "type": "string"
+        },
+        "handle": {
+          "type": "string"
         }
-      }
+      },
+      "required": [
+        "did"
+      ],
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.searchProfiles",
   "lexicon": 1
 }

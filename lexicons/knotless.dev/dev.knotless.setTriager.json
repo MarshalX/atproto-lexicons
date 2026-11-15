@@ -1,85 +1,85 @@
 {
-  "id": "dev.knotless.setTriager",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Names the account among the triagers of the repository's dev.knotless.repo record, for the scopes given, in place of what it had, as `knotless triager add` does: its labels of those scopes count, below the owner's and collaborators'. Its owner can, logged in to this appview's web pages: the appview writes with the session it keeps for that account, which the pages' session cookie names. For an organization's repository, so can an admin who joined it, logged in to the pages or with a service token from their own PDS for this method: the appview's gateway, which the organization delegated its writes to, writes as the organization.",
+      "errors": [
+        {
+          "description": "No such repository.",
+          "name": "NotFound"
+        },
+        {
+          "description": "No scopes were named, or there is no such account.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        },
+        {
+          "description": "The account logged in is not the repository's owner.",
+          "name": "Forbidden"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "repo",
-            "who",
-            "scopes"
-          ],
           "properties": {
-            "who": {
-              "type": "string",
-              "format": "at-identifier",
-              "description": "The account, by handle or DID."
-            },
             "repo": {
-              "type": "string",
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it.",
               "format": "at-uri",
-              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+              "type": "string"
             },
             "scopes": {
-              "type": "array",
+              "description": "The scopes of the labels it may put on, at least one.",
               "items": {
                 "ref": "dev.knotless.repo#scope",
                 "type": "ref"
               },
               "maxLength": 50,
-              "description": "The scopes of the labels it may put on, at least one."
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "NotFound",
-          "description": "No such repository."
-        },
-        {
-          "name": "InvalidRequest",
-          "description": "No scopes were named, or there is no such account."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
-        },
-        {
-          "name": "Forbidden",
-          "description": "The account logged in is not the repository's owner."
-        }
-      ],
-      "output": {
-        "schema": {
-          "type": "object",
-          "required": [
-            "triagers"
-          ],
-          "properties": {
-            "warning": {
-              "type": "string",
-              "description": "Why the account was not told of a private repository it now triages, when it could not be invited to it; absent otherwise."
+              "type": "array"
             },
+            "who": {
+              "description": "The account, by handle or DID.",
+              "format": "at-identifier",
+              "type": "string"
+            }
+          },
+          "required": [
+            "repo",
+            "who",
+            "scopes"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
             "triagers": {
-              "type": "array",
+              "description": "The repository's triagers now.",
               "items": {
                 "ref": "dev.knotless.getRepoSettings#triagerView",
                 "type": "ref"
               },
-              "description": "The repository's triagers now."
+              "type": "array"
+            },
+            "warning": {
+              "description": "Why the account was not told of a private repository it now triages, when it could not be invited to it; absent otherwise.",
+              "type": "string"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "triagers"
+          ],
+          "type": "object"
+        }
       },
-      "description": "Names the account among the triagers of the repository's dev.knotless.repo record, for the scopes given, in place of what it had, as `knotless triager add` does: its labels of those scopes count, below the owner's and collaborators'. Its owner can, logged in to this appview's web pages: the appview writes with the session it keeps for that account, which the pages' session cookie names. For an organization's repository, so can an admin who joined it, logged in to the pages or with a service token from their own PDS for this method: the appview's gateway, which the organization delegated its writes to, writes as the organization."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Names an account a triager of a repository."
+  "description": "Names an account a triager of a repository.",
+  "id": "dev.knotless.setTriager",
+  "lexicon": 1
 }

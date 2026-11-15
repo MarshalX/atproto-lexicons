@@ -1,47 +1,52 @@
 {
-  "id": "social.grain.unspecced.listSharedGalleries",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "Private galleries other accounts have shared with the viewer. Answered from grain's own record of who a gallery was shared with, because a space leaves no trace on a member's PDS — then confirmed against the authority, so a gallery the viewer was removed from does not appear.",
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "galleries"
-          ],
           "properties": {
             "galleries": {
-              "type": "array",
               "items": {
                 "ref": "#sharedGalleryRef",
                 "type": "ref"
-              }
+              },
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "parameters": {
-        "type": "params",
-        "properties": {
-          "limit": {
-            "type": "integer",
-            "default": 25,
-            "maximum": 50,
-            "minimum": 1
-          }
+          },
+          "required": [
+            "galleries"
+          ],
+          "type": "object"
         }
       },
-      "description": "Private galleries other accounts have shared with the viewer. Answered from grain's own record of who a gallery was shared with, because a space leaves no trace on a member's PDS — then confirmed against the authority, so a gallery the viewer was removed from does not appear."
+      "parameters": {
+        "properties": {
+          "limit": {
+            "default": 25,
+            "maximum": 50,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "type": "params"
+      },
+      "type": "query"
     },
     "sharedGalleryRef": {
-      "type": "object",
-      "required": [
-        "space",
-        "skey",
-        "author"
-      ],
       "properties": {
+        "author": {
+          "format": "did",
+          "type": "string"
+        },
+        "authorHandle": {
+          "type": "string"
+        },
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
         "skey": {
           "type": "string"
         },
@@ -50,21 +55,16 @@
         },
         "title": {
           "type": "string"
-        },
-        "author": {
-          "type": "string",
-          "format": "did"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "datetime"
-        },
-        "authorHandle": {
-          "type": "string"
         }
-      }
+      },
+      "required": [
+        "space",
+        "skey",
+        "author"
+      ],
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.listSharedGalleries",
   "lexicon": 1
 }

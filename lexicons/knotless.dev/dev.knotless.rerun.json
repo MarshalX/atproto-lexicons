@@ -1,74 +1,74 @@
 {
-  "id": "dev.knotless.rerun",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
-    "var": {
-      "type": "object",
-      "required": [
-        "name",
-        "value"
-      ],
-      "properties": {
-        "name": {
-          "type": "string",
-          "maxLength": 64,
-          "description": "A shell variable's name, not the runner's own, which begin KNOTLESS_RUN."
-        },
-        "value": {
-          "type": "string",
-          "maxLength": 4096
-        }
-      },
-      "description": "A variable a requested run's steps see."
-    },
     "main": {
+      "description": "Kept in the account of the repository's owner, keyed `<repo key>.<tid>`. A runner acts on the requests in the owner's account, newer than the last it acted on, and on no one else's; it runs the ref or the pull's head where it points when the runner reads it. Naming neither a ref nor a pull asks for nothing. With a ref and a workflow, it runs only that workflow there, its steps seeing env: one that runs on a push to the ref, or one whose trigger is to be asked for. With a pull and a workflow, it runs only that one of the pull's workflows, where the pull is.",
       "key": "any",
-      "type": "record",
       "record": {
-        "type": "object",
-        "required": [
-          "repo",
-          "createdAt"
-        ],
         "properties": {
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
           "env": {
-            "type": "array",
+            "description": "With workflow, variables its steps see, over the workflow's own of the same names.",
             "items": {
               "ref": "#var",
               "type": "ref"
             },
             "maxLength": 32,
-            "description": "With workflow, variables its steps see, over the workflow's own of the same names."
-          },
-          "ref": {
-            "type": "string",
-            "maxLength": 1024,
-            "description": "The full ref name to run again, such as refs/heads/main."
+            "type": "array"
           },
           "pull": {
-            "type": "string",
+            "description": "The dev.knotless.pull record whose head to run again.",
             "format": "at-uri",
-            "description": "The dev.knotless.pull record whose head to run again."
+            "type": "string"
+          },
+          "ref": {
+            "description": "The full ref name to run again, such as refs/heads/main.",
+            "maxLength": 1024,
+            "type": "string"
           },
           "repo": {
+            "description": "The repository, which is the owner's.",
             "ref": "dev.knotless.defs#repoRef",
-            "type": "ref",
-            "description": "The repository, which is the owner's."
+            "type": "ref"
           },
           "workflow": {
-            "type": "string",
+            "description": "The name of the one workflow to run at the ref, or of the pull's.",
             "maxLength": 64,
-            "description": "The name of the one workflow to run at the ref, or of the pull's."
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "datetime"
+            "type": "string"
           }
+        },
+        "required": [
+          "repo",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    },
+    "var": {
+      "description": "A variable a requested run's steps see.",
+      "properties": {
+        "name": {
+          "description": "A shell variable's name, not the runner's own, which begin KNOTLESS_RUN.",
+          "maxLength": 64,
+          "type": "string"
+        },
+        "value": {
+          "maxLength": 4096,
+          "type": "string"
         }
       },
-      "description": "Kept in the account of the repository's owner, keyed `<repo key>.<tid>`. A runner acts on the requests in the owner's account, newer than the last it acted on, and on no one else's; it runs the ref or the pull's head where it points when the runner reads it. Naming neither a ref nor a pull asks for nothing. With a ref and a workflow, it runs only that workflow there, its steps seeing env: one that runs on a push to the ref, or one whose trigger is to be asked for. With a pull and a workflow, it runs only that one of the pull's workflows, where the pull is."
+      "required": [
+        "name",
+        "value"
+      ],
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "A repository owner's request that its runners run a ref's or a pull's workflows again."
+  "description": "A repository owner's request that its runners run a ref's or a pull's workflows again.",
+  "id": "dev.knotless.rerun",
+  "lexicon": 1
 }

@@ -1,17 +1,57 @@
 {
-  "id": "dev.knotless.getFile",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "One file at a revision: an image, a binary, too large to show, or text, with the ranges its highlighting paints. The bytes themselves are at the repository's raw path. No authentication needed; asked as an account, with a service token or the pages' session cookie, a private repository it is a member of is read too, and the answer is that account's alone.",
       "errors": [
         {
-          "name": "NotFound",
-          "description": "No such repository, revision, path or record."
+          "description": "No such repository, revision, path or record.",
+          "name": "NotFound"
         }
       ],
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "html": {
+              "description": "A Markdown file made into HTML, as a README is.",
+              "type": "string"
+            },
+            "kind": {
+              "description": "How it is shown: only `text` comes with its text.",
+              "knownValues": [
+                "image",
+                "binary",
+                "large",
+                "text"
+              ],
+              "type": "string"
+            },
+            "lines": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "path": {
+              "description": "The file, from the root.",
+              "type": "string"
+            },
+            "ranges": {
+              "description": "The ranges its highlighting paints, encoded as the pages read them.",
+              "type": "string"
+            },
+            "ref": {
+              "description": "The ref or commit shown, as `ref` named it, less any path.",
+              "type": "string"
+            },
+            "size": {
+              "description": "In bytes.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "text": {
+              "type": "string"
+            }
+          },
           "required": [
             "ref",
             "path",
@@ -19,76 +59,36 @@
             "size",
             "lines"
           ],
-          "properties": {
-            "ref": {
-              "type": "string",
-              "description": "The ref or commit shown, as `ref` named it, less any path."
-            },
-            "html": {
-              "type": "string",
-              "description": "A Markdown file made into HTML, as a README is."
-            },
-            "kind": {
-              "type": "string",
-              "description": "How it is shown: only `text` comes with its text.",
-              "knownValues": [
-                "image",
-                "binary",
-                "large",
-                "text"
-              ]
-            },
-            "path": {
-              "type": "string",
-              "description": "The file, from the root."
-            },
-            "size": {
-              "type": "integer",
-              "minimum": 0,
-              "description": "In bytes."
-            },
-            "text": {
-              "type": "string"
-            },
-            "lines": {
-              "type": "integer",
-              "minimum": 1
-            },
-            "ranges": {
-              "type": "string",
-              "description": "The ranges its highlighting paints, encoded as the pages read them."
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "path": {
+            "description": "A path in the tree, from its root.",
+            "maxLength": 4096,
+            "type": "string"
+          },
+          "ref": {
+            "description": "A branch, a tag or a commit; the default branch if absent. It may run on into the path, as a web address names them: the longest branch or tag that starts it is the ref, and what follows goes before `path`.",
+            "maxLength": 1024,
+            "type": "string"
+          },
+          "repo": {
+            "description": "The repository's dev.knotless.repo record. Its authority may be a handle; a name the repository had before, or an owner it moved from with its agreement, finds it under the name it has now.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
         "required": [
           "repo"
         ],
-        "properties": {
-          "ref": {
-            "type": "string",
-            "maxLength": 1024,
-            "description": "A branch, a tag or a commit; the default branch if absent. It may run on into the path, as a web address names them: the longest branch or tag that starts it is the ref, and what follows goes before `path`."
-          },
-          "path": {
-            "type": "string",
-            "maxLength": 4096,
-            "description": "A path in the tree, from its root."
-          },
-          "repo": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The repository's dev.knotless.repo record. Its authority may be a handle; a name the repository had before, or an owner it moved from with its agreement, finds it under the name it has now."
-          }
-        }
+        "type": "params"
       },
-      "description": "One file at a revision: an image, a binary, too large to show, or text, with the ranges its highlighting paints. The bytes themselves are at the repository's raw path. No authentication needed; asked as an account, with a service token or the pages' session cookie, a private repository it is a member of is read too, and the answer is that account's alone."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "One file of a repository at a revision."
+  "description": "One file of a repository at a revision.",
+  "id": "dev.knotless.getFile",
+  "lexicon": 1
 }

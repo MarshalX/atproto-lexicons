@@ -1,63 +1,68 @@
 {
-  "id": "dev.knotless.listReports",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "The reports a moderation service was sent (com.atproto.moderation.createReport), newest first. For its operators: it takes a service token for this method from one of the accounts it names as its operators, or the session cookie of one logged in to its pages.",
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "reports"
-          ],
           "properties": {
             "cursor": {
               "type": "string"
             },
             "reports": {
-              "type": "array",
               "items": {
                 "ref": "#report",
                 "type": "ref"
-              }
+              },
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "parameters": {
-        "type": "params",
-        "properties": {
-          "limit": {
-            "type": "integer",
-            "default": 50,
-            "maximum": 500,
-            "minimum": 1
           },
-          "cursor": {
-            "type": "string",
-            "description": "A report id: those before it."
-          }
+          "required": [
+            "reports"
+          ],
+          "type": "object"
         }
       },
-      "description": "The reports a moderation service was sent (com.atproto.moderation.createReport), newest first. For its operators: it takes a service token for this method from one of the accounts it names as its operators, or the session cookie of one logged in to its pages."
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "description": "A report id: those before it.",
+            "type": "string"
+          },
+          "limit": {
+            "default": 50,
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "type": "params"
+      },
+      "type": "query"
     },
     "report": {
-      "type": "object",
-      "required": [
-        "id",
-        "reasonType",
-        "subject",
-        "reportedBy",
-        "createdAt"
-      ],
+      "description": "As com.atproto.moderation.createReport answered it.",
       "properties": {
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
         "id": {
           "type": "integer"
         },
         "reason": {
-          "type": "string",
+          "maxGraphemes": 2000,
           "maxLength": 20000,
-          "maxGraphemes": 2000
+          "type": "string"
+        },
+        "reasonType": {
+          "ref": "com.atproto.moderation.defs#reasonType",
+          "type": "ref"
+        },
+        "reportedBy": {
+          "format": "did",
+          "type": "string"
         },
         "subject": {
           "refs": [
@@ -65,23 +70,18 @@
             "com.atproto.repo.strongRef"
           ],
           "type": "union"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "datetime"
-        },
-        "reasonType": {
-          "ref": "com.atproto.moderation.defs#reasonType",
-          "type": "ref"
-        },
-        "reportedBy": {
-          "type": "string",
-          "format": "did"
         }
       },
-      "description": "As com.atproto.moderation.createReport answered it."
+      "required": [
+        "id",
+        "reasonType",
+        "subject",
+        "reportedBy",
+        "createdAt"
+      ],
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "dev.knotless.listReports",
   "lexicon": 1
 }

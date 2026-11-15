@@ -3,8 +3,8 @@
   "defs": {
     "main": {
       "key": "tid",
-      "name": "Colibri thread",
       "type": "space",
+      "title": "Colibri thread",
       "collections": [
         "social.colibri.beta.thread",
         "social.colibri.beta.thread.follow",

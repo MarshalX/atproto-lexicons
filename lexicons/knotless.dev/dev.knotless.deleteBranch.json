@@ -1,67 +1,67 @@
 {
-  "id": "dev.knotless.deleteBranch",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Deletes a branch, never the default one, as `knotless branch delete` does. As the account logged in to this appview's web pages: directly for the owner, through the repository's gateway for a collaborator, which refuses anyone else.",
+      "errors": [
+        {
+          "description": "No such repository.",
+          "name": "NotFound"
+        },
+        {
+          "description": "There is no such branch, it is the default branch, or the gateway refused it.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "name": {
+              "description": "The branch, without refs/heads/.",
+              "maxLength": 255,
+              "type": "string"
+            },
+            "repo": {
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
           "required": [
             "repo",
             "name"
           ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
           "properties": {
             "name": {
-              "type": "string",
-              "maxLength": 255,
-              "description": "The branch, without refs/heads/."
+              "description": "The branch, without refs/heads/.",
+              "type": "string"
             },
-            "repo": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
+            "sha": {
+              "description": "The commit it points at, in hex, once made.",
+              "type": "string"
             }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "NotFound",
-          "description": "No such repository."
-        },
-        {
-          "name": "InvalidRequest",
-          "description": "There is no such branch, it is the default branch, or the gateway refused it."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
-        }
-      ],
-      "output": {
-        "schema": {
-          "type": "object",
+          },
           "required": [
             "name"
           ],
-          "properties": {
-            "sha": {
-              "type": "string",
-              "description": "The commit it points at, in hex, once made."
-            },
-            "name": {
-              "type": "string",
-              "description": "The branch, without refs/heads/."
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
-      "description": "Deletes a branch, never the default one, as `knotless branch delete` does. As the account logged in to this appview's web pages: directly for the owner, through the repository's gateway for a collaborator, which refuses anyone else."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Deletes a branch of a repository."
+  "description": "Deletes a branch of a repository.",
+  "id": "dev.knotless.deleteBranch",
+  "lexicon": 1
 }

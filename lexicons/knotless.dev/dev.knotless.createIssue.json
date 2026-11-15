@@ -1,83 +1,83 @@
 {
-  "id": "dev.knotless.createIssue",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Writes a dev.knotless.issue record in the account logged in to this appview's web pages, as `knotless issue create` does, and a dev.knotless.label record about it when labels are chosen: refused, with the template, when the repository has one (see dev.knotless.getTemplate) and the body follows none of it. Requires the session cookie the pages' login sets.",
+      "errors": [
+        {
+          "description": "No such repository.",
+          "name": "NotFound"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "repo",
-            "title"
-          ],
           "properties": {
             "body": {
-              "type": "string",
+              "description": "What it is about, in Markdown.",
               "maxLength": 20000,
-              "description": "What it is about, in Markdown."
-            },
-            "repo": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
-            },
-            "title": {
-              "type": "string",
-              "maxLength": 3000,
-              "maxGraphemes": 300
+              "type": "string"
             },
             "images": {
-              "type": "array",
+              "description": "Pictures uploaded with dev.knotless.uploadImage; those the body links to are attached.",
               "items": {
                 "ref": "dev.knotless.defs#image",
                 "type": "ref"
               },
               "maxLength": 32,
-              "description": "Pictures uploaded with dev.knotless.uploadImage; those the body links to are attached."
+              "type": "array"
             },
             "labels": {
-              "type": "array",
+              "description": "Labels to put on it as it opens, as dev.knotless.labelItem would: refused, with nothing written, when one is not the repository's or not the account's to put on.",
               "items": {
                 "ref": "dev.knotless.defs#labelName",
                 "type": "ref"
               },
               "maxLength": 32,
-              "description": "Labels to put on it as it opens, as dev.knotless.labelItem would: refused, with nothing written, when one is not the repository's or not the account's to put on."
+              "type": "array"
+            },
+            "repo": {
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "title": {
+              "maxGraphemes": 300,
+              "maxLength": 3000,
+              "type": "string"
             }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "NotFound",
-          "description": "No such repository."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
+          },
+          "required": [
+            "repo",
+            "title"
+          ],
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "uri": {
+              "description": "The dev.knotless.issue record written.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
           "required": [
             "uri"
           ],
-          "properties": {
-            "uri": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The dev.knotless.issue record written."
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
-      "description": "Writes a dev.knotless.issue record in the account logged in to this appview's web pages, as `knotless issue create` does, and a dev.knotless.label record about it when labels are chosen: refused, with the template, when the repository has one (see dev.knotless.getTemplate) and the body follows none of it. Requires the session cookie the pages' login sets."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Opens an issue on a repository, as the account logged in to this appview's pages."
+  "description": "Opens an issue on a repository, as the account logged in to this appview's pages.",
+  "id": "dev.knotless.createIssue",
+  "lexicon": 1
 }

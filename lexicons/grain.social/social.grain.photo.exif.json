@@ -1,60 +1,60 @@
 {
-  "id": "social.grain.photo.exif",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "Basic EXIF metadata for a photo. Integers are scaled by 1000000 to accommodate decimal values and potentially other tags in the future.",
       "key": "tid",
-      "type": "record",
       "record": {
-        "type": "object",
-        "required": [
-          "photo",
-          "createdAt"
-        ],
         "properties": {
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "dateTimeOriginal": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "exposureTime": {
+            "type": "integer"
+          },
+          "fNumber": {
+            "type": "integer"
+          },
+          "flash": {
+            "type": "string"
+          },
+          "focalLengthIn35mmFormat": {
+            "type": "integer"
+          },
           "iSO": {
             "type": "integer"
           },
-          "make": {
+          "lensMake": {
             "type": "string"
           },
-          "flash": {
+          "lensModel": {
+            "type": "string"
+          },
+          "make": {
             "type": "string"
           },
           "model": {
             "type": "string"
           },
           "photo": {
-            "type": "string",
-            "format": "at-uri"
-          },
-          "fNumber": {
-            "type": "integer"
-          },
-          "lensMake": {
+            "format": "at-uri",
             "type": "string"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "datetime"
-          },
-          "lensModel": {
-            "type": "string"
-          },
-          "exposureTime": {
-            "type": "integer"
-          },
-          "dateTimeOriginal": {
-            "type": "string",
-            "format": "datetime"
-          },
-          "focalLengthIn35mmFormat": {
-            "type": "integer"
           }
-        }
+        },
+        "required": [
+          "photo",
+          "createdAt"
+        ],
+        "type": "object"
       },
-      "description": "Basic EXIF metadata for a photo. Integers are scaled by 1000000 to accommodate decimal values and potentially other tags in the future."
+      "type": "record"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.photo.exif",
   "lexicon": 1
 }

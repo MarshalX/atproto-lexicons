@@ -68,6 +68,15 @@
             "type": "boolean",
             "description": "Whether the client shows identifiers and links to inspect records."
           },
+          "recordExplorer": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "The site that developer mode links open records and identifiers in. Absent means pdsls.",
+            "knownValues": [
+              "pdsls",
+              "atprotoAt"
+            ]
+          },
           "messagePreviews": {
             "type": "boolean",
             "description": "Whether the channel list shows the latest message under each channel name."

@@ -170,11 +170,11 @@
     {
       "domain": "atni.me",
       "status": "full",
-      "lexicons": 5,
-      "generated": 5,
+      "lexicons": 4,
+      "generated": 4,
       "provided_by_sdk": 0,
       "kinds": {
-        "record": 4,
+        "record": 3,
         "query": 0,
         "procedure": 0,
         "subscription": 0
@@ -378,14 +378,14 @@
     {
       "domain": "colibri.social",
       "status": "partial",
-      "lexicons": 211,
-      "generated": 203,
+      "lexicons": 225,
+      "generated": 217,
       "provided_by_sdk": 0,
       "kinds": {
         "record": 37,
-        "query": 52,
-        "procedure": 88,
-        "subscription": 0
+        "query": 59,
+        "procedure": 92,
+        "subscription": 2
       },
       "skipped_lexicons": [
         "social.colibri.beta.actor.preferences",
@@ -622,13 +622,13 @@
     {
       "domain": "gamesgamesgamesgames.games",
       "status": "partial",
-      "lexicons": 94,
-      "generated": 94,
+      "lexicons": 95,
+      "generated": 95,
       "provided_by_sdk": 0,
       "kinds": {
         "record": 22,
         "query": 43,
-        "procedure": 17,
+        "procedure": 18,
         "subscription": 0
       },
       "skipped_lexicons": [],
@@ -758,11 +758,11 @@
     {
       "domain": "leaflet.pub",
       "status": "full",
-      "lexicons": 51,
-      "generated": 51,
+      "lexicons": 52,
+      "generated": 52,
       "provided_by_sdk": 0,
       "kinds": {
-        "record": 14,
+        "record": 15,
         "query": 0,
         "procedure": 0,
         "subscription": 0
@@ -976,20 +976,24 @@
     {
       "domain": "olamaelcu.net",
       "status": "partial",
-      "lexicons": 20,
-      "generated": 20,
+      "lexicons": 32,
+      "generated": 32,
       "provided_by_sdk": 0,
       "kinds": {
-        "record": 5,
-        "query": 14,
-        "procedure": 0,
+        "record": 8,
+        "query": 21,
+        "procedure": 2,
         "subscription": 0
       },
       "skipped_lexicons": [],
       "skipped_methods": [],
       "weakened_lexicons": [
+        "net.olamaelcu.livtet.biblio.contributor",
         "net.olamaelcu.livtet.biblio.defs",
-        "net.olamaelcu.livtet.biblio.getActorProfile"
+        "net.olamaelcu.livtet.biblio.getActorProfile",
+        "net.olamaelcu.livtet.biblio.publisher",
+        "net.olamaelcu.livtet.biblio.resolveContributors",
+        "net.olamaelcu.livtet.biblio.resolvePublishers"
       ]
     },
     {
@@ -1498,11 +1502,11 @@
     {
       "domain": "tokimeki.tech",
       "status": "partial",
-      "lexicons": 28,
-      "generated": 24,
+      "lexicons": 29,
+      "generated": 25,
       "provided_by_sdk": 0,
       "kinds": {
-        "record": 22,
+        "record": 23,
         "query": 0,
         "procedure": 0,
         "subscription": 0
@@ -1803,6 +1807,8 @@
     "Skipped xyz.opnshelf.settings.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
     "Skipped xyz.opnshelf.watches.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
     "Unresolved reference 'network.attested.signature#signatures' in com.fedproxy.temp.xrpc.getRegistrationNonce: 'network.attested.signature' (model 'Signatures') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'community.lexicon.media.book.defs#identifier' in net.olamaelcu.livtet.biblio.resolveContributors: 'community.lexicon.media.book.defs' (model 'Identifier') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'community.lexicon.media.book.defs#identifier' in net.olamaelcu.livtet.biblio.resolvePublishers: 'community.lexicon.media.book.defs' (model 'Identifier') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
     "Unresolved reference 'app.rocksky.artist.defs#recentListenerView' in app.rocksky.artist.getArtistRecentListeners: 'app.rocksky.artist.defs#recentListenerView' names a definition that 'app.rocksky.artist.defs' does not have.",
     "Unresolved reference 'app.rocksky.feed.defs#storiesView' in app.rocksky.feed.getStories: 'app.rocksky.feed.defs#storiesView' names a definition that 'app.rocksky.feed.defs' does not have.",
     "Unresolved reference 'app.rocksky.mirror.defs#mirrorSourceView' in app.rocksky.mirror.getMirrorSources: 'app.rocksky.mirror.defs' (model 'MirrorSourceView') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
@@ -1854,6 +1860,7 @@
     "Unresolved reference 'app.rocksky.song.defs.songViewBasic' in app.rocksky.player.defs: 'app.rocksky.song.defs.songViewBasic' (model 'Main') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
     "Unresolved reference 'social.popfeed.richtext.facet' in games.gamesgamesgamesgames.getReviews: 'social.popfeed.richtext.facet' (model 'Main') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
     "Unresolved reference 'community.lexicon.media.book.defs#editionView' in net.olamaelcu.livtet.biblio.defs: 'community.lexicon.media.book.defs' (model 'EditionView') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'community.lexicon.media.book.defs#identifier' in net.olamaelcu.livtet.biblio.defs: 'community.lexicon.media.book.defs' (model 'Identifier') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
     "Unresolved reference 'community.lexicon.media.book.review#main' in net.olamaelcu.livtet.biblio.defs: 'community.lexicon.media.book.review' (model 'Main') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
     "Unresolved reference 'lex:social.colibri.actor.defs#profileTheme' in social.colibri.actor.defs: 'lex:social.colibri.actor.defs#profileTheme' is not a reference.",
     "Unresolved reference 'lex:social.colibri.actor.defs#actorStatus' in social.colibri.actor.defs: 'lex:social.colibri.actor.defs#actorStatus' is not a reference.",
@@ -1896,6 +1903,8 @@
     "Unresolved reference 'network.attested.signature#signatures' in com.publicdomainrelay.temp.market.receipts.free: 'network.attested.signature' (model 'Signatures') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
     "Unresolved reference 'network.attested.signature#signatures' in com.publicdomainrelay.temp.market.receipts.x402: 'network.attested.signature' (model 'Signatures') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
     "Unresolved reference 'network.attested.signature#signatures' in com.publicdomainrelay.temp.market.rfp: 'network.attested.signature' (model 'Signatures') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'community.lexicon.media.book.defs#identifier' in net.olamaelcu.livtet.biblio.contributor: 'community.lexicon.media.book.defs' (model 'Identifier') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'community.lexicon.media.book.defs#identifier' in net.olamaelcu.livtet.biblio.publisher: 'community.lexicon.media.book.defs' (model 'Identifier') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
     "Unresolved reference 'place.stream.metadata.contentRights' in place.stream.segment: 'place.stream.metadata.contentRights' (model 'Main') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
     "Unresolved reference 'place.stream.metadata.contentWarnings' in place.stream.segment: 'place.stream.metadata.contentWarnings' (model 'Main') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
     "Unresolved reference 'place.stream.metadata.distributionPolicy' in place.stream.segment: 'place.stream.metadata.distributionPolicy' (model 'Main') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",

@@ -1,18 +1,18 @@
 {
-  "id": "social.grain.privateGallery",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "key": "any",
-      "name": "Private gallery",
-      "type": "space",
       "collections": [
         "social.grain.gallery",
         "social.grain.gallery.item",
         "social.grain.photo"
       ],
-      "description": "One private gallery, anchored on its author's account. The space key is the gallery's rkey. The author writes the gallery, its items and its photos; members only read them."
+      "description": "One private gallery, anchored on its author's account. The space key is the gallery's rkey. The author writes the gallery, its items and its photos; members only read them.",
+      "key": "any",
+      "name": "Private gallery",
+      "type": "space"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.privateGallery",
   "lexicon": 1
 }

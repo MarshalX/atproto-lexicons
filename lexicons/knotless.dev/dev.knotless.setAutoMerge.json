@@ -1,64 +1,64 @@
 {
-  "id": "dev.knotless.setAutoMerge",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Sets an open pull to merge by itself once its checks pass, as `knotless pull merge --auto` does, as the account logged in to this appview's web pages: the owner and collaborators may, in a repository that names runners, into a branch with no merge queue. With undo, cancels it, as `--auto --undo` does: they and the pull's author may. Requires the session cookie the pages' login sets.",
+      "errors": [
+        {
+          "description": "No such repository.",
+          "name": "NotFound"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        },
+        {
+          "description": "It was not set or cancelled, as the reason says: the account may not, the branch uses the merge queue, the repository names no runners, the pull is a draft, or it was not set.",
+          "name": "UpstreamFailure"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "pull": {
+              "description": "The dev.knotless.pull record.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "repo": {
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "undo": {
+              "description": "Cancel it instead. Absent is false.",
+              "type": "boolean"
+            }
+          },
           "required": [
             "repo",
             "pull"
           ],
-          "properties": {
-            "pull": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The dev.knotless.pull record."
-            },
-            "repo": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
-            },
-            "undo": {
-              "type": "boolean",
-              "description": "Cancel it instead. Absent is false."
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "NotFound",
-          "description": "No such repository."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
-        },
-        {
-          "name": "UpstreamFailure",
-          "description": "It was not set or cancelled, as the reason says: the account may not, the branch uses the merge queue, the repository names no runners, the pull is a draft, or it was not set."
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
           "properties": {
             "commit": {
-              "type": "string",
-              "description": "Set, the head it was set at, in hex."
+              "description": "Set, the head it was set at, in hex.",
+              "type": "string"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "type": "object"
+        }
       },
-      "description": "Sets an open pull to merge by itself once its checks pass, as `knotless pull merge --auto` does, as the account logged in to this appview's web pages: the owner and collaborators may, in a repository that names runners, into a branch with no merge queue. With undo, cancels it, as `--auto --undo` does: they and the pull's author may. Requires the session cookie the pages' login sets."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Sets a pull to merge by itself once its checks pass, or cancels that, as the account logged in to this appview's pages."
+  "description": "Sets a pull to merge by itself once its checks pass, or cancels that, as the account logged in to this appview's pages.",
+  "id": "dev.knotless.setAutoMerge",
+  "lexicon": 1
 }

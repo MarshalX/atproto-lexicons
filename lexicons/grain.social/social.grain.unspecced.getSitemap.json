@@ -1,70 +1,70 @@
 {
-  "id": "social.grain.unspecced.getSitemap",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "One page of the public profiles or galleries a search engine may index, for the sitemap. Leaves out anything labeled, taken down, or in a space.",
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "entries": {
+              "items": {
+                "ref": "social.grain.unspecced.getSitemap#sitemapEntry",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "pageCount": {
+              "description": "How many pages of this kind there are, so the sitemap index can list them all.",
+              "type": "integer"
+            }
+          },
           "required": [
             "entries",
             "pageCount"
           ],
-          "properties": {
-            "entries": {
-              "type": "array",
-              "items": {
-                "ref": "social.grain.unspecced.getSitemap#sitemapEntry",
-                "type": "ref"
-              }
-            },
-            "pageCount": {
-              "type": "integer",
-              "description": "How many pages of this kind there are, so the sitemap index can list them all."
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
-        "required": [
-          "kind"
-        ],
         "properties": {
           "kind": {
-            "type": "string",
             "knownValues": [
               "profiles",
               "galleries"
-            ]
+            ],
+            "type": "string"
           },
           "page": {
-            "type": "integer",
             "default": 0,
-            "minimum": 0
+            "minimum": 0,
+            "type": "integer"
           }
-        }
+        },
+        "required": [
+          "kind"
+        ],
+        "type": "params"
       },
-      "description": "One page of the public profiles or galleries a search engine may index, for the sitemap. Leaves out anything labeled, taken down, or in a space."
+      "type": "query"
     },
     "sitemapEntry": {
-      "type": "object",
+      "properties": {
+        "lastmod": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "path": {
+          "description": "The page's path on this site, named by handle where the account has one.",
+          "type": "string"
+        }
+      },
       "required": [
         "path"
       ],
-      "properties": {
-        "path": {
-          "type": "string",
-          "description": "The page's path on this site, named by handle where the account has one."
-        },
-        "lastmod": {
-          "type": "string",
-          "format": "datetime"
-        }
-      }
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.getSitemap",
   "lexicon": 1
 }

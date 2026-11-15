@@ -1,73 +1,73 @@
 {
-  "id": "dev.knotless.orgMember",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "Keyed by the DID of the account it names, in the organization's account, in one place: its public records for a member anyone may see; or, where its PDS has spaces, its space of type dev.knotless.org keyed self, which only its members read, for an invitation or a hidden member. The account is a member once it keeps a dev.knotless.orgAcceptance record naming the organization, in the same place, and the organization has taken it in (joinedAt); until then it is invited, until expiresAt. In a private repository's space, a member of the organization that owns it who pushes to it. One keyed other than by the DID it names names no one.",
       "key": "any",
-      "type": "record",
       "record": {
-        "type": "object",
-        "required": [
-          "member",
-          "invitedAt"
-        ],
         "properties": {
+          "expiresAt": {
+            "description": "When the invitation lapses, if not taken up first: 7 days after invitedAt when absent.",
+            "format": "datetime",
+            "type": "string"
+          },
+          "invitedAt": {
+            "description": "When they were invited.",
+            "format": "datetime",
+            "type": "string"
+          },
+          "joinedAt": {
+            "description": "When the organization took them in, after they wrote their acceptance record: a acceptance record counts only once this is set.",
+            "format": "datetime",
+            "type": "string"
+          },
+          "member": {
+            "description": "The account invited.",
+            "format": "did",
+            "type": "string"
+          },
           "roles": {
-            "type": "array",
+            "description": "What they may do. None is a member.",
             "items": {
               "ref": "#role",
               "type": "ref"
             },
             "maxLength": 16,
-            "description": "What they may do. None is a member."
-          },
-          "member": {
-            "type": "string",
-            "format": "did",
-            "description": "The account invited."
+            "type": "array"
           },
           "shared": {
-            "type": "boolean",
-            "description": "In a private repository's space only: the repository was shared with them on its own as well, so they stay in its space once out of the organization."
-          },
-          "joinedAt": {
-            "type": "string",
-            "format": "datetime",
-            "description": "When the organization took them in, after they wrote their acceptance record: a acceptance record counts only once this is set."
-          },
-          "expiresAt": {
-            "type": "string",
-            "format": "datetime",
-            "description": "When the invitation lapses, if not taken up first: 7 days after invitedAt when absent."
-          },
-          "invitedAt": {
-            "type": "string",
-            "format": "datetime",
-            "description": "When they were invited."
+            "description": "In a private repository's space only: the repository was shared with them on its own as well, so they stay in its space once out of the organization.",
+            "type": "boolean"
           }
-        }
+        },
+        "required": [
+          "member",
+          "invitedAt"
+        ],
+        "type": "object"
       },
-      "description": "Keyed by the DID of the account it names, in the organization's account, in one place: its public records for a member anyone may see; or, where its PDS has spaces, its space of type dev.knotless.org keyed self, which only its members read, for an invitation or a hidden member. The account is a member once it keeps a dev.knotless.orgAcceptance record naming the organization, in the same place, and the organization has taken it in (joinedAt); until then it is invited, until expiresAt. In a private repository's space, a member of the organization that owns it who pushes to it. One keyed other than by the DID it names names no one."
+      "type": "record"
     },
     "role": {
-      "type": "object",
-      "required": [
-        "role"
-      ],
+      "description": "One role an organization gives a member.",
       "properties": {
         "role": {
-          "type": "string",
-          "maxLength": 64,
           "description": "An admin also invites and removes members, changes roles and makes repositories as the organization. A value a reader does not know reads as member.",
           "knownValues": [
             "admin",
             "member"
-          ]
+          ],
+          "maxLength": 64,
+          "type": "string"
         }
       },
-      "description": "One role an organization gives a member."
+      "required": [
+        "role"
+      ],
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "An organization's side of its membership: an account it invited, and their roles."
+  "description": "An organization's side of its membership: an account it invited, and their roles.",
+  "id": "dev.knotless.orgMember",
+  "lexicon": 1
 }

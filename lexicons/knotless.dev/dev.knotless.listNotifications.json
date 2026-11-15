@@ -1,46 +1,49 @@
 {
-  "id": "dev.knotless.listNotifications",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "What others did that concerns the account asking, as the appview has indexed it, the latest first: stars of its repositories, follows of it, invitations to join an organization it has yet to take up, while they stand, pulls and issues opened on the repositories it looks after (its own, those whose records name it a collaborator, and those of the organizations it joined), comments and reviews on its pulls and issues, and on those it commented on, after it did, pulls, issues and comments that mention it, and, for its own pulls, checks that failed and the merge queue turning them away. One record is one notification: a comment that mentions the author of what it is on is heard of as a comment, marked as mentioning them, and a review's line comments are heard of with it, counted. Leaves out its own doings, and accounts it blocked or that are taken down. Those of a private repository come from the appview's own index of its space, where its owner lets it keep one, while the account can read it: a mention of someone who cannot is never heard of. Requires authentication: a service token, or the session cookie the pages' login sets.",
       "errors": [
         {
-          "name": "AuthenticationRequired",
-          "description": "No account asks."
+          "description": "No account asks.",
+          "name": "AuthenticationRequired"
         }
       ],
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "notifications"
-          ],
           "properties": {
             "cursor": {
-              "type": "string",
-              "description": "Absent on the last page."
-            },
-            "seenAt": {
-              "type": "string",
-              "format": "datetime",
-              "description": "When the account last said it had seen its notifications, if ever."
+              "description": "Absent on the last page.",
+              "type": "string"
             },
             "notifications": {
-              "type": "array",
               "items": {
                 "ref": "#notification",
                 "type": "ref"
-              }
+              },
+              "type": "array"
+            },
+            "seenAt": {
+              "description": "When the account last said it had seen its notifications, if ever.",
+              "format": "datetime",
+              "type": "string"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "notifications"
+          ],
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
         "properties": {
+          "cursor": {
+            "description": "Where the page before ended.",
+            "maxLength": 512,
+            "type": "string"
+          },
           "kind": {
-            "type": "string",
             "description": "Only those of this kind: `mentions`, and comments heard of for another reason that mention the asker too; `reviews` asked of it, and comments that review its pulls; `comments` that do not review, on threads it is part of, subscribed to or watches; `pulls-and-issues` opened, on repositories it looks after or watches; `checks` that failed and the merge queue turning a pull away; `stars-and-follows`. A kind the appview does not know answers nothing.",
             "knownValues": [
               "mentions",
@@ -49,79 +52,54 @@
               "pulls-and-issues",
               "checks",
               "stars-and-follows"
-            ]
+            ],
+            "type": "string"
           },
           "limit": {
-            "type": "integer",
             "default": 50,
             "maximum": 100,
-            "minimum": 1
-          },
-          "cursor": {
-            "type": "string",
-            "maxLength": 512,
-            "description": "Where the page before ended."
+            "minimum": 1,
+            "type": "integer"
           }
-        }
+        },
+        "type": "params"
       },
-      "description": "What others did that concerns the account asking, as the appview has indexed it, the latest first: stars of its repositories, follows of it, invitations to join an organization it has yet to take up, while they stand, pulls and issues opened on the repositories it looks after (its own, those whose records name it a collaborator, and those of the organizations it joined), comments and reviews on its pulls and issues, and on those it commented on, after it did, pulls, issues and comments that mention it, and, for its own pulls, checks that failed and the merge queue turning them away. One record is one notification: a comment that mentions the author of what it is on is heard of as a comment, marked as mentioning them, and a review's line comments are heard of with it, counted. Leaves out its own doings, and accounts it blocked or that are taken down. Those of a private repository come from the appview's own index of its space, where its owner lets it keep one, while the account can read it: a mention of someone who cannot is never heard of. Requires authentication: a service token, or the session cookie the pages' login sets."
+      "type": "query"
     },
     "notification": {
-      "type": "object",
-      "required": [
-        "uri",
-        "author",
-        "reason",
-        "isRead",
-        "createdAt"
-      ],
+      "description": "One thing another account did that concerns the asker.",
       "properties": {
-        "uri": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The record it wrote: a star, a follow, the organization's dev.knotless.orgMember record of the asker, a pull, an issue or a comment, or the pull, issue or comment that mentions the asker; for a review asked or an assignment by the owner or a collaborator, their dev.knotless.assignment record; for checks that failed, the dev.knotless.check of one of them; for an ejection, the runner's dev.knotless.queue record."
-        },
-        "repo": {
-          "ref": "dev.knotless.defs#repoViewBasic",
-          "type": "ref",
-          "description": "The repository it is about, under the name it has now, if any."
-        },
-        "role": {
-          "type": "string",
-          "description": "For an invitation, the role it offers.",
-          "knownValues": [
-            "admin",
-            "member"
-          ]
-        },
-        "text": {
-          "type": "string",
-          "maxLength": 4000,
-          "description": "For a pull, an issue or a comment, a mention in one, or a pull that asks for a review, the start of what it says, as Markdown: at most 1,000 characters. Absent when it says nothing."
-        },
-        "title": {
-          "type": "string",
-          "description": "The title of the pull or issue it is, or is on."
-        },
         "author": {
           "ref": "dev.knotless.defs#actorView",
           "type": "ref"
         },
         "checks": {
-          "type": "array",
+          "description": "For `checks-failed`, the checks that failed at that run, one for each workflow; for an ejection by checks that failed, those. Absent otherwise.",
           "items": {
             "ref": "dev.knotless.queue#failedCheck",
             "type": "ref"
           },
           "maxLength": 64,
-          "description": "For `checks-failed`, the checks that failed at that run, one for each workflow; for an ejection by checks that failed, those. Absent otherwise."
+          "type": "array"
+        },
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
         },
         "isRead": {
-          "type": "boolean",
-          "description": "Whether it is from before the asker last saw its notifications."
+          "description": "Whether it is from before the asker last saw its notifications.",
+          "type": "boolean"
+        },
+        "lineComments": {
+          "description": "For a review, how many comments on the pull's lines were sent with it. Absent, none.",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "mentioned": {
+          "description": "Whether it mentions the asker too, though it is heard of for another reason: a comment on the asker's pull or issue that names them, say. Absent, it does not.",
+          "type": "boolean"
         },
         "reason": {
-          "type": "string",
           "description": "What it did: starred the asker's repository, followed the asker, opened a pull or an issue on a repository it looks after, commented on its pull or issue, or on one it commented on, mentioned the asker in a pull, an issue or a comment, asked it to review a pull that is not a draft, as its author or as the repository's owner or a collaborator, assigned the asker a pull or an issue as its owner or a collaborator (`assigned`), or invited the asker to join it as an organization; or, as a runner the repository names, found checks failing at the latest run of the asker's pull (`checks-failed`), or turned the pull away from the merge queue (`ejected`), while the pull is open. Or what the asker chose to hear of (dev.knotless.putSubscription), heard of for no other reason: a comment on a pull or an issue it subscribed to (`subscribed`), or on a repository it watches, a pull or an issue opened, a comment, or a release (`watching`), each since it chose; its `uri` says which.",
           "knownValues": [
             "star",
@@ -137,52 +115,74 @@
             "ejected",
             "subscribed",
             "watching"
-          ]
+          ],
+          "type": "string"
         },
-        "verdict": {
-          "type": "string",
-          "description": "For a comment that reviews a pull, what it found: `approve`, or `changes` to ask for changes.",
-          "knownValues": [
-            "approve",
-            "changes"
-          ]
+        "reasonSubject": {
+          "description": "What it is about: for a comment, or a mention in one, the pull or issue it is on; for a pull, an issue, a mention in one, a review request, an assignment, checks that failed or an ejection, that pull or issue; for a star, the repository's record; for a release, the release. Absent for a follow or an invitation.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "repo": {
+          "description": "The repository it is about, under the name it has now, if any.",
+          "ref": "dev.knotless.defs#repoViewBasic",
+          "type": "ref"
         },
         "reviewed": {
-          "type": "boolean",
-          "description": "For `review-requested`, whether the asker has reviewed the pull, approving it or asking for changes, since it was asked to. Absent, it has not."
+          "description": "For `review-requested`, whether the asker has reviewed the pull, approving it or asking for changes, since it was asked to. Absent, it has not.",
+          "type": "boolean"
         },
-        "createdAt": {
-          "type": "string",
-          "format": "datetime"
-        },
-        "mentioned": {
-          "type": "boolean",
-          "description": "Whether it mentions the asker too, though it is heard of for another reason: a comment on the asker's pull or issue that names them, say. Absent, it does not."
-        },
-        "lineComments": {
-          "type": "integer",
-          "minimum": 1,
-          "description": "For a review, how many comments on the pull's lines were sent with it. Absent, none."
+        "role": {
+          "description": "For an invitation, the role it offers.",
+          "knownValues": [
+            "admin",
+            "member"
+          ],
+          "type": "string"
         },
         "subjectState": {
-          "type": "string",
           "description": "The state the pull or issue it is about is in now, as its page says. Absent for what is about no pull or issue.",
           "knownValues": [
             "open",
             "closed",
             "merged"
-          ]
+          ],
+          "type": "string"
         },
-        "reasonSubject": {
-          "type": "string",
+        "text": {
+          "description": "For a pull, an issue or a comment, a mention in one, or a pull that asks for a review, the start of what it says, as Markdown: at most 1,000 characters. Absent when it says nothing.",
+          "maxLength": 4000,
+          "type": "string"
+        },
+        "title": {
+          "description": "The title of the pull or issue it is, or is on.",
+          "type": "string"
+        },
+        "uri": {
+          "description": "The record it wrote: a star, a follow, the organization's dev.knotless.orgMember record of the asker, a pull, an issue or a comment, or the pull, issue or comment that mentions the asker; for a review asked or an assignment by the owner or a collaborator, their dev.knotless.assignment record; for checks that failed, the dev.knotless.check of one of them; for an ejection, the runner's dev.knotless.queue record.",
           "format": "at-uri",
-          "description": "What it is about: for a comment, or a mention in one, the pull or issue it is on; for a pull, an issue, a mention in one, a review request, an assignment, checks that failed or an ejection, that pull or issue; for a star, the repository's record; for a release, the release. Absent for a follow or an invitation."
+          "type": "string"
+        },
+        "verdict": {
+          "description": "For a comment that reviews a pull, what it found: `approve`, or `changes` to ask for changes.",
+          "knownValues": [
+            "approve",
+            "changes"
+          ],
+          "type": "string"
         }
       },
-      "description": "One thing another account did that concerns the asker."
+      "required": [
+        "uri",
+        "author",
+        "reason",
+        "isRead",
+        "createdAt"
+      ],
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "What others did that concerns the account asking."
+  "description": "What others did that concerns the account asking.",
+  "id": "dev.knotless.listNotifications",
+  "lexicon": 1
 }

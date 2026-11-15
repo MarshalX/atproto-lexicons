@@ -1,42 +1,42 @@
 {
-  "id": "dev.knotless.deleteOrg",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
-      "input": {
-        "schema": {
-          "type": "object",
-          "properties": {}
-        },
-        "encoding": "application/json"
-      },
+      "description": "Takes out every member, withdraws every invitation, deletes the organization's space and its dev.knotless.org record. The account and its repositories stay. Requires the session cookie the pages' login sets: the appview acts with the session it keeps for that account. Clients holding their own session call the organization's gateway themselves.",
       "errors": [
         {
-          "name": "InvalidRequest",
-          "description": "The change was refused: by the organization's gateway, or as the account may not make it."
+          "description": "The change was refused: by the organization's gateway, or as the account may not make it.",
+          "name": "InvalidRequest"
         },
         {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
         }
       ],
-      "output": {
+      "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
           "properties": {
             "warning": {
-              "type": "string",
+              "description": "Set when the change was made only in part, saying what is left.",
               "maxLength": 2000,
-              "description": "Set when the change was made only in part, saying what is left."
+              "type": "string"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "type": "object"
+        }
       },
-      "description": "Takes out every member, withdraws every invitation, deletes the organization's space and its dev.knotless.org record. The account and its repositories stay. Requires the session cookie the pages' login sets: the appview acts with the session it keeps for that account. Clients holding their own session call the organization's gateway themselves."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Ends the organization the account logged in to this appview's pages is, as `knotless org delete` does."
+  "description": "Ends the organization the account logged in to this appview's pages is, as `knotless org delete` does.",
+  "id": "dev.knotless.deleteOrg",
+  "lexicon": 1
 }

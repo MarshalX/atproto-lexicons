@@ -1,77 +1,77 @@
 {
-  "id": "dev.knotless.putRunOutput",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Sends the appview what a check's steps printed since the runner last sent, for the pages following the check while it runs: the dev.knotless.check record says nothing of a run until it ends. Only whole lines are sent, with the run's secrets masked as its log's are. The appview keeps the tail of each run in memory, never for good: the record's log is what is kept. Only the runner that files the check may send its output, and an appview holding as many runs as it keeps, or as many of the caller's, refuses more until some end. Requires a service token from the caller's PDS, audience the appview's DID, for this method.",
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "check",
-            "offset"
-          ],
           "properties": {
-            "text": {
-              "type": "string",
-              "maxLength": 20000,
-              "description": "What the steps printed since the last send, as UTF-8."
-            },
             "check": {
-              "type": "string",
+              "description": "The dev.knotless.check record the run files, in the caller's repo.",
               "format": "at-uri",
-              "description": "The dev.knotless.check record the run files, in the caller's repo."
+              "type": "string"
             },
             "ended": {
-              "type": "boolean",
-              "description": "Set on the last send: the run's steps are over, and its record is about to be filed."
+              "description": "Set on the last send: the run's steps are over, and its record is about to be filed.",
+              "type": "boolean"
             },
             "going": {
-              "type": "string",
+              "description": "The name of the step running now, sent with `steps`: none between steps.",
               "maxLength": 512,
-              "description": "The name of the step running now, sent with `steps`: none between steps."
+              "type": "string"
+            },
+            "offset": {
+              "description": "Where `text` starts in all the run has sent, in bytes: text sent again is passed over, and a gap, from output the runner let go, starts what is kept anew.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "startedAt": {
+              "description": "When the run started, as its check record says. A run of the same check that started at another time, as a rerun at the same commit is, starts what is kept anew.",
+              "format": "datetime",
+              "type": "string"
             },
             "steps": {
-              "type": "array",
+              "description": "The steps that ended so far, as the check's record will say.",
               "items": {
                 "ref": "dev.knotless.check#step",
                 "type": "ref"
               },
               "maxLength": 256,
-              "description": "The steps that ended so far, as the check's record will say."
+              "type": "array"
             },
-            "offset": {
-              "type": "integer",
-              "minimum": 0,
-              "description": "Where `text` starts in all the run has sent, in bytes: text sent again is passed over, and a gap, from output the runner let go, starts what is kept anew."
-            },
-            "startedAt": {
-              "type": "string",
-              "format": "datetime",
-              "description": "When the run started, as its check record says. A run of the same check that started at another time, as a rerun at the same commit is, starts what is kept anew."
+            "text": {
+              "description": "What the steps printed since the last send, as UTF-8.",
+              "maxLength": 20000,
+              "type": "string"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "check",
+            "offset"
+          ],
+          "type": "object"
+        }
       },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "watched": {
+              "description": "Whether a page follows the run now: a runner may send less often when none does.",
+              "type": "boolean"
+            }
+          },
           "required": [
             "watched"
           ],
-          "properties": {
-            "watched": {
-              "type": "boolean",
-              "description": "Whether a page follows the run now: a runner may send less often when none does."
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
-      "description": "Sends the appview what a check's steps printed since the runner last sent, for the pages following the check while it runs: the dev.knotless.check record says nothing of a run until it ends. Only whole lines are sent, with the run's secrets masked as its log's are. The appview keeps the tail of each run in memory, never for good: the record's log is what is kept. Only the runner that files the check may send its output, and an appview holding as many runs as it keeps, or as many of the caller's, refuses more until some end. Requires a service token from the caller's PDS, audience the appview's DID, for this method."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "A runner's word to the appview of what a check it runs is printing, as it prints it."
+  "description": "A runner's word to the appview of what a check it runs is printing, as it prints it.",
+  "id": "dev.knotless.putRunOutput",
+  "lexicon": 1
 }

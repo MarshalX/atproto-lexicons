@@ -1,8 +1,121 @@
 {
-  "id": "social.grain.gallery.defs",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
+    "crossPostInfo": {
+      "properties": {
+        "url": {
+          "description": "URL to the cross-posted Bluesky post.",
+          "format": "uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "url"
+      ],
+      "type": "object"
+    },
     "galleryView": {
-      "type": "object",
+      "properties": {
+        "address": {
+          "ref": "community.lexicon.location.address",
+          "type": "ref"
+        },
+        "cameras": {
+          "description": "List of camera make and models used in this gallery derived from EXIF data.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "cid": {
+          "format": "cid",
+          "type": "string"
+        },
+        "commentCount": {
+          "type": "integer"
+        },
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "creator": {
+          "ref": "social.grain.actor.defs#profileView",
+          "type": "ref"
+        },
+        "crossPost": {
+          "ref": "#crossPostInfo",
+          "type": "ref"
+        },
+        "description": {
+          "type": "string"
+        },
+        "facets": {
+          "description": "Annotations of description text (mentions, URLs, hashtags, etc)",
+          "items": {
+            "ref": "app.bsky.richtext.facet",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "favCount": {
+          "type": "integer"
+        },
+        "favedByFollowing": {
+          "description": "Profiles of accounts the viewer follows who favorited this gallery. Capped for display — see favCount for the total. Excludes the viewer.",
+          "items": {
+            "ref": "social.grain.actor.defs#profileView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "group": {
+          "description": "The group whose pool this gallery is in, if any.",
+          "ref": "social.grain.group.defs#groupRef",
+          "type": "ref"
+        },
+        "indexedAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "items": {
+          "items": {
+            "refs": [
+              "social.grain.photo.defs#photoView"
+            ],
+            "type": "union"
+          },
+          "type": "array"
+        },
+        "labels": {
+          "items": {
+            "ref": "com.atproto.label.defs#label",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "location": {
+          "ref": "community.lexicon.location.hthree",
+          "type": "ref"
+        },
+        "locationDisplay": {
+          "description": "Formatted location label for display.",
+          "type": "string"
+        },
+        "record": {
+          "type": "unknown"
+        },
+        "title": {
+          "type": "string"
+        },
+        "uri": {
+          "format": "at-uri",
+          "type": "string"
+        },
+        "viewer": {
+          "ref": "#viewerState",
+          "type": "ref"
+        }
+      },
       "required": [
         "uri",
         "cid",
@@ -10,132 +123,19 @@
         "record",
         "indexedAt"
       ],
-      "properties": {
-        "cid": {
-          "type": "string",
-          "format": "cid"
-        },
-        "uri": {
-          "type": "string",
-          "format": "at-uri"
-        },
-        "group": {
-          "ref": "social.grain.group.defs#groupRef",
-          "type": "ref",
-          "description": "The group whose pool this gallery is in, if any."
-        },
-        "items": {
-          "type": "array",
-          "items": {
-            "refs": [
-              "social.grain.photo.defs#photoView"
-            ],
-            "type": "union"
-          }
-        },
-        "title": {
-          "type": "string"
-        },
-        "facets": {
-          "type": "array",
-          "items": {
-            "ref": "app.bsky.richtext.facet",
-            "type": "ref"
-          },
-          "description": "Annotations of description text (mentions, URLs, hashtags, etc)"
-        },
-        "labels": {
-          "type": "array",
-          "items": {
-            "ref": "com.atproto.label.defs#label",
-            "type": "ref"
-          }
-        },
-        "record": {
-          "type": "unknown"
-        },
-        "viewer": {
-          "ref": "#viewerState",
-          "type": "ref"
-        },
-        "address": {
-          "ref": "community.lexicon.location.address",
-          "type": "ref"
-        },
-        "cameras": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "List of camera make and models used in this gallery derived from EXIF data."
-        },
-        "creator": {
-          "ref": "social.grain.actor.defs#profileView",
-          "type": "ref"
-        },
-        "favCount": {
-          "type": "integer"
-        },
-        "location": {
-          "ref": "community.lexicon.location.hthree",
-          "type": "ref"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "datetime"
-        },
-        "crossPost": {
-          "ref": "#crossPostInfo",
-          "type": "ref"
-        },
-        "indexedAt": {
-          "type": "string",
-          "format": "datetime"
-        },
-        "description": {
-          "type": "string"
-        },
-        "commentCount": {
-          "type": "integer"
-        },
-        "locationDisplay": {
-          "type": "string",
-          "description": "Formatted location label for display."
-        },
-        "favedByFollowing": {
-          "type": "array",
-          "items": {
-            "ref": "social.grain.actor.defs#profileView",
-            "type": "ref"
-          },
-          "description": "Profiles of accounts the viewer follows who favorited this gallery. Capped for display — see favCount for the total. Excludes the viewer."
-        }
-      }
+      "type": "object"
     },
     "viewerState": {
-      "type": "object",
+      "description": "Metadata about the requesting account's relationship with the subject content. Only has meaningful content for authed requests.",
       "properties": {
         "fav": {
-          "type": "string",
-          "format": "at-uri"
+          "format": "at-uri",
+          "type": "string"
         }
       },
-      "description": "Metadata about the requesting account's relationship with the subject content. Only has meaningful content for authed requests."
-    },
-    "crossPostInfo": {
-      "type": "object",
-      "required": [
-        "url"
-      ],
-      "properties": {
-        "url": {
-          "type": "string",
-          "format": "uri",
-          "description": "URL to the cross-posted Bluesky post."
-        }
-      }
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.gallery.defs",
   "lexicon": 1
 }

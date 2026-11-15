@@ -1,36 +1,36 @@
 {
-  "id": "social.grain.group.submission",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "A member offering one of their own galleries to a group's pool. Lives in the member's repo; the group answers with a social.grain.group.item.",
       "key": "tid",
-      "type": "record",
       "record": {
-        "type": "object",
+        "properties": {
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "gallery": {
+            "description": "One of the submitter's galleries.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "group": {
+            "description": "The group (a group DID).",
+            "format": "did",
+            "type": "string"
+          }
+        },
         "required": [
           "group",
           "gallery",
           "createdAt"
         ],
-        "properties": {
-          "group": {
-            "type": "string",
-            "format": "did",
-            "description": "The group (a group DID)."
-          },
-          "gallery": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "One of the submitter's galleries."
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "datetime"
-          }
-        }
+        "type": "object"
       },
-      "description": "A member offering one of their own galleries to a group's pool. Lives in the member's repo; the group answers with a social.grain.group.item."
+      "type": "record"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.group.submission",
   "lexicon": 1
 }

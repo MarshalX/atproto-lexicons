@@ -1,39 +1,39 @@
 {
-  "id": "social.grain.unspecced.getGallery",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "Get a single gallery view by AT URI.",
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "gallery"
-          ],
           "properties": {
             "gallery": {
               "ref": "social.grain.gallery.defs#galleryView",
               "type": "ref"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "gallery"
+          ],
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "gallery": {
+            "description": "The gallery AT URI.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
         "required": [
           "gallery"
         ],
-        "properties": {
-          "gallery": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The gallery AT URI."
-          }
-        }
+        "type": "params"
       },
-      "description": "Get a single gallery view by AT URI."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.getGallery",
   "lexicon": 1
 }

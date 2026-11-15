@@ -1,61 +1,61 @@
 {
-  "id": "dev.knotless.getViewer",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "The account asking: by the session cookie the pages' login sets, or a service token. Nothing, for no one.",
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
           "properties": {
-            "actor": {
-              "ref": "dev.knotless.defs#actorView",
-              "type": "ref",
-              "description": "The account asking; absent when no one is."
-            },
-            "admin": {
-              "type": "boolean",
-              "description": "Whether the account asking is one of this appview's operators, who moderate it and see how it is used; absent when not."
-            },
-            "login": {
-              "type": "boolean",
-              "description": "Whether this appview's pages can log people in: it is an OAuth client, with a public URL."
-            },
-            "reauth": {
-              "type": "boolean",
-              "description": "Whether the account asking logged in to these pages asking for less than they ask for now, as before they came to do more: logging in again grants the rest. Absent when not."
-            },
-            "spaces": {
-              "type": "boolean",
-              "description": "Whether the account asking has a PDS with spaces, which private repositories live in; absent when no one asks, or this appview does not know yet."
-            },
             "accounts": {
-              "type": "array",
+              "description": "The other accounts this browser is logged in to, which it can switch to without logging in again; absent when none.",
               "items": {
                 "ref": "dev.knotless.defs#actorView",
                 "type": "ref"
               },
-              "description": "The other accounts this browser is logged in to, which it can switch to without logging in again; absent when none."
+              "type": "array"
+            },
+            "actor": {
+              "description": "The account asking; absent when no one is.",
+              "ref": "dev.knotless.defs#actorView",
+              "type": "ref"
+            },
+            "admin": {
+              "description": "Whether the account asking is one of this appview's operators, who moderate it and see how it is used; absent when not.",
+              "type": "boolean"
             },
             "delegated": {
-              "type": "boolean",
-              "description": "Whether this appview's gateway writes for the account asking, which delegated writes to it: collaborators push to its repositories through it, and runners land their merge queues. Absent when not."
+              "description": "Whether this appview's gateway writes for the account asking, which delegated writes to it: collaborators push to its repositories through it, and runners land their merge queues. Absent when not.",
+              "type": "boolean"
             },
-            "redelegate": {
-              "type": "boolean",
-              "description": "Whether this appview's gateway writes for the account asking under a grant asking for less than it asks for now: delegating writes to it again grants the rest. Absent when not."
+            "login": {
+              "description": "Whether this appview's pages can log people in: it is an OAuth client, with a public URL.",
+              "type": "boolean"
             },
             "organization": {
-              "type": "boolean",
-              "description": "Whether the account asking is an organization: it keeps a public dev.knotless.org record. Absent when not."
+              "description": "Whether the account asking is an organization: it keeps a public dev.knotless.org record. Absent when not.",
+              "type": "boolean"
+            },
+            "reauth": {
+              "description": "Whether the account asking logged in to these pages asking for less than they ask for now, as before they came to do more: logging in again grants the rest. Absent when not.",
+              "type": "boolean"
+            },
+            "redelegate": {
+              "description": "Whether this appview's gateway writes for the account asking under a grant asking for less than it asks for now: delegating writes to it again grants the rest. Absent when not.",
+              "type": "boolean"
+            },
+            "spaces": {
+              "description": "Whether the account asking has a PDS with spaces, which private repositories live in; absent when no one asks, or this appview does not know yet.",
+              "type": "boolean"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "type": "object"
+        }
       },
-      "description": "The account asking: by the session cookie the pages' login sets, or a service token. Nothing, for no one."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Who is asking this appview, as its pages show it."
+  "description": "Who is asking this appview, as its pages show it.",
+  "id": "dev.knotless.getViewer",
+  "lexicon": 1
 }

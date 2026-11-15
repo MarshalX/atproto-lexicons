@@ -1,56 +1,56 @@
 {
-  "id": "dev.knotless.getReactions",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "How many accounts reacted to a pull or an issue, and to each comment on it, with each content, as the appview has indexed their dev.knotless.reaction records; for a private repository, as its space has them, to its members. Accounts taken down, or that the repository's owner blocked, are left out, as are comments the owner hid. Personalized when an account asks, by a service token or the pages' session cookie: its own reactions are named.",
       "errors": [
         {
-          "name": "NotFound",
-          "description": "No such repository or record on it; or this appview keeps no index, so it knows no reactions."
+          "description": "No such repository or record on it; or this appview keeps no index, so it knows no reactions.",
+          "name": "NotFound"
         }
       ],
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "subjects"
-          ],
           "properties": {
             "subjects": {
-              "type": "array",
+              "description": "The pull or issue, then each comment on it oldest first: those any account reacted to.",
               "items": {
                 "ref": "dev.knotless.defs#reactionState",
                 "type": "ref"
               },
-              "description": "The pull or issue, then each comment on it oldest first: those any account reacted to."
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "subjects"
+          ],
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "repo": {
+            "description": "The repository's dev.knotless.repo record, as dev.knotless.getThread takes it.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "uri": {
+            "description": "The dev.knotless.pull or dev.knotless.issue record.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
         "required": [
           "repo",
           "uri"
         ],
-        "properties": {
-          "uri": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The dev.knotless.pull or dev.knotless.issue record."
-          },
-          "repo": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The repository's dev.knotless.repo record, as dev.knotless.getThread takes it."
-          }
-        }
+        "type": "params"
       },
-      "description": "How many accounts reacted to a pull or an issue, and to each comment on it, with each content, as the appview has indexed their dev.knotless.reaction records; for a private repository, as its space has them, to its members. Accounts taken down, or that the repository's owner blocked, are left out, as are comments the owner hid. Personalized when an account asks, by a service token or the pages' session cookie: its own reactions are named."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "The reactions to a pull or an issue, and to each comment on it."
+  "description": "The reactions to a pull or an issue, and to each comment on it.",
+  "id": "dev.knotless.getReactions",
+  "lexicon": 1
 }

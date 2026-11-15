@@ -1,67 +1,67 @@
 {
-  "id": "dev.knotless.addAgent",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Names the account among the agents of the repository's dev.knotless.repo record, as `knotless agent add` does: accounts, such as a coding agent, whose pulls its runners check as they move, as code no one vouches for. Its owner can, logged in to this appview's web pages: the appview writes with the session it keeps for that account, which the pages' session cookie names. For an organization's repository, so can an admin who joined it, logged in to the pages or with a service token from their own PDS for this method: the appview's gateway, which the organization delegated its writes to, writes as the organization. Answers with the agents it names after.",
+      "errors": [
+        {
+          "description": "No such repository, or no such account.",
+          "name": "NotFound"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        },
+        {
+          "description": "The account asking is neither the owner nor an admin who joined the organization that owns it.",
+          "name": "Forbidden"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "agent": {
+              "description": "The account, by handle or DID.",
+              "format": "at-identifier",
+              "type": "string"
+            },
+            "repo": {
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
           "required": [
             "repo",
             "agent"
           ],
-          "properties": {
-            "repo": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
-            },
-            "agent": {
-              "type": "string",
-              "format": "at-identifier",
-              "description": "The account, by handle or DID."
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "NotFound",
-          "description": "No such repository, or no such account."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
-        },
-        {
-          "name": "Forbidden",
-          "description": "The account asking is neither the owner nor an admin who joined the organization that owns it."
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "agents"
-          ],
           "properties": {
             "agents": {
-              "type": "array",
+              "description": "The accounts the repository names as agents now.",
               "items": {
                 "ref": "dev.knotless.defs#actorView",
                 "type": "ref"
               },
-              "description": "The accounts the repository names as agents now."
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "agents"
+          ],
+          "type": "object"
+        }
       },
-      "description": "Names the account among the agents of the repository's dev.knotless.repo record, as `knotless agent add` does: accounts, such as a coding agent, whose pulls its runners check as they move, as code no one vouches for. Its owner can, logged in to this appview's web pages: the appview writes with the session it keeps for that account, which the pages' session cookie names. For an organization's repository, so can an admin who joined it, logged in to the pages or with a service token from their own PDS for this method: the appview's gateway, which the organization delegated its writes to, writes as the organization. Answers with the agents it names after."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Names an account among a repository's agents."
+  "description": "Names an account among a repository's agents.",
+  "id": "dev.knotless.addAgent",
+  "lexicon": 1
 }

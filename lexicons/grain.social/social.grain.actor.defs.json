@@ -1,160 +1,110 @@
 {
-  "id": "social.grain.actor.defs",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "messageMe": {
-      "type": "object",
+      "properties": {
+        "messageMeUrl": {
+          "format": "uri",
+          "type": "string"
+        },
+        "showButtonTo": {
+          "knownValues": [
+            "usersIFollow",
+            "everyone"
+          ],
+          "type": "string"
+        }
+      },
       "required": [
         "showButtonTo",
         "messageMeUrl"
       ],
-      "properties": {
-        "messageMeUrl": {
-          "type": "string",
-          "format": "uri"
-        },
-        "showButtonTo": {
-          "type": "string",
-          "knownValues": [
-            "usersIFollow",
-            "everyone"
-          ]
-        }
-      }
+      "type": "object"
     },
     "profileView": {
-      "type": "object",
-      "required": [
-        "cid",
-        "did",
-        "handle"
-      ],
       "properties": {
-        "cid": {
-          "type": "string",
-          "format": "cid"
-        },
-        "did": {
-          "type": "string",
-          "format": "did"
-        },
         "avatar": {
-          "type": "string",
-          "format": "uri"
+          "format": "uri",
+          "type": "string"
         },
-        "handle": {
-          "type": "string",
-          "format": "handle"
-        },
-        "labels": {
-          "type": "array",
-          "items": {
-            "ref": "com.atproto.label.defs#label",
-            "type": "ref"
-          }
+        "cid": {
+          "format": "cid",
+          "type": "string"
         },
         "createdAt": {
-          "type": "string",
-          "format": "datetime"
+          "format": "datetime",
+          "type": "string"
         },
         "description": {
-          "type": "string",
+          "maxGraphemes": 256,
           "maxLength": 2560,
-          "maxGraphemes": 256
+          "type": "string"
+        },
+        "did": {
+          "format": "did",
+          "type": "string"
         },
         "displayName": {
-          "type": "string",
+          "maxGraphemes": 64,
           "maxLength": 640,
-          "maxGraphemes": 64
-        }
-      }
-    },
-    "viewerState": {
-      "type": "object",
-      "properties": {
-        "muted": {
-          "type": "boolean"
+          "type": "string"
         },
-        "blocking": {
-          "type": "string",
-          "format": "at-uri"
+        "handle": {
+          "format": "handle",
+          "type": "string"
         },
-        "blockedBy": {
-          "type": "boolean"
-        },
-        "following": {
-          "type": "string",
-          "format": "at-uri"
-        },
-        "followedBy": {
-          "type": "string",
-          "format": "at-uri"
+        "labels": {
+          "items": {
+            "ref": "com.atproto.label.defs#label",
+            "type": "ref"
+          },
+          "type": "array"
         }
       },
-      "description": "Metadata about the requesting account's relationship with the subject account. Only has meaningful content for authed requests."
-    },
-    "profileViewDetailed": {
-      "type": "object",
       "required": [
         "cid",
         "did",
         "handle"
       ],
+      "type": "object"
+    },
+    "profileViewDetailed": {
       "properties": {
-        "cid": {
-          "type": "string",
-          "format": "cid"
-        },
-        "did": {
-          "type": "string",
-          "format": "did"
-        },
         "avatar": {
-          "type": "string",
-          "format": "uri"
-        },
-        "handle": {
-          "type": "string",
-          "format": "handle"
-        },
-        "labels": {
-          "type": "array",
-          "items": {
-            "ref": "com.atproto.label.defs#label",
-            "type": "ref"
-          }
-        },
-        "viewer": {
-          "ref": "#viewerState",
-          "type": "ref"
+          "format": "uri",
+          "type": "string"
         },
         "cameras": {
-          "type": "array",
+          "description": "List of camera make and models used by this actor derived from EXIF data of photos linked to galleries.",
           "items": {
             "type": "string"
           },
-          "description": "List of camera make and models used by this actor derived from EXIF data of photos linked to galleries."
+          "type": "array"
+        },
+        "cid": {
+          "format": "cid",
+          "type": "string"
         },
         "createdAt": {
-          "type": "string",
-          "format": "datetime"
-        },
-        "indexedAt": {
-          "type": "string",
-          "format": "datetime"
-        },
-        "messageMe": {
-          "ref": "#messageMe",
-          "type": "ref"
+          "format": "datetime",
+          "type": "string"
         },
         "description": {
-          "type": "string",
+          "maxGraphemes": 256,
           "maxLength": 2560,
-          "maxGraphemes": 256
+          "type": "string"
+        },
+        "did": {
+          "format": "did",
+          "type": "string"
         },
         "displayName": {
-          "type": "string",
+          "maxGraphemes": 64,
           "maxLength": 640,
-          "maxGraphemes": 64
+          "type": "string"
+        },
+        "followersCount": {
+          "type": "integer"
         },
         "followsCount": {
           "type": "integer"
@@ -162,12 +112,62 @@
         "galleryCount": {
           "type": "integer"
         },
-        "followersCount": {
-          "type": "integer"
+        "handle": {
+          "format": "handle",
+          "type": "string"
+        },
+        "indexedAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "labels": {
+          "items": {
+            "ref": "com.atproto.label.defs#label",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "messageMe": {
+          "ref": "#messageMe",
+          "type": "ref"
+        },
+        "viewer": {
+          "ref": "#viewerState",
+          "type": "ref"
         }
-      }
+      },
+      "required": [
+        "cid",
+        "did",
+        "handle"
+      ],
+      "type": "object"
+    },
+    "viewerState": {
+      "description": "Metadata about the requesting account's relationship with the subject account. Only has meaningful content for authed requests.",
+      "properties": {
+        "blockedBy": {
+          "type": "boolean"
+        },
+        "blocking": {
+          "format": "at-uri",
+          "type": "string"
+        },
+        "followedBy": {
+          "format": "at-uri",
+          "type": "string"
+        },
+        "following": {
+          "format": "at-uri",
+          "type": "string"
+        },
+        "muted": {
+          "type": "boolean"
+        }
+      },
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.actor.defs",
   "lexicon": 1
 }

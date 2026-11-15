@@ -1,103 +1,103 @@
 {
-  "id": "social.grain.unspecced.createPoolGallery",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Add a gallery to a group's pool: one permissioned space (social.grain.group) anchored on the group, holding every member's galleries. The gallery, its photos and its items are the author's own records in their own repo, written inside that space — so only the group's members can read them, and they leave with the author.",
+      "errors": [
+        {
+          "description": "The author's PDS does not serve permissioned spaces.",
+          "name": "SpacesUnsupported"
+        },
+        {
+          "description": "The viewer is not a member of this group's pool.",
+          "name": "NotAuthorized"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "description": {
+              "maxLength": 1000,
+              "type": "string"
+            },
+            "group": {
+              "description": "The group whose pool this goes into.",
+              "format": "did",
+              "type": "string"
+            },
+            "photos": {
+              "items": {
+                "ref": "#photoInput",
+                "type": "ref"
+              },
+              "maxLength": 100,
+              "type": "array"
+            },
+            "rkey": {
+              "description": "Record key for the gallery, in the author's repo.",
+              "maxLength": 64,
+              "type": "string"
+            },
+            "title": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
           "required": [
             "group",
             "rkey",
             "title"
           ],
-          "properties": {
-            "rkey": {
-              "type": "string",
-              "maxLength": 64,
-              "description": "Record key for the gallery, in the author's repo."
-            },
-            "group": {
-              "type": "string",
-              "format": "did",
-              "description": "The group whose pool this goes into."
-            },
-            "title": {
-              "type": "string",
-              "maxLength": 100
-            },
-            "photos": {
-              "type": "array",
-              "items": {
-                "ref": "#photoInput",
-                "type": "ref"
-              },
-              "maxLength": 100
-            },
-            "description": {
-              "type": "string",
-              "maxLength": 1000
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "SpacesUnsupported",
-          "description": "The author's PDS does not serve permissioned spaces."
-        },
-        {
-          "name": "NotAuthorized",
-          "description": "The viewer is not a member of this group's pool."
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "space": {
+              "description": "The pool space it was written into.",
+              "type": "string"
+            },
+            "uri": {
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
           "required": [
             "space",
             "uri"
           ],
-          "properties": {
-            "uri": {
-              "type": "string",
-              "format": "at-uri"
-            },
-            "space": {
-              "type": "string",
-              "description": "The pool space it was written into."
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
-      "description": "Add a gallery to a group's pool: one permissioned space (social.grain.group) anchored on the group, holding every member's galleries. The gallery, its photos and its items are the author's own records in their own repo, written inside that space — so only the group's members can read them, and they leave with the author."
+      "type": "procedure"
     },
     "photoInput": {
-      "type": "object",
-      "required": [
-        "photo",
-        "aspectRatio"
-      ],
       "properties": {
         "alt": {
           "type": "string"
         },
-        "photo": {
-          "type": "blob",
-          "accept": [
-            "image/*"
-          ],
-          "maxSize": 1000000
-        },
         "aspectRatio": {
           "ref": "social.grain.defs#aspectRatio",
           "type": "ref"
+        },
+        "photo": {
+          "accept": [
+            "image/*"
+          ],
+          "maxSize": 1000000,
+          "type": "blob"
         }
-      }
+      },
+      "required": [
+        "photo",
+        "aspectRatio"
+      ],
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.createPoolGallery",
   "lexicon": 1
 }

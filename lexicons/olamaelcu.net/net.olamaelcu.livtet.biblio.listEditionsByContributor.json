@@ -1,0 +1,97 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "errors": [
+        {
+          "description": "contributor is missing, malformed, or not a contributor record URI; or sort, order, limit or language is outside the accepted range.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "No catalog contributor has that URI.",
+          "name": "RecordNotFound"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "description": "Opaque cursor for the next page; absent when no more editions are credited.",
+              "type": "string"
+            },
+            "items": {
+              "description": "Editions credited to the contributor, newest catalog creation first unless `sort` says otherwise. An edition in which the contributor holds several roles appears once.",
+              "items": {
+                "ref": "net.olamaelcu.livtet.biblio.defs#bookView",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "total": {
+              "description": "Total credited editions matching the request's filters. Present on the first page only.",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "contributor": {
+            "description": "AT-URI of a net.olamaelcu.livtet.biblio.contributor record. A URI from another collection is rejected rather than looked up.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "cursor": {
+            "description": "Opaque pagination cursor from a previous response. A malformed cursor restarts at the beginning rather than erroring.",
+            "maxLength": 512,
+            "type": "string"
+          },
+          "language": {
+            "description": "Only editions whose published shape claims this language. Matched on the primary subtag, case-insensitively, so `en` matches `en` and `en-US`.",
+            "maxLength": 35,
+            "type": "string"
+          },
+          "limit": {
+            "default": 25,
+            "description": "Maximum number of editions to return.",
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "order": {
+            "default": "asc",
+            "description": "Direction for a `title` or `publishedYear` sort. Ignored when `sort` is `relevance`, whose order is newest-first.",
+            "knownValues": [
+              "asc",
+              "desc"
+            ],
+            "type": "string"
+          },
+          "sort": {
+            "default": "relevance",
+            "description": "Ordering of the page. `title` is alphabetical by edition title; `publishedYear` orders by the edition's published date, and an edition with no usable year sorts last. `relevance` keeps this method's own order: newest catalog creation first.",
+            "knownValues": [
+              "relevance",
+              "title",
+              "publishedYear"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "contributor"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "List every catalog edition credited to one contributor, across all credited roles. Anonymous and read-only; served by the bibliograph edge from the catalog tables.",
+  "id": "net.olamaelcu.livtet.biblio.listEditionsByContributor",
+  "lexicon": 1
+}

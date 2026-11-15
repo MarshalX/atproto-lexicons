@@ -1,59 +1,59 @@
 {
-  "id": "dev.knotless.renameRepo",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Moves the repository's dev.knotless.repo record to the new name, as `knotless repo rename` does, leaving a dev.knotless.redirect under the old one, so links and clones by it still lead there. Only its owner, logged in to this appview's web pages, can: the appview writes with the session it keeps for that account, which the pages' session cookie names.",
+      "errors": [
+        {
+          "description": "No such repository.",
+          "name": "NotFound"
+        },
+        {
+          "description": "The name is not one a repository can have, is the one it has, or another repository has it.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        },
+        {
+          "description": "The account logged in is not the repository's owner.",
+          "name": "Forbidden"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "name": {
+              "description": "Its new name.",
+              "maxLength": 100,
+              "type": "string"
+            },
+            "repo": {
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
           "required": [
             "repo",
             "name"
           ],
-          "properties": {
-            "name": {
-              "type": "string",
-              "maxLength": 100,
-              "description": "Its new name."
-            },
-            "repo": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "NotFound",
-          "description": "No such repository."
-        },
-        {
-          "name": "InvalidRequest",
-          "description": "The name is not one a repository can have, is the one it has, or another repository has it."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
-        },
-        {
-          "name": "Forbidden",
-          "description": "The account logged in is not the repository's owner."
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
           "ref": "dev.knotless.defs#repoMade",
           "type": "ref"
-        },
-        "encoding": "application/json"
+        }
       },
-      "description": "Moves the repository's dev.knotless.repo record to the new name, as `knotless repo rename` does, leaving a dev.knotless.redirect under the old one, so links and clones by it still lead there. Only its owner, logged in to this appview's web pages, can: the appview writes with the session it keeps for that account, which the pages' session cookie names."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Gives a repository a new name."
+  "description": "Gives a repository a new name.",
+  "id": "dev.knotless.renameRepo",
+  "lexicon": 1
 }

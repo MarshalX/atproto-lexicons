@@ -1,97 +1,97 @@
 {
-  "id": "dev.knotless.listCommits",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "The commits reachable from a revision that changed a path, newest first, a page at a time: follow `cursor` until it is absent. A repository never pushed has none at its default branch. No authentication needed; asked as an account, with a service token or the pages' session cookie, a private repository it is a member of is read too, and the answer is that account's alone.",
       "errors": [
         {
-          "name": "NotFound",
-          "description": "No such repository, revision, path or record."
+          "description": "No such repository, revision, path or record.",
+          "name": "NotFound"
         }
       ],
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "checks": {
+              "description": "The newest run of each workflow at each of `commits`, by the runners the repository names; each says its commit.",
+              "items": {
+                "ref": "dev.knotless.defs#checkView",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "commits": {
+              "items": {
+                "ref": "dev.knotless.defs#commitView",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "cursor": {
+              "description": "Absent on the last page.",
+              "type": "string"
+            },
+            "path": {
+              "description": "The path, from the root; empty for the whole tree.",
+              "type": "string"
+            },
+            "ref": {
+              "description": "The ref or commit shown, as `ref` named it, less any path.",
+              "type": "string"
+            }
+          },
           "required": [
             "ref",
             "path",
             "commits"
           ],
-          "properties": {
-            "ref": {
-              "type": "string",
-              "description": "The ref or commit shown, as `ref` named it, less any path."
-            },
-            "path": {
-              "type": "string",
-              "description": "The path, from the root; empty for the whole tree."
-            },
-            "checks": {
-              "type": "array",
-              "items": {
-                "ref": "dev.knotless.defs#checkView",
-                "type": "ref"
-              },
-              "description": "The newest run of each workflow at each of `commits`, by the runners the repository names; each says its commit."
-            },
-            "cursor": {
-              "type": "string",
-              "description": "Absent on the last page."
-            },
-            "commits": {
-              "type": "array",
-              "items": {
-                "ref": "dev.knotless.defs#commitView",
-                "type": "ref"
-              }
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "cursor": {
+            "description": "How many commits the pages before held.",
+            "maxLength": 32,
+            "type": "string"
+          },
+          "limit": {
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "path": {
+            "description": "A path in the tree, from its root.",
+            "maxLength": 4096,
+            "type": "string"
+          },
+          "ref": {
+            "description": "A branch, a tag or a commit; the default branch if absent. It may run on into the path, as a web address names them: the longest branch or tag that starts it is the ref, and what follows goes before `path`.",
+            "maxLength": 1024,
+            "type": "string"
+          },
+          "repo": {
+            "description": "The repository's dev.knotless.repo record. Its authority may be a handle; a name the repository had before, or an owner it moved from with its agreement, finds it under the name it has now.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "subjectOnly": {
+            "default": false,
+            "description": "Each commit's message cut to its first line, its subject, as a list of commits shows it: far less to send when squashed pulls carry their bodies.",
+            "type": "boolean"
+          }
+        },
         "required": [
           "repo"
         ],
-        "properties": {
-          "ref": {
-            "type": "string",
-            "maxLength": 1024,
-            "description": "A branch, a tag or a commit; the default branch if absent. It may run on into the path, as a web address names them: the longest branch or tag that starts it is the ref, and what follows goes before `path`."
-          },
-          "path": {
-            "type": "string",
-            "maxLength": 4096,
-            "description": "A path in the tree, from its root."
-          },
-          "repo": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The repository's dev.knotless.repo record. Its authority may be a handle; a name the repository had before, or an owner it moved from with its agreement, finds it under the name it has now."
-          },
-          "limit": {
-            "type": "integer",
-            "default": 50,
-            "maximum": 100,
-            "minimum": 1
-          },
-          "cursor": {
-            "type": "string",
-            "maxLength": 32,
-            "description": "How many commits the pages before held."
-          },
-          "subjectOnly": {
-            "type": "boolean",
-            "default": false,
-            "description": "Each commit's message cut to its first line, its subject, as a list of commits shows it: far less to send when squashed pulls carry their bodies."
-          }
-        }
+        "type": "params"
       },
-      "description": "The commits reachable from a revision that changed a path, newest first, a page at a time: follow `cursor` until it is absent. A repository never pushed has none at its default branch. No authentication needed; asked as an account, with a service token or the pages' session cookie, a private repository it is a member of is read too, and the answer is that account's alone."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "A repository's history."
+  "description": "A repository's history.",
+  "id": "dev.knotless.listCommits",
+  "lexicon": 1
 }

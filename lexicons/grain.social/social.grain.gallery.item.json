@@ -1,37 +1,37 @@
 {
-  "id": "social.grain.gallery.item",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
       "key": "tid",
-      "type": "record",
       "record": {
-        "type": "object",
+        "properties": {
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "gallery": {
+            "format": "at-uri",
+            "type": "string"
+          },
+          "item": {
+            "format": "at-uri",
+            "type": "string"
+          },
+          "position": {
+            "default": 0,
+            "type": "integer"
+          }
+        },
         "required": [
           "createdAt",
           "gallery",
           "item"
         ],
-        "properties": {
-          "item": {
-            "type": "string",
-            "format": "at-uri"
-          },
-          "gallery": {
-            "type": "string",
-            "format": "at-uri"
-          },
-          "position": {
-            "type": "integer",
-            "default": 0
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "datetime"
-          }
-        }
-      }
+        "type": "object"
+      },
+      "type": "record"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.gallery.item",
   "lexicon": 1
 }

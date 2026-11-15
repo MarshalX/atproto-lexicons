@@ -1,34 +1,34 @@
 {
-  "id": "social.grain.group.decline",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "A group turning a submission down. Written into the group's repo by whoever is acting as it; the submission leaves the queue for good and stays in the member's repo as their own record. Delete this to reconsider.",
       "key": "tid",
-      "type": "record",
       "record": {
-        "type": "object",
+        "properties": {
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "gallery": {
+            "format": "at-uri",
+            "type": "string"
+          },
+          "submission": {
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
         "required": [
           "submission",
           "gallery",
           "createdAt"
         ],
-        "properties": {
-          "gallery": {
-            "type": "string",
-            "format": "at-uri"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "datetime"
-          },
-          "submission": {
-            "type": "string",
-            "format": "at-uri"
-          }
-        }
+        "type": "object"
       },
-      "description": "A group turning a submission down. Written into the group's repo by whoever is acting as it; the submission leaves the queue for good and stays in the member's repo as their own record. Delete this to reconsider."
+      "type": "record"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.group.decline",
   "lexicon": 1
 }

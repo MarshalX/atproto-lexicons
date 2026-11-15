@@ -1,65 +1,65 @@
 {
-  "id": "dev.knotless.ref",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "Keyed `<repo key>.<ref hash>`, where the hash is the first 26 characters of the lowercase unpadded base32 SHA-256 of `name`. Written only in the same applyWrites as the dev.knotless.claim for its current generation.",
       "key": "any",
-      "type": "record",
       "record": {
-        "type": "object",
+        "properties": {
+          "createdAt": {
+            "description": "When the ref was made: the same as updatedAt until it first moves.",
+            "format": "datetime",
+            "type": "string"
+          },
+          "generation": {
+            "description": "Goes up by one each time the ref moves. A new ref starts at the time in milliseconds since the epoch, past any generation an earlier ref of the same name reached; records written before 0.6 started at 1.",
+            "minimum": 1,
+            "type": "integer"
+          },
+          "name": {
+            "description": "The full ref name, such as refs/heads/main.",
+            "maxLength": 1024,
+            "type": "string"
+          },
+          "pack": {
+            "description": "The record key of the dev.knotless.pack holding `target`, as the move that set it knew: the pack that move wrote, or the one another ref at the same commit named. A fetch reads it rather than walking the packs. A compaction folds packs into a new one without moving refs, so a reader finding it gone walks the packs instead.",
+            "format": "record-key",
+            "type": "string"
+          },
+          "pusher": {
+            "description": "The account that last moved the ref, when not the repository's owner: a collaborator or runner pushing through the gateway, which sets it from the caller's verified service token. Readers credit it only while the repository names it among its collaborators or runners.",
+            "format": "did",
+            "type": "string"
+          },
+          "repo": {
+            "description": "The `key` of the dev.knotless.repo this ref belongs to.",
+            "format": "tid",
+            "type": "string"
+          },
+          "target": {
+            "description": "The hex object ID the ref points at. Absent only from a record a client before 0.6 left of a deleted ref; a delete now deletes the record.",
+            "maxLength": 64,
+            "minLength": 40,
+            "type": "string"
+          },
+          "updatedAt": {
+            "description": "When the ref last moved.",
+            "format": "datetime",
+            "type": "string"
+          }
+        },
         "required": [
           "repo",
           "name",
           "generation",
           "updatedAt"
         ],
-        "properties": {
-          "name": {
-            "type": "string",
-            "maxLength": 1024,
-            "description": "The full ref name, such as refs/heads/main."
-          },
-          "pack": {
-            "type": "string",
-            "format": "record-key",
-            "description": "The record key of the dev.knotless.pack holding `target`, as the move that set it knew: the pack that move wrote, or the one another ref at the same commit named. A fetch reads it rather than walking the packs. A compaction folds packs into a new one without moving refs, so a reader finding it gone walks the packs instead."
-          },
-          "repo": {
-            "type": "string",
-            "format": "tid",
-            "description": "The `key` of the dev.knotless.repo this ref belongs to."
-          },
-          "pusher": {
-            "type": "string",
-            "format": "did",
-            "description": "The account that last moved the ref, when not the repository's owner: a collaborator or runner pushing through the gateway, which sets it from the caller's verified service token. Readers credit it only while the repository names it among its collaborators or runners."
-          },
-          "target": {
-            "type": "string",
-            "maxLength": 64,
-            "minLength": 40,
-            "description": "The hex object ID the ref points at. Absent only from a record a client before 0.6 left of a deleted ref; a delete now deletes the record."
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "datetime",
-            "description": "When the ref was made: the same as updatedAt until it first moves."
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "datetime",
-            "description": "When the ref last moved."
-          },
-          "generation": {
-            "type": "integer",
-            "minimum": 1,
-            "description": "Goes up by one each time the ref moves. A new ref starts at the time in milliseconds since the epoch, past any generation an earlier ref of the same name reached; records written before 0.6 started at 1."
-          }
-        }
+        "type": "object"
       },
-      "description": "Keyed `<repo key>.<ref hash>`, where the hash is the first 26 characters of the lowercase unpadded base32 SHA-256 of `name`. Written only in the same applyWrites as the dev.knotless.claim for its current generation."
+      "type": "record"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "One git ref of a repository."
+  "description": "One git ref of a repository.",
+  "id": "dev.knotless.ref",
+  "lexicon": 1
 }

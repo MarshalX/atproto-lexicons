@@ -1,60 +1,53 @@
 {
-  "id": "social.grain.unspecced.getSuggestedFollows",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "Get suggested profiles to follow based on bsky follow graph.",
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
           "properties": {
             "items": {
-              "type": "array",
               "items": {
                 "ref": "social.grain.unspecced.getSuggestedFollows#suggestedItem",
                 "type": "ref"
-              }
+              },
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "actor": {
+            "format": "did",
+            "type": "string"
+          },
+          "limit": {
+            "default": 10,
+            "maximum": 20,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
         "required": [
           "actor"
         ],
-        "properties": {
-          "actor": {
-            "type": "string",
-            "format": "did"
-          },
-          "limit": {
-            "type": "integer",
-            "default": 10,
-            "maximum": 20,
-            "minimum": 1
-          }
-        }
+        "type": "params"
       },
-      "description": "Get suggested profiles to follow based on bsky follow graph."
+      "type": "query"
     },
     "suggestedItem": {
-      "type": "object",
-      "required": [
-        "did"
-      ],
       "properties": {
-        "did": {
-          "type": "string",
-          "format": "did"
-        },
         "avatar": {
           "type": "string"
         },
-        "handle": {
+        "description": {
           "type": "string"
         },
-        "description": {
+        "did": {
+          "format": "did",
           "type": "string"
         },
         "displayName": {
@@ -62,10 +55,17 @@
         },
         "followersCount": {
           "type": "integer"
+        },
+        "handle": {
+          "type": "string"
         }
-      }
+      },
+      "required": [
+        "did"
+      ],
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.getSuggestedFollows",
   "lexicon": 1
 }

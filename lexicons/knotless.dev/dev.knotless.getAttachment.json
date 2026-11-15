@@ -1,46 +1,46 @@
 {
-  "id": "dev.knotless.getAttachment",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "A blob a dev.knotless.pull, dev.knotless.issue or dev.knotless.comment record attaches, of any kind in its `attachments`, from its author's PDS, or for a private repository from their repo in its space: only one the record names. Served so that a browser never runs it as a page, with the type its record gives when that is one shown safely, and the same for good. dev.knotless.getThread's `html` shows its pictures from here. No authentication beyond what reading the repository takes; responses are not personalized.",
       "errors": [
         {
-          "name": "NotFound",
-          "description": "No such repository, record, or blob it attaches."
+          "description": "No such repository, record, or blob it attaches.",
+          "name": "NotFound"
         }
       ],
       "output": {
         "encoding": "*/*"
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "cid": {
+            "description": "The attached blob.",
+            "format": "cid",
+            "type": "string"
+          },
+          "repo": {
+            "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "uri": {
+            "description": "The pull, issue or comment.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
         "required": [
           "repo",
           "uri",
           "cid"
         ],
-        "properties": {
-          "cid": {
-            "type": "string",
-            "format": "cid",
-            "description": "The attached blob."
-          },
-          "uri": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The pull, issue or comment."
-          },
-          "repo": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
-          }
-        }
+        "type": "params"
       },
-      "description": "A blob a dev.knotless.pull, dev.knotless.issue or dev.knotless.comment record attaches, of any kind in its `attachments`, from its author's PDS, or for a private repository from their repo in its space: only one the record names. Served so that a browser never runs it as a page, with the type its record gives when that is one shown safely, and the same for good. dev.knotless.getThread's `html` shows its pictures from here. No authentication beyond what reading the repository takes; responses are not personalized."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Something a pull, an issue or a comment attaches, such as a picture its body shows."
+  "description": "Something a pull, an issue or a comment attaches, such as a picture its body shows.",
+  "id": "dev.knotless.getAttachment",
+  "lexicon": 1
 }

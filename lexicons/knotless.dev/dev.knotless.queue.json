@@ -1,98 +1,98 @@
 {
-  "id": "dev.knotless.queue",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
+    "failedCheck": {
+      "description": "A run of the batch that did not pass, as the runner filed it.",
+      "properties": {
+        "check": {
+          "description": "The dev.knotless.check record of the run, with its steps and log.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "status": {
+          "description": "How it ended, as dev.knotless.check's status says.",
+          "knownValues": [
+            "failure",
+            "error",
+            "cancelled"
+          ],
+          "maxLength": 64,
+          "type": "string"
+        },
+        "workflow": {
+          "description": "The workflow's name, as its file in .knotless/workflows names it.",
+          "maxLength": 256,
+          "type": "string"
+        }
+      },
+      "required": [
+        "workflow"
+      ],
+      "type": "object"
+    },
     "main": {
+      "description": "Kept in the account of whoever wrote it; for a private repository, in their repo inside the repository's space. Readers take the latest about a pull from the repository's owner or a collaborator, who may merge it, and from no one else. A pull is in the queue while that is `queued` and the pull is open, in the order of those records' keys. A runner the repository names takes queued pulls in that order, a few at a time, squashes each onto the branch as a commit of its own, runs the workflows that run on a pull into the branch once, at the last of them, and once those pass moves the branch there, marking each pull `merged` with a dev.knotless.state. One that does not apply, or that its checks find breaks the branch, it marks `ejected`.",
       "key": "tid",
-      "type": "record",
       "record": {
-        "type": "object",
+        "properties": {
+          "checks": {
+            "description": "For `ejected` by a batch that failed its checks, those that did not pass.",
+            "items": {
+              "ref": "#failedCheck",
+              "type": "ref"
+            },
+            "maxLength": 64,
+            "type": "array"
+          },
+          "commit": {
+            "description": "The hex object ID of the pull's head: for `queued`, the one queued; for `ejected`, the one turned away.",
+            "maxLength": 64,
+            "minLength": 40,
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "reason": {
+            "description": "For `ejected`, why: the paths it conflicts in, or the checks that failed and where to read their logs.",
+            "maxGraphemes": 1000,
+            "maxLength": 4096,
+            "type": "string"
+          },
+          "repo": {
+            "description": "The repository the pull is on.",
+            "ref": "dev.knotless.defs#repoRef",
+            "type": "ref"
+          },
+          "state": {
+            "description": "`queued` puts the pull at the back of the queue; `left` takes it out; `ejected` is the runner turning it away, saying why in `reason`.",
+            "knownValues": [
+              "queued",
+              "left",
+              "ejected"
+            ],
+            "maxLength": 64,
+            "type": "string"
+          },
+          "subject": {
+            "description": "The dev.knotless.pull queued, taken out or turned away.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
         "required": [
           "repo",
           "subject",
           "state",
           "createdAt"
         ],
-        "properties": {
-          "repo": {
-            "ref": "dev.knotless.defs#repoRef",
-            "type": "ref",
-            "description": "The repository the pull is on."
-          },
-          "state": {
-            "type": "string",
-            "maxLength": 64,
-            "description": "`queued` puts the pull at the back of the queue; `left` takes it out; `ejected` is the runner turning it away, saying why in `reason`.",
-            "knownValues": [
-              "queued",
-              "left",
-              "ejected"
-            ]
-          },
-          "checks": {
-            "type": "array",
-            "items": {
-              "ref": "#failedCheck",
-              "type": "ref"
-            },
-            "maxLength": 64,
-            "description": "For `ejected` by a batch that failed its checks, those that did not pass."
-          },
-          "commit": {
-            "type": "string",
-            "maxLength": 64,
-            "minLength": 40,
-            "description": "The hex object ID of the pull's head: for `queued`, the one queued; for `ejected`, the one turned away."
-          },
-          "reason": {
-            "type": "string",
-            "maxLength": 4096,
-            "description": "For `ejected`, why: the paths it conflicts in, or the checks that failed and where to read their logs.",
-            "maxGraphemes": 1000
-          },
-          "subject": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The dev.knotless.pull queued, taken out or turned away."
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "datetime"
-          }
-        }
+        "type": "object"
       },
-      "description": "Kept in the account of whoever wrote it; for a private repository, in their repo inside the repository's space. Readers take the latest about a pull from the repository's owner or a collaborator, who may merge it, and from no one else. A pull is in the queue while that is `queued` and the pull is open, in the order of those records' keys. A runner the repository names takes queued pulls in that order, a few at a time, squashes each onto the branch as a commit of its own, runs the workflows that run on a pull into the branch once, at the last of them, and once those pass moves the branch there, marking each pull `merged` with a dev.knotless.state. One that does not apply, or that its checks find breaks the branch, it marks `ejected`."
-    },
-    "failedCheck": {
-      "type": "object",
-      "required": [
-        "workflow"
-      ],
-      "properties": {
-        "check": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The dev.knotless.check record of the run, with its steps and log."
-        },
-        "status": {
-          "type": "string",
-          "maxLength": 64,
-          "description": "How it ended, as dev.knotless.check's status says.",
-          "knownValues": [
-            "failure",
-            "error",
-            "cancelled"
-          ]
-        },
-        "workflow": {
-          "type": "string",
-          "maxLength": 256,
-          "description": "The workflow's name, as its file in .knotless/workflows names it."
-        }
-      },
-      "description": "A run of the batch that did not pass, as the runner filed it."
+      "type": "record"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "A pull put in the merge queue of the branch it targets, taken out of it, or turned away by the runner that lands the queue."
+  "description": "A pull put in the merge queue of the branch it targets, taken out of it, or turned away by the runner that lands the queue.",
+  "id": "dev.knotless.queue",
+  "lexicon": 1
 }

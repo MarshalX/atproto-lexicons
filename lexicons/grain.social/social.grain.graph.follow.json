@@ -1,28 +1,28 @@
 {
-  "id": "social.grain.graph.follow",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
       "key": "tid",
-      "type": "record",
       "record": {
-        "type": "object",
+        "properties": {
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "subject": {
+            "format": "did",
+            "type": "string"
+          }
+        },
         "required": [
           "subject",
           "createdAt"
         ],
-        "properties": {
-          "subject": {
-            "type": "string",
-            "format": "did"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "datetime"
-          }
-        }
-      }
+        "type": "object"
+      },
+      "type": "record"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.graph.follow",
   "lexicon": 1
 }

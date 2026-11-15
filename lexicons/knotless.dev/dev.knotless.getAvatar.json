@@ -1,40 +1,40 @@
 {
-  "id": "dev.knotless.getAvatar",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "The picture an account's dev.knotless.profile names, from its PDS: only that one. Served so that a browser never runs it as a page, and the same for good. The views give it as `avatar`. No authentication; responses are not personalized.",
       "errors": [
         {
-          "name": "NotFound",
-          "description": "No such account, or that is not its picture."
+          "description": "No such account, or that is not its picture.",
+          "name": "NotFound"
         }
       ],
       "output": {
         "encoding": "*/*"
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "actor": {
+            "description": "The account.",
+            "format": "did",
+            "type": "string"
+          },
+          "cid": {
+            "description": "The picture's blob.",
+            "format": "cid",
+            "type": "string"
+          }
+        },
         "required": [
           "actor",
           "cid"
         ],
-        "properties": {
-          "cid": {
-            "type": "string",
-            "format": "cid",
-            "description": "The picture's blob."
-          },
-          "actor": {
-            "type": "string",
-            "format": "did",
-            "description": "The account."
-          }
-        }
+        "type": "params"
       },
-      "description": "The picture an account's dev.knotless.profile names, from its PDS: only that one. Served so that a browser never runs it as a page, and the same for good. The views give it as `avatar`. No authentication; responses are not personalized."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "An account's own picture."
+  "description": "An account's own picture.",
+  "id": "dev.knotless.getAvatar",
+  "lexicon": 1
 }

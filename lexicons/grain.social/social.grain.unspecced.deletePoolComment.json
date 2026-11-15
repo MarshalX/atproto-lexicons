@@ -1,41 +1,41 @@
 {
-  "id": "social.grain.unspecced.deletePoolComment",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Delete one of your own comments from a group's pool.",
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "group": {
+              "format": "did",
+              "type": "string"
+            },
+            "rkey": {
+              "type": "string"
+            }
+          },
           "required": [
             "group",
             "rkey"
           ],
-          "properties": {
-            "rkey": {
-              "type": "string"
-            },
-            "group": {
-              "type": "string",
-              "format": "did"
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
           "properties": {
             "deleted": {
               "type": "boolean"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "type": "object"
+        }
       },
-      "description": "Delete one of your own comments from a group's pool."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.deletePoolComment",
   "lexicon": 1
 }

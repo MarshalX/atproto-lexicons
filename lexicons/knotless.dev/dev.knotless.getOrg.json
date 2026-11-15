@@ -1,118 +1,118 @@
 {
-  "id": "dev.knotless.getOrg",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "The accounts an organization (any account keeping a dev.knotless.org record) invited, as the appview has indexed its records. To anyone, those who are members in public: named by a dev.knotless.orgMember record in its public records, taken in, and keeping a public dev.knotless.orgAcceptance record naming it. Optional authentication: to the organization itself and to its members, its invitations and hidden members too, from its space; to an account it invited, its own entry.",
       "errors": [
         {
-          "name": "ProfileNotFound",
-          "description": "No account by that DID or handle."
+          "description": "No account by that DID or handle.",
+          "name": "ProfileNotFound"
         }
       ],
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "gateway": {
+              "description": "The gateway its public dev.knotless.org record names, which members join and leave through, and admins change its members through.",
+              "format": "did",
+              "type": "string"
+            },
+            "inside": {
+              "description": "Whether the asker sees its invitations and hidden members: it is the organization, or one of its members.",
+              "type": "boolean"
+            },
+            "members": {
+              "description": "The first invited first: to an asker inside, every account it invited; to anyone else, its members in public.",
+              "items": {
+                "ref": "#memberView",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "org": {
+              "ref": "dev.knotless.defs#actorView",
+              "type": "ref"
+            },
+            "organization": {
+              "description": "Whether the account is an organization: it keeps a public dev.knotless.org record.",
+              "type": "boolean"
+            }
+          },
           "required": [
             "org",
             "organization",
             "inside",
             "members"
           ],
-          "properties": {
-            "org": {
-              "ref": "dev.knotless.defs#actorView",
-              "type": "ref"
-            },
-            "inside": {
-              "type": "boolean",
-              "description": "Whether the asker sees its invitations and hidden members: it is the organization, or one of its members."
-            },
-            "gateway": {
-              "type": "string",
-              "format": "did",
-              "description": "The gateway its public dev.knotless.org record names, which members join and leave through, and admins change its members through."
-            },
-            "members": {
-              "type": "array",
-              "items": {
-                "ref": "#memberView",
-                "type": "ref"
-              },
-              "description": "The first invited first: to an asker inside, every account it invited; to anyone else, its members in public."
-            },
-            "organization": {
-              "type": "boolean",
-              "description": "Whether the account is an organization: it keeps a public dev.knotless.org record."
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "actor": {
+            "description": "The organization, by DID or handle.",
+            "format": "at-identifier",
+            "type": "string"
+          }
+        },
         "required": [
           "actor"
         ],
-        "properties": {
-          "actor": {
-            "type": "string",
-            "format": "at-identifier",
-            "description": "The organization, by DID or handle."
-          }
-        }
+        "type": "params"
       },
-      "description": "The accounts an organization (any account keeping a dev.knotless.org record) invited, as the appview has indexed its records. To anyone, those who are members in public: named by a dev.knotless.orgMember record in its public records, taken in, and keeping a public dev.knotless.orgAcceptance record naming it. Optional authentication: to the organization itself and to its members, its invitations and hidden members too, from its space; to an account it invited, its own entry."
+      "type": "query"
     },
     "memberView": {
-      "type": "object",
-      "required": [
-        "actor",
-        "role",
-        "standing",
-        "invitedAt"
-      ],
+      "description": "An account an organization invited, and where it stands.",
       "properties": {
-        "role": {
-          "type": "string",
-          "description": "What it may do: an admin also invites and removes members.",
-          "knownValues": [
-            "admin",
-            "member"
-          ]
-        },
         "actor": {
           "ref": "dev.knotless.defs#actorView",
           "type": "ref"
         },
-        "joinedAt": {
-          "type": "string",
+        "expiresAt": {
+          "description": "When the invitation lapses, when its record says.",
           "format": "datetime",
-          "description": "When the organization took it in."
+          "type": "string"
+        },
+        "invitedAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "joinedAt": {
+          "description": "When the organization took it in.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "role": {
+          "description": "What it may do: an admin also invites and removes members.",
+          "knownValues": [
+            "admin",
+            "member"
+          ],
+          "type": "string"
         },
         "standing": {
-          "type": "string",
           "description": "Invited and not yet a member; invited, and the invitation lapsed; a member anyone may see; or a member only the organization's members see.",
           "knownValues": [
             "invited",
             "lapsed",
             "public",
             "hidden"
-          ]
-        },
-        "expiresAt": {
-          "type": "string",
-          "format": "datetime",
-          "description": "When the invitation lapses, when its record says."
-        },
-        "invitedAt": {
-          "type": "string",
-          "format": "datetime"
+          ],
+          "type": "string"
         }
       },
-      "description": "An account an organization invited, and where it stands."
+      "required": [
+        "actor",
+        "role",
+        "standing",
+        "invitedAt"
+      ],
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "An organization's members on knotless."
+  "description": "An organization's members on knotless.",
+  "id": "dev.knotless.getOrg",
+  "lexicon": 1
 }

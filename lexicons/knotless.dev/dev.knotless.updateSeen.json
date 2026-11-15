@@ -1,50 +1,50 @@
 {
-  "id": "dev.knotless.updateSeen",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
-      "input": {
-        "schema": {
-          "type": "object",
-          "required": [
-            "seenAt"
-          ],
-          "properties": {
-            "seenAt": {
-              "type": "string",
-              "format": "datetime",
-              "description": "The newest notification seen, by its createdAt."
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
+      "description": "Keeps, on the appview, when the asking account last saw its notifications: those from then on are unread. A time before the one kept leaves it. Requires authentication: a service token, or the session cookie the pages' login sets, from the pages themselves.",
       "errors": [
         {
-          "name": "AuthenticationRequired",
-          "description": "No account asks."
+          "description": "No account asks.",
+          "name": "AuthenticationRequired"
         }
       ],
-      "output": {
+      "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "seenAt": {
+              "description": "The newest notification seen, by its createdAt.",
+              "format": "datetime",
+              "type": "string"
+            }
+          },
           "required": [
             "seenAt"
           ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
           "properties": {
             "seenAt": {
-              "type": "string",
+              "description": "When it last saw them now, as kept.",
               "format": "datetime",
-              "description": "When it last saw them now, as kept."
+              "type": "string"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "seenAt"
+          ],
+          "type": "object"
+        }
       },
-      "description": "Keeps, on the appview, when the asking account last saw its notifications: those from then on are unread. A time before the one kept leaves it. Requires authentication: a service token, or the session cookie the pages' login sets, from the pages themselves."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Says the asking account has seen its notifications up to a time."
+  "description": "Says the asking account has seen its notifications up to a time.",
+  "id": "dev.knotless.updateSeen",
+  "lexicon": 1
 }

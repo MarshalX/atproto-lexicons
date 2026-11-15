@@ -1,40 +1,40 @@
 {
-  "id": "social.grain.photo",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
       "key": "tid",
-      "type": "record",
       "record": {
-        "type": "object",
+        "properties": {
+          "alt": {
+            "description": "Alt text description of the image, for accessibility.",
+            "type": "string"
+          },
+          "aspectRatio": {
+            "ref": "social.grain.defs#aspectRatio",
+            "type": "ref"
+          },
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "photo": {
+            "accept": [
+              "image/*"
+            ],
+            "maxSize": 1000000,
+            "type": "blob"
+          }
+        },
         "required": [
           "photo",
           "aspectRatio",
           "createdAt"
         ],
-        "properties": {
-          "alt": {
-            "type": "string",
-            "description": "Alt text description of the image, for accessibility."
-          },
-          "photo": {
-            "type": "blob",
-            "accept": [
-              "image/*"
-            ],
-            "maxSize": 1000000
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "datetime"
-          },
-          "aspectRatio": {
-            "ref": "social.grain.defs#aspectRatio",
-            "type": "ref"
-          }
-        }
-      }
+        "type": "object"
+      },
+      "type": "record"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.photo",
   "lexicon": 1
 }

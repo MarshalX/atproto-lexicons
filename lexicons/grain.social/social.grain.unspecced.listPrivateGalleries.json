@@ -1,64 +1,64 @@
 {
-  "id": "social.grain.unspecced.listPrivateGalleries",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "The viewer's own private galleries, read from the spaces their PDS holds. Authors only: a space tells its members nothing about itself, so an account added to someone else's gallery cannot enumerate it and needs the link.",
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "galleries"
-          ],
           "properties": {
             "galleries": {
-              "type": "array",
               "items": {
                 "ref": "#privateGalleryRef",
                 "type": "ref"
-              }
+              },
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "parameters": {
-        "type": "params",
-        "properties": {
-          "limit": {
-            "type": "integer",
-            "default": 50,
-            "maximum": 100,
-            "minimum": 1
-          }
+          },
+          "required": [
+            "galleries"
+          ],
+          "type": "object"
         }
       },
-      "description": "The viewer's own private galleries, read from the spaces their PDS holds. Authors only: a space tells its members nothing about itself, so an account added to someone else's gallery cannot enumerate it and needs the link."
+      "parameters": {
+        "properties": {
+          "limit": {
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "type": "params"
+      },
+      "type": "query"
     },
     "privateGalleryRef": {
-      "type": "object",
+      "properties": {
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "skey": {
+          "description": "Also the gallery record's rkey.",
+          "type": "string"
+        },
+        "space": {
+          "description": "Space URI the gallery lives in.",
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
       "required": [
         "space",
         "skey"
       ],
-      "properties": {
-        "skey": {
-          "type": "string",
-          "description": "Also the gallery record's rkey."
-        },
-        "space": {
-          "type": "string",
-          "description": "Space URI the gallery lives in."
-        },
-        "title": {
-          "type": "string"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "datetime"
-        }
-      }
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.listPrivateGalleries",
   "lexicon": 1
 }

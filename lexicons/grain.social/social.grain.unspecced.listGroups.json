@@ -1,50 +1,50 @@
 {
-  "id": "social.grain.unspecced.listGroups",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "Groups worth browsing, most recently active first. With `gallery`, each group carries the viewer's standing for that gallery.",
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "groups"
-          ],
           "properties": {
             "cursor": {
               "type": "string"
             },
             "groups": {
-              "type": "array",
               "items": {
                 "ref": "social.grain.group.defs#groupView",
                 "type": "ref"
-              }
+              },
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "groups"
+          ],
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
         "properties": {
-          "limit": {
-            "type": "integer",
-            "default": 50,
-            "maximum": 100,
-            "minimum": 1
-          },
           "cursor": {
             "type": "string"
           },
           "gallery": {
-            "type": "string",
-            "format": "at-uri"
+            "format": "at-uri",
+            "type": "string"
+          },
+          "limit": {
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
           }
-        }
+        },
+        "type": "params"
       },
-      "description": "Groups worth browsing, most recently active first. With `gallery`, each group carries the viewer's standing for that gallery."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.listGroups",
   "lexicon": 1
 }

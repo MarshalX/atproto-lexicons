@@ -1,68 +1,68 @@
 {
-  "id": "dev.knotless.searchOwners",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "Accounts owning public repositories an appview has indexed, whose handle holds the query, ignoring case: those it starts with first, then by their newest repository. No authentication; responses are not personalized.",
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "owners"
-          ],
           "properties": {
             "owners": {
-              "type": "array",
               "items": {
                 "ref": "#ownerView",
                 "type": "ref"
-              }
+              },
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "owners"
+          ],
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "limit": {
+            "default": 10,
+            "maximum": 50,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "q": {
+            "description": "Text the handle holds.",
+            "maxLength": 100,
+            "type": "string"
+          }
+        },
         "required": [
           "q"
         ],
-        "properties": {
-          "q": {
-            "type": "string",
-            "maxLength": 100,
-            "description": "Text the handle holds."
-          },
-          "limit": {
-            "type": "integer",
-            "default": 10,
-            "maximum": 50,
-            "minimum": 1
-          }
-        }
+        "type": "params"
       },
-      "description": "Accounts owning public repositories an appview has indexed, whose handle holds the query, ignoring case: those it starts with first, then by their newest repository. No authentication; responses are not personalized."
+      "type": "query"
     },
     "ownerView": {
-      "type": "object",
-      "required": [
-        "owner",
-        "repoCount"
-      ],
+      "description": "An account, with how many public repositories it owns.",
       "properties": {
         "owner": {
           "ref": "dev.knotless.defs#actorView",
           "type": "ref"
         },
         "repoCount": {
-          "type": "integer",
+          "description": "How many public repositories the account owns, as the appview has indexed them.",
           "minimum": 1,
-          "description": "How many public repositories the account owns, as the appview has indexed them."
+          "type": "integer"
         }
       },
-      "description": "An account, with how many public repositories it owns."
+      "required": [
+        "owner",
+        "repoCount"
+      ],
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Accounts owning public repositories an appview has indexed, found by handle."
+  "description": "Accounts owning public repositories an appview has indexed, found by handle.",
+  "id": "dev.knotless.searchOwners",
+  "lexicon": 1
 }

@@ -1,131 +1,139 @@
 {
-  "id": "social.grain.unspecced.getPoolGallery",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "One gallery from a group's pool, read from the repo that holds it through a credential the group's host issues.",
       "errors": [
         {
-          "name": "NotAuthorized",
-          "description": "The viewer is not a member of this pool."
+          "description": "The viewer is not a member of this pool.",
+          "name": "NotAuthorized"
         }
       ],
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "space",
-            "did",
-            "items"
-          ],
           "properties": {
-            "did": {
-              "type": "string",
-              "format": "did"
-            },
-            "items": {
-              "type": "array",
-              "items": {
-                "ref": "social.grain.unspecced.getPrivateGallery#privateItem",
-                "type": "ref"
-              }
-            },
-            "space": {
-              "type": "string"
-            },
             "avatar": {
-              "type": "string"
-            },
-            "handle": {
-              "type": "string"
-            },
-            "gallery": {
-              "ref": "social.grain.unspecced.getPrivateGallery#privateGallery",
-              "type": "ref"
-            },
-            "comments": {
-              "type": "array",
-              "items": {
-                "ref": "#poolComment",
-                "type": "ref"
-              }
-            },
-            "favCount": {
-              "type": "integer"
-            },
-            "viewerFav": {
-              "type": "string",
-              "description": "The rkey of the viewer's own favourite, when they have one."
-            },
-            "displayName": {
               "type": "string"
             },
             "commentCount": {
               "type": "integer"
             },
+            "comments": {
+              "items": {
+                "ref": "#poolComment",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "did": {
+              "format": "did",
+              "type": "string"
+            },
+            "displayName": {
+              "type": "string"
+            },
+            "favCount": {
+              "type": "integer"
+            },
+            "gallery": {
+              "ref": "social.grain.unspecced.getPrivateGallery#privateGallery",
+              "type": "ref"
+            },
+            "handle": {
+              "type": "string"
+            },
+            "items": {
+              "items": {
+                "ref": "social.grain.unspecced.getPrivateGallery#privateItem",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "space": {
+              "type": "string"
+            },
+            "viewerFav": {
+              "description": "The rkey of the viewer's own favourite, when they have one.",
+              "type": "string"
+            },
             "viewerIsAuthor": {
               "type": "boolean"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "space",
+            "did",
+            "items"
+          ],
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "did": {
+            "description": "Whose gallery it is.",
+            "format": "did",
+            "type": "string"
+          },
+          "group": {
+            "format": "did",
+            "type": "string"
+          },
+          "rkey": {
+            "type": "string"
+          }
+        },
         "required": [
           "group",
           "did",
           "rkey"
         ],
-        "properties": {
-          "did": {
-            "type": "string",
-            "format": "did",
-            "description": "Whose gallery it is."
-          },
-          "rkey": {
-            "type": "string"
-          },
-          "group": {
-            "type": "string",
-            "format": "did"
-          }
-        }
+        "type": "params"
       },
-      "description": "One gallery from a group's pool, read from the repo that holds it through a credential the group's host issues."
+      "type": "query"
     },
     "poolAuthor": {
-      "type": "object",
-      "required": [
-        "did"
-      ],
       "properties": {
-        "did": {
-          "type": "string",
-          "format": "did"
-        },
         "avatar": {
           "type": "string"
         },
-        "handle": {
+        "did": {
+          "format": "did",
           "type": "string"
         },
         "displayName": {
           "type": "string"
+        },
+        "handle": {
+          "type": "string"
         }
-      }
+      },
+      "required": [
+        "did"
+      ],
+      "type": "object"
     },
     "poolComment": {
-      "type": "object",
-      "required": [
-        "uri",
-        "rkey",
-        "text",
-        "author"
-      ],
       "properties": {
-        "uri": {
-          "type": "string",
-          "format": "at-uri"
+        "author": {
+          "ref": "#poolAuthor",
+          "type": "ref"
+        },
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "facets": {
+          "items": {
+            "ref": "app.bsky.richtext.facet",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "replyTo": {
+          "format": "at-uri",
+          "type": "string"
         },
         "rkey": {
           "type": "string"
@@ -133,28 +141,20 @@
         "text": {
           "type": "string"
         },
-        "author": {
-          "ref": "#poolAuthor",
-          "type": "ref"
-        },
-        "facets": {
-          "type": "array",
-          "items": {
-            "ref": "app.bsky.richtext.facet",
-            "type": "ref"
-          }
-        },
-        "replyTo": {
-          "type": "string",
-          "format": "at-uri"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "datetime"
+        "uri": {
+          "format": "at-uri",
+          "type": "string"
         }
-      }
+      },
+      "required": [
+        "uri",
+        "rkey",
+        "text",
+        "author"
+      ],
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.getPoolGallery",
   "lexicon": 1
 }

@@ -1,75 +1,75 @@
 {
-  "id": "dev.knotless.labelItem",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Rewrites the dev.knotless.label record about a pull or an issue in the account logged in to this appview's web pages, as `knotless pull label` and `knotless pull label --undo` do: the repository's owner and collaborators put on any label it defines, and its triagers those of their scopes. Putting on an exclusive label takes the others of its scope off. Requires the session cookie the pages' login sets.",
+      "errors": [
+        {
+          "description": "No such repository.",
+          "name": "NotFound"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "label": {
+              "description": "The name of a label the repository defines.",
+              "maxGraphemes": 50,
+              "maxLength": 100,
+              "type": "string"
+            },
+            "removed": {
+              "default": false,
+              "description": "True to take it off rather than put it on.",
+              "type": "boolean"
+            },
+            "repo": {
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "subject": {
+              "description": "The dev.knotless.pull or dev.knotless.issue.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
           "required": [
             "repo",
             "subject",
             "label"
           ],
-          "properties": {
-            "repo": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
-            },
-            "label": {
-              "type": "string",
-              "maxLength": 100,
-              "description": "The name of a label the repository defines.",
-              "maxGraphemes": 50
-            },
-            "removed": {
-              "type": "boolean",
-              "default": false,
-              "description": "True to take it off rather than put it on."
-            },
-            "subject": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The dev.knotless.pull or dev.knotless.issue."
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "NotFound",
-          "description": "No such repository."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "labels"
-          ],
           "properties": {
             "labels": {
-              "type": "array",
+              "description": "The labels it carries now, in the order the repository defines them.",
               "items": {
                 "ref": "dev.knotless.repo#label",
                 "type": "ref"
               },
-              "description": "The labels it carries now, in the order the repository defines them."
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "labels"
+          ],
+          "type": "object"
+        }
       },
-      "description": "Rewrites the dev.knotless.label record about a pull or an issue in the account logged in to this appview's web pages, as `knotless pull label` and `knotless pull label --undo` do: the repository's owner and collaborators put on any label it defines, and its triagers those of their scopes. Putting on an exclusive label takes the others of its scope off. Requires the session cookie the pages' login sets."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Puts a label on a pull or an issue, or takes it off, as the account logged in to this appview's pages."
+  "description": "Puts a label on a pull or an issue, or takes it off, as the account logged in to this appview's pages.",
+  "id": "dev.knotless.labelItem",
+  "lexicon": 1
 }

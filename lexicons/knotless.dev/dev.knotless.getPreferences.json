@@ -1,200 +1,126 @@
 {
-  "id": "dev.knotless.getPreferences",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
-    "main": {
-      "type": "query",
-      "errors": [
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account asks."
+    "addedTheme": {
+      "description": "A theme someone made, as the account added it.",
+      "properties": {
+        "addedAt": {
+          "description": "When the account added it, which orders its themes, the latest first, beside those it made.",
+          "format": "datetime",
+          "type": "string"
         },
-        {
-          "name": "NotFound",
-          "description": "This appview keeps no index, so it keeps no preferences."
-        }
-      ],
-      "output": {
-        "schema": {
-          "ref": "#preferences",
+        "creator": {
+          "description": "The account that made it.",
+          "format": "did",
+          "type": "string"
+        },
+        "name": {
+          "description": "What the theme was called when it was added.",
+          "maxGraphemes": 64,
+          "maxLength": 640,
+          "type": "string"
+        },
+        "palette": {
+          "ref": "dev.knotless.theme#palette",
           "type": "ref"
         },
-        "encoding": "application/json"
+        "uri": {
+          "description": "The dev.knotless.theme it was copied from.",
+          "format": "at-uri",
+          "type": "string"
+        }
       },
-      "description": "The asking account's preferences, as the appview keeps them, apart from any record: one of each kind, of those it has set, and always its notifications, which dev.knotless.listNotifications and getUnreadCount follow. A kind it has not set a reader takes as its default. The pages' login copies what they act on into the browser. Requires authentication: a service token, or the session cookie the pages' login sets."
-    },
-    "addedTheme": {
-      "type": "object",
       "required": [
         "uri",
         "palette"
       ],
+      "type": "object"
+    },
+    "appearancePref": {
+      "description": "How the pages are drawn for the account: in one theme, or with night, in this one by day and night's at night, as the system's light or dark says.",
       "properties": {
-        "uri": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The dev.knotless.theme it was copied from."
-        },
-        "name": {
-          "type": "string",
-          "maxLength": 640,
-          "description": "What the theme was called when it was added.",
-          "maxGraphemes": 64
-        },
-        "addedAt": {
-          "type": "string",
-          "format": "datetime",
-          "description": "When the account added it, which orders its themes, the latest first, beside those it made."
-        },
-        "creator": {
-          "type": "string",
-          "format": "did",
-          "description": "The account that made it."
+        "night": {
+          "description": "The theme the pages are drawn in at night, while the system is dark; this preference's own theme by day. Absent, the pages are drawn in one theme.",
+          "ref": "#themeChoice",
+          "type": "ref"
         },
         "palette": {
+          "description": "The colours of a theme of the account's own, which theme custom draws the pages in: a copy of a dev.knotless.theme's, or made only for itself.",
           "ref": "dev.knotless.theme#palette",
+          "type": "ref"
+        },
+        "source": {
+          "description": "The dev.knotless.theme palette was copied from, if it was.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "theme": {
+          "description": "The colours the pages are drawn in, as their Appearance settings name them: custom for those of palette. Absent, or one the pages do not know, they follow the system's light or dark.",
+          "knownValues": [
+            "light",
+            "dark",
+            "latte",
+            "mocha",
+            "dracula",
+            "pckt",
+            "plyr",
+            "blacksky",
+            "custom"
+          ],
+          "maxLength": 64,
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "main": {
+      "description": "The asking account's preferences, as the appview keeps them, apart from any record: one of each kind, of those it has set, and always its notifications, which dev.knotless.listNotifications and getUnreadCount follow. A kind it has not set a reader takes as its default. The pages' login copies what they act on into the browser. Requires authentication: a service token, or the session cookie the pages' login sets.",
+      "errors": [
+        {
+          "description": "No account asks.",
+          "name": "AuthenticationRequired"
+        },
+        {
+          "description": "This appview keeps no index, so it keeps no preferences.",
+          "name": "NotFound"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "ref": "#preferences",
           "type": "ref"
         }
       },
-      "description": "A theme someone made, as the account added it."
-    },
-    "themesPref": {
-      "type": "object",
-      "required": [
-        "themes"
-      ],
-      "properties": {
-        "themes": {
-          "type": "array",
-          "items": {
-            "ref": "#addedTheme",
-            "type": "ref"
-          },
-          "maxLength": 50,
-          "description": "The themes added, the latest first."
-        }
-      },
-      "description": "The themes people made that the account added to its own, to choose from on Appearance: each a copy, so a theme changed or deleted later leaves the account's as it was. Set whole, as each kind is."
-    },
-    "preferences": {
-      "type": "object",
-      "required": [
-        "preferences"
-      ],
-      "properties": {
-        "preferences": {
-          "type": "array",
-          "items": {
-            "refs": [
-              "#appearancePref",
-              "#notificationPref",
-              "#themesPref"
-            ],
-            "type": "union"
-          },
-          "maxLength": 32,
-          "description": "At most one of each kind. Kinds unknown to a reader are passed over."
-        }
-      },
-      "description": "An account's preferences, each of a kind."
-    },
-    "themeChoice": {
-      "type": "object",
-      "properties": {
-        "theme": {
-          "type": "string",
-          "maxLength": 64,
-          "description": "The colours the pages are drawn in, as their Appearance settings name them: custom for those of palette. Absent, or one the pages do not know, they follow the system's light or dark.",
-          "knownValues": [
-            "light",
-            "dark",
-            "latte",
-            "mocha",
-            "dracula",
-            "pckt",
-            "plyr",
-            "blacksky",
-            "custom"
-          ]
-        },
-        "source": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The dev.knotless.theme palette was copied from, if it was."
-        },
-        "palette": {
-          "ref": "dev.knotless.theme#palette",
-          "type": "ref",
-          "description": "The colours theme custom draws the pages in."
-        }
-      },
-      "description": "A theme the pages are drawn in, as appearancePref names its own."
-    },
-    "appearancePref": {
-      "type": "object",
-      "properties": {
-        "night": {
-          "ref": "#themeChoice",
-          "type": "ref",
-          "description": "The theme the pages are drawn in at night, while the system is dark; this preference's own theme by day. Absent, the pages are drawn in one theme."
-        },
-        "theme": {
-          "type": "string",
-          "maxLength": 64,
-          "description": "The colours the pages are drawn in, as their Appearance settings name them: custom for those of palette. Absent, or one the pages do not know, they follow the system's light or dark.",
-          "knownValues": [
-            "light",
-            "dark",
-            "latte",
-            "mocha",
-            "dracula",
-            "pckt",
-            "plyr",
-            "blacksky",
-            "custom"
-          ]
-        },
-        "source": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The dev.knotless.theme palette was copied from, if it was."
-        },
-        "palette": {
-          "ref": "dev.knotless.theme#palette",
-          "type": "ref",
-          "description": "The colours of a theme of the account's own, which theme custom draws the pages in: a copy of a dev.knotless.theme's, or made only for itself."
-        }
-      },
-      "description": "How the pages are drawn for the account: in one theme, or with night, in this one by day and night's at night, as the system's light or dark says."
+      "type": "query"
     },
     "notificationPref": {
-      "type": "object",
+      "description": "Which notifications the account hears of. Until it says, every reason, from anyone.",
       "properties": {
+        "followedOnly": {
+          "description": "Whether it hears only of what accounts it follows on knotless did. Not, when absent.",
+          "type": "boolean"
+        },
         "reasons": {
-          "type": "array",
+          "description": "Reasons a notification is given for, each on or off. Given back, every one dev.knotless.listNotifications gives; set, one not named is on.",
           "items": {
             "ref": "#notificationReason",
             "type": "ref"
           },
           "maxLength": 64,
-          "description": "Reasons a notification is given for, each on or off. Given back, every one dev.knotless.listNotifications gives; set, one not named is on."
-        },
-        "followedOnly": {
-          "type": "boolean",
-          "description": "Whether it hears only of what accounts it follows on knotless did. Not, when absent."
+          "type": "array"
         }
       },
-      "description": "Which notifications the account hears of. Until it says, every reason, from anyone."
+      "type": "object"
     },
     "notificationReason": {
-      "type": "object",
-      "required": [
-        "reason",
-        "enabled"
-      ],
+      "description": "Whether an account hears of one reason's notifications.",
       "properties": {
+        "enabled": {
+          "description": "Whether it hears of them.",
+          "type": "boolean"
+        },
         "reason": {
-          "type": "string",
-          "maxLength": 64,
           "description": "A reason, as dev.knotless.listNotifications#notification gives it.",
           "knownValues": [
             "star",
@@ -209,17 +135,91 @@
             "ejected",
             "subscribed",
             "watching"
-          ]
-        },
-        "enabled": {
-          "type": "boolean",
-          "description": "Whether it hears of them."
+          ],
+          "maxLength": 64,
+          "type": "string"
         }
       },
-      "description": "Whether an account hears of one reason's notifications."
+      "required": [
+        "reason",
+        "enabled"
+      ],
+      "type": "object"
+    },
+    "preferences": {
+      "description": "An account's preferences, each of a kind.",
+      "properties": {
+        "preferences": {
+          "description": "At most one of each kind. Kinds unknown to a reader are passed over.",
+          "items": {
+            "refs": [
+              "#appearancePref",
+              "#notificationPref",
+              "#themesPref"
+            ],
+            "type": "union"
+          },
+          "maxLength": 32,
+          "type": "array"
+        }
+      },
+      "required": [
+        "preferences"
+      ],
+      "type": "object"
+    },
+    "themeChoice": {
+      "description": "A theme the pages are drawn in, as appearancePref names its own.",
+      "properties": {
+        "palette": {
+          "description": "The colours theme custom draws the pages in.",
+          "ref": "dev.knotless.theme#palette",
+          "type": "ref"
+        },
+        "source": {
+          "description": "The dev.knotless.theme palette was copied from, if it was.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "theme": {
+          "description": "The colours the pages are drawn in, as their Appearance settings name them: custom for those of palette. Absent, or one the pages do not know, they follow the system's light or dark.",
+          "knownValues": [
+            "light",
+            "dark",
+            "latte",
+            "mocha",
+            "dracula",
+            "pckt",
+            "plyr",
+            "blacksky",
+            "custom"
+          ],
+          "maxLength": 64,
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "themesPref": {
+      "description": "The themes people made that the account added to its own, to choose from on Appearance: each a copy, so a theme changed or deleted later leaves the account's as it was. Set whole, as each kind is.",
+      "properties": {
+        "themes": {
+          "description": "The themes added, the latest first.",
+          "items": {
+            "ref": "#addedTheme",
+            "type": "ref"
+          },
+          "maxLength": 50,
+          "type": "array"
+        }
+      },
+      "required": [
+        "themes"
+      ],
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "The asking account's preferences, of how knotless is shown to it."
+  "description": "The asking account's preferences, of how knotless is shown to it.",
+  "id": "dev.knotless.getPreferences",
+  "lexicon": 1
 }

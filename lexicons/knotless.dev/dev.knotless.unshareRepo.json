@@ -1,71 +1,71 @@
 {
-  "id": "dev.knotless.unshareRepo",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Takes the account out of the collaborators of the repository's dev.knotless.repo record, as `knotless repo share --undo` does, and for a private repository out of its readers. Its owner can, logged in to this appview's web pages: the appview writes with the session it keeps for that account, which the pages' session cookie names. For an organization's repository, so can an admin who joined it, logged in to the pages or with a service token from their own PDS for this method: the appview's gateway, which the organization delegated its writes to, writes as the organization.",
+      "errors": [
+        {
+          "description": "No such repository.",
+          "name": "NotFound"
+        },
+        {
+          "description": "There is no such account, or the repository is public and was not shared with it for writing.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        },
+        {
+          "description": "The account logged in is not the repository's owner.",
+          "name": "Forbidden"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "repo": {
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "with": {
+              "description": "The account, by handle or DID.",
+              "format": "at-identifier",
+              "type": "string"
+            }
+          },
           "required": [
             "repo",
             "with"
           ],
-          "properties": {
-            "repo": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
-            },
-            "with": {
-              "type": "string",
-              "format": "at-identifier",
-              "description": "The account, by handle or DID."
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "NotFound",
-          "description": "No such repository."
-        },
-        {
-          "name": "InvalidRequest",
-          "description": "There is no such account, or the repository is public and was not shared with it for writing."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
-        },
-        {
-          "name": "Forbidden",
-          "description": "The account logged in is not the repository's owner."
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "collaborators"
-          ],
           "properties": {
             "collaborators": {
-              "type": "array",
+              "description": "The accounts that may push to it now.",
               "items": {
                 "ref": "dev.knotless.defs#actorView",
                 "type": "ref"
               },
-              "description": "The accounts that may push to it now."
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "collaborators"
+          ],
+          "type": "object"
+        }
       },
-      "description": "Takes the account out of the collaborators of the repository's dev.knotless.repo record, as `knotless repo share --undo` does, and for a private repository out of its readers. Its owner can, logged in to this appview's web pages: the appview writes with the session it keeps for that account, which the pages' session cookie names. For an organization's repository, so can an admin who joined it, logged in to the pages or with a service token from their own PDS for this method: the appview's gateway, which the organization delegated its writes to, writes as the organization."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Takes back what was shared of a repository with an account."
+  "description": "Takes back what was shared of a repository with an account.",
+  "id": "dev.knotless.unshareRepo",
+  "lexicon": 1
 }

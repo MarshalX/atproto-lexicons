@@ -1,50 +1,50 @@
 {
-  "id": "social.grain.comment",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
       "key": "tid",
-      "type": "record",
       "record": {
-        "type": "object",
+        "properties": {
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "facets": {
+            "description": "Annotations of description text (mentions and URLs, hashtags, etc)",
+            "items": {
+              "ref": "app.bsky.richtext.facet",
+              "type": "ref"
+            },
+            "type": "array"
+          },
+          "focus": {
+            "format": "at-uri",
+            "type": "string"
+          },
+          "replyTo": {
+            "format": "at-uri",
+            "type": "string"
+          },
+          "subject": {
+            "format": "at-uri",
+            "type": "string"
+          },
+          "text": {
+            "maxGraphemes": 300,
+            "maxLength": 3000,
+            "type": "string"
+          }
+        },
         "required": [
           "text",
           "subject",
           "createdAt"
         ],
-        "properties": {
-          "text": {
-            "type": "string",
-            "maxLength": 3000,
-            "maxGraphemes": 300
-          },
-          "focus": {
-            "type": "string",
-            "format": "at-uri"
-          },
-          "facets": {
-            "type": "array",
-            "items": {
-              "ref": "app.bsky.richtext.facet",
-              "type": "ref"
-            },
-            "description": "Annotations of description text (mentions and URLs, hashtags, etc)"
-          },
-          "replyTo": {
-            "type": "string",
-            "format": "at-uri"
-          },
-          "subject": {
-            "type": "string",
-            "format": "at-uri"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "datetime"
-          }
-        }
-      }
+        "type": "object"
+      },
+      "type": "record"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.comment",
   "lexicon": 1
 }

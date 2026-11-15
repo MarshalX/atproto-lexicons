@@ -1,31 +1,31 @@
 {
-  "id": "dev.knotless.orgAcceptance",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "Keyed by the organization's DID, in the member's own account: in their public records for a membership anyone may see, or in their repo in the organization's space (type dev.knotless.org, keyed self) for a hidden one. Counts only while the organization's dev.knotless.orgMember record of the member has joinedAt set. Deleting it leaves the organization.",
       "key": "any",
-      "type": "record",
       "record": {
-        "type": "object",
+        "properties": {
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "subject": {
+            "description": "The organization joined.",
+            "format": "did",
+            "type": "string"
+          }
+        },
         "required": [
           "subject",
           "createdAt"
         ],
-        "properties": {
-          "subject": {
-            "type": "string",
-            "format": "did",
-            "description": "The organization joined."
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "datetime"
-          }
-        }
+        "type": "object"
       },
-      "description": "Keyed by the organization's DID, in the member's own account: in their public records for a membership anyone may see, or in their repo in the organization's space (type dev.knotless.org, keyed self) for a hidden one. Counts only while the organization's dev.knotless.orgMember record of the member has joinedAt set. Deleting it leaves the organization."
+      "type": "record"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "A member's side of an organization's membership: that they accepted its invitation, and are a member while they keep it."
+  "description": "A member's side of an organization's membership: that they accepted its invitation, and are a member while they keep it.",
+  "id": "dev.knotless.orgAcceptance",
+  "lexicon": 1
 }

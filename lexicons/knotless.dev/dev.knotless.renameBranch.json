@@ -1,73 +1,73 @@
 {
-  "id": "dev.knotless.renameBranch",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Makes the new branch where the old one is, points the open pulls into the old one at the new, then deletes the old, as `knotless branch rename` does; never the default branch. As the account logged in to this appview's web pages: directly for the owner, through the repository's gateway for a collaborator, which refuses anyone else.",
+      "errors": [
+        {
+          "description": "No such repository.",
+          "name": "NotFound"
+        },
+        {
+          "description": "There is no such branch, it is the default branch, the new name is taken, or the gateway refused it.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "name": {
+              "description": "The branch, without refs/heads/.",
+              "maxLength": 255,
+              "type": "string"
+            },
+            "repo": {
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "to": {
+              "description": "Its new name.",
+              "maxLength": 255,
+              "type": "string"
+            }
+          },
           "required": [
             "repo",
             "name",
             "to"
           ],
-          "properties": {
-            "to": {
-              "type": "string",
-              "maxLength": 255,
-              "description": "Its new name."
-            },
-            "name": {
-              "type": "string",
-              "maxLength": 255,
-              "description": "The branch, without refs/heads/."
-            },
-            "repo": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "NotFound",
-          "description": "No such repository."
-        },
-        {
-          "name": "InvalidRequest",
-          "description": "There is no such branch, it is the default branch, the new name is taken, or the gateway refused it."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "name": {
+              "description": "The branch, without refs/heads/.",
+              "type": "string"
+            },
+            "sha": {
+              "description": "The commit it points at, in hex, once made.",
+              "type": "string"
+            }
+          },
           "required": [
             "name"
           ],
-          "properties": {
-            "sha": {
-              "type": "string",
-              "description": "The commit it points at, in hex, once made."
-            },
-            "name": {
-              "type": "string",
-              "description": "The branch, without refs/heads/."
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
-      "description": "Makes the new branch where the old one is, points the open pulls into the old one at the new, then deletes the old, as `knotless branch rename` does; never the default branch. As the account logged in to this appview's web pages: directly for the owner, through the repository's gateway for a collaborator, which refuses anyone else."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Renames a branch of a repository."
+  "description": "Renames a branch of a repository.",
+  "id": "dev.knotless.renameBranch",
+  "lexicon": 1
 }

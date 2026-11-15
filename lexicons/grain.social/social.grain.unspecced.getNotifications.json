@@ -1,71 +1,76 @@
 {
-  "id": "social.grain.unspecced.getNotifications",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "Get notifications for the authenticated user.",
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "notifications"
-          ],
           "properties": {
             "cursor": {
               "type": "string"
             },
-            "unseenCount": {
-              "type": "integer"
-            },
             "notifications": {
-              "type": "array",
               "items": {
                 "ref": "#notificationItem",
                 "type": "ref"
-              }
+              },
+              "type": "array"
+            },
+            "unseenCount": {
+              "type": "integer"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "notifications"
+          ],
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
         "properties": {
-          "limit": {
-            "type": "integer",
-            "default": 20,
-            "maximum": 100,
-            "minimum": 1
+          "countOnly": {
+            "description": "If true, only return unseenCount without hydrating notifications.",
+            "type": "boolean"
           },
           "cursor": {
             "type": "string"
           },
-          "countOnly": {
-            "type": "boolean",
-            "description": "If true, only return unseenCount without hydrating notifications."
+          "limit": {
+            "default": 20,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
           }
-        }
+        },
+        "type": "params"
       },
-      "description": "Get notifications for the authenticated user."
+      "type": "query"
     },
     "notificationItem": {
-      "type": "object",
-      "required": [
-        "uri",
-        "reason",
-        "createdAt",
-        "author"
-      ],
       "properties": {
-        "uri": {
-          "type": "string",
-          "format": "at-uri"
-        },
         "author": {
           "ref": "social.grain.actor.defs#profileView",
           "type": "ref"
         },
+        "commentText": {
+          "type": "string"
+        },
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "galleryThumb": {
+          "type": "string"
+        },
+        "galleryTitle": {
+          "type": "string"
+        },
+        "galleryUri": {
+          "format": "at-uri",
+          "type": "string"
+        },
         "reason": {
-          "type": "string",
           "knownValues": [
             "gallery-favorite",
             "gallery-comment",
@@ -76,38 +81,33 @@
             "story-comment",
             "reply",
             "follow"
-          ]
-        },
-        "storyUri": {
-          "type": "string",
-          "format": "at-uri"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "datetime"
-        },
-        "galleryUri": {
-          "type": "string",
-          "format": "at-uri"
-        },
-        "storyThumb": {
-          "type": "string"
-        },
-        "commentText": {
+          ],
           "type": "string"
         },
         "replyToText": {
           "type": "string"
         },
-        "galleryThumb": {
+        "storyThumb": {
           "type": "string"
         },
-        "galleryTitle": {
+        "storyUri": {
+          "format": "at-uri",
+          "type": "string"
+        },
+        "uri": {
+          "format": "at-uri",
           "type": "string"
         }
-      }
+      },
+      "required": [
+        "uri",
+        "reason",
+        "createdAt",
+        "author"
+      ],
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.getNotifications",
   "lexicon": 1
 }

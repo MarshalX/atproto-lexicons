@@ -1,201 +1,201 @@
 {
-  "id": "dev.knotless.searchCode",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
-    "main": {
-      "type": "query",
-      "output": {
-        "schema": {
-          "type": "object",
-          "required": [
-            "files",
-            "fileCount",
-            "matchCount"
-          ],
-          "properties": {
-            "files": {
-              "type": "array",
-              "items": {
-                "ref": "#fileView",
-                "type": "ref"
-              }
-            },
-            "cursor": {
-              "type": "string",
-              "description": "Absent on the last page, and once the pages are 200 files deep."
-            },
-            "fileCount": {
-              "type": "integer",
-              "minimum": 0,
-              "description": "How many files the query found in all, of which files are the best."
-            },
-            "languages": {
-              "type": "array",
-              "items": {
-                "ref": "#languageCount",
-                "type": "ref"
-              },
-              "description": "The languages of the files found, counting those its lang: filters leave out, most files first: of the first 1000 files at most. The first page alone lists them."
-            },
-            "matchCount": {
-              "type": "integer",
-              "minimum": 0,
-              "description": "How many matches the query found in all."
-            }
-          }
+    "chunk": {
+      "description": "Lines of a file holding matches, with a line on either side.",
+      "properties": {
+        "content": {
+          "description": "The lines, each after the first following a newline, with no newline at the end.",
+          "type": "string"
         },
-        "encoding": "application/json"
-      },
-      "parameters": {
-        "type": "params",
-        "required": [
-          "q"
-        ],
-        "properties": {
-          "q": {
-            "type": "string",
-            "maxLength": 1000,
-            "description": "What to search for."
+        "highlights": {
+          "description": "What its highlighting paints over the content, encoded as dev.knotless.getFile's ranges are, the lines read alone. Absent for a language with no grammar.",
+          "type": "string"
+        },
+        "ranges": {
+          "items": {
+            "ref": "#range",
+            "type": "ref"
           },
-          "repo": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "Only this repository's dev.knotless.repo record, its authority a DID or a handle."
-          },
-          "limit": {
-            "type": "integer",
-            "default": 20,
-            "maximum": 50,
-            "minimum": 1,
-            "description": "The most files to answer with."
-          },
-          "cursor": {
-            "type": "string",
-            "maxLength": 32,
-            "description": "How many files the pages before held. The pages go 200 files deep at most."
-          }
+          "type": "array"
+        },
+        "startLine": {
+          "description": "The first line's number, from 1.",
+          "minimum": 1,
+          "type": "integer"
         }
       },
-      "description": "Searches the default branches of the public repositories an appview indexes, in Zoekt's query language: words and quoted text as substrings, ignoring case unless the query holds a capital, a regular expression between slashes, and filters such as file:, lang: and case:yes. No authentication needed. Repositories taken down are left out. An appview that searches no code answers 501."
-    },
-    "chunk": {
-      "type": "object",
       "required": [
         "startLine",
         "content",
         "ranges"
       ],
-      "properties": {
-        "ranges": {
-          "type": "array",
-          "items": {
-            "ref": "#range",
-            "type": "ref"
-          }
-        },
-        "content": {
-          "type": "string",
-          "description": "The lines, each after the first following a newline, with no newline at the end."
-        },
-        "startLine": {
-          "type": "integer",
-          "minimum": 1,
-          "description": "The first line's number, from 1."
-        },
-        "highlights": {
-          "type": "string",
-          "description": "What its highlighting paints over the content, encoded as dev.knotless.getFile's ranges are, the lines read alone. Absent for a language with no grammar."
-        }
-      },
-      "description": "Lines of a file holding matches, with a line on either side."
-    },
-    "range": {
-      "type": "object",
-      "required": [
-        "line",
-        "byteStart",
-        "byteEnd"
-      ],
-      "properties": {
-        "line": {
-          "type": "integer",
-          "minimum": 1,
-          "description": "The line's number, from 1."
-        },
-        "byteEnd": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Where it ends, in UTF-8 bytes, exclusive."
-        },
-        "byteStart": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "Where the match starts on the line, in its UTF-8 bytes."
-        }
-      },
-      "description": "A match, or the part of one on one line."
+      "type": "object"
     },
     "fileView": {
-      "type": "object",
+      "description": "A file the query found, with the lines around what it found there.",
+      "properties": {
+        "chunks": {
+          "description": "Runs of lines holding matches, in order. Empty when only the path matched.",
+          "items": {
+            "ref": "#chunk",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "commit": {
+          "description": "The commit of the default branch that was indexed, whose lines these are: a page of the file links there, as the branch may have moved since.",
+          "maxLength": 64,
+          "type": "string"
+        },
+        "language": {
+          "description": "What it is written in, as Zoekt names it from its extension or contents.",
+          "maxLength": 100,
+          "type": "string"
+        },
+        "path": {
+          "description": "The file's path in the repository's default branch.",
+          "maxLength": 4096,
+          "type": "string"
+        },
+        "repo": {
+          "ref": "dev.knotless.listRepos#repoView",
+          "type": "ref"
+        }
+      },
       "required": [
         "repo",
         "path",
         "chunks"
       ],
-      "properties": {
-        "path": {
-          "type": "string",
-          "maxLength": 4096,
-          "description": "The file's path in the repository's default branch."
-        },
-        "repo": {
-          "ref": "dev.knotless.listRepos#repoView",
-          "type": "ref"
-        },
-        "chunks": {
-          "type": "array",
-          "items": {
-            "ref": "#chunk",
-            "type": "ref"
-          },
-          "description": "Runs of lines holding matches, in order. Empty when only the path matched."
-        },
-        "commit": {
-          "type": "string",
-          "maxLength": 64,
-          "description": "The commit of the default branch that was indexed, whose lines these are: a page of the file links there, as the branch may have moved since."
-        },
-        "language": {
-          "type": "string",
-          "maxLength": 100,
-          "description": "What it is written in, as Zoekt names it from its extension or contents."
-        }
-      },
-      "description": "A file the query found, with the lines around what it found there."
+      "type": "object"
     },
     "languageCount": {
-      "type": "object",
+      "description": "A language files were found in, and how many.",
+      "properties": {
+        "color": {
+          "description": "Its color, as linguist has it. Absent for a language with none known here.",
+          "type": "string"
+        },
+        "files": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "name": {
+          "description": "As Zoekt names it, and lang: takes it.",
+          "type": "string"
+        }
+      },
       "required": [
         "name",
         "files"
       ],
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "As Zoekt names it, and lang: takes it."
-        },
-        "color": {
-          "type": "string",
-          "description": "Its color, as linguist has it. Absent for a language with none known here."
-        },
-        "files": {
-          "type": "integer",
-          "minimum": 1
+      "type": "object"
+    },
+    "main": {
+      "description": "Searches the default branches of the public repositories an appview indexes, in Zoekt's query language: words and quoted text as substrings, ignoring case unless the query holds a capital, a regular expression between slashes, and filters such as file:, lang: and case:yes. No authentication needed. Repositories taken down are left out. An appview that searches no code answers 501.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "description": "Absent on the last page, and once the pages are 200 files deep.",
+              "type": "string"
+            },
+            "fileCount": {
+              "description": "How many files the query found in all, of which files are the best.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "files": {
+              "items": {
+                "ref": "#fileView",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "languages": {
+              "description": "The languages of the files found, counting those its lang: filters leave out, most files first: of the first 1000 files at most. The first page alone lists them.",
+              "items": {
+                "ref": "#languageCount",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "matchCount": {
+              "description": "How many matches the query found in all.",
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "files",
+            "fileCount",
+            "matchCount"
+          ],
+          "type": "object"
         }
       },
-      "description": "A language files were found in, and how many."
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "description": "How many files the pages before held. The pages go 200 files deep at most.",
+            "maxLength": 32,
+            "type": "string"
+          },
+          "limit": {
+            "default": 20,
+            "description": "The most files to answer with.",
+            "maximum": 50,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "q": {
+            "description": "What to search for.",
+            "maxLength": 1000,
+            "type": "string"
+          },
+          "repo": {
+            "description": "Only this repository's dev.knotless.repo record, its authority a DID or a handle.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "q"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    },
+    "range": {
+      "description": "A match, or the part of one on one line.",
+      "properties": {
+        "byteEnd": {
+          "description": "Where it ends, in UTF-8 bytes, exclusive.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "byteStart": {
+          "description": "Where the match starts on the line, in its UTF-8 bytes.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "line": {
+          "description": "The line's number, from 1.",
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "line",
+        "byteStart",
+        "byteEnd"
+      ],
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Searches the code of the public repositories an appview indexes."
+  "description": "Searches the code of the public repositories an appview indexes.",
+  "id": "dev.knotless.searchCode",
+  "lexicon": 1
 }

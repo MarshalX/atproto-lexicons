@@ -1,101 +1,33 @@
 {
-  "id": "dev.knotless.pull",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "head": {
-      "type": "object",
+      "description": "Where the changes to merge are.",
+      "properties": {
+        "branch": {
+          "description": "Without refs/heads/.",
+          "maxLength": 255,
+          "type": "string"
+        },
+        "repo": {
+          "description": "The repository holding the branch: the target, or a fork.",
+          "ref": "dev.knotless.defs#repoRef",
+          "type": "ref"
+        }
+      },
       "required": [
         "repo",
         "branch"
       ],
-      "properties": {
-        "repo": {
-          "ref": "dev.knotless.defs#repoRef",
-          "type": "ref",
-          "description": "The repository holding the branch: the target, or a fork."
-        },
-        "branch": {
-          "type": "string",
-          "maxLength": 255,
-          "description": "Without refs/heads/."
-        }
-      },
-      "description": "Where the changes to merge are."
+      "type": "object"
     },
     "main": {
+      "description": "For a private repository, written in the requester's repo inside the repository's space.",
       "key": "tid",
-      "type": "record",
       "record": {
-        "type": "object",
-        "required": [
-          "repo",
-          "base",
-          "head",
-          "title",
-          "createdAt"
-        ],
         "properties": {
-          "base": {
-            "type": "string",
-            "maxLength": 255,
-            "description": "The branch to merge into, without refs/heads/."
-          },
-          "body": {
-            "type": "string",
-            "maxLength": 20000,
-            "description": "Markdown."
-          },
-          "head": {
-            "ref": "#head",
-            "type": "ref"
-          },
-          "repo": {
-            "ref": "dev.knotless.defs#repoRef",
-            "type": "ref",
-            "description": "The target repository."
-          },
-          "draft": {
-            "type": "boolean",
-            "description": "Whether it is a draft: not ready to merge or queue. Its author clears it when it is ready. Not a draft, when absent."
-          },
-          "title": {
-            "type": "string",
-            "maxLength": 3000,
-            "maxGraphemes": 300
-          },
-          "facets": {
-            "type": "array",
-            "items": {
-              "ref": "dev.knotless.defs#facet",
-              "type": "ref"
-            },
-            "maxLength": 50,
-            "description": "The accounts its body mentions, by where: written as it is, from each `@handle` outside code and links."
-          },
-          "reverts": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "For a revert, the merged dev.knotless.pull it undoes, on the same repository, as `knotless pull revert` opens it. Readers count it only once this pull is merged."
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "datetime"
-          },
-          "reviewers": {
-            "type": "array",
-            "items": {
-              "ref": "#reviewer",
-              "type": "ref"
-            },
-            "maxLength": 32,
-            "description": "The accounts its author asks to review it. A maintainer asking someone else would need a record of their own, which this is not."
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "datetime",
-            "description": "When its author last changed its title or body."
-          },
           "attachments": {
-            "type": "array",
+            "description": "What it carries beside its body: the pictures the body shows. Kinds unknown to a reader are passed over, and kept by a client changing it.",
             "items": {
               "refs": [
                 "dev.knotless.defs#image"
@@ -103,42 +35,110 @@
               "type": "union"
             },
             "maxLength": 32,
-            "description": "What it carries beside its body: the pictures the body shows. Kinds unknown to a reader are passed over, and kept by a client changing it."
+            "type": "array"
           },
-          "titleFacets": {
-            "type": "array",
+          "base": {
+            "description": "The branch to merge into, without refs/heads/.",
+            "maxLength": 255,
+            "type": "string"
+          },
+          "body": {
+            "description": "Markdown.",
+            "maxLength": 20000,
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "draft": {
+            "description": "Whether it is a draft: not ready to merge or queue. Its author clears it when it is ready. Not a draft, when absent.",
+            "type": "boolean"
+          },
+          "facets": {
+            "description": "The accounts its body mentions, by where: written as it is, from each `@handle` outside code and links.",
             "items": {
               "ref": "dev.knotless.defs#facet",
               "type": "ref"
             },
             "maxLength": 50,
-            "description": "The accounts its title mentions, by where."
+            "type": "array"
+          },
+          "head": {
+            "ref": "#head",
+            "type": "ref"
+          },
+          "repo": {
+            "description": "The target repository.",
+            "ref": "dev.knotless.defs#repoRef",
+            "type": "ref"
+          },
+          "reverts": {
+            "description": "For a revert, the merged dev.knotless.pull it undoes, on the same repository, as `knotless pull revert` opens it. Readers count it only once this pull is merged.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "reviewers": {
+            "description": "The accounts its author asks to review it. A maintainer asking someone else would need a record of their own, which this is not.",
+            "items": {
+              "ref": "#reviewer",
+              "type": "ref"
+            },
+            "maxLength": 32,
+            "type": "array"
+          },
+          "title": {
+            "maxGraphemes": 300,
+            "maxLength": 3000,
+            "type": "string"
+          },
+          "titleFacets": {
+            "description": "The accounts its title mentions, by where.",
+            "items": {
+              "ref": "dev.knotless.defs#facet",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "type": "array"
+          },
+          "updatedAt": {
+            "description": "When its author last changed its title or body.",
+            "format": "datetime",
+            "type": "string"
           }
-        }
+        },
+        "required": [
+          "repo",
+          "base",
+          "head",
+          "title",
+          "createdAt"
+        ],
+        "type": "object"
       },
-      "description": "For a private repository, written in the requester's repo inside the repository's space."
+      "type": "record"
     },
     "reviewer": {
-      "type": "object",
+      "description": "An account a pull's author asks to review it.",
+      "properties": {
+        "did": {
+          "description": "The account asked.",
+          "format": "did",
+          "type": "string"
+        },
+        "requestedAt": {
+          "description": "When it was asked: when named, or when the pull was last marked ready, if that was later.",
+          "format": "datetime",
+          "type": "string"
+        }
+      },
       "required": [
         "did"
       ],
-      "properties": {
-        "did": {
-          "type": "string",
-          "format": "did",
-          "description": "The account asked."
-        },
-        "requestedAt": {
-          "type": "string",
-          "format": "datetime",
-          "description": "When it was asked: when named, or when the pull was last marked ready, if that was later."
-        }
-      },
-      "description": "An account a pull's author asks to review it."
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "A request to merge a branch into a repository, kept in the requester's account."
+  "description": "A request to merge a branch into a repository, kept in the requester's account.",
+  "id": "dev.knotless.pull",
+  "lexicon": 1
 }

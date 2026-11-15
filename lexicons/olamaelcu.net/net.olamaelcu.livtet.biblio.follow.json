@@ -2,7 +2,7 @@
   "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "key": "any",
+      "key": "tid",
       "record": {
         "properties": {
           "createdAt": {
@@ -24,7 +24,7 @@
       "type": "record"
     }
   },
-  "description": "A follow relationship to a person (DID), used for personalizing feeds. The rkey is the followed DID, so a person can only be followed once.",
+  "description": "A follow relationship to a person (DID), used for personalizing feeds. The rkey is an opaque TID; uniqueness is enforced by the graph.follow procedure, which looks up an existing follow by subject before writing.",
   "id": "net.olamaelcu.livtet.biblio.follow",
   "lexicon": 1
 }

@@ -1,17 +1,28 @@
 {
-  "id": "dev.knotless.putPreferences",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Changes the asking account's preferences, as the appview keeps them: each one given takes the place of the one of its kind, and the rest stay. Answers them all, as dev.knotless.getPreferences does. Requires authentication: a service token, or the session cookie the pages' login sets, from the pages themselves.",
+      "errors": [
+        {
+          "description": "A kind of preference the appview does not keep, or one not as its kind says: a theme not named as the pages name theirs, or a reason the appview does not give.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "No account asks.",
+          "name": "AuthenticationRequired"
+        },
+        {
+          "description": "This appview keeps no index, so it keeps no preferences.",
+          "name": "NotFound"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "preferences"
-          ],
           "properties": {
             "preferences": {
-              "type": "array",
+              "description": "The preferences to set, at most one of each kind.",
               "items": {
                 "refs": [
                   "dev.knotless.getPreferences#appearancePref",
@@ -21,37 +32,26 @@
                 "type": "union"
               },
               "maxLength": 32,
-              "description": "The preferences to set, at most one of each kind."
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "InvalidRequest",
-          "description": "A kind of preference the appview does not keep, or one not as its kind says: a theme not named as the pages name theirs, or a reason the appview does not give."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account asks."
-        },
-        {
-          "name": "NotFound",
-          "description": "This appview keeps no index, so it keeps no preferences."
+          },
+          "required": [
+            "preferences"
+          ],
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
           "ref": "dev.knotless.getPreferences#preferences",
           "type": "ref"
-        },
-        "encoding": "application/json"
+        }
       },
-      "description": "Changes the asking account's preferences, as the appview keeps them: each one given takes the place of the one of its kind, and the rest stay. Answers them all, as dev.knotless.getPreferences does. Requires authentication: a service token, or the session cookie the pages' login sets, from the pages themselves."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Changes the asking account's preferences."
+  "description": "Changes the asking account's preferences.",
+  "id": "dev.knotless.putPreferences",
+  "lexicon": 1
 }

@@ -1,72 +1,72 @@
 {
-  "id": "social.grain.unspecced.createPoolComment",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Comment on a gallery in a group's pool. The comment is the viewer's own record, written into the pool beside the gallery it answers, so only that group's members can read it.",
+      "errors": [
+        {
+          "description": "The viewer is not a member of this pool.",
+          "name": "NotAuthorized"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "facets": {
+              "items": {
+                "ref": "app.bsky.richtext.facet",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "gallery": {
+              "format": "at-uri",
+              "type": "string"
+            },
+            "group": {
+              "format": "did",
+              "type": "string"
+            },
+            "replyTo": {
+              "format": "at-uri",
+              "type": "string"
+            },
+            "text": {
+              "maxLength": 3000,
+              "type": "string"
+            }
+          },
           "required": [
             "group",
             "gallery",
             "text"
           ],
-          "properties": {
-            "text": {
-              "type": "string",
-              "maxLength": 3000
-            },
-            "group": {
-              "type": "string",
-              "format": "did"
-            },
-            "facets": {
-              "type": "array",
-              "items": {
-                "ref": "app.bsky.richtext.facet",
-                "type": "ref"
-              }
-            },
-            "gallery": {
-              "type": "string",
-              "format": "at-uri"
-            },
-            "replyTo": {
-              "type": "string",
-              "format": "at-uri"
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "NotAuthorized",
-          "description": "The viewer is not a member of this pool."
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "rkey": {
+              "type": "string"
+            },
+            "uri": {
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
           "required": [
             "uri",
             "rkey"
           ],
-          "properties": {
-            "uri": {
-              "type": "string",
-              "format": "at-uri"
-            },
-            "rkey": {
-              "type": "string"
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
-      "description": "Comment on a gallery in a group's pool. The comment is the viewer's own record, written into the pool beside the gallery it answers, so only that group's members can read it."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.createPoolComment",
   "lexicon": 1
 }

@@ -1,64 +1,64 @@
 {
-  "id": "dev.knotless.getFollowers",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "The accounts whose dev.knotless.follow records name the account, as the appview has indexed them, the latest followed first. An account taken down is left out. No authentication; responses are not personalized.",
       "errors": [
         {
-          "name": "ProfileNotFound",
-          "description": "No account by that DID or handle."
+          "description": "No account by that DID or handle.",
+          "name": "ProfileNotFound"
         }
       ],
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "actors"
-          ],
           "properties": {
             "actors": {
-              "type": "array",
               "items": {
                 "ref": "dev.knotless.defs#actorView",
                 "type": "ref"
-              }
+              },
+              "type": "array"
             },
             "cursor": {
-              "type": "string",
-              "description": "Absent on the last page."
+              "description": "Absent on the last page.",
+              "type": "string"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "actors"
+          ],
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "actor": {
+            "description": "The account, by DID or handle.",
+            "format": "at-identifier",
+            "type": "string"
+          },
+          "cursor": {
+            "description": "Where the page before ended.",
+            "maxLength": 512,
+            "type": "string"
+          },
+          "limit": {
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
         "required": [
           "actor"
         ],
-        "properties": {
-          "actor": {
-            "type": "string",
-            "format": "at-identifier",
-            "description": "The account, by DID or handle."
-          },
-          "limit": {
-            "type": "integer",
-            "default": 50,
-            "maximum": 100,
-            "minimum": 1
-          },
-          "cursor": {
-            "type": "string",
-            "maxLength": 512,
-            "description": "Where the page before ended."
-          }
-        }
+        "type": "params"
       },
-      "description": "The accounts whose dev.knotless.follow records name the account, as the appview has indexed them, the latest followed first. An account taken down is left out. No authentication; responses are not personalized."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "The accounts following an account on knotless."
+  "description": "The accounts following an account on knotless.",
+  "id": "dev.knotless.getFollowers",
+  "lexicon": 1
 }

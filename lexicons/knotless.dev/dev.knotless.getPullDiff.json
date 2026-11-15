@@ -1,67 +1,67 @@
 {
-  "id": "dev.knotless.getPullDiff",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "The files of a pull's diff that `paths` names, rows and all, as dev.knotless.getThread shows them, for a page that listed them with its `filesOnly`. No authentication; responses are not personalized.",
       "errors": [
         {
-          "name": "NotFound",
-          "description": "No such repository or pull, or the pull's branch is gone."
+          "description": "No such repository or pull, or the pull's branch is gone.",
+          "name": "NotFound"
         }
       ],
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "files"
-          ],
           "properties": {
             "files": {
-              "type": "array",
+              "description": "Those of the files named that the pull changes, as an editor's file tree lists them, in each directory its directories before its files, each by name.",
               "items": {
                 "ref": "dev.knotless.defs#fileDiffView",
                 "type": "ref"
               },
-              "description": "Those of the files named that the pull changes, as an editor's file tree lists them, in each directory its directories before its files, each by name."
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "files"
+          ],
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "paths": {
+            "description": "The files, by their paths after the change, or before it for one deleted; a renamed file is found as such only when both its paths are named.",
+            "items": {
+              "maxLength": 4096,
+              "type": "string"
+            },
+            "maxLength": 50,
+            "minLength": 1,
+            "type": "array"
+          },
+          "repo": {
+            "description": "The repository's dev.knotless.repo record. Its authority may be a handle; a name the repository had before, or an owner it moved from with its agreement, finds it under the name it has now.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "uri": {
+            "description": "The dev.knotless.pull record.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
         "required": [
           "repo",
           "uri",
           "paths"
         ],
-        "properties": {
-          "uri": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The dev.knotless.pull record."
-          },
-          "repo": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The repository's dev.knotless.repo record. Its authority may be a handle; a name the repository had before, or an owner it moved from with its agreement, finds it under the name it has now."
-          },
-          "paths": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "maxLength": 4096
-            },
-            "maxLength": 50,
-            "minLength": 1,
-            "description": "The files, by their paths after the change, or before it for one deleted; a renamed file is found as such only when both its paths are named."
-          }
-        }
+        "type": "params"
       },
-      "description": "The files of a pull's diff that `paths` names, rows and all, as dev.knotless.getThread shows them, for a page that listed them with its `filesOnly`. No authentication; responses are not personalized."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Some files of a pull's diff."
+  "description": "Some files of a pull's diff.",
+  "id": "dev.knotless.getPullDiff",
+  "lexicon": 1
 }

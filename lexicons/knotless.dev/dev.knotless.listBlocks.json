@@ -1,66 +1,66 @@
 {
-  "id": "dev.knotless.listBlocks",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
-    "main": {
-      "type": "query",
-      "errors": [
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account asks."
-        }
-      ],
-      "output": {
-        "schema": {
-          "type": "object",
-          "required": [
-            "blocks"
-          ],
-          "properties": {
-            "blocks": {
-              "type": "array",
-              "items": {
-                "ref": "#block",
-                "type": "ref"
-              }
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "description": "The accounts the asking account keeps out of its repositories, from the dev.knotless.block records in its own repo, so a block lists as soon as it is made: the latest first, each from all its repositories or from one. Blocks naming a private repository live in its space, and are not listed. Requires authentication: a service token, or the session cookie the pages' login sets."
-    },
     "block": {
-      "type": "object",
+      "description": "One account blocked.",
+      "properties": {
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "repo": {
+          "description": "The one repository it is blocked from, under the name it has now; absent for all of them.",
+          "ref": "dev.knotless.defs#repoViewBasic",
+          "type": "ref"
+        },
+        "subject": {
+          "description": "The account blocked.",
+          "ref": "dev.knotless.defs#actorView",
+          "type": "ref"
+        },
+        "uri": {
+          "description": "The dev.knotless.block record.",
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
       "required": [
         "uri",
         "subject",
         "createdAt"
       ],
-      "properties": {
-        "uri": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The dev.knotless.block record."
-        },
-        "repo": {
-          "ref": "dev.knotless.defs#repoViewBasic",
-          "type": "ref",
-          "description": "The one repository it is blocked from, under the name it has now; absent for all of them."
-        },
-        "subject": {
-          "ref": "dev.knotless.defs#actorView",
-          "type": "ref",
-          "description": "The account blocked."
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "datetime"
+      "type": "object"
+    },
+    "main": {
+      "description": "The accounts the asking account keeps out of its repositories, from the dev.knotless.block records in its own repo, so a block lists as soon as it is made: the latest first, each from all its repositories or from one. Blocks naming a private repository live in its space, and are not listed. Requires authentication: a service token, or the session cookie the pages' login sets.",
+      "errors": [
+        {
+          "description": "No account asks.",
+          "name": "AuthenticationRequired"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "blocks": {
+              "items": {
+                "ref": "#block",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "blocks"
+          ],
+          "type": "object"
         }
       },
-      "description": "One account blocked."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "The accounts the asking account blocks."
+  "description": "The accounts the asking account blocks.",
+  "id": "dev.knotless.listBlocks",
+  "lexicon": 1
 }

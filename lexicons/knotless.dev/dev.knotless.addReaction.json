@@ -1,56 +1,56 @@
 {
-  "id": "dev.knotless.addReaction",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Writes a dev.knotless.reaction record naming the subject, with the content, in the account logged in to this appview's web pages, unless one is there already. Requires the session cookie the pages' login sets: the appview writes with the session it keeps for that account. Clients holding their own session write the record themselves.",
+      "errors": [
+        {
+          "description": "No such public repository, or no such pull, issue or comment on it.",
+          "name": "NotFound"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "content": {
+              "ref": "dev.knotless.defs#reactionContent",
+              "type": "ref"
+            },
+            "repo": {
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getThread takes it.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "subject": {
+              "description": "The dev.knotless.pull, dev.knotless.issue or dev.knotless.comment record on that repository.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
           "required": [
             "repo",
             "subject",
             "content"
           ],
-          "properties": {
-            "repo": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The repository's dev.knotless.repo record, as dev.knotless.getThread takes it."
-            },
-            "content": {
-              "ref": "dev.knotless.defs#reactionContent",
-              "type": "ref"
-            },
-            "subject": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The dev.knotless.pull, dev.knotless.issue or dev.knotless.comment record on that repository."
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "NotFound",
-          "description": "No such public repository, or no such pull, issue or comment on it."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
           "ref": "dev.knotless.defs#reactionState",
           "type": "ref"
-        },
-        "encoding": "application/json"
+        }
       },
-      "description": "Writes a dev.knotless.reaction record naming the subject, with the content, in the account logged in to this appview's web pages, unless one is there already. Requires the session cookie the pages' login sets: the appview writes with the session it keeps for that account. Clients holding their own session write the record themselves."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Reacts to a pull, an issue or a comment as the account logged in to this appview's pages."
+  "description": "Reacts to a pull, an issue or a comment as the account logged in to this appview's pages.",
+  "id": "dev.knotless.addReaction",
+  "lexicon": 1
 }

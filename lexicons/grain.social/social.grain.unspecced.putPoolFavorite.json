@@ -1,60 +1,60 @@
 {
-  "id": "social.grain.unspecced.putPoolFavorite",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Favourite, or unfavourite, a gallery in a group's pool. The record is the viewer's own, written into the pool rather than their public repo: in the public repo it would name a private gallery to the whole network.",
+      "errors": [
+        {
+          "description": "The viewer is not a member of this pool.",
+          "name": "NotAuthorized"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "gallery": {
+              "description": "The gallery being favourited, by the uri it would have in its author's repo.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "group": {
+              "format": "did",
+              "type": "string"
+            },
+            "on": {
+              "type": "boolean"
+            }
+          },
           "required": [
             "group",
             "gallery",
             "on"
           ],
-          "properties": {
-            "on": {
-              "type": "boolean"
-            },
-            "group": {
-              "type": "string",
-              "format": "did"
-            },
-            "gallery": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The gallery being favourited, by the uri it would have in its author's repo."
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "NotAuthorized",
-          "description": "The viewer is not a member of this pool."
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "on"
-          ],
           "properties": {
             "on": {
               "type": "boolean"
             },
             "rkey": {
-              "type": "string",
-              "description": "The favourite record, when there is one."
+              "description": "The favourite record, when there is one.",
+              "type": "string"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "on"
+          ],
+          "type": "object"
+        }
       },
-      "description": "Favourite, or unfavourite, a gallery in a group's pool. The record is the viewer's own, written into the pool rather than their public repo: in the public repo it would name a private gallery to the whole network."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.putPoolFavorite",
   "lexicon": 1
 }

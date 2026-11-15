@@ -1,64 +1,64 @@
 {
-  "id": "dev.knotless.hideItem",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Writes a dev.knotless.hide record naming it in the account logged in to this appview's web pages, which must own the repository, as `knotless mod hide` does; or, with hidden false, deletes those there are, as `knotless unhide` does. Requires the session cookie the pages' login sets.",
+      "errors": [
+        {
+          "description": "No such repository.",
+          "name": "NotFound"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "hidden": {
+              "default": true,
+              "description": "False to show it again.",
+              "type": "boolean"
+            },
+            "repo": {
+              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "subject": {
+              "description": "The dev.knotless.pull, dev.knotless.issue or dev.knotless.comment.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
           "required": [
             "repo",
             "subject"
           ],
-          "properties": {
-            "repo": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it."
-            },
-            "hidden": {
-              "type": "boolean",
-              "default": true,
-              "description": "False to show it again."
-            },
-            "subject": {
-              "type": "string",
-              "format": "at-uri",
-              "description": "The dev.knotless.pull, dev.knotless.issue or dev.knotless.comment."
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "NotFound",
-          "description": "No such repository."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "hidden": {
+              "description": "Whether it is hidden now.",
+              "type": "boolean"
+            }
+          },
           "required": [
             "hidden"
           ],
-          "properties": {
-            "hidden": {
-              "type": "boolean",
-              "description": "Whether it is hidden now."
-            }
-          }
-        },
-        "encoding": "application/json"
+          "type": "object"
+        }
       },
-      "description": "Writes a dev.knotless.hide record naming it in the account logged in to this appview's web pages, which must own the repository, as `knotless mod hide` does; or, with hidden false, deletes those there are, as `knotless unhide` does. Requires the session cookie the pages' login sets."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Hides a pull, an issue or a comment from a repository, or shows it again, as the repository's owner, logged in to this appview's pages."
+  "description": "Hides a pull, an issue or a comment from a repository, or shows it again, as the repository's owner, logged in to this appview's pages.",
+  "id": "dev.knotless.hideItem",
+  "lexicon": 1
 }

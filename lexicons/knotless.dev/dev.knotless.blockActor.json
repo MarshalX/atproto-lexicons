@@ -1,78 +1,78 @@
 {
-  "id": "dev.knotless.blockActor",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
-    "main": {
-      "type": "procedure",
-      "input": {
-        "schema": {
-          "ref": "#block",
-          "type": "ref"
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "InvalidRequest",
-          "description": "The account is the one asking, or the repository is not its own."
-        },
-        {
-          "name": "NotFound",
-          "description": "No such account."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
-        }
-      ],
-      "output": {
-        "schema": {
-          "ref": "#blockState",
-          "type": "ref"
-        },
-        "encoding": "application/json"
-      },
-      "description": "Writes a dev.knotless.block record in the account logged in to this appview's web pages, as `knotless mod block` does, unless one is there already: nothing the account blocked writes about its repositories, or about the one repository named, shows. Requires the session cookie the pages' login sets: the appview writes with the session it keeps for that account. Clients holding their own session write the record themselves."
-    },
     "block": {
-      "type": "object",
+      "description": "Whom to block, and from what.",
+      "properties": {
+        "repo": {
+          "description": "The one repository to block it from, by its dev.knotless.repo record: one of the asker's own. All of them when absent.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "subject": {
+          "description": "The account to block, by DID or handle.",
+          "format": "at-identifier",
+          "type": "string"
+        }
+      },
       "required": [
         "subject"
       ],
-      "properties": {
-        "repo": {
-          "type": "string",
-          "format": "at-uri",
-          "description": "The one repository to block it from, by its dev.knotless.repo record: one of the asker's own. All of them when absent."
-        },
-        "subject": {
-          "type": "string",
-          "format": "at-identifier",
-          "description": "The account to block, by DID or handle."
-        }
-      },
-      "description": "Whom to block, and from what."
+      "type": "object"
     },
     "blockState": {
-      "type": "object",
+      "description": "Whether the account is blocked now, from what was asked.",
+      "properties": {
+        "blocking": {
+          "description": "Whether it is blocked now.",
+          "type": "boolean"
+        },
+        "subject": {
+          "description": "The account.",
+          "format": "did",
+          "type": "string"
+        }
+      },
       "required": [
         "subject",
         "blocking"
       ],
-      "properties": {
-        "subject": {
-          "type": "string",
-          "format": "did",
-          "description": "The account."
+      "type": "object"
+    },
+    "main": {
+      "description": "Writes a dev.knotless.block record in the account logged in to this appview's web pages, as `knotless mod block` does, unless one is there already: nothing the account blocked writes about its repositories, or about the one repository named, shows. Requires the session cookie the pages' login sets: the appview writes with the session it keeps for that account. Clients holding their own session write the record themselves.",
+      "errors": [
+        {
+          "description": "The account is the one asking, or the repository is not its own.",
+          "name": "InvalidRequest"
         },
-        "blocking": {
-          "type": "boolean",
-          "description": "Whether it is blocked now."
+        {
+          "description": "No such account.",
+          "name": "NotFound"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "ref": "#block",
+          "type": "ref"
         }
       },
-      "description": "Whether the account is blocked now, from what was asked."
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "ref": "#blockState",
+          "type": "ref"
+        }
+      },
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Blocks an account as the account logged in to this appview's pages."
+  "description": "Blocks an account as the account logged in to this appview's pages.",
+  "id": "dev.knotless.blockActor",
+  "lexicon": 1
 }

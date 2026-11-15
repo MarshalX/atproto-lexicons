@@ -1,0 +1,80 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "A contributor entity. The name and identifiers mirror `community.lexicon.media.book.defs#contributor`; `role` belongs to an individual credit on an edition and is deliberately absent here.",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "born": {
+            "description": "Birth date as a full ISO 8601 calendar date, exactly YYYY-MM-DD (for example 1929-10-21). Partial dates are not allowed, and the value must be a real calendar date: Lexicon strings cannot carry a regex, so writers must validate the pattern and the calendar (reject 2023-02-29, month 00 or 13, day 00 or 32).",
+            "maxLength": 10,
+            "minLength": 10,
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "Time this contributor record was created, not a birth or death date.",
+            "format": "datetime",
+            "type": "string"
+          },
+          "description": {
+            "description": "Free-text biography or description of the contributor.",
+            "maxGraphemes": 1024,
+            "maxLength": 8192,
+            "type": "string"
+          },
+          "died": {
+            "description": "Death date as a full ISO 8601 calendar date, exactly YYYY-MM-DD, with the same real-calendar validation as born.",
+            "maxLength": 10,
+            "minLength": 10,
+            "type": "string"
+          },
+          "displayName": {
+            "description": "The contributor's name as it should be displayed, preserving the supplied name order. Identifiers, not this name, are the matching mechanism.",
+            "maxGraphemes": 64,
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          },
+          "identifiers": {
+            "description": "Identifiers denoting this contributor in global or provider namespaces, compared exactly by issuer and value. Shared with the edition lexicons so an edition's inline identifiers and this record agree.",
+            "items": {
+              "ref": "community.lexicon.media.book.defs#identifier",
+              "type": "ref"
+            },
+            "maxLength": 16,
+            "type": "array"
+          },
+          "image": {
+            "accept": [
+              "image/*"
+            ],
+            "description": "Optional portrait image. The blob must belong to the repository containing this record, so a catalog that does not own the bytes must use imageUrl instead. May coexist with imageUrl.",
+            "type": "blob"
+          },
+          "imageUrl": {
+            "description": "Optional portrait image URL. Unlike image, a URL does not preserve the bytes in the repository; it is what a host that does not own the blob can publish.",
+            "format": "uri",
+            "type": "string"
+          },
+          "nameInverted": {
+            "description": "Optional name in filing or sorting order, when known, such as Le Guin, Ursula K. Consumers must not infer this by rearranging displayName.",
+            "maxGraphemes": 64,
+            "maxLength": 256,
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "required": [
+          "displayName",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "description": "A person credited in the production of book editions, published by the catalog as a stable reference target for the inline `community.lexicon.media.book.defs#contributor` entries on edition records. Records are keyed by TID and addressed under the catalog publisher's DID.",
+  "id": "net.olamaelcu.livtet.biblio.contributor",
+  "lexicon": 1
+}

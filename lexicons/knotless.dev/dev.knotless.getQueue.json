@@ -1,197 +1,234 @@
 {
-  "id": "dev.knotless.getQueue",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
-    "main": {
-      "type": "query",
-      "errors": [
-        {
-          "name": "NotFound",
-          "description": "No such repository; or this appview keeps no index, so it knows no pulls."
-        }
-      ],
-      "output": {
-        "schema": {
-          "type": "object",
-          "required": [
-            "branches",
-            "ejected",
-            "landed"
-          ],
-          "properties": {
-            "landed": {
-              "type": "array",
-              "items": {
-                "ref": "#landedView",
-                "type": "ref"
-              },
-              "description": "The last few batches landed, newest first."
-            },
-            "ejected": {
-              "type": "array",
-              "items": {
-                "ref": "#ejectedView",
-                "type": "ref"
-              },
-              "description": "The open pulls the queue turned away, newest first."
-            },
-            "typical": {
-              "ref": "dev.knotless.defs#queueTypicalView",
-              "type": "ref",
-              "description": "How long its merge queue typically takes; absent with no batch landed to go by."
-            },
-            "branches": {
-              "type": "array",
-              "items": {
-                "ref": "#branchView",
-                "type": "ref"
-              },
-              "description": "Each branch with pulls queued, by name."
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "parameters": {
-        "type": "params",
-        "required": [
-          "repo"
-        ],
-        "properties": {
-          "repo": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The repository's dev.knotless.repo record. Its authority may be a handle; a name the repository had before, or an owner it moved from with its agreement, finds it under the name it has now."
-          }
-        }
-      },
-      "description": "What is queued on each branch of a repository, in the order it lands, the batches being checked, the open pulls the queue turned away and why, and the batches it landed last, as the runners the repository names report them. No authentication; responses are not personalized."
-    },
     "batchView": {
-      "type": "object",
+      "description": "A batch being checked, or landing once its checks have passed.",
+      "properties": {
+        "checks": {
+          "description": "The newest run of each workflow at its commit.",
+          "items": {
+            "ref": "dev.knotless.defs#checkView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "commit": {
+          "description": "The commit it would leave the branch at, in hex.",
+          "type": "string"
+        },
+        "size": {
+          "description": "How many pulls are in it.",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "startedAt": {
+          "description": "When its first run started.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "state": {
+          "knownValues": [
+            "checking",
+            "landing"
+          ],
+          "type": "string"
+        }
+      },
       "required": [
         "commit",
         "state",
         "size",
         "checks"
       ],
-      "properties": {
-        "size": {
-          "type": "integer",
-          "minimum": 1,
-          "description": "How many pulls are in it."
-        },
-        "state": {
-          "type": "string",
-          "knownValues": [
-            "checking",
-            "landing"
-          ]
-        },
-        "checks": {
-          "type": "array",
-          "items": {
-            "ref": "dev.knotless.defs#checkView",
-            "type": "ref"
-          },
-          "description": "The newest run of each workflow at its commit."
-        },
-        "commit": {
-          "type": "string",
-          "description": "The commit it would leave the branch at, in hex."
-        },
-        "startedAt": {
-          "type": "string",
-          "format": "datetime",
-          "description": "When its first run started."
-        }
-      },
-      "description": "A batch being checked, or landing once its checks have passed."
+      "type": "object"
     },
     "branchView": {
-      "type": "object",
+      "description": "A branch's merge queue.",
+      "properties": {
+        "batches": {
+          "description": "The batches being checked or landing, in the order they land: a pull names the one it is in.",
+          "items": {
+            "ref": "#batchView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "branch": {
+          "description": "The branch's name.",
+          "type": "string"
+        },
+        "pulls": {
+          "description": "In the order they land.",
+          "items": {
+            "ref": "#queuedView",
+            "type": "ref"
+          },
+          "type": "array"
+        }
+      },
       "required": [
         "branch",
         "pulls",
         "batches"
       ],
+      "type": "object"
+    },
+    "ejectedView": {
+      "description": "A pull the merge queue turned away.",
       "properties": {
-        "pulls": {
-          "type": "array",
+        "checks": {
+          "description": "The checks of its batch that did not pass, if they are why.",
           "items": {
-            "ref": "#queuedView",
+            "ref": "dev.knotless.defs#checkView",
             "type": "ref"
           },
-          "description": "In the order they land."
+          "type": "array"
         },
-        "branch": {
-          "type": "string",
-          "description": "The branch's name."
+        "ejectedAt": {
+          "format": "datetime",
+          "type": "string"
         },
-        "batches": {
-          "type": "array",
-          "items": {
-            "ref": "#batchView",
-            "type": "ref"
-          },
-          "description": "The batches being checked or landing, in the order they land: a pull names the one it is in."
+        "pull": {
+          "ref": "dev.knotless.defs#itemView",
+          "type": "ref"
+        },
+        "reason": {
+          "description": "Why, as the runner said.",
+          "type": "string"
         }
       },
-      "description": "A branch's merge queue."
+      "required": [
+        "pull",
+        "ejectedAt",
+        "checks"
+      ],
+      "type": "object"
     },
     "landedView": {
-      "type": "object",
+      "description": "A batch the merge queue landed.",
+      "properties": {
+        "branch": {
+          "description": "The branch's name.",
+          "type": "string"
+        },
+        "commit": {
+          "description": "The commit it left the branch at, in hex.",
+          "type": "string"
+        },
+        "landedAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "pulls": {
+          "description": "In the order they were squashed onto the branch.",
+          "items": {
+            "ref": "dev.knotless.defs#itemView",
+            "type": "ref"
+          },
+          "type": "array"
+        }
+      },
       "required": [
         "branch",
         "commit",
         "pulls"
       ],
-      "properties": {
-        "pulls": {
-          "type": "array",
-          "items": {
-            "ref": "dev.knotless.defs#itemView",
-            "type": "ref"
+      "type": "object"
+    },
+    "main": {
+      "description": "What is queued on each branch of a repository, in the order it lands, the batches being checked, the open pulls the queue turned away and why, and the batches it landed last, as the runners the repository names report them. No authentication; responses are not personalized.",
+      "errors": [
+        {
+          "description": "No such repository; or this appview keeps no index, so it knows no pulls.",
+          "name": "NotFound"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "branches": {
+              "description": "Each branch with pulls queued, by name.",
+              "items": {
+                "ref": "#branchView",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "ejected": {
+              "description": "The open pulls the queue turned away, newest first.",
+              "items": {
+                "ref": "#ejectedView",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "landed": {
+              "description": "The last few batches landed, newest first.",
+              "items": {
+                "ref": "#landedView",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "typical": {
+              "description": "How long its merge queue typically takes; absent with no batch landed to go by.",
+              "ref": "dev.knotless.defs#queueTypicalView",
+              "type": "ref"
+            }
           },
-          "description": "In the order they were squashed onto the branch."
-        },
-        "branch": {
-          "type": "string",
-          "description": "The branch's name."
-        },
-        "commit": {
-          "type": "string",
-          "description": "The commit it left the branch at, in hex."
-        },
-        "landedAt": {
-          "type": "string",
-          "format": "datetime"
+          "required": [
+            "branches",
+            "ejected",
+            "landed"
+          ],
+          "type": "object"
         }
       },
-      "description": "A batch the merge queue landed."
+      "parameters": {
+        "properties": {
+          "repo": {
+            "description": "The repository's dev.knotless.repo record. Its authority may be a handle; a name the repository had before, or an owner it moved from with its agreement, finds it under the name it has now.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "repo"
+        ],
+        "type": "params"
+      },
+      "type": "query"
     },
     "queuedView": {
-      "type": "object",
-      "required": [
-        "pull",
-        "queuedAt",
-        "said"
-      ],
+      "description": "A pull in a merge queue.",
       "properties": {
+        "batch": {
+          "description": "The batch it is in, by its place in its branch's `batches`.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "checks": {
+          "description": "Until it is in a batch, the newest run of each of its pre-flights.",
+          "items": {
+            "ref": "dev.knotless.defs#checkView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
         "pull": {
           "ref": "dev.knotless.defs#itemView",
           "type": "ref"
         },
-        "said": {
-          "type": "string",
-          "description": "Where it stands, in words: `Queued, 3rd of 5, running its checks`, `In a batch of 4 being checked` or `Landing`."
+        "queuedAt": {
+          "format": "datetime",
+          "type": "string"
         },
-        "batch": {
-          "type": "integer",
-          "minimum": 0,
-          "description": "The batch it is in, by its place in its branch's `batches`."
+        "said": {
+          "description": "Where it stands, in words: `Queued, 3rd of 5, running its checks`, `In a batch of 4 being checked` or `Landing`.",
+          "type": "string"
         },
         "stage": {
-          "type": "string",
           "description": "Where it stands: `queued`, with no run of its pre-flights seen yet; `preflight`, its pre-flights running at its head; `again`, one of them run again as one failed on an older tip of its branch; `ready`, its pre-flights passed, waiting for the next batch; `review`, its pre-flights passed, waiting for a review of its head from its branch's gates; `checking`, in a batch being checked; `landing`; or `stacked`, waiting for the pull below it to land.",
           "knownValues": [
             "queued",
@@ -201,56 +238,19 @@
             "review",
             "checking",
             "landing"
-          ]
-        },
-        "checks": {
-          "type": "array",
-          "items": {
-            "ref": "dev.knotless.defs#checkView",
-            "type": "ref"
-          },
-          "description": "Until it is in a batch, the newest run of each of its pre-flights."
-        },
-        "queuedAt": {
-          "type": "string",
-          "format": "datetime"
+          ],
+          "type": "string"
         }
       },
-      "description": "A pull in a merge queue."
-    },
-    "ejectedView": {
-      "type": "object",
       "required": [
         "pull",
-        "ejectedAt",
-        "checks"
+        "queuedAt",
+        "said"
       ],
-      "properties": {
-        "pull": {
-          "ref": "dev.knotless.defs#itemView",
-          "type": "ref"
-        },
-        "checks": {
-          "type": "array",
-          "items": {
-            "ref": "dev.knotless.defs#checkView",
-            "type": "ref"
-          },
-          "description": "The checks of its batch that did not pass, if they are why."
-        },
-        "reason": {
-          "type": "string",
-          "description": "Why, as the runner said."
-        },
-        "ejectedAt": {
-          "type": "string",
-          "format": "datetime"
-        }
-      },
-      "description": "A pull the merge queue turned away."
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "A repository's merge queues."
+  "description": "A repository's merge queues.",
+  "id": "dev.knotless.getQueue",
+  "lexicon": 1
 }

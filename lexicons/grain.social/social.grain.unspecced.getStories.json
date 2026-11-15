@@ -1,41 +1,41 @@
 {
-  "id": "social.grain.unspecced.getStories",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "Get a user's active stories (posted within the last 24 hours).",
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "stories"
-          ],
           "properties": {
             "stories": {
-              "type": "array",
               "items": {
                 "ref": "social.grain.story.defs#storyView",
                 "type": "ref"
-              }
+              },
+              "type": "array"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "stories"
+          ],
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "actor": {
+            "format": "at-identifier",
+            "type": "string"
+          }
+        },
         "required": [
           "actor"
         ],
-        "properties": {
-          "actor": {
-            "type": "string",
-            "format": "at-identifier"
-          }
-        }
+        "type": "params"
       },
-      "description": "Get a user's active stories (posted within the last 24 hours)."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.getStories",
   "lexicon": 1
 }

@@ -1,99 +1,99 @@
 {
-  "id": "dev.knotless.label",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
+    "entry": {
+      "description": "A label set, or taken off, at a time.",
+      "properties": {
+        "name": {
+          "description": "The label, by its name among the repository's `labels`.",
+          "maxGraphemes": 50,
+          "maxLength": 100,
+          "type": "string"
+        },
+        "removed": {
+          "description": "Taken off, rather than set.",
+          "type": "boolean"
+        },
+        "setAt": {
+          "description": "When it was set or taken off. Readers pass over one later than their own clock by more than a few minutes, until it is not.",
+          "format": "datetime",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "setAt"
+      ],
+      "type": "object"
+    },
+    "judgment": {
+      "description": "What a triager judged in choosing its labels, so it judges again only when that changes.",
+      "properties": {
+        "cid": {
+          "description": "The version of the pull or issue it read.",
+          "format": "cid",
+          "type": "string"
+        },
+        "model": {
+          "description": "What chose them, as a model's name and version.",
+          "maxLength": 200,
+          "type": "string"
+        },
+        "reason": {
+          "description": "Why, in a sentence or two, for those who check its work.",
+          "maxGraphemes": 500,
+          "maxLength": 2000,
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
     "main": {
+      "description": "Kept in the account of whoever labels, one per pull or issue, keyed `<repo key>.<hash of the subject's URI>` and rewritten as they change; for a private repository, in their repo inside its space. Readers honor it from the repository's owner and collaborators, and from its triagers for the scopes named, and only for labels the repository defines. Each label stands as the latest of everyone's entries for it says, by `setAt`; of a scope's exclusive labels, only the latest set stands.",
       "key": "any",
-      "type": "record",
       "record": {
-        "type": "object",
+        "properties": {
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "judged": {
+            "description": "For labels a triager chose, what it judged and how.",
+            "ref": "#judgment",
+            "type": "ref"
+          },
+          "labels": {
+            "description": "One entry per label this account has set or taken off, the latest of each.",
+            "items": {
+              "ref": "#entry",
+              "type": "ref"
+            },
+            "maxLength": 200,
+            "type": "array"
+          },
+          "repo": {
+            "description": "The repository the pull or issue is on.",
+            "ref": "dev.knotless.defs#repoRef",
+            "type": "ref"
+          },
+          "subject": {
+            "description": "The dev.knotless.pull or dev.knotless.issue labelled.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
         "required": [
           "repo",
           "subject",
           "labels",
           "createdAt"
         ],
-        "properties": {
-          "repo": {
-            "ref": "dev.knotless.defs#repoRef",
-            "type": "ref",
-            "description": "The repository the pull or issue is on."
-          },
-          "judged": {
-            "ref": "#judgment",
-            "type": "ref",
-            "description": "For labels a triager chose, what it judged and how."
-          },
-          "labels": {
-            "type": "array",
-            "items": {
-              "ref": "#entry",
-              "type": "ref"
-            },
-            "maxLength": 200,
-            "description": "One entry per label this account has set or taken off, the latest of each."
-          },
-          "subject": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The dev.knotless.pull or dev.knotless.issue labelled."
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "datetime"
-          }
-        }
+        "type": "object"
       },
-      "description": "Kept in the account of whoever labels, one per pull or issue, keyed `<repo key>.<hash of the subject's URI>` and rewritten as they change; for a private repository, in their repo inside its space. Readers honor it from the repository's owner and collaborators, and from its triagers for the scopes named, and only for labels the repository defines. Each label stands as the latest of everyone's entries for it says, by `setAt`; of a scope's exclusive labels, only the latest set stands."
-    },
-    "entry": {
-      "type": "object",
-      "required": [
-        "name",
-        "setAt"
-      ],
-      "properties": {
-        "name": {
-          "type": "string",
-          "maxLength": 100,
-          "description": "The label, by its name among the repository's `labels`.",
-          "maxGraphemes": 50
-        },
-        "setAt": {
-          "type": "string",
-          "format": "datetime",
-          "description": "When it was set or taken off. Readers pass over one later than their own clock by more than a few minutes, until it is not."
-        },
-        "removed": {
-          "type": "boolean",
-          "description": "Taken off, rather than set."
-        }
-      },
-      "description": "A label set, or taken off, at a time."
-    },
-    "judgment": {
-      "type": "object",
-      "properties": {
-        "cid": {
-          "type": "string",
-          "format": "cid",
-          "description": "The version of the pull or issue it read."
-        },
-        "model": {
-          "type": "string",
-          "maxLength": 200,
-          "description": "What chose them, as a model's name and version."
-        },
-        "reason": {
-          "type": "string",
-          "maxLength": 2000,
-          "description": "Why, in a sentence or two, for those who check its work.",
-          "maxGraphemes": 500
-        }
-      },
-      "description": "What a triager judged in choosing its labels, so it judges again only when that changes."
+      "type": "record"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "The labels one account puts on a pull or issue, from those its repository defines."
+  "description": "The labels one account puts on a pull or issue, from those its repository defines.",
+  "id": "dev.knotless.label",
+  "lexicon": 1
 }

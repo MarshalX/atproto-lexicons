@@ -1,80 +1,80 @@
 {
-  "id": "dev.knotless.uploadImage",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Uploads the body, a PNG, JPEG, WebP or GIF, as a blob of the account logged in to this appview's web pages, as `knotless issue create --image` does: one over 1,000,000 bytes is drawn again as a JPEG that fits, at most 2000 pixels on its longest side. Its PDS keeps it only once a record attaches it: give it as one of dev.knotless.createIssue's, createPull's, createComment's or editItem's `images`, with a body linking to `url`. Requires the session cookie the pages' login sets.",
+      "errors": [
+        {
+          "description": "No such repository.",
+          "name": "NotFound"
+        },
+        {
+          "description": "No picture, or one that is not a PNG, JPEG, WebP or GIF.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        }
+      ],
       "input": {
         "encoding": "*/*"
       },
-      "errors": [
-        {
-          "name": "NotFound",
-          "description": "No such repository."
-        },
-        {
-          "name": "InvalidRequest",
-          "description": "No picture, or one that is not a PNG, JPEG, WebP or GIF."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
-        }
-      ],
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
-          "required": [
-            "blob",
-            "url"
-          ],
           "properties": {
-            "url": {
-              "type": "string",
-              "format": "uri",
-              "description": "Where its account's PDS serves it, for the body to link to."
-            },
             "blob": {
-              "type": "blob",
               "accept": [
                 "image/png",
                 "image/jpeg",
                 "image/webp",
                 "image/gif"
               ],
+              "description": "The picture as uploaded, to attach.",
               "maxSize": 1000000,
-              "description": "The picture as uploaded, to attach."
-            },
-            "width": {
-              "type": "integer",
-              "minimum": 1,
-              "description": "How wide it is drawn, in CSS pixels, as dev.knotless.defs#image's `width`: its pixels over the density a PNG says it was made at. Give it, and `height`, with the blob in `images`."
+              "type": "blob"
             },
             "height": {
-              "type": "integer",
+              "description": "How high it is drawn, in CSS pixels.",
               "minimum": 1,
-              "description": "How high it is drawn, in CSS pixels."
+              "type": "integer"
+            },
+            "url": {
+              "description": "Where its account's PDS serves it, for the body to link to.",
+              "format": "uri",
+              "type": "string"
+            },
+            "width": {
+              "description": "How wide it is drawn, in CSS pixels, as dev.knotless.defs#image's `width`: its pixels over the density a PNG says it was made at. Give it, and `height`, with the blob in `images`.",
+              "minimum": 1,
+              "type": "integer"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "required": [
+            "blob",
+            "url"
+          ],
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
+        "properties": {
+          "repo": {
+            "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it, whose pull, issue or comment will show it.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
         "required": [
           "repo"
         ],
-        "properties": {
-          "repo": {
-            "type": "string",
-            "format": "at-uri",
-            "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it, whose pull, issue or comment will show it."
-          }
-        }
+        "type": "params"
       },
-      "description": "Uploads the body, a PNG, JPEG, WebP or GIF, as a blob of the account logged in to this appview's web pages, as `knotless issue create --image` does: one over 1,000,000 bytes is drawn again as a JPEG that fits, at most 2000 pixels on its longest side. Its PDS keeps it only once a record attaches it: give it as one of dev.knotless.createIssue's, createPull's, createComment's or editItem's `images`, with a body linking to `url`. Requires the session cookie the pages' login sets."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Uploads a picture to show in a pull, an issue or a comment, as the account logged in to this appview's pages."
+  "description": "Uploads a picture to show in a pull, an issue or a comment, as the account logged in to this appview's pages.",
+  "id": "dev.knotless.uploadImage",
+  "lexicon": 1
 }

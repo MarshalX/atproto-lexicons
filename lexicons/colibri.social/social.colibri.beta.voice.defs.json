@@ -58,6 +58,16 @@
         "channel"
       ],
       "properties": {
+        "view": {
+          "ref": "social.colibri.beta.community.defs#channelView",
+          "type": "ref",
+          "description": "The destination channel as this client sees it, so a client that can't read the channel can still show it in its channel list for the length of the call."
+        },
+        "after": {
+          "type": "string",
+          "format": "space-ref",
+          "description": "The nearest channel before the destination in its category's channel order that this client can read. Absent when there is none, which places the destination first in its category."
+        },
         "channel": {
           "type": "string",
           "format": "space-ref",
@@ -84,6 +94,14 @@
           "type": "string",
           "format": "space-ref",
           "description": "The voice channel now joined."
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "A voice permission key."
+          },
+          "description": "The voice permissions this member holds in the channel: voice.speak, voice.listen, voice.camera, voice.screenshare and voice.chat. A member a moderator moved into a channel they can't otherwise join never holds voice.chat."
         }
       },
       "description": "Confirms this connection has joined a voice channel."
@@ -617,11 +635,11 @@
         },
         "serverMuted": {
           "type": "boolean",
-          "description": "Whether a moderator muted them. When this is true the peer cannot unmute themselves."
+          "description": "Whether a moderator muted them or they lack the voice.speak permission in this channel. When this is true the peer cannot unmute themselves."
         },
         "serverDeafened": {
           "type": "boolean",
-          "description": "Whether a moderator deafened them. When this is true the peer cannot undeafen themselves."
+          "description": "Whether a moderator deafened them or they lack the voice.listen permission in this channel. When this is true the peer cannot undeafen themselves."
         }
       },
       "description": "A peer's mute or deafen state changed, whether they did it themselves or a moderator did it to them."
@@ -661,6 +679,29 @@
         }
       },
       "description": "A voice node a call can move to."
+    },
+    "permissionsChanged": {
+      "type": "object",
+      "required": [
+        "channel",
+        "permissions"
+      ],
+      "properties": {
+        "channel": {
+          "type": "string",
+          "format": "space-ref",
+          "description": "The voice channel the permissions apply to."
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "A voice permission key."
+          },
+          "description": "The voice permissions this member now holds in the channel, with the same meaning as in joined."
+        }
+      },
+      "description": "The voice permissions this client holds in its current call changed. Sent only to the client it applies to."
     },
     "setConsumerPreference": {
       "type": "object",

@@ -1,30 +1,30 @@
 {
-  "id": "social.grain.unspecced.getGroupHost",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "query",
+      "description": "The group host this Grain creates groups on, and the domain a new group's handle ends in. Absent when this Grain creates none.",
       "output": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
           "properties": {
-            "url": {
-              "type": "string",
-              "format": "uri"
-            },
             "handleDomain": {
               "type": "string"
+            },
+            "url": {
+              "format": "uri",
+              "type": "string"
             }
-          }
-        },
-        "encoding": "application/json"
+          },
+          "type": "object"
+        }
       },
       "parameters": {
-        "type": "params",
-        "properties": {}
+        "properties": {},
+        "type": "params"
       },
-      "description": "The group host this Grain creates groups on, and the domain a new group's handle ends in. Absent when this Grain creates none."
+      "type": "query"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
+  "id": "social.grain.unspecced.getGroupHost",
   "lexicon": 1
 }

@@ -1,105 +1,105 @@
 {
-  "id": "dev.knotless.pushRefs",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
-    "main": {
-      "type": "procedure",
-      "input": {
-        "encoding": "application/x-knotless-push"
-      },
-      "output": {
-        "schema": {
-          "type": "object",
-          "required": [
-            "results"
-          ],
-          "properties": {
-            "results": {
-              "type": "array",
-              "items": {
-                "ref": "#result",
-                "type": "ref"
-              }
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "description": "The body is one line of JSON, a #header, then a git packfile holding every object the updates need that the repository lacks (empty when every update is a deletion). Each update succeeds or fails on its own."
-    },
     "header": {
-      "type": "object",
+      "description": "What precedes the pack in the body, on a line of its own.",
+      "properties": {
+        "name": {
+          "description": "The repository's name: its dev.knotless.repo record key.",
+          "maxLength": 100,
+          "type": "string"
+        },
+        "repo": {
+          "description": "The repository's owner.",
+          "format": "did",
+          "type": "string"
+        },
+        "updates": {
+          "items": {
+            "ref": "#update",
+            "type": "ref"
+          },
+          "type": "array"
+        }
+      },
       "required": [
         "repo",
         "name",
         "updates"
       ],
-      "properties": {
-        "name": {
-          "type": "string",
-          "maxLength": 100,
-          "description": "The repository's name: its dev.knotless.repo record key."
-        },
-        "repo": {
-          "type": "string",
-          "format": "did",
-          "description": "The repository's owner."
-        },
-        "updates": {
-          "type": "array",
-          "items": {
-            "ref": "#update",
-            "type": "ref"
-          }
+      "type": "object"
+    },
+    "main": {
+      "description": "The body is one line of JSON, a #header, then a git packfile holding every object the updates need that the repository lacks (empty when every update is a deletion). Each update succeeds or fails on its own.",
+      "input": {
+        "encoding": "application/x-knotless-push"
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "results": {
+              "items": {
+                "ref": "#result",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "results"
+          ],
+          "type": "object"
         }
       },
-      "description": "What precedes the pack in the body, on a line of its own."
+      "type": "procedure"
     },
     "result": {
-      "type": "object",
+      "description": "How one update went.",
+      "properties": {
+        "error": {
+          "description": "Why the update was refused; absent when it landed.",
+          "maxLength": 3000,
+          "type": "string"
+        },
+        "ref": {
+          "description": "The update's `dst`.",
+          "maxLength": 1024,
+          "type": "string"
+        }
+      },
       "required": [
         "ref"
       ],
-      "properties": {
-        "ref": {
-          "type": "string",
-          "maxLength": 1024,
-          "description": "The update's `dst`."
-        },
-        "error": {
-          "type": "string",
-          "maxLength": 3000,
-          "description": "Why the update was refused; absent when it landed."
-        }
-      },
-      "description": "How one update went."
+      "type": "object"
     },
     "update": {
-      "type": "object",
+      "description": "One ref to move.",
+      "properties": {
+        "dst": {
+          "description": "The full ref name, such as refs/heads/main.",
+          "maxLength": 1024,
+          "type": "string"
+        },
+        "force": {
+          "default": false,
+          "description": "Move it even when the move is not a fast-forward.",
+          "type": "boolean"
+        },
+        "src": {
+          "description": "The hex object ID to point it at; absent to delete the ref.",
+          "maxLength": 64,
+          "minLength": 40,
+          "type": "string"
+        }
+      },
       "required": [
         "dst"
       ],
-      "properties": {
-        "dst": {
-          "type": "string",
-          "maxLength": 1024,
-          "description": "The full ref name, such as refs/heads/main."
-        },
-        "src": {
-          "type": "string",
-          "maxLength": 64,
-          "minLength": 40,
-          "description": "The hex object ID to point it at; absent to delete the ref."
-        },
-        "force": {
-          "type": "boolean",
-          "default": false,
-          "description": "Move it even when the move is not a fast-forward."
-        }
-      },
-      "description": "One ref to move."
+      "type": "object"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Pushes to a repository through a gateway its owner has delegated writes to: the gateway checks the caller is the owner or a collaborator, then writes the pack and ref updates as the owner. Requires a service token from the caller's PDS, audience the gateway's DID, for this method."
+  "description": "Pushes to a repository through a gateway its owner has delegated writes to: the gateway checks the caller is the owner or a collaborator, then writes the pack and ref updates as the owner. Requires a service token from the caller's PDS, audience the gateway's DID, for this method.",
+  "id": "dev.knotless.pushRefs",
+  "lexicon": 1
 }

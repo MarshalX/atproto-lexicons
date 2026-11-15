@@ -1,60 +1,60 @@
 {
-  "id": "dev.knotless.createRepo",
+  "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "type": "procedure",
+      "description": "Writes a dev.knotless.repo record under the name given in the account logged in to this appview's web pages, as `knotless repo create` does: public unless asked for private, naming the runners the appview offers for new repositories, and with no branches until the first push. Requires the session cookie the pages' login sets: the appview writes with the session it keeps for that account. Clients holding their own session write the record themselves.",
+      "errors": [
+        {
+          "description": "The name is not one a repository can have, or the account has a repository by it already.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        }
+      ],
       "input": {
+        "encoding": "application/json",
         "schema": {
-          "type": "object",
+          "properties": {
+            "defaultBranch": {
+              "description": "The branch its HEAD names, without refs/heads/: main when absent.",
+              "maxLength": 255,
+              "type": "string"
+            },
+            "description": {
+              "description": "What the repository is, shown under its name.",
+              "maxGraphemes": 300,
+              "maxLength": 3000,
+              "type": "string"
+            },
+            "name": {
+              "description": "The repository's name, its record key.",
+              "maxLength": 100,
+              "type": "string"
+            },
+            "private": {
+              "description": "Whether to make it private, as `knotless repo create --private` does: a space of its own on the account's PDS, which only its members read, its runners among them. Public when absent.",
+              "type": "boolean"
+            }
+          },
           "required": [
             "name"
           ],
-          "properties": {
-            "name": {
-              "type": "string",
-              "maxLength": 100,
-              "description": "The repository's name, its record key."
-            },
-            "private": {
-              "type": "boolean",
-              "description": "Whether to make it private, as `knotless repo create --private` does: a space of its own on the account's PDS, which only its members read, its runners among them. Public when absent."
-            },
-            "description": {
-              "type": "string",
-              "maxLength": 3000,
-              "description": "What the repository is, shown under its name.",
-              "maxGraphemes": 300
-            },
-            "defaultBranch": {
-              "type": "string",
-              "maxLength": 255,
-              "description": "The branch its HEAD names, without refs/heads/: main when absent."
-            }
-          }
-        },
-        "encoding": "application/json"
-      },
-      "errors": [
-        {
-          "name": "InvalidRequest",
-          "description": "The name is not one a repository can have, or the account has a repository by it already."
-        },
-        {
-          "name": "AuthenticationRequired",
-          "description": "No account is logged in to the pages, or its session has ended."
+          "type": "object"
         }
-      ],
+      },
       "output": {
+        "encoding": "application/json",
         "schema": {
           "ref": "dev.knotless.defs#repoMade",
           "type": "ref"
-        },
-        "encoding": "application/json"
+        }
       },
-      "description": "Writes a dev.knotless.repo record under the name given in the account logged in to this appview's web pages, as `knotless repo create` does: public unless asked for private, naming the runners the appview offers for new repositories, and with no branches until the first push. Requires the session cookie the pages' login sets: the appview writes with the session it keeps for that account. Clients holding their own session write the record themselves."
+      "type": "procedure"
     }
   },
-  "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1,
-  "description": "Creates a repository in the account logged in to this appview's pages."
+  "description": "Creates a repository in the account logged in to this appview's pages.",
+  "id": "dev.knotless.createRepo",
+  "lexicon": 1
 }
