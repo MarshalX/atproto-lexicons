@@ -1,0 +1,58 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Delete a bookStatus. Answers NotFound when the edition has no status.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "book": {
+              "description": "A strongRef or a bare {uri} naming the edition.",
+              "properties": {
+                "cid": {
+                  "description": "Optional CID of the edition record.",
+                  "format": "cid",
+                  "type": "string"
+                },
+                "uri": {
+                  "description": "AT-URI of the catalog edition record.",
+                  "format": "at-uri",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "uri"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "book"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "uri": {
+              "description": "AT-URI of the deleted bookStatus record.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "uri"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "description": "Clear the reading status of one edition by deleting the bookStatus at the edition rkey.",
+  "id": "net.olamaelcu.livtet.biblio.status.clear",
+  "lexicon": 1
+}

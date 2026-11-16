@@ -1,0 +1,182 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "join": {
+      "description": "How a reader asks to join. 'open' means the linked list decides; 'request' means the reader submits this form and the club decides.",
+      "properties": {
+        "fields": {
+          "items": {
+            "ref": "#joinField",
+            "type": "ref"
+          },
+          "maxLength": 10,
+          "type": "array"
+        },
+        "mode": {
+          "knownValues": [
+            "open",
+            "request"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "mode"
+      ],
+      "type": "object"
+    },
+    "joinField": {
+      "properties": {
+        "id": {
+          "maxLength": 64,
+          "type": "string"
+        },
+        "label": {
+          "maxLength": 120,
+          "type": "string"
+        },
+        "max": {
+          "type": "integer"
+        },
+        "maxLength": {
+          "maximum": 2000,
+          "minimum": 1,
+          "type": "integer"
+        },
+        "min": {
+          "type": "integer"
+        },
+        "options": {
+          "items": {
+            "maxLength": 120,
+            "type": "string"
+          },
+          "maxLength": 20,
+          "type": "array"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "type": {
+          "knownValues": [
+            "text",
+            "longText",
+            "select",
+            "multiSelect",
+            "checkbox",
+            "number",
+            "date",
+            "file"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "type"
+      ],
+      "type": "object"
+    },
+    "link": {
+      "properties": {
+        "name": {
+          "maxGraphemes": 100,
+          "type": "string"
+        },
+        "url": {
+          "format": "uri",
+          "maxLength": 2048,
+          "type": "string"
+        }
+      },
+      "required": [
+        "url"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "The club's metadata, stored in the owner's repo inside the club's space. The linked reading list is the access source: club membership mirrors that list, so no separate membership record exists.",
+      "key": "literal:self",
+      "record": {
+        "properties": {
+          "accent": {
+            "knownValues": [
+              "mint",
+              "blue",
+              "amber",
+              "rose",
+              "violet",
+              "slate"
+            ],
+            "type": "string"
+          },
+          "avatar": {
+            "accept": [
+              "image/png",
+              "image/jpeg",
+              "image/webp"
+            ],
+            "maxSize": 5242880,
+            "type": "blob"
+          },
+          "banner": {
+            "accept": [
+              "image/png",
+              "image/jpeg",
+              "image/webp"
+            ],
+            "maxSize": 5242880,
+            "type": "blob"
+          },
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "description": {
+            "maxGraphemes": 2000,
+            "type": "string"
+          },
+          "join": {
+            "ref": "#join",
+            "type": "ref"
+          },
+          "links": {
+            "description": "Links the club shows as pills under its description. The icon is the site's own favicon, derived by the client from `url`; no icon is stored.",
+            "items": {
+              "ref": "#link",
+              "type": "ref"
+            },
+            "type": "array"
+          },
+          "listed": {
+            "description": "Whether the club appears in the public directory. Absent means the linked list's visibility decides.",
+            "type": "boolean"
+          },
+          "readingList": {
+            "description": "The readingList space this club follows. The club's visibility and membership mirror this list.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "title": {
+            "maxGraphemes": 200,
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "datetime",
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "readingList",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "net.olamaelcu.livtet.biblio.bookClub.meta",
+  "lexicon": 1
+}

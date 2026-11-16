@@ -1,0 +1,49 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Follow a DID. Idempotent: an existing follow is left as it is.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "subject": {
+              "description": "DID of the person to follow.",
+              "format": "did",
+              "type": "string"
+            }
+          },
+          "required": [
+            "subject"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "created": {
+              "description": "True when this call created the follow, false when it already existed.",
+              "type": "boolean"
+            },
+            "uri": {
+              "description": "AT-URI of the follow record.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "uri",
+            "created"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "description": "Follow a person by DID. Looks up an existing follow by subject, so repeated calls leave exactly one record; a new follow is written at a fresh TID rkey.",
+  "id": "net.olamaelcu.livtet.biblio.graph.follow",
+  "lexicon": 1
+}

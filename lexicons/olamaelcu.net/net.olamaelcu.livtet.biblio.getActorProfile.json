@@ -17,7 +17,7 @@
               "type": "string"
             },
             "profile": {
-              "ref": "net.olamaelcu.livtet.actor.profile#main",
+              "ref": "net.olamaelcu.livtet.biblio.actor.profile#main",
               "type": "ref"
             }
           },
@@ -43,7 +43,7 @@
       "type": "query"
     }
   },
-  "description": "Fetch a user's profile record (net.olamaelcu.livtet.actor.profile at rkey 'self') from the user's PDS, plus optional handle resolution.",
+  "description": "Fetch a user's profile record (net.olamaelcu.livtet.biblio.actor.profile at rkey 'self') from the user's PDS, plus optional handle resolution.",
   "id": "net.olamaelcu.livtet.biblio.getActorProfile",
   "lexicon": 1
 }

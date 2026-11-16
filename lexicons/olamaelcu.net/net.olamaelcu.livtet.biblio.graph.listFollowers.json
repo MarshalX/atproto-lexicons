@@ -1,0 +1,91 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "followee": {
+      "properties": {
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "followedAt": {
+          "format": "datetime",
+          "type": "string"
+        }
+      },
+      "required": [
+        "did",
+        "followedAt"
+      ],
+      "type": "object"
+    },
+    "follower": {
+      "properties": {
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "followedAt": {
+          "format": "datetime",
+          "type": "string"
+        }
+      },
+      "required": [
+        "did",
+        "followedAt"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "followers": {
+              "items": {
+                "ref": "#followee",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "total": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "followers",
+            "total"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "type": "string"
+          },
+          "did": {
+            "format": "did",
+            "type": "string"
+          },
+          "limit": {
+            "default": 100,
+            "maximum": 1000,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "did"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "List followers.",
+  "id": "net.olamaelcu.livtet.biblio.graph.listFollowers",
+  "lexicon": 1
+}

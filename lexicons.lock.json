@@ -540,7 +540,7 @@
         "did": "did:plc:fzjkahpwapmoqxybwdjb6ysf"
       },
       "at.atmosynth.module": {
-        "cid": "bafyreierchpdr6pqzg5akbfgoblmddig3zhzywm7hphdjol365p6p4wply",
+        "cid": "bafyreigmxjkufa7cgmxrd5x7wood332rhiormqi2bwwoxjve6xdymtewvy",
         "did": "did:plc:fzjkahpwapmoqxybwdjb6ysf"
       },
       "at.atmosynth.noteClip": {
@@ -552,7 +552,7 @@
         "did": "did:plc:fzjkahpwapmoqxybwdjb6ysf"
       },
       "at.atmosynth.patch": {
-        "cid": "bafyreie7gn4hk6exm7jfn4g55o45zmqik7m56h2qehu3ofowzlekuibsni",
+        "cid": "bafyreigyiwr6wy5mit2k63lv3ap4jfofau3735ajjvtr4nlxxjqqikrpma",
         "did": "did:plc:fzjkahpwapmoqxybwdjb6ysf"
       },
       "at.atmosynth.patchPresentation": {
@@ -3470,7 +3470,7 @@
     },
     "gamesgamesgamesgames.games": {
       "games.gamesgamesgamesgames.acceptContribution": {
-        "cid": "bafyreidx2wytsr4oxigzcsv4nk5epo4g25o2xfwnwskt2ifcnd4ft3aqbe",
+        "cid": "bafyreie3lv7qlxv2jblvu2ngdum2j5lnxe7w3ual7aqolnpreneajz353y",
         "did": "did:web:gamesgamesgamesgames.games"
       },
       "games.gamesgamesgamesgames.actor.createProfile": {
@@ -3530,7 +3530,7 @@
         "did": "did:web:gamesgamesgamesgames.games"
       },
       "games.gamesgamesgamesgames.authGamesCatalog": {
-        "cid": "bafyreiezziyc37wte63mxpudc42zgemi4p7a6ev6yfvkudwqqn47gwufla",
+        "cid": "bafyreibdhhtpifyjtgevguuw7dm4p2bd26mitga6wfya5h7egogdxpbony",
         "did": "did:web:gamesgamesgamesgames.games"
       },
       "games.gamesgamesgamesgames.authGamesOrg": {
@@ -3542,11 +3542,15 @@
         "did": "did:web:gamesgamesgamesgames.games"
       },
       "games.gamesgamesgamesgames.authStudio": {
-        "cid": "bafyreiet5dgj3ae76cmdof35iq5zntbqztjlk7sjekdvowzlwltyd2ciiq",
+        "cid": "bafyreihcq3s4srjb3iof4rucsmyael74254wkbv7e7hb4zvr7xwg6en2qe",
         "did": "did:web:gamesgamesgamesgames.games"
       },
       "games.gamesgamesgamesgames.autoAcceptContributions": {
         "cid": "bafyreidrnndrkjuvrngb2h3ajqbjghrjeeiwbygyfgdmwuztkqrhtk2zse",
+        "did": "did:web:gamesgamesgamesgames.games"
+      },
+      "games.gamesgamesgamesgames.backfillGameSlugs": {
+        "cid": "bafyreibytciroz4g5k7jnl4mehpzszsrvke25dhquvz6yuwiwzghu3h6sq",
         "did": "did:web:gamesgamesgamesgames.games"
       },
       "games.gamesgamesgamesgames.claim": {
@@ -3565,8 +3569,12 @@
         "cid": "bafyreiaarc6mrvzo2erpnzj3trk7iaqpyy22rnc6lrvahwtewhmmbf7wda",
         "did": "did:web:gamesgamesgamesgames.games"
       },
+      "games.gamesgamesgamesgames.contributionOwnerDecision": {
+        "cid": "bafyreifbl7oywr5dnuxthuwh3bogg33xt6jhl2ryvgsf57pne5pjamsowu",
+        "did": "did:web:gamesgamesgamesgames.games"
+      },
       "games.gamesgamesgamesgames.contributionPatch": {
-        "cid": "bafyreibbulsvyvjvj2ag4e7jta3gunzronxnpwkuljsx5tdx5uziacyudq",
+        "cid": "bafyreihqjjnatmjc4iyucoxpipst4xtrh3nacu5nofwqjoc5sthzqispfu",
         "did": "did:web:gamesgamesgamesgames.games"
       },
       "games.gamesgamesgamesgames.contributionReview": {
@@ -3591,6 +3599,10 @@
       },
       "games.gamesgamesgamesgames.createList": {
         "cid": "bafyreibbej7fen2ig6j4etkacvhgny76n7ytzjs5xaqzfxj6qzpruhjs3m",
+        "did": "did:web:gamesgamesgamesgames.games"
+      },
+      "games.gamesgamesgamesgames.declineContribution": {
+        "cid": "bafyreieashkw5umx7btqbkijwcepcdi3kwtqdqcyypxeib6xjgedj7js2y",
         "did": "did:web:gamesgamesgamesgames.games"
       },
       "games.gamesgamesgamesgames.defs": {
@@ -3825,6 +3837,18 @@
         "cid": "bafyreifhu2q3fznpr7xwgoei3axbger66zife47dmpih2y3iy5d55l25oi",
         "did": "did:web:gamesgamesgamesgames.games"
       },
+      "games.gamesgamesgamesgames.refreshPublisherCounts": {
+        "cid": "bafyreigwmvaph4xnbtjoe7zd6lem3jyz4tbhh5gspzfvi7yzh3hwspmyom",
+        "did": "did:web:gamesgamesgamesgames.games"
+      },
+      "games.gamesgamesgamesgames.reindexCatalogueGames": {
+        "cid": "bafyreig255l73mwctri5rqkvfx2fwjkqstq6l54odvv44byamt6yd5hyni",
+        "did": "did:web:gamesgamesgamesgames.games"
+      },
+      "games.gamesgamesgamesgames.reindexSearchGames": {
+        "cid": "bafyreidjtf4k3wdfpjywuta6muxc2ij6gxwusomttplkyxo2rvx7i2byre",
+        "did": "did:web:gamesgamesgamesgames.games"
+      },
       "games.gamesgamesgamesgames.reviewClaim": {
         "cid": "bafyreib4i3lyuol3ec3k7fvfvozkrasgzc73qw2iwllhewz5zbuzqcq5mu",
         "did": "did:web:gamesgamesgamesgames.games"
@@ -3843,6 +3867,10 @@
       },
       "games.gamesgamesgamesgames.searchProfilesTypeahead": {
         "cid": "bafyreiax6y4x2mj2crjizi2nopqhkqnix6a77frotek377pmgi3iividxu",
+        "did": "did:web:gamesgamesgamesgames.games"
+      },
+      "games.gamesgamesgamesgames.syncWikidata": {
+        "cid": "bafyreienz6lei4v2yfrtpgn5oeciz3iueeomsv75ufbcvraqjjfadh2fmu",
         "did": "did:web:gamesgamesgamesgames.games"
       },
       "games.gamesgamesgamesgames.toggleListItem": {
@@ -5955,8 +5983,60 @@
       }
     },
     "olamaelcu.net": {
+      "net.olamaelcu.livtet.biblio.actor.profile": {
+        "cid": "bafyreihu4eepfozmqsugnp7d3d6hsnf6vnitu4aldgmbqysihxekxfuk7q",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.bookClub": {
+        "cid": "bafyreidadbp5yla4xu7unlsx4ejdc4eut6zdgszksuiierxeiyvio5ydt4",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.bookClub.activeRead": {
+        "cid": "bafyreiezpk6ics572kerztx5ie3yz57sy6oziny7shrt5o3jdknovuznxe",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.bookClub.meta": {
+        "cid": "bafyreibo2rustsnmvxbtyv3yc2ga5l4htzy24vxu2mc6pgjmgwm7bmqnjy",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.bookClub.post": {
+        "cid": "bafyreighypunblchi6tiyau765mxprlakzxjr3hfz2tndqk25iwhgmu4vm",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.bookClub.read": {
+        "cid": "bafyreigjt6gy6saof673mzoqlsq74az5tenrb7oraydpildbwdhiqtspya",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.bookClub.role": {
+        "cid": "bafyreic56la6ikr4jrqyybayui4s3n3idmzup37hqhfz4kvkggan72cvoi",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.bookClub.roleAssignment": {
+        "cid": "bafyreiaq43lvkhgsa5yrgvlgfle5ono7f6mqfrbpuz6cdouekayww4o2mu",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.bookClub.thread": {
+        "cid": "bafyreif52qz7vumyqvr7r7pobtdovtxr25aj5rbqlyndolcwbe323cb4tm",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
       "net.olamaelcu.livtet.biblio.bookStatus": {
         "cid": "bafyreig6qf6fq4ns72szecaom5rferrwbsxq4reyuqooyb2k4vp4h7zubq",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.clubBookmarks": {
+        "cid": "bafyreidnvvgc6wal4wdh52cgxmi3jvkol5csqvvjzzwxgyvd2an7hjqc4u",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.clubInvite": {
+        "cid": "bafyreiawwonmw4s3fttpqrscmg2mpij4ec5xsatysywcbxk77eqa4r7mai",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.clubInvite.decision": {
+        "cid": "bafyreibyff3gpdggl6quxdcf6j7gq2q4fq26szalqrdwc5pmsh4ykhin6m",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.clubInvite.request": {
+        "cid": "bafyreihceymscxuitahl3r7buyjogdln4tslr5wyrbfvgzrm637zh3cxim",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.contributor": {
@@ -5964,7 +6044,7 @@
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.defs": {
-        "cid": "bafyreiaqhel4craccnqrmbvtu3xlea26bqcuuj35a4smzcncv57h4uvld4",
+        "cid": "bafyreiannu6hjtdlh3p3lz7mtdb3tdiiw2e36qfhxbus2yseoxmcnvioiy",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.follow": {
@@ -5972,7 +6052,7 @@
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.getActorProfile": {
-        "cid": "bafyreia5cycvxqymyfrbzyyvmpmytb6ier2gewk5b2edteeplx6kksyt3m",
+        "cid": "bafyreifgo3bcy5lfdynlr3pvcpihwyswjfpf67iqayk3ajvhfihwi3w2oi",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.getBookOnShelf": {
@@ -6015,12 +6095,36 @@
         "cid": "bafyreiakoqkmxxkb5yz5oag4t4gjs6jmn2vv64imrexkyqrj47trtciydm",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
+      "net.olamaelcu.livtet.biblio.graph.follow": {
+        "cid": "bafyreidyaf342k6k3hih3pici5ffirttwua6koncvflq6q24rnbe34cuae",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.graph.isFollowing": {
+        "cid": "bafyreignbabm7rh65o676ozdrvekkbruajlcdq4gjhbgf5lgttvck6rpka",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.graph.listFollowees": {
+        "cid": "bafyreic64h4fgvqjklfhgcqwglbi5g4ap5vppcp72xgxxotpu43hsvvwny",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.graph.listFollowers": {
+        "cid": "bafyreib7tfwkw4a4hk35xdu34dgo4jabaoffuatzbuedbrp2fcizrwwcra",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.graph.unfollow": {
+        "cid": "bafyreihebjbzu5ztonavypthnnfa4diggb2pzhco6fuuf64cmirwgtx334",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
       "net.olamaelcu.livtet.biblio.listBooksOnShelf": {
         "cid": "bafyreicgkj3rshqtbesobvfeoqcew6jlcubjzczlrkppwypbngh6u2jehy",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.listEditionsByContributor": {
         "cid": "bafyreih3gxvjnol7djlgd2nurd5qxxeipxhrwjoh4bbqketyr35soavlze",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.listReactions": {
+        "cid": "bafyreicqr4q6vpnek4pufqf74xzfimhkog6bfdmeldxpruyylih4ryroku",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.listRecentShelving": {
@@ -6047,6 +6151,10 @@
         "cid": "bafyreifomf75wcwiriem2ltnix4nkdnfwpsrczmnlbzt3jarc6bedprasm",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
+      "net.olamaelcu.livtet.biblio.profile.set": {
+        "cid": "bafyreieoqr5zypoqml2ktszputxkgds4ak2caars5o6yhlorchb4oz5vtq",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
       "net.olamaelcu.livtet.biblio.publisher": {
         "cid": "bafyreiaerzhfiov4cz2pkwscppomog2bvfrnep77ady4k3jv4gsmjhgi4e",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
@@ -6055,16 +6163,52 @@
         "cid": "bafyreifsghriuegz3mr5fhxy5crh2qpktpnpnu6pmtzvs2cg37dmovcxky",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
+      "net.olamaelcu.livtet.biblio.readingGoal.set": {
+        "cid": "bafyreigrvhpal5x5zzevcjffiqukiz3gtjkdxaykhjzcihxti75vpe4owm",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.readingList": {
+        "cid": "bafyreib2bucts3e6jyy54slnsowdsaijusy4hztapuyziwcxw3uxzfwsu4",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.readingList.entry": {
+        "cid": "bafyreie3djb36kfh7vafnqgkwdnlsle6hr7tx7hhpcv3cuaolqvcte37zi",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.readingList.meta": {
+        "cid": "bafyreievtd6mdxujgalmbeutuwpentt4jun7dp4spkolzql7m54enhwolq",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.readingList.role": {
+        "cid": "bafyreihzcg7ubris5cibyunxphmryuwancmomol7jgo4lj5vl7tsdoa4wy",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.readingList.roleAssignment": {
+        "cid": "bafyreiet4rabf2n6efuclefv6yttge7z2l2v4yzsgoon37ismhgrpej4um",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
       "net.olamaelcu.livtet.biblio.readingProgress": {
-        "cid": "bafyreic457p7lkmjjptvkxkve5uxh7wer43ubjyrfpgvkkkmymjshyphfu",
+        "cid": "bafyreih3vowve7zlplxd7pmcv4ytb66pjkpviu7atvdjqow2ks4amjfafa",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.resolveContributors": {
-        "cid": "bafyreiarirkkd3vypix3pwsjeate7tpc5j5hb734twsguwj5ejeokno73e",
+        "cid": "bafyreiasocps6stw6mevhfoxquczur6quslsqutunqoq4vn2daifkrnq2u",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.resolvePublishers": {
-        "cid": "bafyreiemfiqctmiru67pjxz6x3r66dchjtddw6oagsdbtja7e6gbla6ugy",
+        "cid": "bafyreiec4nuchhoidwgxfkyb6no6e6nb6zrkrmduapcybnew7ssxbtxadu",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.review.create": {
+        "cid": "bafyreia35yb5wjsmnqr43iepbxgspaebnhdt4lcaoc7qal5eigzk3z5bba",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.review.delete": {
+        "cid": "bafyreiarzurzdtdktzhyio76qpfi2rvfgaxjr3z7ivnchomvjzw5jqe7wm",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.review.update": {
+        "cid": "bafyreie3lwzdj4gzf6l5fnmuddzhrerl3pbypafvktapjemprbwx67q2cy",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.searchContributors": {
@@ -6079,8 +6223,44 @@
         "cid": "bafyreigbffoxtpivpy4fljm7itkpoomd4qe3hnpigy376dkotzoosrt73q",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
+      "net.olamaelcu.livtet.biblio.shelf.addBooks": {
+        "cid": "bafyreic44xl7dopwo4ursqd7hrgmqduhbmuu5oeg43ddj4cgdonfgfi26q",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.shelf.addItem": {
+        "cid": "bafyreieu75qkl4fjo3vhxcyhvwuucbbli25x6a7ni6cnpylca6cbwnvy6q",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.shelf.create": {
+        "cid": "bafyreigzi6c3waw4v362aoo4ehdqzgyoyuifqpgrk4kolo75ok3ses6reu",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.shelf.delete": {
+        "cid": "bafyreigquynpbln2j73yflwlgjsl3orta73rzncenqnbetgy3464twgkim",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.shelf.removeItem": {
+        "cid": "bafyreicizs2tpmty55fuumcc44myglecam7vbwgfxql5qkm7bbzx4qnuje",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.shelf.update": {
+        "cid": "bafyreihd2mogizosfhypx4bj4owextkfjl5fuv6r6swhgdec6gsu4o46te",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
       "net.olamaelcu.livtet.biblio.shelfItem": {
         "cid": "bafyreicokdk372l36v4d3zqbyizdvbaikajqezb2jo7axenexm3a4o3fym",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.status.clear": {
+        "cid": "bafyreiglzpaltl3z7qrdtfoy35sjbzcff765ugdfqrm27bp2auzuvumfja",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.status.set": {
+        "cid": "bafyreibkjbz6ljstsr4ebcdaankfz4244dwylcpj5nvhvuwg2md575csle",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.topBook": {
+        "cid": "bafyreig3creobhrh2usopokhkf5sspg4hgsy2tvzy2yv332b3vzmbh4fz4",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       }
     },
@@ -8454,7 +8634,7 @@
         "did": "did:plc:uixgxpiqf4i63p6rgpu7ytmx"
       },
       "com.suibari.nagi.getDrafts": {
-        "cid": "bafyreibwimh6nsb2cctil5lrugojcnd3yxmvu2fc2tlmkfa3sp4aiun22m",
+        "cid": "bafyreifxc3egf2qsa2gmat5odx7abkczsx2ac4ioir2exumeqlcyfscwxa",
         "did": "did:plc:uixgxpiqf4i63p6rgpu7ytmx"
       },
       "com.suibari.nagi.getEmoji": {
@@ -8594,7 +8774,7 @@
         "did": "did:plc:uixgxpiqf4i63p6rgpu7ytmx"
       },
       "com.suibari.nagi.putDraft": {
-        "cid": "bafyreid6p54zd3un4vwkg366hyqoirn5ec7muapqgyljv4xq4q54lcth4y",
+        "cid": "bafyreifhgcxkkwnqpxwkoewzwhu4vkkzp4gv7hqu6qtlivu2xkesi6kx24",
         "did": "did:plc:uixgxpiqf4i63p6rgpu7ytmx"
       },
       "com.suibari.nagi.putPreferences": {
@@ -10044,7 +10224,6 @@
     "community.lexicon.media.book.defs",
     "community.lexicon.media.book.review",
     "dev.cocore.defs",
-    "net.olamaelcu.livtet.actor.profile",
     "network.attested.signature",
     "place.stream.media.defs",
     "place.stream.metadata.contentRights",
@@ -10061,7 +10240,7 @@
     "astro-colibri.science": "2026-11-13",
     "atcr.io": "2026-11-13",
     "atmo.rsvp": "2026-11-13",
-    "atmosynth.at": "2026-11-13",
+    "atmosynth.at": "2026-11-16",
     "atmowx.net": "2026-11-13",
     "atni.me": "2026-11-15",
     "atpcraft.at": "2026-11-13",
@@ -10088,7 +10267,7 @@
     "fisl.dev": "2026-11-13",
     "flashes.blue": "2026-11-13",
     "gainforest.app": "2026-11-13",
-    "gamesgamesgamesgames.games": "2026-11-15",
+    "gamesgamesgamesgames.games": "2026-11-16",
     "gamethesky.com": "2026-11-13",
     "grain.social": "2026-11-13",
     "hypercerts.org": "2026-11-13",
@@ -10109,7 +10288,7 @@
     "nahdig.com": "2026-11-13",
     "nerdballot.com": "2026-11-13",
     "offprint.app": "2026-11-13",
-    "olamaelcu.net": "2026-11-15",
+    "olamaelcu.net": "2026-11-16",
     "opnshelf.xyz": "2026-11-13",
     "pckt.blog": "2026-11-13",
     "pinkleap.social": "2026-11-13",
@@ -10134,7 +10313,7 @@
     "standard.site": "2026-11-13",
     "stream.place": "2026-11-13",
     "substratum.cloud": "2026-11-13",
-    "suibari.com": "2026-11-15",
+    "suibari.com": "2026-11-16",
     "sylvanus.garden": "2026-11-13",
     "syui.ai": "2026-11-13",
     "tangled.org": "2026-11-13",

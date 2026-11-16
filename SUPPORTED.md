@@ -1,6 +1,6 @@
 # Supported services
 
-2402 of 2456 lexicons are packaged. Another 16 ship with the SDK itself.
+2443 of 2501 lexicons are packaged. Another 16 ship with the SDK itself.
 
 | Status | Services | Meaning |
 |---|---|---|
@@ -45,7 +45,7 @@
 | `fisl.dev` | Full | 1 of 1 | 1 | 0 | 0 |  |  |
 | `flashes.blue` | Full | 3 of 3 | 3 | 0 | 0 |  |  |
 | `gainforest.app` | Full | 35 of 35 | 31 | 1 | 0 |  |  |
-| `gamesgamesgamesgames.games` | Partial | 95 of 95 | 22 | 43 | 18 |  | 1 |
+| `gamesgamesgamesgames.games` | Partial | 102 of 102 | 23 | 43 | 24 |  | 1 |
 | `gamethesky.com` | Full | 12 of 12 | 12 | 0 | 0 |  |  |
 | `grain.social` | Partial | 70 of 72 | 13 | 34 | 15 | 2 |  |
 | `hypercerts.org` | Full | 17 of 17 | 14 | 0 | 0 |  |  |
@@ -66,7 +66,7 @@
 | `nahdig.com` | Full | 4 of 4 | 4 | 0 | 0 |  |  |
 | `nerdballot.com` | Full | 7 of 7 | 7 | 0 | 0 |  |  |
 | `offprint.app` | Partial | 26 of 29 | 5 | 0 | 0 | 3 | 5 |
-| `olamaelcu.net` | Partial | 32 of 32 | 8 | 21 | 2 |  | 6 |
+| `olamaelcu.net` | Partial | 66 of 70 | 23 | 27 | 15 | 4 | 5 |
 | `opnshelf.xyz` | Partial | 10 of 15 | 8 | 0 | 0 | 5 |  |
 | `pckt.blog` | Full | 39 of 39 | 7 | 1 | 3 |  |  |
 | `pinkleap.social` | Full | 5 of 5 | 5 | 0 | 0 |  |  |

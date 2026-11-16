@@ -393,6 +393,37 @@
       ],
       "type": "object"
     },
+    "reactionView": {
+      "description": "An emoji reaction with its author.",
+      "properties": {
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "did": {
+          "description": "DID of the reacting account.",
+          "format": "did",
+          "type": "string"
+        },
+        "emoji": {
+          "description": "The emoji, carrying whatever skin-tone modifier the reactor's profile applied. One grapheme, so a toned emoji is still one character.",
+          "maxGraphemes": 1,
+          "type": "string"
+        },
+        "uri": {
+          "description": "AT-URI of the reaction record.",
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "did",
+        "emoji",
+        "createdAt"
+      ],
+      "type": "object"
+    },
     "readingStatus": {
       "description": "Reading status for a book.",
       "knownValues": [

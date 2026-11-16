@@ -1,0 +1,42 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "following": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "following"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "followed": {
+            "format": "did",
+            "type": "string"
+          },
+          "follower": {
+            "format": "did",
+            "type": "string"
+          }
+        },
+        "required": [
+          "follower",
+          "followed"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "Whether one account follows another.",
+  "id": "net.olamaelcu.livtet.biblio.graph.isFollowing",
+  "lexicon": 1
+}

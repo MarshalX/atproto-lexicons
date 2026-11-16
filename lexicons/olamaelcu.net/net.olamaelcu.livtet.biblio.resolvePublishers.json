@@ -4,44 +4,10 @@
     "main": {
       "errors": [
         {
-          "description": "identifiers is missing, empty, over 100 entries, or contains a malformed pair.",
+          "description": "identifiers is missing, empty, over 100 entries, or contains an entry with no colon or an empty issuer or value.",
           "name": "InvalidRequest"
         }
       ],
-      "input": {
-        "encoding": "application/json",
-        "schema": {
-          "properties": {
-            "identifiers": {
-              "description": "Identifier pairs to match. Duplicate pairs are collapsed; matching compares issuer and value exactly, without normalization.",
-              "items": {
-                "ref": "community.lexicon.media.book.defs#identifier",
-                "type": "ref"
-              },
-              "maxLength": 100,
-              "minLength": 1,
-              "type": "array"
-            },
-            "limit": {
-              "default": 25,
-              "description": "Maximum number of publishers to return.",
-              "maximum": 100,
-              "minimum": 1,
-              "type": "integer"
-            },
-            "offset": {
-              "default": 0,
-              "description": "Number of matching publishers to skip.",
-              "minimum": 0,
-              "type": "integer"
-            }
-          },
-          "required": [
-            "identifiers"
-          ],
-          "type": "object"
-        }
-      },
       "output": {
         "encoding": "application/json",
         "schema": {
@@ -69,7 +35,38 @@
           "type": "object"
         }
       },
-      "type": "procedure"
+      "parameters": {
+        "properties": {
+          "identifiers": {
+            "description": "Identifier pairs to match, repeated once per pair as `issuer:value` (`?identifiers=isbn13:9780441478125&identifiers=isni:0000000121032683`). Each pair splits on its first colon, so a value may contain colons. Duplicate pairs are collapsed; matching compares issuer and value exactly, without normalization.",
+            "items": {
+              "description": "One `issuer:value` pair.",
+              "type": "string"
+            },
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "array"
+          },
+          "limit": {
+            "default": 25,
+            "description": "Maximum number of publishers to return.",
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "offset": {
+            "default": 0,
+            "description": "Number of matching publishers to skip.",
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "identifiers"
+        ],
+        "type": "params"
+      },
+      "type": "query"
     }
   },
   "description": "Resolve catalog publishers by exact (issuer, value) identifiers. Read-only, anonymous, and served by the bibliograph edge from the catalog tables; a miss is an empty page rather than an error.",

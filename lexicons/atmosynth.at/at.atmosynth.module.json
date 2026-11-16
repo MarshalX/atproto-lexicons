@@ -21,8 +21,9 @@
         "properties": {
           "name": {
             "type": "string",
-            "maxLength": 200,
-            "minLength": 1
+            "maxLength": 2000,
+            "minLength": 1,
+            "maxGraphemes": 200
           },
           "nodes": {
             "type": "array",
@@ -102,7 +103,8 @@
           },
           "description": {
             "type": "string",
-            "maxLength": 3000
+            "maxLength": 30000,
+            "maxGraphemes": 3000
           },
           "noteOutputs": {
             "type": "array",
@@ -153,8 +155,9 @@
       "properties": {
         "id": {
           "type": "string",
-          "maxLength": 64,
-          "minLength": 1
+          "maxLength": 640,
+          "minLength": 1,
+          "maxGraphemes": 64
         },
         "kind": {
           "type": "string",
@@ -176,12 +179,14 @@
       "properties": {
         "id": {
           "type": "string",
-          "maxLength": 64,
-          "minLength": 1
+          "maxLength": 640,
+          "minLength": 1,
+          "maxGraphemes": 64
         },
         "label": {
           "type": "string",
-          "maxLength": 200
+          "maxLength": 2000,
+          "maxGraphemes": 200
         }
       },
       "description": "One individually identified audio or MIDI boundary of the module."
@@ -213,8 +218,9 @@
       "properties": {
         "node": {
           "type": "string",
-          "maxLength": 64,
-          "minLength": 1
+          "maxLength": 640,
+          "minLength": 1,
+          "maxGraphemes": 64
         },
         "output": {
           "type": "integer",
@@ -230,8 +236,9 @@
       "properties": {
         "node": {
           "type": "string",
-          "maxLength": 64,
-          "minLength": 1
+          "maxLength": 640,
+          "minLength": 1,
+          "maxGraphemes": 64
         },
         "input": {
           "type": "integer",
@@ -239,7 +246,8 @@
         },
         "param": {
           "type": "string",
-          "maxLength": 64
+          "maxLength": 640,
+          "maxGraphemes": 64
         }
       },
       "description": "Exactly one of `input` or `param` is present. `param` is modulation: a node output reaching a named AudioParam."
@@ -276,13 +284,15 @@
       "properties": {
         "id": {
           "type": "string",
-          "maxLength": 64,
-          "minLength": 1
+          "maxLength": 640,
+          "minLength": 1,
+          "maxGraphemes": 64
         },
         "label": {
           "type": "string",
-          "maxLength": 200,
-          "minLength": 1
+          "maxLength": 2000,
+          "minLength": 1,
+          "maxGraphemes": 200
         },
         "range": {
           "ref": "#range",
@@ -300,14 +310,16 @@
           "type": "array",
           "items": {
             "type": "string",
-            "maxLength": 200
+            "maxLength": 2000,
+            "maxGraphemes": 200
           },
           "description": "A closed value set, where the parameter is not numeric. A construction option the parameter targets is given the chosen value itself; an AudioParam it targets is given the chosen value's position in this set, counting from zero, which is how a `dsp` node offers a choice its own code interprets."
         },
         "default": {
           "type": "string",
-          "maxLength": 200,
-          "description": "The value used where a patch sets none, always as text. A number is its decimal form — \"0.5\", and \"2\" for a whole one — because the ATproto data model has no floating-point type and a string is the only type that carries both a number and a word. Where this parameter declares a closed value set, it is one of those strings instead, and a label that looks like a number stays the label it is."
+          "maxLength": 2000,
+          "description": "The value used where a patch sets none, always as text. A number is its decimal form — \"0.5\", and \"2\" for a whole one — because the ATproto data model has no floating-point type and a string is the only type that carries both a number and a word. Where this parameter declares a closed value set, it is one of those strings instead, and a label that looks like a number stays the label it is.",
+          "maxGraphemes": 200
         },
         "targets": {
           "type": "array",
@@ -352,12 +364,14 @@
       "properties": {
         "id": {
           "type": "string",
-          "maxLength": 64,
-          "minLength": 1
+          "maxLength": 640,
+          "minLength": 1,
+          "maxGraphemes": 64
         },
         "label": {
           "type": "string",
-          "maxLength": 200
+          "maxLength": 2000,
+          "maxGraphemes": 200
         },
         "target": {
           "ref": "#paramTarget",
@@ -435,17 +449,20 @@
       "properties": {
         "id": {
           "type": "string",
-          "maxLength": 64,
-          "minLength": 1
+          "maxLength": 640,
+          "minLength": 1,
+          "maxGraphemes": 64
         },
         "node": {
           "type": "string",
-          "maxLength": 64,
-          "minLength": 1
+          "maxLength": 640,
+          "minLength": 1,
+          "maxGraphemes": 64
         },
         "label": {
           "type": "string",
-          "maxLength": 200
+          "maxLength": 2000,
+          "maxGraphemes": 200
         },
         "default": {
           "ref": "#sampleRef",
@@ -470,13 +487,15 @@
       "properties": {
         "node": {
           "type": "string",
-          "maxLength": 64,
-          "minLength": 1
+          "maxLength": 640,
+          "minLength": 1,
+          "maxGraphemes": 64
         },
         "param": {
           "type": "string",
-          "maxLength": 64,
-          "minLength": 1
+          "maxLength": 640,
+          "minLength": 1,
+          "maxGraphemes": 64
         }
       }
     },
@@ -485,7 +504,8 @@
       "properties": {
         "node": {
           "type": "string",
-          "maxLength": 64
+          "maxLength": 640,
+          "maxGraphemes": 64
         },
         "field": {
           "type": "string",
@@ -499,7 +519,8 @@
         },
         "param": {
           "type": "string",
-          "maxLength": 64
+          "maxLength": 640,
+          "maxGraphemes": 64
         },
         "option": {
           "type": "string",
@@ -507,7 +528,8 @@
         },
         "automation": {
           "type": "string",
-          "maxLength": 64
+          "maxLength": 640,
+          "maxGraphemes": 64
         },
         "breakpoint": {
           "type": "integer",

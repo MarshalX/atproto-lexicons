@@ -1,0 +1,52 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "A post in a book club discussion, stored in the author's repo inside the club's space. Threading follows the shared threads draft: every post names the `thread` it belongs to, and a reply also names the post it answers in `replyTo`. A top-level post carries no `replyTo`, which is how a reader tells the opening and the later top-level posts from the answers. Linear readers ignore `replyTo` beyond the root; tree readers rebuild the tree from it. The space, not the record, is the access boundary.",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "createdAt": {
+            "description": "Client-declared timestamp when the post was created.",
+            "format": "datetime",
+            "type": "string"
+          },
+          "langs": {
+            "description": "Human language of the text, BCP 47 tags.",
+            "items": {
+              "format": "language",
+              "type": "string"
+            },
+            "maxLength": 3,
+            "type": "array"
+          },
+          "replyTo": {
+            "description": "The net.olamaelcu.livtet.biblio.bookClub.post this one answers, in the same thread and space. Absent on a top-level post.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "textContent": {
+            "description": "The post body, as plain text. Empty is allowed only when the post is a reply marker; a discussion post normally has text.",
+            "maxGraphemes": 100000,
+            "maxLength": 1000000,
+            "type": "string"
+          },
+          "thread": {
+            "description": "The net.olamaelcu.livtet.biblio.bookClub.thread this post belongs to — the root of the discussion. A plain at-uri rather than a strongRef: grouping compares the uri, so an edited thread keeps one discussion.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "thread",
+          "textContent",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "net.olamaelcu.livtet.biblio.bookClub.post",
+  "lexicon": 1
+}

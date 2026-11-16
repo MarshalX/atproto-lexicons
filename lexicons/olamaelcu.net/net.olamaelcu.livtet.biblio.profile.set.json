@@ -1,0 +1,52 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Load the profile, apply the supplied fields, save. Fields the input omits keep their current value.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "avatarCid": {
+              "description": "CID of an avatar blob already uploaded with com.atproto.repo.uploadBlob.",
+              "type": "string"
+            },
+            "description": {
+              "description": "New profile description.",
+              "maxGraphemes": 256,
+              "maxLength": 256,
+              "type": "string"
+            },
+            "displayName": {
+              "description": "New display name.",
+              "maxGraphemes": 640,
+              "maxLength": 640,
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "uri": {
+              "description": "AT-URI of the profile record.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "uri"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "description": "Merge fields into the caller's profile record at rkey 'self', which the getActorProfile query reads.",
+  "id": "net.olamaelcu.livtet.biblio.profile.set",
+  "lexicon": 1
+}

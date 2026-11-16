@@ -1,0 +1,55 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Upsert one shelf membership edge.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "book": {
+              "description": "The catalog edition to place on the shelf.",
+              "ref": "com.atproto.repo.strongRef",
+              "type": "ref"
+            },
+            "metadata": {
+              "description": "Optional position, notes and emoji for this book's place on the shelf.",
+              "ref": "net.olamaelcu.livtet.biblio.defs#shelfItemMetadata",
+              "type": "ref"
+            },
+            "shelf": {
+              "description": "AT-URI of the shelf record.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "shelf",
+            "book"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "uri": {
+              "description": "AT-URI of the shelfItem record.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "uri"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "description": "Put a book on a shelf. The shelfItem rkey is <shelf rkey>-<edition rkey>, so the same pair always lands on the same record.",
+  "id": "net.olamaelcu.livtet.biblio.shelf.addItem",
+  "lexicon": 1
+}

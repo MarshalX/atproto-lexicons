@@ -1,0 +1,47 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "An owner-defined role for one club, written in the club owner's repo inside the club space. The record key is a TID, so a name is ordinary data that may change; renaming is still create-new plus delete-old so every assignment keeps pointing at a record that exists. The three built-ins (Owner, Moderator, Member) exist without a record; `Owner` can never have one.",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "name": {
+            "description": "Display name. Immutable for the life of the record.",
+            "maxLength": 64,
+            "type": "string"
+          },
+          "permissions": {
+            "description": "Permission keys from the app's catalogue. An unknown key grants nothing; an owner-only key is refused at the API.",
+            "items": {
+              "maxLength": 64,
+              "type": "string"
+            },
+            "maxLength": 64,
+            "type": "array"
+          },
+          "rank": {
+            "description": "Ordering for management: an actor may only act on a target of strictly lower rank. 100 is the owner's alone.",
+            "maximum": 99,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "updatedAt": {
+            "format": "datetime",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "permissions",
+          "rank",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "net.olamaelcu.livtet.biblio.bookClub.role",
+  "lexicon": 1
+}

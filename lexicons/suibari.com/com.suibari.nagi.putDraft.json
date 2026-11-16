@@ -157,6 +157,15 @@
           "type": "string",
           "format": "datetime"
         },
+        "articleTags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "articleTitle": {
+          "type": "string"
+        },
         "dismissedUrls": {
           "type": "array",
           "items": {
@@ -235,6 +244,15 @@
             "type": "ref"
           },
           "maxLength": 4
+        },
+        "articleTags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "articleTitle": {
+          "type": "string"
         },
         "dismissedUrls": {
           "type": "array",

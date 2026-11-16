@@ -1,0 +1,96 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Upsert a bookStatus. Metadata is merged, createdAt survives an update, updatedAt is bumped.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "book": {
+              "description": "The catalog edition this status belongs to.",
+              "ref": "com.atproto.repo.strongRef",
+              "type": "ref"
+            },
+            "metadata": {
+              "description": "Optional progress metadata. `status` is taken from the top-level field.",
+              "properties": {
+                "emoji": {
+                  "description": "Emoji representing this book.",
+                  "maxGraphemes": 8,
+                  "type": "string"
+                },
+                "finishedAt": {
+                  "description": "When the reader finished the book.",
+                  "format": "datetime",
+                  "type": "string"
+                },
+                "notes": {
+                  "description": "Personal notes about this book.",
+                  "maxGraphemes": 8192,
+                  "type": "string"
+                },
+                "position": {
+                  "description": "Position of the book within the shelf (1-indexed).",
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "startedAt": {
+                  "description": "When the reader started the book.",
+                  "format": "datetime",
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "shelf": {
+              "description": "Optional shelf record URI to file the status under.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "status": {
+              "description": "Reading status for the edition.",
+              "knownValues": [
+                "to-read",
+                "reading",
+                "read",
+                "dnf"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "book",
+            "status"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "status": {
+              "description": "The status that was written.",
+              "type": "string"
+            },
+            "uri": {
+              "description": "AT-URI of the bookStatus record.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "uri",
+            "status"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "description": "Set the reading status of one edition. The bookStatus rkey is the edition rkey, so changing status replaces the previous record instead of adding a shelf membership.",
+  "id": "net.olamaelcu.livtet.biblio.status.set",
+  "lexicon": 1
+}

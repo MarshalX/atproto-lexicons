@@ -1,0 +1,57 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "description": "Opaque pagination cursor; absent when no further reactions are known.",
+              "type": "string"
+            },
+            "reactions": {
+              "items": {
+                "ref": "net.olamaelcu.livtet.biblio.defs#reactionView",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "reactions"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "description": "Opaque pagination cursor.",
+            "type": "string"
+          },
+          "limit": {
+            "default": 50,
+            "description": "Maximum number of reaction records to return.",
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "subject": {
+            "description": "AT-URI of the record whose reactions to list.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subject"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "List the emoji reactions to one record, most recent first. Club reactions are deliberately absent: they live inside the club's space, under the club's own access rule, and are read through it rather than through a public index.",
+  "id": "net.olamaelcu.livtet.biblio.listReactions",
+  "lexicon": 1
+}

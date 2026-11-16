@@ -1,0 +1,40 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "One book on a reading list, stored in the owner's repo inside the list's space.",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "addedAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "book": {
+            "description": "The edition record, as a community.lexicon.book.edition at-uri.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "note": {
+            "description": "Why this book is on the list, in the owner's words.",
+            "maxGraphemes": 2000,
+            "type": "string"
+          },
+          "position": {
+            "description": "Optional manual order; absent means append by addedAt.",
+            "minimum": 0,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "book",
+          "addedAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "net.olamaelcu.livtet.biblio.readingList.entry",
+  "lexicon": 1
+}
