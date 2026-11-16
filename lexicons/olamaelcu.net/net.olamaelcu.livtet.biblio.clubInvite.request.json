@@ -1,0 +1,108 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "answer": {
+      "description": "One answer, carrying exactly one value whose shape matches `type`.",
+      "properties": {
+        "blob": {
+          "accept": [
+            "application/pdf",
+            "image/png",
+            "image/jpeg",
+            "image/webp"
+          ],
+          "maxSize": 5242880,
+          "type": "blob"
+        },
+        "checked": {
+          "type": "boolean"
+        },
+        "date": {
+          "maxLength": 10,
+          "type": "string"
+        },
+        "fieldId": {
+          "maxLength": 64,
+          "type": "string"
+        },
+        "fileName": {
+          "maxLength": 255,
+          "type": "string"
+        },
+        "label": {
+          "maxLength": 120,
+          "type": "string"
+        },
+        "number": {
+          "description": "Lexicon has no floating-point number type; a numeric answer is a whole number.",
+          "type": "integer"
+        },
+        "selected": {
+          "items": {
+            "maxLength": 120,
+            "type": "string"
+          },
+          "maxLength": 20,
+          "type": "array"
+        },
+        "text": {
+          "maxLength": 2000,
+          "type": "string"
+        },
+        "type": {
+          "knownValues": [
+            "text",
+            "longText",
+            "select",
+            "multiSelect",
+            "checkbox",
+            "number",
+            "date",
+            "file"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "fieldId",
+        "label",
+        "type"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "One submission of a club's join form, written by the requester inside their invitation space. Each submission is a new record: the answers a moderator is looking at never change underneath them, and the club can see every version. The field type and label are copied in so a decision still reads correctly after the club edits or removes the field.",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "answers": {
+            "items": {
+              "ref": "#answer",
+              "type": "ref"
+            },
+            "maxLength": 10,
+            "type": "array"
+          },
+          "club": {
+            "description": "The club space this request is for. A record naming a different club is ignored.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "submittedAt": {
+            "format": "datetime",
+            "type": "string"
+          }
+        },
+        "required": [
+          "club",
+          "answers",
+          "submittedAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "net.olamaelcu.livtet.biblio.clubInvite.request",
+  "lexicon": 1
+}

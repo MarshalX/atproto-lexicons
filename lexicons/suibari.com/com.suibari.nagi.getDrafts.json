@@ -59,6 +59,15 @@
           "type": "string",
           "format": "datetime"
         },
+        "articleTags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "articleTitle": {
+          "type": "string"
+        },
         "linkCardCount": {
           "type": "integer",
           "maximum": 4,

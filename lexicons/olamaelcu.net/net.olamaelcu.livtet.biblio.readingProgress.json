@@ -1,6 +1,44 @@
 {
   "$type": "com.atproto.lexicon.schema",
   "defs": {
+    "annotation": {
+      "description": "One note taken while reading, mirrored from the reader's own database. `id` is the note's id there, so an edit rewrites the same record instead of appending one.",
+      "properties": {
+        "color": {
+          "description": "The highlight colour, as the reader's app spells it.",
+          "maxLength": 32,
+          "type": "string"
+        },
+        "id": {
+          "description": "The note's id in the reader's database.",
+          "maxLength": 128,
+          "type": "string"
+        },
+        "locator": {
+          "description": "Where in the copy the note sits: a printed page, a chapter, a CFI.",
+          "maxLength": 512,
+          "type": "string"
+        },
+        "pageNumber": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "quote": {
+          "description": "The passage the note is attached to.",
+          "maxGraphemes": 2000,
+          "type": "string"
+        },
+        "text": {
+          "maxGraphemes": 10000,
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "text"
+      ],
+      "type": "object"
+    },
     "identifier": {
       "description": "The catalog identifier a total belongs to, such as the print ISBN-13 whose page count `position.total` holds. The edition record's own page count and duration are separate rank winners over these claims, so without this a consumer cannot tell which product a total describes.",
       "properties": {
@@ -20,17 +58,22 @@
       "type": "object"
     },
     "main": {
-      "description": "Where a reader is in one catalog edition, in the copy they are holding. One record per (edition, format): the rkey is the edition's rkey and the format's slug, so a save rewrites the same record rather than appending an event per tap. `createdAt` is when the position was first published and `updatedAt` when it last moved. A record is written by Livtet in the reader's own repo and indexed by the catalog.",
+      "description": "A reader's relation to one catalog edition, published from the copy they are holding. Two shapes share this collection: a position record (one per edition and format, its rkey the edition's rkey and the format's slug, rewritten as the reader moves) and an annotation record (one per note, under a TID, rewritten when the note is edited). `createdAt` is when the record was first published — the position's first save, the note's own creation — and `updatedAt` when it last changed. Written by Livtet in the reader's own repo and indexed by the catalog.",
       "key": "any",
       "record": {
         "properties": {
+          "annotation": {
+            "description": "The note this record mirrors. A record carries either a `position` or an `annotation`; the rkey is a TID, so a note's record is found through the reader's own database rather than derived.",
+            "ref": "#annotation",
+            "type": "ref"
+          },
           "book": {
             "description": "The catalog edition being read.",
             "format": "at-uri",
             "type": "string"
           },
           "createdAt": {
-            "description": "When this position was first published.",
+            "description": "When this record was first published.",
             "format": "datetime",
             "type": "string"
           },
@@ -46,11 +89,12 @@
             "type": "ref"
           },
           "position": {
+            "description": "The reading position. Present on a position record, absent on an annotation record.",
             "ref": "#position",
             "type": "ref"
           },
           "updatedAt": {
-            "description": "When the reader last moved to this position.",
+            "description": "When the reader last moved to this position, or last edited this note.",
             "format": "datetime",
             "type": "string"
           }
@@ -58,7 +102,6 @@
         "required": [
           "book",
           "format",
-          "position",
           "createdAt",
           "updatedAt"
         ],

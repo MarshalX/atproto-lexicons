@@ -1,0 +1,80 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Load the review, apply the supplied fields, save. Answers NotFound when the review does not exist.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "content": {
+              "description": "Replacement rich content.",
+              "refs": [],
+              "type": "union"
+            },
+            "flags": {
+              "description": "Replacement presentation flags.",
+              "ref": "community.lexicon.media.book.review#flags",
+              "type": "ref"
+            },
+            "rating": {
+              "description": "Replacement rating on a 1-20 scale.",
+              "maximum": 20,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "subject": {
+              "description": "Replacement book reference. Omit to keep the current one.",
+              "ref": "community.lexicon.media.book.defs#editionRef",
+              "type": "ref"
+            },
+            "subjectRecord": {
+              "description": "Replacement enrichment AT-URI.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "textContent": {
+              "description": "Replacement plain-text review.",
+              "minLength": 1,
+              "type": "string"
+            },
+            "uri": {
+              "description": "AT-URI of the review record to update.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "uri"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "updated": {
+              "description": "True when a field was changed, false when the input carried none.",
+              "type": "boolean"
+            },
+            "uri": {
+              "description": "AT-URI of the updated review record.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "uri",
+            "updated"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "description": "Edit one of the caller's reviews. Fields the input omits are left as they are.",
+  "id": "net.olamaelcu.livtet.biblio.review.update",
+  "lexicon": 1
+}

@@ -1,0 +1,37 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "The title and description of one reading list, stored in the owner's repo inside the list's space. The space itself is the visibility boundary, so there is no per-record ACL here.",
+      "key": "literal:self",
+      "record": {
+        "properties": {
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "description": {
+            "maxGraphemes": 2000,
+            "type": "string"
+          },
+          "title": {
+            "maxGraphemes": 200,
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "datetime",
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "net.olamaelcu.livtet.biblio.readingList.meta",
+  "lexicon": 1
+}

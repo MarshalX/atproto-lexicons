@@ -1,0 +1,35 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "One club member's role, written in the club owner's repo inside the club space. The record key is the subject's DID, so a member holds at most one role: assigning again replaces it. `Owner` is never a value here — the club authority is the owner.",
+      "key": "any",
+      "record": {
+        "properties": {
+          "role": {
+            "description": "A role name from the effective set. A name with no definition falls back to Member.",
+            "maxLength": 64,
+            "type": "string"
+          },
+          "subject": {
+            "format": "did",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "datetime",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subject",
+          "role",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "net.olamaelcu.livtet.biblio.bookClub.roleAssignment",
+  "lexicon": 1
+}

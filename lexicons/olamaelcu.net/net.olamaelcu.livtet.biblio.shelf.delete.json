@@ -1,0 +1,44 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Cascading shelf delete. `deleted` counts the cascade plus the shelf record.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "shelf": {
+              "description": "AT-URI of the shelf record to delete.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "shelf"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "deleted": {
+              "description": "Number of records deleted: the shelfItems and bookStatuses filed under the shelf, plus the shelf itself.",
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "deleted"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "description": "Delete a shelf and everything filed under it: every shelfItem and every bookStatus whose shelf is this URI, then the shelf record itself.",
+  "id": "net.olamaelcu.livtet.biblio.shelf.delete",
+  "lexicon": 1
+}

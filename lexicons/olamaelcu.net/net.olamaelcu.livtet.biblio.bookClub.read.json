@@ -1,0 +1,91 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "checkpoint": {
+      "properties": {
+        "current": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "label": {
+          "maxGraphemes": 120,
+          "type": "string"
+        },
+        "target": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "unit": {
+          "knownValues": [
+            "pages",
+            "percent",
+            "other"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "unit",
+        "current"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "One read cycle for one book on the club's linked reading list, stored in the owner's repo inside the club's space. A new cycle is created when a club reads a book again, so threads never overlap between reads.",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "book": {
+            "description": "The edition being read.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "checkpoint": {
+            "ref": "#checkpoint",
+            "type": "ref"
+          },
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "entry": {
+            "description": "The readingList.entry this read belongs to.",
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref"
+          },
+          "finishedAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "startedAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "status": {
+            "knownValues": [
+              "reading",
+              "read",
+              "abandoned"
+            ],
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "datetime",
+            "type": "string"
+          }
+        },
+        "required": [
+          "book",
+          "entry",
+          "status",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "net.olamaelcu.livtet.biblio.bookClub.read",
+  "lexicon": 1
+}

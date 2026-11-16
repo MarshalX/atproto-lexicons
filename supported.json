@@ -622,13 +622,13 @@
     {
       "domain": "gamesgamesgamesgames.games",
       "status": "partial",
-      "lexicons": 95,
-      "generated": 95,
+      "lexicons": 102,
+      "generated": 102,
       "provided_by_sdk": 0,
       "kinds": {
-        "record": 22,
+        "record": 23,
         "query": 43,
-        "procedure": 18,
+        "procedure": 24,
         "subscription": 0
       },
       "skipped_lexicons": [],
@@ -976,24 +976,28 @@
     {
       "domain": "olamaelcu.net",
       "status": "partial",
-      "lexicons": 32,
-      "generated": 32,
+      "lexicons": 70,
+      "generated": 66,
       "provided_by_sdk": 0,
       "kinds": {
-        "record": 8,
-        "query": 21,
-        "procedure": 2,
+        "record": 23,
+        "query": 27,
+        "procedure": 15,
         "subscription": 0
       },
-      "skipped_lexicons": [],
+      "skipped_lexicons": [
+        "net.olamaelcu.livtet.biblio.bookClub",
+        "net.olamaelcu.livtet.biblio.clubBookmarks",
+        "net.olamaelcu.livtet.biblio.clubInvite",
+        "net.olamaelcu.livtet.biblio.readingList"
+      ],
       "skipped_methods": [],
       "weakened_lexicons": [
         "net.olamaelcu.livtet.biblio.contributor",
         "net.olamaelcu.livtet.biblio.defs",
-        "net.olamaelcu.livtet.biblio.getActorProfile",
         "net.olamaelcu.livtet.biblio.publisher",
-        "net.olamaelcu.livtet.biblio.resolveContributors",
-        "net.olamaelcu.livtet.biblio.resolvePublishers"
+        "net.olamaelcu.livtet.biblio.review.create",
+        "net.olamaelcu.livtet.biblio.review.update"
       ]
     },
     {
@@ -1782,6 +1786,10 @@
     "Skipped fm.plyr.stg.privateMedia.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
     "Skipped io.atcr.hold.space.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
     "Skipped io.atcr.repo.private.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped net.olamaelcu.livtet.biblio.bookClub.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped net.olamaelcu.livtet.biblio.clubBookmarks.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped net.olamaelcu.livtet.biblio.clubInvite.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped net.olamaelcu.livtet.biblio.readingList.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
     "Skipped network.cosmik.collectionSpace.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
     "Skipped network.cosmik.library.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
     "Skipped place.wisp.fs.json: defs.main.record.key: Field required",
@@ -1807,8 +1815,10 @@
     "Skipped xyz.opnshelf.settings.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
     "Skipped xyz.opnshelf.watches.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
     "Unresolved reference 'network.attested.signature#signatures' in com.fedproxy.temp.xrpc.getRegistrationNonce: 'network.attested.signature' (model 'Signatures') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
-    "Unresolved reference 'community.lexicon.media.book.defs#identifier' in net.olamaelcu.livtet.biblio.resolveContributors: 'community.lexicon.media.book.defs' (model 'Identifier') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
-    "Unresolved reference 'community.lexicon.media.book.defs#identifier' in net.olamaelcu.livtet.biblio.resolvePublishers: 'community.lexicon.media.book.defs' (model 'Identifier') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'community.lexicon.media.book.review#flags' in net.olamaelcu.livtet.biblio.review.create: 'community.lexicon.media.book.review' (model 'Flags') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'community.lexicon.media.book.defs#editionRef' in net.olamaelcu.livtet.biblio.review.create: 'community.lexicon.media.book.defs' (model 'EditionRef') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'community.lexicon.media.book.review#flags' in net.olamaelcu.livtet.biblio.review.update: 'community.lexicon.media.book.review' (model 'Flags') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
+    "Unresolved reference 'community.lexicon.media.book.defs#editionRef' in net.olamaelcu.livtet.biblio.review.update: 'community.lexicon.media.book.defs' (model 'EditionRef') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
     "Unresolved reference 'app.rocksky.artist.defs#recentListenerView' in app.rocksky.artist.getArtistRecentListeners: 'app.rocksky.artist.defs#recentListenerView' names a definition that 'app.rocksky.artist.defs' does not have.",
     "Unresolved reference 'app.rocksky.feed.defs#storiesView' in app.rocksky.feed.getStories: 'app.rocksky.feed.defs#storiesView' names a definition that 'app.rocksky.feed.defs' does not have.",
     "Unresolved reference 'app.rocksky.mirror.defs#mirrorSourceView' in app.rocksky.mirror.getMirrorSources: 'app.rocksky.mirror.defs' (model 'MirrorSourceView') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
@@ -1837,7 +1847,6 @@
     "Unresolved reference 'dev.cocore.defs#verifyFinding' in dev.cocore.compute.verifySettlement: 'dev.cocore.defs' (model 'VerifyFinding') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
     "Unresolved reference 'dev.cocore.defs#indexedRecord' in dev.cocore.inference.status: 'dev.cocore.defs' (model 'IndexedRecord') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
     "Unresolved reference '#defs/tierInfo' in io.atcr.hold.listTiers: '#defs/tierInfo' names a definition that 'io.atcr.hold.listTiers' does not have.",
-    "Unresolved reference 'net.olamaelcu.livtet.actor.profile#main' in net.olamaelcu.livtet.biblio.getActorProfile: 'net.olamaelcu.livtet.actor.profile' (model 'Main') is referenced but not found in the lexicons being generated or the installed 'atproto_client' package. Add its lexicon to the lexicon directory.",
     "Unresolved reference 'lex:social.colibri.actor.deleteAccount#deletedCounts' in social.colibri.actor.deleteAccount: 'lex:social.colibri.actor.deleteAccount#deletedCounts' is not a reference.",
     "Unresolved reference 'lex:social.colibri.actor.defs#actorView' in social.colibri.actor.getData: 'lex:social.colibri.actor.defs#actorView' is not a reference.",
     "Unresolved reference 'lex:social.colibri.actor.getDeletionStatus#deletionCounts' in social.colibri.actor.getDeletionStatus: 'lex:social.colibri.actor.getDeletionStatus#deletionCounts' is not a reference.",

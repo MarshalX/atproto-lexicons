@@ -1,0 +1,44 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Unfollow a DID. Answers NotFound when the follow does not exist.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "subject": {
+              "description": "DID of the person to unfollow.",
+              "format": "did",
+              "type": "string"
+            }
+          },
+          "required": [
+            "subject"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "uri": {
+              "description": "AT-URI of the deleted follow record.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "uri"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "description": "Unfollow a person by DID: finds the caller's follow records whose subject is that DID (including legacy rows) and deletes them.",
+  "id": "net.olamaelcu.livtet.biblio.graph.unfollow",
+  "lexicon": 1
+}

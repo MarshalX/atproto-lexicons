@@ -1,0 +1,74 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "followee": {
+      "properties": {
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "followedAt": {
+          "format": "datetime",
+          "type": "string"
+        }
+      },
+      "required": [
+        "did",
+        "followedAt"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "followees": {
+              "items": {
+                "ref": "#followee",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "total": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "followees",
+            "total"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "type": "string"
+          },
+          "did": {
+            "format": "did",
+            "type": "string"
+          },
+          "limit": {
+            "default": 100,
+            "maximum": 1000,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "did"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "List the accounts one account follows.",
+  "id": "net.olamaelcu.livtet.biblio.graph.listFollowees",
+  "lexicon": 1
+}

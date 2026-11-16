@@ -1,0 +1,55 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "record": {
+        "properties": {
+          "avatarCid": {
+            "description": "CID of the avatar blob uploaded via com.atproto.repo.uploadBlob.",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "description": {
+            "maxGraphemes": 256,
+            "maxLength": 256,
+            "type": "string"
+          },
+          "displayName": {
+            "maxGraphemes": 640,
+            "maxLength": 640,
+            "type": "string"
+          },
+          "skinTone": {
+            "description": "Preferred emoji skin-tone modifier for reactions this account writes. Absent means none. It travels with the profile so the choice reaches every device; records hold the toned emoji, while counts group on the base emoji.",
+            "knownValues": [
+              "none",
+              "light",
+              "medium-light",
+              "medium",
+              "medium-dark",
+              "dark"
+            ],
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "datetime",
+            "type": "string"
+          }
+        },
+        "required": [
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "description": "User profile record stored on the user's PDS at rkey 'self'.",
+  "id": "net.olamaelcu.livtet.biblio.actor.profile",
+  "lexicon": 1
+}

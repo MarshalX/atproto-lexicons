@@ -1,0 +1,60 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Batch the same upsert as shelf.addItem. Entries that fail validation are counted in `failed` instead of aborting the call.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "books": {
+              "description": "Catalog editions to place on the shelf.",
+              "items": {
+                "ref": "com.atproto.repo.strongRef",
+                "type": "ref"
+              },
+              "maxLength": 100,
+              "type": "array"
+            },
+            "shelf": {
+              "description": "AT-URI of the shelf record.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "shelf",
+            "books"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "added": {
+              "description": "Shelf items written.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "failed": {
+              "description": "Entries rejected before writing (bad strongRef, duplicate rkey, ...).",
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "added",
+            "failed"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "description": "Put up to 100 books on one shelf in a single request; the shelfItems are written in parallel with Record.save_all.",
+  "id": "net.olamaelcu.livtet.biblio.shelf.addBooks",
+  "lexicon": 1
+}

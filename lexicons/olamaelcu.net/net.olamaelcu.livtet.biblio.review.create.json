@@ -1,0 +1,70 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Create a community.lexicon.media.book.review record for the caller.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "content": {
+              "description": "Optional client-specific rich content; each object carries a $type.",
+              "refs": [],
+              "type": "union"
+            },
+            "flags": {
+              "description": "Optional presentation flags.",
+              "ref": "community.lexicon.media.book.review#flags",
+              "type": "ref"
+            },
+            "rating": {
+              "description": "Rating on a 1-20 scale; divide by four for a five-star display.",
+              "maximum": 20,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "subject": {
+              "description": "Self-contained book reference the review is about.",
+              "ref": "community.lexicon.media.book.defs#editionRef",
+              "type": "ref"
+            },
+            "subjectRecord": {
+              "description": "Optional AT-URI of an edition record for enrichment.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "textContent": {
+              "description": "Plain-text review.",
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "subject"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "uri": {
+              "description": "AT-URI of the new review record.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "uri"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "description": "Create a review of an edition at a fresh TID rkey. Separate rkeys allow multiple reviews of the same book, including rereads.",
+  "id": "net.olamaelcu.livtet.biblio.review.create",
+  "lexicon": 1
+}

@@ -7,6 +7,12 @@
         "bars"
       ],
       "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1,
+          "description": "What this lane is known by, on the terms of a pattern's `id`, so a song's or a scene's cell names it wherever it now stands. A writer gives a lane one when it is made, and gives every lane without one an id when it next edits the lanes; each is made at random and never the place the lane is known by until then, because a writer from before lanes carried ids leaves them out when it writes the lanes again, and an id that was a place would then name whichever lane stood there. Optional permanently: a lane that says none is known by its place."
+        },
         "bars": {
           "type": "integer",
           "maximum": 64,
@@ -58,14 +64,16 @@
         "properties": {
           "name": {
             "type": "string",
-            "maxLength": 200,
-            "minLength": 1
+            "maxLength": 2000,
+            "minLength": 1,
+            "maxGraphemes": 200
           },
           "tags": {
             "type": "array",
             "items": {
               "type": "string",
-              "maxLength": 128
+              "maxLength": 1280,
+              "maxGraphemes": 128
             },
             "description": "Freely created tags, lower-cased on write so one hashtag matches one set of patches."
           },
@@ -125,7 +133,8 @@
           },
           "description": {
             "type": "string",
-            "maxLength": 3000
+            "maxLength": 30000,
+            "maxGraphemes": 3000
           },
           "midiRouting": {
             "type": "array",
@@ -290,8 +299,9 @@
         },
         "name": {
           "type": "string",
-          "maxLength": 200,
-          "description": "What the tuning is called: a .scl file's description line."
+          "maxLength": 2000,
+          "description": "What the tuning is called: a .scl file's description line.",
+          "maxGraphemes": 200
         },
         "degrees": {
           "type": "array",
@@ -378,8 +388,9 @@
       "properties": {
         "audioInput": {
           "type": "string",
-          "maxLength": 64,
-          "minLength": 1
+          "maxLength": 640,
+          "minLength": 1,
+          "maxGraphemes": 64
         },
         "instanceId": {
           "type": "string",
@@ -397,9 +408,10 @@
       "properties": {
         "node": {
           "type": "string",
-          "maxLength": 64,
+          "maxLength": 640,
           "minLength": 1,
-          "description": "The id of a `dsp` node in the instance's module. One entry per node."
+          "description": "The id of a `dsp` node in the instance's module. One entry per node.",
+          "maxGraphemes": 64
         },
         "seed": {
           "type": "string",
@@ -482,9 +494,10 @@
         },
         "midiInput": {
           "type": "string",
-          "maxLength": 64,
+          "maxLength": 640,
           "minLength": 1,
-          "description": "The note input, one of the module's `midiInputs`, these notes arrive at. It receives note events from any note source; \"MIDI\" is the historical name."
+          "description": "The note input, one of the module's `midiInputs`, these notes arrive at. It receives note events from any note source; \"MIDI\" is the historical name.",
+          "maxGraphemes": 64
         },
         "instanceId": {
           "type": "string",
@@ -613,8 +626,9 @@
         },
         "audioOutput": {
           "type": "string",
-          "maxLength": 64,
-          "minLength": 1
+          "maxLength": 640,
+          "minLength": 1,
+          "maxGraphemes": 64
         }
       }
     },
@@ -820,8 +834,7 @@
             "ref": "#noteEvent",
             "type": "ref"
           },
-          "maxLength": 2048,
-          "description": "The notes in the first pattern. A moment carrying no note is a rest; a note starting outside the pattern's length is not played."
+          "description": "The notes in the first pattern, as many as the creator writes: the record's own size is the only bound. A moment carrying no note is a rest; a note starting outside the pattern's length is not played."
         },
         "resting": {
           "type": "boolean",
@@ -880,7 +893,13 @@
         "loop": {
           "type": "integer",
           "minimum": 0,
-          "description": "Which of the sequencer's patterns it plays, counting the one its `notePattern` writes first as zero, or which of the automation block's lanes. One it does not hold is played as its last."
+          "description": "Which of the sequencer's patterns it plays, counting the one its `notePattern` writes first as zero, or which of the automation block's lanes. One it does not hold is played as its last. Read only where `pattern` names none of them."
+        },
+        "pattern": {
+          "type": "string",
+          "maxLength": 64,
+          "minLength": 1,
+          "description": "The id of the pattern `loop` names, or of the lane, as it was known when the cell was written: its own `id`, or the place it is known by where it has none. A reader plays the pattern this names, wherever it now stands, so a cell set while somebody else took out a pattern before it still plays the one it was set to; where it names no pattern the sequencer now holds, the reader plays `loop`. A writer writes it with `loop`, from one reading of the sequencer, and a writer that changes `loop` without knowing the id leaves it out, so a cell never holds one pattern's id beside another's place. Optional permanently: a cell that says none is played by `loop`, which is what every cell written before this field existed says."
         },
         "instanceId": {
           "type": "string",
@@ -926,8 +945,9 @@
         },
         "noteOutput": {
           "type": "string",
-          "maxLength": 64,
-          "minLength": 1
+          "maxLength": 640,
+          "minLength": 1,
+          "maxGraphemes": 64
         }
       }
     },
@@ -1124,13 +1144,15 @@
       "properties": {
         "id": {
           "type": "string",
-          "maxLength": 64,
-          "minLength": 1
+          "maxLength": 640,
+          "minLength": 1,
+          "maxGraphemes": 64
         },
         "value": {
           "type": "string",
-          "maxLength": 200,
-          "description": "The value this patch sets the parameter to, always as text. A number is its decimal form — \"0.5\", and \"2\" for a whole one — because the ATproto data model has no floating-point type and a string is the only type that carries both a number and a word. Where the module declares a closed set of values instead, this is one of those strings, and a label that looks like a number stays the label it is: the module's own description says which of the two this parameter is."
+          "maxLength": 2000,
+          "description": "The value this patch sets the parameter to, always as text. A number is its decimal form — \"0.5\", and \"2\" for a whole one — because the ATproto data model has no floating-point type and a string is the only type that carries both a number and a word. Where the module declares a closed set of values instead, this is one of those strings, and a label that looks like a number stays the label it is: the module's own description says which of the two this parameter is.",
+          "maxGraphemes": 200
         },
         "useDefault": {
           "type": "boolean",
@@ -1164,8 +1186,9 @@
         },
         "slotId": {
           "type": "string",
-          "maxLength": 64,
-          "minLength": 1
+          "maxLength": 640,
+          "minLength": 1,
+          "maxGraphemes": 64
         },
         "ownerDid": {
           "type": "string",
@@ -1209,8 +1232,7 @@
             "ref": "#noteEvent",
             "type": "ref"
           },
-          "maxLength": 2048,
-          "description": "The notes in this pattern."
+          "description": "The notes in this pattern, as many as the creator writes: the record's own size is the only bound."
         },
         "sixteenths": {
           "type": "integer",

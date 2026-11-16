@@ -1,0 +1,76 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Upsert the reading goal at rkey 'current'.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "booksGoal": {
+              "description": "Number of books to finish in the period.",
+              "minimum": 1,
+              "type": "integer"
+            },
+            "period": {
+              "description": "weekly = Mon-Sun, monthly = calendar month, annual = calendar year.",
+              "knownValues": [
+                "weekly",
+                "monthly",
+                "annual"
+              ],
+              "type": "string"
+            },
+            "year": {
+              "description": "Calendar year the goal belongs to.",
+              "maximum": 9999,
+              "minimum": 1900,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "period",
+            "year",
+            "booksGoal"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "booksGoal": {
+              "description": "The goal that was written.",
+              "type": "integer"
+            },
+            "period": {
+              "description": "The period that was written.",
+              "type": "string"
+            },
+            "uri": {
+              "description": "AT-URI of the readingGoal record.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "year": {
+              "description": "The year that was written.",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "uri",
+            "period",
+            "year",
+            "booksGoal"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "description": "Set the caller's reading goal. The readingGoal record lives at rkey 'current', which the getReadingGoal query reads.",
+  "id": "net.olamaelcu.livtet.biblio.readingGoal.set",
+  "lexicon": 1
+}
