@@ -1,0 +1,72 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Enumerate every catalog edition in at-uri order, one page at a time. Anonymous and read-only, served by the bibliograph edge from `editions` alone: no identifiers, no contributors, no covers, and no PDS. Built for a crawler that needs the whole corpus (a sitemap, a mirror), which the search surface cannot serve because a search needs a term.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "description": "Opaque cursor for the next page; absent when the catalogue is exhausted.",
+              "type": "string"
+            },
+            "items": {
+              "description": "Editions in ascending at-uri order. Two pages never overlap, so a cursor walk over a growing catalogue revisits nothing.",
+              "items": {
+                "properties": {
+                  "indexedAt": {
+                    "description": "When the catalog last indexed this edition. A sitemap's `lastmod` is this value.",
+                    "format": "datetime",
+                    "type": "string"
+                  },
+                  "title": {
+                    "description": "The edition's title, as catalogued.",
+                    "type": "string"
+                  },
+                  "uri": {
+                    "description": "The edition's at-uri, in the authority the catalog currently publishes under.",
+                    "format": "at-uri",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "uri",
+                  "title",
+                  "indexedAt"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "description": "Opaque pagination cursor from a previous response. A malformed cursor restarts at the beginning rather than erroring.",
+            "maxLength": 512,
+            "type": "string"
+          },
+          "limit": {
+            "default": 1000,
+            "description": "Maximum number of editions to return in this page. The default covers the whole catalogue in 283 requests; 5000 covers it in 57, each an index scan measured at ~180 ms. Requesting a larger page is the intended way to make a full crawl cheaper.",
+            "maximum": 5000,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "Enumerate every catalog edition in at-uri order, one page at a time. Anonymous and read-only, served by the bibliograph edge from `editions` alone: no identifiers, no contributors, no covers, and no PDS. Built for a crawler that needs the whole corpus (a sitemap, a mirror), which the search surface cannot serve because a search needs a term.",
+  "id": "net.olamaelcu.livtet.biblio.listEditions",
+  "lexicon": 1
+}

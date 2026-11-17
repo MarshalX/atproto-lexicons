@@ -1,0 +1,53 @@
+{
+  "id": "community.lexicon.media.book.resolveEditions",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "identifiers"
+          ],
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "default": 25,
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Maximum number of editions to return in this page."
+            },
+            "offset": {
+              "type": "integer",
+              "default": 0,
+              "minimum": 0,
+              "description": "Number of matching editions to skip in the provider's ordered result set."
+            },
+            "identifiers": {
+              "type": "array",
+              "items": {
+                "ref": "community.lexicon.media.book.defs#identifier",
+                "type": "ref"
+              },
+              "minLength": 1,
+              "description": "Identifiers describing one book. An edition qualifies when at least one supplied issuer/value pair matches exactly. Unknown identifiers do not invalidate other matches."
+            }
+          },
+          "description": "Resolve one identifier bag. Batch resolution is not defined in this version."
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "ref": "community.lexicon.media.book.defs#editionResults",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "Resolve one book by exact equality of at least one identifier issuer/value pair. Shared grouping identifiers may match several editions. Results are in provider-defined relevance order. This operation does not write user records."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Resolve one book by exact equality of at least one identifier issuer/value pair. Shared grouping identifiers may match several editions. Results are in provider-defined relevance order. This operation does not write user records."
+}

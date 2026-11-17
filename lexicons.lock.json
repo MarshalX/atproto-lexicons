@@ -4248,7 +4248,7 @@
         "did": "did:plc:s4puetfspot742ai7y4otuel"
       },
       "org.hypercerts.context.attachment": {
-        "cid": "bafyreifzezgqyhup7bu5wgakpj7hdxgdbttrmic7bk6amsc36y7i2ak5ge",
+        "cid": "bafyreigfwx2svpnflrlqewzh56zjlaxqktz5blfean22i4ezna236freea",
         "did": "did:plc:s4puetfspot742ai7y4otuel"
       },
       "org.hypercerts.context.evaluation": {
@@ -5319,8 +5319,12 @@
         "cid": "bafyreic7mub3hyo27ikhzrol5b7su4df3nvjnz7j5fvgqyzws3ooovu2hq",
         "did": "did:plc:mtr7qrqtcyseedx3jyr5o7db"
       },
+      "community.lexicon.calendar.collection": {
+        "cid": "bafyreigeoiku7kfx4i5mav42mz2zn5uv7kh6xihhwxiihy3xp3prqdmiom",
+        "did": "did:plc:mtr7qrqtcyseedx3jyr5o7db"
+      },
       "community.lexicon.calendar.event": {
-        "cid": "bafyreigujd4dgxzu7z3uiijx26kamijxoq5xgiqtduuywqyblhs4mfzak4",
+        "cid": "bafyreigqh6tvhgfifv647ns2jck3gwe6hvmqsehbow7zuhoviwle2esysm",
         "did": "did:plc:mtr7qrqtcyseedx3jyr5o7db"
       },
       "community.lexicon.calendar.getEvent": {
@@ -5357,6 +5361,26 @@
       },
       "community.lexicon.location.hthree": {
         "cid": "bafyreic6xmiv4ycbcfvcvj5uu537ytl7hnjazcxf7hhd7g6o6s7p6tonky",
+        "did": "did:plc:mtr7qrqtcyseedx3jyr5o7db"
+      },
+      "community.lexicon.media.book.defs": {
+        "cid": "bafyreibtrzjy7du7sdnpuoej2htw6oakxaqv22pmvrx33ofhe4bw5xseta",
+        "did": "did:plc:mtr7qrqtcyseedx3jyr5o7db"
+      },
+      "community.lexicon.media.book.edition": {
+        "cid": "bafyreihj5oiedldhvin5zpd7yhmvjd6jd75lsvg6gvebujrbda2npry4gm",
+        "did": "did:plc:mtr7qrqtcyseedx3jyr5o7db"
+      },
+      "community.lexicon.media.book.resolveEditions": {
+        "cid": "bafyreif2vql3hksu37yzlxggzikgj5qixgrmmcgmbwm5svlwgqrrwxky3m",
+        "did": "did:plc:mtr7qrqtcyseedx3jyr5o7db"
+      },
+      "community.lexicon.media.book.review": {
+        "cid": "bafyreidwjlm3r5ffp5d6k32f7v3emvpb6fxzflwy7uyizmlvjft56z43ly",
+        "did": "did:plc:mtr7qrqtcyseedx3jyr5o7db"
+      },
+      "community.lexicon.media.book.searchEditions": {
+        "cid": "bafyreigttdny6253gmwmzf3pwo4tussp2vwem4fkwsjwfbd47rfsijyjym",
         "did": "did:plc:mtr7qrqtcyseedx3jyr5o7db"
       },
       "community.lexicon.payments.webMonetization": {
@@ -5988,7 +6012,7 @@
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.bookClub": {
-        "cid": "bafyreidadbp5yla4xu7unlsx4ejdc4eut6zdgszksuiierxeiyvio5ydt4",
+        "cid": "bafyreibrgcuebblglqnfgfvrkw52jxi6ou6djqt6m4iyx5ycfiqk6go4ba",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.bookClub.activeRead": {
@@ -6024,11 +6048,11 @@
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.clubBookmarks": {
-        "cid": "bafyreidnvvgc6wal4wdh52cgxmi3jvkol5csqvvjzzwxgyvd2an7hjqc4u",
+        "cid": "bafyreibeyt2usdk36qyzfdhswfjylga5nf2yeu2u5li423u4ck4laslmlm",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.clubInvite": {
-        "cid": "bafyreiawwonmw4s3fttpqrscmg2mpij4ec5xsatysywcbxk77eqa4r7mai",
+        "cid": "bafyreieqwnc4iqxxthqzwvcm7pmgoc4yb6frm4b3z6qzp6d63risvdhnoy",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.clubInvite.decision": {
@@ -6119,12 +6143,16 @@
         "cid": "bafyreicgkj3rshqtbesobvfeoqcew6jlcubjzczlrkppwypbngh6u2jehy",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
+      "net.olamaelcu.livtet.biblio.listEditions": {
+        "cid": "bafyreigla23ekjqe7j2shwfoo37bnbzrvesxydn6pqkbvqcch3hq2vtn2i",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
       "net.olamaelcu.livtet.biblio.listEditionsByContributor": {
         "cid": "bafyreih3gxvjnol7djlgd2nurd5qxxeipxhrwjoh4bbqketyr35soavlze",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.listReactions": {
-        "cid": "bafyreicqr4q6vpnek4pufqf74xzfimhkog6bfdmeldxpruyylih4ryroku",
+        "cid": "bafyreic6jbnlfzkt3to73wcclfcwirqtbp46ciza6ge2i4z244wsxbz5q4",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.listRecentShelving": {
@@ -6168,7 +6196,7 @@
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.readingList": {
-        "cid": "bafyreib2bucts3e6jyy54slnsowdsaijusy4hztapuyziwcxw3uxzfwsu4",
+        "cid": "bafyreiaqr6bvhgtrbqhuvc3umjzmdjpuiv3fnrwvlsxnkevxxkqyw5elfi",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.readingList.entry": {
@@ -7246,7 +7274,7 @@
         "did": "did:plc:tndzxgswtjuwylmsa5x3whwa"
       },
       "work.sequential.chapter": {
-        "cid": "bafyreidonxhm7mvebcr3lk2rrtriwfn5arnchbgvurg4mip75vpe5onwfm",
+        "cid": "bafyreihs4cpp4tqtjtti3rsis6ymjn3xlvs5iykb6hdqzpkznkg4tucrsa",
         "did": "did:plc:tndzxgswtjuwylmsa5x3whwa"
       },
       "work.sequential.cover": {
@@ -10215,14 +10243,10 @@
       }
     }
   },
-  "unreachable": [
-    "podping.at"
-  ],
+  "unreachable": [],
   "unresolved": [
     "app.rocksky.mirror.defs",
     "app.rocksky.song.defs.songViewBasic",
-    "community.lexicon.media.book.defs",
-    "community.lexicon.media.book.review",
     "dev.cocore.defs",
     "network.attested.signature",
     "place.stream.media.defs",
@@ -10270,13 +10294,13 @@
     "gamesgamesgamesgames.games": "2026-11-16",
     "gamethesky.com": "2026-11-13",
     "grain.social": "2026-11-13",
-    "hypercerts.org": "2026-11-13",
+    "hypercerts.org": "2026-11-17",
     "jgs.me": "2026-11-13",
     "keytrace.dev": "2026-11-13",
     "kipclip.com": "2026-11-13",
     "knotless.dev": "2026-11-15",
     "leaflet.pub": "2026-11-15",
-    "lexicon.community": "2026-11-13",
+    "lexicon.community": "2026-11-17",
     "lichen.wiki": "2026-11-13",
     "linkedclaims.com": "2026-11-13",
     "logue.is": "2026-11-13",
@@ -10288,7 +10312,7 @@
     "nahdig.com": "2026-11-13",
     "nerdballot.com": "2026-11-13",
     "offprint.app": "2026-11-13",
-    "olamaelcu.net": "2026-11-16",
+    "olamaelcu.net": "2026-11-17",
     "opnshelf.xyz": "2026-11-13",
     "pckt.blog": "2026-11-13",
     "pinkleap.social": "2026-11-13",
@@ -10303,7 +10327,7 @@
     "rocksky.app": "2026-11-13",
     "rpg.actor": "2026-11-13",
     "sensorthings.dev": "2026-11-13",
-    "sequential.work": "2026-11-13",
+    "sequential.work": "2026-11-17",
     "shelf.cafe": "2026-11-13",
     "shelfcheck.org": "2026-11-13",
     "sifa.id": "2026-11-13",
