@@ -11,6 +11,7 @@
       "description": "A reading list shared with a chosen set of readers. The space is governed by a memberspace policy; the list's records live in the owner's repo inside the space.",
       "key": "tid",
       "name": "Reading list",
+      "title": "Reading list",
       "type": "space"
     }
   },

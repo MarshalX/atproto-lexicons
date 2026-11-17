@@ -88,6 +88,11 @@
             "format": "datetime",
             "description": "The date and time the chapter was published. Drafts are kept by the AppView and only written to the repo when published."
           },
+          "bskyPostRef": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "Strong reference (AT-URI and CID) to the app.bsky.feed.post announcing this chapter. AppViews can use it to link to the post or show its replies."
+          },
           "description": {
             "type": "array",
             "items": {

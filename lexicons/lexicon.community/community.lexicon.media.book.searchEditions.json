@@ -1,0 +1,72 @@
+{
+  "id": "community.lexicon.media.book.searchEditions",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [],
+          "properties": {
+            "q": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Broad search text, which may describe a title, contributor, description, or identifier. Matching and ranking are provider-defined."
+            },
+            "limit": {
+              "type": "integer",
+              "default": 25,
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Maximum number of editions to return in this page."
+            },
+            "title": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Title relevance hint, interpreted by the provider."
+            },
+            "author": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Author relevance hint, interpreted by the provider."
+            },
+            "offset": {
+              "type": "integer",
+              "default": 0,
+              "minimum": 0,
+              "description": "Number of matching editions to skip in the provider's ordered result set."
+            },
+            "identifiers": {
+              "type": "array",
+              "items": {
+                "ref": "community.lexicon.media.book.defs#identifier",
+                "type": "ref"
+              },
+              "minLength": 1,
+              "description": "Structured identifier relevance hints; search matching and ranking are provider-defined."
+            }
+          },
+          "description": "Supply at least one nonblank q, title, author, or a nonempty identifiers array. Providers enforce this cross-field requirement."
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "InvalidQuery",
+          "description": "No nonblank q, title, author, or nonempty identifiers array was supplied."
+        }
+      ],
+      "output": {
+        "schema": {
+          "ref": "community.lexicon.media.book.defs#editionResults",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "Search a provider's catalog using text and structured hints. Fuzzy matching, field interpretation, and ranking are provider-specific. This operation does not write user records."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Search a provider's catalog using text and structured hints. Fuzzy matching, field interpretation, and ranking are provider-specific. This operation does not write user records."
+}

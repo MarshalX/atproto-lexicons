@@ -1,0 +1,68 @@
+{
+  "id": "community.lexicon.media.book.review",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "flags": {
+            "ref": "#flags",
+            "type": "ref"
+          },
+          "rating": {
+            "type": "integer",
+            "maximum": 20,
+            "minimum": 1,
+            "description": "Rating on a 1-20 scale; divide by four for a five-star display."
+          },
+          "content": {
+            "refs": [],
+            "type": "union",
+            "description": "Optional client-specific rich content, using the same open-union shape as site.standard.document.content. Each content object must include a $type identifying its format. A written review must also supply its plain-text textContent fallback."
+          },
+          "subject": {
+            "ref": "community.lexicon.media.book.defs#editionRef",
+            "type": "ref"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Time this review was created."
+          },
+          "textContent": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Plain-text review, without Markdown. At least one of rating or nonempty textContent must be supplied. Rich content alone does not satisfy this requirement."
+          },
+          "subjectRecord": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Optional AT-URI to an edition record for enrichment; subject.identifiers remain the matching mechanism."
+          }
+        },
+        "description": "A self-contained review. At least one of rating or nonempty textContent is required."
+      },
+      "description": "A review or rating of a book. Separate record keys allow multiple reviews of the same book, including rereads."
+    },
+    "flags": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "spoilers": {
+          "type": "boolean",
+          "description": "Whether the review contains spoilers."
+        }
+      },
+      "description": "Optional review presentation flags."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A portable review with an embedded book reference."
+}

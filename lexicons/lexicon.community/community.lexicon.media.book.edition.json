@@ -1,0 +1,119 @@
+{
+  "id": "community.lexicon.media.book.edition",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "title",
+          "identifiers",
+          "contributors",
+          "createdAt"
+        ],
+        "properties": {
+          "cover": {
+            "type": "blob",
+            "accept": [
+              "image/*"
+            ],
+            "description": "Optional cover image, strongly recommended when storing in a repository. The blob must belong to the repository containing the record, including when embedded in a review. May coexist with coverUrl."
+          },
+          "pages": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Total page count for print or ebook editions, when known."
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Title of the edition."
+          },
+          "format": {
+            "type": "string",
+            "description": "Medium of the edition. Additional values are permitted; clients should provide a fallback for unrecognized formats.",
+            "knownValues": [
+              "physical",
+              "ebook",
+              "audio"
+            ]
+          },
+          "series": {
+            "ref": "community.lexicon.media.book.defs#series",
+            "type": "ref"
+          },
+          "chapters": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Total chapter count, when known. This is an extent, not the reader's progress or a table of contents."
+          },
+          "coverUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Optional cover image URL, useful for API responses and providers without repository storage. May coexist with cover; a URL alone does not preserve image bytes in the user's repository."
+          },
+          "language": {
+            "type": "string",
+            "format": "language",
+            "description": "Language of the edition as a BCP 47 language tag."
+          },
+          "subtitle": {
+            "type": "string",
+            "description": "Subtitle of the edition."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Time this edition record or snapshot was created, not its publication date."
+          },
+          "publisher": {
+            "ref": "community.lexicon.media.book.defs#publisher",
+            "type": "ref"
+          },
+          "bookEdition": {
+            "type": "string",
+            "description": "Edition statement, such as 2nd revised or Abridged."
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of the edition."
+          },
+          "identifiers": {
+            "type": "array",
+            "items": {
+              "ref": "community.lexicon.media.book.defs#identifier",
+              "type": "ref"
+            },
+            "minLength": 1,
+            "description": "Known identifiers for this edition, including provider grouping identifiers. Include the writing provider's identifier where available."
+          },
+          "contributors": {
+            "type": "array",
+            "items": {
+              "ref": "community.lexicon.media.book.defs#contributor",
+              "type": "ref"
+            },
+            "description": "Contributors credited on the edition. May be empty for anonymous or unknown contributions."
+          },
+          "publishedDate": {
+            "type": "string",
+            "maxLength": 10,
+            "minLength": 4,
+            "description": "Publication date in ISO 8601 format at its known precision: YYYY, YYYY-MM, or YYYY-MM-DD. Preserve available precision without inventing a month or day. Applications must validate the date; this is not a datetime."
+          },
+          "durationSeconds": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Total audio duration in whole seconds, when known."
+          }
+        },
+        "description": "Full edition metadata for books, including comic books and graphic novels, for embedding and optional repository publication. Provider APIs use editionView, which carries covers as URLs only."
+      },
+      "description": "Optional repository publication of an edition. Its fields mirror defs#edition; publishing a catalog on AT Protocol is not required."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A specific published instance of a book, including comic books and graphic novels, such as one printing, translation, or audiobook production. Not a work: distinct editions of the same underlying text are distinct records. New metadata fields should follow the corresponding names, meaning, and shape in https://schema.org/Book, including inherited properties; document any adaptations or extensions."
+}

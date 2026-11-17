@@ -45,6 +45,15 @@
             },
             "description": "URIs associated with the event."
           },
+          "media": {
+            "type": "array",
+            "items": {
+              "ref": "community.lexicon.calendar.event#media",
+              "type": "ref"
+            },
+            "maxLength": 16,
+            "description": "Images associated with the event, with roles indicating their intended use."
+          },
           "endsAt": {
             "type": "string",
             "format": "datetime",
@@ -101,6 +110,46 @@
         "community.lexicon.calendar.event#virtual"
       ]
     },
+    "media": {
+      "type": "object",
+      "required": [
+        "content",
+        "role"
+      ],
+      "properties": {
+        "alt": {
+          "type": "string",
+          "maxLength": 20000,
+          "description": "Alternative text describing the image for accessibility. Optional but producers should provide meaningful alternative text.",
+          "maxGraphemes": 2000
+        },
+        "role": {
+          "type": "string",
+          "maxLength": 128,
+          "minLength": 1,
+          "description": "The intended use of the image. Suggested roles are thumbnail (a preview image, preferably square), flyer (a portrait promotional image), and header (a wide image displayed above the event). Other roles are allowed. Roles are display hints, not aspect ratio constraints; consumers should use aspect_ratio when available.",
+          "knownValues": [
+            "thumbnail",
+            "flyer",
+            "header"
+          ]
+        },
+        "content": {
+          "type": "blob",
+          "accept": [
+            "image/*"
+          ],
+          "maxSize": 10000000,
+          "description": "The image file."
+        },
+        "aspect_ratio": {
+          "ref": "community.lexicon.calendar.event#aspectRatio",
+          "type": "ref",
+          "description": "The image's width-to-height ratio. Producers should provide this when known."
+        }
+      },
+      "description": "An image associated with the event. Multiple images may have the same role."
+    },
     "hybrid": {
       "type": "token",
       "description": "A hybrid event that takes place both online and offline."
@@ -140,6 +189,24 @@
     "scheduled": {
       "type": "token",
       "description": "The event has been created and scheduled."
+    },
+    "aspectRatio": {
+      "type": "object",
+      "required": [
+        "width",
+        "height"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "description": "The image's width-to-height ratio. Values may be pixel dimensions or proportional dimensions."
     },
     "rescheduled": {
       "type": "token",
