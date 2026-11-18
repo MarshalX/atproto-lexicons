@@ -1,6 +1,6 @@
 # Supported services
 
-2449 of 2508 lexicons are packaged. Another 16 ship with the SDK itself.
+2453 of 2512 lexicons are packaged. Another 16 ship with the SDK itself.
 
 | Status | Services | Meaning |
 |---|---|---|
@@ -96,7 +96,7 @@
 | `syui.ai` | Full | 12 of 12 | 12 | 0 | 0 |  |  |
 | `tangled.org` | Full | 64 of 64 | 18 | 11 | 17 |  |  |
 | `teal.fm` | Full | 18 of 18 | 4 | 11 | 0 |  |  |
-| `tokimeki.tech` | Partial | 25 of 29 | 23 | 0 | 0 | 4 |  |
+| `tokimeki.tech` | Partial | 26 of 30 | 23 | 0 | 0 | 4 |  |
 | `transparencia.tech` | Full | 8 of 8 | 7 | 0 | 0 |  |  |
 | `trezy.pet` | Full | 48 of 48 | 17 | 14 | 16 |  |  |
 | `turtleme.at` | Partial | 20 of 22 | 4 | 0 | 15 | 17 | 15 |
@@ -107,7 +107,7 @@
 | `wisp.place` | Partial | 5 of 7 | 3 | 0 | 0 | 2 |  |
 | `witchsky.app` | Full | 6 of 6 | 4 | 0 | 0 |  |  |
 | `xptracker.app` | Full | 2 of 2 | 1 | 0 | 0 |  |  |
-| `zeens.app` | Full | 58 of 58 | 17 | 40 | 0 |  |  |
+| `zeens.app` | Full | 61 of 61 | 18 | 42 | 0 |  |  |
 | `zelk.space` | Full | 8 of 8 | 8 | 0 | 0 |  |  |
 | `zzstoatzz.io` | Full | 9 of 9 | 8 | 1 | 0 |  |  |
 

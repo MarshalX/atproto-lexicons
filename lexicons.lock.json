@@ -552,7 +552,7 @@
         "did": "did:plc:fzjkahpwapmoqxybwdjb6ysf"
       },
       "at.atmosynth.patch": {
-        "cid": "bafyreigyiwr6wy5mit2k63lv3ap4jfofau3735ajjvtr4nlxxjqqikrpma",
+        "cid": "bafyreidz2squ4nwgxa2tlggnu6xnx2dzu6wwqxs3ldadvfhl5z6ibggl2u",
         "did": "did:plc:fzjkahpwapmoqxybwdjb6ysf"
       },
       "at.atmosynth.patchPresentation": {
@@ -1196,7 +1196,7 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.actor.preferences": {
-        "cid": "bafyreigorgza566qjn6uux4kgv2qqgmrtxh6qusrladlvepgbcr6gcyunm",
+        "cid": "bafyreihf4jqzhygbfmyhgionczuiqalb7gt52avj72cmmy6ay56y42aupm",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.actor.profile": {
@@ -1420,7 +1420,7 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.channel.voice": {
-        "cid": "bafyreidokbghaq5q2elnajaj5fgoxz6k5ells65cbjlm62zzqdrl5wwfim",
+        "cid": "bafyreiajzh2on4bnooyqeo43i5x7svvketu2spur542tcmesys5kyjrrgi",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.community": {
@@ -1844,7 +1844,7 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.sync.subscribeEvents": {
-        "cid": "bafyreifm6fcgzsaiegft2oxwnu5o4hy5g5chbvzb43v4k6ffyu6buzogvu",
+        "cid": "bafyreib42s5a2c36wmp5m75ha4w6zf4lu7uz4cqx2qzoxs645f5fygbifq",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.thread": {
@@ -9403,8 +9403,12 @@
         "cid": "bafyreigwu6y3fnb4hrdflwkxv42gmevlwrq2v7rub36nowl64pmtrndhli",
         "did": "did:plc:4tr5dqti7nmu6g2czpthntak"
       },
+      "tech.tokimeki.poll.authFull": {
+        "cid": "bafyreiapg24o3ficrvilsuuak4lsc3npjjpgnxgsepbummftuqvnrrhmmm",
+        "did": "did:plc:4tr5dqti7nmu6g2czpthntak"
+      },
       "tech.tokimeki.poll.poll": {
-        "cid": "bafyreie7yy4gd4unr5dhlclmdldl7wqhwyt4llhjhfbds2an6hboclt464",
+        "cid": "bafyreihermlr4jhj2mvd4jkpbnonzdnphchmx5ofg2mh6lxjfzhcmdmc5u",
         "did": "did:plc:4tr5dqti7nmu6g2czpthntak"
       },
       "tech.tokimeki.poll.vote": {
@@ -9938,7 +9942,7 @@
     },
     "zeens.app": {
       "app.zeens.authFull": {
-        "cid": "bafyreiccthpszi6xeshaufkmjn5q3bpljh74l5q6u2lqs5btitiyh5qv6u",
+        "cid": "bafyreibcnejkcvelvjalq7c3jyq7zwmviuupl2id2bsi2cwoqpqlzaa6aa",
         "did": "did:plc:pwpuqwge6g7xrjmfbw73uycw"
       },
       "app.zeens.c2pa": {
@@ -9979,6 +9983,10 @@
       },
       "app.zeens.getActiveAuthors": {
         "cid": "bafyreifszijru6whlorjt5xkdbq75756r3gi44zgevahkbrtimhh4gc2iu",
+        "did": "did:plc:pwpuqwge6g7xrjmfbw73uycw"
+      },
+      "app.zeens.getAuthorStats": {
+        "cid": "bafyreiboanxfi5nymulcvyeganh5442qk5ec6p4a64f2sedqmvx3wyajfm",
         "did": "did:plc:pwpuqwge6g7xrjmfbw73uycw"
       },
       "app.zeens.getChatGate": {
@@ -10109,6 +10117,10 @@
         "cid": "bafyreibdbosvuzwmiv6e6cuazzmc2pxaodloz3lh4zzevp4i4vo75pcdsm",
         "did": "did:plc:pwpuqwge6g7xrjmfbw73uycw"
       },
+      "app.zeens.getTrendStats": {
+        "cid": "bafyreibk2j6h4wbbducrmnqmntquqiug5fs2lsnghahn6c4jm6v5k7ly64",
+        "did": "did:plc:pwpuqwge6g7xrjmfbw73uycw"
+      },
       "app.zeens.getTrending": {
         "cid": "bafyreictfhbr5dix54tdovonj4kirtmtnft6pq7htr4iieniv7v7to3p3a",
         "did": "did:plc:pwpuqwge6g7xrjmfbw73uycw"
@@ -10123,6 +10135,10 @@
       },
       "app.zeens.markConvoSeen": {
         "cid": "bafyreieydhvkvfbxdqse3ocdkwtx7wb53tblfv45nncgl4t4jzpq4bbrjy",
+        "did": "did:plc:pwpuqwge6g7xrjmfbw73uycw"
+      },
+      "app.zeens.media": {
+        "cid": "bafyreifadtbflvnoux2d7d2g6o7xwz4zrlrfun3pnqxmesenizi6bs6dpi",
         "did": "did:plc:pwpuqwge6g7xrjmfbw73uycw"
       },
       "app.zeens.message": {
@@ -10150,7 +10166,7 @@
         "did": "did:plc:pwpuqwge6g7xrjmfbw73uycw"
       },
       "app.zeens.postMeta": {
-        "cid": "bafyreie7z7d45d3mjec7ctmxbyo5axlmhdyxiqagbndtlczmozxxx5jyaa",
+        "cid": "bafyreifmbst5yvi6nyxch5hf2vnc74glpzvuitdvkf7zwnp45dldwg6swe",
         "did": "did:plc:pwpuqwge6g7xrjmfbw73uycw"
       },
       "app.zeens.profile": {
@@ -10243,7 +10259,10 @@
       }
     }
   },
-  "unreachable": [],
+  "unreachable": [
+    "release.software",
+    "trezy.pet"
+  ],
   "unresolved": [
     "app.rocksky.mirror.defs",
     "app.rocksky.song.defs.songViewBasic",
@@ -10264,7 +10283,7 @@
     "astro-colibri.science": "2026-11-13",
     "atcr.io": "2026-11-13",
     "atmo.rsvp": "2026-11-13",
-    "atmosynth.at": "2026-11-16",
+    "atmosynth.at": "2026-11-18",
     "atmowx.net": "2026-11-13",
     "atni.me": "2026-11-15",
     "atpcraft.at": "2026-11-13",
@@ -10278,7 +10297,7 @@
     "certified.app": "2026-11-13",
     "chavatar.app": "2026-11-13",
     "cocore.dev": "2026-11-13",
-    "colibri.social": "2026-11-15",
+    "colibri.social": "2026-11-18",
     "cosmik.network": "2026-11-13",
     "coves.social": "2026-11-13",
     "craftsky.social": "2026-11-13",
@@ -10342,7 +10361,7 @@
     "syui.ai": "2026-11-13",
     "tangled.org": "2026-11-13",
     "teal.fm": "2026-11-13",
-    "tokimeki.tech": "2026-11-15",
+    "tokimeki.tech": "2026-11-18",
     "transparencia.tech": "2026-11-13",
     "trezy.pet": "2026-11-13",
     "turtleme.at": "2026-11-13",
@@ -10353,7 +10372,7 @@
     "wisp.place": "2026-11-13",
     "witchsky.app": "2026-11-13",
     "xptracker.app": "2026-11-13",
-    "zeens.app": "2026-11-13",
+    "zeens.app": "2026-11-18",
     "zelk.space": "2026-11-13",
     "zzstoatzz.io": "2026-11-13"
   }
