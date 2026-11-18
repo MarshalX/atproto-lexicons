@@ -636,7 +636,7 @@
     },
     "atpota.to": {
       "to.atpota.authFull": {
-        "cid": "bafyreid6u4xsz7f76fvnrf7ieicyh7xsnpu24s57y4wr4tfi6khn3u6nfa",
+        "cid": "bafyreihoiifpbfrf6tpsf3wy36wo3wdamymrnf3crb7kfdgbzmvca5wp4u",
         "did": "did:plc:qntsxa2i4sb24noi45fx4np2"
       },
       "to.atpota.garden.patch": {
@@ -10259,10 +10259,7 @@
       }
     }
   },
-  "unreachable": [
-    "release.software",
-    "trezy.pet"
-  ],
+  "unreachable": [],
   "unresolved": [
     "app.rocksky.mirror.defs",
     "app.rocksky.song.defs.songViewBasic",
@@ -10287,7 +10284,7 @@
     "atmowx.net": "2026-11-13",
     "atni.me": "2026-11-15",
     "atpcraft.at": "2026-11-13",
-    "atpota.to": "2026-11-13",
+    "atpota.to": "2026-11-18",
     "atstore.fyi": "2026-11-13",
     "blacksky.community": "2026-11-13",
     "blampow.app": "2026-11-13",
