@@ -6,9 +6,12 @@
       "type": "space",
       "title": "Colibri voice channel",
       "collections": [
-        "social.colibri.beta.channel"
+        "social.colibri.beta.channel",
+        "social.colibri.beta.message",
+        "social.colibri.beta.reaction",
+        "social.colibri.beta.label"
       ],
-      "description": "A voice channel. Holds only its own configuration record, because call state is off-protocol."
+      "description": "A voice channel. Holds its configuration record and the messages, reactions and labels of its text chat. Call state is off-protocol."
     }
   },
   "$type": "com.atproto.lexicon.schema",

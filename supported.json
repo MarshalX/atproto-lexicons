@@ -1502,8 +1502,8 @@
     {
       "domain": "tokimeki.tech",
       "status": "partial",
-      "lexicons": 29,
-      "generated": 25,
+      "lexicons": 30,
+      "generated": 26,
       "provided_by_sdk": 0,
       "kinds": {
         "record": 23,
@@ -1721,12 +1721,12 @@
     {
       "domain": "zeens.app",
       "status": "full",
-      "lexicons": 58,
-      "generated": 58,
+      "lexicons": 61,
+      "generated": 61,
       "provided_by_sdk": 0,
       "kinds": {
-        "record": 17,
-        "query": 40,
+        "record": 18,
+        "query": 42,
         "procedure": 0,
         "subscription": 0
       },

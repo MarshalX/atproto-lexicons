@@ -4,7 +4,7 @@
     "main": {
       "type": "permission-set",
       "title": "Zeens",
-      "detail": "Post and manage your photos, collections, zeens, events, portfolio and messages on Zeens.",
+      "detail": "Post and manage your photos, media library, collections, zeens, events, portfolio and messages on Zeens.",
       "permissions": [
         {
           "type": "permission",
@@ -29,7 +29,8 @@
             "app.zeens.chatPrefs",
             "app.zeens.portfolio",
             "app.zeens.zeen",
-            "app.zeens.scheduledPost"
+            "app.zeens.scheduledPost",
+            "app.zeens.media"
           ]
         }
       ]

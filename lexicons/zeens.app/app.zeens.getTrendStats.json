@@ -1,0 +1,19 @@
+{
+  "id": "app.zeens.getTrendStats",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {}
+      },
+      "description": "Community trends for the search landing over the last 12 weeks: for each hashtag, category, colour, film stock (by slug), camera and lens (lowercased), photos posted per week, this 28 days against the previous 28, and average likes + reposts + replies per photo, with the overall average to compare against. Anonymous totals across Zeens photo posts.",
+      "target_collection": "app.zeens.postMeta"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

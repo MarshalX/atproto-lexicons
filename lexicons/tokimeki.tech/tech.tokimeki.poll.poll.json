@@ -21,17 +21,17 @@
             "type": "array",
             "items": {
               "type": "string",
-              "maxLength": 100,
-              "maxGraphemes": 50
+              "maxLength": 1000,
+              "maxGraphemes": 100
             },
             "maxLength": 4,
             "minLength": 2,
             "description": "Poll options (2-4 choices)"
           },
           "subject": {
-            "ref": "com.atproto.repo.strongRef",
+            "ref": "#subjectRef",
             "type": "ref",
-            "description": "Reference to the post this poll is attached to. Inside a space this may be a space record uri (e.g. a forum thread) of the same space."
+            "description": "Reference to the post this poll is attached to. For a public poll this has to be a record in the poll author's own repo; a poll attached to another account's record is not indexed. Inside a space this may be a space record uri (e.g. a forum thread) of the same space."
           },
           "createdAt": {
             "type": "string",
@@ -39,7 +39,24 @@
           }
         }
       },
-      "description": "A poll record. Lives in the author's own repo, either as a public record (attached to a post via embed.external and indexed from the firehose) or inside an ATProto Space (permissioned data), where the AppView is told about it with tech.tokimeki.poll.notifySpaceWrite and reads it with a space credential."
+      "description": "A poll record. Lives in the author's own repo, either as a public record (attached to a post via embed.external and indexed from the firehose) or inside an ATProto Space (permissioned data), where the AppView is told about it with tech.tokimeki.poll.notifySpaceWrite and reads it with a space credential. A public poll is fixed once created: the AppView indexes the record as first written and ignores later updates to it, so that options and closing time cannot change under votes already cast. Delete the record and create a new one to change a poll."
+    },
+    "subjectRef": {
+      "type": "object",
+      "required": [
+        "uri"
+      ],
+      "properties": {
+        "cid": {
+          "type": "string",
+          "format": "cid"
+        },
+        "uri": {
+          "type": "string",
+          "format": "at-uri"
+        }
+      },
+      "description": "The record a poll is attached to. Shaped like com.atproto.repo.strongRef, but the cid is optional: a post that points back at its poll with a strongRef (e.g. app.bsky.embed.external#external.associatedRefs) has to be written after the poll, so its cid is not known yet when the poll is written."
     }
   },
   "$type": "com.atproto.lexicon.schema",

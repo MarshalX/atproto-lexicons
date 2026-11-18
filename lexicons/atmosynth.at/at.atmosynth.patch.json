@@ -1075,6 +1075,11 @@
           "minimum": -127,
           "description": "How many semitones this instance moves every note it passes on, where its module is a transpose: twelve is an octave up, and a negative number is down. A note moved past the lowest or the highest MIDI note is not passed on. It lives here, in the patch, for the reason a note range does. Absent on every instance whose module is not a transpose, and on one that moves nothing."
         },
+        "chokeGroup": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "The choke group this instance is in: a note struck on it cuts every instance in the same group that is still sounding, within ten milliseconds, as a drum machine's closed hi-hat cuts its open one, and as a voice struck again cuts its own last hit. The name means nothing but itself, and two instances are in one group where their names are the same once spaces at either end are taken off. A note is struck on an instance when the instance hears it; one built for each note is cut by ending every voice of it that started before the note, and one built once for the patch by silencing what it sounds until it next hears a note. Two notes struck at the same moment both sound, so a note never cuts what it strikes; an instance built once for the patch is not cut by a note it hears itself, since that note plays its one copy again. A sample pad's own choke group names pads inside one instance, and this one names instances: the two are separate. It lives here, in the patch, because which voices of a kit cut each other is a decision about these uses of their modules. Optional permanently: absent, or nothing but spaces, is in no group, which is what every record written before this field existed says, and a reader that does not know the field plays the patch with no choke between instances."
+        },
         "instanceId": {
           "type": "string",
           "maxLength": 64,

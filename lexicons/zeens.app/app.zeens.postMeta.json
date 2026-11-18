@@ -111,7 +111,7 @@
               "maxLength": 64
             },
             "maxLength": 12,
-            "description": "Photography categories selected by the creator: up to 3 per photo in the post, so 12 for a four-photo post."
+            "description": "Photography categories selected by the creator, up to 12 per post."
           },
           "colorHexes": {
             "type": "array",

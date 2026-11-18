@@ -1,0 +1,31 @@
+{
+  "id": "app.zeens.getAuthorStats",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "did"
+        ],
+        "properties": {
+          "did": {
+            "type": "string",
+            "description": "The member whose posts are counted."
+          },
+          "days": {
+            "type": "integer",
+            "description": "Range in days: 30, 90 or 365. 0 (default) means all time."
+          }
+        }
+      },
+      "description": "Engagement statistics for one member's Zeens photo posts, for Studio's Stats tab: totals and top posts for posts published in the range, and when likes, reposts and replies arrived (from the engagement ledger: a like's record key is a TID, which carries its time). All of it is derived from public engagement records; no views exist on AT Protocol.",
+      "target_collection": "app.zeens.postMeta"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

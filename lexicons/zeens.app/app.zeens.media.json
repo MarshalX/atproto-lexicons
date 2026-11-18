@@ -1,0 +1,114 @@
+{
+  "id": "app.zeens.media",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "kind",
+          "blob",
+          "createdAt"
+        ],
+        "properties": {
+          "blob": {
+            "type": "blob",
+            "accept": [
+              "image/*",
+              "video/*"
+            ],
+            "maxSize": 100000000,
+            "description": "The file as it will be posted: a photo already compressed to the PDS's image limits, or the video Bluesky's video service stored."
+          },
+          "exif": {
+            "type": "unknown",
+            "description": "Camera data in app.zeens.postMeta#exif's shape. Never a location."
+          },
+          "kind": {
+            "type": "string",
+            "knownValues": [
+              "image",
+              "video"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 300,
+            "description": "The file's name on the author's device, so they can tell their uploads apart."
+          },
+          "post": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The post this was published (or scheduled) in. Absent while unpublished."
+          },
+          "colors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxLength": 12,
+            "description": "Colour tags, as app.zeens.postMeta's colors."
+          },
+          "palette": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxLength": 12,
+            "description": "Hex swatches, as app.zeens.postMeta's palette."
+          },
+          "seconds": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "A video's length, rounded."
+          },
+          "postedAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the post goes out: now, or a scheduled post's publishAt."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "monochrome": {
+            "type": "boolean"
+          },
+          "aspectRatio": {
+            "ref": "#aspectRatio",
+            "type": "ref"
+          },
+          "paletteShares": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "maxLength": 12,
+            "description": "Each swatch's share of the frame, as app.zeens.postMeta's paletteShares."
+          }
+        }
+      },
+      "description": "One photo or video in the author's media library (My media): uploaded, not yet part of a post. Lives on the author's own PDS and keeps its blob referenced until it is posted or deleted. Carries what was read from the file at upload — camera data and colours — and nothing a post decides (caption, location, categories). NOT PRIVATE: like every repo record it is publicly readable. Deliberately absent from the AppView's lexicons and firehose collections, so it is never indexed as content."
+    },
+    "aspectRatio": {
+      "type": "object",
+      "required": [
+        "width",
+        "height"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}
