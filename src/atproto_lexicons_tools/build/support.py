@@ -69,10 +69,12 @@ class SupportList(t.NamedTuple):
     warnings: list[str]
 
     @classmethod
-    def load(cls, path: Path) -> te.Self:
-        data = json.loads(path.read_text(encoding='utf-8'))
-
+    def from_dict(cls, data: dict[str, t.Any]) -> te.Self:
         return cls([ServiceSupport.from_dict(service) for service in data['services']], data['warnings'])
+
+    @classmethod
+    def load(cls, path: Path) -> te.Self:
+        return cls.from_dict(json.loads(path.read_text(encoding='utf-8')))
 
     def save(self, path: Path) -> None:
         data = {'services': [service.to_dict() for service in self.services], 'warnings': self.warnings}

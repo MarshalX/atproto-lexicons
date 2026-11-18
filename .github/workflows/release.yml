@@ -24,15 +24,21 @@ env:
   POETRY_VIRTUALENVS_IN_PROJECT: "true"
 
 jobs:
-  update_lexicons:
+  fetch_lexicons:
     if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && !inputs.publish)
     runs-on: ubuntu-24.04
 
-    environment: automation
+    outputs:
+      changed: ${{ steps.fetch.outputs.changed }}
+      title: ${{ steps.fetch.outputs.title }}
+      body: ${{ steps.fetch.outputs.body }}
+      hold: ${{ steps.review.outputs.hold }}
 
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Set up the project.
         uses: ./.github/actions/setup
@@ -45,35 +51,115 @@ jobs:
         if: steps.fetch.outputs.changed == 'true'
         run: poetry run lex build
 
-      - name: Create Pull Request.
+      - name: Decide whether the update needs a review.
+        id: review
         if: steps.fetch.outputs.changed == 'true'
-        uses: peter-evans/create-pull-request@v8
-        with:
-          token: ${{ secrets.PAT }}
-          committer: Ilya (Marshal) <ilya@marshal.dev>
-          author: Ilya (Marshal) <ilya@marshal.dev>
-          commit-message: ${{ steps.fetch.outputs.title }}
-          body: ${{ steps.fetch.outputs.body }}
-          base: main
-          branch: update-lexicons
-          title: ${{ steps.fetch.outputs.title }}
-          assignees: MarshalX
+        run: poetry run lex review
 
-  publish:
-    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.publish)
+      - name: Upload the update.
+        if: steps.fetch.outputs.changed == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: lexicons-update
+          path: |
+            lexicons/
+            lexicons.lock.json
+            SUPPORTED.md
+            supported.json
+          if-no-files-found: error
+          retention-days: 3
+
+  update_lexicons:
+    needs: fetch_lexicons
+    if: needs.fetch_lexicons.outputs.changed == 'true'
     runs-on: ubuntu-24.04
 
-    environment:
-      name: pypi
-      url: https://pypi.org/project/atproto-lexicons/
-
-    permissions:
-      id-token: write
-      contents: read
+    environment: automation
 
     steps:
       - name: Checkout repository.
         uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Download the update.
+        uses: actions/download-artifact@v8
+        with:
+          name: lexicons-update
+          path: ${{ runner.temp }}/update
+
+      # the update comes from a job that ran third-party content, so it may only carry the files an update consists of
+      - name: Apply the update.
+        env:
+          UPDATE_DIR: ${{ runner.temp }}/update
+        run: |
+          unexpected="$(cd "$UPDATE_DIR" && find . -mindepth 1 ! -type d | sed 's|^\./||' \
+            | grep -vE '^(lexicons/[A-Za-z0-9._-]+/[A-Za-z0-9.-]+\.json|lexicons\.lock\.json|SUPPORTED\.md|supported\.json)$' || true)"
+          if [ -n "$unexpected" ]; then
+            echo "::error::The update carries files it must not: $unexpected"
+            exit 1
+          fi
+          if [ -n "$(find "$UPDATE_DIR" -type l)" ]; then
+            echo '::error::The update carries symbolic links.'
+            exit 1
+          fi
+
+          rm -rf lexicons
+          cp -R "$UPDATE_DIR"/. .
+
+      - name: Get a token of the bot.
+        id: app_token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ secrets.APP_CLIENT_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Create Pull Request.
+        id: pull_request
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ steps.app_token.outputs.token }}
+          sign-commits: true
+          add-paths: |
+            lexicons
+            lexicons.lock.json
+            SUPPORTED.md
+            supported.json
+          commit-message: ${{ needs.fetch_lexicons.outputs.title }}
+          body: |
+            ${{ needs.fetch_lexicons.outputs.hold }}
+
+            ${{ needs.fetch_lexicons.outputs.body }}
+          base: main
+          branch: update-lexicons
+          title: ${{ needs.fetch_lexicons.outputs.title }}
+          assignees: MarshalX
+
+      - name: Merge automatically or ask for a review.
+        if: steps.pull_request.outputs.pull-request-number != ''
+        env:
+          GH_TOKEN: ${{ steps.app_token.outputs.token }}
+          PR_NUMBER: ${{ steps.pull_request.outputs.pull-request-number }}
+          HOLD: ${{ needs.fetch_lexicons.outputs.hold }}
+        run: |
+          if [ -z "$HOLD" ]; then
+            gh pr merge "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --auto --squash
+          else
+            gh pr merge "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --disable-auto || true
+            gh pr edit "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --add-reviewer MarshalX
+          fi
+
+  build:
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.publish)
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository.
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
 
       - name: Set up the project.
         uses: ./.github/actions/setup
@@ -87,7 +173,33 @@ jobs:
       - name: Build distributions.
         run: poetry --directory package build
 
+      - name: Upload distributions.
+        uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: package/dist/
+          if-no-files-found: error
+          retention-days: 3
+
+  publish:
+    needs: build
+    runs-on: ubuntu-24.04
+
+    environment:
+      name: pypi
+      url: https://pypi.org/project/atproto-lexicons/
+
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Download distributions.
+        uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist
+
       - name: Publish a Python distribution to PyPI.
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          packages-dir: package/dist
+          packages-dir: dist
