@@ -39,7 +39,7 @@ def build_body(changes: Changes, unreachable: list[str], errors: list[str]) -> s
     return '\n'.join(lines).strip()
 
 
-def _set_github_output(name: str, value: str) -> None:
+def set_github_output(name: str, value: str) -> None:
     output_path = os.environ.get(_GITHUB_OUTPUT_ENV)
     if not output_path:
         return
@@ -51,6 +51,6 @@ def _set_github_output(name: str, value: str) -> None:
 
 
 def write_github_outputs(changes: Changes, unreachable: list[str], errors: list[str]) -> None:
-    _set_github_output('changed', 'true' if changes else 'false')
-    _set_github_output('title', build_title(changes) if changes else '')
-    _set_github_output('body', build_body(changes, unreachable, errors))
+    set_github_output('changed', 'true' if changes else 'false')
+    set_github_output('title', build_title(changes) if changes else '')
+    set_github_output('body', build_body(changes, unreachable, errors))

@@ -15,12 +15,14 @@ from rich.table import Table
 
 from atproto_lexicons_tools import lint as lint_tool
 from atproto_lexicons_tools import release as release_tool
+from atproto_lexicons_tools import review as review_tool
 from atproto_lexicons_tools.build import builder as build_tool
 from atproto_lexicons_tools.build import support
 from atproto_lexicons_tools.build import verify as verify_tool
 from atproto_lexicons_tools.build.support import ServiceSupport, Status
 from atproto_lexicons_tools.core.registry import Service, dump_services, load_services
 from atproto_lexicons_tools.fetch import fetcher as fetch_tool
+from atproto_lexicons_tools.fetch import report as report_tool
 from atproto_lexicons_tools.fetch.resolver import UnreachableError
 from atproto_lexicons_tools.paths import (
     LEXICONS_DIR,
@@ -159,6 +161,27 @@ def build(
 def verify() -> None:
     """Check that the generated package loads and keeps the namespaces of the SDK."""
     _run_verify()
+
+
+@app.command()
+def review(
+    base: te.Annotated[str, typer.Option(help='Revision to compare the working tree with.')] = 'HEAD',
+) -> None:
+    """Tell whether an update of the lexicons needs a person: it removes lexicons or makes support worse."""
+    try:
+        reasons = review_tool.run(base)
+    except (FileNotFoundError, ValueError) as e:
+        _fail(f'The update cannot be compared with {base}: {e}')
+
+    report_tool.set_github_output('hold', review_tool.build_section(reasons))
+
+    if not reasons:
+        err.print('[bold green]Can be merged automatically.[/]')
+        return
+
+    err.print('[bold yellow]Held for review:[/]')
+    for reason in reasons:
+        err.print(f'  - {reason}', highlight=False)
 
 
 @app.command()
