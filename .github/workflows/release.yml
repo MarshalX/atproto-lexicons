@@ -135,7 +135,6 @@ jobs:
           base: main
           branch: update-lexicons
           title: ${{ needs.fetch_lexicons.outputs.title }}
-          assignees: MarshalX
 
       - name: Merge automatically or ask for a review.
         if: steps.pull_request.outputs.pull-request-number != ''
