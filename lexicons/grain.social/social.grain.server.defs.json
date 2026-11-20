@@ -1,0 +1,23 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "sitemapEntry": {
+      "properties": {
+        "lastmod": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "path": {
+          "description": "The page's path on this site, named by handle where the account has one.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "social.grain.server.defs",
+  "lexicon": 1
+}

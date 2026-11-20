@@ -1,0 +1,54 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Full-text search for galleries, returning full gallery views.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "items": {
+              "items": {
+                "ref": "social.grain.gallery.defs#galleryView",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "type": "string"
+          },
+          "fuzzy": {
+            "default": true,
+            "type": "boolean"
+          },
+          "limit": {
+            "default": 30,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "q": {
+            "description": "Search query",
+            "type": "string"
+          }
+        },
+        "required": [
+          "q"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.gallery.searchGalleries",
+  "lexicon": 1
+}

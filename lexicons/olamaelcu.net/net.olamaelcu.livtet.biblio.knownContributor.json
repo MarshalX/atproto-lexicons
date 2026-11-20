@@ -1,0 +1,41 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "record": {
+        "properties": {
+          "contributor": {
+            "description": "AT-URI of the net.olamaelcu.livtet.biblio.contributor record this account is.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "issuedBy": {
+            "description": "The librarian account that approved the claim.",
+            "format": "did",
+            "type": "string"
+          },
+          "subject": {
+            "description": "The account DID. A label with value `known-author` is also issued on this account.",
+            "format": "did",
+            "type": "string"
+          }
+        },
+        "required": [
+          "contributor",
+          "subject",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "description": "A verified link from one catalog contributor record to the ATProto account that proved it is that person. Published by the catalog publisher; keyed by TID.",
+  "id": "net.olamaelcu.livtet.biblio.knownContributor",
+  "lexicon": 1
+}

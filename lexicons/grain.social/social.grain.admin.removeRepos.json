@@ -1,0 +1,45 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Stop tracking repos, and drop what was indexed from them. Requires an admin session.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "dids": {
+              "items": {
+                "format": "did",
+                "type": "string"
+              },
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "array"
+            }
+          },
+          "required": [
+            "dids"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "removed": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "removed"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "social.grain.admin.removeRepos",
+  "lexicon": 1
+}

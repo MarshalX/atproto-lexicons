@@ -1,0 +1,35 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Get one story, by its URI.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "story": {
+              "ref": "social.grain.story.defs#storyView",
+              "type": "ref"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "story": {
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "story"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.story.getStory",
+  "lexicon": 1
+}

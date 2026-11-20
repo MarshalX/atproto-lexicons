@@ -1,0 +1,90 @@
+{
+  "id": "buzz.bookhive.listSyncDocuments",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "documents"
+          ],
+          "properties": {
+            "documents": {
+              "type": "array",
+              "items": {
+                "ref": "#syncDocumentView",
+                "type": "ref"
+              }
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {}
+      },
+      "description": "List all synced documents for the authenticated user."
+    },
+    "syncDocumentView": {
+      "type": "object",
+      "required": [
+        "documentHash",
+        "progress",
+        "percentage",
+        "device",
+        "device_id",
+        "timestamp"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Title of the document"
+        },
+        "device": {
+          "type": "string",
+          "description": "Device name that last synced"
+        },
+        "hiveId": {
+          "type": "string",
+          "description": "Linked BookHive catalog entry ID"
+        },
+        "authors": {
+          "type": "string",
+          "description": "Authors of the document"
+        },
+        "filename": {
+          "type": "string",
+          "description": "Original filename of the document"
+        },
+        "progress": {
+          "type": "string",
+          "description": "Reading progress position (KOSync format)"
+        },
+        "device_id": {
+          "type": "string",
+          "description": "Device identifier that last synced"
+        },
+        "dismissed": {
+          "type": "boolean",
+          "description": "True when the user marked this document as having no BookHive counterpart"
+        },
+        "timestamp": {
+          "type": "integer",
+          "description": "Unix timestamp of last sync"
+        },
+        "percentage": {
+          "type": "string",
+          "description": "Reading progress as a decimal string (0-1, e.g. '0.42')"
+        },
+        "documentHash": {
+          "type": "string",
+          "description": "Hash identifying the document"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

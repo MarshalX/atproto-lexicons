@@ -1,0 +1,25 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Count the viewer's notifications since they were last seen, as app.bsky.notification.getUnreadCount does. Requires auth.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "count": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "count"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.notification.getUnreadCount",
+  "lexicon": 1
+}

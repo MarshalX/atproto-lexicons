@@ -1,0 +1,38 @@
+{
+  "id": "buzz.bookhive.getPersonalBook",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "book"
+          ],
+          "properties": {
+            "book": {
+              "ref": "buzz.bookhive.getPersonalLibrary#personalBookView",
+              "type": "ref"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "contentHash"
+        ],
+        "properties": {
+          "contentHash": {
+            "type": "string",
+            "description": "SHA-256 hash of the file content"
+          }
+        }
+      },
+      "description": "Get a single book from the authenticated user's personal library."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

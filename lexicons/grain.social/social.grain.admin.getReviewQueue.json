@@ -1,0 +1,72 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "The classifier review queue, one item per subject, highest score first. Requires an admin session.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "items": {
+              "items": {
+                "ref": "social.grain.admin.defs#reviewItem",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "total": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "items",
+            "total"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "classifier": {
+            "type": "string"
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "limit": {
+            "default": 25,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "minScore": {
+            "description": "A classifier's score, in thousandths: 1000 is certain.",
+            "maximum": 1000,
+            "minimum": 0,
+            "type": "integer"
+          },
+          "signal": {
+            "type": "string"
+          },
+          "state": {
+            "default": "pending",
+            "description": "pending: a report is open against the subject. actioned: decided, or taken down.",
+            "knownValues": [
+              "pending",
+              "actioned",
+              "all"
+            ],
+            "type": "string"
+          }
+        },
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.admin.getReviewQueue",
+  "lexicon": 1
+}

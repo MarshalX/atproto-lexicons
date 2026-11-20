@@ -1,0 +1,80 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Add a gallery to a group's pool: one permissioned space (social.grain.group) anchored on the group, holding every member's galleries. The gallery, its photos and its items are the author's own records in their own repo, written inside that space — so only the group's members can read them, and they leave with the author.",
+      "errors": [
+        {
+          "description": "The author's PDS does not serve permissioned spaces.",
+          "name": "SpacesUnsupported"
+        },
+        {
+          "description": "The viewer is not a member of this group's pool.",
+          "name": "NotAuthorized"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "description": {
+              "maxLength": 1000,
+              "type": "string"
+            },
+            "group": {
+              "description": "The group whose pool this goes into.",
+              "format": "did",
+              "type": "string"
+            },
+            "photos": {
+              "items": {
+                "ref": "social.grain.group.defs#photoInput",
+                "type": "ref"
+              },
+              "maxLength": 100,
+              "type": "array"
+            },
+            "rkey": {
+              "description": "Record key for the gallery, in the author's repo.",
+              "maxLength": 64,
+              "type": "string"
+            },
+            "title": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          },
+          "required": [
+            "group",
+            "rkey",
+            "title"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "space": {
+              "description": "The pool space it was written into.",
+              "type": "string"
+            },
+            "uri": {
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "space",
+            "uri"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "social.grain.group.createGallery",
+  "lexicon": 1
+}

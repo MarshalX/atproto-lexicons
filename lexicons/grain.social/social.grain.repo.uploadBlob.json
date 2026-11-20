@@ -1,0 +1,34 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Upload a blob to the logged-in account's PDS, for a record written after to reference. Called as social.grain.repo.createRecord is.",
+      "errors": [
+        {
+          "description": "The account's PDS granted the session less than the upload needs.",
+          "name": "ScopeMissingError"
+        }
+      ],
+      "input": {
+        "encoding": "*/*"
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "blob": {
+              "type": "blob"
+            }
+          },
+          "required": [
+            "blob"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "social.grain.repo.uploadBlob",
+  "lexicon": 1
+}

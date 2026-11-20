@@ -86,7 +86,7 @@
               "type": "string"
             },
             "subject": {
-              "description": "The dev.knotless.pull or dev.knotless.issue commented on; or a dev.knotless.comment to answer, in the thread it starts or is in.",
+              "description": "The dev.knotless.pull or dev.knotless.issue commented on, or, for a gist, its dev.knotless.repo record; or a dev.knotless.comment on a pull or an issue to answer, in the thread it starts or is in. A comment on a gist takes no verdict or lines.",
               "format": "at-uri",
               "type": "string"
             },
@@ -127,7 +127,7 @@
       "type": "procedure"
     }
   },
-  "description": "Comments on a pull or an issue, or on lines of a pull's diff, or answers a comment, or reviews a pull, as the account logged in to this appview's pages.",
+  "description": "Comments on a pull, an issue or a gist, or on lines of a pull's diff, or answers a comment, or reviews a pull, as the account logged in to this appview's pages.",
   "id": "dev.knotless.createComment",
   "lexicon": 1
 }

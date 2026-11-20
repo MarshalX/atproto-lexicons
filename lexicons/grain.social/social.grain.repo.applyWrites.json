@@ -1,0 +1,176 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "create": {
+      "properties": {
+        "collection": {
+          "format": "nsid",
+          "type": "string"
+        },
+        "rkey": {
+          "format": "record-key",
+          "maxLength": 512,
+          "type": "string"
+        },
+        "value": {
+          "type": "unknown"
+        }
+      },
+      "required": [
+        "collection",
+        "value"
+      ],
+      "type": "object"
+    },
+    "createResult": {
+      "properties": {
+        "cid": {
+          "format": "cid",
+          "type": "string"
+        },
+        "uri": {
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "cid"
+      ],
+      "type": "object"
+    },
+    "delete": {
+      "properties": {
+        "collection": {
+          "format": "nsid",
+          "type": "string"
+        },
+        "rkey": {
+          "format": "record-key",
+          "maxLength": 512,
+          "type": "string"
+        }
+      },
+      "required": [
+        "collection",
+        "rkey"
+      ],
+      "type": "object"
+    },
+    "deleteResult": {
+      "properties": {},
+      "type": "object"
+    },
+    "main": {
+      "description": "Make several writes in the logged-in account's repo at once, as com.atproto.repo.applyWrites makes them at its PDS, and index them before answering. Called as social.grain.repo.createRecord is.",
+      "errors": [
+        {
+          "description": "grain does not index a write's collection.",
+          "name": "UnknownCollection"
+        },
+        {
+          "description": "A write's value does not fit its lexicon.",
+          "name": "InvalidRecord"
+        },
+        {
+          "name": "InvalidSwap"
+        },
+        {
+          "description": "The account's PDS granted the session less than the writes need.",
+          "name": "ScopeMissingError"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "writes": {
+              "items": {
+                "closed": true,
+                "refs": [
+                  "#create",
+                  "#update",
+                  "#delete"
+                ],
+                "type": "union"
+              },
+              "maxLength": 200,
+              "minLength": 1,
+              "type": "array"
+            }
+          },
+          "required": [
+            "writes"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "results": {
+              "description": "Each write's result, in the place of its write.",
+              "items": {
+                "closed": true,
+                "refs": [
+                  "#createResult",
+                  "#updateResult",
+                  "#deleteResult"
+                ],
+                "type": "union"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "results"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    },
+    "update": {
+      "properties": {
+        "collection": {
+          "format": "nsid",
+          "type": "string"
+        },
+        "rkey": {
+          "format": "record-key",
+          "maxLength": 512,
+          "type": "string"
+        },
+        "value": {
+          "type": "unknown"
+        }
+      },
+      "required": [
+        "collection",
+        "rkey",
+        "value"
+      ],
+      "type": "object"
+    },
+    "updateResult": {
+      "properties": {
+        "cid": {
+          "format": "cid",
+          "type": "string"
+        },
+        "uri": {
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "cid"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "social.grain.repo.applyWrites",
+  "lexicon": 1
+}

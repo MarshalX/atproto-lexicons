@@ -1,0 +1,29 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "The labels this server's labeler can apply. Requires an admin session.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "definitions": {
+              "items": {
+                "ref": "com.atproto.label.defs#labelValueDefinition",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "definitions"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.admin.listLabelDefinitions",
+  "lexicon": 1
+}

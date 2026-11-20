@@ -2,7 +2,7 @@
   "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "description": "Every repository an account's PDS holds, newest first, as its dev.knotless.repo records say now rather than as an appview has indexed them. No authentication needed; asked as the account itself, with a service token or the pages' session cookie, its private repositories are listed too, and the answer is that account's alone.",
+      "description": "Every repository an account's PDS holds, newest first, as its dev.knotless.repo records say now rather than as an appview has indexed them, but its gists, which dev.knotless.getActorGists lists. No authentication needed; asked as the account itself, with a service token or the pages' session cookie, its private repositories are listed too, and the answer is that account's alone.",
       "errors": [
         {
           "description": "No account by that DID or handle, or its PDS cannot be reached.",

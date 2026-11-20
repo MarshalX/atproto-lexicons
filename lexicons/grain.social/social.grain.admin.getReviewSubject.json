@@ -1,0 +1,85 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Everything needed to judge one account: its status, the labels on it and on its records, the reports against them, a sample of its records and how many it has of each kind. Requires an admin session.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "childSafety": {
+              "description": "Whether a child-safety report or label (csae) was ever made against the account or one of its records, in any state: what it holds is for a person to judge, never a model.",
+              "type": "boolean"
+            },
+            "counts": {
+              "items": {
+                "ref": "social.grain.admin.defs#collectionCount",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "did": {
+              "format": "did",
+              "type": "string"
+            },
+            "handle": {
+              "format": "handle",
+              "type": "string"
+            },
+            "labels": {
+              "description": "The labels standing on the account and on each of its records.",
+              "items": {
+                "ref": "com.atproto.label.defs#label",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "records": {
+              "description": "The newest few of each collection.",
+              "items": {
+                "ref": "social.grain.admin.defs#recordView",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "reports": {
+              "description": "Every report against the account or one of its records, newest first.",
+              "items": {
+                "ref": "social.grain.admin.defs#reportView",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "status": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "did",
+            "records",
+            "counts",
+            "labels",
+            "reports",
+            "childSafety"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "did": {
+            "format": "did",
+            "type": "string"
+          }
+        },
+        "required": [
+          "did"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.admin.getReviewSubject",
+  "lexicon": 1
+}

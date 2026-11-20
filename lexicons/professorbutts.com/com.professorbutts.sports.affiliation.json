@@ -1,0 +1,66 @@
+{
+  "id": "com.professorbutts.sports.affiliation",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "person",
+          "team",
+          "role",
+          "updatedAt"
+        ],
+        "properties": {
+          "role": {
+            "type": "string",
+            "maxLength": 32,
+            "knownValues": [
+              "player",
+              "driver",
+              "coach",
+              "manager",
+              "caddie"
+            ]
+          },
+          "team": {
+            "type": "string",
+            "format": "at-uri"
+          },
+          "term": {
+            "ref": "com.professorbutts.sports.defs#dateRange",
+            "type": "ref"
+          },
+          "number": {
+            "type": "string",
+            "maxLength": 4
+          },
+          "person": {
+            "type": "string",
+            "format": "at-uri"
+          },
+          "season": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "source": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "position": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "rkey is personRkey-teamRkey-role-season"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,49 @@
+{
+  "id": "buzz.bookhive.deleteAccount",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "confirmHandle"
+          ],
+          "properties": {
+            "confirmHandle": {
+              "type": "string",
+              "maxLength": 253,
+              "minLength": 1,
+              "description": "Exact current handle (DID fallback if no profile is available). No trimming or case folding. No additional input fields are accepted."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "DeleteFailed",
+          "description": "Cleanup failed and may have partially succeeded. The session is kept so the user can retry."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "success"
+          ],
+          "properties": {
+            "success": {
+              "type": "boolean",
+              "const": true
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Delete the signed-in user's BookHive PDS records, local data and uploaded files, then sign out. Does not delete their Bluesky account or posts. Requires a live OAuth session, not service auth. Cross-system deletion can partially succeed; failures are reported, never confirmed as success."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

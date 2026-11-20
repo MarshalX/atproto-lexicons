@@ -23,9 +23,22 @@
           "type": "integer",
           "minimum": 1
         },
+        "personRef": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "com.professorbutts.sports.person record."
+        },
         "shortName": {
           "type": "string",
           "maxLength": 32
+        },
+        "externalIds": {
+          "type": "array",
+          "items": {
+            "ref": "com.professorbutts.sports.defs#externalId",
+            "type": "ref"
+          },
+          "maxLength": 16
         },
         "positionLabel": {
           "type": "string",
@@ -157,6 +170,11 @@
           "format": "did",
           "description": "Optional atproto account."
         },
+        "teamRef": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "com.professorbutts.sports.team record (constructor or race team)."
+        },
         "photoUrl": {
           "type": "string",
           "format": "uri",
@@ -167,10 +185,23 @@
           "minimum": 1,
           "description": "Numeric place, for sorting."
         },
+        "personRef": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "com.professorbutts.sports.person record."
+        },
         "shortName": {
           "type": "string",
           "maxLength": 32,
           "description": "e.g. 'S. Scheffler', 'VER'."
+        },
+        "externalIds": {
+          "type": "array",
+          "items": {
+            "ref": "com.professorbutts.sports.defs#externalId",
+            "type": "ref"
+          },
+          "maxLength": 16
         },
         "positionLabel": {
           "type": "string",
@@ -233,6 +264,19 @@
         }
       },
       "description": "Copy of the game state when a post was made. Game records are overwritten as the game goes on, so the post carries its own copy."
+    },
+    "dateRange": {
+      "type": "object",
+      "properties": {
+        "endDate": {
+          "type": "string",
+          "format": "datetime"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "datetime"
+        }
+      }
     },
     "lineScore": {
       "type": "object",
@@ -302,6 +346,19 @@
           "format": "did",
           "description": "Optional atproto account for the team."
         },
+        "teamRef": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "com.professorbutts.sports.team record for this side."
+        },
+        "externalIds": {
+          "type": "array",
+          "items": {
+            "ref": "com.professorbutts.sports.defs#externalId",
+            "type": "ref"
+          },
+          "maxLength": 16
+        },
         "abbreviation": {
           "type": "string",
           "maxLength": 8
@@ -312,6 +369,41 @@
           "description": "Secondary hex color for stripes, e.g. '#000000'."
         }
       }
+    },
+    "externalId": {
+      "type": "object",
+      "required": [
+        "scheme",
+        "value"
+      ],
+      "properties": {
+        "value": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "scheme": {
+          "type": "string",
+          "maxLength": 32,
+          "knownValues": [
+            "espn",
+            "espn-athlete",
+            "espn-coach",
+            "nascar",
+            "f1",
+            "indycar",
+            "pga",
+            "mlb",
+            "nhl",
+            "nba",
+            "nfl",
+            "sports-reference",
+            "wikidata",
+            "ncaa",
+            "sideline"
+          ]
+        }
+      },
+      "description": "An id for the same thing in another database."
     },
     "periodScore": {
       "type": "object",

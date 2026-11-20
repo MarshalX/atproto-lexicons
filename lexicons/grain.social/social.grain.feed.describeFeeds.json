@@ -1,0 +1,35 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "List the feeds this server serves, as app.bsky.feed.describeFeedGenerator does for a feed generator.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "did": {
+              "description": "The service that serves them.",
+              "format": "did",
+              "type": "string"
+            },
+            "feeds": {
+              "items": {
+                "ref": "social.grain.feed.defs#feedView",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "did",
+            "feeds"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.feed.describeFeeds",
+  "lexicon": 1
+}

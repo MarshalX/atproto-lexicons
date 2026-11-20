@@ -139,6 +139,79 @@
       ],
       "type": "object"
     },
+    "contributorClaimView": {
+      "description": "One reader's contributor claim and where it stands.",
+      "properties": {
+        "contributor": {
+          "format": "at-uri",
+          "type": "string"
+        },
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "decidedAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "message": {
+          "maxGraphemes": 512,
+          "type": "string"
+        },
+        "state": {
+          "knownValues": [
+            "pending",
+            "approved",
+            "rejected",
+            "revoked"
+          ],
+          "type": "string"
+        },
+        "uri": {
+          "description": "AT-URI of the claim record.",
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "contributor",
+        "state",
+        "createdAt"
+      ],
+      "type": "object"
+    },
+    "contributorIdentity": {
+      "description": "One verified account for a contributor, as published by net.olamaelcu.livtet.biblio.knownContributor.",
+      "properties": {
+        "contributor": {
+          "description": "The contributor record the account is.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "did": {
+          "description": "The verified account.",
+          "format": "did",
+          "type": "string"
+        },
+        "uri": {
+          "description": "AT-URI of the knownContributor record.",
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "did",
+        "contributor",
+        "createdAt"
+      ],
+      "type": "object"
+    },
     "contributorView": {
       "description": "A contributor record with the address it is published at.",
       "properties": {
@@ -301,6 +374,122 @@
       ],
       "type": "object"
     },
+    "giveawayView": {
+      "description": "One author giveaway, as the activity index holds it. `entries` is the number of entry records pointing at this giveaway; `draw` appears once the author has concluded it.",
+      "properties": {
+        "author": {
+          "description": "The repo the giveaway record lives in: the verified author's account.",
+          "format": "did",
+          "type": "string"
+        },
+        "cid": {
+          "format": "cid",
+          "type": "string"
+        },
+        "closesAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "closingNote": {
+          "maxGraphemes": 500,
+          "type": "string"
+        },
+        "countries": {
+          "description": "ISO-3166 alpha-2 codes, or the single value `*` for worldwide.",
+          "items": {
+            "maxLength": 2,
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "coverUrl": {
+          "format": "uri",
+          "type": "string"
+        },
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "draw": {
+          "description": "The stored draw, present once the giveaway has been concluded.",
+          "properties": {
+            "drawnAt": {
+              "format": "datetime",
+              "type": "string"
+            },
+            "seed": {
+              "type": "string"
+            },
+            "winners": {
+              "items": {
+                "format": "did",
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "drawnAt",
+            "seed",
+            "winners"
+          ],
+          "type": "object"
+        },
+        "edition": {
+          "format": "at-uri",
+          "type": "string"
+        },
+        "entries": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "opensAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "prizeQuantity": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "prizeType": {
+          "knownValues": [
+            "print",
+            "digital",
+            "audio"
+          ],
+          "type": "string"
+        },
+        "rulesText": {
+          "maxGraphemes": 4000,
+          "type": "string"
+        },
+        "title": {
+          "maxGraphemes": 200,
+          "type": "string"
+        },
+        "uri": {
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "cid",
+        "author",
+        "edition",
+        "title",
+        "prizeType",
+        "prizeQuantity",
+        "countries",
+        "rulesText",
+        "opensAt",
+        "closesAt",
+        "createdAt",
+        "entries"
+      ],
+      "type": "object"
+    },
     "identifier": {
       "description": "An external identifier for a record, such as an ISBN or Open Library key.",
       "properties": {
@@ -433,6 +622,38 @@
         "read"
       ],
       "type": "string"
+    },
+    "reviewReplyView": {
+      "description": "One reply in a review's conversation, with its own reactions.",
+      "properties": {
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "reactions": {
+          "description": "Every reaction record naming this reply, so a bar needs no second call. Empty when the page carries more than 20 replies.",
+          "items": {
+            "ref": "net.olamaelcu.livtet.biblio.defs#reactionView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "record": {
+          "ref": "net.olamaelcu.livtet.biblio.reviewReply#main",
+          "type": "ref"
+        },
+        "uri": {
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "did",
+        "record",
+        "reactions"
+      ],
+      "type": "object"
     },
     "reviewView": {
       "description": "A review record with its author.",

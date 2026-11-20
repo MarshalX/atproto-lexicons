@@ -287,17 +287,21 @@
     },
     {
       "domain": "bookhive.buzz",
-      "status": "full",
-      "lexicons": 23,
-      "generated": 23,
+      "status": "partial",
+      "lexicons": 44,
+      "generated": 41,
       "provided_by_sdk": 0,
       "kinds": {
         "record": 4,
-        "query": 11,
-        "procedure": 6,
+        "query": 20,
+        "procedure": 18,
         "subscription": 0
       },
-      "skipped_lexicons": [],
+      "skipped_lexicons": [
+        "buzz.bookhive.getPersonalBookCover",
+        "buzz.bookhive.getPersonalBookFile",
+        "buzz.bookhive.uploadPersonalBook"
+      ],
       "skipped_methods": [],
       "weakened_lexicons": []
     },
@@ -656,13 +660,13 @@
     {
       "domain": "grain.social",
       "status": "partial",
-      "lexicons": 72,
-      "generated": 65,
+      "lexicons": 154,
+      "generated": 147,
       "provided_by_sdk": 5,
       "kinds": {
         "record": 13,
-        "query": 34,
-        "procedure": 15,
+        "query": 80,
+        "procedure": 44,
         "subscription": 0
       },
       "skipped_lexicons": [
@@ -739,13 +743,13 @@
     {
       "domain": "knotless.dev",
       "status": "partial",
-      "lexicons": 183,
-      "generated": 181,
+      "lexicons": 190,
+      "generated": 188,
       "provided_by_sdk": 0,
       "kinds": {
         "record": 32,
-        "query": 64,
-        "procedure": 84,
+        "query": 67,
+        "procedure": 88,
         "subscription": 0
       },
       "skipped_lexicons": [
@@ -978,13 +982,13 @@
     {
       "domain": "olamaelcu.net",
       "status": "partial",
-      "lexicons": 71,
-      "generated": 67,
+      "lexicons": 86,
+      "generated": 82,
       "provided_by_sdk": 0,
       "kinds": {
-        "record": 23,
-        "query": 28,
-        "procedure": 15,
+        "record": 28,
+        "query": 35,
+        "procedure": 17,
         "subscription": 0
       },
       "skipped_lexicons": [
@@ -1106,11 +1110,11 @@
     {
       "domain": "professorbutts.com",
       "status": "full",
-      "lexicons": 5,
-      "generated": 5,
+      "lexicons": 12,
+      "generated": 12,
       "provided_by_sdk": 0,
       "kinds": {
-        "record": 3,
+        "record": 10,
         "query": 0,
         "procedure": 0,
         "subscription": 0
@@ -1774,6 +1778,9 @@
     "Skipped app.offprint.richtext.facet.json: defs.bold.object.properties: Input should be a valid dictionary; defs.code.object.properties: Input should be a valid dictionary; defs.italic.object.properties: Input should be a valid dictionary; defs.underline.object.properties: Input should be a valid dictionary; defs.strikethrough.object.properties: Input should be a valid dictionary",
     "Skipped at.turtleme.chat.clan.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
     "Skipped at.turtleme.game.defs.json: defs.mark.object.properties.at: Input tag 'number' found using 'type' does not match any of the expected tags: 'unknown', 'cid-link', 'bytes', 'boolean', 'integer', 'string', 'ref', 'union', 'array', 'blob', 'object'",
+    "Skipped buzz.bookhive.getPersonalBookCover.json: defs.main.query.output.encoding: Value error, Encoding must be a single MIME type without parameters",
+    "Skipped buzz.bookhive.getPersonalBookFile.json: defs.main.query.output.encoding: Value error, Encoding must be a single MIME type without parameters",
+    "Skipped buzz.bookhive.uploadPersonalBook.json: defs.main.procedure.input.encoding: Value error, Encoding must be a single MIME type without parameters",
     "Skipped community.lexicon.calendar.collection.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
     "Skipped dev.knotless.orgSpace.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
     "Skipped dev.knotless.space.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",

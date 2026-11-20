@@ -1,0 +1,40 @@
+{
+  "id": "buzz.bookhive.listPersonalShelves",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "shelves",
+            "totalBooks"
+          ],
+          "properties": {
+            "shelves": {
+              "type": "array",
+              "items": {
+                "ref": "buzz.bookhive.createPersonalShelf#personalShelfView",
+                "type": "ref"
+              }
+            },
+            "storage": {
+              "ref": "buzz.bookhive.getPersonalLibrary#storageView",
+              "type": "ref",
+              "description": "This user's storage usage against their quota"
+            },
+            "totalBooks": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Books in the library across all shelves and unshelved"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "List the authenticated user's personal shelves with per-shelf book counts, plus library-wide totals and storage usage. This is the root call for a catalog client: it carries everything the OPDS root navigation feed renders, in one request. Unpaginated — `personal_shelf` is unique on (userDid, name) and these lists are small."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

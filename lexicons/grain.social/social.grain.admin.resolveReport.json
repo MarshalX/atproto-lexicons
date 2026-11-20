@@ -1,0 +1,46 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Close an open report. Resolving it applies the label it asked for; dismissing it does not. Requires an admin session.",
+      "errors": [
+        {
+          "description": "No open report by that id.",
+          "name": "ReportNotFound"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "action": {
+              "knownValues": [
+                "resolve",
+                "dismiss"
+              ],
+              "type": "string"
+            },
+            "id": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "id",
+            "action"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "social.grain.admin.resolveReport",
+  "lexicon": 1
+}

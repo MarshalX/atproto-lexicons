@@ -2,6 +2,7 @@
   "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "A block of another account.",
       "key": "tid",
       "record": {
         "properties": {

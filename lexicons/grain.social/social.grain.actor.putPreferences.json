@@ -1,0 +1,33 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Set the viewer's grain preferences, replacing all of them, as app.bsky.actor.putPreferences does. Requires auth.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "preferences": {
+              "ref": "social.grain.actor.defs#preferences",
+              "type": "ref"
+            }
+          },
+          "required": [
+            "preferences"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "social.grain.actor.putPreferences",
+  "lexicon": 1
+}

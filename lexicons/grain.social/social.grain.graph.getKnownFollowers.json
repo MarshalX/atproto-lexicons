@@ -1,0 +1,44 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Get followers of a given actor that the viewer, named by their service token, also follows.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "items": {
+              "items": {
+                "ref": "social.grain.graph.defs#knownFollowerItem",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "actor": {
+            "format": "at-identifier",
+            "type": "string"
+          },
+          "limit": {
+            "default": 50,
+            "maximum": 50,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "actor"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.graph.getKnownFollowers",
+  "lexicon": 1
+}

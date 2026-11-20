@@ -100,7 +100,7 @@
           "type": "boolean"
         },
         "reason": {
-          "description": "What it did: starred the asker's repository, followed the asker, opened a pull or an issue on a repository it looks after, commented on its pull or issue, or on one it commented on, mentioned the asker in a pull, an issue or a comment, asked it to review a pull that is not a draft, as its author or as the repository's owner or a collaborator, assigned the asker a pull or an issue as its owner or a collaborator (`assigned`), or invited the asker to join it as an organization; or, as a runner the repository names, found checks failing at the latest run of the asker's pull (`checks-failed`), or turned the pull away from the merge queue (`ejected`), while the pull is open. Or what the asker chose to hear of (dev.knotless.putSubscription), heard of for no other reason: a comment on a pull or an issue it subscribed to (`subscribed`), or on a repository it watches, a pull or an issue opened, a comment, or a release (`watching`), each since it chose; its `uri` says which.",
+          "description": "What it did: starred the asker's repository, followed the asker, opened a pull or an issue on a repository it looks after, commented on its pull or issue, or on one it commented on, or on its gist, mentioned the asker in a pull, an issue or a comment, asked it to review a pull that is not a draft, as its author or as the repository's owner or a collaborator, assigned the asker a pull or an issue as its owner or a collaborator (`assigned`), or invited the asker to join it as an organization; or, as a runner the repository names, found checks failing at the latest run of the asker's pull (`checks-failed`), or turned the pull away from the merge queue (`ejected`), while the pull is open. Or what the asker chose to hear of (dev.knotless.putSubscription), heard of for no other reason: a comment on a pull or an issue it subscribed to (`subscribed`), or on a repository it watches, a pull or an issue opened, a comment, or a release (`watching`), each since it chose; its `uri` says which.",
           "knownValues": [
             "star",
             "follow",
@@ -119,7 +119,7 @@
           "type": "string"
         },
         "reasonSubject": {
-          "description": "What it is about: for a comment, or a mention in one, the pull or issue it is on; for a pull, an issue, a mention in one, a review request, an assignment, checks that failed or an ejection, that pull or issue; for a star, the repository's record; for a release, the release. Absent for a follow or an invitation.",
+          "description": "What it is about: for a comment, or a mention in one, the pull or issue it is on, or the gist's own dev.knotless.repo record; for a pull, an issue, a mention in one, a review request, an assignment, checks that failed or an ejection, that pull or issue; for a star, the repository's record; for a release, the release. Absent for a follow or an invitation.",
           "format": "at-uri",
           "type": "string"
         },
@@ -155,7 +155,7 @@
           "type": "string"
         },
         "title": {
-          "description": "The title of the pull or issue it is, or is on.",
+          "description": "The title of the pull or issue it is, or is on; for a comment on a gist, or a mention in one, the gist's description, else its name.",
           "type": "string"
         },
         "uri": {

@@ -1,0 +1,62 @@
+{
+  "id": "com.professorbutts.sports.person",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "updatedAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "source": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "country": {
+            "type": "string",
+            "maxLength": 3
+          },
+          "profile": {
+            "type": "string",
+            "format": "did"
+          },
+          "photoUrl": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 512
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "shortName": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "externalIds": {
+            "type": "array",
+            "items": {
+              "ref": "com.professorbutts.sports.defs#externalId",
+              "type": "ref"
+            },
+            "maxLength": 16
+          }
+        }
+      },
+      "description": "rkey is source-id, e.g. espn-3915511"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

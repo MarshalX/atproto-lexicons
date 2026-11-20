@@ -1,0 +1,40 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Get an actor's profile with gallery stats and follow relationships.",
+      "errors": [
+        {
+          "description": "An admin, or the account's host, took it down.",
+          "name": "AccountTakedown"
+        },
+        {
+          "description": "The account's host says it is deactivated.",
+          "name": "AccountDeactivated"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "ref": "social.grain.actor.defs#profileViewDetailed",
+          "type": "ref"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "actor": {
+            "format": "at-identifier",
+            "type": "string"
+          }
+        },
+        "required": [
+          "actor"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.actor.getProfile",
+  "lexicon": 1
+}

@@ -20,7 +20,7 @@
       "type": "object"
     },
     "main": {
-      "description": "The pulls or issues an account opened, is assigned or is asked to review, on any public repository an appview has indexed, newest first, a page at a time: follow `cursor` until it is absent. No authentication; responses are not personalized.",
+      "description": "The pulls or issues an account opened, is assigned or is asked to review, on any public repository an appview has indexed, newest first, a page at a time: follow `cursor` until it is absent. Optional authentication: asked as an account, with a service token or the pages' session cookie, those on the private repositories it may read too, its own and those it was proven a member of, as the server's index of their spaces has them; and the answer is that account's alone.",
       "output": {
         "encoding": "application/json",
         "schema": {

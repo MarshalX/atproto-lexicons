@@ -1,0 +1,36 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "One reader's entry into one giveaway. The entry is the reader's own record so it lives and moves with their repo; the draw runs over the activity index of these records.",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "country": {
+            "description": "Self-declared ISO-3166 alpha-2 country, when the giveaway is not worldwide.",
+            "maxLength": 2,
+            "minLength": 2,
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "giveaway": {
+            "description": "The giveaway being entered. A strongRef names the revision this entry was written against. Entries are matched to the giveaway by its uri, so the author may move closesAt later (never earlier) and this entry stays valid.",
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref"
+          }
+        },
+        "required": [
+          "giveaway",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "net.olamaelcu.livtet.biblio.giveaway.entry",
+  "lexicon": 1
+}

@@ -1,0 +1,65 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Create a record in the logged-in account's repo, at its PDS, and index it before answering. For the web, by its session cookie, from a page of the site; a service token is refused (the apps write to their own PDS, then call social.grain.sync.indexRecords).",
+      "errors": [
+        {
+          "description": "grain does not index the collection.",
+          "name": "UnknownCollection"
+        },
+        {
+          "description": "The record does not fit its lexicon.",
+          "name": "InvalidRecord"
+        },
+        {
+          "name": "InvalidSwap"
+        },
+        {
+          "description": "The account's PDS granted the session less than the write needs.",
+          "name": "ScopeMissingError"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "collection": {
+              "description": "A collection grain indexes.",
+              "format": "nsid",
+              "type": "string"
+            },
+            "record": {
+              "description": "The record. One without a $type is given the collection's.",
+              "type": "unknown"
+            },
+            "rkey": {
+              "format": "record-key",
+              "maxLength": 512,
+              "type": "string"
+            },
+            "swapCommit": {
+              "format": "cid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "collection",
+            "record"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "ref": "social.grain.repo.defs#written",
+          "type": "ref"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "social.grain.repo.createRecord",
+  "lexicon": 1
+}

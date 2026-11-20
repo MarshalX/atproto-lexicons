@@ -1,0 +1,83 @@
+{
+  "id": "buzz.bookhive.putSyncProgress",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "document",
+            "progress",
+            "percentage",
+            "device",
+            "device_id"
+          ],
+          "properties": {
+            "device": {
+              "type": "string",
+              "description": "Device name"
+            },
+            "document": {
+              "type": "string",
+              "description": "Document identifier"
+            },
+            "metadata": {
+              "ref": "#syncMetadata",
+              "type": "ref"
+            },
+            "progress": {
+              "type": "string",
+              "description": "Reading progress position (KOSync format)"
+            },
+            "device_id": {
+              "type": "string",
+              "description": "Device identifier"
+            },
+            "percentage": {
+              "type": "string",
+              "description": "Reading progress as a decimal string (0-1, e.g. '0.42')"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "status"
+          ],
+          "properties": {
+            "status": {
+              "type": "string",
+              "description": "Result status of the operation"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Push reading progress for a document. Mirrors KOSync PUT /syncs/progress semantics."
+    },
+    "syncMetadata": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Title of the document"
+        },
+        "authors": {
+          "type": "string",
+          "description": "Authors of the document"
+        },
+        "filename": {
+          "type": "string",
+          "description": "Original filename of the document"
+        }
+      },
+      "description": "Optional metadata about the document being synced"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,6 +1,36 @@
 {
   "$type": "com.atproto.lexicon.schema",
   "defs": {
+    "storyAuthor": {
+      "properties": {
+        "lastViewedAt": {
+          "description": "createdAt of the newest of this author's live stories the requesting account has watched. Compare against latestAt to tell whether the viewer is caught up. Only present for an authenticated viewer who has watched at least one.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "latestAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "profile": {
+          "ref": "social.grain.actor.defs#profileView",
+          "type": "ref"
+        },
+        "storyCount": {
+          "type": "integer"
+        },
+        "unviewedCount": {
+          "description": "How many of this author's live stories the requesting account has not watched. Only present for an authenticated viewer.",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "profile",
+        "storyCount",
+        "latestAt"
+      ],
+      "type": "object"
+    },
     "storyView": {
       "properties": {
         "address": {

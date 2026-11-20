@@ -2,6 +2,7 @@
   "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "A story: a photo or video posted to an account's stories.",
       "key": "tid",
       "record": {
         "properties": {

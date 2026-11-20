@@ -1,0 +1,76 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "file": {
+      "description": "A text file of a gist.",
+      "properties": {
+        "content": {
+          "description": "Its text, written as UTF-8.",
+          "maxLength": 1000000,
+          "type": "string"
+        },
+        "name": {
+          "description": "Its name at the gist's root, with no /.",
+          "maxLength": 255,
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "content"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "Writes a dev.knotless.repo record whose kind is gist, named by a new TID, in the account logged in to this appview's web pages, and commits the files given to its main branch in one commit, as `knotless gist create` does. Requires the session cookie the pages' login sets: the appview writes with the session it keeps for that account. Clients holding their own session write the record and push themselves.",
+      "errors": [
+        {
+          "description": "No files, a file with no name or a name with a /, or two files of one name.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "description": {
+              "description": "What the gist is, shown above its files.",
+              "maxGraphemes": 300,
+              "maxLength": 3000,
+              "type": "string"
+            },
+            "files": {
+              "description": "Its files, at the root of its main branch, each named once.",
+              "items": {
+                "ref": "#file",
+                "type": "ref"
+              },
+              "maxLength": 20,
+              "minLength": 1,
+              "type": "array"
+            }
+          },
+          "required": [
+            "files"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "ref": "dev.knotless.defs#repoMade",
+          "type": "ref"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "description": "Creates a gist in the account logged in to this appview's pages.",
+  "id": "dev.knotless.createGist",
+  "lexicon": 1
+}

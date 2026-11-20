@@ -2,6 +2,7 @@
   "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "A favorite of the record its subject names.",
       "key": "tid",
       "record": {
         "properties": {

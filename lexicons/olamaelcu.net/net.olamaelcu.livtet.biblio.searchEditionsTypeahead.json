@@ -1,0 +1,51 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Prefix completion over the catalog for a search field. Every whitespace-separated term must prefix-match the edition title, subtitle, or a contributor name; results are ranked by the catalog index and hydrated to full edition views. Anonymous; no session or scope is required.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "items": {
+              "description": "Editions whose title, subtitle or contributors complete the typed terms, best match first.",
+              "items": {
+                "ref": "community.lexicon.media.book.defs#editionView",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "limit": {
+            "default": 8,
+            "description": "Maximum number of editions to return.",
+            "maximum": 25,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "q": {
+            "description": "Text typed so far. At least two characters; each whitespace-separated term is matched as a prefix.",
+            "maxLength": 200,
+            "minLength": 2,
+            "type": "string"
+          }
+        },
+        "required": [
+          "q"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "net.olamaelcu.livtet.biblio.searchEditionsTypeahead",
+  "lexicon": 1
+}

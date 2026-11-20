@@ -2,6 +2,7 @@
   "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "A comment on the record its subject names, or a reply to another comment.",
       "key": "tid",
       "record": {
         "properties": {

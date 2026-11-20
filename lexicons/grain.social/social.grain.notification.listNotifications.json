@@ -1,0 +1,51 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Get the authenticated user's notifications, the latest first, as app.bsky.notification.listNotifications does. Requires auth.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "notifications": {
+              "items": {
+                "ref": "social.grain.notification.defs#notificationItem",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "seenAt": {
+              "description": "When the viewer last marked their notifications seen (updateSeen), if they have.",
+              "format": "datetime",
+              "type": "string"
+            }
+          },
+          "required": [
+            "notifications"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "type": "string"
+          },
+          "limit": {
+            "default": 20,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.notification.listNotifications",
+  "lexicon": 1
+}

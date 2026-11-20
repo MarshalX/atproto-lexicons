@@ -1,0 +1,38 @@
+{
+  "id": "buzz.bookhive.addToPersonalShelf",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "shelfId",
+            "contentHash"
+          ],
+          "properties": {
+            "shelfId": {
+              "type": "integer",
+              "description": "ID of the shelf to add the book to"
+            },
+            "contentHash": {
+              "type": "string",
+              "description": "SHA-256 hash of the book file content"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "description": "Add a book from the personal library to a personal shelf."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

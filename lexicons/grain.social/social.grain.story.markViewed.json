@@ -1,0 +1,39 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Record that the requesting account has watched these stories. Viewed state is private to the viewer and held by the appview, not written to the repo, so it follows the account across web, iOS and Android without being visible to anyone else.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "stories": {
+              "description": "AT URIs of the stories that were watched.",
+              "items": {
+                "format": "at-uri",
+                "type": "string"
+              },
+              "maxLength": 100,
+              "minLength": 1,
+              "type": "array"
+            }
+          },
+          "required": [
+            "stories"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "social.grain.story.markViewed",
+  "lexicon": 1
+}

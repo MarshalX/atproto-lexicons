@@ -1,0 +1,36 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "record": {
+        "properties": {
+          "contributor": {
+            "description": "AT-URI of the net.olamaelcu.livtet.biblio.contributor record the claimant asserts they are.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "message": {
+            "description": "Why the claimant is this person, for the librarian reviewing the request.",
+            "maxGraphemes": 512,
+            "maxLength": 2048,
+            "type": "string"
+          }
+        },
+        "required": [
+          "contributor",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "description": "A reader's request to be recognised as a catalog contributor. Written into the claimant's own repo with rkey `self`, so a PDS holds at most one claim per account; a claim is withdrawn by deleting the record.",
+  "id": "net.olamaelcu.livtet.biblio.contributorClaim",
+  "lexicon": 1
+}

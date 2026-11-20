@@ -1,0 +1,57 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Get comments for a subject (gallery or story), sorted oldest-first with author profiles.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "comments": {
+              "items": {
+                "ref": "social.grain.comment.defs#commentView",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "cursor": {
+              "type": "string"
+            },
+            "totalCount": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "comments"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "type": "string"
+          },
+          "limit": {
+            "default": 20,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "subject": {
+            "description": "The subject URI to fetch comments for.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subject"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.comment.getThread",
+  "lexicon": 1
+}

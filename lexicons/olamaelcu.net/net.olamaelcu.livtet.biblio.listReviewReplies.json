@@ -1,0 +1,57 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "description": "Opaque pagination cursor; absent when no further replies are known.",
+              "type": "string"
+            },
+            "replies": {
+              "items": {
+                "ref": "net.olamaelcu.livtet.biblio.defs#reviewReplyView",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "replies"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "description": "Opaque pagination cursor.",
+            "type": "string"
+          },
+          "limit": {
+            "default": 20,
+            "description": "Maximum number of replies to return.",
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "subject": {
+            "description": "AT-URI of the review whose replies to list — a community.lexicon.media.book.review record.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subject"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "List the replies to one review, oldest first. Replies are public records in their authors' own repos, discovered by the review they name in `subject` — no per-author fan-out. Each reply carries the reactions naming it so a reaction bar needs no second call; a page deeper than 20 replies ships none.",
+  "id": "net.olamaelcu.livtet.biblio.listReviewReplies",
+  "lexicon": 1
+}

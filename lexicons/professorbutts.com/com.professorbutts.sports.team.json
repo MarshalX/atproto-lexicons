@@ -1,0 +1,109 @@
+{
+  "id": "com.professorbutts.sports.team",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "sport",
+          "league",
+          "updatedAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "color": {
+            "type": "string",
+            "maxLength": 7
+          },
+          "sport": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "venue": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "league": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "parent": {
+            "type": "string",
+            "format": "at-uri"
+          },
+          "source": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "aliases": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 64
+            },
+            "maxLength": 16
+          },
+          "logoUrl": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 512
+          },
+          "profile": {
+            "type": "string",
+            "format": "did"
+          },
+          "website": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 512
+          },
+          "division": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "location": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "shortName": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "conference": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "externalIds": {
+            "type": "array",
+            "items": {
+              "ref": "com.professorbutts.sports.defs#externalId",
+              "type": "ref"
+            },
+            "maxLength": 16
+          },
+          "abbreviation": {
+            "type": "string",
+            "maxLength": 8
+          },
+          "secondaryColor": {
+            "type": "string",
+            "maxLength": 7
+          }
+        }
+      },
+      "description": "rkey is league-abbreviation lowercase, e.g. nfl-cin, cfb-cin, f1-mclaren"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

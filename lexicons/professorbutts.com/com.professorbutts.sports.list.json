@@ -1,0 +1,48 @@
+{
+  "id": "com.professorbutts.sports.list",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "purpose",
+          "createdAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 128
+          },
+          "purpose": {
+            "type": "string",
+            "maxLength": 64,
+            "knownValues": [
+              "com.professorbutts.sports.list#favorites",
+              "com.professorbutts.sports.list#curated"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000,
+            "maxGraphemes": 300
+          }
+        }
+      }
+    },
+    "curated": {
+      "type": "token"
+    },
+    "favorites": {
+      "type": "token"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

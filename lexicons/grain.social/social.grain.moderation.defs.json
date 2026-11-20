@@ -1,0 +1,15 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "reasonCopyright": {
+      "description": "A com.atproto.moderation.createReport reasonType: content that infringes on copyright or intellectual property. grain files it under its copyright label.",
+      "type": "token"
+    },
+    "reasonNudity": {
+      "description": "A com.atproto.moderation.createReport reasonType: nudity that is not labeled as such. grain files it under its nudity label.",
+      "type": "token"
+    }
+  },
+  "id": "social.grain.moderation.defs",
+  "lexicon": 1
+}

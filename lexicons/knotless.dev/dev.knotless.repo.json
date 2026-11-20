@@ -150,6 +150,15 @@
             "format": "tid",
             "type": "string"
           },
+          "kind": {
+            "description": "What the repository is. A gist is a public repository of a few files, kept flat at the root of its default branch and named by a TID when it is made. Set when the record is made and never changed; a fork or a move keeps it. Absent, or a value a reader does not know, reads as repo.",
+            "knownValues": [
+              "repo",
+              "gist"
+            ],
+            "maxLength": 64,
+            "type": "string"
+          },
           "labels": {
             "description": "The labels its pulls and issues may carry. The owner and collaborators put them on with dev.knotless.label records; readers show none but these.",
             "items": {

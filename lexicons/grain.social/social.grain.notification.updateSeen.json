@@ -1,0 +1,33 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Mark the viewer's notifications seen up to a time, as app.bsky.notification.updateSeen does. getUnreadCount counts from it. Requires auth.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "seenAt": {
+              "format": "datetime",
+              "type": "string"
+            }
+          },
+          "required": [
+            "seenAt"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "social.grain.notification.updateSeen",
+  "lexicon": 1
+}

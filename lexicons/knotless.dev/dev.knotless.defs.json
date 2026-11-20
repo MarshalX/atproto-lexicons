@@ -44,6 +44,36 @@
       },
       "type": "object"
     },
+    "attachmentView": {
+      "description": "A picture a pull, an issue or a comment attaches, as readers load it: from this appview, with no cookie or header needed.",
+      "properties": {
+        "cid": {
+          "description": "The attached blob.",
+          "format": "cid",
+          "type": "string"
+        },
+        "height": {
+          "description": "How high it is drawn, in CSS pixels, as its record's dev.knotless.defs#image says.",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "url": {
+          "description": "An absolute URL on this appview's public origin that serves it: dev.knotless.getAttachment's. For a private repository it carries a `token` for the account that asked, lasting about an hour and ended by their logging out here: theirs alone, not to be shared or kept.",
+          "format": "uri",
+          "type": "string"
+        },
+        "width": {
+          "description": "How wide it is drawn, in CSS pixels, as its record's dev.knotless.defs#image says.",
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "cid",
+        "url"
+      ],
+      "type": "object"
+    },
     "byteSlice": {
       "description": "A span of a text, by its UTF-8 bytes, counted from zero: the start inclusive, the end exclusive.",
       "properties": {
@@ -185,8 +215,16 @@
       "type": "object"
     },
     "commentView": {
-      "description": "Something said on a pull or an issue.",
+      "description": "Something said on a pull, an issue or a gist.",
       "properties": {
+        "attachments": {
+          "description": "The pictures its record attaches (dev.knotless.defs#image), in its order, each where any reader loads it. Absent when it attaches none.",
+          "items": {
+            "ref": "#attachmentView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
         "author": {
           "ref": "#actorView",
           "type": "ref"
@@ -505,6 +543,86 @@
       ],
       "type": "object"
     },
+    "gistFile": {
+      "description": "A file of a gist.",
+      "properties": {
+        "name": {
+          "description": "The file's name, at the root of the gist's default branch.",
+          "maxLength": 255,
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "gistView": {
+      "description": "A gist among others: a dev.knotless.repo record whose kind is gist, its files flat at the root of its default branch.",
+      "properties": {
+        "commentCount": {
+          "description": "How many comments stand on it, as dev.knotless.getGistComments lists them. Absent from an appview that keeps no index.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "createdAt": {
+          "description": "As its record says.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "fileCount": {
+          "description": "How many files are at the root of its default branch, as `files` was read.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "files": {
+          "description": "The first ten files at the root of its default branch, by name, ignoring case. Empty when the appview could not read them, or nothing was pushed.",
+          "items": {
+            "ref": "#gistFile",
+            "type": "ref"
+          },
+          "maxLength": 10,
+          "type": "array"
+        },
+        "forkCount": {
+          "description": "How many forks of it there are, as the appview has indexed: 0 from an appview that keeps no index.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "name": {
+          "description": "The gist's name: its record key, a TID given when it was made.",
+          "type": "string"
+        },
+        "owner": {
+          "ref": "#actorView",
+          "type": "ref"
+        },
+        "starCount": {
+          "description": "How many accounts starred it, as the appview has indexed: 0 from an appview that keeps no index.",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "uri": {
+          "description": "Its dev.knotless.repo record.",
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "owner",
+        "name",
+        "files",
+        "fileCount",
+        "starCount",
+        "forkCount",
+        "createdAt"
+      ],
+      "type": "object"
+    },
     "image": {
       "description": "A picture a pull's, an issue's or a comment's body shows, attached so its author's PDS keeps it. The body links to it on that PDS, as `com.atproto.sync.getBlob` serves it, saying what it shows as Markdown's alt text; readers may show it from elsewhere, as dev.knotless.getAttachment does.",
       "properties": {
@@ -541,6 +659,14 @@
           "description": "Those the repository's owner or collaborators assign it to, in the order assigned (dev.knotless.assignment). Absent when it is assigned to no one.",
           "items": {
             "ref": "#actorView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "attachments": {
+          "description": "The pictures its record attaches (dev.knotless.defs#image), in its order, each where any reader loads it. Given where the view is made for someone asking, as dev.knotless.getThread's `item`; absent when it attaches none.",
+          "items": {
+            "ref": "#attachmentView",
             "type": "ref"
           },
           "type": "array"
@@ -1349,6 +1475,13 @@
         "key": {
           "description": "The repository's key, as its dev.knotless.repo record holds it, which a rename keeps: what dev.knotless.putSecret and dev.knotless.listSecrets name it by.",
           "maxLength": 32,
+          "type": "string"
+        },
+        "kind": {
+          "description": "gist for a gist, a repository whose record says it is one. Absent for any other repository.",
+          "knownValues": [
+            "gist"
+          ],
           "type": "string"
         },
         "links": {

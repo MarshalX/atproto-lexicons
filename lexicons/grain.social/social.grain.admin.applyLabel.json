@@ -1,0 +1,39 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Apply a label as this server's labeler. Requires an admin session.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "uri": {
+              "description": "An account's bare DID, or a record's at:// URI.",
+              "format": "uri",
+              "type": "string"
+            },
+            "val": {
+              "maxLength": 128,
+              "type": "string"
+            }
+          },
+          "required": [
+            "uri",
+            "val"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "social.grain.admin.applyLabel",
+  "lexicon": 1
+}

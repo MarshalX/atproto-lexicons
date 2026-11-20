@@ -1,0 +1,108 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "change": {
+      "description": "A file of a gist to put or delete: exactly one of content or delete.",
+      "properties": {
+        "content": {
+          "description": "Its text from now, written as UTF-8.",
+          "maxLength": 1000000,
+          "type": "string"
+        },
+        "delete": {
+          "description": "Deletes the file.",
+          "type": "boolean"
+        },
+        "name": {
+          "description": "Its name at the gist's root, with no /.",
+          "maxLength": 255,
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "Puts and deletes files of a gist in one commit to its default branch, \"Edit gist\", then sets its description, if given, as `knotless gist edit` does. Only the gist's owner may, logged in to this appview's web pages: requires the session cookie the pages' login sets, and the appview writes with the session it keeps for that account.",
+      "errors": [
+        {
+          "description": "No change, a file with no name or a name with a /, a file given both content and delete, or neither, or a name changed twice.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "No such repository, or it is not a gist.",
+          "name": "NotFound"
+        },
+        {
+          "description": "No account is logged in to the pages, or its session has ended.",
+          "name": "AuthenticationRequired"
+        },
+        {
+          "description": "The account logged in is not the gist's owner.",
+          "name": "Forbidden"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "description": {
+              "description": "What the gist says it is from now: an empty string drops it, and it stays as it is when absent.",
+              "maxGraphemes": 300,
+              "maxLength": 3000,
+              "type": "string"
+            },
+            "files": {
+              "description": "The files to put or delete, each named once. A rename is a delete of the old name and a put of the new.",
+              "items": {
+                "ref": "#change",
+                "type": "ref"
+              },
+              "maxLength": 40,
+              "type": "array"
+            },
+            "gist": {
+              "description": "The gist's dev.knotless.repo record.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "gist"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "changed": {
+              "description": "False when the files are as they were, and nothing was pushed.",
+              "type": "boolean"
+            },
+            "description": {
+              "description": "What the gist says it is now.",
+              "type": "string"
+            },
+            "sha": {
+              "description": "The commit made, when files were put or deleted.",
+              "maxLength": 64,
+              "type": "string"
+            }
+          },
+          "required": [
+            "changed"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "description": "Changes a gist of the account logged in to this appview's pages.",
+  "id": "dev.knotless.editGist",
+  "lexicon": 1
+}

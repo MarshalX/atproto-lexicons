@@ -1,0 +1,63 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "List reports, newest first. Requires an admin session.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "reports": {
+              "items": {
+                "ref": "social.grain.admin.defs#reportView",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "total": {
+              "description": "Reports matching, across every page.",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "reports",
+            "total"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "limit": {
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "status": {
+            "default": "open",
+            "knownValues": [
+              "open",
+              "resolved",
+              "dismissed"
+            ],
+            "type": "string"
+          }
+        },
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.admin.listReports",
+  "lexicon": 1
+}

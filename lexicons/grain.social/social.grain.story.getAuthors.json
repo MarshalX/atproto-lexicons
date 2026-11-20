@@ -1,0 +1,29 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Get authors who have active stories (posted within the last 24 hours).",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "authors": {
+              "items": {
+                "ref": "social.grain.story.defs#storyAuthor",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "authors"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.story.getAuthors",
+  "lexicon": 1
+}

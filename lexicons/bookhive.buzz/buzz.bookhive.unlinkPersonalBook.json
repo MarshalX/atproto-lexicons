@@ -1,0 +1,41 @@
+{
+  "id": "buzz.bookhive.unlinkPersonalBook",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "contentHash"
+          ],
+          "properties": {
+            "contentHash": {
+              "type": "string",
+              "description": "SHA-256 hash of the file content"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "book"
+          ],
+          "properties": {
+            "book": {
+              "ref": "buzz.bookhive.getPersonalLibrary#personalBookView",
+              "type": "ref"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Unlink a personal library book from its BookHive catalog entry."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

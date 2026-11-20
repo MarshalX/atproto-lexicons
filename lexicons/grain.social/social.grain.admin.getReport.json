@@ -1,0 +1,43 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "A report by its id, in any state. Requires an admin session.",
+      "errors": [
+        {
+          "description": "No report by that id.",
+          "name": "ReportNotFound"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "report": {
+              "ref": "social.grain.admin.defs#reportView",
+              "type": "ref"
+            }
+          },
+          "required": [
+            "report"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "id": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.admin.getReport",
+  "lexicon": 1
+}

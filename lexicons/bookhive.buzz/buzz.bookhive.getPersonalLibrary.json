@@ -1,0 +1,203 @@
+{
+  "id": "buzz.bookhive.getPersonalLibrary",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "books"
+          ],
+          "properties": {
+            "books": {
+              "type": "array",
+              "items": {
+                "ref": "#personalBookView",
+                "type": "ref"
+              }
+            },
+            "total": {
+              "type": "integer",
+              "description": "Total number of books matching the query, across all pages"
+            },
+            "cursor": {
+              "type": "string",
+              "description": "Pagination cursor for the next page"
+            },
+            "storage": {
+              "ref": "#storageView",
+              "type": "ref",
+              "description": "This user's storage usage against their quota"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "q": {
+            "type": "string",
+            "maxLength": 256,
+            "minLength": 1,
+            "description": "Case-insensitive substring match against title or authors. Mirrors the OPDS search feed."
+          },
+          "sort": {
+            "type": "string",
+            "default": "recent",
+            "description": "Result ordering. `recent` is newest-added first (the default, matching the library page and the OPDS /all feed); `title` and `author` are ascending alphabetical, matching the OPDS search results feed. Not switched implicitly when `q` is set — pass it explicitly.",
+            "knownValues": [
+              "recent",
+              "title",
+              "author"
+            ]
+          },
+          "limit": {
+            "type": "integer",
+            "default": 24,
+            "maximum": 100,
+            "minimum": 1,
+            "description": "Maximum number of books to return"
+          },
+          "cursor": {
+            "type": "string",
+            "description": "Pagination cursor"
+          },
+          "shelfId": {
+            "type": "integer",
+            "description": "Filter by personal shelf ID"
+          }
+        }
+      },
+      "description": "Get the authenticated user's personal ebook library."
+    },
+    "storageView": {
+      "type": "object",
+      "required": [
+        "usedBytes",
+        "quotaBytes"
+      ],
+      "properties": {
+        "usedBytes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total bytes currently stored for this user"
+        },
+        "quotaBytes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total bytes this user is allowed to store"
+        }
+      }
+    },
+    "personalBookView": {
+      "type": "object",
+      "required": [
+        "contentHash",
+        "title",
+        "format",
+        "mime",
+        "sizeBytes",
+        "createdAt",
+        "updatedAt"
+      ],
+      "properties": {
+        "mime": {
+          "type": "string",
+          "description": "MIME type of the file"
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the book"
+        },
+        "format": {
+          "type": "string",
+          "description": "File format (e.g. epub, pdf, mobi, fb2, cbz)"
+        },
+        "hiveId": {
+          "type": "string",
+          "description": "Linked BookHive catalog entry ID"
+        },
+        "authors": {
+          "type": "string",
+          "description": "Authors of the book (tab-separated)"
+        },
+        "coverUrl": {
+          "type": "string",
+          "description": "URL of the book cover image. When it points at the public catalog image proxy it needs no authentication; the `/library/covers/...` form is session-authenticated, so a client using service auth should use `hasLocalCover` and getPersonalBookCover instead."
+        },
+        "filename": {
+          "type": "string",
+          "description": "Original uploaded file name. A sync client needs this to correlate the book with what is on the device."
+        },
+        "language": {
+          "type": "string",
+          "description": "Language of the book"
+        },
+        "progress": {
+          "ref": "#syncProgressView",
+          "type": "ref",
+          "description": "E-reader reading progress, when this book has been synced"
+        },
+        "shelfIds": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "description": "IDs of the personal shelves this book belongs to"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the book was added to the library"
+        },
+        "sizeBytes": {
+          "type": "integer",
+          "description": "File size in bytes"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the book record was last updated"
+        },
+        "contentHash": {
+          "type": "string",
+          "description": "SHA-256 hash of the file content, used as stable identifier"
+        },
+        "description": {
+          "type": "string",
+          "description": "Synopsis from the linked BookHive catalog entry. Deliberately unbounded: this is scraped catalog copy, not user input, and 125 of the 367k descriptions in production already exceed 5000 bytes (longest 10386). A maxLength here would be a contract the data violates, and enforcing it would mean truncating a synopsis mid-sentence."
+        },
+        "hasLocalCover": {
+          "type": "boolean",
+          "description": "Whether a cover extracted from the uploaded file is stored. Fetch it with getPersonalBookCover, which works under any supported authentication."
+        }
+      }
+    },
+    "syncProgressView": {
+      "type": "object",
+      "required": [
+        "percentage",
+        "updatedAt"
+      ],
+      "properties": {
+        "device": {
+          "type": "string",
+          "description": "Name of the device that last reported progress"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When progress was last synced"
+        },
+        "percentage": {
+          "type": "string",
+          "description": "Reading progress as a fraction between 0 and 1"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

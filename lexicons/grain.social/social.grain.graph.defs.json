@@ -1,0 +1,143 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "blockItem": {
+      "properties": {
+        "avatar": {
+          "type": "string"
+        },
+        "blockUri": {
+          "format": "at-uri",
+          "type": "string"
+        },
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "handle": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "did",
+        "blockUri"
+      ],
+      "type": "object"
+    },
+    "followerItem": {
+      "properties": {
+        "avatar": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "handle": {
+          "type": "string"
+        },
+        "viewer": {
+          "ref": "#viewerState",
+          "type": "ref"
+        }
+      },
+      "required": [
+        "did"
+      ],
+      "type": "object"
+    },
+    "followingItem": {
+      "properties": {
+        "avatar": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "handle": {
+          "type": "string"
+        },
+        "viewer": {
+          "ref": "#viewerState",
+          "type": "ref"
+        }
+      },
+      "required": [
+        "did"
+      ],
+      "type": "object"
+    },
+    "knownFollowerItem": {
+      "properties": {
+        "avatar": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "handle": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "did"
+      ],
+      "type": "object"
+    },
+    "muteItem": {
+      "properties": {
+        "avatar": {
+          "type": "string"
+        },
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "handle": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "did"
+      ],
+      "type": "object"
+    },
+    "viewerState": {
+      "properties": {
+        "following": {
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "id": "social.grain.graph.defs",
+  "lexicon": 1
+}

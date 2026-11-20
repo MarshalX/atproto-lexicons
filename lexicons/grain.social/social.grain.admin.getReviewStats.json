@@ -1,0 +1,59 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Rollups for the review queue, the classifiers there are, and the progress of the latest scan. Requires an admin session.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "byClassifier": {
+              "items": {
+                "ref": "social.grain.admin.defs#classifierCount",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "classifiers": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "configured": {
+              "description": "Whether a classifier model is configured, so a scan can run.",
+              "type": "boolean"
+            },
+            "lastScan": {
+              "format": "datetime",
+              "type": "string"
+            },
+            "pending": {
+              "description": "Subjects with an open report.",
+              "type": "integer"
+            },
+            "scan": {
+              "ref": "social.grain.admin.defs#scanProgress",
+              "type": "ref"
+            },
+            "total": {
+              "description": "Subjects scored.",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "total",
+            "pending",
+            "byClassifier",
+            "classifiers",
+            "configured"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.admin.getReviewStats",
+  "lexicon": 1
+}
