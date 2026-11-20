@@ -1,0 +1,355 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "classifierCount": {
+      "properties": {
+        "classifier": {
+          "type": "string"
+        },
+        "count": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "classifier",
+        "count"
+      ],
+      "type": "object"
+    },
+    "collectionCount": {
+      "properties": {
+        "collection": {
+          "format": "nsid",
+          "type": "string"
+        },
+        "count": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "collection",
+        "count"
+      ],
+      "type": "object"
+    },
+    "recordView": {
+      "properties": {
+        "cid": {
+          "format": "cid",
+          "type": "string"
+        },
+        "collection": {
+          "format": "nsid",
+          "type": "string"
+        },
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "indexedAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "labels": {
+          "items": {
+            "ref": "com.atproto.label.defs#label",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "uri": {
+          "format": "at-uri",
+          "type": "string"
+        },
+        "value": {
+          "type": "unknown"
+        }
+      },
+      "required": [
+        "uri",
+        "did",
+        "collection",
+        "value"
+      ],
+      "type": "object"
+    },
+    "repoView": {
+      "properties": {
+        "backfilledAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "handle": {
+          "format": "handle",
+          "type": "string"
+        },
+        "retryAfter": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "retryCount": {
+          "type": "integer"
+        },
+        "rev": {
+          "type": "string"
+        },
+        "status": {
+          "knownValues": [
+            "active",
+            "pending",
+            "takendown",
+            "failed"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "did",
+        "status"
+      ],
+      "type": "object"
+    },
+    "reportView": {
+      "properties": {
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "label": {
+          "description": "The label the report asks for.",
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "reasonType": {
+          "description": "The reasonType the report was made with (com.atproto.moderation.defs#reasonType); none for one made before grain took them by it.",
+          "type": "string"
+        },
+        "reportedBy": {
+          "format": "did",
+          "type": "string"
+        },
+        "reportedByHandle": {
+          "format": "handle",
+          "type": "string"
+        },
+        "resolvedAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "resolvedBy": {
+          "format": "did",
+          "type": "string"
+        },
+        "status": {
+          "knownValues": [
+            "open",
+            "resolved",
+            "dismissed"
+          ],
+          "type": "string"
+        },
+        "subject": {
+          "description": "An account's bare DID, or a record's at:// URI.",
+          "format": "uri",
+          "type": "string"
+        },
+        "subjectDid": {
+          "format": "did",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "subject",
+        "subjectDid",
+        "label",
+        "reportedBy",
+        "status",
+        "createdAt"
+      ],
+      "type": "object"
+    },
+    "reviewItem": {
+      "description": "One subject in the review queue, however many classifiers scored it.",
+      "properties": {
+        "classifiers": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "handle": {
+          "format": "handle",
+          "type": "string"
+        },
+        "repoStatus": {
+          "description": "The subject's repo status: active, takendown and so on.",
+          "type": "string"
+        },
+        "reportId": {
+          "description": "The open report against the subject, when there is one.",
+          "type": "integer"
+        },
+        "reportStatus": {
+          "description": "The status of the subject's latest report.",
+          "type": "string"
+        },
+        "scannedAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "signals": {
+          "description": "Every classifier's answers, merged.",
+          "items": {
+            "ref": "#signalView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "state": {
+          "description": "What the richest classifier saw of the subject.",
+          "type": "unknown"
+        },
+        "subject": {
+          "description": "An account's bare DID, or a record's at:// URI.",
+          "format": "uri",
+          "type": "string"
+        },
+        "subjectDid": {
+          "format": "did",
+          "type": "string"
+        },
+        "topScore": {
+          "description": "A classifier's score, in thousandths: 1000 is certain.",
+          "maximum": 1000,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "topSignal": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "subject",
+        "subjectDid",
+        "classifiers",
+        "signals",
+        "topScore"
+      ],
+      "type": "object"
+    },
+    "scanProgress": {
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "errors": {
+          "type": "integer"
+        },
+        "filed": {
+          "description": "Reports filed for crossing a threshold.",
+          "type": "integer"
+        },
+        "finishedAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "inputTokens": {
+          "type": "integer"
+        },
+        "running": {
+          "type": "boolean"
+        },
+        "scanned": {
+          "description": "Subjects considered.",
+          "type": "integer"
+        },
+        "scored": {
+          "description": "Sent to the model and stored.",
+          "type": "integer"
+        },
+        "skipped": {
+          "description": "Gated out, or unchanged since the last scan.",
+          "type": "integer"
+        },
+        "startedAt": {
+          "format": "datetime",
+          "type": "string"
+        }
+      },
+      "required": [
+        "running",
+        "scanned",
+        "skipped",
+        "scored",
+        "filed",
+        "errors",
+        "startedAt"
+      ],
+      "type": "object"
+    },
+    "signalView": {
+      "properties": {
+        "choice": {
+          "description": "For a choice: the option selected.",
+          "type": "string"
+        },
+        "classifier": {
+          "type": "string"
+        },
+        "confidence": {
+          "description": "For a choice: how sure, in thousandths.",
+          "maximum": 1000,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "name": {
+          "description": "The question the classifier answered.",
+          "type": "string"
+        },
+        "score": {
+          "description": "A classifier's score, in thousandths: 1000 is certain.",
+          "maximum": 1000,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "type": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "classifier",
+        "score",
+        "type"
+      ],
+      "type": "object"
+    },
+    "statusCount": {
+      "properties": {
+        "count": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "count"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "social.grain.admin.defs",
+  "lexicon": 1
+}

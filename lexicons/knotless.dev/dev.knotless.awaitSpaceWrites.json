@@ -2,7 +2,7 @@
   "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "description": "The spaces written to since `cursor`, of the private repositories whose owners invited the caller (dev.knotless.inviteRunner), as their authorities told the appview (com.atproto.space.notifyWrite): nothing written in a space reaches the firehose. Answers as soon as there is one, or with none after a while, to be asked again from the cursor it gives. A write told of is only a reason to look: the caller reads the space itself, as a member. Requires a service token from the caller's PDS, audience the appview's DID, for this method.",
+      "description": "The spaces written to since `cursor`, of the private repositories whose owners invited the caller (dev.knotless.inviteRunner), as their authorities told the appview (com.atproto.space.notifySpaceUpdate, while a credential the appview asked for registers it): nothing written in a space reaches the firehose. Answers as soon as there is one, or with none after a while, to be asked again from the cursor it gives. A write told of is only a reason to look: the caller reads the space itself, as a member. Requires a service token from the caller's PDS, audience the appview's DID, for this method.",
       "output": {
         "encoding": "application/json",
         "schema": {

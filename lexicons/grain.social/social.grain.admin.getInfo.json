@@ -1,0 +1,44 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "The state of this server: repos by status, records by collection, open reports and the database's size. Requires an admin session.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "collections": {
+              "items": {
+                "ref": "social.grain.admin.defs#collectionCount",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "databaseBytes": {
+              "type": "integer"
+            },
+            "openReports": {
+              "type": "integer"
+            },
+            "repos": {
+              "items": {
+                "ref": "social.grain.admin.defs#statusCount",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "repos",
+            "collections",
+            "openReports"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.admin.getInfo",
+  "lexicon": 1
+}

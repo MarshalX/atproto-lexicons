@@ -2,6 +2,7 @@
   "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "A photo's place in a gallery: which photo, which gallery, and where in it.",
       "key": "tid",
       "record": {
         "properties": {

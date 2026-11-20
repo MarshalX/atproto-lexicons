@@ -91,7 +91,7 @@
             "type": "string"
           },
           "repo": {
-            "description": "The repository the pull or issue is on.",
+            "description": "The repository the pull or issue is on, or the gist.",
             "ref": "dev.knotless.defs#repoRef",
             "type": "ref"
           },
@@ -101,7 +101,7 @@
             "type": "string"
           },
           "subject": {
-            "description": "The dev.knotless.pull or dev.knotless.issue commented on.",
+            "description": "The dev.knotless.pull or dev.knotless.issue commented on, or, for a gist, its dev.knotless.repo record.",
             "format": "at-uri",
             "type": "string"
           },
@@ -111,7 +111,7 @@
             "type": "string"
           },
           "verdict": {
-            "description": "Present on a review: `approve`, or `changes` to ask for changes. Readers take each reviewer's latest as where they stand, and none from the pull's author.",
+            "description": "Present on a review of a pull: `approve`, or `changes` to ask for changes. Readers take each reviewer's latest as where they stand, and none from the pull's author.",
             "knownValues": [
               "approve",
               "changes"
@@ -131,7 +131,7 @@
       "type": "record"
     }
   },
-  "description": "A comment on a pull or issue. With a verdict it is a review; with a line, a comment on lines of a pull's diff, starting a thread there; with a reply, an answer in such a thread.",
+  "description": "A comment on a pull, an issue or a gist. With a verdict it is a review of a pull; with a line, a comment on lines of a pull's diff, starting a thread there; with a reply, an answer in such a thread. A comment on a gist has none of these.",
   "id": "dev.knotless.comment",
   "lexicon": 1
 }

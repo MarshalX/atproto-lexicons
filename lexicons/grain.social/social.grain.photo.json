@@ -2,6 +2,7 @@
   "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "A photo, with its alt text and aspect ratio, placed in galleries by gallery items.",
       "key": "tid",
       "record": {
         "properties": {

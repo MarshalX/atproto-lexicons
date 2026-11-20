@@ -1,0 +1,84 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "An author's giveaway for one catalogue edition. Entry is a separate net.olamaelcu.livtet.biblio.giveaway.entry record in each entrant's own repo.",
+      "key": "tid",
+      "record": {
+        "properties": {
+          "closesAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "closingNote": {
+            "maxLength": 500,
+            "type": "string"
+          },
+          "countries": {
+            "description": "ISO-3166 alpha-2 codes this giveaway is open to. The single value `*` means worldwide.",
+            "items": {
+              "maxLength": 2,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxLength": 250,
+            "type": "array"
+          },
+          "coverUrl": {
+            "format": "uri",
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "edition": {
+            "description": "The edition being given away. A plain at-uri rather than a strongRef: the giveaway follows the edition, it does not pin one revision of it.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "opensAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "prizeQuantity": {
+            "maximum": 250,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "prizeType": {
+            "knownValues": [
+              "print",
+              "digital",
+              "audio"
+            ],
+            "type": "string"
+          },
+          "rulesText": {
+            "maxLength": 4000,
+            "type": "string"
+          },
+          "title": {
+            "maxLength": 200,
+            "type": "string"
+          }
+        },
+        "required": [
+          "edition",
+          "title",
+          "prizeType",
+          "prizeQuantity",
+          "countries",
+          "rulesText",
+          "opensAt",
+          "closesAt",
+          "createdAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "id": "net.olamaelcu.livtet.biblio.giveaway.event",
+  "lexicon": 1
+}

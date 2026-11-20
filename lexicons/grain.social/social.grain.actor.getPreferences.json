@@ -1,0 +1,26 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Get the viewer's grain preferences, one of each kind they have set. Requires auth.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "preferences": {
+              "ref": "social.grain.actor.defs#preferences",
+              "type": "ref"
+            }
+          },
+          "required": [
+            "preferences"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.actor.getPreferences",
+  "lexicon": 1
+}

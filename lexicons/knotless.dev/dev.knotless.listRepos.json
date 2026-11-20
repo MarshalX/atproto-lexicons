@@ -2,7 +2,7 @@
   "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "description": "Public repositories an appview has indexed, newest first. The first page of a search with no runner, triager or topic starts with those named as searched, ignoring case, originals before forks. No authentication needed; asked as an account, with a service token or the pages' session cookie, the account's own of those come first, and before them the private repositories that account may read on this appview that match too, each marked private, and after them its own other public ones that match; the answer is that account's alone. What a first page puts first, when all of its kind fit there, no later page lists again.",
+      "description": "Public repositories an appview has indexed, newest first, but gists, which dev.knotless.getActorGists lists. The first page of a search with no runner, triager or topic starts with those named as searched, ignoring case, originals before forks. No authentication needed; asked as an account, with a service token or the pages' session cookie, the account's own of those come first, and before them the private repositories that account may read on this appview that match too, each marked private, and after them its own other public ones that match; the answer is that account's alone. What a first page puts first, when all of its kind fit there, no later page lists again.",
       "output": {
         "encoding": "application/json",
         "schema": {

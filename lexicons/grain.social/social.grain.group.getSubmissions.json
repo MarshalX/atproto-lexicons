@@ -1,0 +1,53 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Submissions to a group that no item has answered yet — the review queue.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "submissions": {
+              "items": {
+                "ref": "social.grain.group.defs#submissionView",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "submissions"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "type": "string"
+          },
+          "group": {
+            "format": "did",
+            "type": "string"
+          },
+          "limit": {
+            "default": 30,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "group"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.group.getSubmissions",
+  "lexicon": 1
+}

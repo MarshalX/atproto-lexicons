@@ -1,0 +1,81 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "description": "Opaque pagination cursor; absent when no further entries are known.",
+              "type": "string"
+            },
+            "entries": {
+              "items": {
+                "properties": {
+                  "country": {
+                    "maxLength": 2,
+                    "minLength": 2,
+                    "type": "string"
+                  },
+                  "createdAt": {
+                    "format": "datetime",
+                    "type": "string"
+                  },
+                  "did": {
+                    "description": "The entrant: the repo the entry was written into.",
+                    "format": "did",
+                    "type": "string"
+                  },
+                  "uri": {
+                    "description": "AT-URI of the entry record, in the entrant's own repo.",
+                    "format": "at-uri",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "uri",
+                  "did",
+                  "createdAt"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "entries"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "description": "Opaque pagination cursor.",
+            "type": "string"
+          },
+          "giveaway": {
+            "description": "AT-URI of the giveaway whose entries to list.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "limit": {
+            "default": 50,
+            "maximum": 500,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "giveaway"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "List the entries into one giveaway, oldest first. Entries are records in each entrant's own public repo, so the DIDs here leak nothing the index does not already expose.",
+  "id": "net.olamaelcu.livtet.biblio.giveaway.listEntries",
+  "lexicon": 1
+}

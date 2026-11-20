@@ -1,0 +1,105 @@
+{
+  "id": "buzz.bookhive.listAuthors",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "authors",
+            "offset",
+            "total",
+            "hasMore",
+            "directoryLimit"
+          ],
+          "properties": {
+            "total": {
+              "type": "integer",
+              "maximum": 500,
+              "minimum": 0,
+              "description": "Number matching q within the bounded directory, not a whole-catalogue author count."
+            },
+            "offset": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Next offset into the filtered directory."
+            },
+            "authors": {
+              "type": "array",
+              "items": {
+                "ref": "#author",
+                "type": "ref"
+              }
+            },
+            "hasMore": {
+              "type": "boolean"
+            },
+            "directoryLimit": {
+              "type": "integer",
+              "description": "Maximum directory size before the optional name filter (500)."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "q": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "Case-insensitive substring of author name, trimmed and applied before pagination."
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "offset": {
+            "type": "integer",
+            "default": 0,
+            "maximum": 500,
+            "minimum": 0
+          },
+          "language": {
+            "type": "string",
+            "maxLength": 100,
+            "description": "Restrict directory statistics to a supported catalogue language, matching the web directory. Unsupported languages fall back to all languages."
+          }
+        }
+      },
+      "description": "Browse the web author directory: up to 500 first authors ranked by summed ratings, with at least two books and positive total ratings. Search filters this bounded directory, not the entire catalogue. Does not require authentication."
+    },
+    "author": {
+      "type": "object",
+      "required": [
+        "author",
+        "bookCount",
+        "totalRatings"
+      ],
+      "properties": {
+        "author": {
+          "type": "string"
+        },
+        "avgRating": {
+          "type": "integer",
+          "maximum": 50,
+          "minimum": 0,
+          "description": "Average catalogue rating on a 0-5 scale multiplied by 10, matching getExplore."
+        },
+        "bookCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "totalRatings": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

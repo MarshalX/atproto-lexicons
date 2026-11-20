@@ -1,0 +1,65 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "The comments on a gist, oldest first: dev.knotless.comment records whose subject is the gist's own dev.knotless.repo record, less those its owner hid, those by accounts its owner blocked, and those taken down. No authentication; asked as an account, with a service token or the pages' session cookie, the answer says what that account may do with them, and which reactions are its own.",
+      "errors": [
+        {
+          "description": "No such repository, or it is not a gist; or this appview keeps no index, so it knows no comments.",
+          "name": "NotFound"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "comments": {
+              "description": "Oldest first.",
+              "items": {
+                "ref": "dev.knotless.defs#commentView",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "viewer": {
+              "description": "What the account asking may do with them; absent when no one asks.",
+              "ref": "#viewerState",
+              "type": "ref"
+            }
+          },
+          "required": [
+            "comments"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "gist": {
+            "description": "The gist's dev.knotless.repo record. Its authority may be a handle.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "gist"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    },
+    "viewerState": {
+      "description": "What the account asking may do with what is said on a gist, past commenting, editing what it wrote and reporting, which anyone may.",
+      "properties": {
+        "hide": {
+          "description": "Whether it may hide a comment: as the gist's owner.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "description": "What was said on a gist.",
+  "id": "dev.knotless.getGistComments",
+  "lexicon": 1
+}

@@ -1,0 +1,104 @@
+{
+  "id": "com.professorbutts.sports.league",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "sport",
+          "updatedAt"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "e.g. 'NCAA Division I FCS Football'."
+          },
+          "level": {
+            "type": "string",
+            "maxLength": 32,
+            "knownValues": [
+              "pro",
+              "college",
+              "international",
+              "minor",
+              "amateur"
+            ]
+          },
+          "sport": {
+            "type": "string",
+            "maxLength": 64,
+            "knownValues": [
+              "football",
+              "basketball",
+              "baseball",
+              "hockey",
+              "soccer",
+              "rugby",
+              "golf",
+              "motorsport",
+              "cricket"
+            ]
+          },
+          "gender": {
+            "type": "string",
+            "maxLength": 16,
+            "knownValues": [
+              "men",
+              "women",
+              "mixed"
+            ]
+          },
+          "parent": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Wider league this is part of, e.g. 'cfb-fcs' points at 'cfb'. Teams that move between divisions keep their slug under the parent code."
+          },
+          "aliases": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 64
+            },
+            "maxLength": 16,
+            "description": "Other names people use, e.g. 'Premier League', 'EPL'."
+          },
+          "country": {
+            "type": "string",
+            "maxLength": 3,
+            "description": "ISO 3166-1 alpha-3, when the league is national."
+          },
+          "shortName": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "e.g. 'FCS'."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "teamPrefix": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "League code used in this league's team slugs, when it differs from the record key, e.g. 'cfb' for 'cfb-fcs'."
+          },
+          "externalIds": {
+            "type": "array",
+            "items": {
+              "ref": "com.professorbutts.sports.defs#externalId",
+              "type": "ref"
+            },
+            "maxLength": 16
+          }
+        }
+      },
+      "description": "Record key is the league code used as the first part of every slug, e.g. 'nfl', 'cfb', 'cfb-fcs', 'f1', 'nascar-cup', 'eng-1'. Lowercase a-z, 0-9 and '-'. Never reused once minted."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A league, tour, series or college division. Gives every league code used in team, game and leaderboard slugs a record of its own, so others can look codes up."
+}

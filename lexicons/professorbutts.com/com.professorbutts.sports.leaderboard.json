@@ -21,6 +21,11 @@
             "maxLength": 128,
             "description": "e.g. 'The Masters', 'Monaco Grand Prix'."
           },
+          "recap": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "site.standard.document with the recap, once final."
+          },
           "sport": {
             "type": "string",
             "maxLength": 64,
@@ -85,6 +90,14 @@
           "updatedAt": {
             "type": "string",
             "format": "datetime"
+          },
+          "externalIds": {
+            "type": "array",
+            "items": {
+              "ref": "com.professorbutts.sports.defs#externalId",
+              "type": "ref"
+            },
+            "maxLength": 16
           }
         }
       },

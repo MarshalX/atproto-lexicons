@@ -1,0 +1,90 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "errors": [
+        {
+          "description": "No giveaway record exists at the given AT-URI.",
+          "name": "NotFound"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "byCountry": {
+              "items": {
+                "properties": {
+                  "count": {
+                    "minimum": 0,
+                    "type": "integer"
+                  },
+                  "country": {
+                    "description": "Absent when the entrant declared no country.",
+                    "maxLength": 2,
+                    "minLength": 2,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "count"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "entries": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "giveaway": {
+              "format": "at-uri",
+              "type": "string"
+            },
+            "read": {
+              "description": "Entrants whose bookStatus for the edition is `read`.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "reviewed": {
+              "description": "Entrants with a review of the edition.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "shelved": {
+              "description": "Entrants with a shelf entry for the edition: a bookStatus, shelfItem or review row.",
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "giveaway",
+            "entries",
+            "shelved",
+            "read",
+            "reviewed",
+            "byCountry"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "giveaway": {
+            "description": "AT-URI of the giveaway to report on.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "giveaway"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "The conversion report for one giveaway: entries, and how many of those entrants went on to shelve, read and review the edition. Aggregate counts only — the method never names an entrant; `listEntries` is the method that does, because entry records are public repo records.",
+  "id": "net.olamaelcu.livtet.biblio.giveaway.getReport",
+  "lexicon": 1
+}

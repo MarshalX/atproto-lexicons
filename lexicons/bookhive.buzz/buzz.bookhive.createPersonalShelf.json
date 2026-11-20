@@ -1,0 +1,87 @@
+{
+  "id": "buzz.bookhive.createPersonalShelf",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 100,
+              "minLength": 1,
+              "description": "Name of the shelf"
+            },
+            "description": {
+              "type": "string",
+              "maxLength": 500,
+              "description": "Optional description of the shelf"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "shelf"
+          ],
+          "properties": {
+            "shelf": {
+              "ref": "#personalShelfView",
+              "type": "ref"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Create a new personal shelf for organizing books in the personal library."
+    },
+    "personalShelfView": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "bookCount",
+        "createdAt",
+        "updatedAt"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Unique shelf identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Name of the shelf"
+        },
+        "bookCount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of books on this shelf"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the shelf was created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the shelf was last updated"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the shelf"
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

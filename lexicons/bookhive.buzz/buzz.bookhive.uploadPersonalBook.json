@@ -1,0 +1,77 @@
+{
+  "id": "buzz.bookhive.uploadPersonalBook",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "encoding": "application/epub+zip,application/x-mobipocket-ebook,application/vnd.amazon.ebook,application/vnd.amazon.mobi8-ebook,application/x-fictionbook+xml,application/vnd.comicbook+zip,application/x-cbz,application/zip,application/octet-stream"
+      },
+      "errors": [
+        {
+          "name": "UnsupportedFormat",
+          "description": "The bytes are not a recognised ebook, or do not match the filename's extension"
+        },
+        {
+          "name": "AlreadyExists",
+          "description": "A book with this content hash is already in the library"
+        },
+        {
+          "name": "TooLarge",
+          "description": "The file exceeds the per-file size limit"
+        },
+        {
+          "name": "QuotaExceeded",
+          "description": "The upload would take the library over its total storage quota"
+        },
+        {
+          "name": "Busy",
+          "description": "Too many uploads are being processed; retry shortly"
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "book",
+            "storageUsedBytes",
+            "storageQuotaBytes"
+          ],
+          "properties": {
+            "book": {
+              "ref": "buzz.bookhive.getPersonalLibrary#personalBookView",
+              "type": "ref"
+            },
+            "storageUsedBytes": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Total bytes stored for this user after the upload"
+            },
+            "storageQuotaBytes": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Total bytes this user is allowed to store"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "filename"
+        ],
+        "properties": {
+          "filename": {
+            "type": "string",
+            "maxLength": 512,
+            "minLength": 1,
+            "description": "Original file name including extension. Required: the extension is the only thing distinguishing the zip-container formats (.epub / .cbz / .fb2.zip) from each other, and it is the key used to match e-reader sync documents to this file."
+          }
+        }
+      },
+      "description": "Upload an ebook file to the authenticated user's personal library. Accepts EPUB, MOBI/AZW/AZW3, FB2 (including .fb2.zip) and CBZ. The declared Content-Type is advisory only: the format is determined from the file's magic bytes checked against the `filename` extension, and a file that matches neither is rejected. `application/octet-stream` is accepted because mobile document pickers and plain curl uploads routinely send it."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

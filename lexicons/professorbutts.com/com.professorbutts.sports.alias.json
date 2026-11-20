@@ -1,0 +1,88 @@
+{
+  "id": "com.professorbutts.sports.alias",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "scheme",
+          "kind",
+          "value",
+          "target",
+          "updatedAt"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "maxLength": 32,
+            "knownValues": [
+              "league",
+              "team",
+              "program",
+              "person",
+              "game",
+              "event",
+              "venue"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "maxLength": 256,
+            "description": "The ID exactly as the outside source writes it, before rkey cleanup, e.g. 'NFL.10~17:2026-11-08'."
+          },
+          "league": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "League code, when the outside ID is only unique within a league."
+          },
+          "scheme": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Whose ID this is. 'slug' is a readable slug from this convention; 'old' is a retired slug of ours.",
+            "knownValues": [
+              "slug",
+              "old",
+              "espn",
+              "sideline",
+              "wikidata",
+              "ncaa",
+              "sports-reference",
+              "nfl",
+              "nba",
+              "mlb",
+              "nhl",
+              "f1",
+              "nascar",
+              "indycar",
+              "pga"
+            ]
+          },
+          "target": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The canonical record this resolves to."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "alternates": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 8,
+            "description": "Other records the same value could mean, e.g. a shared nickname. 'target' is the default pick (the higher-level, more common team)."
+          }
+        }
+      },
+      "description": "Record key is '<scheme>:<kind>:<value>', all lowercase, e.g. 'espn:team:nfl:4', 'sideline:team:nfl-chargers', 'slug:game:nfl-2026-11-09-cin-pit', 'old:team:nfl-oak'. Characters outside a-z 0-9 . - _ ~ are replaced with '-'."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "One entry in the shared slug map: an outside ID, an old slug or a readable slug, pointing at the canonical league, team, person, game or event record. Lets anyone resolve an ID with a single getRecord call, no index needed."
+}

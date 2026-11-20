@@ -1,0 +1,52 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Move a giveaway's closing date later, as its author. The AppView records the date it verified and rejects a record whose date disagrees, which is what stops a hand-edited record from ending a giveaway early. The caller authenticates with an atproto service token minted by their own PDS.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "closesAt": {
+              "format": "datetime",
+              "type": "string"
+            },
+            "giveaway": {
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "giveaway",
+            "closesAt"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "closesAt": {
+              "description": "The date the AppView now verifies. A caller must write exactly this into the record.",
+              "format": "datetime",
+              "type": "string"
+            },
+            "giveaway": {
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "giveaway",
+            "closesAt"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "net.olamaelcu.livtet.biblio.giveaway.extend",
+  "lexicon": 1
+}

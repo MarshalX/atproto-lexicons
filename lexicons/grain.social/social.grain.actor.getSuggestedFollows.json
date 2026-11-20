@@ -1,0 +1,44 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Get suggested profiles to follow based on bsky follow graph.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "items": {
+              "items": {
+                "ref": "social.grain.actor.defs#suggestedFollow",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "actor": {
+            "format": "did",
+            "type": "string"
+          },
+          "limit": {
+            "default": 10,
+            "maximum": 20,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "actor"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.actor.getSuggestedFollows",
+  "lexicon": 1
+}

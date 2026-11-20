@@ -1,0 +1,71 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "description": "Opaque pagination cursor; absent when no further giveaways are known.",
+              "type": "string"
+            },
+            "giveaways": {
+              "items": {
+                "ref": "net.olamaelcu.livtet.biblio.defs#giveawayView",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "giveaways"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "author": {
+            "description": "The repo the giveaway records are written into.",
+            "format": "did",
+            "type": "string"
+          },
+          "cursor": {
+            "description": "Opaque pagination cursor.",
+            "type": "string"
+          },
+          "edition": {
+            "description": "The edition being given away.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "limit": {
+            "default": 50,
+            "maximum": 50,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "status": {
+            "description": "`open` means `opensAt <= now < closesAt`; `closed` is everything else, including a cancelled giveaway.",
+            "knownValues": [
+              "open",
+              "closed"
+            ],
+            "type": "string"
+          },
+          "uri": {
+            "description": "One giveaway record's AT-URI.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "List author giveaways from the activity index, newest first. Narrow by `uri`, `author`, `edition` or `status`; an unknown `uri` answers an empty list rather than `RecordNotFound`, so a page can ask about a giveaway that has already been deleted.",
+  "id": "net.olamaelcu.livtet.biblio.giveaway.listGiveaways",
+  "lexicon": 1
+}

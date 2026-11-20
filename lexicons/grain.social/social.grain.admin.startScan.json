@@ -1,0 +1,56 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Start a classifier scan. Answers once it is under way; progress is polled from getReviewStats. Requires an admin session.",
+      "errors": [
+        {
+          "description": "No classifier model is configured.",
+          "name": "NotConfigured"
+        },
+        {
+          "description": "A scan is already running.",
+          "name": "ScanRunning"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "classifier": {
+              "description": "Only this classifier; every one when left out.",
+              "type": "string"
+            },
+            "force": {
+              "description": "Rescore subjects unchanged since their last scan.",
+              "type": "boolean"
+            },
+            "limit": {
+              "description": "Stop after this many subjects.",
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "started": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "started"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "social.grain.admin.startScan",
+  "lexicon": 1
+}

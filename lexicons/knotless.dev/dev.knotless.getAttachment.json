@@ -2,11 +2,15 @@
   "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "description": "A blob a dev.knotless.pull, dev.knotless.issue or dev.knotless.comment record attaches, of any kind in its `attachments`, from its author's PDS, or for a private repository from their repo in its space: only one the record names. Served so that a browser never runs it as a page, with the type its record gives when that is one shown safely, and the same for good. dev.knotless.getThread's `html` shows its pictures from here. No authentication beyond what reading the repository takes; responses are not personalized.",
+      "description": "A blob a dev.knotless.pull, dev.knotless.issue or dev.knotless.comment record attaches, of any kind in its `attachments`, from its author's PDS, or for a private repository from their repo in its space: only one the record names. Served so that a browser never runs it as a page, with the type its record gives when that is one shown safely, and the same for good. dev.knotless.getThread's `html` shows its pictures from here. Anyone may ask for a public repository's, and the answer is the same for good. A private repository's is read as the account asking, by its session cookie or service token, or by a `token` in their place, as dev.knotless.defs#attachmentView's `url` carries one; read with a token, the answer is kept by no shared cache, nor by theirs past the token's life.",
       "errors": [
         {
           "description": "No such repository, record, or blob it attaches.",
           "name": "NotFound"
+        },
+        {
+          "description": "The token is not one this appview signed for this blob, has expired, or its account has logged out here.",
+          "name": "AuthenticationRequired"
         }
       ],
       "output": {
@@ -22,6 +26,10 @@
           "repo": {
             "description": "The repository's dev.knotless.repo record, as dev.knotless.getRepo takes it.",
             "format": "at-uri",
+            "type": "string"
+          },
+          "token": {
+            "description": "A token this appview signed for the account that asked dev.knotless.getThread, for this one blob of this record in this repository, standing in for that account's cookie or service token. Refused once expired, about an hour after, or once that account logs out here.",
             "type": "string"
           },
           "uri": {

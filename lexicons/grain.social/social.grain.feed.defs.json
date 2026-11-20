@@ -1,0 +1,30 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "feedView": {
+      "properties": {
+        "label": {
+          "description": "What a reader sees it called.",
+          "type": "string"
+        },
+        "name": {
+          "description": "The feed's short name, its URI's last segment.",
+          "type": "string"
+        },
+        "uri": {
+          "description": "What social.grain.feed.getFeed takes as `feed`.",
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "name",
+        "label"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "social.grain.feed.defs",
+  "lexicon": 1
+}

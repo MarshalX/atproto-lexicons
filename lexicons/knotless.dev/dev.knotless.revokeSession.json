@@ -1,0 +1,68 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Ends one login to this appview's pages of the account whose session cookie asks, as logging out in that browser or app would: its cookie holds no more. The last of the account's to end revokes the session the appview keeps at its PDS. Answers the logins left, as dev.knotless.listSessions does. Requires the session cookie the pages' login sets, from the pages themselves.",
+      "errors": [
+        {
+          "description": "The account has no such login: it ended already.",
+          "name": "NotFound"
+        },
+        {
+          "description": "Sent from a page of another site.",
+          "name": "Forbidden"
+        },
+        {
+          "description": "No account is logged in to the pages, or its login has ended.",
+          "name": "AuthenticationRequired"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "sessionId": {
+              "description": "The login, as dev.knotless.listSessions names it.",
+              "maxLength": 64,
+              "type": "string"
+            }
+          },
+          "required": [
+            "sessionId"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "assistants": {
+              "description": "The assistants connected over MCP.",
+              "items": {
+                "ref": "dev.knotless.listSessions#assistant",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "sessions": {
+              "items": {
+                "ref": "dev.knotless.listSessions#session",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "sessions"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "description": "Logs one of the logins to this appview's pages out.",
+  "id": "dev.knotless.revokeSession",
+  "lexicon": 1
+}

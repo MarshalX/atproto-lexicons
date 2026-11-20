@@ -1,0 +1,45 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Get a single gallery view by AT URI.",
+      "errors": [
+        {
+          "description": "No gallery by that URI, or none of an account shown.",
+          "name": "NotFound"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "gallery": {
+              "ref": "social.grain.gallery.defs#galleryView",
+              "type": "ref"
+            }
+          },
+          "required": [
+            "gallery"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "gallery": {
+            "description": "The gallery AT URI.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "gallery"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.gallery.getGallery",
+  "lexicon": 1
+}

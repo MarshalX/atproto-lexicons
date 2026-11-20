@@ -1,0 +1,107 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "assistant": {
+      "description": "One assistant connected over MCP: a sign-in, kept while it refreshes its tokens.",
+      "properties": {
+        "assistantId": {
+          "description": "What names it to dev.knotless.disconnectAssistant.",
+          "maxLength": 64,
+          "type": "string"
+        },
+        "connectedAt": {
+          "description": "When it signed in.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "name": {
+          "description": "What the assistant registered as, cut to 60 characters.",
+          "maxGraphemes": 60,
+          "maxLength": 256,
+          "type": "string"
+        },
+        "refreshedAt": {
+          "description": "When it last made tokens, at least every hour while it is in use.",
+          "format": "datetime",
+          "type": "string"
+        }
+      },
+      "required": [
+        "assistantId",
+        "name",
+        "connectedAt",
+        "refreshedAt"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "The logins to this appview's pages of the account whose session cookie asks, each a browser or app that logged in, the newest first, while they last, and the assistants connected as it over the appview's MCP server. Logging out of one, or revoking it with dev.knotless.revokeSession, ends it alone; the last to end revokes the session the appview keeps at the account's PDS. dev.knotless.disconnectAssistant does the same for an assistant. Requires the session cookie the pages' login sets.",
+      "errors": [
+        {
+          "description": "No account is logged in to the pages, or its login has ended.",
+          "name": "AuthenticationRequired"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "assistants": {
+              "description": "The assistants connected over MCP, the newest first.",
+              "items": {
+                "ref": "#assistant",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "sessions": {
+              "items": {
+                "ref": "#session",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "sessions"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "query"
+    },
+    "session": {
+      "description": "One login to the pages.",
+      "properties": {
+        "createdAt": {
+          "description": "When it logged in.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "current": {
+          "description": "Whether it is the login asking.",
+          "type": "boolean"
+        },
+        "sessionId": {
+          "description": "What names the login to dev.knotless.revokeSession.",
+          "maxLength": 64,
+          "type": "string"
+        },
+        "userAgent": {
+          "description": "The user agent it logged in with, as the browser or app named itself, cut to 512 characters.",
+          "maxLength": 512,
+          "type": "string"
+        }
+      },
+      "required": [
+        "sessionId",
+        "createdAt",
+        "current"
+      ],
+      "type": "object"
+    }
+  },
+  "description": "Where the account logged in to this appview's pages is logged in.",
+  "id": "dev.knotless.listSessions",
+  "lexicon": 1
+}

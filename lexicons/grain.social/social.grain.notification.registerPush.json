@@ -1,0 +1,54 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Register a device's push token for the viewer, as app.bsky.notification.registerPush does. Requires auth.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "appId": {
+              "description": "The app's bundle or package id.",
+              "maxLength": 256,
+              "type": "string"
+            },
+            "platform": {
+              "knownValues": [
+                "ios",
+                "android",
+                "web"
+              ],
+              "type": "string"
+            },
+            "serviceDid": {
+              "description": "The service that sends the pushes: this server's DID.",
+              "format": "did",
+              "type": "string"
+            },
+            "token": {
+              "maxLength": 4096,
+              "type": "string"
+            }
+          },
+          "required": [
+            "serviceDid",
+            "token",
+            "platform",
+            "appId"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "social.grain.notification.registerPush",
+  "lexicon": 1
+}

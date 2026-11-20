@@ -1,0 +1,61 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Delete a record from the logged-in account's repo, at its PDS, and from the index before answering. Called as social.grain.repo.createRecord is.",
+      "errors": [
+        {
+          "description": "grain does not index the collection.",
+          "name": "UnknownCollection"
+        },
+        {
+          "name": "InvalidSwap"
+        },
+        {
+          "description": "The account's PDS granted the session less than the write needs.",
+          "name": "ScopeMissingError"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "collection": {
+              "description": "A collection grain indexes.",
+              "format": "nsid",
+              "type": "string"
+            },
+            "rkey": {
+              "format": "record-key",
+              "maxLength": 512,
+              "type": "string"
+            },
+            "swapCommit": {
+              "format": "cid",
+              "type": "string"
+            },
+            "swapRecord": {
+              "format": "cid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "collection",
+            "rkey"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "social.grain.repo.deleteRecord",
+  "lexicon": 1
+}

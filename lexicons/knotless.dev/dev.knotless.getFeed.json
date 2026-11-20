@@ -64,9 +64,10 @@
       "type": "object"
     },
     "commented": {
-      "description": "A comment or review on a pull or an issue.",
+      "description": "A comment or review on a pull or an issue, or a comment on a gist.",
       "properties": {
         "subject": {
+          "description": "The pull or issue, or the gist's own dev.knotless.repo record.",
           "format": "at-uri",
           "type": "string"
         },
@@ -84,7 +85,7 @@
           "type": "string"
         },
         "title": {
-          "description": "The subject's title.",
+          "description": "The subject's title: for a gist, its description, else its name.",
           "type": "string"
         },
         "verdict": {
@@ -122,7 +123,7 @@
       "type": "object"
     },
     "created": {
-      "description": "A repository created, or forked from another.",
+      "description": "A repository or a gist created, or forked from another.",
       "properties": {
         "description": {
           "maxGraphemes": 300,
@@ -132,6 +133,13 @@
         "forkOf": {
           "ref": "#repoView",
           "type": "ref"
+        },
+        "kind": {
+          "description": "gist for a gist, a repository whose record says it is one. Absent for any other repository.",
+          "knownValues": [
+            "gist"
+          ],
+          "type": "string"
         }
       },
       "type": "object"
@@ -186,7 +194,7 @@
       "type": "object"
     },
     "main": {
-      "description": "What happened on the public repositories an appview has indexed, newest first: repositories created and forked, refs pushed and deleted, pulls and issues opened, discussed and moved between states, and repositories starred. With filter `following`, what the account asking and those it follows did, and anything done on its repositories and those it starred; without, the same for anyone, but no stars. Without `actor`, what a repository's bots said or pushed on it is left out: the runners and triagers its record names, but its owner and collaborators. A pull a runner merged landing the merge queue is shown as merged by whoever queued it.",
+      "description": "What happened on the public repositories an appview has indexed, newest first: repositories created and forked, refs pushed and deleted, pulls and issues opened, discussed and moved between states, and repositories starred. With filter `following`, what the account asking and those it follows did, and anything done on its repositories and those it starred; without, the same for anyone, but no stars. Without `actor`, what a repository's bots said or pushed on it is left out: the runners and triagers its record names, but its owner and collaborators. A pull a runner merged landing the merge queue is shown as merged by whoever queued it. Optional authentication: asked as an account, with a service token or the pages' session cookie, what happened on the private repositories it may read too, its own and those it was proven a member of, as the server's index of their spaces has it, whoever did it, whom it follows or not; and the answer is that account's alone.",
       "output": {
         "encoding": "application/json",
         "schema": {
@@ -230,14 +238,15 @@
             "type": "string"
           },
           "kind": {
-            "description": "Only what is of this kind: refs pushed and deleted, pulls or issues opened and moved between states, comments, repositories starred, or repositories created and forked. A kind the appview does not know answers nothing.",
+            "description": "Only what is of this kind: refs pushed and deleted, pulls or issues opened and moved between states, comments, repositories starred, repositories created and forked but gists, or gists created and forked. A kind the appview does not know answers nothing.",
             "knownValues": [
               "pushes",
               "pulls",
               "issues",
               "comments",
               "stars",
-              "repos"
+              "repos",
+              "gists"
             ],
             "type": "string"
           },
@@ -365,7 +374,7 @@
       "type": "object"
     }
   },
-  "description": "What happened on the public repositories an appview has indexed, newest first.",
+  "description": "What happened on the public repositories an appview has indexed, and on the private ones the account asking may read, newest first.",
   "id": "dev.knotless.getFeed",
   "lexicon": 1
 }

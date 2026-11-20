@@ -1,0 +1,30 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "A group: a group DID that has declared itself and shows up in Grain as an author whose pool is other people's galleries.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "ref": "social.grain.group.defs#groupView",
+          "type": "ref"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "actor": {
+            "description": "DID or handle.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "actor"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.group.getGroup",
+  "lexicon": 1
+}

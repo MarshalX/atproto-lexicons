@@ -1,0 +1,49 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Every gist an account holds, newest first: its dev.knotless.repo records whose kind is gist, as the appview has indexed them while a feed keeps it current, else as its PDS lists them. Each with the names of the files at its root, read from the appview's mirror of it. No authentication; responses are not personalized.",
+      "errors": [
+        {
+          "description": "No account by that DID or handle, or its PDS cannot be reached.",
+          "name": "ProfileNotFound"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "gists": {
+              "items": {
+                "ref": "dev.knotless.defs#gistView",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "gists"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "actor": {
+            "description": "The account, by DID or handle.",
+            "format": "at-identifier",
+            "type": "string"
+          }
+        },
+        "required": [
+          "actor"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "The gists an account holds, read from its PDS.",
+  "id": "dev.knotless.getActorGists",
+  "lexicon": 1
+}

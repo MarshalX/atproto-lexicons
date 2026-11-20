@@ -1,0 +1,31 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "The group host this Grain creates groups on, and the domain a new group's handle ends in. Absent when this Grain creates none.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "handleDomain": {
+              "description": "What a new group's handle ends in, its leading dot included: the name given to createGroup goes before it.",
+              "type": "string"
+            },
+            "url": {
+              "format": "uri",
+              "type": "string"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {},
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.group.getGroupHost",
+  "lexicon": 1
+}

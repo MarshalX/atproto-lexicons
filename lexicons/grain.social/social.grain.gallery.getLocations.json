@@ -1,0 +1,35 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Get top locations by gallery count.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "locations": {
+              "items": {
+                "ref": "social.grain.gallery.defs#locationItem",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "pins": {
+            "description": "Return every place carrying only what a map needs — name, h3Index, galleryCount — instead of the top 30 with thumbnails and cell lists. The full shape is ~1.1KB per place, so all of them would be ~780KB; lean it is ~70 bytes each.",
+            "type": "boolean"
+          }
+        },
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.gallery.getLocations",
+  "lexicon": 1
+}

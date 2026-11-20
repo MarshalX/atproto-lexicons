@@ -1,0 +1,88 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "errors": [
+        {
+          "description": "No service JWT, or one that does not verify.",
+          "name": "AuthRequired"
+        },
+        {
+          "description": "The input body is not `{ giveaway }` naming an at-uri.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "No giveaway record exists at the given AT-URI.",
+          "name": "NotFound"
+        },
+        {
+          "description": "The token's issuer is not the giveaway record's author.",
+          "name": "NotAuthor"
+        },
+        {
+          "description": "The giveaway is still open; it cannot be drawn before its close time.",
+          "name": "NotClosed"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "giveaway": {
+              "description": "AT-URI of the giveaway to conclude.",
+              "format": "at-uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "giveaway"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "drawnAt": {
+              "format": "datetime",
+              "type": "string"
+            },
+            "entries": {
+              "description": "How many distinct entrants the draw covered.",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "giveaway": {
+              "format": "at-uri",
+              "type": "string"
+            },
+            "seed": {
+              "description": "The stored seed the draw was made from, so a result stays reproducible.",
+              "type": "string"
+            },
+            "winners": {
+              "items": {
+                "format": "did",
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "giveaway",
+            "drawnAt",
+            "seed",
+            "entries",
+            "winners"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "description": "Conclude a giveaway: draw the winners from the entries the activity index holds. Authenticated with an atproto service JWT minted by the author's own PDS (`aud` this AppView's `did:web`, `lxm` this NSID); the issuer must be the giveaway record's author. Idempotent: the first call stores the seed and the winners it drew, and every later call answers that same row instead of drawing again.",
+  "id": "net.olamaelcu.livtet.biblio.giveaway.draw",
+  "lexicon": 1
+}

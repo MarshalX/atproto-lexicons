@@ -1,0 +1,86 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Get a page of one of grain's gallery feeds, named by its URI as app.bsky.feed.getFeed names a feed generator. The filters each apply only to the feed that takes them.",
+      "errors": [
+        {
+          "description": "No feed by that URI.",
+          "name": "UnknownFeed"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "type": "string"
+            },
+            "items": {
+              "items": {
+                "ref": "social.grain.gallery.defs#galleryView",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "items"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "actor": {
+            "description": "Filter by actor DID",
+            "format": "did",
+            "type": "string"
+          },
+          "camera": {
+            "description": "Filter by camera make and model",
+            "type": "string"
+          },
+          "cursor": {
+            "type": "string"
+          },
+          "feed": {
+            "description": "The feed's URI, as social.grain.feed.describeFeeds lists it.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "group": {
+            "description": "Filter by group DID",
+            "format": "did",
+            "type": "string"
+          },
+          "limit": {
+            "default": 30,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "location": {
+            "description": "Filter by H3 cell index",
+            "type": "string"
+          },
+          "name": {
+            "description": "Filter by a place's label, as a gallery view's locationDisplay gives it. Where it finds nothing, location is used instead.",
+            "type": "string"
+          },
+          "tag": {
+            "description": "Filter by hashtag",
+            "type": "string"
+          }
+        },
+        "required": [
+          "feed"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.feed.getFeed",
+  "lexicon": 1
+}

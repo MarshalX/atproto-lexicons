@@ -1,0 +1,63 @@
+{
+  "id": "buzz.bookhive.getSyncProgress",
+  "defs": {
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "document",
+            "progress",
+            "percentage",
+            "device",
+            "device_id",
+            "timestamp"
+          ],
+          "properties": {
+            "device": {
+              "type": "string",
+              "description": "Device name that last synced"
+            },
+            "document": {
+              "type": "string",
+              "description": "Document identifier"
+            },
+            "progress": {
+              "type": "string",
+              "description": "Reading progress position (KOSync format)"
+            },
+            "device_id": {
+              "type": "string",
+              "description": "Device identifier that last synced"
+            },
+            "timestamp": {
+              "type": "integer",
+              "description": "Unix timestamp of last sync"
+            },
+            "percentage": {
+              "type": "string",
+              "description": "Reading progress as a decimal string (0-1, e.g. '0.42')"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "contentHash"
+        ],
+        "properties": {
+          "contentHash": {
+            "type": "string",
+            "description": "Content hash identifying the document"
+          }
+        }
+      },
+      "description": "Get reading sync progress for a document. Returns the KOSync-compatible progress data."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

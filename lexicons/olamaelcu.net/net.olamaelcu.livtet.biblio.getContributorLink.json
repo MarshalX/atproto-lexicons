@@ -1,0 +1,55 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "errors": [
+        {
+          "description": "Neither `contributor` nor `did` was supplied, or a value is malformed.",
+          "name": "InvalidRequest"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "claim": {
+              "ref": "net.olamaelcu.livtet.biblio.defs#contributorClaimView",
+              "type": "ref"
+            },
+            "identities": {
+              "items": {
+                "ref": "net.olamaelcu.livtet.biblio.defs#contributorIdentity",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "identity": {
+              "ref": "net.olamaelcu.livtet.biblio.defs#contributorIdentity",
+              "type": "ref"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "contributor": {
+            "description": "Contributor record URI. When supplied, `identities` lists the accounts verified as this contributor.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "did": {
+            "description": "Account DID. When supplied, `identity` and `claim` describe that account.",
+            "format": "did",
+            "type": "string"
+          }
+        },
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "The verified-account links for one contributor, and the link/claim state for one DID. Answered by the bibliograph edge from the catalog tables and the activity index; never handled by HappyView.",
+  "id": "net.olamaelcu.livtet.biblio.getContributorLink",
+  "lexicon": 1
+}

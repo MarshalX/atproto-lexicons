@@ -29,6 +29,11 @@
             "maxLength": 16,
             "description": "Display clock, e.g. '4:32'. Omitted when not applicable."
           },
+          "recap": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "site.standard.document with the recap, once final."
+          },
           "round": {
             "type": "string",
             "description": "Stage of the season. Playoff rounds get a badge on the card.",
@@ -126,10 +131,18 @@
               "AFC",
               "NFC"
             ]
+          },
+          "externalIds": {
+            "type": "array",
+            "items": {
+              "ref": "com.professorbutts.sports.defs#externalId",
+              "type": "ref"
+            },
+            "maxLength": 16
           }
         }
       },
-      "description": "Record key is a stable game slug, e.g. 'nfl-2026-11-09-cin-pit'."
+      "description": "Record key is '<league>-<ESPN event id>', e.g. 'nfl-401873078'. A readable slug like 'nfl-2026-11-09-cin-pit' is published as a com.professorbutts.sports.alias record."
     }
   },
   "$type": "com.atproto.lexicon.schema",

@@ -21,6 +21,151 @@
       ],
       "type": "object"
     },
+    "notificationPref": {
+      "properties": {
+        "from": {
+          "knownValues": [
+            "all",
+            "follows"
+          ],
+          "type": "string"
+        },
+        "inApp": {
+          "type": "boolean"
+        },
+        "push": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "push",
+        "inApp",
+        "from"
+      ],
+      "type": "object"
+    },
+    "notificationsPref": {
+      "description": "How each kind of notification reaches the viewer. A kind left out takes the default: push and in-app, from anyone.",
+      "properties": {
+        "comments": {
+          "ref": "#notificationPref",
+          "type": "ref"
+        },
+        "favorites": {
+          "ref": "#notificationPref",
+          "type": "ref"
+        },
+        "follows": {
+          "ref": "#notificationPref",
+          "type": "ref"
+        },
+        "mentions": {
+          "ref": "#notificationPref",
+          "type": "ref"
+        }
+      },
+      "type": "object"
+    },
+    "photoMetadataPref": {
+      "description": "What an upload keeps of a photo's metadata.",
+      "properties": {
+        "includeExif": {
+          "description": "Keep camera settings on uploaded photos.",
+          "type": "boolean"
+        },
+        "includeLocation": {
+          "description": "Keep where a photo was taken on uploaded photos.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "pinnedFeed": {
+      "properties": {
+        "id": {
+          "maxLength": 2048,
+          "type": "string"
+        },
+        "label": {
+          "maxLength": 640,
+          "type": "string"
+        },
+        "path": {
+          "description": "The page it opens, on this site.",
+          "maxLength": 2048,
+          "type": "string"
+        },
+        "type": {
+          "knownValues": [
+            "feed",
+            "camera",
+            "location",
+            "hashtag"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "type",
+        "path"
+      ],
+      "type": "object"
+    },
+    "pinnedFeedsPref": {
+      "description": "The feeds pinned to the viewer's navigation.",
+      "properties": {
+        "items": {
+          "description": "In the order they show.",
+          "items": {
+            "ref": "#pinnedFeed",
+            "type": "ref"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "items"
+      ],
+      "type": "object"
+    },
+    "preferences": {
+      "items": {
+        "refs": [
+          "#pinnedFeedsPref",
+          "#photoMetadataPref",
+          "#themePref",
+          "#notificationsPref"
+        ],
+        "type": "union"
+      },
+      "type": "array"
+    },
+    "profileSearchResult": {
+      "properties": {
+        "avatar": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "handle": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "did"
+      ],
+      "type": "object"
+    },
     "profileView": {
       "properties": {
         "avatar": {
@@ -62,7 +207,6 @@
         }
       },
       "required": [
-        "cid",
         "did",
         "handle"
       ],
@@ -137,9 +281,72 @@
         }
       },
       "required": [
-        "cid",
         "did",
         "handle"
+      ],
+      "type": "object"
+    },
+    "suggestedFollow": {
+      "properties": {
+        "avatar": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "followersCount": {
+          "type": "integer"
+        },
+        "handle": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "did"
+      ],
+      "type": "object"
+    },
+    "themePref": {
+      "properties": {
+        "theme": {
+          "knownValues": [
+            "system",
+            "light",
+            "dark"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "theme"
+      ],
+      "type": "object"
+    },
+    "typeaheadItem": {
+      "properties": {
+        "avatar": {
+          "type": "string"
+        },
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "handle": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "did"
       ],
       "type": "object"
     },

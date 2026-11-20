@@ -1,6 +1,30 @@
 {
   "$type": "com.atproto.lexicon.schema",
   "defs": {
+    "cameraItem": {
+      "properties": {
+        "camera": {
+          "type": "string"
+        },
+        "photoCount": {
+          "type": "integer"
+        },
+        "thumbs": {
+          "description": "Up to four representative photo thumbnails, most recent first. Lets the index render without a feed request per camera.",
+          "items": {
+            "format": "uri",
+            "type": "string"
+          },
+          "maxLength": 4,
+          "type": "array"
+        }
+      },
+      "required": [
+        "camera",
+        "photoCount"
+      ],
+      "type": "object"
+    },
     "crossPostInfo": {
       "properties": {
         "url": {
@@ -11,6 +35,34 @@
       },
       "required": [
         "url"
+      ],
+      "type": "object"
+    },
+    "favoriteItem": {
+      "properties": {
+        "avatar": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "handle": {
+          "type": "string"
+        },
+        "viewer": {
+          "ref": "social.grain.actor.defs#viewerState",
+          "type": "ref"
+        }
+      },
+      "required": [
+        "did"
       ],
       "type": "object"
     },
@@ -122,6 +174,42 @@
         "creator",
         "record",
         "indexedAt"
+      ],
+      "type": "object"
+    },
+    "locationItem": {
+      "properties": {
+        "galleryCount": {
+          "type": "integer"
+        },
+        "h3Cells": {
+          "description": "All H3 cells whose galleries map to this place. Ordered by gallery count desc.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "h3Index": {
+          "description": "Canonical H3 cell for the place (densest cell in the group).",
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "thumbs": {
+          "description": "Up to four representative photo thumbnails, most recent first. Lets the index render without a feed request per location.",
+          "items": {
+            "format": "uri",
+            "type": "string"
+          },
+          "maxLength": 4,
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "h3Index",
+        "galleryCount"
       ],
       "type": "object"
     },

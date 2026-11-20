@@ -1,11 +1,11 @@
 # Supported services
 
-2453 of 2512 lexicons are packaged. Another 16 ship with the SDK itself.
+2582 of 2644 lexicons are packaged. Another 16 ship with the SDK itself.
 
 | Status | Services | Meaning |
 |---|---|---|
-| Full | 76 | Every lexicon is generated as published. |
-| Partial | 23 | Some lexicons are invalid and skipped, or have references that are typed as unknown. |
+| Full | 75 | Every lexicon is generated as published. |
+| Partial | 24 | Some lexicons are invalid and skipped, or have references that are typed as unknown. |
 | Not supported | 1 | Nothing could be generated. |
 
 | Service | Status | Lexicons | Records | Queries | Procedures | Skipped | Untyped refs in |
@@ -27,7 +27,7 @@
 | `blacksky.community` | Full | 3 of 3 | 3 | 0 | 0 |  |  |
 | `blampow.app` | Full | 2 of 2 | 2 | 0 | 0 |  |  |
 | `bluefeed.app` | Not supported | 0 of 1 | 1 | 0 | 0 | 1 |  |
-| `bookhive.buzz` | Full | 23 of 23 | 4 | 11 | 6 |  |  |
+| `bookhive.buzz` | Partial | 41 of 44 | 4 | 20 | 18 | 3 |  |
 | `bridgebeats.link` | Full | 1 of 1 | 1 | 0 | 0 |  |  |
 | `certified.app` | Full | 15 of 15 | 12 | 0 | 0 |  |  |
 | `chavatar.app` | Full | 8 of 8 | 5 | 0 | 0 |  |  |
@@ -47,12 +47,12 @@
 | `gainforest.app` | Full | 35 of 35 | 31 | 1 | 0 |  |  |
 | `gamesgamesgamesgames.games` | Partial | 102 of 102 | 23 | 43 | 24 |  | 1 |
 | `gamethesky.com` | Full | 12 of 12 | 12 | 0 | 0 |  |  |
-| `grain.social` | Partial | 70 of 72 | 13 | 34 | 15 | 2 |  |
+| `grain.social` | Partial | 152 of 154 | 13 | 80 | 44 | 2 |  |
 | `hypercerts.org` | Full | 17 of 17 | 14 | 0 | 0 |  |  |
 | `jgs.me` | Full | 2 of 2 | 2 | 0 | 0 |  |  |
 | `keytrace.dev` | Full | 7 of 7 | 5 | 1 | 0 |  |  |
 | `kipclip.com` | Full | 2 of 2 | 2 | 0 | 0 |  |  |
-| `knotless.dev` | Partial | 181 of 183 | 32 | 64 | 84 | 2 |  |
+| `knotless.dev` | Partial | 188 of 190 | 32 | 67 | 88 | 2 |  |
 | `leaflet.pub` | Full | 52 of 52 | 15 | 0 | 0 |  |  |
 | `lexicon.community` | Partial | 26 of 27 | 11 | 4 | 2 | 1 |  |
 | `lichen.wiki` | Full | 10 of 10 | 5 | 4 | 0 |  |  |
@@ -66,14 +66,14 @@
 | `nahdig.com` | Full | 4 of 4 | 4 | 0 | 0 |  |  |
 | `nerdballot.com` | Full | 7 of 7 | 7 | 0 | 0 |  |  |
 | `offprint.app` | Partial | 26 of 29 | 5 | 0 | 0 | 3 | 5 |
-| `olamaelcu.net` | Partial | 67 of 71 | 23 | 28 | 15 | 4 |  |
+| `olamaelcu.net` | Partial | 82 of 86 | 28 | 35 | 17 | 4 |  |
 | `opnshelf.xyz` | Partial | 10 of 15 | 8 | 0 | 0 | 5 |  |
 | `pckt.blog` | Full | 39 of 39 | 7 | 1 | 3 |  |  |
 | `pinkleap.social` | Full | 5 of 5 | 5 | 0 | 0 |  |  |
 | `plyr.fm` | Partial | 8 of 12 | 4 | 0 | 0 | 4 |  |
 | `podping.at` | Full | 2 of 2 | 2 | 0 | 0 |  |  |
 | `postgame.at` | Full | 7 of 7 | 7 | 0 | 0 |  |  |
-| `professorbutts.com` | Full | 5 of 5 | 3 | 0 | 0 |  |  |
+| `professorbutts.com` | Full | 12 of 12 | 10 | 0 | 0 |  |  |
 | `publicdomainrelay.com` | Partial | 38 of 38 | 25 | 1 | 11 |  | 11 |
 | `pythonplayer123.dev` | Full | 5 of 5 | 5 | 0 | 0 |  |  |
 | `rcape.org` | Full | 3 of 3 | 3 | 0 | 0 |  |  |

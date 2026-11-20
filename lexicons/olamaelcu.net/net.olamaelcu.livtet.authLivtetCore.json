@@ -1,0 +1,52 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "detail": "Read and update your Livtet profile, shelves, reading goal, reading progress, follows, reviews, and top books. This is what the Livtet web app asks for when you sign in.",
+      "permissions": [
+        {
+          "action": [
+            "create",
+            "update",
+            "delete"
+          ],
+          "collection": [
+            "net.olamaelcu.livtet.biblio.actor.profile",
+            "net.olamaelcu.livtet.biblio.readingGoal",
+            "net.olamaelcu.livtet.biblio.shelf",
+            "net.olamaelcu.livtet.biblio.bookStatus",
+            "net.olamaelcu.livtet.biblio.bookShelving",
+            "net.olamaelcu.livtet.biblio.shelfItem",
+            "net.olamaelcu.livtet.biblio.follow",
+            "net.olamaelcu.livtet.biblio.bookReview",
+            "net.olamaelcu.livtet.biblio.readingProgress",
+            "net.olamaelcu.livtet.biblio.topBook",
+            "net.olamaelcu.livtet.biblio.contributorClaim",
+            "net.olamaelcu.livtet.biblio.reviewReply",
+            "net.olamaelcu.livtet.bookReview",
+            "net.olamaelcu.livtet.biblio.giveaway.entry",
+            "net.olamaelcu.livtet.biblio.giveaway.event"
+          ],
+          "resource": "repo",
+          "type": "permission"
+        },
+        {
+          "inheritAud": true,
+          "lxm": [
+            "net.olamaelcu.livtet.biblio.giveaway.draw",
+            "net.olamaelcu.livtet.biblio.giveaway.extend",
+            "net.olamaelcu.livtet.biblio.giveaway.getReport",
+            "net.olamaelcu.livtet.biblio.giveaway.listEntries",
+            "net.olamaelcu.livtet.biblio.giveaway.listGiveaways"
+          ],
+          "resource": "rpc",
+          "type": "permission"
+        }
+      ],
+      "title": "Your Livtet library on the web",
+      "type": "permission-set"
+    }
+  },
+  "id": "net.olamaelcu.livtet.authLivtetCore",
+  "lexicon": 1
+}

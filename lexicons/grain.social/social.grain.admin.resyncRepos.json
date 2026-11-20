@@ -1,0 +1,42 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Fetch repos again from their PDS and reindex them. Requires an admin session.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "dids": {
+              "description": "The repos to resync; every active one when left out.",
+              "items": {
+                "format": "did",
+                "type": "string"
+              },
+              "maxLength": 100,
+              "type": "array"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "resyncing": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "resyncing"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "social.grain.admin.resyncRepos",
+  "lexicon": 1
+}

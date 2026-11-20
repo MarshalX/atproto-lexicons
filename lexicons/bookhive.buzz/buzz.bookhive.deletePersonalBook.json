@@ -1,0 +1,33 @@
+{
+  "id": "buzz.bookhive.deletePersonalBook",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "contentHash"
+          ],
+          "properties": {
+            "contentHash": {
+              "type": "string",
+              "description": "SHA-256 hash of the file content to delete"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "description": "Delete a book from the authenticated user's personal library."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

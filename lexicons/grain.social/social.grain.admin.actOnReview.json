@@ -1,0 +1,47 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Decide a subject in the review queue: take its account down, label it, or dismiss it. Closes every open report against the subject either way. A takedown is com.atproto.admin.updateSubjectStatus's, made in the same step. Requires an admin session.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "action": {
+              "knownValues": [
+                "takedown",
+                "label",
+                "dismiss"
+              ],
+              "type": "string"
+            },
+            "label": {
+              "description": "The label to apply; required for the label action.",
+              "type": "string"
+            },
+            "subject": {
+              "description": "An account's bare DID, or a record's at:// URI.",
+              "format": "uri",
+              "type": "string"
+            }
+          },
+          "required": [
+            "subject",
+            "action"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {},
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "social.grain.admin.actOnReview",
+  "lexicon": 1
+}

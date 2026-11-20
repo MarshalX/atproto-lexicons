@@ -1,0 +1,25 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "written": {
+      "description": "A record written, as its PDS answered.",
+      "properties": {
+        "cid": {
+          "format": "cid",
+          "type": "string"
+        },
+        "uri": {
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "cid"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "social.grain.repo.defs",
+  "lexicon": 1
+}

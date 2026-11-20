@@ -1,0 +1,67 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Ends one assistant connected over this appview's MCP server as the account whose session cookie asks: its tokens hold no more, from their next use, and its refresh makes none, so its user would have to sign in again. The last of the account's to go revokes the session the MCP server keeps at its PDS. Answers what is left, as dev.knotless.listSessions does. Requires the session cookie the pages' login sets, from the pages themselves.",
+      "errors": [
+        {
+          "description": "No such assistant is connected: it was disconnected already.",
+          "name": "NotFound"
+        },
+        {
+          "description": "Sent from a page of another site.",
+          "name": "Forbidden"
+        },
+        {
+          "description": "No account is logged in to the pages, or its login has ended.",
+          "name": "AuthenticationRequired"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "assistantId": {
+              "description": "The assistant, as dev.knotless.listSessions names it.",
+              "maxLength": 64,
+              "type": "string"
+            }
+          },
+          "required": [
+            "assistantId"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "assistants": {
+              "items": {
+                "ref": "dev.knotless.listSessions#assistant",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "sessions": {
+              "items": {
+                "ref": "dev.knotless.listSessions#session",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "sessions"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "description": "Disconnects one of the assistants connected over this appview's MCP server.",
+  "id": "dev.knotless.disconnectAssistant",
+  "lexicon": 1
+}

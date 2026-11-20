@@ -1,0 +1,78 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "notificationItem": {
+      "properties": {
+        "author": {
+          "ref": "social.grain.actor.defs#profileView",
+          "type": "ref"
+        },
+        "commentText": {
+          "type": "string"
+        },
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "galleryThumb": {
+          "type": "string"
+        },
+        "galleryTitle": {
+          "type": "string"
+        },
+        "galleryUri": {
+          "format": "at-uri",
+          "type": "string"
+        },
+        "indexedAt": {
+          "description": "When the index first held the record, or when it says it was made if that is earlier: what notifications are ordered by, and isRead and getUnreadCount compare with seenAt.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "isRead": {
+          "description": "Whether the viewer had marked their notifications seen as of indexedAt.",
+          "type": "boolean"
+        },
+        "reason": {
+          "knownValues": [
+            "gallery-favorite",
+            "gallery-comment",
+            "gallery-comment-mention",
+            "gallery-mention",
+            "comment-favorite",
+            "story-favorite",
+            "story-comment",
+            "reply",
+            "follow"
+          ],
+          "type": "string"
+        },
+        "replyToText": {
+          "type": "string"
+        },
+        "storyThumb": {
+          "type": "string"
+        },
+        "storyUri": {
+          "format": "at-uri",
+          "type": "string"
+        },
+        "uri": {
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "reason",
+        "createdAt",
+        "indexedAt",
+        "isRead",
+        "author"
+      ],
+      "type": "object"
+    }
+  },
+  "id": "social.grain.notification.defs",
+  "lexicon": 1
+}

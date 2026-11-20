@@ -1,0 +1,38 @@
+{
+  "id": "buzz.bookhive.removeFromPersonalShelf",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "shelfId",
+            "contentHash"
+          ],
+          "properties": {
+            "shelfId": {
+              "type": "integer",
+              "description": "ID of the shelf to remove the book from"
+            },
+            "contentHash": {
+              "type": "string",
+              "description": "SHA-256 hash of the book file content"
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "output": {
+        "schema": {
+          "type": "object",
+          "properties": {}
+        },
+        "encoding": "application/json"
+      },
+      "description": "Remove a book from a personal shelf. The book remains in the personal library."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

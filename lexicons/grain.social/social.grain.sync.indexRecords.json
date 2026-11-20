@@ -1,0 +1,70 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Index records the caller has just written to their own PDS, without waiting for the firehose. The server reads each one back from the caller's PDS before answering, so a read after this sees the write. Requires service auth; every URI must name the caller's repo.",
+      "errors": [
+        {
+          "description": "A URI names a repo other than the caller's.",
+          "name": "RepoMismatch"
+        },
+        {
+          "description": "A URI names a collection this server does not index.",
+          "name": "UnknownCollection"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "uris": {
+              "description": "Records in the caller's repo, just created, updated or deleted.",
+              "items": {
+                "format": "at-uri",
+                "type": "string"
+              },
+              "maxLength": 25,
+              "minLength": 1,
+              "type": "array"
+            }
+          },
+          "required": [
+            "uris"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "indexed": {
+              "description": "Read back from the caller's PDS and indexed.",
+              "items": {
+                "format": "at-uri",
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "notFound": {
+              "description": "Not in the caller's repo: deleted, or never written. Whatever the index held for it is removed.",
+              "items": {
+                "format": "at-uri",
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "indexed",
+            "notFound"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "social.grain.sync.indexRecords",
+  "lexicon": 1
+}
