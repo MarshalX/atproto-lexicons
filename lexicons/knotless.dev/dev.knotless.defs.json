@@ -1215,6 +1215,10 @@
           "description": "What changed since the version before, in Markdown, as its record says.",
           "type": "string"
         },
+        "npm": {
+          "description": "True when it is an npm package, installed with npm from its repository's registry, at `/npm/<owner's DID>/<repository's key>/`, rather than downloaded.",
+          "type": "boolean"
+        },
         "package": {
           "description": "The package's name.",
           "type": "string"

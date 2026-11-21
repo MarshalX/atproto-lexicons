@@ -660,13 +660,13 @@
     {
       "domain": "grain.social",
       "status": "partial",
-      "lexicons": 154,
-      "generated": 147,
+      "lexicons": 156,
+      "generated": 149,
       "provided_by_sdk": 5,
       "kinds": {
         "record": 13,
         "query": 80,
-        "procedure": 44,
+        "procedure": 46,
         "subscription": 0
       },
       "skipped_lexicons": [

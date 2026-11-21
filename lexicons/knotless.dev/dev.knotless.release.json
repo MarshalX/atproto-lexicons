@@ -100,6 +100,11 @@
             "maxLength": 20000,
             "type": "string"
           },
+          "npm": {
+            "description": "What npm's registry says of it, when it is an npm package: its one file then is `<name>-<version>.tgz`, `<name>` without its `@scope/`.",
+            "ref": "#npm",
+            "type": "ref"
+          },
           "package": {
             "description": "The package's name, as npm's rules have it: lowercase letters, digits, `-`, `.`, `_` and `~`, after an optional `@scope/`. A repository can publish several.",
             "maxLength": 214,
@@ -128,6 +133,20 @@
         "type": "object"
       },
       "type": "record"
+    },
+    "npm": {
+      "description": "A release as an npm package.",
+      "properties": {
+        "manifest": {
+          "description": "Its version's manifest, as JSON, as `npm publish` sent it, the package's `package.json` with `dist.integrity` and `dist.shasum`, its tarball's SHA-512 and SHA-1, but without its `readme`, or `dist.tarball`, which a reader adds where it serves the file, and `deprecated`, which it adds from the dev.knotless.releaseYank of its key. Kept as npm's format has it, which is npm's to change, and passed on as it is.",
+          "maxLength": 100000,
+          "type": "string"
+        }
+      },
+      "required": [
+        "manifest"
+      ],
+      "type": "object"
     },
     "part": {
       "description": "One blob of a file, in order.",
