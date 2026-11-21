@@ -1,0 +1,46 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Set one of the viewer's grain preferences: the one of its $type they have is replaced by it, or it is added where they have none, and every other kind is left as it is. Answers the whole set after. Requires auth.",
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "preference": {
+              "refs": [
+                "social.grain.actor.defs#pinnedFeedsPref",
+                "social.grain.actor.defs#photoMetadataPref",
+                "social.grain.actor.defs#themePref",
+                "social.grain.actor.defs#notificationsPref"
+              ],
+              "type": "union"
+            }
+          },
+          "required": [
+            "preference"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "preferences": {
+              "ref": "social.grain.actor.defs#preferences",
+              "type": "ref"
+            }
+          },
+          "required": [
+            "preferences"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "social.grain.actor.setPreference",
+  "lexicon": 1
+}

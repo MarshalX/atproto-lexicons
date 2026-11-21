@@ -4049,6 +4049,10 @@
         "cid": "bafyreicchbbz2ujwgxx3iy4fid7iey7v4pyfcbhxjuiyvwwrtcyl4bib5q",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
+      "social.grain.actor.setPreference": {
+        "cid": "bafyreibd46eomf3xy52ctte2yfj5rfd74jomc6uygck3a2hxveoge4rztm",
+        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
+      },
       "social.grain.admin.actOnReview": {
         "cid": "bafyreibjxztdhh6h4kiq6lvamah2qy4nn3jw5zv2skg4oy5jobcjzqstum",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
@@ -4170,7 +4174,7 @@
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.gallery.deleteGallery": {
-        "cid": "bafyreibe64gfe7y3m2icpjitinfqde23ej3bgmvw2arn6m6wve7zxqdhey",
+        "cid": "bafyreibnqiwgcanndm4w7h6hxscgwpakwi4w4elpncj54yxymsdnkwsgtu",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.gallery.getCameras": {
@@ -4374,7 +4378,7 @@
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.repo.createRecord": {
-        "cid": "bafyreihn5736yqxf5eyh252pbsru5k7dvnvwtvc4trezyxtaqxxkl4hdci",
+        "cid": "bafyreialrt27b75ofryyt3p2uv5tfizyp5yu2gjkstarqxcc2budbzhagu",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.repo.defs": {
@@ -4438,7 +4442,11 @@
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.sync.indexRecords": {
-        "cid": "bafyreibomidfqhefphuxsbc3pdbggqrrotk5ljgosdrj7fwtpbqkdpaery",
+        "cid": "bafyreiepzyq3awydil5ijyfc5i77dugupn33ec4tagdje3h2iriqw3r534",
+        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
+      },
+      "social.grain.sync.refreshRecords": {
+        "cid": "bafyreigkppoaznn2w7fnedhhf7mefwvcmtycikg5u4jwuf4kmblh33adhi",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.unspecced.addSpaceMember": {
@@ -4868,7 +4876,7 @@
         "did": "did:plc:yqsg7znbbhfmj3a2nrpnaerk"
       },
       "dev.knotless.defs": {
-        "cid": "bafyreialjexhmywtz4enzd2zobdxrbw7xigbjxpsv4yh5eyobr6sajxzfq",
+        "cid": "bafyreid7dwck4ys7e4vduu6jatuychxmyhy6mk23b6gkgl5lm2oxd72rda",
         "did": "did:plc:yqsg7znbbhfmj3a2nrpnaerk"
       },
       "dev.knotless.delegateWrites": {
@@ -5328,7 +5336,7 @@
         "did": "did:plc:yqsg7znbbhfmj3a2nrpnaerk"
       },
       "dev.knotless.release": {
-        "cid": "bafyreiapopws6s4c2ju4fvsppgmqtrst3ws6isvchb3apjz2ipbuxccwlm",
+        "cid": "bafyreiewbekarwv4yqggv353b22gshb6c2tkdj3qxgpxaz4ytoauishkj4",
         "did": "did:plc:yqsg7znbbhfmj3a2nrpnaerk"
       },
       "dev.knotless.releaseYank": {
@@ -5594,7 +5602,7 @@
         "did": "did:plc:btxrwcaeyodrap5mnjw2fvmz"
       },
       "pub.leaflet.blocks.questions": {
-        "cid": "bafyreiesa2f62es2kpztryurnmggc2wpg6qgvxmglfmn3mkxwwnz2du2ai",
+        "cid": "bafyreicxdmfgawktjfp46yd7gnz4fbsrwsbccb5arx3u2fk7sf6vauqizi",
         "did": "did:plc:btxrwcaeyodrap5mnjw2fvmz"
       },
       "pub.leaflet.blocks.recommendedPubs": {
@@ -5602,7 +5610,7 @@
         "did": "did:plc:btxrwcaeyodrap5mnjw2fvmz"
       },
       "pub.leaflet.blocks.reply": {
-        "cid": "bafyreiewz7yyqejeppe76ujox3mhpoxisveon73trkeamqppf5us7gfnty",
+        "cid": "bafyreiadlw2xl56knbkg4ozl73fq6ayon5lx2axh4jkexqwpyrltmqimwa",
         "did": "did:plc:btxrwcaeyodrap5mnjw2fvmz"
       },
       "pub.leaflet.blocks.signup": {
@@ -6732,7 +6740,7 @@
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.searchActors": {
-        "cid": "bafyreicnkri7ggxnc2xxbvxocr5ilqmza6beh3mhpbyxq6jwwylakzw4je",
+        "cid": "bafyreiakfbw3yzcnitwtuvn2yunylwhyxeyoglzc4ovt2cx77fdiyryicy",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.searchContributors": {
@@ -10839,13 +10847,13 @@
     "gainforest.app": "2026-11-13",
     "gamesgamesgamesgames.games": "2026-11-16",
     "gamethesky.com": "2026-11-13",
-    "grain.social": "2026-11-20",
+    "grain.social": "2026-11-21",
     "hypercerts.org": "2026-11-17",
     "jgs.me": "2026-11-13",
     "keytrace.dev": "2026-11-13",
     "kipclip.com": "2026-11-13",
-    "knotless.dev": "2026-11-20",
-    "leaflet.pub": "2026-11-15",
+    "knotless.dev": "2026-11-21",
+    "leaflet.pub": "2026-11-21",
     "lexicon.community": "2026-11-17",
     "lichen.wiki": "2026-11-13",
     "linkedclaims.com": "2026-11-13",
@@ -10858,7 +10866,7 @@
     "nahdig.com": "2026-11-13",
     "nerdballot.com": "2026-11-13",
     "offprint.app": "2026-11-13",
-    "olamaelcu.net": "2026-11-20",
+    "olamaelcu.net": "2026-11-21",
     "opnshelf.xyz": "2026-11-13",
     "pckt.blog": "2026-11-13",
     "pinkleap.social": "2026-11-13",

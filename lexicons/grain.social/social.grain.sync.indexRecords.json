@@ -2,7 +2,7 @@
   "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "description": "Index records the caller has just written to their own PDS, without waiting for the firehose. The server reads each one back from the caller's PDS before answering, so a read after this sees the write. Requires service auth; every URI must name the caller's repo.",
+      "description": "Deprecated: use social.grain.sync.refreshRecords, which this is answered from, in its own shape, for apps built before it. Index records the caller has just written to their own PDS, without waiting for the firehose. The server reads each one back from the caller's PDS, proved, before answering, so a read after this sees the write. Requires service auth; every URI must name the caller's repo.",
       "errors": [
         {
           "description": "A URI names a repo other than the caller's.",

@@ -2,7 +2,7 @@
   "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "description": "Create a record in the logged-in account's repo, at its PDS, and index it before answering. For the web, by its session cookie, from a page of the site; a service token is refused (the apps write to their own PDS, then call social.grain.sync.indexRecords).",
+      "description": "Create a record in the logged-in account's repo, at its PDS, and index it before answering. For the web, by its session cookie, from a page of the site; a service token is refused (the apps write to their own PDS, then call social.grain.sync.refreshRecords).",
       "errors": [
         {
           "description": "grain does not index the collection.",

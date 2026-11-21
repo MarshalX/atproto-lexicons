@@ -1,6 +1,6 @@
 # Supported services
 
-2582 of 2644 lexicons are packaged. Another 16 ship with the SDK itself.
+2584 of 2646 lexicons are packaged. Another 16 ship with the SDK itself.
 
 | Status | Services | Meaning |
 |---|---|---|
@@ -47,7 +47,7 @@
 | `gainforest.app` | Full | 35 of 35 | 31 | 1 | 0 |  |  |
 | `gamesgamesgamesgames.games` | Partial | 102 of 102 | 23 | 43 | 24 |  | 1 |
 | `gamethesky.com` | Full | 12 of 12 | 12 | 0 | 0 |  |  |
-| `grain.social` | Partial | 152 of 154 | 13 | 80 | 44 | 2 |  |
+| `grain.social` | Partial | 154 of 156 | 13 | 80 | 46 | 2 |  |
 | `hypercerts.org` | Full | 17 of 17 | 14 | 0 | 0 |  |  |
 | `jgs.me` | Full | 2 of 2 | 2 | 0 | 0 |  |  |
 | `keytrace.dev` | Full | 7 of 7 | 5 | 1 | 0 |  |  |
