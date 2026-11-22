@@ -1,0 +1,98 @@
+{
+  "id": "social.coves.feed.getCommentSkeleton",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "UnknownFeed",
+          "description": "The generator does not serve the requested feed."
+        },
+        {
+          "name": "InvalidCursor",
+          "description": "The cursor is malformed or expired."
+        }
+      ],
+      "output": {
+        "schema": {
+          "ref": "#output",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "feed",
+          "parents"
+        ],
+        "properties": {
+          "feed": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the social.coves.feed.generator record being requested"
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "description": "Maximum replies per parent"
+          },
+          "cursor": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Cursor for the next page of replies. Applies only when exactly one parent is given."
+          },
+          "parents": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 25,
+            "minLength": 1,
+            "description": "AT-URIs of the parent posts or comments whose replies to order"
+          },
+          "timeframe": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Timeframe for generators ranked by top score; ignored by other generators.",
+            "knownValues": [
+              "hour",
+              "day",
+              "week",
+              "month",
+              "year",
+              "all"
+            ]
+          }
+        }
+      },
+      "description": "Get the ordered direct replies for one or more parent posts or comments from a comment feed generator. Served by the generator's service and called by the AppView, which hydrates the comments."
+    },
+    "output": {
+      "type": "object",
+      "required": [
+        "replies"
+      ],
+      "properties": {
+        "reqId": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Request ID assigned by the feed generator."
+        },
+        "replies": {
+          "type": "array",
+          "items": {
+            "ref": "social.coves.feed.defs#skeletonReplies",
+            "type": "ref"
+          }
+        }
+      },
+      "description": "Ordered replies for each requested parent"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

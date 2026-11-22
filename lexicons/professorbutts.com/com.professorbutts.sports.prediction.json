@@ -1,0 +1,142 @@
+{
+  "id": "com.professorbutts.sports.prediction",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "kind",
+          "createdAt"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "maxLength": 128,
+            "knownValues": [
+              "com.professorbutts.sports.prediction#winner",
+              "com.professorbutts.sports.prediction#score",
+              "com.professorbutts.sports.prediction#total",
+              "com.professorbutts.sports.prediction#margin",
+              "com.professorbutts.sports.prediction#spread",
+              "com.professorbutts.sports.prediction#finish"
+            ]
+          },
+          "line": {
+            "type": "string",
+            "maxLength": 16,
+            "description": "The spread or total line predicted against, as a decimal string, e.g. '-3.5' or '47.5'. Integers only in lexicons, so strings carry halves."
+          },
+          "team": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "com.professorbutts.sports.team record predicted to win (winner), or to cover (spread)."
+          },
+          "total": {
+            "type": "integer",
+            "maximum": 1998,
+            "minimum": 0,
+            "description": "total kind: combined points. Paired with over/under when a line is given."
+          },
+          "margin": {
+            "type": "integer",
+            "maximum": 999,
+            "minimum": 0,
+            "description": "margin kind: winning margin in points, with team as the winner."
+          },
+          "person": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "com.professorbutts.sports.person record (finish kind, or winner of an individual event)."
+          },
+          "contest": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Optional com.professorbutts.sports.contest this counts toward. Without it, the prediction still counts on open leaderboards."
+          },
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The com.professorbutts.sports.game or com.professorbutts.sports.leaderboard record."
+          },
+          "position": {
+            "type": "integer",
+            "maximum": 999,
+            "minimum": 1,
+            "description": "finish kind: predicted finishing position of person. 1 = wins."
+          },
+          "awayScore": {
+            "type": "integer",
+            "maximum": 999,
+            "minimum": 0,
+            "description": "score kind."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "homeScore": {
+            "type": "integer",
+            "maximum": 999,
+            "minimum": 0,
+            "description": "score kind."
+          },
+          "overUnder": {
+            "type": "string",
+            "maxLength": 16,
+            "description": "total or spread kind, when predicting against a line instead of an exact number.",
+            "knownValues": [
+              "over",
+              "under"
+            ]
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "confidence": {
+            "type": "integer",
+            "maximum": 64,
+            "minimum": 1,
+            "description": "Rank within a confidence contest."
+          },
+          "subjectCid": {
+            "type": "string",
+            "format": "cid",
+            "description": "Optional CID of the subject version the fan saw. Game records are rewritten in place, so graders use the uri; this is for display and audit only."
+          }
+        }
+      },
+      "description": "Recommended key: '<subject rkey>-<kind>' (finish: '<subject rkey>-finish-<person rkey>'), so a fan has one prediction per subject and kind. Any key is accepted; if several exist, the newest counts."
+    },
+    "score": {
+      "type": "token",
+      "description": "Exact final score of both teams."
+    },
+    "total": {
+      "type": "token",
+      "description": "Combined points, exact or over/under a line."
+    },
+    "finish": {
+      "type": "token",
+      "description": "Where a person finishes in an event (golf, racing)."
+    },
+    "margin": {
+      "type": "token",
+      "description": "Winning team and margin of victory."
+    },
+    "spread": {
+      "type": "token",
+      "description": "Which team covers a point spread."
+    },
+    "winner": {
+      "type": "token",
+      "description": "Which team wins."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "One fan's prediction about one game or event, kept in their own repo: who wins, the final score, the combined total, the margin, the winner against a spread, or a finishing position (golf, racing). One record per subject per kind (finish: per person). Counts only if an indexer saw it before the subject starts; graded when final."
+}

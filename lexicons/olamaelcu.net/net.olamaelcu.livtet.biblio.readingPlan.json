@@ -1,0 +1,61 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "key": "any",
+      "record": {
+        "properties": {
+          "books": {
+            "description": "Planned editions in reading order; the first unread entry is next up.",
+            "items": {
+              "description": "A community.lexicon.media.book.edition at-uri.",
+              "format": "at-uri",
+              "type": "string"
+            },
+            "maxLength": 200,
+            "type": "array"
+          },
+          "createdAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "month": {
+            "description": "Required when period is month; absent on a year plan.",
+            "maximum": 12,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "period": {
+            "description": "month = one calendar month, year = one calendar year.",
+            "knownValues": [
+              "month",
+              "year"
+            ],
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "datetime",
+            "type": "string"
+          },
+          "year": {
+            "maximum": 9999,
+            "minimum": 1900,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "period",
+          "year",
+          "books",
+          "createdAt",
+          "updatedAt"
+        ],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "description": "A reader's ordered plan for one month or one year. One record per period, at rkey `month-<YYYY>-<MM>` or `year-<YYYY>`; array order is reading order. Written by the OAuth client (livtet-service).",
+  "id": "net.olamaelcu.livtet.biblio.readingPlan",
+  "lexicon": 1
+}

@@ -35,6 +35,10 @@
           ],
           "type": "string"
         },
+        "publishedDate": {
+          "description": "Publication date this identifier denotes, when a provider or curator claimed one (YYYY, YYYY-MM or YYYY-MM-DD).",
+          "type": "string"
+        },
         "value": {
           "description": "The identifier value as issued.",
           "type": "string"

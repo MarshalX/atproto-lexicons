@@ -1,0 +1,73 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "delete": {
+      "description": "A record to delete from the viewer's repository, as com.atproto.repo.applyWrites#delete names it.",
+      "properties": {
+        "collection": {
+          "format": "nsid",
+          "type": "string"
+        },
+        "rkey": {
+          "format": "record-key",
+          "maxLength": 512,
+          "type": "string"
+        }
+      },
+      "required": [
+        "collection",
+        "rkey"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "Plan the deletion of one of the viewer's galleries with what hangs off it, as social.grain.gallery.deleteGallery deletes it: its items, the photos they place that no other of the viewer's galleries does, those photos' EXIF, and the viewer's own favorite of it and comments on it, children first, then the gallery. What others wrote about it stays theirs. Answered as the deletes of one com.atproto.repo.applyWrites, for an app to commit at the viewer's PDS all or none, then call social.grain.sync.refreshRecords with their URIs. A plan more writes than one commit takes is refused, never split. Requires auth.",
+      "errors": [
+        {
+          "description": "The viewer has no gallery by that URI.",
+          "name": "NotFound"
+        },
+        {
+          "description": "Deleting the gallery takes more writes than one commit takes.",
+          "name": "TooManyWrites"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "writes": {
+              "description": "The deletes, children first, the gallery last: each a com.atproto.repo.applyWrites#delete in the viewer's repository.",
+              "items": {
+                "ref": "#delete",
+                "type": "ref"
+              },
+              "maxLength": 200,
+              "type": "array"
+            }
+          },
+          "required": [
+            "writes"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "gallery": {
+            "description": "The viewer's gallery to delete.",
+            "format": "at-uri",
+            "type": "string"
+          }
+        },
+        "required": [
+          "gallery"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.gallery.getDeletionPlan",
+  "lexicon": 1
+}

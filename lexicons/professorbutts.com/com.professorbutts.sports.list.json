@@ -16,12 +16,23 @@
             "type": "string",
             "maxLength": 128
           },
+          "sport": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Optional sport the list is about, for filtering polls."
+          },
+          "league": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Optional league code, e.g. cfb, for merging rankings."
+          },
           "purpose": {
             "type": "string",
             "maxLength": 64,
             "knownValues": [
               "com.professorbutts.sports.list#favorites",
-              "com.professorbutts.sports.list#curated"
+              "com.professorbutts.sports.list#curated",
+              "com.professorbutts.sports.list#ranking"
             ]
           },
           "createdAt": {
@@ -37,12 +48,19 @@
       }
     },
     "curated": {
-      "type": "token"
+      "type": "token",
+      "description": "A list made for others, e.g. 'Big Ten football'."
+    },
+    "ranking": {
+      "type": "token",
+      "description": "An ordered list, e.g. 'My top 25'. Items carry position; viewers can merge many fans' rankings into one poll."
     },
     "favorites": {
-      "type": "token"
+      "type": "token",
+      "description": "The owner's own teams, people or events to follow; viewers show these first."
     }
   },
   "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1
+  "lexicon": 1,
+  "description": "A list of teams, people or events, kept in the owner's own repo, e.g. 'My teams'. Items are separate listitem records."
 }

@@ -1,0 +1,110 @@
+{
+  "id": "social.coves.feed.getFeedSkeleton",
+  "defs": {
+    "main": {
+      "type": "query",
+      "errors": [
+        {
+          "name": "UnknownFeed",
+          "description": "The generator does not serve the requested feed."
+        },
+        {
+          "name": "UnsupportedFeedScope",
+          "description": "The generator does not support the requested scope."
+        },
+        {
+          "name": "InvalidCursor",
+          "description": "The cursor is malformed or expired."
+        }
+      ],
+      "output": {
+        "schema": {
+          "ref": "#output",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "parameters": {
+        "type": "params",
+        "required": [
+          "feed",
+          "scope"
+        ],
+        "properties": {
+          "feed": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "AT-URI of the social.coves.feed.generator record being requested"
+          },
+          "limit": {
+            "type": "integer",
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1
+          },
+          "scope": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Which feed surface the request is for: all communities, the viewer's home feed, or one community",
+            "knownValues": [
+              "all",
+              "home",
+              "community"
+            ]
+          },
+          "cursor": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "community": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the community for scope=community"
+          },
+          "timeframe": {
+            "type": "string",
+            "default": "day",
+            "maxLength": 64,
+            "description": "Timeframe for feeds ranked by top score",
+            "knownValues": [
+              "hour",
+              "day",
+              "week",
+              "month",
+              "year",
+              "all"
+            ]
+          }
+        }
+      },
+      "description": "Get an ordered page of post URIs from a feed generator. Served by the generator's service and called by the AppView, which hydrates the posts."
+    },
+    "output": {
+      "type": "object",
+      "required": [
+        "feed"
+      ],
+      "properties": {
+        "feed": {
+          "type": "array",
+          "items": {
+            "ref": "social.coves.feed.defs#skeletonFeedPost",
+            "type": "ref"
+          }
+        },
+        "reqId": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Request ID assigned by the generator. The AppView returns it on the hydrated response, and clients send it back with interactions."
+        },
+        "cursor": {
+          "type": "string",
+          "maxLength": 500
+        }
+      },
+      "description": "A page of post URIs in the generator's order"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

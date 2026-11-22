@@ -1,0 +1,326 @@
+{
+  "id": "com.professorbutts.sports.contest",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "name",
+          "sport",
+          "league",
+          "season",
+          "format",
+          "lock",
+          "slots",
+          "createdAt"
+        ],
+        "properties": {
+          "lock": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "perGame: each slot locks at its own kickoff. atFirstGame: the whole entry locks when the first slot kicks off.",
+            "knownValues": [
+              "com.professorbutts.sports.contest#perGame",
+              "com.professorbutts.sports.contest#atFirstGame"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 1280,
+            "maxGraphemes": 128
+          },
+          "seal": {
+            "ref": "com.professorbutts.sports.sealed#lock",
+            "type": "ref",
+            "description": "Lock keys for sealed brackets (lock atFirstGame). Same tombstone rules as a game's seal: unlock key added at the first kickoff."
+          },
+          "slots": {
+            "type": "array",
+            "items": {
+              "ref": "#slot",
+              "type": "ref"
+            },
+            "maxLength": 64
+          },
+          "space": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 512,
+            "description": "Optional private space that holds this contest's membership and entries (atproto permissioned spaces). Unused until spaces ship; readers ignore it if they can't access it."
+          },
+          "sport": {
+            "type": "string",
+            "maxLength": 64,
+            "knownValues": [
+              "football",
+              "basketball",
+              "baseball",
+              "hockey",
+              "soccer",
+              "rugby"
+            ]
+          },
+          "format": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "games: pick the winner of each listed game. bracket: pick a team for every slot, including later rounds whose teams aren't known yet.",
+            "knownValues": [
+              "com.professorbutts.sports.contest#games",
+              "com.professorbutts.sports.contest#bracket"
+            ]
+          },
+          "league": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "League code exactly as written on com.professorbutts.sports.game records for these games."
+          },
+          "season": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "status": {
+            "type": "string",
+            "maxLength": 32,
+            "knownValues": [
+              "upcoming",
+              "open",
+              "inProgress",
+              "final"
+            ]
+          },
+          "scoring": {
+            "ref": "#scoring",
+            "type": "ref"
+          },
+          "sealing": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Whether entries must, may, or may not be wrapped in com.professorbutts.sports.sealed until lock; 'space' = entries live in the contest's space (still sealed inside it). Default optional.",
+            "knownValues": [
+              "required",
+              "optional",
+              "none",
+              "space"
+            ]
+          },
+          "division": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "College division, when the league has more than one.",
+            "knownValues": [
+              "fbs",
+              "fcs",
+              "d2",
+              "d3"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "tiebreaker": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Slot id whose combined final score players guess to break ties, usually the championship."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000,
+            "maxGraphemes": 300
+          },
+          "predictionKinds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 128,
+              "knownValues": [
+                "com.professorbutts.sports.prediction#winner",
+                "com.professorbutts.sports.prediction#score",
+                "com.professorbutts.sports.prediction#total",
+                "com.professorbutts.sports.prediction#margin",
+                "com.professorbutts.sports.prediction#spread",
+                "com.professorbutts.sports.prediction#finish"
+              ]
+            },
+            "maxLength": 4,
+            "description": "Which prediction kinds count in this contest. games format only; default winner."
+          }
+        }
+      },
+      "description": "Record key is a stable slug, e.g. 'cfb-bowls-2026', 'fcs-playoff-2026', 'd2-playoff-2026', 'd3-playoff-2026'."
+    },
+    "side": {
+      "type": "object",
+      "properties": {
+        "home": {
+          "type": "boolean"
+        },
+        "seed": {
+          "type": "integer",
+          "maximum": 64,
+          "minimum": 1
+        },
+        "team": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "com.professorbutts.sports.team record."
+        },
+        "fromSlot": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "This side is the winner of that slot."
+        }
+      },
+      "description": "Who fills one side of a slot: a known team, or the winner of an earlier slot."
+    },
+    "slot": {
+      "type": "object",
+      "required": [
+        "id",
+        "round"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Stable within the contest, e.g. 'rose', 'r2-3'."
+        },
+        "game": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "The com.professorbutts.sports.game record, once the game exists."
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 640,
+          "description": "e.g. 'Rose Bowl', 'Second round, Montana region'.",
+          "maxGraphemes": 64
+        },
+        "round": {
+          "type": "string",
+          "maxLength": 32,
+          "knownValues": [
+            "bowl",
+            "first-round",
+            "second-round",
+            "quarterfinal",
+            "semifinal",
+            "final"
+          ]
+        },
+        "sides": {
+          "type": "array",
+          "items": {
+            "ref": "#side",
+            "type": "ref"
+          },
+          "maxLength": 2,
+          "minLength": 2
+        },
+        "winner": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "Team record of the winner, once final."
+        },
+        "startsAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "Kickoff, copied from the game for locking."
+        }
+      },
+      "description": "One game or one bracket spot."
+    },
+    "games": {
+      "type": "token",
+      "description": "Pick each game's winner; matchups are already known (bowl season)."
+    },
+    "bracket": {
+      "type": "token",
+      "description": "Fill out a whole bracket up front (FCS, D2, D3, CFP)."
+    },
+    "perGame": {
+      "type": "token",
+      "description": "Each slot locks at its own kickoff."
+    },
+    "scoring": {
+      "type": "object",
+      "properties": {
+        "confidence": {
+          "type": "boolean",
+          "description": "Players rank each pick 1..N (each number used once) and earn that many points when right. games format only."
+        },
+        "kindPoints": {
+          "type": "array",
+          "items": {
+            "ref": "#kindPoints",
+            "type": "ref"
+          },
+          "maxLength": 4,
+          "description": "Points per correct prediction of each kind. A kind not listed is worth 1."
+        },
+        "upsetBonus": {
+          "type": "boolean",
+          "description": "A correct pick of the lower seed earns the seed difference as extra points. bracket format only."
+        },
+        "roundPoints": {
+          "type": "array",
+          "items": {
+            "ref": "#roundPoints",
+            "type": "ref"
+          },
+          "maxLength": 12,
+          "description": "Points for a correct pick in each round. A round not listed is worth 1."
+        }
+      }
+    },
+    "kindPoints": {
+      "type": "object",
+      "required": [
+        "kind",
+        "points"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "points": {
+          "type": "integer",
+          "maximum": 1000,
+          "minimum": 0
+        }
+      }
+    },
+    "atFirstGame": {
+      "type": "token",
+      "description": "The whole entry locks at the first kickoff."
+    },
+    "roundPoints": {
+      "type": "object",
+      "required": [
+        "round",
+        "points"
+      ],
+      "properties": {
+        "round": {
+          "type": "string",
+          "maxLength": 32
+        },
+        "points": {
+          "type": "integer",
+          "maximum": 1000,
+          "minimum": 0
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A prediction contest run by an organizer: a bowl pool (predict each listed game) or a tournament bracket. Updated in place as games are set and decided. Players answer with com.professorbutts.sports.prediction records (games format) or one com.professorbutts.sports.bracket record (bracket format) in their own repos."
+}

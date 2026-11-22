@@ -382,13 +382,13 @@
     {
       "domain": "colibri.social",
       "status": "partial",
-      "lexicons": 225,
-      "generated": 217,
+      "lexicons": 227,
+      "generated": 219,
       "provided_by_sdk": 0,
       "kinds": {
         "record": 37,
-        "query": 59,
-        "procedure": 92,
+        "query": 60,
+        "procedure": 93,
         "subscription": 2
       },
       "skipped_lexicons": [
@@ -447,13 +447,13 @@
     {
       "domain": "coves.social",
       "status": "full",
-      "lexicons": 73,
-      "generated": 73,
+      "lexicons": 78,
+      "generated": 78,
       "provided_by_sdk": 0,
       "kinds": {
-        "record": 14,
-        "query": 24,
-        "procedure": 22,
+        "record": 15,
+        "query": 27,
+        "procedure": 23,
         "subscription": 0
       },
       "skipped_lexicons": [],
@@ -660,12 +660,12 @@
     {
       "domain": "grain.social",
       "status": "partial",
-      "lexicons": 156,
-      "generated": 149,
+      "lexicons": 159,
+      "generated": 152,
       "provided_by_sdk": 5,
       "kinds": {
         "record": 13,
-        "query": 80,
+        "query": 82,
         "procedure": 46,
         "subscription": 0
       },
@@ -982,12 +982,12 @@
     {
       "domain": "olamaelcu.net",
       "status": "partial",
-      "lexicons": 86,
-      "generated": 82,
+      "lexicons": 88,
+      "generated": 84,
       "provided_by_sdk": 0,
       "kinds": {
-        "record": 28,
-        "query": 35,
+        "record": 29,
+        "query": 36,
         "procedure": 17,
         "subscription": 0
       },
@@ -1110,11 +1110,11 @@
     {
       "domain": "professorbutts.com",
       "status": "full",
-      "lexicons": 12,
-      "generated": 12,
+      "lexicons": 24,
+      "generated": 24,
       "provided_by_sdk": 0,
       "kinds": {
-        "record": 10,
+        "record": 21,
         "query": 0,
         "procedure": 0,
         "subscription": 0

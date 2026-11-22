@@ -1,0 +1,75 @@
+{
+  "id": "social.colibri.beta.bridge.install",
+  "defs": {
+    "main": {
+      "type": "procedure",
+      "input": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "community",
+            "bridge"
+          ],
+          "properties": {
+            "bridge": {
+              "type": "string",
+              "format": "at-identifier",
+              "description": "The bridge's handle or DID."
+            },
+            "community": {
+              "type": "string",
+              "format": "did",
+              "description": "The community to connect the bridge to."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "errors": [
+        {
+          "name": "AuthRequired",
+          "description": "The request is missing, malformed, or unverifiable service auth."
+        },
+        {
+          "name": "Forbidden",
+          "description": "The caller lacks the community.manage permission."
+        },
+        {
+          "name": "CommunityNotFound",
+          "description": "No community exists at the given DID."
+        },
+        {
+          "name": "BridgeNotFound",
+          "description": "The handle or DID does not resolve to an identity."
+        },
+        {
+          "name": "AlreadyRegistered",
+          "description": "This bridge is already installed in this community."
+        },
+        {
+          "name": "CredentialsUnavailable",
+          "description": "The AppView cannot act as the community because its stored credentials are missing or unusable."
+        }
+      ],
+      "output": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "registration"
+          ],
+          "properties": {
+            "registration": {
+              "ref": "social.colibri.beta.bridge.defs#registrationView",
+              "type": "ref",
+              "description": "The registration."
+            }
+          }
+        },
+        "encoding": "application/json"
+      },
+      "description": "Connects a bridge to a community by its handle or DID, for bridges that set up rooms with commands in the channels they can use. Writes a registration with no linked or open channels."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,190 @@
+{
+  "id": "com.professorbutts.sports.play",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "game",
+          "kind",
+          "createdAt"
+        ],
+        "properties": {
+          "game": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The com.professorbutts.sports.game record."
+          },
+          "kind": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "What happened. Only scoring plays ('score') for now.",
+            "knownValues": [
+              "score"
+            ]
+          },
+          "team": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "com.professorbutts.sports.team record of the side the points count for (for an own goal, the team that benefits)."
+          },
+          "text": {
+            "type": "string",
+            "maxLength": 3000,
+            "description": "The play as the source describes it.",
+            "maxGraphemes": 300
+          },
+          "clock": {
+            "type": "string",
+            "maxLength": 16,
+            "description": "Game clock or match minute as shown, e.g. '4:12' or \"67'\"."
+          },
+          "period": {
+            "ref": "com.professorbutts.sports.defs#period",
+            "type": "ref",
+            "description": "Period of the play, as on the game record, e.g. {number: 5, label: 'OT'}, {number: 7, label: 'Top 7th'}."
+          },
+          "points": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Points this play added, including a kick or conversion the source reports with it (7 for a touchdown plus kick)."
+          },
+          "source": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Where the data came from, e.g. 'espn'."
+          },
+          "status": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Leave out for a play that stands. 'overturned': reversed by the officials. 'removed': the source dropped or replaced it for another or unknown reason (see replacedBy). Readers treat any value, including ones they don't know, as a play that doesn't count.",
+            "knownValues": [
+              "overturned",
+              "removed"
+            ]
+          },
+          "sequence": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Sort order among this game's plays. Gaps are fine; not renumbered when a play is removed."
+          },
+          "awayScore": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Away score after the play."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "homeScore": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Home score after the play."
+          },
+          "scoreType": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Kind of score, e.g. 'touchdown', 'goal', 'home-run'. 'penalty-goal' covers soccer penalties and rugby penalty kicks.",
+            "knownValues": [
+              "touchdown",
+              "field-goal",
+              "safety",
+              "extra-point",
+              "two-point",
+              "defensive-two-point",
+              "goal",
+              "own-goal",
+              "penalty-goal",
+              "try",
+              "penalty-try",
+              "conversion",
+              "drop-goal",
+              "run",
+              "home-run"
+            ]
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "occurredAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "Wall-clock time of the play, when the source gives it."
+          },
+          "replacedBy": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The play record that replaces this one, when the source re-entered the play under a new ID."
+          },
+          "externalIds": {
+            "type": "array",
+            "items": {
+              "ref": "com.professorbutts.sports.defs#externalId",
+              "type": "ref"
+            },
+            "maxLength": 4,
+            "description": "The play's ID at the source, e.g. {scheme: 'espn', value: '401772936101'}."
+          },
+          "scoringSide": {
+            "type": "string",
+            "maxLength": 8,
+            "description": "Which side the points count for. Set it even when there's no team record.",
+            "knownValues": [
+              "home",
+              "away"
+            ]
+          },
+          "abbreviation": {
+            "type": "string",
+            "maxLength": 8,
+            "description": "Scoring side's abbreviation, e.g. 'CIN'."
+          },
+          "participants": {
+            "type": "array",
+            "items": {
+              "ref": "#participant",
+              "type": "ref"
+            },
+            "maxLength": 6,
+            "description": "Players credited, scorer first."
+          }
+        }
+      },
+      "description": "Record key is '<game rkey>-<source play id>', e.g. 'nfl-401772936-401772936101', so a game's plays sit together in key order. Created once per source play and updated only to correct it or set status. A play the source drops keeps its record with a status, so posts that link to it keep resolving."
+    },
+    "participant": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "role": {
+          "type": "string",
+          "maxLength": 32,
+          "knownValues": [
+            "scorer",
+            "assist",
+            "passer",
+            "kicker"
+          ]
+        },
+        "personRef": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "com.professorbutts.sports.person record."
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "One scoring play in a game, as its own record linked to the game. Game records are updated in place; plays are kept, so together they are the game's scoring history (for scoring-play cards or game-thread replies). Basketball baskets are not written as plays."
+}

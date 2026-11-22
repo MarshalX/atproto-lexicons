@@ -216,7 +216,7 @@
     },
     "anisota.net": {
       "net.anisota.authFullApp": {
-        "cid": "bafyreihd7d6k2f77y4sur27rp5z27k64mvuspxao6xaiu44o3iszb4edjy",
+        "cid": "bafyreibdzud7co5mszrjw4fn5ay3wpalrlnnaa5z2rmhycx4wzlggqfsq4",
         "did": "did:plc:lcieujcfkv4jx7gehsvok3pr"
       },
       "net.anisota.feed.draft": {
@@ -1340,7 +1340,7 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.bridge.defs": {
-        "cid": "bafyreiekvsqjkocglcxf4gwmfigiorid2yztrpy5cqgyxe3ue7bjbq4cia",
+        "cid": "bafyreibo4vokpznela42bvw3wlm5hcju3od3kfatoukro725mgelzb762i",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.bridge.deleteMessage": {
@@ -1371,8 +1371,16 @@
         "cid": "bafyreifpyrvfy3wxmlosezjcbsyvjijzen5dkljcsr5r6mnavy7i7g3zp4",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
+      "social.colibri.beta.bridge.install": {
+        "cid": "bafyreiafatcqhdbu6xubxuwa2sy7ov2hr2vcpm7jjwlhrkfxaoyojcy6xq",
+        "did": "did:plc:mprdjqjluoswa7awzggaggj3"
+      },
       "social.colibri.beta.bridge.leave": {
         "cid": "bafyreia23du33zq6kg5232uqfopgkzzzrnvfrkuioqiaqx2thbgcrgklxy",
+        "did": "did:plc:mprdjqjluoswa7awzggaggj3"
+      },
+      "social.colibri.beta.bridge.listChannels": {
+        "cid": "bafyreiecng4vfuil6w7urkhs2h3c4sstsoeembwg63omq43z5wzuvvivte",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.bridge.listRegistrations": {
@@ -1396,7 +1404,7 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.bridge.registration": {
-        "cid": "bafyreiaiwcmnwomlhzkooni5kzaxotn5rptsuep5o56vx4wkk2fd4kk7y4",
+        "cid": "bafyreiczgoxcejen4zpbrjsxa6hv3lmb26smwialf547sbmuptt2vtsd54",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.bridge.removeReaction": {
@@ -1416,7 +1424,7 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.bridge.update": {
-        "cid": "bafyreieok7j3mfdadiqnvy7qrmsra7qfvxz3ndn7h364sohhioo34wvl6y",
+        "cid": "bafyreignd3h3mn6q6nu2gb7lc2d3utonsyankcwis36jhjiggw6fjllysa",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.bridge.updateThread": {
@@ -1508,7 +1516,7 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.community": {
-        "cid": "bafyreia6l3hgojossnemipvlwnpwulaully5gbghv2sqy7vepyzau4vxxa",
+        "cid": "bafyreih5fkpmzmsu2brt36r3chzdihfnat5ycdugyejotxujiffi6ecrlu",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.community.adopt": {
@@ -1692,7 +1700,7 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.embed.defs": {
-        "cid": "bafyreib6sk2c443cppfksfvf5thmdhnocs7yribr34tye76dwwscul7swm",
+        "cid": "bafyreicjacdw76cel6bjsiins2sis4pmzuofyxzw7f6vqrscpgdjbctspm",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.embed.getImage": {
@@ -1828,11 +1836,11 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.permissionBridge": {
-        "cid": "bafyreiepvdybtdjd7d6dxkjbgn4acq4lvybpkcckn6bpmweitfckkzj3ny",
+        "cid": "bafyreiftextltcb5fgqej2kck2s33ugfmmuk4aer22lgftsj5fax5rq7jm",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.permissionCommunity": {
-        "cid": "bafyreielqxlrouwgpllldkji4732kk5x7vz6mqjdt6d6cgin32bcwnzhv4",
+        "cid": "bafyreif7fm2wgnbgkavyd56ae7fmjkijqf6y7gtiqwakqmmag6fax5riy4",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.permissionMessaging": {
@@ -2240,7 +2248,7 @@
         "did": "did:web:coves.social"
       },
       "social.coves.community.comment.getComments": {
-        "cid": "bafyreihbtjhob4vldj324iaazf5cayvvtennw72bxomxo2reql4tvs3mwi",
+        "cid": "bafyreierl3xcb4x6ywnjilvfjmhsczei6lw4mu5mmle63oxcqy2x3s7cuq",
         "did": "did:web:coves.social"
       },
       "social.coves.community.comment.update": {
@@ -2360,19 +2368,35 @@
         "did": "did:web:coves.social"
       },
       "social.coves.feed.defs": {
-        "cid": "bafyreidurthmkyqtprkzjey55f3ls6w25hvkjnbyxapw3omyzy36ruflre",
+        "cid": "bafyreifdhyjmousteve3lpyjfcan2p65pks3zanhaw7d7q6wryxtx7aypu",
         "did": "did:web:coves.social"
       },
-      "social.coves.feed.getAll": {
-        "cid": "bafyreigaka4cjtikkefy2qiorq3rlp5lboa5lxksy5bctfu5pbrpkjtzom",
+      "social.coves.feed.describeFeedGenerator": {
+        "cid": "bafyreift3lspkxw35xypq3gnxq4e6sfvj3phormuq2h4moljgmtyyzxf5q",
         "did": "did:web:coves.social"
       },
-      "social.coves.feed.getCommunity": {
-        "cid": "bafyreifkebqwushfju43c4eefkwdn6greosl5uyxa3w272so5kj4oesvj4",
+      "social.coves.feed.generator": {
+        "cid": "bafyreicxczjmmrbmu33h4tnbbr5rnh46h57q4t4y7n7ysv7oysrwdj2ygu",
+        "did": "did:web:coves.social"
+      },
+      "social.coves.feed.getCommentSkeleton": {
+        "cid": "bafyreigzprbt3azctqydzya66vzgkhfmnoq7arbqnc4zlqubpateq2g4xq",
         "did": "did:web:coves.social"
       },
       "social.coves.feed.getDiscover": {
         "cid": "bafyreia4cj7h6w2oyuvpdewftffeqbynhafdb3x6iss7dt5erblpyl4bdi",
+        "did": "did:web:coves.social"
+      },
+      "social.coves.feed.getFeed": {
+        "cid": "bafyreigdkfd743mtvdkjfb33f44ohmwox7jg4ag5l4m42vio6p3scnrjdq",
+        "did": "did:web:coves.social"
+      },
+      "social.coves.feed.getFeedGenerators": {
+        "cid": "bafyreicviy3f2z2eucmsibo3tojigstx5ry7itketh4522ro73v47t7dyu",
+        "did": "did:web:coves.social"
+      },
+      "social.coves.feed.getFeedSkeleton": {
+        "cid": "bafyreif6wjntwpty7ls2iiawxsqumzq4zaq3ezl46aun447wkrats36fbe",
         "did": "did:web:coves.social"
       },
       "social.coves.feed.getTimeline": {
@@ -2381,6 +2405,10 @@
       },
       "social.coves.feed.searchPosts": {
         "cid": "bafyreidg56gq2ss4wn262vrmc2l6tapd4kvlfzlok2uukszm5p3o64th24",
+        "did": "did:web:coves.social"
+      },
+      "social.coves.feed.sendInteractions": {
+        "cid": "bafyreigubowdacngg6hmty35f2o2xmhbjdmohevyemtjhvqalvadplldly",
         "did": "did:web:coves.social"
       },
       "social.coves.feed.vote": {
@@ -4129,6 +4157,10 @@
         "cid": "bafyreigmzddrjsf5hez77omya23e7ccmcg6a3pytmtitj6zt43sakofemm",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
+      "social.grain.authFull": {
+        "cid": "bafyreiepfbfn67erve6fk67ajwplyme3hk37uy5sdtxzythfk44zib2quy",
+        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
+      },
       "social.grain.basePermissions": {
         "cid": "bafyreiev3z4q5x3x624v2uav4xtdd6wivxsbrwkqzynwkfyvzv7p63swqq",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
@@ -4174,7 +4206,7 @@
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.gallery.deleteGallery": {
-        "cid": "bafyreibnqiwgcanndm4w7h6hxscgwpakwi4w4elpncj54yxymsdnkwsgtu",
+        "cid": "bafyreidhmvuua4ao4vwr3md7556zuic2xoaqbvlurakjmebz5m6x6wja4q",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.gallery.getCameras": {
@@ -4183,6 +4215,10 @@
       },
       "social.grain.gallery.getCrossPost": {
         "cid": "bafyreiguhwbpifkwrczph2cukqbegm6j2aeyjxnlmywmozsey5k6eqidyq",
+        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
+      },
+      "social.grain.gallery.getDeletionPlan": {
+        "cid": "bafyreicdpndiyic2saau5gnxrn2h4q2gkpkslnqrpf73dm53h4ur7h6wra",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.gallery.getFavorites": {
@@ -4402,7 +4438,11 @@
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.server.deleteAccount": {
-        "cid": "bafyreibmvjluild5lag3jfoklw7ngh2q2cktsojzcnet7og74ihqemstaq",
+        "cid": "bafyreie7gbuwg5y5kb5jgcxkwrl5qakoahxdj2or2bl2ritv2xpepjxb4u",
+        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
+      },
+      "social.grain.server.getAccountDeletionPlan": {
+        "cid": "bafyreianc4ykr3mlytd33euelng4vytk243gxja3bjq3x63wfyigbvdlka",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.server.getSitemap": {
@@ -5336,7 +5376,7 @@
         "did": "did:plc:yqsg7znbbhfmj3a2nrpnaerk"
       },
       "dev.knotless.release": {
-        "cid": "bafyreiewbekarwv4yqggv353b22gshb6c2tkdj3qxgpxaz4ytoauishkj4",
+        "cid": "bafyreidnegricjvl34dhdpqdmnm3lpycr77vbs3jap5cmojfoyeir57fri",
         "did": "did:plc:yqsg7znbbhfmj3a2nrpnaerk"
       },
       "dev.knotless.releaseYank": {
@@ -6552,7 +6592,7 @@
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.getIdentifiedFormats": {
-        "cid": "bafyreifi776dh26ffn7dju3tl2jr3vxpiuemouzwqbt7x5lpdkqxu5a5cq",
+        "cid": "bafyreibspnl45ewpcekndeom2utr7isqx5xjlskgc4qe2obfrkpp52iylm",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.getPublisher": {
@@ -6643,6 +6683,10 @@
         "cid": "bafyreih3gxvjnol7djlgd2nurd5qxxeipxhrwjoh4bbqketyr35soavlze",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
+      "net.olamaelcu.livtet.biblio.listGenres": {
+        "cid": "bafyreifz6upzz6pesuaezvnpycnnpcgpmavhj74pzjo3jyklmhim2k35ha",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
       "net.olamaelcu.livtet.biblio.listReactions": {
         "cid": "bafyreic6jbnlfzkt3to73wcclfcwirqtbp46ciza6ge2i4z244wsxbz5q4",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
@@ -6709,6 +6753,10 @@
       },
       "net.olamaelcu.livtet.biblio.readingList.roleAssignment": {
         "cid": "bafyreiet4rabf2n6efuclefv6yttge7z2l2v4yzsgoon37ismhgrpej4um",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.readingPlan": {
+        "cid": "bafyreifabqyicvqlecrcks6vql36cmi4mnieyzeuxpn4scj4ydt5sgopie",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.readingProgress": {
@@ -7138,15 +7186,39 @@
         "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
       },
       "com.professorbutts.sports.alias": {
-        "cid": "bafyreiga6rcf3zouwh2ldhke5tiovrzkon7ib727iyesbtwbqnua2om3p4",
+        "cid": "bafyreie53eabv5k7zrupurz2db4tf4laim6a4ah76ae2v5tz5wutitxita",
+        "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
+      },
+      "com.professorbutts.sports.authFull": {
+        "cid": "bafyreia53h4lld4sy7ootv7k7wilpezltzdl5afpdoq5c6zj6ufq4epp4e",
+        "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
+      },
+      "com.professorbutts.sports.award": {
+        "cid": "bafyreicgemzafbactdr7s5o3zupzzeci3xi26heewdi6v6pymhxnym6nuy",
+        "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
+      },
+      "com.professorbutts.sports.badge": {
+        "cid": "bafyreidv2z5vrqcasozjuvee6ywbparockxkpmktf3m3uairc7ghsubgti",
+        "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
+      },
+      "com.professorbutts.sports.bracket": {
+        "cid": "bafyreiaruhm3hud4fnhbcsfo4plczu65ul3xlddmza5h5jslp2ftneqqeu",
+        "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
+      },
+      "com.professorbutts.sports.checkin": {
+        "cid": "bafyreigtzuejv6oisj3h7mepgiugmpkpplsaj6oa6dqqmhfsjb2iyvpaia",
+        "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
+      },
+      "com.professorbutts.sports.contest": {
+        "cid": "bafyreidt5ap4ukvivlwgiju7f53lde6vduzmp3yitmvoszhdlfcwcdlzam",
         "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
       },
       "com.professorbutts.sports.defs": {
-        "cid": "bafyreigaqcnd2sq5fmccgtihhcvvswj426en4lirrnnuxeitohrjhitbwi",
+        "cid": "bafyreid2pyhuoj5u6dhgpm54tldwlqzcpnc67zw7qu5cw5zoyybj3ckwhu",
         "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
       },
       "com.professorbutts.sports.game": {
-        "cid": "bafyreiabpavjkdctnlw5dityirbjtaw4dhyy26jzc7scnj5hvvimdajjbq",
+        "cid": "bafyreicncwrlbcfdxgb3novmmduvmue3daraqpl4ufo4kbdacski6l6y2q",
         "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
       },
       "com.professorbutts.sports.leaderboard": {
@@ -7154,23 +7226,43 @@
         "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
       },
       "com.professorbutts.sports.league": {
-        "cid": "bafyreig6jyll44p4hmtat5fvnzifmp6dldwkwifha4stjd6ffizjcfzz44",
+        "cid": "bafyreickyoadytjhsn6arqiv4wkv4kf6i5obz766xtqu3wckg2zu34flb4",
         "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
       },
       "com.professorbutts.sports.list": {
-        "cid": "bafyreihzugl3wjqyrm5ueyudai37ykfd3hxybnvvnioe6kmyzqoa7t456q",
+        "cid": "bafyreic4rmr3x4i4ctpvjpumxyvo6a4ixzbditznzzdjk66u67gw7w4gm4",
         "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
       },
       "com.professorbutts.sports.listitem": {
-        "cid": "bafyreihd72gvusal3qcshxv4idstgdnikpdnt3x3soobtboqcvloawaw3m",
+        "cid": "bafyreict7jjj4wnwnel2wohlq273jfsrfofeibj3x5mg2rpdelbf2c3ep4",
         "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
       },
       "com.professorbutts.sports.person": {
         "cid": "bafyreiapisbdy2u5quewqtfslcy7p2uspxgkhpgg4lowy32rxloj2d7i7y",
         "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
       },
+      "com.professorbutts.sports.play": {
+        "cid": "bafyreigaye4vfrwjsxjwd5q3mmglttvupsgp45xsxbcrmauhr6exwa2skm",
+        "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
+      },
+      "com.professorbutts.sports.prediction": {
+        "cid": "bafyreiebciweckhoc7lsreswkdwn6ramoqw2evtrtu6k4t5z3s527x2blq",
+        "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
+      },
+      "com.professorbutts.sports.rating": {
+        "cid": "bafyreibvq6zr6ukhn3keoxnqqjugsmtv6tw6yox3vkmjuumdrfgm6fagym",
+        "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
+      },
+      "com.professorbutts.sports.recap": {
+        "cid": "bafyreif3djkq5lwzr5xyzdg3gessam5dq7sgaa4rthvao37fsbfffcnncy",
+        "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
+      },
       "com.professorbutts.sports.scoreboard": {
         "cid": "bafyreifn7xypkmwraxvfigybgop5lyxbjmpoalmgbsw5g4bbmpgu2k57c4",
+        "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
+      },
+      "com.professorbutts.sports.sealed": {
+        "cid": "bafyreibtorsidtw7vp7em5hijvwdg6n3tt2dt42aaxircfwkp4pyugcqim",
         "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
       },
       "com.professorbutts.sports.standings": {
@@ -7178,7 +7270,11 @@
         "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
       },
       "com.professorbutts.sports.team": {
-        "cid": "bafyreiee24ev5z7lbhe4j6nvmiqltkyr33rbkgcyhax5cxphrbjwom62t4",
+        "cid": "bafyreiamar32rllwkz53kydazewvic5kqchgicvag22d2gstonpecdrrsa",
+        "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
+      },
+      "com.professorbutts.sports.unseal": {
+        "cid": "bafyreicpuxgbgzcl7dsmlvghvn6zc4vcy7qceslyvqyezn2yymw4n6y7qa",
         "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
       }
     },
@@ -9254,7 +9350,7 @@
         "did": "did:plc:uixgxpiqf4i63p6rgpu7ytmx"
       },
       "com.suibari.nagi.getPreferences": {
-        "cid": "bafyreicqo5hbuzob74lz2bw6t44u6dql7i33gxgqtp75r6iy5udfkv353m",
+        "cid": "bafyreibr242v52yncyz2kuaqcrn7o2bd3ry35veiojp2azjrjm62sbg2xm",
         "did": "did:plc:uixgxpiqf4i63p6rgpu7ytmx"
       },
       "com.suibari.nagi.getPrivateList": {
@@ -10796,7 +10892,7 @@
     }
   },
   "unreachable": [
-    "podping.at"
+    "stream.place"
   ],
   "unresolved": [
     "app.rocksky.mirror.defs",
@@ -10814,7 +10910,7 @@
     "adsb.at": "2026-11-13",
     "aesthetic.computer": "2026-11-13",
     "agroconnect.nl": "2026-11-13",
-    "anisota.net": "2026-11-13",
+    "anisota.net": "2026-11-22",
     "astro-colibri.science": "2026-11-13",
     "atcr.io": "2026-11-13",
     "atmo.rsvp": "2026-11-13",
@@ -10832,9 +10928,9 @@
     "certified.app": "2026-11-13",
     "chavatar.app": "2026-11-13",
     "cocore.dev": "2026-11-13",
-    "colibri.social": "2026-11-18",
+    "colibri.social": "2026-11-22",
     "cosmik.network": "2026-11-13",
-    "coves.social": "2026-11-13",
+    "coves.social": "2026-11-22",
     "craftsky.social": "2026-11-13",
     "currents.is": "2026-11-13",
     "dailygame.space": "2026-11-20",
@@ -10847,12 +10943,12 @@
     "gainforest.app": "2026-11-13",
     "gamesgamesgamesgames.games": "2026-11-16",
     "gamethesky.com": "2026-11-13",
-    "grain.social": "2026-11-21",
+    "grain.social": "2026-11-22",
     "hypercerts.org": "2026-11-17",
     "jgs.me": "2026-11-13",
     "keytrace.dev": "2026-11-13",
     "kipclip.com": "2026-11-13",
-    "knotless.dev": "2026-11-21",
+    "knotless.dev": "2026-11-22",
     "leaflet.pub": "2026-11-21",
     "lexicon.community": "2026-11-17",
     "lichen.wiki": "2026-11-13",
@@ -10866,14 +10962,14 @@
     "nahdig.com": "2026-11-13",
     "nerdballot.com": "2026-11-13",
     "offprint.app": "2026-11-13",
-    "olamaelcu.net": "2026-11-21",
+    "olamaelcu.net": "2026-11-22",
     "opnshelf.xyz": "2026-11-13",
     "pckt.blog": "2026-11-13",
     "pinkleap.social": "2026-11-13",
     "plyr.fm": "2026-11-13",
     "podping.at": "2026-11-13",
     "postgame.at": "2026-11-13",
-    "professorbutts.com": "2026-11-20",
+    "professorbutts.com": "2026-11-22",
     "publicdomainrelay.com": "2026-11-13",
     "pythonplayer123.dev": "2026-11-13",
     "rcape.org": "2026-11-13",
@@ -10891,7 +10987,7 @@
     "standard.site": "2026-11-13",
     "stream.place": "2026-11-13",
     "substratum.cloud": "2026-11-13",
-    "suibari.com": "2026-11-16",
+    "suibari.com": "2026-11-22",
     "sylvanus.garden": "2026-11-13",
     "syui.ai": "2026-11-13",
     "tangled.org": "2026-11-13",

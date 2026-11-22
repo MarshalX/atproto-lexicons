@@ -1,0 +1,40 @@
+{
+  "id": "com.professorbutts.sports.unseal",
+  "defs": {
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "sealed",
+          "salt",
+          "record",
+          "createdAt"
+        ],
+        "properties": {
+          "salt": {
+            "type": "bytes",
+            "maxLength": 64,
+            "minLength": 16
+          },
+          "record": {
+            "type": "unknown",
+            "description": "The inner record, with its $type, exactly as hashed."
+          },
+          "sealed": {
+            "type": "string",
+            "format": "at-uri"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Reveals a commit-scheme com.professorbutts.sports.sealed record after its revealAt. Not needed for tlock, which anyone can open."
+}

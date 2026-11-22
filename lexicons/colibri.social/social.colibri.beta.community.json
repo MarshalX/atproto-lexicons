@@ -56,7 +56,7 @@
           }
         }
       },
-      "description": "A community's public identity. Lives in the community's profile space, which is readable without membership unless the community is private."
+      "description": "A community's public identity. Lives in the community's profile space, which only members can read unless the community is discoverable."
     }
   },
   "$type": "com.atproto.lexicon.schema",

@@ -1,0 +1,77 @@
+{
+  "id": "social.coves.feed.generator",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "did",
+          "displayName",
+          "kind",
+          "scopes",
+          "createdAt"
+        ],
+        "properties": {
+          "did": {
+            "type": "string",
+            "format": "did",
+            "description": "DID of the service that serves the feed skeleton"
+          },
+          "kind": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "Whether the generator orders posts (getFeedSkeleton) or comments (getCommentSkeleton)",
+            "knownValues": [
+              "posts",
+              "comments"
+            ]
+          },
+          "avatar": {
+            "type": "blob",
+            "accept": [
+              "image/png",
+              "image/jpeg"
+            ],
+            "maxSize": 1000000,
+            "description": "Avatar image shown in feed pickers"
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "ref": "social.coves.feed.defs#scope",
+              "type": "ref"
+            },
+            "minLength": 1,
+            "description": "Where the feed can be used"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When the record was created"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000,
+            "description": "What the feed shows",
+            "maxGraphemes": 300
+          },
+          "displayName": {
+            "type": "string",
+            "maxLength": 240,
+            "description": "Name shown in feed pickers",
+            "maxGraphemes": 24
+          },
+          "acceptsInteractions": {
+            "type": "boolean",
+            "description": "Whether the generator accepts interaction events through social.coves.feed.sendInteractions"
+          }
+        }
+      },
+      "description": "Declares a feed generator: a service that orders posts or comments for Coves feeds"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

@@ -1,0 +1,66 @@
+{
+  "id": "com.professorbutts.sports.rating",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "stars",
+          "createdAt"
+        ],
+        "properties": {
+          "stars": {
+            "type": "integer",
+            "maximum": 10,
+            "minimum": 1,
+            "description": "Half stars: 1 = half a star, 10 = five stars."
+          },
+          "review": {
+            "type": "string",
+            "maxLength": 3000,
+            "maxGraphemes": 300
+          },
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The com.professorbutts.sports.game or leaderboard record. A uri, not a strongRef, because game records are rewritten in place."
+          },
+          "watched": {
+            "type": "string",
+            "maxLength": 64,
+            "knownValues": [
+              "live",
+              "replay",
+              "highlights",
+              "venue"
+            ]
+          },
+          "spoilers": {
+            "type": "boolean",
+            "description": "True if the review gives away the result; viewers hide it until opened."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "rootingFor": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Team or person record the fan was pulling for, if any."
+          },
+          "subjectCid": {
+            "type": "string",
+            "format": "cid",
+            "description": "Optional: the version the fan saw, for display/audit only."
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A fan's rating of a finished game or event, kept in the fan's own repo. One per fan per event: the record key is the subject's record key, so rating again replaces it. Older records may use a TID key. Together they make a Letterboxd-style game log."
+}

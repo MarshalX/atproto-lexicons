@@ -1,0 +1,63 @@
+{
+  "id": "com.professorbutts.sports.checkin",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "note": {
+            "type": "string",
+            "maxLength": 3000,
+            "maxGraphemes": 300
+          },
+          "place": {
+            "type": "string",
+            "maxLength": 640,
+            "description": "Free text, e.g. a bar's name. Shown publicly, so keep it general.",
+            "maxGraphemes": 64
+          },
+          "where": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "venue = at the game in person; counts toward games attended.",
+            "knownValues": [
+              "home",
+              "venue",
+              "bar",
+              "online",
+              "other"
+            ]
+          },
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The com.professorbutts.sports.game or leaderboard record. A uri, not a strongRef, because game records are rewritten in place."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "rootingFor": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "A com.professorbutts.sports.team (or person) record. Leave out for neutral."
+          },
+          "subjectCid": {
+            "type": "string",
+            "format": "cid",
+            "description": "Optional: the version the fan saw, for display/audit only."
+          }
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A fan saying they're watching (or went to) a game or event, kept in the fan's own repo. One per fan per event: the record key is the subject's record key, so writing again replaces it (update in place to change who they're rooting for). Older records may use a TID key."
+}

@@ -29,6 +29,16 @@
             "type": "string",
             "maxLength": 256
           },
+          "gender": {
+            "type": "string",
+            "maxLength": 16,
+            "description": "Men's, women's or mixed side, same values as league.gender, so a reader doesn't have to look up the league.",
+            "knownValues": [
+              "men",
+              "women",
+              "mixed"
+            ]
+          },
           "league": {
             "type": "string",
             "maxLength": 32
@@ -40,6 +50,17 @@
           "source": {
             "type": "string",
             "maxLength": 64
+          },
+          "status": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Leave out (or 'active') for a current team. 'inactive': not playing for now but expected back, e.g. a program on hiatus. 'retired': gone for good. 'superseded': another record replaces this one; see successor. Readers treat unknown values like 'active' and never drop a reference because of status.",
+            "knownValues": [
+              "active",
+              "inactive",
+              "retired",
+              "superseded"
+            ]
           },
           "aliases": {
             "type": "array",
@@ -63,6 +84,19 @@
             "format": "uri",
             "maxLength": 512
           },
+          "ageGroup": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "'senior' (or left out) is the main adult side. Age-limited sides use 'under-NN', e.g. 'under-20'. Not golf's over-50 'senior' tours.",
+            "knownValues": [
+              "senior",
+              "under-23",
+              "under-21",
+              "under-20",
+              "under-19",
+              "under-18"
+            ]
+          },
           "division": {
             "type": "string",
             "maxLength": 64
@@ -75,6 +109,11 @@
             "type": "string",
             "maxLength": 64
           },
+          "successor": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The team record that replaces this one, e.g. a duplicate merged into it. A rename or relocation keeps its record (fields change and an 'old:' alias is added), so it doesn't use this. References to this record keep resolving. Readers stop following after a few hops or on a cycle."
+          },
           "updatedAt": {
             "type": "string",
             "format": "datetime"
@@ -82,6 +121,17 @@
           "conference": {
             "type": "string",
             "maxLength": 64
+          },
+          "discipline": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Adaptive variant, e.g. 'wheelchair'. Leave out (or 'standard') for the standard game. Formats such as rugby sevens are told apart by their league, not here.",
+            "knownValues": [
+              "standard",
+              "wheelchair",
+              "intellectual-disability",
+              "physical-disability"
+            ]
           },
           "externalIds": {
             "type": "array",
@@ -91,6 +141,15 @@
             },
             "maxLength": 16
           },
+          "memberships": {
+            "type": "array",
+            "items": {
+              "ref": "com.professorbutts.sports.defs#membership",
+              "type": "ref"
+            },
+            "maxLength": 32,
+            "description": "League level, conference and division by season, newest first. conference and division above stay the current ones."
+          },
           "abbreviation": {
             "type": "string",
             "maxLength": 8
@@ -98,6 +157,15 @@
           "secondaryColor": {
             "type": "string",
             "maxLength": 7
+          },
+          "officialAccounts": {
+            "type": "array",
+            "items": {
+              "ref": "com.professorbutts.sports.defs#officialAccount",
+              "type": "ref"
+            },
+            "maxLength": 8,
+            "description": "The team's own Bluesky accounts, with evidence. profile, above, holds the primary account's DID."
           }
         }
       },

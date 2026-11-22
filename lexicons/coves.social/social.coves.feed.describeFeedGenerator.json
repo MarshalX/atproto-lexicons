@@ -1,0 +1,54 @@
+{
+  "id": "social.coves.feed.describeFeedGenerator",
+  "defs": {
+    "feed": {
+      "type": "object",
+      "required": [
+        "uri"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of the social.coves.feed.generator record"
+        }
+      },
+      "description": "One feed the service serves"
+    },
+    "main": {
+      "type": "query",
+      "output": {
+        "schema": {
+          "ref": "#output",
+          "type": "ref"
+        },
+        "encoding": "application/json"
+      },
+      "description": "Describe the feeds a feed generator service serves. Served by the generator's service."
+    },
+    "output": {
+      "type": "object",
+      "required": [
+        "did",
+        "feeds"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "DID of the feed generator service"
+        },
+        "feeds": {
+          "type": "array",
+          "items": {
+            "ref": "#feed",
+            "type": "ref"
+          }
+        }
+      },
+      "description": "The service DID and the feeds it serves"
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

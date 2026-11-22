@@ -40,7 +40,8 @@
               "rugby",
               "golf",
               "motorsport",
-              "cricket"
+              "cricket",
+              "multi"
             ]
           },
           "gender": {
@@ -71,6 +72,30 @@
             "maxLength": 3,
             "description": "ISO 3166-1 alpha-3, when the league is national."
           },
+          "ageGroup": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Same values as team.ageGroup. Leave out for the senior game, e.g. 'under-20' for an under-20 World Cup.",
+            "knownValues": [
+              "senior",
+              "under-23",
+              "under-21",
+              "under-20",
+              "under-19",
+              "under-18"
+            ]
+          },
+          "category": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "What kind of competition this is, using 2nd Screen's values: 'league' has a season table (a college division such as FCS is a league with a parent), 'tournament' is a single event like a World Cup, 'series' is a season of separate events with their own results (motorsport series, golf tours), 'fixture-group' is a loose set of games like international friendlies.",
+            "knownValues": [
+              "league",
+              "tournament",
+              "series",
+              "fixture-group"
+            ]
+          },
           "shortName": {
             "type": "string",
             "maxLength": 32,
@@ -79,6 +104,21 @@
           "updatedAt": {
             "type": "string",
             "format": "datetime"
+          },
+          "discipline": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Same values as team.discipline. Leave out for the standard game.",
+            "knownValues": [
+              "standard",
+              "wheelchair",
+              "intellectual-disability",
+              "physical-disability"
+            ]
+          },
+          "multiSport": {
+            "type": "boolean",
+            "description": "True exactly when sport is 'multi', e.g. the Olympics."
           },
           "teamPrefix": {
             "type": "string",
@@ -95,7 +135,7 @@
           }
         }
       },
-      "description": "Record key is the league code used as the first part of every slug, e.g. 'nfl', 'cfb', 'cfb-fcs', 'f1', 'nascar-cup', 'eng-1'. Lowercase a-z, 0-9 and '-'. Never reused once minted."
+      "description": "Record key is the league code used as the first part of every slug, e.g. 'nfl', 'cfb', 'cfb-fcs', 'f1', 'nascar', 'epl'. Lowercase a-z, 0-9 and '-'. Never reused once minted."
     }
   },
   "$type": "com.atproto.lexicon.schema",

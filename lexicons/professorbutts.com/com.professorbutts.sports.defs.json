@@ -211,6 +211,38 @@
       },
       "description": "One player, driver or team in a leaderboard."
     },
+    "evidence": {
+      "type": "object",
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512,
+          "description": "The record or page that shows it, e.g. the verification record's at-uri or the team page that links to the account."
+        },
+        "kind": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "'verification': an app.bsky.graph.verification record from a verifier the Bluesky app trusts. 'handle-domain': the handle is the team's own web domain and resolves both ways. 'website-link': the team's official website links to the account. 'catalog': another sports catalog lists it. 'manual': checked by hand.",
+          "knownValues": [
+            "verification",
+            "handle-domain",
+            "website-link",
+            "catalog",
+            "manual"
+          ]
+        },
+        "issuer": {
+          "type": "string",
+          "format": "did",
+          "description": "Who vouched for it, e.g. the verifier's DID."
+        }
+      },
+      "description": "One reason to believe a link (such as an official account) is real."
+    },
     "snapshot": {
       "type": "object",
       "required": [
@@ -377,6 +409,11 @@
         "value"
       ],
       "properties": {
+        "scope": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Namespace that value is unique within, when the source reuses values. ESPN team IDs repeat across leagues, so a team gets ESPN's sport/league path, e.g. {scheme: 'espn', scope: 'football/nfl', value: '4'}; a league gets ESPN's sport, e.g. {scheme: 'espn', scope: 'football', value: 'nfl'}; a college division gets ESPN's group path, e.g. {scheme: 'espn', scope: 'football/college-football/groups', value: '81'}. Leave out when value is unique across the whole source."
+        },
         "value": {
           "type": "string",
           "maxLength": 128
@@ -399,11 +436,45 @@
             "sports-reference",
             "wikidata",
             "ncaa",
-            "sideline"
+            "sideline",
+            "2ndscreen"
           ]
         }
       },
-      "description": "An id for the same thing in another database."
+      "description": "An ID for the same team, person, league or event in another database, so records can be joined with outside data. For scheme '2ndscreen', value is the record key in 2nd Screen's catalog repo (did:plc:aeix5u7myob5u3yzlpxggxnu), e.g. 'nfl:4' for app.2ndscreen.team/nfl:4."
+    },
+    "membership": {
+      "type": "object",
+      "required": [
+        "league",
+        "season"
+      ],
+      "properties": {
+        "term": {
+          "ref": "com.professorbutts.sports.defs#dateRange",
+          "type": "ref",
+          "description": "Exact dates, when a team joined or left during the season."
+        },
+        "league": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Key of the com.professorbutts.sports.league record for the level the team played at that season, lowercase, e.g. 'nfl' or 'cfb-fcs'. Not the display code that team.league holds, e.g. 'NFL'."
+        },
+        "season": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Season as game records write it, e.g. '2026'."
+        },
+        "division": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "conference": {
+          "type": "string",
+          "maxLength": 64
+        }
+      },
+      "description": "A team's league level, conference and division for one season. A list of these keeps the history across realignment, while the team's record key never changes."
     },
     "periodScore": {
       "type": "object",
@@ -522,6 +593,55 @@
         }
       },
       "description": "Hockey detail."
+    },
+    "officialAccount": {
+      "type": "object",
+      "required": [
+        "did",
+        "role",
+        "evidence",
+        "checkedAt"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did"
+        },
+        "role": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "'primary' is the team's main account. 'media' is a team-run news or broadcast account. 'regional' is a team-run account for one country or language (see language).",
+          "knownValues": [
+            "primary",
+            "media",
+            "regional"
+          ]
+        },
+        "handle": {
+          "type": "string",
+          "format": "handle",
+          "description": "Handle when last checked. The DID is what counts."
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "ref": "com.professorbutts.sports.defs#evidence",
+            "type": "ref"
+          },
+          "maxLength": 8,
+          "minLength": 1
+        },
+        "language": {
+          "type": "string",
+          "format": "language",
+          "description": "Main language of the account, as a BCP-47 tag, e.g. 'es'. Mostly for regional accounts."
+        },
+        "checkedAt": {
+          "type": "string",
+          "format": "datetime"
+        }
+      },
+      "description": "An atproto (Bluesky) account run by the team itself, with the evidence for it. Prefer evidence that the team points at the account (handle-domain, website-link). A verification from a verifier the Bluesky app trusts also counts when the verified name is the team's name."
     },
     "soccerSituation": {
       "type": "object",
