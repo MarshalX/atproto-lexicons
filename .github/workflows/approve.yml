@@ -1,0 +1,38 @@
+name: Merge approved updates
+
+on:
+  pull_request_review:
+    types: [ submitted ]
+
+permissions: {}
+
+jobs:
+  merge:
+    # no code of the pull request is checked out or run here
+    if: >-
+      github.event.review.state == 'approved'
+      && github.event.review.user.login == 'MarshalX'
+      && github.event.pull_request.user.login == 'marshalx[bot]'
+      && github.event.pull_request.head.ref == 'update-lexicons'
+      && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+
+    environment: automation
+
+    steps:
+      - name: Get a token of the bot.
+        id: app_token
+        uses: actions/create-github-app-token@v3
+        with:
+          client-id: ${{ secrets.APP_CLIENT_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Merge once the checks pass.
+        env:
+          GH_TOKEN: ${{ steps.app_token.outputs.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          APPROVED_COMMIT: ${{ github.event.review.commit_id }}
+        run: >-
+          gh pr merge "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --auto --squash --match-head-commit "$APPROVED_COMMIT"
