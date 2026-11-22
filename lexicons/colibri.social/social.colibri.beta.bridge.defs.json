@@ -368,6 +368,15 @@
           "type": "boolean",
           "description": "Whether the bridge may currently write."
         },
+        "channels": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "space-ref",
+            "description": "An open channel."
+          },
+          "description": "Channels the bridge may read and post in without a room on the other service."
+        },
         "platform": {
           "type": "string",
           "maxLength": 64,

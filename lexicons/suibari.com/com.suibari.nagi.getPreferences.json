@@ -474,12 +474,36 @@
           "ref": "#notificationPreference",
           "type": "ref"
         },
+        "blueskyLike": {
+          "ref": "#notificationPreference",
+          "type": "ref"
+        },
+        "blueskyQuote": {
+          "ref": "#notificationPreference",
+          "type": "ref"
+        },
+        "blueskyReply": {
+          "ref": "#notificationPreference",
+          "type": "ref"
+        },
+        "blueskyFollow": {
+          "ref": "#notificationPreference",
+          "type": "ref"
+        },
+        "blueskyRepost": {
+          "ref": "#notificationPreference",
+          "type": "ref"
+        },
+        "blueskyMention": {
+          "ref": "#notificationPreference",
+          "type": "ref"
+        },
         "botInteraction": {
           "ref": "#notificationPreference",
           "type": "ref"
         }
       },
-      "description": "通知の種別ごとの設定。Bluesky の app.bsky.notification.defs#preferences に倣う。省略したカテゴリは list / push とも true。botInteraction は botたんからの返信・メンション・リアクション（その3種別では人からのものと分けて扱う）。seasonal は季節の特別なお知らせ（アドベントカレンダーなど期間限定の催し）。"
+      "description": "通知の種別ごとの設定。Bluesky の app.bsky.notification.defs#preferences に倣う。省略したカテゴリは list / push とも true。botInteraction は botたんからの返信・メンション・リアクション（その3種別では人からのものと分けて扱う）。seasonal は季節の特別なお知らせ（アドベントカレンダーなど期間限定の催し）。bluesky で始まるカテゴリは Bluesky の通知の Push で、省略時は list / push とも false。list は使わない。"
     }
   },
   "$type": "com.atproto.lexicon.schema",

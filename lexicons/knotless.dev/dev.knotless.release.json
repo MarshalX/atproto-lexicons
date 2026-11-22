@@ -94,6 +94,11 @@
             "minLength": 1,
             "type": "array"
           },
+          "maven": {
+            "description": "What a Maven repository says of it, when it is a version of a Maven artifact: its files then are those of the version's directory, each `<artifact>-<version>` then an optional `-<classifier>` and its extension, and `package` is `<group>.<artifact>`.",
+            "ref": "#maven",
+            "type": "ref"
+          },
           "notes": {
             "description": "What changed since the version before, in Markdown, as the changelog says.",
             "maxGraphemes": 5000,
@@ -116,6 +121,11 @@
             "format": "tid",
             "type": "string"
           },
+          "swift": {
+            "description": "What the Swift Package Registry says of it, when it is a Swift package: its one file then is `<name>-<version>.zip`, its source archive, and `package` its identifier, `<scope>.<name>`, lowercased.",
+            "ref": "#swift",
+            "type": "ref"
+          },
           "version": {
             "description": "A Semantic Versioning 2.0 version, such as 1.4.0 or 2.0.0-rc.1. The highest version without a pre-release part that no dev.knotless.releaseYank withdraws is the package's latest.",
             "maxLength": 256,
@@ -133,6 +143,64 @@
         "type": "object"
       },
       "type": "record"
+    },
+    "maven": {
+      "description": "A release as a version of a Maven artifact.",
+      "properties": {
+        "artifact": {
+          "description": "Its artifactId, of the same letters, and `.`.",
+          "maxLength": 100,
+          "type": "string"
+        },
+        "group": {
+          "description": "Its groupId, such as `com.example`: lowercase letters, digits, `-` and `_`, in parts joined by `.`.",
+          "maxLength": 200,
+          "type": "string"
+        },
+        "hashes": {
+          "description": "Each file's SHA-1 and SHA-512, which Maven's clients read beside it as `.sha1` and `.sha512`, beside the SHA-256 its `file` holds.",
+          "items": {
+            "ref": "#mavenHashes",
+            "type": "ref"
+          },
+          "maxLength": 64,
+          "type": "array"
+        }
+      },
+      "required": [
+        "group",
+        "artifact",
+        "hashes"
+      ],
+      "type": "object"
+    },
+    "mavenHashes": {
+      "description": "Hashes of one file of a Maven artifact's release.",
+      "properties": {
+        "name": {
+          "description": "The file's name, as in `files`.",
+          "maxLength": 255,
+          "type": "string"
+        },
+        "sha1": {
+          "description": "The lowercase hex SHA-1 of the file.",
+          "maxLength": 40,
+          "minLength": 40,
+          "type": "string"
+        },
+        "sha512": {
+          "description": "The lowercase hex SHA-512 of the file.",
+          "maxLength": 128,
+          "minLength": 128,
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "sha1",
+        "sha512"
+      ],
+      "type": "object"
     },
     "npm": {
       "description": "A release as an npm package.",
@@ -160,6 +228,56 @@
       },
       "required": [
         "blob"
+      ],
+      "type": "object"
+    },
+    "swift": {
+      "description": "A release as a Swift package.",
+      "properties": {
+        "identifier": {
+          "description": "Its identifier as it was published, `<scope>.<name>` in its case, as the registry answers it: the release's `package` is the same, lowercased.",
+          "maxLength": 141,
+          "type": "string"
+        },
+        "manifests": {
+          "description": "`Package.swift`, first, and each `Package@swift-<version>.swift` beside it in the source archive, which the registry answers without reading the archive.",
+          "items": {
+            "ref": "#swiftManifest",
+            "type": "ref"
+          },
+          "maxLength": 32,
+          "minLength": 1,
+          "type": "array"
+        },
+        "metadata": {
+          "description": "What the publish said of the release, as JSON, as the Swift Package Registry's release metadata has it, which is the registry's to change, passed on as it is.",
+          "maxLength": 100000,
+          "type": "string"
+        }
+      },
+      "required": [
+        "identifier",
+        "manifests"
+      ],
+      "type": "object"
+    },
+    "swiftManifest": {
+      "description": "A manifest of a Swift package's release.",
+      "properties": {
+        "content": {
+          "description": "The file, as it is in the source archive.",
+          "maxLength": 100000,
+          "type": "string"
+        },
+        "name": {
+          "description": "Its file's name, `Package.swift` or `Package@swift-<version>.swift`.",
+          "maxLength": 64,
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "content"
       ],
       "type": "object"
     }

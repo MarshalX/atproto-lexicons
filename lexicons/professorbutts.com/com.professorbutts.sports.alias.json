@@ -56,7 +56,8 @@
               "f1",
               "nascar",
               "indycar",
-              "pga"
+              "pga",
+              "2ndscreen"
             ]
           },
           "target": {
@@ -79,7 +80,7 @@
           }
         }
       },
-      "description": "Record key is '<scheme>:<kind>:<value>', all lowercase, e.g. 'espn:team:nfl:4', 'sideline:team:nfl-chargers', 'slug:game:nfl-2026-11-09-cin-pit', 'old:team:nfl-oak'. Characters outside a-z 0-9 . - _ ~ are replaced with '-'."
+      "description": "Record key is '<scheme>:<kind>:<value>', all lowercase, with every character outside a-z 0-9 . - _ ~ : replaced by '-'. For IDs that repeat across leagues (ESPN team IDs), the league code goes before the value, e.g. 'espn:team:nfl:4' (league 'nfl', value '4'). Other examples: 'espn:league:eng.1', 'slug:team:bearcats', 'sideline:team:nfl-chargers', 'slug:game:nfl-2026-11-09-cin-pit', 'old:team:nfl-oak', '2ndscreen:team:nfl:4' (value is 2nd Screen's own record key 'nfl:4', which already includes the league)."
     }
   },
   "$type": "com.atproto.lexicon.schema",

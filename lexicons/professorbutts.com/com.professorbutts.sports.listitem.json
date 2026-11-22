@@ -16,9 +16,22 @@
             "type": "string",
             "format": "at-uri"
           },
+          "note": {
+            "type": "string",
+            "maxLength": 1000,
+            "description": "Short blurb shown next to the item, e.g. why it's ranked here.",
+            "maxGraphemes": 100
+          },
           "subject": {
             "type": "string",
-            "format": "at-uri"
+            "format": "at-uri",
+            "description": "The team, person or event record."
+          },
+          "position": {
+            "type": "integer",
+            "maximum": 1000,
+            "minimum": 1,
+            "description": "Rank within a #ranking list (1 = top). Ignored for other lists."
           },
           "createdAt": {
             "type": "string",
@@ -29,5 +42,6 @@
     }
   },
   "$type": "com.atproto.lexicon.schema",
-  "lexicon": 1
+  "lexicon": 1,
+  "description": "One entry in a com.professorbutts.sports.list. Points at any record (team, person, game, leaderboard), not just accounts."
 }

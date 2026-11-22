@@ -1,0 +1,80 @@
+{
+  "id": "com.professorbutts.sports.recap",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "document",
+          "subject",
+          "createdAt"
+        ],
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 512,
+            "description": "The recap's public web page."
+          },
+          "teams": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 4,
+            "description": "com.professorbutts.sports.team records involved."
+          },
+          "league": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Key of the com.professorbutts.sports.league record, lowercase, e.g. 'nfl'."
+          },
+          "people": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 8,
+            "description": "com.professorbutts.sports.person records featured, e.g. a race winner."
+          },
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The com.professorbutts.sports.game or com.professorbutts.sports.leaderboard record the recap covers."
+          },
+          "document": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The site.standard.document record that holds the recap. A uri, not a strongRef, because the document can be corrected in place."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "subjectCid": {
+            "type": "string",
+            "format": "cid",
+            "description": "Version of the subject record the recap was written from. Game records are updated in place."
+          },
+          "documentCid": {
+            "type": "string",
+            "format": "cid",
+            "description": "Optional: the document version this was written for."
+          }
+        }
+      },
+      "description": "Record key is the subject record's key, e.g. 'nfl-401772936', so a game's recap is one getRecord away."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "Links a recap article (a site.standard.document record) to the game, race or tournament it covers, so indexers can join recaps to the sports graph without reading the article. Same pattern as a domain sidecar next to a standard.site document. The game or leaderboard record's own recap field points the other way."
+}

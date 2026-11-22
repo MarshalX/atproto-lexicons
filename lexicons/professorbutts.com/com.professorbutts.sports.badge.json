@@ -1,0 +1,35 @@
+{
+  "id": "com.professorbutts.sports.badge",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "award",
+          "createdAt"
+        ],
+        "properties": {
+          "award": {
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref",
+            "description": "The com.professorbutts.sports.award record. The CID pins the version the fan accepted; readers use the current version for status."
+          },
+          "pinned": {
+            "type": "boolean",
+            "description": "Show among the fan's featured badges."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        }
+      },
+      "description": "Recommended key: the award's rkey, so a fan has one badge per award."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A fan's choice to show an award on their profile. Lives in the fan's own repo and points at the award in the issuer's repo. Readers verify it: the award must exist in the contest publisher's repo, its subject must be this repo's DID, and it must not be revoked. Copying a badge to another repo fails that check."
+}

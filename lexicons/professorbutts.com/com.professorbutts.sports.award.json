@@ -1,0 +1,147 @@
+{
+  "id": "com.professorbutts.sports.award",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "subject",
+          "contest",
+          "kind",
+          "title",
+          "issuedAt"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string",
+            "maxLength": 128,
+            "knownValues": [
+              "com.professorbutts.sports.award#champion",
+              "com.professorbutts.sports.award#runnerUp",
+              "com.professorbutts.sports.award#third",
+              "com.professorbutts.sports.award#perfect"
+            ]
+          },
+          "rank": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Final rank; ties share a rank."
+          },
+          "tied": {
+            "type": "boolean",
+            "description": "True when another fan shares this rank."
+          },
+          "image": {
+            "type": "blob",
+            "accept": [
+              "image/png",
+              "image/webp"
+            ],
+            "maxSize": 1000000,
+            "description": "Optional badge art."
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 640,
+            "description": "Short display title, e.g. 'FCS Playoff Pick'em champion'.",
+            "maxGraphemes": 64
+          },
+          "graded": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "league": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "League code as used in game records, e.g. 'NCAAF'."
+          },
+          "points": {
+            "type": "integer"
+          },
+          "season": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "status": {
+            "type": "string",
+            "maxLength": 32,
+            "description": "Absent means active. Revoked awards (a grading correction) stay as a record so badges pointing at them can say why; readers must not show a revoked award as earned.",
+            "knownValues": [
+              "active",
+              "revoked"
+            ]
+          },
+          "contest": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The com.professorbutts.sports.contest record (or another contest-like record) the award is for."
+          },
+          "correct": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "subject": {
+            "type": "string",
+            "format": "did",
+            "description": "The fan who earned it."
+          },
+          "entrants": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "imageAlt": {
+            "type": "string",
+            "maxLength": 3000,
+            "maxGraphemes": 300
+          },
+          "issuedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "standings": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 512,
+            "description": "Public page with the final standings."
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "contestCid": {
+            "type": "string",
+            "format": "cid",
+            "description": "Optional CID of the contest version the final standings were computed from."
+          },
+          "statusReason": {
+            "type": "string",
+            "maxLength": 1000,
+            "maxGraphemes": 100
+          }
+        }
+      },
+      "description": "Recommended key: '<contest rkey>-<kind>-<first 16 hex of sha256(subject DID)>', so a fan gets at most one award of each kind per contest."
+    },
+    "third": {
+      "type": "token",
+      "description": "Finished third."
+    },
+    "perfect": {
+      "type": "token",
+      "description": "Every graded pick was correct (at least one game)."
+    },
+    "champion": {
+      "type": "token",
+      "description": "Finished first (ties share it)."
+    },
+    "runnerUp": {
+      "type": "token",
+      "description": "Finished second."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "An award issued by a contest's publisher to one fan, e.g. the champion of a pick'em contest. Lives in the issuer's repo; the fan can keep it on their profile with a com.professorbutts.sports.badge record that points here. An award is genuine when it is in the contest publisher's repo and its subject is the fan."
+}

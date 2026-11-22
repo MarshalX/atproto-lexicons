@@ -1,0 +1,78 @@
+{
+  "id": "com.professorbutts.sports.bracket",
+  "defs": {
+    "main": {
+      "key": "any",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "contest",
+          "picks",
+          "createdAt"
+        ],
+        "properties": {
+          "group": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "Optional com.professorbutts.sports.list of accounts (a friends group) to be ranked within."
+          },
+          "picks": {
+            "type": "array",
+            "items": {
+              "ref": "#pick",
+              "type": "ref"
+            },
+            "maxLength": 64
+          },
+          "contest": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "The com.professorbutts.sports.contest record."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "tiebreaker": {
+            "type": "integer",
+            "maximum": 999,
+            "minimum": 0,
+            "description": "Guess of the combined final score of the contest's tiebreaker slot."
+          }
+        }
+      },
+      "description": "Recommended key: the contest's rkey, so a fan has one bracket per contest. Any key is accepted; if several exist, the newest counts."
+    },
+    "pick": {
+      "type": "object",
+      "required": [
+        "slot",
+        "team"
+      ],
+      "properties": {
+        "slot": {
+          "type": "string",
+          "maxLength": 32
+        },
+        "team": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "com.professorbutts.sports.team record picked to win the slot."
+        },
+        "confidence": {
+          "type": "integer",
+          "maximum": 64,
+          "minimum": 1
+        }
+      }
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "One player's whole bracket for a bracket-format com.professorbutts.sports.contest, kept in the player's own repo: a predicted winner for every slot, later rounds included. Updated in place; a slot's pick only counts if an indexer saw it before that slot locked."
+}

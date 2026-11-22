@@ -1,6 +1,6 @@
 # Supported services
 
-2584 of 2646 lexicons are packaged. Another 16 ship with the SDK itself.
+2608 of 2670 lexicons are packaged. Another 16 ship with the SDK itself.
 
 | Status | Services | Meaning |
 |---|---|---|
@@ -32,9 +32,9 @@
 | `certified.app` | Full | 15 of 15 | 12 | 0 | 0 |  |  |
 | `chavatar.app` | Full | 8 of 8 | 5 | 0 | 0 |  |  |
 | `cocore.dev` | Partial | 40 of 40 | 14 | 17 | 7 |  | 9 |
-| `colibri.social` | Partial | 217 of 225 | 37 | 59 | 92 | 10 | 17 |
+| `colibri.social` | Partial | 219 of 227 | 37 | 60 | 93 | 10 | 17 |
 | `cosmik.network` | Partial | 8 of 10 | 6 | 0 | 0 | 2 |  |
-| `coves.social` | Full | 73 of 73 | 14 | 24 | 22 |  |  |
+| `coves.social` | Full | 78 of 78 | 15 | 27 | 23 |  |  |
 | `craftsky.social` | Full | 18 of 18 | 6 | 0 | 0 |  |  |
 | `currents.is` | Full | 23 of 23 | 5 | 14 | 0 |  |  |
 | `dailygame.space` | Full | 4 of 4 | 3 | 0 | 0 |  |  |
@@ -47,7 +47,7 @@
 | `gainforest.app` | Full | 35 of 35 | 31 | 1 | 0 |  |  |
 | `gamesgamesgamesgames.games` | Partial | 102 of 102 | 23 | 43 | 24 |  | 1 |
 | `gamethesky.com` | Full | 12 of 12 | 12 | 0 | 0 |  |  |
-| `grain.social` | Partial | 154 of 156 | 13 | 80 | 46 | 2 |  |
+| `grain.social` | Partial | 157 of 159 | 13 | 82 | 46 | 2 |  |
 | `hypercerts.org` | Full | 17 of 17 | 14 | 0 | 0 |  |  |
 | `jgs.me` | Full | 2 of 2 | 2 | 0 | 0 |  |  |
 | `keytrace.dev` | Full | 7 of 7 | 5 | 1 | 0 |  |  |
@@ -66,14 +66,14 @@
 | `nahdig.com` | Full | 4 of 4 | 4 | 0 | 0 |  |  |
 | `nerdballot.com` | Full | 7 of 7 | 7 | 0 | 0 |  |  |
 | `offprint.app` | Partial | 26 of 29 | 5 | 0 | 0 | 3 | 5 |
-| `olamaelcu.net` | Partial | 82 of 86 | 28 | 35 | 17 | 4 |  |
+| `olamaelcu.net` | Partial | 84 of 88 | 29 | 36 | 17 | 4 |  |
 | `opnshelf.xyz` | Partial | 10 of 15 | 8 | 0 | 0 | 5 |  |
 | `pckt.blog` | Full | 39 of 39 | 7 | 1 | 3 |  |  |
 | `pinkleap.social` | Full | 5 of 5 | 5 | 0 | 0 |  |  |
 | `plyr.fm` | Partial | 8 of 12 | 4 | 0 | 0 | 4 |  |
 | `podping.at` | Full | 2 of 2 | 2 | 0 | 0 |  |  |
 | `postgame.at` | Full | 7 of 7 | 7 | 0 | 0 |  |  |
-| `professorbutts.com` | Full | 12 of 12 | 10 | 0 | 0 |  |  |
+| `professorbutts.com` | Full | 24 of 24 | 21 | 0 | 0 |  |  |
 | `publicdomainrelay.com` | Partial | 38 of 38 | 25 | 1 | 11 |  | 11 |
 | `pythonplayer123.dev` | Full | 5 of 5 | 5 | 0 | 0 |  |  |
 | `rcape.org` | Full | 3 of 3 | 3 | 0 | 0 |  |  |

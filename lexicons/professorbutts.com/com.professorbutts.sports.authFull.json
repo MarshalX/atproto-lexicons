@@ -1,0 +1,29 @@
+{
+  "id": "com.professorbutts.sports.authFull",
+  "defs": {
+    "main": {
+      "type": "permission-set",
+      "title": "Sports picks and fan activity",
+      "detail": "Create, edit and delete your predictions and brackets (including sealed picks and their reveals), game check-ins and ratings, sports lists, and the contest badges you choose to show.",
+      "permissions": [
+        {
+          "type": "permission",
+          "resource": "repo",
+          "collection": [
+            "com.professorbutts.sports.badge",
+            "com.professorbutts.sports.bracket",
+            "com.professorbutts.sports.checkin",
+            "com.professorbutts.sports.list",
+            "com.professorbutts.sports.listitem",
+            "com.professorbutts.sports.prediction",
+            "com.professorbutts.sports.rating",
+            "com.professorbutts.sports.sealed",
+            "com.professorbutts.sports.unseal"
+          ]
+        }
+      ]
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}

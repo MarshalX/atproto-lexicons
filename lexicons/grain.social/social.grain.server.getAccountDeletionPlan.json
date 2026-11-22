@@ -1,0 +1,56 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "delete": {
+      "description": "A record to delete from the viewer's repository, as com.atproto.repo.applyWrites#delete names it.",
+      "properties": {
+        "collection": {
+          "format": "nsid",
+          "type": "string"
+        },
+        "rkey": {
+          "format": "record-key",
+          "maxLength": 512,
+          "type": "string"
+        }
+      },
+      "required": [
+        "collection",
+        "rkey"
+      ],
+      "type": "object"
+    },
+    "main": {
+      "description": "Plan the next part of deleting the viewer's grain data, for an app to delete at the viewer's own PDS: the deletes of one com.atproto.repo.applyWrites, of the viewer's records in every social.grain.* collection their PDS lists, read from the PDS rather than grain's index, so that records grain never indexed go too. Collections go in the order social.grain.server.deleteAccount deletes them, what hangs off a gallery before the gallery and the profile last, and one is exhausted before the next begins. The app commits each plan at the viewer's PDS and asks again; an empty plan means nothing is left, and the app then calls social.grain.server.deleteAccount with a service token. Requires auth.",
+      "errors": [
+        {
+          "description": "No account asks.",
+          "name": "AuthenticationRequired"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "writes": {
+              "description": "The next deletes, in the order they go: each a com.atproto.repo.applyWrites#delete in the viewer's repository. Empty once nothing is left.",
+              "items": {
+                "ref": "#delete",
+                "type": "ref"
+              },
+              "maxLength": 200,
+              "type": "array"
+            }
+          },
+          "required": [
+            "writes"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.server.getAccountDeletionPlan",
+  "lexicon": 1
+}

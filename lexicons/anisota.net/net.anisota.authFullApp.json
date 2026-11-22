@@ -4,7 +4,7 @@
     "main": {
       "type": "permission-set",
       "title": "Full Anisota App Permissions",
-      "detail": "Manage posts, interactions, chronicles, expeditions, spells, harvests, player state, lists, and all other Anisota features.",
+      "detail": "Manage posts, interactions, chronicles, spells, harvests, player state, lists, and all other Anisota features.",
       "permissions": [
         {
           "type": "permission",

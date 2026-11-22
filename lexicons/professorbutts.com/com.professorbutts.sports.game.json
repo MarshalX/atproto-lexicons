@@ -24,6 +24,11 @@
             "ref": "com.professorbutts.sports.defs#competitor",
             "type": "ref"
           },
+          "seal": {
+            "ref": "com.professorbutts.sports.sealed#lock",
+            "type": "ref",
+            "description": "Optional sealing keys for hidden predictions on this game."
+          },
           "clock": {
             "type": "string",
             "maxLength": 16,
@@ -43,7 +48,13 @@
               "wildcard",
               "divisional",
               "conference",
-              "superbowl"
+              "superbowl",
+              "bowl",
+              "first-round",
+              "second-round",
+              "quarterfinal",
+              "semifinal",
+              "final"
             ]
           },
           "sport": {
@@ -71,6 +82,12 @@
             },
             "maxLength": 4,
             "description": "Optional stats blocks (line score, box score). The only thing that may make the card taller."
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 1280,
+            "description": "Event name, e.g. 'Rose Bowl Game'.",
+            "maxGraphemes": 128
           },
           "venue": {
             "type": "string",
@@ -103,6 +120,16 @@
               "final",
               "postponed",
               "canceled"
+            ]
+          },
+          "division": {
+            "type": "string",
+            "maxLength": 32,
+            "knownValues": [
+              "fbs",
+              "fcs",
+              "d2",
+              "d3"
             ]
           },
           "startsAt": {

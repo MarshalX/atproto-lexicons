@@ -1,0 +1,99 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "errors": [
+        {
+          "description": "A parameter is out of range, or `cursor` is not an offset.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "The catalog pool is unavailable.",
+          "name": "ServiceUnavailable"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "description": "Pass as `cursor` for the next page; absent on the last page.",
+              "type": "string"
+            },
+            "genres": {
+              "items": {
+                "properties": {
+                  "editionCount": {
+                    "description": "Catalog editions carrying this genre.",
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "name": {
+                    "description": "Canonical genre name as the worker stored it.",
+                    "type": "string"
+                  },
+                  "sampleEditionUris": {
+                    "description": "Up to four covered editions of this genre. Absent or empty when none are covered yet.",
+                    "items": {
+                      "format": "at-uri",
+                      "type": "string"
+                    },
+                    "maxLength": 4,
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "name",
+                  "editionCount"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "total": {
+              "description": "Genres matching the filters, across all pages.",
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "genres",
+            "total"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "description": "Offset cursor returned by the previous page.",
+            "maxLength": 20,
+            "type": "string"
+          },
+          "letter": {
+            "description": "Keep only genres whose name starts with this letter (a-z, case-insensitive).",
+            "maxLength": 1,
+            "type": "string"
+          },
+          "limit": {
+            "default": 60,
+            "description": "Genres per page.",
+            "maximum": 200,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "q": {
+            "description": "Case-insensitive substring filter on the genre name.",
+            "maxLength": 200,
+            "type": "string"
+          }
+        },
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "Browse the catalog's genre vocabulary: each genre with how many catalog editions carry it and up to four covered editions for a cover mosaic. This is an anonymous catalog read served by the bibliograph edge from the catalog tables; it is never handled by HappyView. Rows are ordered by edition count, then name.",
+  "id": "net.olamaelcu.livtet.biblio.listGenres",
+  "lexicon": 1
+}

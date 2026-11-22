@@ -1,0 +1,143 @@
+{
+  "id": "com.professorbutts.sports.sealed",
+  "defs": {
+    "lock": {
+      "type": "object",
+      "required": [
+        "publicKey"
+      ],
+      "properties": {
+        "onTime": {
+          "ref": "#onTime",
+          "type": "ref"
+        },
+        "lockedAt": {
+          "type": "string",
+          "format": "datetime",
+          "description": "When the publisher stopped accepting sealed entries."
+        },
+        "publicKey": {
+          "type": "bytes",
+          "maxLength": 32,
+          "minLength": 32,
+          "description": "X25519 lock key fans encrypt to."
+        },
+        "privateKey": {
+          "type": "bytes",
+          "maxLength": 32,
+          "minLength": 32,
+          "description": "The unlock key, added at kickoff (the tombstone)."
+        }
+      },
+      "description": "Sealing keys carried on a game record (its optional `seal` field). The publisher adds privateKey, lockedAt and onTime at kickoff, then leaves them unchanged."
+    },
+    "main": {
+      "key": "tid",
+      "type": "record",
+      "record": {
+        "type": "object",
+        "required": [
+          "collection",
+          "scheme",
+          "revealAt",
+          "createdAt"
+        ],
+        "properties": {
+          "hash": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "commit: hex sha256 of the salt bytes followed by the inner record as canonical JSON (keys sorted, no spaces, UTF-8, including $type)."
+          },
+          "round": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "tlock: drand round whose beacon opens it. Its time must not be earlier than revealAt."
+          },
+          "scheme": {
+            "type": "string",
+            "maxLength": 128,
+            "knownValues": [
+              "com.professorbutts.sports.sealed#gameKey",
+              "com.professorbutts.sports.sealed#tlock",
+              "com.professorbutts.sports.sealed#commit"
+            ]
+          },
+          "subject": {
+            "type": "string",
+            "format": "at-uri",
+            "description": "What it is about (game, leaderboard or contest); required for gameKey, which uses this game's lock key. Viewers can show 'sealed prediction' on the right card."
+          },
+          "revealAt": {
+            "type": "string",
+            "format": "datetime",
+            "description": "When it may be opened, normally the subject's startsAt."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          },
+          "ciphertext": {
+            "type": "bytes",
+            "maxLength": 16000,
+            "description": "The inner record as canonical JSON (keys sorted, no spaces, UTF-8). gameKey: 12-byte nonce + AES-256-GCM ciphertext + 16-byte tag, key = HKDF-SHA256(X25519(ephemeral, game lock key), salt = ephemeralKey || publicKey, info 'com.professorbutts.sports.sealed'). tlock: tlock-js armored output as UTF-8 bytes."
+          },
+          "collection": {
+            "type": "string",
+            "format": "nsid",
+            "description": "Type of the hidden record, e.g. com.professorbutts.sports.prediction or com.professorbutts.sports.bracket."
+          },
+          "drandChain": {
+            "type": "string",
+            "maxLength": 128,
+            "description": "tlock: drand chain hash, e.g. quicknet 52db9ba7...e971."
+          },
+          "ephemeralKey": {
+            "type": "bytes",
+            "maxLength": 32,
+            "minLength": 32,
+            "description": "gameKey: the sealer's one-time X25519 public key."
+          }
+        }
+      }
+    },
+    "tlock": {
+      "type": "token",
+      "description": "Time-lock encrypted to a future drand beacon; opens itself at revealAt."
+    },
+    "commit": {
+      "type": "token",
+      "description": "Hash commitment; the owner later writes a com.professorbutts.sports.unseal record with the salt and the record."
+    },
+    "onTime": {
+      "type": "object",
+      "required": [
+        "root",
+        "count"
+      ],
+      "properties": {
+        "list": {
+          "type": "string",
+          "format": "uri",
+          "description": "Where the full list can be fetched."
+        },
+        "root": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Hex sha256 of the sorted lines '<at-uri> <cid>\\n'."
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "description": "Fingerprint of every sealed record the publisher saw before lockedAt. Covered by the publisher's signed repo commit, so anyone can check a given entry was on time against the published list."
+    },
+    "gameKey": {
+      "type": "token",
+      "description": "Encrypted to the subject game's lock key; opened when the game's publisher adds the unlock key at kickoff. The publisher could open it early."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1,
+  "description": "A record kept hidden until a set time, e.g. a prediction or bracket nobody can read or copy before kickoff. Default scheme gameKey: encrypted to the lock key published in the game record; the game's publisher adds the unlock key at kickoff (the tombstone), so any viewer of the game can open it. tlock (drand) and commit (hash, owner reveals) need no trust in the game's publisher. Indexers count it from when they first saw it."
+}
