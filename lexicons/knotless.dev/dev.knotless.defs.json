@@ -1211,6 +1211,10 @@
           "description": "True for its package's latest version: the highest with no pre-release part that is not yanked.",
           "type": "boolean"
         },
+        "maven": {
+          "description": "Its coordinates, `<group>:<artifact>`, when it is a Maven artifact, resolved with Gradle or Maven from its repository's Maven repository, at `/maven/<owner's DID>/<repository's key>/`, rather than downloaded.",
+          "type": "string"
+        },
         "notes": {
           "description": "What changed since the version before, in Markdown, as its record says.",
           "type": "string"
@@ -1221,6 +1225,10 @@
         },
         "package": {
           "description": "The package's name.",
+          "type": "string"
+        },
+        "swift": {
+          "description": "Its identifier, `<scope>.<name>` as it was published, when it is a Swift package, resolved with SwiftPM from its repository's registry, at `/swift/<owner's DID>/<repository's key>/`, rather than downloaded.",
           "type": "string"
         },
         "uri": {

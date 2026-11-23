@@ -147,6 +147,10 @@
         "avatar": {
           "type": "string"
         },
+        "avatarThumb": {
+          "description": "The avatar drawn small, 144 pixels square, for faces in lines and lists.",
+          "type": "string"
+        },
         "description": {
           "type": "string"
         },
@@ -169,6 +173,11 @@
     "profileView": {
       "properties": {
         "avatar": {
+          "format": "uri",
+          "type": "string"
+        },
+        "avatarThumb": {
+          "description": "The avatar drawn small, 144 pixels square, for faces in lines and lists.",
           "format": "uri",
           "type": "string"
         },
@@ -215,6 +224,11 @@
     "profileViewDetailed": {
       "properties": {
         "avatar": {
+          "format": "uri",
+          "type": "string"
+        },
+        "avatarThumb": {
+          "description": "The avatar drawn small, 144 pixels square, for faces in lines and lists.",
           "format": "uri",
           "type": "string"
         },
@@ -291,6 +305,10 @@
         "avatar": {
           "type": "string"
         },
+        "avatarThumb": {
+          "description": "The avatar drawn small, 144 pixels square, for faces in lines and lists.",
+          "type": "string"
+        },
         "description": {
           "type": "string"
         },
@@ -332,6 +350,10 @@
     "typeaheadItem": {
       "properties": {
         "avatar": {
+          "type": "string"
+        },
+        "avatarThumb": {
+          "description": "The avatar drawn small, 144 pixels square, for faces in lines and lists.",
           "type": "string"
         },
         "did": {

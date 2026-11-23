@@ -176,6 +176,10 @@
         "avatar": {
           "type": "string"
         },
+        "avatarThumb": {
+          "description": "The avatar drawn small, 144 pixels square, for faces in lines and lists.",
+          "type": "string"
+        },
         "did": {
           "format": "did",
           "type": "string"
@@ -236,6 +240,10 @@
       "properties": {
         "avatar": {
           "description": "The author's Grain profile picture, a public record of their own.",
+          "type": "string"
+        },
+        "avatarThumb": {
+          "description": "The author's Grain profile picture drawn small, 144 pixels square, for faces in lines and lists.",
           "type": "string"
         },
         "commentCount": {
@@ -310,6 +318,10 @@
       "properties": {
         "avatar": {
           "description": "The author's Grain profile picture, a public record of their own.",
+          "type": "string"
+        },
+        "avatarThumb": {
+          "description": "The author's Grain profile picture drawn small, 144 pixels square, for faces in lines and lists.",
           "type": "string"
         },
         "commentCount": {

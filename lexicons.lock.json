@@ -552,7 +552,7 @@
         "did": "did:plc:fzjkahpwapmoqxybwdjb6ysf"
       },
       "at.atmosynth.patch": {
-        "cid": "bafyreidz2squ4nwgxa2tlggnu6xnx2dzu6wwqxs3ldadvfhl5z6ibggl2u",
+        "cid": "bafyreianiyaslrujffyd3yg35cz44ydj4tkgsh5gxjlkn7ajigrvqkukqi",
         "did": "did:plc:fzjkahpwapmoqxybwdjb6ysf"
       },
       "at.atmosynth.patchPresentation": {
@@ -565,6 +565,10 @@
       },
       "at.atmosynth.sample": {
         "cid": "bafyreibrytr7672xx2e6xszrxxxtcugoymcu6tkjsxqyvjtnen4havc4ne",
+        "did": "did:plc:fzjkahpwapmoqxybwdjb6ysf"
+      },
+      "at.atmosynth.sketchbook": {
+        "cid": "bafyreifltgvmggyunxocfd5wruw3x4lrljmjbtqgp2lvjkeyhg6rmv776m",
         "did": "did:plc:fzjkahpwapmoqxybwdjb6ysf"
       },
       "at.atmosynth.track": {
@@ -4042,7 +4046,7 @@
     },
     "grain.social": {
       "social.grain.actor.defs": {
-        "cid": "bafyreidk5orlysgtvgnlpge4j2baub5xsgo3bxul5elxr34cmxqpx6fuke",
+        "cid": "bafyreicxkzem6ngqptho7nlmqhmbyi7zwxcd7doahhvlzygtbjpxnhca64",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.actor.getFavorites": {
@@ -4202,7 +4206,7 @@
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.gallery.defs": {
-        "cid": "bafyreifyvtiw2yr4sung6bkjiiaoydvcpk2o2cnpmuuid636rbwjstzvte",
+        "cid": "bafyreig6cbxhmia64cyzzgkfjeg6uycoyox4edpvdi5yvra6uu3npwxfxu",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.gallery.deleteGallery": {
@@ -4246,7 +4250,7 @@
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.graph.defs": {
-        "cid": "bafyreihgcdnsqfmxgqjoy757zxevmxuygoarhx4l5zkzjx7gpkrkn4ilgq",
+        "cid": "bafyreib6hxy3qw6enkhl5xkzt5hyrikwtvfulq3kxflml2btx7xa6qaqsu",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.graph.follow": {
@@ -4302,7 +4306,7 @@
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.group.defs": {
-        "cid": "bafyreiazkrkjgiowzqzrbvc63x3aoh4ogymqv7lsxkrvbcl5nm5gdsw5wu",
+        "cid": "bafyreie33vrf2uba6npfvysubidzjhwmwrlddpmixa67matewvhsgazz7e",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.group.deleteComment": {
@@ -4314,7 +4318,7 @@
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.group.getGallery": {
-        "cid": "bafyreibh56p4jiyci6rrutdekei4b6r2pkprk77zcauriqzbxlbsprwdz4",
+        "cid": "bafyreidkzspyxwrm6h2ntegqf37ms22fxwtdm3wa7jzbuglxy6gylnf2bq",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.group.getGroup": {
@@ -4398,7 +4402,7 @@
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.photo.defs": {
-        "cid": "bafyreiakczixnhegukzdmbbezdaoykqqcyuksecxfmp53qjapfivuvmwqi",
+        "cid": "bafyreihjdl3vel6lt22bry6ltqsuha3zl7yunbzipieam6rb6cj2lqeazu",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.photo.exif": {
@@ -4458,7 +4462,7 @@
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.story.defs": {
-        "cid": "bafyreih5i4bpo2nkbwjwfkcucqvzx36hzih7yvkdzlylhm3d2bb2qk5bfa",
+        "cid": "bafyreicwuvx34ngsdxkq7evezs5v2qyill46g3tvhd2nwp3iprde2fx55a",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.story.getArchive": {
@@ -4916,7 +4920,7 @@
         "did": "did:plc:yqsg7znbbhfmj3a2nrpnaerk"
       },
       "dev.knotless.defs": {
-        "cid": "bafyreid7dwck4ys7e4vduu6jatuychxmyhy6mk23b6gkgl5lm2oxd72rda",
+        "cid": "bafyreihvzojmkozestfd6rznjhhgmd2tfcvra3y626izddu44byyv6qbia",
         "did": "did:plc:yqsg7znbbhfmj3a2nrpnaerk"
       },
       "dev.knotless.delegateWrites": {
@@ -10891,9 +10895,7 @@
       }
     }
   },
-  "unreachable": [
-    "stream.place"
-  ],
+  "unreachable": [],
   "unresolved": [
     "app.rocksky.mirror.defs",
     "app.rocksky.song.defs.songViewBasic",
@@ -10914,7 +10916,7 @@
     "astro-colibri.science": "2026-11-13",
     "atcr.io": "2026-11-13",
     "atmo.rsvp": "2026-11-13",
-    "atmosynth.at": "2026-11-18",
+    "atmosynth.at": "2026-11-23",
     "atmowx.net": "2026-11-13",
     "atni.me": "2026-11-15",
     "atpcraft.at": "2026-11-13",
@@ -10943,12 +10945,12 @@
     "gainforest.app": "2026-11-13",
     "gamesgamesgamesgames.games": "2026-11-16",
     "gamethesky.com": "2026-11-13",
-    "grain.social": "2026-11-22",
+    "grain.social": "2026-11-23",
     "hypercerts.org": "2026-11-17",
     "jgs.me": "2026-11-13",
     "keytrace.dev": "2026-11-13",
     "kipclip.com": "2026-11-13",
-    "knotless.dev": "2026-11-22",
+    "knotless.dev": "2026-11-23",
     "leaflet.pub": "2026-11-21",
     "lexicon.community": "2026-11-17",
     "lichen.wiki": "2026-11-13",

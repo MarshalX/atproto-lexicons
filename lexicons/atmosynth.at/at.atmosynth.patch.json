@@ -320,13 +320,13 @@
       "type": "object",
       "required": [
         "relation",
-        "uri",
         "creatorDid"
       ],
       "properties": {
         "uri": {
           "type": "string",
-          "format": "at-uri"
+          "format": "at-uri",
+          "description": "Where the parent is. Absent on a credit, which names the parent's creator where the parent cannot be named, and is never an address."
         },
         "patchId": {
           "type": "string",
@@ -346,7 +346,7 @@
           "format": "did"
         }
       },
-      "description": "One patch this one came from, how, and its creator. Preserved even when that patch is later deleted, because it is written here and not there."
+      "description": "One patch this one came from, how, and its creator. Preserved even when that patch is later deleted, because it is written here and not there. Most name that patch by its `uri`. One without a `uri` is a credit: it names the parent's creator, and how this patch came from it, where the parent itself cannot be named, because it is somewhere this record's readers cannot open, such as its creator's own sketchbook. A credit is never an address, and nothing read later makes it one, so it carries no `patchId` either: a record key is half of where a patch is, and says when it was made. `uri` was required once, so a reader written then must accept its absence, and read such an entry as a parent it can credit but not follow."
     },
     "section": {
       "type": "object",

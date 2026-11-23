@@ -108,6 +108,16 @@
           "ref": "#galleryState",
           "type": "ref"
         },
+        "large": {
+          "description": "Fully-qualified URL of the image drawn 1440 pixels wide, for dense screens.",
+          "format": "uri",
+          "type": "string"
+        },
+        "small": {
+          "description": "Fully-qualified URL of the image drawn 640 pixels wide, for grids and small screens. With thumb (1000 wide), large and fullsize (at most 2000 on either side), a srcset's widths.",
+          "format": "uri",
+          "type": "string"
+        },
         "thumb": {
           "description": "Fully-qualified URL where a thumbnail of the image can be fetched. For example, CDN location provided by the App View.",
           "format": "uri",

@@ -65,7 +65,7 @@
           "type": "boolean"
         },
         "fullsize": {
-          "description": "Full-size URL for the story image.",
+          "description": "URL of the story image drawn for a screen, 1440 pixels wide.",
           "format": "uri",
           "type": "string"
         },
