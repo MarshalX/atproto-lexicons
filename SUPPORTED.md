@@ -1,11 +1,11 @@
 # Supported services
 
-2608 of 2670 lexicons are packaged. Another 16 ship with the SDK itself.
+2608 of 2671 lexicons are packaged. Another 16 ship with the SDK itself.
 
 | Status | Services | Meaning |
 |---|---|---|
-| Full | 75 | Every lexicon is generated as published. |
-| Partial | 24 | Some lexicons are invalid and skipped, or have references that are typed as unknown. |
+| Full | 74 | Every lexicon is generated as published. |
+| Partial | 25 | Some lexicons are invalid and skipped, or have references that are typed as unknown. |
 | Not supported | 1 | Nothing could be generated. |
 
 | Service | Status | Lexicons | Records | Queries | Procedures | Skipped | Untyped refs in |
@@ -18,7 +18,7 @@
 | `astro-colibri.science` | Full | 2 of 2 | 2 | 0 | 0 |  |  |
 | `atcr.io` | Partial | 26 of 28 | 12 | 3 | 9 | 2 | 1 |
 | `atmo.rsvp` | Partial | 30 of 31 | 0 | 14 | 14 | 1 |  |
-| `atmosynth.at` | Full | 14 of 14 | 13 | 0 | 0 |  |  |
+| `atmosynth.at` | Partial | 14 of 15 | 13 | 0 | 0 | 1 |  |
 | `atmowx.net` | Full | 5 of 5 | 2 | 2 | 0 |  |  |
 | `atni.me` | Full | 4 of 4 | 3 | 0 | 0 |  |  |
 | `atpcraft.at` | Partial | 5 of 5 | 4 | 0 | 0 |  | 1 |

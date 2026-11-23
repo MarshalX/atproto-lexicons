@@ -16,6 +16,10 @@
             "avatar": {
               "type": "string"
             },
+            "avatarThumb": {
+              "description": "The avatar drawn small, 144 pixels square, for faces in lines and lists.",
+              "type": "string"
+            },
             "commentCount": {
               "type": "integer"
             },

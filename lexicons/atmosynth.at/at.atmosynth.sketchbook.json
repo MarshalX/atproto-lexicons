@@ -1,0 +1,18 @@
+{
+  "id": "at.atmosynth.sketchbook",
+  "defs": {
+    "main": {
+      "key": "literal:self",
+      "type": "space",
+      "title": "ATMOSYNTH sketchbook",
+      "collections": [
+        "at.atmosynth.patch",
+        "at.atmosynth.patchPresentation",
+        "at.atmosynth.module"
+      ],
+      "description": "A creator's own patches and modules, readable by them alone."
+    }
+  },
+  "$type": "com.atproto.lexicon.schema",
+  "lexicon": 1
+}
