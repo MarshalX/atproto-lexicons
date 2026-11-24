@@ -174,9 +174,10 @@
         "source": {
           "type": "string",
           "maxLength": 32,
-          "description": "kind が list / custom のときの参照先（list=home, custom=affirmation）。kind が bsky のときは following（Bluesky のホームタイムライン）だけを取り、uri と排他。",
+          "description": "kind が list / custom のときの参照先（list=home, custom=recommended。affirmation は旧クライアントが書く値で、recommended として読む）。kind が bsky のときは following（Bluesky のホームタイムライン）だけを取り、uri と排他。",
           "knownValues": [
             "home",
+            "recommended",
             "affirmation",
             "following"
           ]

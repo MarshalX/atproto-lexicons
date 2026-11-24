@@ -346,6 +346,11 @@
           "format": "datetime",
           "description": "When the latest message was written."
         },
+        "authorProfile": {
+          "ref": "social.colibri.beta.actor.defs#profileView",
+          "type": "ref",
+          "description": "The latest message's author as a message view would show it. Present when the message came through a bridge, where it carries the remote person's name and avatar and author is the community."
+        },
         "attachmentKind": {
           "type": "string",
           "description": "What the first attachment is, when the message has any. Images and videos are image, everything else is file.",

@@ -8,7 +8,7 @@
       ],
       "description": "An organization's space on knotless, with the organization as its authority: where it keeps its invitations and the members who chose to be hidden, which only its members read. Its gateway writes a record there of each account it invited or took in hidden, and each hidden member writes their own record of joining in theirs.",
       "key": "literal:self",
-      "name": "Organization",
+      "title": "Organization",
       "type": "space"
     }
   },

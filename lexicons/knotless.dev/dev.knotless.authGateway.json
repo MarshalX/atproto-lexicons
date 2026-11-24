@@ -1,0 +1,58 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "What an owner grants a gateway as they delegate writes to it: the records a push writes, in their public repo and in their own spaces; and, for an organization, its record of being one, its records of whom it invited, its own space, and making and changing the members of its spaces, never deleting one.",
+      "detail": "Write to your repositories for the collaborators you share them with, and run your organization: its members and its private repositories.",
+      "permissions": [
+        {
+          "collection": [
+            "dev.knotless.claim",
+            "dev.knotless.org",
+            "dev.knotless.orgMember",
+            "dev.knotless.pack",
+            "dev.knotless.ref",
+            "dev.knotless.repo"
+          ],
+          "resource": "repo",
+          "type": "permission"
+        },
+        {
+          "authority": "self",
+          "collection": [
+            "dev.knotless.claim",
+            "dev.knotless.orgMember",
+            "dev.knotless.pack",
+            "dev.knotless.ref",
+            "dev.knotless.repo"
+          ],
+          "manage": [
+            "create",
+            "update"
+          ],
+          "resource": "space",
+          "spaceType": "dev.knotless.space",
+          "type": "permission"
+        },
+        {
+          "authority": "self",
+          "collection": [
+            "dev.knotless.orgAcceptance",
+            "dev.knotless.orgMember"
+          ],
+          "manage": [
+            "create",
+            "update"
+          ],
+          "resource": "space",
+          "spaceType": "dev.knotless.orgSpace",
+          "type": "permission"
+        }
+      ],
+      "title": "knotless gateway",
+      "type": "permission-set"
+    }
+  },
+  "id": "dev.knotless.authGateway",
+  "lexicon": 1
+}

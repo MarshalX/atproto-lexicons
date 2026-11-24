@@ -1,0 +1,94 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "Publish the edition records a reader is about to reference, and return the uri+cid a shelf record's strongRef needs. The AppView calls this when a reader acts — shelves a book, marks a status — never on a page render: a crawl must not republish the catalogue, and a strongRef cannot be written before the record exists. The caller authenticates with an atproto service token minted by its own PDS, so the request proves an intent rather than a page view.",
+      "errors": [
+        {
+          "description": "The service token was missing or rejected.",
+          "name": "AuthRequired"
+        },
+        {
+          "description": "The body named no identifier or uri, or too many.",
+          "name": "InvalidRequest"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "identifiers": {
+              "description": "Edition identifiers as search returns them. At most 100 entries across identifiers and uris.",
+              "items": {
+                "ref": "community.lexicon.media.book.defs#identifier",
+                "type": "ref"
+              },
+              "maxLength": 100,
+              "type": "array"
+            },
+            "uris": {
+              "description": "Edition uris as resolveEditions returns them (the `atproto` identifier), when the caller already has them.",
+              "items": {
+                "format": "at-uri",
+                "type": "string"
+              },
+              "maxLength": 100,
+              "type": "array"
+            },
+            "waitMs": {
+              "description": "How long the AppView may wait for a record to be written before the uri is reported as pending. Defaults to 2000; capped at 5000.",
+              "maximum": 5000,
+              "minimum": 0,
+              "type": "integer"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "editions": {
+              "description": "Editions whose records exist now. The cid is what a strongRef must carry.",
+              "items": {
+                "properties": {
+                  "cid": {
+                    "format": "cid",
+                    "type": "string"
+                  },
+                  "uri": {
+                    "format": "at-uri",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "uri",
+                  "cid"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "pending": {
+              "description": "Uris whose publication was requested but not written within waitMs. The caller may retry; the request stays queued.",
+              "items": {
+                "format": "at-uri",
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "editions",
+            "pending"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "id": "net.olamaelcu.livtet.biblio.ensureEdition",
+  "lexicon": 1
+}

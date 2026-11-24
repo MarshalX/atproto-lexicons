@@ -1,0 +1,71 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "errors": [
+        {
+          "description": "No service JWT, or one that does not verify.",
+          "name": "AuthRequired"
+        },
+        {
+          "description": "The body is not `{ subject, subjectType, muted }`, or the subject does not match its type.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "The mute store could not be reached.",
+          "name": "ServiceUnavailable"
+        }
+      ],
+      "input": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "muted": {
+              "description": "The desired state. `true` upserts the row; `false` deletes it.",
+              "type": "boolean"
+            },
+            "subject": {
+              "description": "The muted resource. For `book` and `contributor`, an at-uri in that collection; for `person`, a DID.",
+              "minLength": 1,
+              "type": "string"
+            },
+            "subjectType": {
+              "description": "How `subject` is interpreted and how the feed hides it.",
+              "knownValues": [
+                "book",
+                "contributor",
+                "person"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "subject",
+            "subjectType",
+            "muted"
+          ],
+          "type": "object"
+        }
+      },
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "muted": {
+              "description": "The state now stored for the caller.",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "muted"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "procedure"
+    }
+  },
+  "description": "Mute or unmute one book, contributor or person for the caller. Authenticated with an atproto service JWT minted by the caller's own PDS (`aud` this AppView's `did:web`, `lxm` this NSID); the issuer is the only viewer whose rows the call can touch. Idempotent: sending the same `muted` value twice leaves the same state.",
+  "id": "net.olamaelcu.livtet.biblio.setMute",
+  "lexicon": 1
+}

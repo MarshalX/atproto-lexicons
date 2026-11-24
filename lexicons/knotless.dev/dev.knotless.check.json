@@ -98,9 +98,14 @@
             "accept": [
               "text/plain"
             ],
-            "description": "Every step's output, interleaved as it was written; the tail, when there was more.",
+            "description": "Every step's output, interleaved as it was written; the tail, when there was more. Absent when `logText` holds it.",
             "maxSize": 1000000,
             "type": "blob"
+          },
+          "logText": {
+            "description": "Every step's output, as `log` would hold it, when it is UTF-8 of at most 16384 bytes: kept in the record itself, so a small log takes no blob upload. A check has one of `log` and `logText`, or neither.",
+            "maxLength": 16384,
+            "type": "string"
           },
           "outputs": {
             "description": "What the run made to be looked at, such as screenshots of the pages a change moved, in the order of their names. Kinds unknown to a reader are passed over.",

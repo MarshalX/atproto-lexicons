@@ -384,12 +384,12 @@
     {
       "domain": "colibri.social",
       "status": "partial",
-      "lexicons": 227,
-      "generated": 219,
+      "lexicons": 228,
+      "generated": 220,
       "provided_by_sdk": 0,
       "kinds": {
         "record": 37,
-        "query": 60,
+        "query": 61,
         "procedure": 93,
         "subscription": 2
       },
@@ -745,8 +745,8 @@
     {
       "domain": "knotless.dev",
       "status": "partial",
-      "lexicons": 190,
-      "generated": 188,
+      "lexicons": 192,
+      "generated": 190,
       "provided_by_sdk": 0,
       "kinds": {
         "record": 32,
@@ -984,13 +984,13 @@
     {
       "domain": "olamaelcu.net",
       "status": "partial",
-      "lexicons": 88,
-      "generated": 84,
+      "lexicons": 92,
+      "generated": 88,
       "provided_by_sdk": 0,
       "kinds": {
         "record": 29,
-        "query": 36,
-        "procedure": 17,
+        "query": 38,
+        "procedure": 19,
         "subscription": 0
       },
       "skipped_lexicons": [
@@ -1428,12 +1428,12 @@
     {
       "domain": "suibari.com",
       "status": "full",
-      "lexicons": 101,
-      "generated": 101,
+      "lexicons": 103,
+      "generated": 103,
       "provided_by_sdk": 0,
       "kinds": {
         "record": 14,
-        "query": 49,
+        "query": 50,
         "procedure": 36,
         "subscription": 0
       },

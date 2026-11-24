@@ -1,0 +1,62 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "errors": [
+        {
+          "description": "No service JWT, or one that does not verify.",
+          "name": "AuthRequired"
+        },
+        {
+          "description": "`subject`/`subjectType` are missing or do not match.",
+          "name": "InvalidRequest"
+        },
+        {
+          "description": "The mute store could not be reached.",
+          "name": "ServiceUnavailable"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "muted": {
+              "description": "Whether the caller has muted this subject.",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "muted"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "subject": {
+            "description": "The muted resource. For `book` and `contributor`, an at-uri in that collection; for `person`, a DID.",
+            "minLength": 1,
+            "type": "string"
+          },
+          "subjectType": {
+            "knownValues": [
+              "book",
+              "contributor",
+              "person"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "subject",
+          "subjectType"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "description": "Whether the caller has muted one book, contributor or person. Authenticated with an atproto service JWT minted by the caller's own PDS (`aud` this AppView's `did:web`, `lxm` this NSID).",
+  "id": "net.olamaelcu.livtet.biblio.isMuted",
+  "lexicon": 1
+}

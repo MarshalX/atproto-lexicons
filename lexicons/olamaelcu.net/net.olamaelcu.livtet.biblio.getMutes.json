@@ -1,0 +1,62 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "errors": [
+        {
+          "description": "No service JWT, or one that does not verify.",
+          "name": "AuthRequired"
+        },
+        {
+          "description": "The mute store could not be reached.",
+          "name": "ServiceUnavailable"
+        }
+      ],
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "mutes": {
+              "description": "One row per muted subject for the caller.",
+              "items": {
+                "properties": {
+                  "createdAt": {
+                    "format": "datetime",
+                    "type": "string"
+                  },
+                  "subject": {
+                    "description": "The muted book/contributor at-uri, or the muted person's DID.",
+                    "type": "string"
+                  },
+                  "subjectType": {
+                    "knownValues": [
+                      "book",
+                      "contributor",
+                      "person"
+                    ],
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "subject",
+                  "subjectType",
+                  "createdAt"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "mutes"
+          ],
+          "type": "object"
+        }
+      },
+      "type": "query"
+    }
+  },
+  "description": "The caller's mute list, newest first. Authenticated with an atproto service JWT minted by the caller's own PDS (`aud` this AppView's `did:web`, `lxm` this NSID); the issuer is the only viewer whose rows are returned.",
+  "id": "net.olamaelcu.livtet.biblio.getMutes",
+  "lexicon": 1
+}
