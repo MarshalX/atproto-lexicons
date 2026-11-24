@@ -1,6 +1,6 @@
 # Supported services
 
-2608 of 2671 lexicons are packaged. Another 16 ship with the SDK itself.
+2617 of 2680 lexicons are packaged. Another 16 ship with the SDK itself.
 
 | Status | Services | Meaning |
 |---|---|---|
@@ -32,7 +32,7 @@
 | `certified.app` | Full | 15 of 15 | 12 | 0 | 0 |  |  |
 | `chavatar.app` | Full | 8 of 8 | 5 | 0 | 0 |  |  |
 | `cocore.dev` | Partial | 40 of 40 | 14 | 17 | 7 |  | 9 |
-| `colibri.social` | Partial | 219 of 227 | 37 | 60 | 93 | 10 | 17 |
+| `colibri.social` | Partial | 220 of 228 | 37 | 61 | 93 | 10 | 17 |
 | `cosmik.network` | Partial | 8 of 10 | 6 | 0 | 0 | 2 |  |
 | `coves.social` | Full | 78 of 78 | 15 | 27 | 23 |  |  |
 | `craftsky.social` | Full | 18 of 18 | 6 | 0 | 0 |  |  |
@@ -52,7 +52,7 @@
 | `jgs.me` | Full | 2 of 2 | 2 | 0 | 0 |  |  |
 | `keytrace.dev` | Full | 7 of 7 | 5 | 1 | 0 |  |  |
 | `kipclip.com` | Full | 2 of 2 | 2 | 0 | 0 |  |  |
-| `knotless.dev` | Partial | 188 of 190 | 32 | 67 | 88 | 2 |  |
+| `knotless.dev` | Partial | 190 of 192 | 32 | 67 | 88 | 2 |  |
 | `leaflet.pub` | Full | 52 of 52 | 15 | 0 | 0 |  |  |
 | `lexicon.community` | Partial | 26 of 27 | 11 | 4 | 2 | 1 |  |
 | `lichen.wiki` | Full | 10 of 10 | 5 | 4 | 0 |  |  |
@@ -66,7 +66,7 @@
 | `nahdig.com` | Full | 4 of 4 | 4 | 0 | 0 |  |  |
 | `nerdballot.com` | Full | 7 of 7 | 7 | 0 | 0 |  |  |
 | `offprint.app` | Partial | 26 of 29 | 5 | 0 | 0 | 3 | 5 |
-| `olamaelcu.net` | Partial | 84 of 88 | 29 | 36 | 17 | 4 |  |
+| `olamaelcu.net` | Partial | 88 of 92 | 29 | 38 | 19 | 4 |  |
 | `opnshelf.xyz` | Partial | 10 of 15 | 8 | 0 | 0 | 5 |  |
 | `pckt.blog` | Full | 39 of 39 | 7 | 1 | 3 |  |  |
 | `pinkleap.social` | Full | 5 of 5 | 5 | 0 | 0 |  |  |
@@ -91,7 +91,7 @@
 | `standard.site` | Full | 8 of 8 | 5 | 0 | 0 |  |  |
 | `stream.place` | Partial | 56 of 56 | 17 | 13 | 17 |  | 2 |
 | `substratum.cloud` | Full | 17 of 17 | 1 | 0 | 0 |  |  |
-| `suibari.com` | Full | 101 of 101 | 14 | 49 | 36 |  |  |
+| `suibari.com` | Full | 103 of 103 | 14 | 50 | 36 |  |  |
 | `sylvanus.garden` | Full | 6 of 6 | 6 | 0 | 0 |  |  |
 | `syui.ai` | Full | 12 of 12 | 12 | 0 | 0 |  |  |
 | `tangled.org` | Full | 64 of 64 | 18 | 11 | 17 |  |  |

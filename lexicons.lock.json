@@ -1332,7 +1332,7 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.bridge.addReaction": {
-        "cid": "bafyreihq6fkitku3wr54uvbexgkxrrl7koqebpnb5j4hllhcsgoq3q2y3y",
+        "cid": "bafyreidwvw7ovz57ftkxmo3mahkptwj7stlztvt2rn3bibus5eimdahznu",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.bridge.createPairing": {
@@ -1340,7 +1340,7 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.bridge.createThread": {
-        "cid": "bafyreia2mbv6qo33d3g6hc5due5yc5irbkgoukod6a5wmt33i726nhr37e",
+        "cid": "bafyreiajqhms6j5253y3ttkx35bpdx22ksuu6zbaonw44lekvtfnifibne",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.bridge.defs": {
@@ -1348,7 +1348,7 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.bridge.deleteMessage": {
-        "cid": "bafyreicgy356vy6xnrb5gcxnhaub4l7e6xs63yivsjyyenb7wsac2ivo5i",
+        "cid": "bafyreidda4uhcfmhnln6ljbmsnqfj2weyrn3s7pfeqzkimqxpj3g4s23ha",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.bridge.deleteThread": {
@@ -1356,11 +1356,15 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.bridge.editMessage": {
-        "cid": "bafyreifpjt6q4x3lyf6r3mppdffwxuvexvivdypmmsqsevc5am5yuis754",
+        "cid": "bafyreic5c6q6lmdpirlac2zet3drzaiy7xklx4gzsxdjfyr3ywwoipbvgy",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.bridge.getConfiguration": {
         "cid": "bafyreihshqgvnpqqgy3xbr2df5dug545r2waalrwptlascfjptkoava4yq",
+        "did": "did:plc:mprdjqjluoswa7awzggaggj3"
+      },
+      "social.colibri.beta.bridge.getMember": {
+        "cid": "bafyreifgzcaoevrhxiqb7v3tpzpyngofqm7udvlf3sm2a5t4tq6ixhdyla",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.bridge.getPairing": {
@@ -1368,7 +1372,7 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.bridge.hideMessage": {
-        "cid": "bafyreifkj6jnnnd54xhxzvbrp35qmjwsxsn5pkaimqsja4rbyn3qqapxcu",
+        "cid": "bafyreif6ojvyic6v72pw6srd3ym5xb3rn3id4vr67r4v6g7ejdftb7zwpy",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.bridge.importMessages": {
@@ -1396,7 +1400,7 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.bridge.postMessage": {
-        "cid": "bafyreib6yy3k7tvydxdgvb4n2x6wc3tvijnyvq3z5dgdn7uanwkfxtj5ya",
+        "cid": "bafyreicssn6mnw6ct6vg237fk2bt5cfjp5ehtqilypl35nrfe5mtsy2ymq",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.bridge.putRemoteRooms": {
@@ -1412,7 +1416,7 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.bridge.removeReaction": {
-        "cid": "bafyreieh7rxh4sm6pknls75nmarqwkv37uswfyq4nujsyoq3kiaggtnlka",
+        "cid": "bafyreicioe2447oceghrypefc5cjb3dzfxjtyyfefolpcun2iudg54cplq",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.bridge.replaceAvatar": {
@@ -1464,7 +1468,7 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.channel.defs": {
-        "cid": "bafyreibvkyhpzzfealt55f23jiipqifxgpzklxwzdva3fw6mnl7u7h4yny",
+        "cid": "bafyreie3gdpmymj5ovis7lvpma74edgliragqboja4lzdkisey273udxrm",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.channel.delete": {
@@ -1840,7 +1844,7 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.permissionBridge": {
-        "cid": "bafyreiftextltcb5fgqej2kck2s33ugfmmuk4aer22lgftsj5fax5rq7jm",
+        "cid": "bafyreia532hgccffxwhkqspocfwc6uyoomf5lupvvnqjhl4kbhiorpzmmq",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.permissionCommunity": {
@@ -1936,11 +1940,11 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.sync.defs": {
-        "cid": "bafyreigt2fmoccqodm6fy3khymm2mtndsoigkjluiqp7p7emw53ogtscym",
+        "cid": "bafyreifla232d4gdwubyzkvx3h6niem2zz762mz6yy5nkxlmfqdf6wirgq",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.sync.subscribeEvents": {
-        "cid": "bafyreib42s5a2c36wmp5m75ha4w6zf4lu7uz4cqx2qzoxs645f5fygbifq",
+        "cid": "bafyreibuqw23qejc7xwdjzrvyaupwe2e74ghi2rjmodetuqrpu47wxhiiy",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.thread": {
@@ -4835,6 +4839,14 @@
         "cid": "bafyreid6a4mxjg57cmmtbacnawjovvavxgez4hyy27xtb5zam32jhmkuyu",
         "did": "did:plc:yqsg7znbbhfmj3a2nrpnaerk"
       },
+      "dev.knotless.authFull": {
+        "cid": "bafyreid672cvxhandq4whtmvgvmsujqhx3h63xtwljq5h7zprnzeozwhje",
+        "did": "did:plc:yqsg7znbbhfmj3a2nrpnaerk"
+      },
+      "dev.knotless.authGateway": {
+        "cid": "bafyreigjncgt3ezuhxi5q75r47mpxbl2xdc4pogmuofmixc4ljmbywuzey",
+        "did": "did:plc:yqsg7znbbhfmj3a2nrpnaerk"
+      },
       "dev.knotless.autoMerge": {
         "cid": "bafyreifienuznomimmzf7gh7bnfvgjfn4tn6iigfjordynvoqlm4qd64am",
         "did": "did:plc:yqsg7znbbhfmj3a2nrpnaerk"
@@ -4860,7 +4872,7 @@
         "did": "did:plc:yqsg7znbbhfmj3a2nrpnaerk"
       },
       "dev.knotless.check": {
-        "cid": "bafyreihn2rnl7lgu3c2pwbfnrv4vq4q2prq2nbcatgbg5ue4ylkeuobgty",
+        "cid": "bafyreie3cyimjphett7nemzdhepy4hjh4ki657klsa42mjhmp5ndcye4km",
         "did": "did:plc:yqsg7znbbhfmj3a2nrpnaerk"
       },
       "dev.knotless.claim": {
@@ -5308,7 +5320,7 @@
         "did": "did:plc:yqsg7znbbhfmj3a2nrpnaerk"
       },
       "dev.knotless.orgSpace": {
-        "cid": "bafyreift5o6yjvzavli4njy6i5723tjewqmwreo5k2u2bsaqidhfx4mgmu",
+        "cid": "bafyreibyhho5pxgc7qpur6ajgqchppne6pbkw562cvg5qhon5lkzegqntq",
         "did": "did:plc:yqsg7znbbhfmj3a2nrpnaerk"
       },
       "dev.knotless.pack": {
@@ -5496,7 +5508,7 @@
         "did": "did:plc:yqsg7znbbhfmj3a2nrpnaerk"
       },
       "dev.knotless.space": {
-        "cid": "bafyreievza7lxa34yuukdq3enddv6l2wgmz6p3uxlo7k7ojouihgwcijva",
+        "cid": "bafyreib3qp47zalausumlz3sdzawsbuiqxrjtdubfwqyvx7esfiyyyonau",
         "did": "did:plc:yqsg7znbbhfmj3a2nrpnaerk"
       },
       "dev.knotless.star": {
@@ -6500,7 +6512,7 @@
     },
     "olamaelcu.net": {
       "net.olamaelcu.livtet.authLivtetCore": {
-        "cid": "bafyreibk5ktb3hd3hlnkr6ix5qzi7o2c6beucb4fzlco4cnbavjij4ol4q",
+        "cid": "bafyreiglci2fnpvadsnh6sqd3mracpfvddua2nd6gbsdhmdedze34mpavi",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.actor.profile": {
@@ -6571,6 +6583,10 @@
         "cid": "bafyreiekgpftdnjvbmrz5xzgkl2sz5yzlcyh5c6b6idorcap2uv3rcq4su",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
+      "net.olamaelcu.livtet.biblio.ensureEdition": {
+        "cid": "bafyreibvbzvak4clyqisbmb3dl7jw3zdrzmxm4ksctil5trurwcox3mxyu",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
       "net.olamaelcu.livtet.biblio.follow": {
         "cid": "bafyreibnrim7ksueek2bq5wp3grxiqtqswr74cslnnwennccu7pfiqhhga",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
@@ -6597,6 +6613,10 @@
       },
       "net.olamaelcu.livtet.biblio.getIdentifiedFormats": {
         "cid": "bafyreibspnl45ewpcekndeom2utr7isqx5xjlskgc4qe2obfrkpp52iylm",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.getMutes": {
+        "cid": "bafyreigjcqndojdfbuzoys774z6yeh33wtyz7hqyl7sgqqm5gj3jsucqaa",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.getPublisher": {
@@ -6669,6 +6689,10 @@
       },
       "net.olamaelcu.livtet.biblio.graph.unfollow": {
         "cid": "bafyreihebjbzu5ztonavypthnnfa4diggb2pzhco6fuuf64cmirwgtx334",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.isMuted": {
+        "cid": "bafyreibfllmi6tnljp7cfieqoze56uin73h6ry4ac5nme6a4s6ug4c66fa",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.knownContributor": {
@@ -6805,6 +6829,10 @@
       },
       "net.olamaelcu.livtet.biblio.searchPublishers": {
         "cid": "bafyreiha3mgwtwdmjfjvhthw3qav2pkhzshaidjz6farukpi3ackpxq7nu",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.setMute": {
+        "cid": "bafyreicg23zgh332dvsxam2jnkhb3go4fx5mnisthqs5guc3q2rkwvktju",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.shelf": {
@@ -9154,7 +9182,7 @@
         "did": "did:plc:uixgxpiqf4i63p6rgpu7ytmx"
       },
       "com.suibari.nagi.appviewAccess": {
-        "cid": "bafyreihct3xglzlvbbwyobcg5qkvcjjexcjqwc5rxf6gcknf2kbsvvmuye",
+        "cid": "bafyreie2kisdpriag72ef7kkha5sgr5ausqx6tsivv6623tu6xgoyie4ry",
         "did": "did:plc:uixgxpiqf4i63p6rgpu7ytmx"
       },
       "com.suibari.nagi.bluemoji": {
@@ -9354,7 +9382,7 @@
         "did": "did:plc:uixgxpiqf4i63p6rgpu7ytmx"
       },
       "com.suibari.nagi.getPreferences": {
-        "cid": "bafyreibr242v52yncyz2kuaqcrn7o2bd3ry35veiojp2azjrjm62sbg2xm",
+        "cid": "bafyreifnw3mestlqzh5743eq7vn3eladudcigdxbutl67qzxdzr2ps4ehi",
         "did": "did:plc:uixgxpiqf4i63p6rgpu7ytmx"
       },
       "com.suibari.nagi.getPrivateList": {
@@ -9375,6 +9403,10 @@
       },
       "com.suibari.nagi.getRadioTrack": {
         "cid": "bafyreiermzsdvnfn3ahp3hy42q2d3mhdifra3zdbu7dsoj2y5zsiiepsba",
+        "did": "did:plc:uixgxpiqf4i63p6rgpu7ytmx"
+      },
+      "com.suibari.nagi.getRecommended": {
+        "cid": "bafyreib6vcjlssk2dicts36y2gz7nr5n4zsquhf3lk6ghiaw7kiuc2tygi",
         "did": "did:plc:uixgxpiqf4i63p6rgpu7ytmx"
       },
       "com.suibari.nagi.getSimilarNews": {
@@ -9407,6 +9439,10 @@
       },
       "com.suibari.nagi.listIndexableNews": {
         "cid": "bafyreie2m63lnfjhxj4xt2huuozm3665q2cahc4ygh55btrzbcfskt2eiy",
+        "did": "did:plc:uixgxpiqf4i63p6rgpu7ytmx"
+      },
+      "com.suibari.nagi.longPost": {
+        "cid": "bafyreicz27sitypf7xvctryl2uw726cxg2flb2hq44lx5cszbinnsy4b2a",
         "did": "did:plc:uixgxpiqf4i63p6rgpu7ytmx"
       },
       "com.suibari.nagi.markRadioSeen": {
@@ -10930,7 +10966,7 @@
     "certified.app": "2026-11-13",
     "chavatar.app": "2026-11-13",
     "cocore.dev": "2026-11-13",
-    "colibri.social": "2026-11-22",
+    "colibri.social": "2026-11-24",
     "cosmik.network": "2026-11-13",
     "coves.social": "2026-11-22",
     "craftsky.social": "2026-11-13",
@@ -10950,7 +10986,7 @@
     "jgs.me": "2026-11-13",
     "keytrace.dev": "2026-11-13",
     "kipclip.com": "2026-11-13",
-    "knotless.dev": "2026-11-23",
+    "knotless.dev": "2026-11-24",
     "leaflet.pub": "2026-11-21",
     "lexicon.community": "2026-11-17",
     "lichen.wiki": "2026-11-13",
@@ -10964,7 +11000,7 @@
     "nahdig.com": "2026-11-13",
     "nerdballot.com": "2026-11-13",
     "offprint.app": "2026-11-13",
-    "olamaelcu.net": "2026-11-22",
+    "olamaelcu.net": "2026-11-24",
     "opnshelf.xyz": "2026-11-13",
     "pckt.blog": "2026-11-13",
     "pinkleap.social": "2026-11-13",
@@ -10989,7 +11025,7 @@
     "standard.site": "2026-11-13",
     "stream.place": "2026-11-13",
     "substratum.cloud": "2026-11-13",
-    "suibari.com": "2026-11-22",
+    "suibari.com": "2026-11-24",
     "sylvanus.garden": "2026-11-13",
     "syui.ai": "2026-11-13",
     "tangled.org": "2026-11-13",

@@ -2,7 +2,7 @@
   "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "detail": "Read and update your Livtet profile, shelves, reading goal, reading progress, follows, reviews, and top books. This is what the Livtet web app asks for when you sign in.",
+      "detail": "Read and update your Livtet profile, shelves, reading goal, reading plans, reading progress, follows, reviews and the replies to them, top books, giveaways, contributor claims, and your muted books, accounts and contributors, and move reviews you wrote under the older Livtet and books-wg collections onto the current one. This is what the Livtet web app asks for when you sign in.",
       "permissions": [
         {
           "action": [
@@ -13,6 +13,7 @@
           "collection": [
             "net.olamaelcu.livtet.biblio.actor.profile",
             "net.olamaelcu.livtet.biblio.readingGoal",
+            "net.olamaelcu.livtet.biblio.readingPlan",
             "net.olamaelcu.livtet.biblio.shelf",
             "net.olamaelcu.livtet.biblio.bookStatus",
             "net.olamaelcu.livtet.biblio.bookShelving",
@@ -37,7 +38,11 @@
             "net.olamaelcu.livtet.biblio.giveaway.extend",
             "net.olamaelcu.livtet.biblio.giveaway.getReport",
             "net.olamaelcu.livtet.biblio.giveaway.listEntries",
-            "net.olamaelcu.livtet.biblio.giveaway.listGiveaways"
+            "net.olamaelcu.livtet.biblio.giveaway.listGiveaways",
+            "net.olamaelcu.livtet.biblio.setMute",
+            "net.olamaelcu.livtet.biblio.getMutes",
+            "net.olamaelcu.livtet.biblio.isMuted",
+            "net.olamaelcu.livtet.biblio.ensureEdition"
           ],
           "resource": "rpc",
           "type": "permission"

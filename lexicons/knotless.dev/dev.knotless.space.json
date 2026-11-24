@@ -27,7 +27,7 @@
       ],
       "description": "A private repository on knotless, keyed by its name, with its owner as its authority. Its members alone read it. The owner's records of the repository are in their repo in the space, as a public repository's are in their public repo, and so are their requests that its runners run its workflows again or cancel them; each member writes their pulls, issues, comments, reactions, labels and assignments in theirs, and a runner its checks, so that what is said of the code is as private as the code. Its site, if it has one, is kept there too, for its members alone. An organization's gateway keeps a record there of each of its members, so the repository's readers know who of them pushes to it.",
       "key": "any",
-      "name": "Private repository",
+      "title": "Private repository",
       "type": "space"
     }
   },
