@@ -1,6 +1,6 @@
 # Supported services
 
-2617 of 2680 lexicons are packaged. Another 16 ship with the SDK itself.
+2605 of 2668 lexicons are packaged. Another 16 ship with the SDK itself.
 
 | Status | Services | Meaning |
 |---|---|---|
@@ -10,7 +10,7 @@
 
 | Service | Status | Lexicons | Records | Queries | Procedures | Skipped | Untyped refs in |
 |---|---|---|---|---|---|---|---|
-| `4000.radio` | Full | 13 of 13 | 5 | 6 | 0 |  |  |
+| `4000.radio` | Full | 0 of 0 | 0 | 0 | 0 |  |  |
 | `adsb.at` | Full | 12 of 12 | 8 | 0 | 0 |  |  |
 | `aesthetic.computer` | Full | 7 of 7 | 7 | 0 | 0 |  |  |
 | `agroconnect.nl` | Full | 17 of 17 | 14 | 0 | 0 |  |  |
@@ -53,7 +53,7 @@
 | `keytrace.dev` | Full | 7 of 7 | 5 | 1 | 0 |  |  |
 | `kipclip.com` | Full | 2 of 2 | 2 | 0 | 0 |  |  |
 | `knotless.dev` | Partial | 190 of 192 | 32 | 67 | 88 | 2 |  |
-| `leaflet.pub` | Full | 52 of 52 | 15 | 0 | 0 |  |  |
+| `leaflet.pub` | Full | 53 of 53 | 15 | 0 | 0 |  |  |
 | `lexicon.community` | Partial | 26 of 27 | 11 | 4 | 2 | 1 |  |
 | `lichen.wiki` | Full | 10 of 10 | 5 | 4 | 0 |  |  |
 | `linkedclaims.com` | Full | 1 of 1 | 1 | 0 | 0 |  |  |
