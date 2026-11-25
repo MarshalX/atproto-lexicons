@@ -36,13 +36,10 @@
           "lxm": [
             "net.olamaelcu.livtet.biblio.giveaway.draw",
             "net.olamaelcu.livtet.biblio.giveaway.extend",
-            "net.olamaelcu.livtet.biblio.giveaway.getReport",
-            "net.olamaelcu.livtet.biblio.giveaway.listEntries",
-            "net.olamaelcu.livtet.biblio.giveaway.listGiveaways",
+            "net.olamaelcu.livtet.biblio.ensureEdition",
             "net.olamaelcu.livtet.biblio.setMute",
             "net.olamaelcu.livtet.biblio.getMutes",
-            "net.olamaelcu.livtet.biblio.isMuted",
-            "net.olamaelcu.livtet.biblio.ensureEdition"
+            "net.olamaelcu.livtet.biblio.isMuted"
           ],
           "resource": "rpc",
           "type": "permission"

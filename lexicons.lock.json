@@ -10,60 +10,7 @@
     }
   },
   "services": {
-    "4000.radio": {
-      "radio.4000.authFull": {
-        "cid": "bafyreieaifc5pnlor2ezafv2ppgh2wwwbxrea3cz5jmc22svzr37xytfzq",
-        "did": "did:plc:hd34khf6wifegm23c2u3cv2d"
-      },
-      "radio.4000.broadcast": {
-        "cid": "bafyreievegho35jz2bymbjd7nmcdbf727wj777jipap2t4thbgb26nvl2m",
-        "did": "did:plc:hd34khf6wifegm23c2u3cv2d"
-      },
-      "radio.4000.chat.listMessages": {
-        "cid": "bafyreiake7tg3amv25dkvlatq4h4tara7t4vimjcliuzqircaf67eojply",
-        "did": "did:plc:hd34khf6wifegm23c2u3cv2d"
-      },
-      "radio.4000.chat.message": {
-        "cid": "bafyreibzq2s4qh3bue73e4aldk4u7m5m7uvxxpgwxr6qpxdxa2diy5g4iy",
-        "did": "did:plc:hd34khf6wifegm23c2u3cv2d"
-      },
-      "radio.4000.defs": {
-        "cid": "bafyreigch35f7harskrxl34qkhcblgmmozerbz267v6xvn3jctwhzz7tri",
-        "did": "did:plc:hd34khf6wifegm23c2u3cv2d"
-      },
-      "radio.4000.follow": {
-        "cid": "bafyreictpmytrz32bd2kndkgckszeg77lctz22isfj5hxnydwk2eu6xpuy",
-        "did": "did:plc:hd34khf6wifegm23c2u3cv2d"
-      },
-      "radio.4000.getRadioTracks": {
-        "cid": "bafyreigk4sercgmsquxkbvstaulf4t3wgkuoq2ku3je56tlo6vcoh36osy",
-        "did": "did:plc:hd34khf6wifegm23c2u3cv2d"
-      },
-      "radio.4000.getRadios": {
-        "cid": "bafyreienrtdzsvnp7bjlgce57qz2ufujq5w5dazdeivinta4k5jz3ck3si",
-        "did": "did:plc:hd34khf6wifegm23c2u3cv2d"
-      },
-      "radio.4000.listBroadcasts": {
-        "cid": "bafyreiemb4dkd4qfzckl6itnuuva5pnyan5x5uwqdb2hgzhl7g566be5tu",
-        "did": "did:plc:hd34khf6wifegm23c2u3cv2d"
-      },
-      "radio.4000.listRadios": {
-        "cid": "bafyreiguzdr6sttifcuzbxjh63sv3jnznv5mdvsbtxn6pwklbnzw43pd3a",
-        "did": "did:plc:hd34khf6wifegm23c2u3cv2d"
-      },
-      "radio.4000.listTracks": {
-        "cid": "bafyreieb36bwud3ksfsm572w4wgi2dxlbr2zi3s3onl46wg3kugbdnr4mm",
-        "did": "did:plc:hd34khf6wifegm23c2u3cv2d"
-      },
-      "radio.4000.profile": {
-        "cid": "bafyreieg7z67whh6umu66j4pkixjlktfz3jvncazlini6pctqvqixwpe6a",
-        "did": "did:plc:hd34khf6wifegm23c2u3cv2d"
-      },
-      "radio.4000.track": {
-        "cid": "bafyreicuwiaulf72flgo2n2muwdl4vbkbocb6uts4pnq6u7jibfrhiq36u",
-        "did": "did:plc:hd34khf6wifegm23c2u3cv2d"
-      }
-    },
+    "4000.radio": {},
     "adsb.at": {
       "at.adsb.aircraft.identity": {
         "cid": "bafyreibkcgthnsqy5k5dpu7lvtmq6hsfwezw5wohpqvrnjhtrdotwy4rue",
@@ -5577,6 +5524,10 @@
       }
     },
     "leaflet.pub": {
+      "pub.leaflet.audience": {
+        "cid": "bafyreicwdufidvbls37jtmsfdt3gnldq6kyrg7jdpj25ull6qowdmgf22q",
+        "did": "did:plc:btxrwcaeyodrap5mnjw2fvmz"
+      },
       "pub.leaflet.authFullPermissions": {
         "cid": "bafyreicorsrlbyarpxtpspfqgetnje5r5ggsngvbmkfqoreubjij233sjy",
         "did": "did:plc:btxrwcaeyodrap5mnjw2fvmz"
@@ -5634,7 +5585,7 @@
         "did": "did:plc:btxrwcaeyodrap5mnjw2fvmz"
       },
       "pub.leaflet.blocks.membersOnlyDelimiter": {
-        "cid": "bafyreifx75uo5wuwadxb3dkcc6vdwbx57tieufak4i3wfvj3pkbph27vcm",
+        "cid": "bafyreifpfc46iwf4z2ca6tf6jzejg5yvgavv7ohypunfixcaeq3o27yxxi",
         "did": "did:plc:btxrwcaeyodrap5mnjw2fvmz"
       },
       "pub.leaflet.blocks.orderedList": {
@@ -5658,7 +5609,7 @@
         "did": "did:plc:btxrwcaeyodrap5mnjw2fvmz"
       },
       "pub.leaflet.blocks.questions": {
-        "cid": "bafyreicxdmfgawktjfp46yd7gnz4fbsrwsbccb5arx3u2fk7sf6vauqizi",
+        "cid": "bafyreib2ayeyh4csa3jhdmiqhjdojqkjbqqfuzwodpivmaol2ab6k7i54a",
         "did": "did:plc:btxrwcaeyodrap5mnjw2fvmz"
       },
       "pub.leaflet.blocks.recommendedPubs": {
@@ -5666,7 +5617,7 @@
         "did": "did:plc:btxrwcaeyodrap5mnjw2fvmz"
       },
       "pub.leaflet.blocks.reply": {
-        "cid": "bafyreiadlw2xl56knbkg4ozl73fq6ayon5lx2axh4jkexqwpyrltmqimwa",
+        "cid": "bafyreibml5qm5zy2uv7wi3d4sjm244nqkm37qdbg2r422xkoecnezkvc3u",
         "did": "did:plc:btxrwcaeyodrap5mnjw2fvmz"
       },
       "pub.leaflet.blocks.signup": {
@@ -6512,7 +6463,7 @@
     },
     "olamaelcu.net": {
       "net.olamaelcu.livtet.authLivtetCore": {
-        "cid": "bafyreiglci2fnpvadsnh6sqd3mracpfvddua2nd6gbsdhmdedze34mpavi",
+        "cid": "bafyreiethybhgjjkqkho2hjdfa4sn63f2fo25ujt4abwfthigko72zlozy",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.actor.profile": {
@@ -9202,7 +9153,7 @@
         "did": "did:plc:uixgxpiqf4i63p6rgpu7ytmx"
       },
       "com.suibari.nagi.createKossoriPost": {
-        "cid": "bafyreiesoznssb4eukg3x4esp2g7hbuc6qb4h5c7xptfbr6otrfv3ndbem",
+        "cid": "bafyreiey42z4vd7s3fx2wrfscjejfwvbn53iwy5kszjgw2kpkz3vu3yiem",
         "did": "did:plc:uixgxpiqf4i63p6rgpu7ytmx"
       },
       "com.suibari.nagi.createReport": {
@@ -9454,7 +9405,7 @@
         "did": "did:plc:uixgxpiqf4i63p6rgpu7ytmx"
       },
       "com.suibari.nagi.post": {
-        "cid": "bafyreidspuewwsmbqven6tsdryhkx3cogmu42u3khjrk7zbhpxfjdayshq",
+        "cid": "bafyreicukwks42o5h3d2ljvzffzpxtxvbhzeg7q4yoocxsxqdq634hb5dy",
         "did": "did:plc:uixgxpiqf4i63p6rgpu7ytmx"
       },
       "com.suibari.nagi.profile": {
@@ -10944,7 +10895,7 @@
     "social.popfeed.richtext.facet"
   ],
   "updated": {
-    "4000.radio": "2026-11-13",
+    "4000.radio": "2026-11-25",
     "adsb.at": "2026-11-13",
     "aesthetic.computer": "2026-11-13",
     "agroconnect.nl": "2026-11-13",
@@ -10987,7 +10938,7 @@
     "keytrace.dev": "2026-11-13",
     "kipclip.com": "2026-11-13",
     "knotless.dev": "2026-11-24",
-    "leaflet.pub": "2026-11-21",
+    "leaflet.pub": "2026-11-25",
     "lexicon.community": "2026-11-17",
     "lichen.wiki": "2026-11-13",
     "linkedclaims.com": "2026-11-13",
@@ -11000,7 +10951,7 @@
     "nahdig.com": "2026-11-13",
     "nerdballot.com": "2026-11-13",
     "offprint.app": "2026-11-13",
-    "olamaelcu.net": "2026-11-24",
+    "olamaelcu.net": "2026-11-25",
     "opnshelf.xyz": "2026-11-13",
     "pckt.blog": "2026-11-13",
     "pinkleap.social": "2026-11-13",
@@ -11025,7 +10976,7 @@
     "standard.site": "2026-11-13",
     "stream.place": "2026-11-13",
     "substratum.cloud": "2026-11-13",
-    "suibari.com": "2026-11-24",
+    "suibari.com": "2026-11-25",
     "sylvanus.garden": "2026-11-13",
     "syui.ai": "2026-11-13",
     "tangled.org": "2026-11-13",

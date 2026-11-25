@@ -3,12 +3,12 @@
     {
       "domain": "4000.radio",
       "status": "full",
-      "lexicons": 13,
-      "generated": 13,
+      "lexicons": 0,
+      "generated": 0,
       "provided_by_sdk": 0,
       "kinds": {
-        "record": 5,
-        "query": 6,
+        "record": 0,
+        "query": 0,
         "procedure": 0,
         "subscription": 0
       },
@@ -764,8 +764,8 @@
     {
       "domain": "leaflet.pub",
       "status": "full",
-      "lexicons": 52,
-      "generated": 52,
+      "lexicons": 53,
+      "generated": 53,
       "provided_by_sdk": 0,
       "kinds": {
         "record": 15,
