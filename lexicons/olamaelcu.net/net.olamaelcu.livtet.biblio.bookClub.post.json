@@ -6,6 +6,12 @@
       "key": "tid",
       "record": {
         "properties": {
+          "content": {
+            "closed": false,
+            "description": "Optional structured body: one HTML document, identified by its `$type` (`net.olamaelcu.livtet.biblio.richText`, carrying an `html` string restricted to `p`, `br`, `ul`, `ol`, `li`, `blockquote`, `strong`, `em`, `u`, `s`, `span[data-spoiler]`, `a` carrying only an absolute http(s) `href` (serialized with `target=\"_blank\"` and a `rel` that removes the referrer), and `livtet-user` carrying only the `did` of the mentioned actor; no other element and no other attribute is read). `textContent` remains the plain-text fallback and the only thing a reader needs; a spoiler run is written there as an ellipsis.",
+            "refs": [],
+            "type": "union"
+          },
           "createdAt": {
             "description": "Client-declared timestamp when the post was created.",
             "format": "datetime",
@@ -24,6 +30,10 @@
             "description": "The net.olamaelcu.livtet.biblio.bookClub.post this one answers, in the same thread and space. Absent on a top-level post.",
             "format": "at-uri",
             "type": "string"
+          },
+          "spoiler": {
+            "description": "Marks the body as a spoiler. A reader sees a placeholder instead of the text until they choose to reveal it, and the app withholds `textContent` from the rendering data rather than leaving it in the page for a client to hide.",
+            "type": "boolean"
           },
           "textContent": {
             "description": "The post body, as plain text. Empty is allowed only when the post is a reply marker; a discussion post normally has text.",

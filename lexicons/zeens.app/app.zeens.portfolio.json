@@ -20,7 +20,7 @@
           "hero": {
             "ref": "#heroBlock",
             "type": "ref",
-            "description": "The home page's hero — the owner's own photos across the top. ABSENT DOES NOT MEAN NO HERO: the render path falls back to the owner's 6 most-liked photos as a square grid, so a portfolio has a hero without its owner picking one. Present means they chose the photos themselves."
+            "description": "The home page's hero — the owner's own photos across the top, plus the buttons every design but Classic shows. ABSENT, OR PRESENT WITH NO PHOTOS, DOES NOT MEAN NO PHOTOS: the render path falls back to the owner's most-liked photos, so a portfolio has a hero without its owner picking one."
           },
           "home": {
             "ref": "#homePage",
@@ -64,7 +64,7 @@
           "palette": {
             "type": "string",
             "maxLength": 64,
-            "description": "Id of the chosen color palette (each has a light+dark variant, defined app-side, e.g. 'mono'). Independent of typography. Unknown/absent falls back to the default at render time. (Legacy records may carry a bundled 'theme' field instead; read paths migrate it.)"
+            "description": "Id of the chosen colour palette (each has a light and dark variant, defined app-side). Each template has its own set: Classic's nine ('mono', 'editorial', 'sepia', 'indigo', 'forest', 'rose', 'slate', 'violet', 'teal') and Studio's six ('zeens', 'warm', 'cool', 'neutral', 'earth', 'mono'), which Exhibit and Index share. A Studio, Exhibit or Index site holding a Classic id maps it to the nearest of the six. Unknown/absent falls back to the template's default at render time. (Legacy records may carry a bundled 'theme' field instead; read paths migrate it.)"
           },
           "socials": {
             "ref": "#socialsVisibility",
@@ -74,13 +74,23 @@
           "tagline": {
             "type": "string",
             "maxLength": 2000,
-            "description": "One-line tagline for the site. Mirrored onto site.standard.publication.description, since the portfolio IS the publication — this is the line other standard.site readers show under the name.",
+            "description": "One-line tagline for the site, shown under its name.",
             "maxGraphemes": 200
           },
           "featured": {
             "ref": "#featuredBlock",
             "type": "ref",
-            "description": "Hand-picked photos under a heading the owner chooses, shown on the home page below the hero. Independent of any collection. Absent means no section."
+            "description": "Selected Work: photos under a heading the owner chooses, shown on the home page below the hero. Independent of any collection. ABSENT means the section is off. PRESENT WITH NO PHOTOS means it is on with nothing picked, and renders the owner's most-liked photos (after any the hero already shows)."
+          },
+          "template": {
+            "type": "string",
+            "description": "The site's design. 'classic' is the left-rail design every portfolio had before Studio. 'studio' has a header, a hero intro and a footer; 'exhibit' is centred, with small-caps navigation and square grids; 'index' is a contact sheet with a sidebar listing the collections. Studio, Exhibit and Index share one palette set and read `typography` and `appearance`. ABSENT MEANS 'classic', so every site created before this field keeps its look. Unknown values read as 'classic'.",
+            "knownValues": [
+              "classic",
+              "studio",
+              "exhibit",
+              "index"
+            ]
           },
           "createdAt": {
             "type": "string",
@@ -103,7 +113,7 @@
           "typography": {
             "type": "string",
             "maxLength": 64,
-            "description": "Id of the chosen typography pairing (font choice, defined app-side, e.g. 'space-grotesk'). Independent of palette. Unknown/absent falls back to the default at render time."
+            "description": "Studio, Exhibit and Index: id of the heading typeface (defined app-side: 'inter', 'newsreader', 'instrument-serif', 'cormorant', 'space-grotesk'). Applies to headings only; body text, navigation and captions stay Inter. Unknown, absent or retired pairing ids (e.g. 'playfair-dmsans') fall back to 'inter' at render time. Classic ignores it."
           },
           "app.zeens.v": {
             "type": "integer",
@@ -232,9 +242,18 @@
           },
           "maxLength": 6,
           "description": "Photos chosen from the owner's own posts, in display order. Only the first image of a multi-image post is used."
+        },
+        "buttons": {
+          "type": "array",
+          "items": {
+            "ref": "#heroButton",
+            "type": "ref"
+          },
+          "maxLength": 2,
+          "description": "The call-to-action buttons of every design but Classic: [0] is the primary, [1] the secondary. ABSENT MEANS THE DEFAULT, one 'Browse collections' button to the Collections page (shown only when the portfolio has collections). An empty array means the owner removed them. Readers drop any button whose target no longer exists."
         }
       },
-      "description": "A page hero: the owner's photos across the top of a page. One def serves all three arrangements because they are the same data seen differently. A hero with no photos is dropped on write rather than stored empty — an absent hero falls back to the owner's most-liked photos, which is a better empty state than a blank band."
+      "description": "A page hero: the owner's photos across the top of a page, and (on every design but Classic) up to two buttons. One def serves all three arrangements because they are the same data seen differently. `photos` may be empty — the hero can exist for its mode or buttons alone — and an empty list falls back to the owner's most-liked photos."
     },
     "aboutPhoto": {
       "type": "object",
@@ -254,6 +273,41 @@
         }
       },
       "description": "A reference to one of the owner's own posts, used wherever a block stores picked photos — the About page, page heroes, and Featured Work. Named for its first use; kept under that name because renaming a def would orphan the records already pointing at it."
+    },
+    "heroButton": {
+      "type": "object",
+      "required": [
+        "label",
+        "to"
+      ],
+      "properties": {
+        "to": {
+          "type": "string",
+          "description": "'collections' = the Collections page; 'about' = the About page (dropped when About is off); 'collection' = one collection, named by `collection`; 'url' = an external https address in `url`.",
+          "knownValues": [
+            "collections",
+            "about",
+            "collection",
+            "url"
+          ]
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Destination when `to` is 'url'. https only."
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 32,
+          "description": "Button text."
+        },
+        "collection": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "AT-URI of an app.zeens.collection on the owner's repo, when `to` is 'collection'. Dropped when that collection is no longer public."
+        }
+      },
+      "description": "One hero button. Readers MUST re-validate `url` and accept only https: the record lives on the owner's PDS and any client can write it."
     },
     "menuSettings": {
       "type": "object",
@@ -288,7 +342,7 @@
         "title": {
           "type": "string",
           "maxLength": 60,
-          "description": "Section heading. ABSENT MEANS 'Featured Work' — the default lives in the render path, so it is not frozen into every record."
+          "description": "Section heading. ABSENT MEANS THE TEMPLATE'S DEFAULT ('Featured Work' on Classic, 'Selected Work' on Studio and Exhibit, 'Selected work' on Index) — the default lives in the render path, so it is not frozen into every record."
         },
         "photos": {
           "type": "array",
@@ -300,7 +354,7 @@
           "description": "Photos chosen from the owner's own posts, in display order."
         }
       },
-      "description": "Featured work: photos picked directly rather than through a collection. The heading is the owner's own — 'Featured Work' is one gallery's word for it and 'Selected' or 'Latest' is another's."
+      "description": "Selected Work (called Featured Work on Classic): photos picked directly rather than through a collection. The heading is the owner's own. An empty `photos` list means the section is on with nothing picked, and renders the owner's most-liked photos."
     },
     "socialsVisibility": {
       "type": "object",

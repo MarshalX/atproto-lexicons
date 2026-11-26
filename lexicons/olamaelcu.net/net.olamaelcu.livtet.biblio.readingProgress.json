@@ -28,6 +28,21 @@
           "maxGraphemes": 2000,
           "type": "string"
         },
+        "source": {
+          "description": "Where the note was taken or imported from (`livtet`, `koreader`, `kindle`). Absent when the writer did not say.",
+          "maxGraphemes": 32,
+          "type": "string"
+        },
+        "tags": {
+          "description": "Free-form labels the reader put on this note. Absent on an untagged note and on every record written before tags existed.",
+          "items": {
+            "maxGraphemes": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxLength": 20,
+          "type": "array"
+        },
         "text": {
           "maxGraphemes": 10000,
           "type": "string"

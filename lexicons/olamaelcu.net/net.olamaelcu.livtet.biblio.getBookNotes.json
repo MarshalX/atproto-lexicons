@@ -1,0 +1,147 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "cursor": {
+              "description": "Opaque pagination cursor; absent when no further notes are known.",
+              "type": "string"
+            },
+            "notes": {
+              "items": {
+                "ref": "#note",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "notes"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "book": {
+            "description": "AT-URI of the catalog edition whose notes to list.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "cursor": {
+            "description": "Opaque pagination cursor.",
+            "type": "string"
+          },
+          "following": {
+            "default": false,
+            "description": "When true, only notes by accounts `viewer` follows are returned. With no `viewer` the answer is an empty page: a follow graph cannot be evaluated for nobody.",
+            "type": "boolean"
+          },
+          "limit": {
+            "default": 25,
+            "description": "Maximum number of notes to return.",
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "tag": {
+            "description": "Filter to notes carrying this exact tag. Tags are free-form, so the match is verbatim: `Travel` and `travel` are different labels. Absent or empty lists every note, tagged or not.",
+            "maxGraphemes": 64,
+            "type": "string"
+          },
+          "viewer": {
+            "description": "The account whose follow graph `following` filters against. Ignored when `following` is false or absent.",
+            "format": "did",
+            "type": "string"
+          }
+        },
+        "required": [
+          "book"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    },
+    "note": {
+      "description": "One published note. `text` is the note's body and is always present; the quotation, anchor, colour and tags are the annotation's own optional fields and are dropped when the record left them out.",
+      "properties": {
+        "color": {
+          "description": "The highlight colour the reader chose, as their app spells it.",
+          "type": "string"
+        },
+        "createdAt": {
+          "description": "When the note's record was first published.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "did": {
+          "description": "The reader whose repo holds the note.",
+          "format": "did",
+          "type": "string"
+        },
+        "displayName": {
+          "description": "The name on the reader's own Livtet profile record. Absent when no profile has been indexed.",
+          "type": "string"
+        },
+        "handle": {
+          "description": "The reader's current handle, from the deployment's public handle view. Absent when the index has not seen the account's handle.",
+          "format": "handle",
+          "type": "string"
+        },
+        "kind": {
+          "description": "`note` when the annotation carries words; `highlight` when it marks a passage with no words yet.",
+          "knownValues": [
+            "note",
+            "highlight"
+          ],
+          "type": "string"
+        },
+        "locator": {
+          "description": "The reader's own anchor: a page, a clock time, a chapter, a CFI. Formats differ between readers, so a consumer may not be able to open it locally.",
+          "type": "string"
+        },
+        "pageNumber": {
+          "description": "The printed page the note was taken on, when the reader's format has one.",
+          "minimum": 1,
+          "type": "integer"
+        },
+        "quote": {
+          "description": "The passage the note was taken on.",
+          "type": "string"
+        },
+        "tags": {
+          "description": "The labels the reader put on this note, in their own spelling. Absent when the record carried none.",
+          "items": {
+            "maxGraphemes": 64,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxLength": 20,
+          "type": "array"
+        },
+        "text": {
+          "description": "The note's body. Empty on a highlight, whose `quote` names the passage it marks.",
+          "type": "string"
+        },
+        "uri": {
+          "description": "AT-URI of the `readingProgress` record the note lives in; a share link and a reports queue both name it.",
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "did",
+        "text",
+        "createdAt"
+      ],
+      "type": "object"
+    }
+  },
+  "description": "List the notes readers published on one catalog edition, newest first. A note is a `readingProgress` record whose `annotation.text` is non-empty; an annotation that marks a passage with no words yet (a highlight) is listed too, with an empty `text` and `kind` `highlight`. A position record carries no note, and a blank annotation with no passage marks nothing, so neither is listed. With `following` set and a `viewer` supplied, only notes by accounts the viewer follows are returned. With `tag` set, only notes carrying that exact label are returned.",
+  "id": "net.olamaelcu.livtet.biblio.getBookNotes",
+  "lexicon": 1
+}

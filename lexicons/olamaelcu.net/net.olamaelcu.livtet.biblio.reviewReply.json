@@ -5,6 +5,10 @@
       "key": "tid",
       "record": {
         "properties": {
+          "community.lexicon.meta.links": {
+            "description": "community.lexicon.meta.links: web copies of this reply, including its Bluesky post. `unknown`, not a ref: the community NSID does not resolve yet, and a ref to it would make this whole lexicon unresolvable.",
+            "type": "unknown"
+          },
           "content": {
             "closed": false,
             "description": "Optional structured body; see net.olamaelcu.livtet.biblio.bookClub.post#content.",

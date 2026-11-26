@@ -1,0 +1,84 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "passages": {
+              "items": {
+                "ref": "#passage",
+                "type": "ref"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "passages"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "book": {
+            "description": "AT-URI of the catalog edition whose highlighted passages to rank.",
+            "format": "at-uri",
+            "type": "string"
+          },
+          "limit": {
+            "default": 5,
+            "description": "Maximum number of passages to return, most-highlighted first.",
+            "maximum": 25,
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "book"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    },
+    "passage": {
+      "description": "One passage, as the most recent reader to highlight it wrote it.",
+      "properties": {
+        "createdAt": {
+          "description": "When that newest record was first published.",
+          "format": "datetime",
+          "type": "string"
+        },
+        "locator": {
+          "description": "That record's anchor, when it has one. A locator from another reader's format may not resolve in a local copy of the edition.",
+          "type": "string"
+        },
+        "quote": {
+          "description": "The passage, on the scale of the newest record that quotes it.",
+          "type": "string"
+        },
+        "readers": {
+          "description": "How many distinct readers highlighted this passage.",
+          "minimum": 2,
+          "type": "integer"
+        },
+        "uri": {
+          "description": "AT-URI of the newest `readingProgress` record quoting the passage.",
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "quote",
+        "readers",
+        "uri",
+        "createdAt"
+      ],
+      "type": "object"
+    }
+  },
+  "description": "The passages most readers highlighted in one catalog edition, ranked by how many distinct readers quoted them. A passage is a `readingProgress` record's `annotation.quote`, normalised (whitespace collapsed, case folded) before it is counted, so two readers who highlighted the same sentence with different spacing and capitalisation land on one entry. A passage needs at least two distinct readers and at least 16 characters of text; nothing else decides membership.",
+  "id": "net.olamaelcu.livtet.biblio.listBookHighlights",
+  "lexicon": 1
+}

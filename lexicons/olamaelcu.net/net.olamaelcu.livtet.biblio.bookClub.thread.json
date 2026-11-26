@@ -11,6 +11,12 @@
             "format": "at-uri",
             "type": "string"
           },
+          "content": {
+            "closed": false,
+            "description": "Optional structured body: one HTML document, identified by its `$type` (`net.olamaelcu.livtet.biblio.richText`, carrying an `html` string restricted to `p`, `br`, `ul`, `ol`, `li`, `blockquote`, `strong`, `em`, `u`, `s`, `span[data-spoiler]`, `a` carrying only an absolute http(s) `href` (serialized with `target=\"_blank\"` and a `rel` that removes the referrer), and `livtet-user` carrying only the `did` of the mentioned actor; no other element and no other attribute is read). `description` remains the plain-text fallback and the only thing a reader needs; a spoiler run is written there as an ellipsis.",
+            "refs": [],
+            "type": "union"
+          },
           "description": {
             "description": "Optional summary of the discussion: spoiler policy, chapters covered, reading window. The opening post carries the text the author wrote.",
             "maxGraphemes": 2000,
@@ -25,6 +31,10 @@
             "description": "The net.olamaelcu.livtet.biblio.bookClub.read cycle this thread belongs to. A plain at-uri: a thread never carries into a later read of the same book, and the cycle is identified by its uri, not by a revision.",
             "format": "at-uri",
             "type": "string"
+          },
+          "spoiler": {
+            "description": "Marks the summary as a spoiler. A reader sees a placeholder instead of the text until they choose to reveal it, and the app hands the rendering data a placeholder rather than the text.",
+            "type": "boolean"
           },
           "title": {
             "description": "The thread title shown in the club's list, e.g. the book title or a discussion prompt.",

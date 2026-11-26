@@ -15,6 +15,10 @@
             "format": "at-uri",
             "type": "string"
           },
+          "community.lexicon.meta.links": {
+            "description": "community.lexicon.meta.links: the web copies of this record, including its social.popfeed.feed.listItem record. `unknown`, not a ref: the community NSID does not resolve yet, and a ref to it would make this whole lexicon unresolvable.",
+            "type": "unknown"
+          },
           "note": {
             "description": "Why this book is on the list, in the owner's words.",
             "maxGraphemes": 2000,

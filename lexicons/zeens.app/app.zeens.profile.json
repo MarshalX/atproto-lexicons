@@ -32,10 +32,49 @@
             "format": "uri",
             "maxLength": 200,
             "description": "LEGACY. A single personal website URL, from before profile links became one list. Readers show it as the first link; Zeens moves it into `socials` (as a 'link') and drops this field the next time the member saves. New writers should not set it."
+          },
+          "pinnedPosts": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 6,
+            "description": "The member's own posts pinned to the top of their Posts tab, in display order (first = top). Each is an app.bsky.feed.post at-uri in the member's own repo; readers ignore any other. Capped at 6."
+          },
+          "highlightedPhotos": {
+            "type": "array",
+            "items": {
+              "ref": "#photoRef",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "description": "Photos the member highlighted on their Posts tab: drawn larger (two columns wide) in the grid, without changing their place in it. Per photo, since a multi-photo post shows as one tile per photo. Capped at 50."
           }
         }
       },
       "description": "Zeens-specific profile extensions. Stored on the user's own PDS so the data is portable — Zeens reads it on top of app.bsky.actor.profile to render extras like social links. The Bluesky profile (name, avatar, banner, bio) remains the canonical identity."
+    },
+    "photoRef": {
+      "type": "object",
+      "required": [
+        "uri",
+        "photo"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "The app.bsky.feed.post record, in the member's own repo."
+        },
+        "photo": {
+          "type": "integer",
+          "maximum": 3,
+          "minimum": 0,
+          "description": "0-based position of the photo in the post's images embed."
+        }
+      },
+      "description": "One photo of one of the member's own posts."
     },
     "socialLink": {
       "type": "object",

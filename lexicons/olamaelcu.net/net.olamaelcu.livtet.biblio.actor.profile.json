@@ -1,6 +1,23 @@
 {
   "$type": "com.atproto.lexicon.schema",
   "defs": {
+    "link": {
+      "properties": {
+        "name": {
+          "maxGraphemes": 100,
+          "type": "string"
+        },
+        "url": {
+          "format": "uri",
+          "maxLength": 2048,
+          "type": "string"
+        }
+      },
+      "required": [
+        "url"
+      ],
+      "type": "object"
+    },
     "main": {
       "key": "literal:self",
       "record": {
@@ -22,6 +39,25 @@
             "maxGraphemes": 640,
             "maxLength": 640,
             "type": "string"
+          },
+          "links": {
+            "description": "Links the reader shows on their profile. A Bookshop.org link renders as their store: the host decides, not a separate field.",
+            "items": {
+              "ref": "#link",
+              "type": "ref"
+            },
+            "maxLength": 5,
+            "type": "array"
+          },
+          "privateShelving": {
+            "default": false,
+            "description": "When true, a book the reader shelves without choosing otherwise is kept in their reading space instead of their public repo.",
+            "type": "boolean"
+          },
+          "publishAnnotations": {
+            "default": false,
+            "description": "When true, new and edited notes are mirrored to the reader's repo as readingProgress annotation records.",
+            "type": "boolean"
           },
           "skinTone": {
             "description": "Preferred emoji skin-tone modifier for reactions this account writes. Absent means none. It travels with the profile so the choice reaches every device; records hold the toned emoji, while counts group on the base emoji.",
