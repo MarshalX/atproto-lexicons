@@ -6060,6 +6060,10 @@
         "cid": "bafyreicmpjpwm3tnljrjhu3tmyxolu7aale75dovibi3zkqycqsd66vnbm",
         "did": "did:plc:nckosudltxrtrjkt4zz4jy5y"
       },
+      "at.marque.portfolio": {
+        "cid": "bafyreicqdjmpn5vosol4e77dok6sbr2nu5dl4rgzdhigy4a5uqvs633xeq",
+        "did": "did:plc:nckosudltxrtrjkt4zz4jy5y"
+      },
       "at.marque.team": {
         "cid": "bafyreig7slj7qip3gyg7ypmqhillwtyjcoylcp6ne7caboguuepcvlzaea",
         "did": "did:plc:nckosudltxrtrjkt4zz4jy5y"
@@ -6467,7 +6471,7 @@
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.actor.profile": {
-        "cid": "bafyreihu4eepfozmqsugnp7d3d6hsnf6vnitu4aldgmbqysihxekxfuk7q",
+        "cid": "bafyreiew5owc2wfogmejqvrmzhy4otmhqaj73kq464t67tqa3wxfkahtea",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.bookClub": {
@@ -6483,7 +6487,7 @@
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.bookClub.post": {
-        "cid": "bafyreighypunblchi6tiyau765mxprlakzxjr3hfz2tndqk25iwhgmu4vm",
+        "cid": "bafyreiefokpklkgafb5fquwoaqw2o2yytaq36pf5gfdcdvvfu373llqh5i",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.bookClub.read": {
@@ -6499,11 +6503,11 @@
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.bookClub.thread": {
-        "cid": "bafyreif52qz7vumyqvr7r7pobtdovtxr25aj5rbqlyndolcwbe323cb4tm",
+        "cid": "bafyreibj23s3c7foz6n2rbdld2edbdq6ct7cxxrcle56tbiro254pl534m",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.bookStatus": {
-        "cid": "bafyreig6qf6fq4ns72szecaom5rferrwbsxq4reyuqooyb2k4vp4h7zubq",
+        "cid": "bafyreietzovk6fcqrc4w6t5cwfyqxhq32z662yqmkifcq7ed4uy4sy63pm",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.clubBookmarks": {
@@ -6544,6 +6548,10 @@
       },
       "net.olamaelcu.livtet.biblio.getActorProfile": {
         "cid": "bafyreifgo3bcy5lfdynlr3pvcpihwyswjfpf67iqayk3ajvhfihwi3w2oi",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
+      "net.olamaelcu.livtet.biblio.getBookNotes": {
+        "cid": "bafyreigdfv6gthaomxhd2he6gg6buqzquv6ytr6uttugg35nplyv63exfy",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.getBookOnShelf": {
@@ -6650,6 +6658,10 @@
         "cid": "bafyreiejd4pbw3y5w7wsne4s5aj4meowklimk7lj25uxiy5b52ornm5pva",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
+      "net.olamaelcu.livtet.biblio.listBookHighlights": {
+        "cid": "bafyreia6mwbdhcv3sq47fclyu5bvwhfftbsiz5rtoek7e526daeafmyiem",
+        "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
+      },
       "net.olamaelcu.livtet.biblio.listBooksOnShelf": {
         "cid": "bafyreicgkj3rshqtbesobvfeoqcew6jlcubjzczlrkppwypbngh6u2jehy",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
@@ -6719,11 +6731,11 @@
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.readingList.entry": {
-        "cid": "bafyreie3djb36kfh7vafnqgkwdnlsle6hr7tx7hhpcv3cuaolqvcte37zi",
+        "cid": "bafyreifaihx4y6bl7pixnvic5yfpwawcaqzqk2glwf4aku2vsbmfeqdta4",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.readingList.meta": {
-        "cid": "bafyreievtd6mdxujgalmbeutuwpentt4jun7dp4spkolzql7m54enhwolq",
+        "cid": "bafyreihystolkezz55judombuh6f3lzj5bulusjg2nv3fnocbhgyto6twe",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.readingList.role": {
@@ -6739,7 +6751,7 @@
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.readingProgress": {
-        "cid": "bafyreih3vowve7zlplxd7pmcv4ytb66pjkpviu7atvdjqow2ks4amjfafa",
+        "cid": "bafyreibhvmkslha2gcdocph5b2m2qyzlxu6msacpneos3x4ppvpjtgjqe4",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.resolveContributors": {
@@ -6763,7 +6775,7 @@
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.reviewReply": {
-        "cid": "bafyreidwib2bbjl2oe5pmudsogqvturi2l6el2iiqri7vifmnd2xw6rzxa",
+        "cid": "bafyreid5qm7k5btxeakku4iumx2lbo7viwngvqsfkvff2uhbyfhui3xupy",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.searchActors": {
@@ -6787,7 +6799,7 @@
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.shelf": {
-        "cid": "bafyreigbffoxtpivpy4fljm7itkpoomd4qe3hnpigy376dkotzoosrt73q",
+        "cid": "bafyreiehd4yurpsw4c7aoqlcmcjbxn5qezr6y6zam35mo73xzyo2ga5k7e",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.shelf.addBooks": {
@@ -10577,7 +10589,7 @@
         "did": "did:plc:pwpuqwge6g7xrjmfbw73uycw"
       },
       "app.zeens.collection": {
-        "cid": "bafyreiduiodwfgbmgsjgttg35f63a2ipi4c6i5yn4btzjbmc7jo5ud2rvi",
+        "cid": "bafyreifvr5qbk2xpwa4uikljn5tzt3f2of46lotdepjjhhjloki6gyskjy",
         "did": "did:plc:pwpuqwge6g7xrjmfbw73uycw"
       },
       "app.zeens.collectionItem": {
@@ -10781,7 +10793,7 @@
         "did": "did:plc:pwpuqwge6g7xrjmfbw73uycw"
       },
       "app.zeens.portfolio": {
-        "cid": "bafyreiarrpa6hlarxvxo3ggitotshgheoyoizpjxem5dtoqmsbvpkaqbsq",
+        "cid": "bafyreihuka27h5uq7qrpjjg3wcol72a334nve4kyfaepd45k37tcfori7a",
         "did": "did:plc:pwpuqwge6g7xrjmfbw73uycw"
       },
       "app.zeens.post": {
@@ -10793,7 +10805,7 @@
         "did": "did:plc:pwpuqwge6g7xrjmfbw73uycw"
       },
       "app.zeens.profile": {
-        "cid": "bafyreibyogyrellezx2az6n464iyg657mi73qhta4ioc7opribiq7zkh3q",
+        "cid": "bafyreickf7sllngx6gsmfhxblukxzkl5mfngzqlkt7ybopryabr4gsmc4m",
         "did": "did:plc:pwpuqwge6g7xrjmfbw73uycw"
       },
       "app.zeens.rsvp": {
@@ -10944,14 +10956,14 @@
     "linkedclaims.com": "2026-11-13",
     "logue.is": "2026-11-13",
     "margin.at": "2026-11-13",
-    "marque.at": "2026-11-13",
+    "marque.at": "2026-11-26",
     "mochott.site": "2026-11-13",
     "moji.blue": "2026-11-13",
     "mytinygiraffe.com": "2026-11-13",
     "nahdig.com": "2026-11-13",
     "nerdballot.com": "2026-11-13",
     "offprint.app": "2026-11-13",
-    "olamaelcu.net": "2026-11-25",
+    "olamaelcu.net": "2026-11-26",
     "opnshelf.xyz": "2026-11-13",
     "pckt.blog": "2026-11-13",
     "pinkleap.social": "2026-11-13",
@@ -10992,7 +11004,7 @@
     "wisp.place": "2026-11-13",
     "witchsky.app": "2026-11-13",
     "xptracker.app": "2026-11-13",
-    "zeens.app": "2026-11-18",
+    "zeens.app": "2026-11-26",
     "zelk.space": "2026-11-13",
     "zzstoatzz.io": "2026-11-13"
   }

@@ -861,8 +861,8 @@
     },
     {
       "domain": "marque.at",
-      "status": "full",
-      "lexicons": 14,
+      "status": "partial",
+      "lexicons": 15,
       "generated": 14,
       "provided_by_sdk": 0,
       "kinds": {
@@ -871,7 +871,9 @@
         "procedure": 1,
         "subscription": 0
       },
-      "skipped_lexicons": [],
+      "skipped_lexicons": [
+        "at.marque.portfolio"
+      ],
       "skipped_methods": [],
       "weakened_lexicons": []
     },
@@ -984,12 +986,12 @@
     {
       "domain": "olamaelcu.net",
       "status": "partial",
-      "lexicons": 92,
-      "generated": 88,
+      "lexicons": 94,
+      "generated": 90,
       "provided_by_sdk": 0,
       "kinds": {
         "record": 29,
-        "query": 38,
+        "query": 40,
         "procedure": 19,
         "subscription": 0
       },
@@ -1779,6 +1781,7 @@
     "Skipped app.offprint.block.horizontalRule.json: defs.main.object.properties: Input should be a valid dictionary",
     "Skipped app.offprint.richtext.facet.json: defs.bold.object.properties: Input should be a valid dictionary; defs.code.object.properties: Input should be a valid dictionary; defs.italic.object.properties: Input should be a valid dictionary; defs.underline.object.properties: Input should be a valid dictionary; defs.strikethrough.object.properties: Input should be a valid dictionary",
     "Skipped at.atmosynth.sketchbook.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped at.marque.portfolio.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
     "Skipped at.turtleme.chat.clan.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
     "Skipped at.turtleme.game.defs.json: defs.mark.object.properties.at: Input tag 'number' found using 'type' does not match any of the expected tags: 'unknown', 'cid-link', 'bytes', 'boolean', 'integer', 'string', 'ref', 'union', 'array', 'blob', 'object'",
     "Skipped buzz.bookhive.getPersonalBookCover.json: defs.main.query.output.encoding: Value error, Encoding must be a single MIME type without parameters",

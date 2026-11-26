@@ -1,0 +1,21 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "collections": [
+        "at.marque.domain",
+        "at.marque.dns",
+        "at.marque.team",
+        "at.marque.team.member",
+        "at.marque.team.membership"
+      ],
+      "description": "A personal space holding an account's Marque records. The space key is 'self' and the authority is the account itself.",
+      "key": "literal:self",
+      "title": "Marque domains",
+      "type": "space"
+    }
+  },
+  "description": "Private Marque records of one account: its domains, DNS zones and team records. Used when the account keeps these records out of its public repository.",
+  "id": "at.marque.portfolio",
+  "lexicon": 1
+}

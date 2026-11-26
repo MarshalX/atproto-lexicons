@@ -6,6 +6,10 @@
       "key": "literal:self",
       "record": {
         "properties": {
+          "community.lexicon.meta.links": {
+            "description": "community.lexicon.meta.links: the web copies of this record, including its social.popfeed.feed.list record. `unknown`, not a ref: the community NSID does not resolve yet, and a ref to it would make this whole lexicon unresolvable.",
+            "type": "unknown"
+          },
           "createdAt": {
             "format": "datetime",
             "type": "string"

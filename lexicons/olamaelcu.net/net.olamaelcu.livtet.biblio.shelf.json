@@ -2,6 +2,7 @@
   "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
+      "description": "One shelf in a reader's own repo: a built-in reading status (`reading`, `read`, `to-read`, `dnf`, filed under that status as its key) or a shelf the reader named. A `bookStatus` or `shelfItem` record points at the shelf it belongs to.",
       "key": "any",
       "record": {
         "properties": {
@@ -10,14 +11,12 @@
             "type": "string"
           },
           "description": {
-            "description": "Optional description of what the shelf collects. Custom shelves only; the reading-status shelves carry none.",
-            "maxGraphemes": 8192,
+            "maxGraphemes": 2000,
             "type": "string"
           },
           "name": {
-            "description": "Human-readable shelf name, the title of the shelf (e.g. 'Currently Reading').",
-            "maxGraphemes": 128,
-            "maxLength": 128,
+            "description": "The shelf's own name, as the profile shows it.",
+            "maxGraphemes": 120,
             "type": "string"
           },
           "updatedAt": {
@@ -35,7 +34,6 @@
       "type": "record"
     }
   },
-  "description": "A user's shelf. The four reading-status shelves use the fixed rkeys 'reading', 'read', 'to-read' and 'dnf'; any other rkey is a custom shelf the reader named. Written by the OAuth client (livtet-service).",
   "id": "net.olamaelcu.livtet.biblio.shelf",
   "lexicon": 1
 }

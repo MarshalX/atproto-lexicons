@@ -1,11 +1,11 @@
 # Supported services
 
-2605 of 2668 lexicons are packaged. Another 16 ship with the SDK itself.
+2607 of 2671 lexicons are packaged. Another 16 ship with the SDK itself.
 
 | Status | Services | Meaning |
 |---|---|---|
-| Full | 74 | Every lexicon is generated as published. |
-| Partial | 25 | Some lexicons are invalid and skipped, or have references that are typed as unknown. |
+| Full | 73 | Every lexicon is generated as published. |
+| Partial | 26 | Some lexicons are invalid and skipped, or have references that are typed as unknown. |
 | Not supported | 1 | Nothing could be generated. |
 
 | Service | Status | Lexicons | Records | Queries | Procedures | Skipped | Untyped refs in |
@@ -59,14 +59,14 @@
 | `linkedclaims.com` | Full | 1 of 1 | 1 | 0 | 0 |  |  |
 | `logue.is` | Full | 19 of 19 | 2 | 0 | 0 |  |  |
 | `margin.at` | Full | 10 of 10 | 9 | 0 | 0 |  |  |
-| `marque.at` | Full | 14 of 14 | 5 | 6 | 1 |  |  |
+| `marque.at` | Partial | 14 of 15 | 5 | 6 | 1 | 1 |  |
 | `mochott.site` | Full | 29 of 29 | 20 | 3 | 1 |  |  |
 | `moji.blue` | Full | 24 of 24 | 4 | 11 | 4 |  |  |
 | `mytinygiraffe.com` | Full | 1 of 1 | 1 | 0 | 0 |  |  |
 | `nahdig.com` | Full | 4 of 4 | 4 | 0 | 0 |  |  |
 | `nerdballot.com` | Full | 7 of 7 | 7 | 0 | 0 |  |  |
 | `offprint.app` | Partial | 26 of 29 | 5 | 0 | 0 | 3 | 5 |
-| `olamaelcu.net` | Partial | 88 of 92 | 29 | 38 | 19 | 4 |  |
+| `olamaelcu.net` | Partial | 90 of 94 | 29 | 40 | 19 | 4 |  |
 | `opnshelf.xyz` | Partial | 10 of 15 | 8 | 0 | 0 | 5 |  |
 | `pckt.blog` | Full | 39 of 39 | 7 | 1 | 3 |  |  |
 | `pinkleap.social` | Full | 5 of 5 | 5 | 0 | 0 |  |  |

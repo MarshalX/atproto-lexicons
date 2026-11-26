@@ -1,26 +1,43 @@
 {
   "$type": "com.atproto.lexicon.schema",
   "defs": {
+    "contributor": {
+      "properties": {
+        "name": {
+          "maxGraphemes": 300,
+          "type": "string"
+        },
+        "uri": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri",
+        "name"
+      ],
+      "type": "object"
+    },
     "main": {
+      "description": "One status event for one catalog edition: a record is written when the reader sets a status, and again for every later change, so a reread is a second `read` record. The current status is the newest record for the book. Records live in the reader's own repo and name both the edition they are about and the shelf it sits on.",
       "key": "any",
       "record": {
         "properties": {
           "book": {
-            "description": "The book on the shelf (catalog record URI).",
-            "ref": "com.atproto.repo.strongRef",
+            "description": "The catalog edition, as a strong reference so the index can prove the record it read.",
+            "ref": "#strongRef",
             "type": "ref"
           },
           "createdAt": {
+            "description": "When the record's *current* status was set. A status change stamps now; it is not a generic record timestamp.",
             "format": "datetime",
             "type": "string"
           },
           "metadata": {
-            "description": "Status and optional position/notes/emoji for this book's relationship to the shelf.",
-            "ref": "net.olamaelcu.livtet.biblio.defs#bookShelfMetadata",
+            "ref": "#metadata",
             "type": "ref"
           },
           "shelf": {
-            "description": "AT-URI of the parent shelf record (e.g. at://did/biblio.shelf/reading).",
+            "description": "The `biblio.shelf` record this book sits on. A built-in status shelf keys it by the status name.",
             "format": "at-uri",
             "type": "string"
           },
@@ -29,12 +46,64 @@
             "type": "string"
           }
         },
+        "required": [
+          "shelf",
+          "book",
+          "metadata",
+          "createdAt",
+          "updatedAt"
+        ],
         "type": "object"
       },
       "type": "record"
+    },
+    "metadata": {
+      "properties": {
+        "status": {
+          "description": "The reading status this shelf stands for.",
+          "knownValues": [
+            "reading",
+            "read",
+            "to-read",
+            "dnf"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "type": "object"
+    },
+    "strongRef": {
+      "properties": {
+        "cid": {
+          "format": "cid",
+          "type": "string"
+        },
+        "contributors": {
+          "items": {
+            "ref": "#contributor",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "title": {
+          "description": "The edition's title as the writer knew it, so a shelf page renders without a catalog read.",
+          "maxGraphemes": 300,
+          "type": "string"
+        },
+        "uri": {
+          "format": "at-uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri"
+      ],
+      "type": "object"
     }
   },
-  "description": "The reading status of one edition for one reader: an edition, the (optional) shelf it was filed under, and its progress metadata. One record per edition, so a status change replaces the previous one rather than adding a shelf membership. The rkey is the edition record's rkey (the last segment of the catalog edition URI).",
   "id": "net.olamaelcu.livtet.biblio.bookStatus",
   "lexicon": 1
 }

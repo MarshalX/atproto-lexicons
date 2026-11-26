@@ -147,6 +147,15 @@
             "minimum": 2,
             "description": "Number of columns when gridLayout='grid'. Allowed: 2 or 3. Default 2."
           },
+          "pinnedItems": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "at-uri"
+            },
+            "maxLength": 6,
+            "description": "Items of this collection the owner pinned to the top of its grid, in display order (first = top). Each is a collectionItem at-uri in the owner's own repo; readers ignore any other. Capped at 6."
+          },
           "publication": {
             "ref": "#publication",
             "type": "ref",
@@ -155,10 +164,40 @@
           "showLicense": {
             "type": "boolean",
             "description": "Show each photo's licence label. Defaults to TRUE when absent. Only ever written as false."
+          },
+          "highlightedPhotos": {
+            "type": "array",
+            "items": {
+              "ref": "#photoRef",
+              "type": "ref"
+            },
+            "maxLength": 50,
+            "description": "Photos the owner highlighted in this collection's grid: drawn larger (two columns wide) without changing their place in it. Per photo, since a multi-photo item shows as one tile per photo. Capped at 50."
           }
         }
       },
       "description": "A user-curated collection (folder) of Zeens posts and articles. Visibility controls whether anyone other than the owner can see it via the AppView. The cover is the owner's chosen `coverPhoto` when set, otherwise the most recently added item, resolved at render time."
+    },
+    "photoRef": {
+      "type": "object",
+      "required": [
+        "uri",
+        "photo"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "format": "at-uri",
+          "description": "The collectionItem record, in the owner's own repo."
+        },
+        "photo": {
+          "type": "integer",
+          "maximum": 3,
+          "minimum": 0,
+          "description": "0-based position of the photo among those the item shows."
+        }
+      },
+      "description": "One photo of one of this collection's items."
     },
     "coverPhoto": {
       "type": "object",
