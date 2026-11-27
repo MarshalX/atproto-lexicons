@@ -47,7 +47,7 @@
       "description": "A space written to.",
       "properties": {
         "space": {
-          "description": "The space, as `at://<owner>/space/dev.knotless.space/<name>`.",
+          "description": "The space, as `at:space/<owner>/dev.knotless.space/<name>`.",
           "maxLength": 512,
           "type": "string"
         }

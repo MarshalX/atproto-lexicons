@@ -513,6 +513,36 @@
       },
       "description": "A muted channel. Muting a channel silences it without leaving the community it belongs to."
     },
+    "soundVolumes": {
+      "type": "object",
+      "properties": {
+        "mic": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0,
+          "description": "Muting, unmuting, deafening and undeafening. Absent means soundVolume, or 100 without it."
+        },
+        "ping": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0,
+          "description": "The notification ping. Absent means 50."
+        },
+        "video": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0,
+          "description": "Cameras and screen shares turning on or off. Absent means soundVolume, or 100 without it."
+        },
+        "presence": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0,
+          "description": "Someone joining or leaving a call. Absent means soundVolume, or 100 without it."
+        }
+      },
+      "description": "In-app sound effect volumes in percent, one per group. A client applies its own default for an absent group."
+    },
     "composerState": {
       "type": "object",
       "properties": {
@@ -598,13 +628,18 @@
           "type": "integer",
           "maximum": 100,
           "minimum": 0,
-          "description": "The volume of in-app sound effects such as message pings and call sounds, in percent. Absent means 100."
+          "description": "The volume of in-app sound effects such as message pings and call sounds, in percent. Absent means 100. A client that reads soundVolumes uses this only for the presence, mic and video groups that soundVolumes leaves out."
         },
         "gifLoopLimit": {
           "type": "integer",
           "maximum": 5,
           "minimum": 1,
           "description": "How many times a GIF in chat plays before it pauses. Absent means no limit."
+        },
+        "soundVolumes": {
+          "ref": "#soundVolumes",
+          "type": "ref",
+          "description": "The volume of each group of in-app sound effects."
         },
         "blueskyClient": {
           "type": "string",

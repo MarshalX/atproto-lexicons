@@ -125,8 +125,13 @@
           "type": "array"
         },
         "group": {
-          "description": "The group whose pool this gallery is in, if any.",
+          "description": "The group whose pool this gallery was in, of the opensocial prototype. Not set now: see inGroup.",
           "ref": "social.grain.group.defs#groupRef",
+          "type": "ref"
+        },
+        "inGroup": {
+          "description": "The org.atgrp group this gallery is in, if any (the first, where it is in several).",
+          "ref": "social.grain.group.defs#galleryGroupView",
           "type": "ref"
         },
         "indexedAt": {

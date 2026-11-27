@@ -44,6 +44,16 @@
         },
         "encoding": "application/json"
       },
+      "parameters": {
+        "type": "params",
+        "properties": {
+          "space": {
+            "type": "string",
+            "format": "space-ref",
+            "description": "The space the blob is for. When another AppView manages that space, this AppView forwards the upload there, so the blob sits next to the repo that references it."
+          }
+        }
+      },
       "description": "Stores a blob for the requesting user while the AppView hosts their space repos. A blob nothing references within a day is deleted."
     }
   },

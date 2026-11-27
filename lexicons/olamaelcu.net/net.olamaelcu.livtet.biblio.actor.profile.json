@@ -59,6 +59,11 @@
             "description": "When true, new and edited notes are mirrored to the reader's repo as readingProgress annotation records.",
             "type": "boolean"
           },
+          "shareWeeklyReport": {
+            "default": false,
+            "description": "When true, each weekly report and its card are published at /weekly/<did>/<start>; absent means private.",
+            "type": "boolean"
+          },
           "skinTone": {
             "description": "Preferred emoji skin-tone modifier for reactions this account writes. Absent means none. It travels with the profile so the choice reaches every device; records hold the toned emoji, while counts group on the base emoji.",
             "knownValues": [
@@ -71,9 +76,20 @@
             ],
             "type": "string"
           },
+          "timeZone": {
+            "description": "IANA time zone used to bucket reading days. Absent means UTC.",
+            "maxLength": 64,
+            "type": "string"
+          },
           "updatedAt": {
             "format": "datetime",
             "type": "string"
+          },
+          "weekStartsOn": {
+            "description": "First day of the reader's week: 0 = Sunday … 6 = Saturday. Absent means 1 (Monday).",
+            "maximum": 6,
+            "minimum": 0,
+            "type": "integer"
           }
         },
         "required": [

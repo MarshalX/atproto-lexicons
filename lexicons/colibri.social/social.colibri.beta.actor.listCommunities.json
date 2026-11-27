@@ -23,12 +23,40 @@
                 "type": "ref"
               },
               "description": "The requesting user's communities, in preferred sidebar order."
+            },
+            "unavailable": {
+              "type": "array",
+              "items": {
+                "ref": "#unavailableCommunity",
+                "type": "ref"
+              },
+              "description": "Communities the user joined whose managing AppView didn't answer in time. A client keeps them in the list and shows that they can't be reached."
             }
           }
         },
         "encoding": "application/json"
       },
-      "description": "Gets the requesting user's communities, in their preferred order."
+      "description": "Gets the requesting user's communities, in their preferred order. Communities another AppView manages come from the user's social.colibri.beta.actor.remoteSpace records."
+    },
+    "unavailableCommunity": {
+      "type": "object",
+      "required": [
+        "did",
+        "managingApp"
+      ],
+      "properties": {
+        "did": {
+          "type": "string",
+          "format": "did",
+          "description": "The community's DID."
+        },
+        "managingApp": {
+          "type": "string",
+          "format": "did",
+          "description": "The AppView that manages the community."
+        }
+      },
+      "description": "A community whose managing AppView didn't answer."
     }
   },
   "$type": "com.atproto.lexicon.schema",

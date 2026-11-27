@@ -12,7 +12,8 @@
                 "social.grain.actor.defs#pinnedFeedsPref",
                 "social.grain.actor.defs#photoMetadataPref",
                 "social.grain.actor.defs#themePref",
-                "social.grain.actor.defs#notificationsPref"
+                "social.grain.actor.defs#notificationsPref",
+                "social.grain.actor.defs#dismissedInvitesPref"
               ],
               "type": "union"
             }

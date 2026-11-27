@@ -10,13 +10,14 @@
         "social.colibri.beta.actor.clientPreferences",
         "social.colibri.beta.actor.composerState",
         "social.colibri.beta.actor.mute",
+        "social.colibri.beta.actor.remoteSpace",
         "social.colibri.beta.actor.settings",
         "social.colibri.beta.actor.spaceModeration",
         "social.colibri.beta.actor.spaceNotification",
         "social.colibri.beta.channel.read",
         "social.colibri.beta.emoji.follow"
       ],
-      "description": "A user's own Colibri settings, client preferences, composer state, mutes, blocks, per-Space notification and moderation preferences, emoji follows and read state."
+      "description": "A user's own Colibri settings, client preferences, composer state, mutes, blocks, per-Space notification and moderation preferences, emoji follows, read state and the communities the user joined on other AppViews."
     }
   },
   "$type": "com.atproto.lexicon.schema",

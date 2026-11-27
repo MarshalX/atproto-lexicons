@@ -1,0 +1,88 @@
+{
+  "$type": "com.atproto.lexicon.schema",
+  "defs": {
+    "main": {
+      "description": "A group's members, from the roster grain-serve keeps as an app the group installed, for a viewer who may read it: admins and moderators apart from the rest, each with what the viewer may do to them; with the join requests waiting, for a viewer holding admit. With q, only those whose handle or name holds it.",
+      "output": {
+        "encoding": "application/json",
+        "schema": {
+          "properties": {
+            "admins": {
+              "description": "The admins and moderators, all of them (never paged).",
+              "items": {
+                "ref": "social.grain.group.defs#memberView",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "counts": {
+              "ref": "social.grain.group.defs#memberCounts",
+              "type": "ref"
+            },
+            "cursor": {
+              "type": "string"
+            },
+            "group": {
+              "ref": "social.grain.group.defs#groupViewBasic",
+              "type": "ref"
+            },
+            "members": {
+              "description": "The members holding no role, a page of them.",
+              "items": {
+                "ref": "social.grain.group.defs#memberView",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "requests": {
+              "description": "Only for a viewer holding admit.",
+              "items": {
+                "ref": "social.grain.group.defs#joinRequestView",
+                "type": "ref"
+              },
+              "type": "array"
+            },
+            "viewer": {
+              "ref": "social.grain.group.defs#viewerState",
+              "type": "ref"
+            }
+          },
+          "required": [
+            "group",
+            "admins",
+            "members"
+          ],
+          "type": "object"
+        }
+      },
+      "parameters": {
+        "properties": {
+          "cursor": {
+            "type": "string"
+          },
+          "group": {
+            "format": "at-identifier",
+            "type": "string"
+          },
+          "limit": {
+            "default": 50,
+            "maximum": 100,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "q": {
+            "description": "Words a handle or display name holds.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "group"
+        ],
+        "type": "params"
+      },
+      "type": "query"
+    }
+  },
+  "id": "social.grain.group.getMembers",
+  "lexicon": 1
+}

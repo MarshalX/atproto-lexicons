@@ -1,6 +1,35 @@
 {
   "$type": "com.atproto.lexicon.schema",
   "defs": {
+    "dismissedInvite": {
+      "properties": {
+        "group": {
+          "description": "The group whose invite was dismissed.",
+          "format": "did",
+          "type": "string"
+        }
+      },
+      "required": [
+        "group"
+      ],
+      "type": "object"
+    },
+    "dismissedInvitesPref": {
+      "description": "The groups whose invites the viewer dismissed in Grain, which Grain shows no more. The invite itself stays with its group: dismissing it tells the group nothing.",
+      "properties": {
+        "items": {
+          "items": {
+            "ref": "#dismissedInvite",
+            "type": "ref"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "items"
+      ],
+      "type": "object"
+    },
     "messageMe": {
       "properties": {
         "messageMeUrl": {
@@ -136,7 +165,8 @@
           "#pinnedFeedsPref",
           "#photoMetadataPref",
           "#themePref",
-          "#notificationsPref"
+          "#notificationsPref",
+          "#dismissedInvitesPref"
         ],
         "type": "union"
       },
@@ -269,6 +299,19 @@
         },
         "galleryCount": {
           "type": "integer"
+        },
+        "group": {
+          "description": "Present when the account is a group (it holds an org.atgrp.declaration).",
+          "ref": "social.grain.group.defs#groupView",
+          "type": "ref"
+        },
+        "groups": {
+          "description": "Groups connected to Grain that this account is in: all of one's own, only those shared with the viewer on anyone else's.",
+          "items": {
+            "ref": "social.grain.group.defs#groupViewBasic",
+            "type": "ref"
+          },
+          "type": "array"
         },
         "handle": {
           "format": "handle",

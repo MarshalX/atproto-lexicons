@@ -2,7 +2,7 @@
   "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "description": "Leave a group: fyi.opensocial.leaveGroup on its host, with service auth from the viewer's PDS.",
+      "description": "Hide a group's galleries from the viewer's feeds. Private: only the muter's feeds change.",
       "input": {
         "encoding": "application/json",
         "schema": {
@@ -28,6 +28,7 @@
       "type": "procedure"
     }
   },
-  "id": "social.grain.group.leaveGroup",
+  "description": "Hide a group's galleries from the viewer's feeds, as muteActor does an account's; private, the viewer stays a member and the group's own pages still show them. Kept as a mute of the group's account: getMutes lists it and unmuteActor takes it back.",
+  "id": "social.grain.group.muteGroup",
   "lexicon": 1
 }

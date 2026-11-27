@@ -2,7 +2,7 @@
   "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "description": "Delete one of your own comments from a group's pool.",
+      "description": "Stop showing a group's invite in Grain: the group is added to the viewer's dismissedInvitesPref, the other preferences left as they are.",
       "input": {
         "encoding": "application/json",
         "schema": {
@@ -10,14 +10,10 @@
             "group": {
               "format": "did",
               "type": "string"
-            },
-            "rkey": {
-              "type": "string"
             }
           },
           "required": [
-            "group",
-            "rkey"
+            "group"
           ],
           "type": "object"
         }
@@ -25,17 +21,14 @@
       "output": {
         "encoding": "application/json",
         "schema": {
-          "properties": {
-            "deleted": {
-              "type": "boolean"
-            }
-          },
+          "properties": {},
           "type": "object"
         }
       },
       "type": "procedure"
     }
   },
-  "id": "social.grain.unspecced.deletePoolComment",
+  "description": "Stop showing a group's invite in Grain. Private and Grain's alone: the invite stays with its group, which is told nothing, and the viewer may still take it up by joining. Kept in the viewer's preferences as a dismissedInvitesPref.",
+  "id": "social.grain.group.dismissInvite",
   "lexicon": 1
 }

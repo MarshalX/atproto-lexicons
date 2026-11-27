@@ -4,6 +4,7 @@
     "notificationItem": {
       "properties": {
         "author": {
+          "description": "Who did it: of group-admitted and group-removed, the group itself.",
           "ref": "social.grain.actor.defs#profileView",
           "type": "ref"
         },
@@ -24,6 +25,11 @@
           "format": "at-uri",
           "type": "string"
         },
+        "group": {
+          "description": "The group a group-admitted or group-removed notification is about: the group that let the viewer in, or took the viewer's gallery out of its pool.",
+          "ref": "social.grain.group.defs#groupViewBasic",
+          "type": "ref"
+        },
         "indexedAt": {
           "description": "When the index first held the record, or when it says it was made if that is earlier: what notifications are ordered by, and isRead and getUnreadCount compare with seenAt.",
           "format": "datetime",
@@ -43,7 +49,9 @@
             "story-favorite",
             "story-comment",
             "reply",
-            "follow"
+            "follow",
+            "group-admitted",
+            "group-removed"
           ],
           "type": "string"
         },
