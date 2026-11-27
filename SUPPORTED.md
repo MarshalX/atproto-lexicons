@@ -1,6 +1,6 @@
 # Supported services
 
-2607 of 2671 lexicons are packaged. Another 16 ship with the SDK itself.
+2576 of 2640 lexicons are packaged. Another 16 ship with the SDK itself.
 
 | Status | Services | Meaning |
 |---|---|---|
@@ -32,7 +32,7 @@
 | `certified.app` | Full | 15 of 15 | 12 | 0 | 0 |  |  |
 | `chavatar.app` | Full | 8 of 8 | 5 | 0 | 0 |  |  |
 | `cocore.dev` | Partial | 40 of 40 | 14 | 17 | 7 |  | 9 |
-| `colibri.social` | Partial | 220 of 228 | 37 | 61 | 93 | 10 | 17 |
+| `colibri.social` | Partial | 223 of 231 | 40 | 61 | 93 | 10 | 17 |
 | `cosmik.network` | Partial | 8 of 10 | 6 | 0 | 0 | 2 |  |
 | `coves.social` | Full | 78 of 78 | 15 | 27 | 23 |  |  |
 | `craftsky.social` | Full | 18 of 18 | 6 | 0 | 0 |  |  |
@@ -47,7 +47,7 @@
 | `gainforest.app` | Full | 35 of 35 | 31 | 1 | 0 |  |  |
 | `gamesgamesgamesgames.games` | Partial | 102 of 102 | 23 | 43 | 24 |  | 1 |
 | `gamethesky.com` | Full | 12 of 12 | 12 | 0 | 0 |  |  |
-| `grain.social` | Partial | 157 of 159 | 13 | 82 | 46 | 2 |  |
+| `grain.social` | Partial | 123 of 125 | 11 | 66 | 30 | 2 |  |
 | `hypercerts.org` | Full | 17 of 17 | 14 | 0 | 0 |  |  |
 | `jgs.me` | Full | 2 of 2 | 2 | 0 | 0 |  |  |
 | `keytrace.dev` | Full | 7 of 7 | 5 | 1 | 0 |  |  |

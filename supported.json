@@ -384,11 +384,11 @@
     {
       "domain": "colibri.social",
       "status": "partial",
-      "lexicons": 228,
-      "generated": 220,
+      "lexicons": 231,
+      "generated": 223,
       "provided_by_sdk": 0,
       "kinds": {
-        "record": 37,
+        "record": 40,
         "query": 61,
         "procedure": 93,
         "subscription": 2
@@ -662,17 +662,17 @@
     {
       "domain": "grain.social",
       "status": "partial",
-      "lexicons": 159,
-      "generated": 152,
+      "lexicons": 125,
+      "generated": 118,
       "provided_by_sdk": 5,
       "kinds": {
-        "record": 13,
-        "query": 82,
-        "procedure": 46,
+        "record": 11,
+        "query": 66,
+        "procedure": 30,
         "subscription": 0
       },
       "skipped_lexicons": [
-        "social.grain.group",
+        "social.grain.group.pool",
         "social.grain.privateGallery"
       ],
       "skipped_methods": [],
@@ -1813,7 +1813,7 @@
     "Skipped social.colibri.beta.community.members.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
     "Skipped social.colibri.beta.community.moderation.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
     "Skipped social.colibri.beta.community.profile.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
-    "Skipped social.grain.group.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
+    "Skipped social.grain.group.pool.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
     "Skipped social.grain.privateGallery.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
     "Skipped tech.tokimeki.forum.public.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",
     "Skipped tech.tokimeki.forum.server.json: defs.main: Input tag 'space' found using 'type' does not match any of the expected tags: 'blob', 'array', 'token', 'object', 'record', 'subscription', 'query', 'procedure', 'permission-set', 'boolean', 'integer', 'string', 'bytes', 'cid-link'",

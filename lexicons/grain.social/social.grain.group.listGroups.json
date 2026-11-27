@@ -2,7 +2,7 @@
   "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "description": "Groups worth browsing, most recently active first. With `gallery`, each group carries the viewer's standing for that gallery.",
+      "description": "Groups worth browsing, most recently active first. With `gallery`, each group carries the viewer's standing for that gallery. With `member`, the groups that account is in whose galleries are members-only (a new gallery's Post to). No auth needed; the viewer's standing needs it.",
       "output": {
         "encoding": "application/json",
         "schema": {
@@ -38,6 +38,11 @@
             "maximum": 100,
             "minimum": 1,
             "type": "integer"
+          },
+          "member": {
+            "description": "An account: only the members-only groups it is in.",
+            "format": "at-identifier",
+            "type": "string"
           }
         },
         "type": "params"

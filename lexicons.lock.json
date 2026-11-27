@@ -1186,12 +1186,16 @@
         "cid": "bafyreiedp5prtik5xds3r7s44otw4ckqithvrhkphhzypditwvpb7bh3pi",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
+      "social.colibri.beta.actor.appview": {
+        "cid": "bafyreidnyetrljah7x72k3u3346dclh3qjgncvedo32sr7n5sqpi22mory",
+        "did": "did:plc:mprdjqjluoswa7awzggaggj3"
+      },
       "social.colibri.beta.actor.block": {
         "cid": "bafyreicyp7653rjiy3tcgq57zj6uzjmmx3evftsxgttx4uaq3ykyh2wxn4",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.actor.clientPreferences": {
-        "cid": "bafyreibkseodgnpqh2ak36akf2fggzikyp2vkw2fljqgfzv2kmgjwggmpi",
+        "cid": "bafyreidrykqly2ymxbok67rpevbivv75uxmlwpofttljy2f2u6ismnpk4y",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.actor.composerState": {
@@ -1199,7 +1203,7 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.actor.defs": {
-        "cid": "bafyreiewoev6bb3vemwbsdhys7r47c37vxwrlzvctr6mumapwr634urdui",
+        "cid": "bafyreiaszswgl6pko7fmff4uo23boqsfa57hfzkhhmhagdn75sagylcx7q",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.actor.deleteAccount": {
@@ -1219,11 +1223,11 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.actor.grantSpaceAccess": {
-        "cid": "bafyreibl4mungi3jhoqlu2jfcaeyaxfpkwrk77ejfob5wldyrpe4u3nbmu",
+        "cid": "bafyreihzkwuy5byimrduaiyywerj57torralmvrubw7snslyk6m5hzrn5u",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.actor.listCommunities": {
-        "cid": "bafyreif42mawlqcyhhowfwv4qvxwjdj5kqp6ggq6yfwy3w4cyjgvfzg2ly",
+        "cid": "bafyreihtpb2nfb7qxcqyf73k3gevtfkiojmmiaobfd2htzdcil4fvu5juu",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.actor.mute": {
@@ -1231,7 +1235,7 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.actor.preferences": {
-        "cid": "bafyreihf4jqzhygbfmyhgionczuiqalb7gt52avj72cmmy6ay56y42aupm",
+        "cid": "bafyreifpfwtiva4sj4kuzbtfya5ftqrq5a7yazj32ygcrlijpjq6omg3ky",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.actor.profile": {
@@ -1256,6 +1260,10 @@
       },
       "social.colibri.beta.actor.putSpaceNotification": {
         "cid": "bafyreice55qdwds2t5tjy64lb3hgei6xsr5b7gygzhdbjs5przqvoqpt3m",
+        "did": "did:plc:mprdjqjluoswa7awzggaggj3"
+      },
+      "social.colibri.beta.actor.remoteSpace": {
+        "cid": "bafyreihpolorl6ov3v7g5jjiczo33y4dcfsc5yw4nqzlqarx5hbftxy3nu",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.actor.setStatus": {
@@ -1507,7 +1515,7 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.community.defs": {
-        "cid": "bafyreicsnbrxssclmihkt6xjttcwig7de5kf2bv5fcrc25e577rhqup75u",
+        "cid": "bafyreiclsirt6cnxwn7nrh2cd2uutd342gvodbzoeszpqbchywkezpf6ii",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.community.delete": {
@@ -1539,11 +1547,15 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.community.getInvitation": {
-        "cid": "bafyreidbzgvw2dgl6x4ns5e6vvmli3a7o6ayjpstgabzih5icjdlshpgwq",
+        "cid": "bafyreibfzbdza27fqyhvwjavlslcdhvk4kbgvif6q6a3rbtrlkhrin6ui4",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.community.handOverHost": {
         "cid": "bafyreih76buw4lef6vbj3y2nvagpg33g23sk4hk7ipukjfycdtzl2uux7u",
+        "did": "did:plc:mprdjqjluoswa7awzggaggj3"
+      },
+      "social.colibri.beta.community.host": {
+        "cid": "bafyreiclj55smh2xiaxom7g7hbwqjmnhdgkwvzcjxadsu2jzwya2gc6vwa",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.community.join": {
@@ -1787,7 +1799,7 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.permissionAccount": {
-        "cid": "bafyreih52hi7gero3kqopdkmsgcxhzfttbmqhg7tc5ljfkbkttu26ehtha",
+        "cid": "bafyreibyg6yx77ejygsharoclraakdn43ectqa32bywdagugpssqwrwgsy",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.permissionBridge": {
@@ -1827,7 +1839,7 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.polyfill.getBlob": {
-        "cid": "bafyreihgn2jl45alb335pmdtqc37uosicxxlzj6ulurbd4psuznnj222mi",
+        "cid": "bafyreidepz6aanbtzjl3s7wjiixxw67v6vsnbwyx3axwticomnmwuajiny",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.polyfill.getRecord": {
@@ -1847,7 +1859,7 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.polyfill.uploadBlob": {
-        "cid": "bafyreidewn3rbqoudltutz5nkpx6oiyakahe3cxbg2wxcgybza22sxbupq",
+        "cid": "bafyreidfak2tnnfuaeuckoyw372vu27v5bbvlpml47gasrxgtldgev5bqq",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.reaction": {
@@ -1879,7 +1891,7 @@
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.server.describeServer": {
-        "cid": "bafyreieynvya4uvt4ig4ihkhhwtrkvxyldg6bjpa2mgzhukowqk3e6clny",
+        "cid": "bafyreid6rvpc44u4dr7ftgqq3qbenkuh242v6rw6gdkbwgwrrlbisb3xue",
         "did": "did:plc:mprdjqjluoswa7awzggaggj3"
       },
       "social.colibri.beta.server.listNodes": {
@@ -3997,7 +4009,7 @@
     },
     "grain.social": {
       "social.grain.actor.defs": {
-        "cid": "bafyreicxkzem6ngqptho7nlmqhmbyi7zwxcd7doahhvlzygtbjpxnhca64",
+        "cid": "bafyreieipye3gfwgk3zsigyacp3brs6n4k4ow7x3oi3xl7xgujrdqfmyzq",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.actor.getFavorites": {
@@ -4033,7 +4045,7 @@
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.actor.setPreference": {
-        "cid": "bafyreibd46eomf3xy52ctte2yfj5rfd74jomc6uygck3a2hxveoge4rztm",
+        "cid": "bafyreic4i45vko4lgjilsd5wnptzeg3oweqf44x2ic6wgsl4oqlkpwz2pa",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.admin.actOnReview": {
@@ -4113,11 +4125,11 @@
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.authFull": {
-        "cid": "bafyreiepfbfn67erve6fk67ajwplyme3hk37uy5sdtxzythfk44zib2quy",
+        "cid": "bafyreic73v5wyt5c6eim2ib2u67xomdjxfz7rdx3mvismc2j66s5rmloou",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.basePermissions": {
-        "cid": "bafyreiev3z4q5x3x624v2uav4xtdd6wivxsbrwkqzynwkfyvzv7p63swqq",
+        "cid": "bafyreial56vdj4byetdtm2bbrdz3etayyvqteyaxkd3p3bebkp4dtwzcmq",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.comment": {
@@ -4157,7 +4169,7 @@
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.gallery.defs": {
-        "cid": "bafyreig6cbxhmia64cyzzgkfjeg6uycoyox4edpvdi5yvra6uu3npwxfxu",
+        "cid": "bafyreiandhwi32o4kf543zivsq3oldyk52d74yptrcagmmf6uticuldrpu",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.gallery.deleteGallery": {
@@ -4236,80 +4248,32 @@
         "cid": "bafyreigolmestlavls6gwatdxhojl5hj4aordot3hgtd7kw5my6ukh4xti",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
-      "social.grain.group": {
-        "cid": "bafyreiauxdgnrt7trf4bdt55m3vz4cr3cz6silo3wggcpnnr45vqj4lyje",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.group.createComment": {
-        "cid": "bafyreidngfmcz4fmiym4pkse3lngktt73eb5neralbn472lgaz2cewnuey",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.group.createGallery": {
-        "cid": "bafyreie6elwhaf23keow5zwqz3m4rc6fucvsblpe5747kcl7yhgip6c3hy",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.group.createGroup": {
-        "cid": "bafyreih2rs4y5nkzkguec5rrgtlnk2uci5gr2ybt43dk6qtkvojsnyzsny",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.group.decline": {
-        "cid": "bafyreif5lignomqq63mehdo53jna5obhqz26vrq2mdsikjs5bsxket3pbm",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
       "social.grain.group.defs": {
-        "cid": "bafyreie33vrf2uba6npfvysubidzjhwmwrlddpmixa67matewvhsgazz7e",
+        "cid": "bafyreifhsyp4karv6w64zxy6obar2pbjngyzzvqcr3kfsd7hzcwtewlbky",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
-      "social.grain.group.deleteComment": {
-        "cid": "bafyreibxfhcgp6wryqkh2ynoztde4ybyjhmsxct6btziiaqbtgr3uzz5tq",
+      "social.grain.group.dismissInvite": {
+        "cid": "bafyreiaqpzlgp4wcfrpgp4cztvl75bnkkgsvk37goa6m6p64efnrte5mga",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
-      "social.grain.group.deleteGallery": {
-        "cid": "bafyreifeuhy3hacw2a7cb6zeh67ql7u554awog6ic3onxlbizvrrwwqhk4",
+      "social.grain.group.getMembers": {
+        "cid": "bafyreiftwhisa3ajat7xyj4ewfceaof3wegw4t5xqkf2pkhciq65wn3x2i",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
-      "social.grain.group.getGallery": {
-        "cid": "bafyreidkzspyxwrm6h2ntegqf37ms22fxwtdm3wa7jzbuglxy6gylnf2bq",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.group.getGroup": {
-        "cid": "bafyreib5bdbmdw5ouq57pa5oy2gccsnx2jyrhrolcrnqncql3qkxsjjvce",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.group.getGroupHost": {
-        "cid": "bafyreidkspzq67xbsuacw5daonznywfxihseiqwkghoubgpm5uffzf23qi",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.group.getSubmissions": {
-        "cid": "bafyreidbzdvo4fxvhvtgs2wm3patviww5kxeob74deyfsq3n2gmcyjdpae",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.group.item": {
-        "cid": "bafyreihsvlqittgkcndhpqizkd6hlszabumv6nd7gcp5btcjdum3hcdmcq",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.group.joinGroup": {
-        "cid": "bafyreia37ctd6kvomqzjmh4dw3vkxasqjvgypdtjgjuizmb67odwkoi7ti",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.group.leaveGroup": {
-        "cid": "bafyreifmii4sb4mzxtp674fwvond422epq5c7m2xkerhjwoszshpnzkm6e",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.group.listFeed": {
-        "cid": "bafyreifkmawesxia2u7242qtbsue5dwe2mxfxmhz6ltpyial5ua225cex4",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.group.listGalleries": {
-        "cid": "bafyreici4w4ceqspo46aomoczp4rrn3xtyvh5ayapjbxmymjnvfunp23si",
+      "social.grain.group.getRules": {
+        "cid": "bafyreiati4p4eopxaewl7bodponrhha74ptzd2rth6s6hrvlw4ma5a36iq",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.group.listGroups": {
-        "cid": "bafyreigge4jdnts5vprhwsqpdd66u65xbr5j3h2gq55mfuamq7c5bwph3y",
+        "cid": "bafyreid562wplafnh23lhmm5cbl6h4ek6cwbf4dt2shlnil4nzahddfukm",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
-      "social.grain.group.putFavorite": {
-        "cid": "bafyreiaizsqk47xgp3x52qp2ifiy7dqfj4t4byuwe22ikcpcsvfxxdhicq",
+      "social.grain.group.muteGroup": {
+        "cid": "bafyreia6lkpzudzlgdrlualv6ngqjycur6ymrurjwzu5zk42jmbwe4jih4",
+        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
+      },
+      "social.grain.group.pool": {
+        "cid": "bafyreiffyrt5zcx6lhd3wethekdfr4lztixpd2cgtdavnm62jlyige3ajy",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.group.submission": {
@@ -4325,7 +4289,7 @@
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.notification.defs": {
-        "cid": "bafyreid7a332blvgopm7nfekxeyte5p7tfol7h3677j7axts3hws3mvaxm",
+        "cid": "bafyreidvshenxeqctbxdorltvlfnxs7z7thjcralnm6eo7mraqrbg5s67u",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.notification.getUnreadCount": {
@@ -4444,40 +4408,12 @@
         "cid": "bafyreigkppoaznn2w7fnedhhf7mefwvcmtycikg5u4jwuf4kmblh33adhi",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
-      "social.grain.unspecced.addSpaceMember": {
-        "cid": "bafyreihsvtxumzspvkhabj5w2coausbsr4iywxtqa6w42i3mvoalqbf5q4",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.unspecced.createGroup": {
-        "cid": "bafyreif7s4o2zljn47xfz6nxilqc6hajwtsnmrotjmjgu3h6ojcn2c6umi",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.unspecced.createPoolComment": {
-        "cid": "bafyreiherab33tlmydrqawom4l37dedqahf6hsroxerraea4bdi6fftivi",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.unspecced.createPoolGallery": {
-        "cid": "bafyreig637t2napigaeghoptxwgvy6h5vbcz3vqtijuljpl5imquzgewd4",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.unspecced.createPrivateGallery": {
-        "cid": "bafyreiefcfhhuckwgoyqtyrnrt5unxjmxgzc4dvaymxwca54vw4x72px4y",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
       "social.grain.unspecced.deleteAccount": {
         "cid": "bafyreid445m5w4iy7a77bjsuujlgo6fuwf73ts6drggkxmiae3fy2ctg2e",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.unspecced.deleteGallery": {
         "cid": "bafyreig3epnsas2o6g3etfbrm26keogiad3wdbscz4cce2f3oijhu3aqbu",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.unspecced.deletePoolComment": {
-        "cid": "bafyreiciic3jwqzdu5piqptstsktyyvoomfgzozl32b4ufm3dw2q5juol4",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.unspecced.deletePoolGallery": {
-        "cid": "bafyreihfrkknr3wgpfmmgbxmpzsri2ncdsbmysnpzi3nlorcjfrtb6txty",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.unspecced.getActorFavorites": {
@@ -4516,18 +4452,6 @@
         "cid": "bafyreifabrp66jnfrxvrxbiskodxznmi3blhea3mnvumafb6qzdrb4c47u",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
-      "social.grain.unspecced.getGroup": {
-        "cid": "bafyreibx7au3mdpm6xsyuakvs5ygxizomznc5q6sc3ajuc732z4khqca4u",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.unspecced.getGroupHost": {
-        "cid": "bafyreifvllddkkxnldcuy3q6eleyxddvykfkwi6vccrl5b4t4skwkwhgui",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.unspecced.getGroupSubmissions": {
-        "cid": "bafyreibr4howhmnkaolnnyzxaufmqzi52ycaaoayexa7676fcgavrlbt2m",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
       "social.grain.unspecced.getKnownFollowers": {
         "cid": "bafyreiggccjtdwjjo6yhfgiw3tnydgvtuab7swltjfua4by4u45lngvz5q",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
@@ -4544,24 +4468,8 @@
         "cid": "bafyreigpgdxcd7ryzrhcfzgmqdnjfs4y2tuxudxjnrrff6gkftfbk5ru5i",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
-      "social.grain.unspecced.getPoolGallery": {
-        "cid": "bafyreiap3hrq2bgvscbpeksfcrkuv7tlubvyabvsdbemhnpvrbvpeek6yq",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.unspecced.getPrivateGallery": {
-        "cid": "bafyreig3vdkyr2ukw2xgz7l6z7ldxliszcw4sdfeqdi2d43ihfhqmdlz3i",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
       "social.grain.unspecced.getSitemap": {
         "cid": "bafyreihyxvhxmwjoglxztgklhycf2x5bhsovwfsta2mjfkf3nqoyga33km",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.unspecced.getSpaceMembers": {
-        "cid": "bafyreiesnadwks2nv5n3xpwarhyzqf5lcvuhzabm26t7krhyex6unx5jyi",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.unspecced.getSpaceSupport": {
-        "cid": "bafyreif34ataxvq63gswcm2wzd4qdoyyrsjswt2kiqln6xtwkjzodhln7a",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.unspecced.getStories": {
@@ -4584,40 +4492,8 @@
         "cid": "bafyreiajaqflve6pofcbyalpsgt7thbmvhmgh54bjgepi3oztdkso7fzni",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
-      "social.grain.unspecced.joinGroup": {
-        "cid": "bafyreid3lpxwjmntxx5xsbsye7bsm6airxnsa3gl6sgsm32y7wkbpmeooq",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.unspecced.leaveGroup": {
-        "cid": "bafyreiebc3wl65sat524bw57uluwe54zrhujmtp2jszlgg6ng5vhpudipy",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.unspecced.listGroups": {
-        "cid": "bafyreibtwqc6bvlobaocpoto7oaemk3fts43s24a64m6mvlifh6nyvbaqa",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.unspecced.listPoolFeed": {
-        "cid": "bafyreihukbawyxruxfe6bx5hvrzfybc36kcdkmbdji7hx4szl24u6jw7am",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.unspecced.listPoolGalleries": {
-        "cid": "bafyreicz4azqwq5lisgkqyfvlk2wozgup3wriv3jicoadpj53zd2ykorii",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.unspecced.listPrivateGalleries": {
-        "cid": "bafyreihkihszaeduif6hk2g32qoubmlueqxyak773adcctc2noj6ucblva",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.unspecced.listSharedGalleries": {
-        "cid": "bafyreicw365keucoxleapimz6uqibnhd6lss6xmqxu47kzbwl2r7nmich4",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
       "social.grain.unspecced.markStoriesViewed": {
         "cid": "bafyreiae4q7sizvbppbwr3nbjbrrujs474f64q4co7xbtc7yjtlx5epauq",
-        "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
-      },
-      "social.grain.unspecced.putPoolFavorite": {
-        "cid": "bafyreifvsy7rhn4ixfujkpjrxxnkthlpmabzczb3hzrrprwnmvvzc7ybce",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.unspecced.searchActorsTypeahead": {
@@ -4803,7 +4679,7 @@
         "did": "did:plc:yqsg7znbbhfmj3a2nrpnaerk"
       },
       "dev.knotless.awaitSpaceWrites": {
-        "cid": "bafyreihzvxbbdkdwvez6zcvmdebxrgmr4gswtpxzjha75z2hyjgem4vpxu",
+        "cid": "bafyreigzngj4hy7fr6okix5e6crgo7uhnfui6msezrhbnunvtio3mrbtjq",
         "did": "did:plc:yqsg7znbbhfmj3a2nrpnaerk"
       },
       "dev.knotless.block": {
@@ -5027,7 +4903,7 @@
         "did": "did:plc:yqsg7znbbhfmj3a2nrpnaerk"
       },
       "dev.knotless.getForge": {
-        "cid": "bafyreiewkpdtfylujcjh7qmokzoufbcx35hkbxsuxmvb5gzz5nc4awavxi",
+        "cid": "bafyreign6hgptc3kpgdtaqwjhoqnn7w6b4vd5c7i5p4sjn2vvnl67tawti",
         "did": "did:plc:yqsg7znbbhfmj3a2nrpnaerk"
       },
       "dev.knotless.getGistComments": {
@@ -6471,7 +6347,7 @@
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.actor.profile": {
-        "cid": "bafyreiew5owc2wfogmejqvrmzhy4otmhqaj73kq464t67tqa3wxfkahtea",
+        "cid": "bafyreigeyzsvo3n4auk7o6rbvwd35hoslkdment2n6lxb4ophaxonmv3pe",
         "did": "did:plc:e2x3ihw2ntxt7pcgzmtu3abi"
       },
       "net.olamaelcu.livtet.biblio.bookClub": {
@@ -9169,7 +9045,7 @@
         "did": "did:plc:uixgxpiqf4i63p6rgpu7ytmx"
       },
       "com.suibari.nagi.createReport": {
-        "cid": "bafyreifyka3wtq6xvyi2k6ivkt5z7tefntghphpjhvgtxz7reftv5z3s2e",
+        "cid": "bafyreifwilik5dnbniwioygkrmw7jv73kgpyddx22m4wp2ptezganohezq",
         "did": "did:plc:uixgxpiqf4i63p6rgpu7ytmx"
       },
       "com.suibari.nagi.createSsoTicket": {
@@ -10929,7 +10805,7 @@
     "certified.app": "2026-11-13",
     "chavatar.app": "2026-11-13",
     "cocore.dev": "2026-11-13",
-    "colibri.social": "2026-11-24",
+    "colibri.social": "2026-11-27",
     "cosmik.network": "2026-11-13",
     "coves.social": "2026-11-22",
     "craftsky.social": "2026-11-13",
@@ -10944,12 +10820,12 @@
     "gainforest.app": "2026-11-13",
     "gamesgamesgamesgames.games": "2026-11-16",
     "gamethesky.com": "2026-11-13",
-    "grain.social": "2026-11-23",
+    "grain.social": "2026-11-27",
     "hypercerts.org": "2026-11-17",
     "jgs.me": "2026-11-13",
     "keytrace.dev": "2026-11-13",
     "kipclip.com": "2026-11-13",
-    "knotless.dev": "2026-11-24",
+    "knotless.dev": "2026-11-27",
     "leaflet.pub": "2026-11-25",
     "lexicon.community": "2026-11-17",
     "lichen.wiki": "2026-11-13",
@@ -10963,7 +10839,7 @@
     "nahdig.com": "2026-11-13",
     "nerdballot.com": "2026-11-13",
     "offprint.app": "2026-11-13",
-    "olamaelcu.net": "2026-11-26",
+    "olamaelcu.net": "2026-11-27",
     "opnshelf.xyz": "2026-11-13",
     "pckt.blog": "2026-11-13",
     "pinkleap.social": "2026-11-13",
@@ -10988,7 +10864,7 @@
     "standard.site": "2026-11-13",
     "stream.place": "2026-11-13",
     "substratum.cloud": "2026-11-13",
-    "suibari.com": "2026-11-25",
+    "suibari.com": "2026-11-27",
     "sylvanus.garden": "2026-11-13",
     "syui.ai": "2026-11-13",
     "tangled.org": "2026-11-13",

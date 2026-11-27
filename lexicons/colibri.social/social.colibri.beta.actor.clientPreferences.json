@@ -41,13 +41,18 @@
             "type": "integer",
             "maximum": 100,
             "minimum": 0,
-            "description": "The volume of in-app sound effects such as message pings and call sounds, in percent. Absent means 100."
+            "description": "The volume of in-app sound effects such as message pings and call sounds, in percent. Absent means 100. A client that reads soundVolumes uses this only for the presence, mic and video groups that soundVolumes leaves out."
           },
           "gifLoopLimit": {
             "type": "integer",
             "maximum": 5,
             "minimum": 1,
             "description": "How many times a GIF in chat plays before it pauses. Absent means no limit."
+          },
+          "soundVolumes": {
+            "ref": "social.colibri.beta.actor.defs#soundVolumes",
+            "type": "ref",
+            "description": "The volume of each group of in-app sound effects."
           },
           "blueskyClient": {
             "type": "string",

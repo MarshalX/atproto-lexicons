@@ -48,7 +48,8 @@
                   "gifs",
                   "embeds",
                   "emoji",
-                  "nodes"
+                  "nodes",
+                  "federation"
                 ]
               },
               "description": "Optional features this AppView supports."

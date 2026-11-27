@@ -28,6 +28,12 @@
     },
     "main": {
       "description": "Every pull, issue, comment, state change, hide and block anyone has written about a public repository, as an appview has indexed them from the firehose, less what its owner and the appview keep out. A page at a time, ordered by URI: follow `cursor` until it is absent. No authentication; responses are not personalized. Private repositories are never indexed: their readers list the members' records in the space.",
+      "errors": [
+        {
+          "description": "The index was built anew and is still being filled from the relay, so it would list pulls long merged as open: ask again in a few minutes.",
+          "name": "Unavailable"
+        }
+      ],
       "output": {
         "encoding": "application/json",
         "schema": {

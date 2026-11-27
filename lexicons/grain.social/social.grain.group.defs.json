@@ -1,6 +1,47 @@
 {
   "$type": "com.atproto.lexicon.schema",
   "defs": {
+    "galleryGroupView": {
+      "description": "The group a gallery is in, as its card and page show it: the group in passing, the author's submission that put it there (public galleries), the group's rules (to cite one in a report), and where the viewer stands with it.",
+      "properties": {
+        "avatar": {
+          "format": "uri",
+          "type": "string"
+        },
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "handle": {
+          "format": "handle",
+          "type": "string"
+        },
+        "rules": {
+          "items": {
+            "ref": "#rule",
+            "type": "ref"
+          },
+          "type": "array"
+        },
+        "submission": {
+          "description": "The author's social.grain.group.submission of this gallery; deleting it takes the gallery out of the group.",
+          "format": "at-uri",
+          "type": "string"
+        },
+        "viewer": {
+          "ref": "#viewerState",
+          "type": "ref"
+        }
+      },
+      "required": [
+        "did",
+        "handle"
+      ],
+      "type": "object"
+    },
     "galleryItem": {
       "properties": {
         "alt": {
@@ -60,6 +101,7 @@
       "type": "object"
     },
     "groupRef": {
+      "description": "The group whose pool a gallery was in, of the opensocial prototype (galleryView.group). Not set for an org.atgrp group: galleryView.inGroup names that.",
       "properties": {
         "did": {
           "format": "did",
@@ -85,6 +127,7 @@
       "type": "object"
     },
     "groupView": {
+      "description": "A group on its group-host (org.atgrp), as Grain shows it: its public profile and rules from its meta space, and, where the viewer may read the roster, its members, read by grain-serve through the session an admin of the group gave Grain. An account's profile carries it as `group`.",
       "properties": {
         "avatar": {
           "format": "uri",
@@ -100,11 +143,20 @@
         "displayName": {
           "type": "string"
         },
+        "galleries": {
+          "description": "How the group connected Grain: public galleries (ordinary galleries with a social.grain.group.submission), members-only ones (the social.grain.group.pool space), or none yet.",
+          "knownValues": [
+            "public",
+            "members",
+            "none"
+          ],
+          "type": "string"
+        },
         "handle": {
           "type": "string"
         },
         "joinPolicy": {
-          "description": "How to get in, from the group's public profile.",
+          "description": "How to get in, from the group's public profile: anyone, by a request an admin approves, or by invite alone.",
           "knownValues": [
             "open",
             "request",
@@ -113,16 +165,32 @@
           "type": "string"
         },
         "lastActivityAt": {
-          "description": "When the pool last changed.",
+          "description": "When the group's galleries last changed.",
           "format": "datetime",
           "type": "string"
         },
+        "memberCount": {
+          "description": "Only for a viewer who may read the roster.",
+          "type": "integer"
+        },
+        "members": {
+          "description": "The first members, only for a viewer who may read the roster.",
+          "items": {
+            "ref": "#memberView",
+            "type": "ref"
+          },
+          "type": "array"
+        },
         "pendingCount": {
-          "description": "Submissions awaiting review. Only present for a viewer acting as the group.",
+          "description": "Submissions awaiting review, of the opensocial prototype, where the group reviewed them. Not set for an org.atgrp group: a member's submission is in the group as it is written.",
           "type": "integer"
         },
         "poolCount": {
-          "description": "Galleries in the pool.",
+          "description": "Galleries in the group: its public pool's, or its members-only pool's to a member.",
+          "type": "integer"
+        },
+        "requestCount": {
+          "description": "Join requests waiting, only for a viewer holding admit.",
           "type": "integer"
         },
         "rules": {
@@ -133,13 +201,123 @@
           "type": "array"
         },
         "url": {
-          "description": "The group's own site, from its opensocial profile. Where the group is actually run.",
+          "description": "Where the group is run: its page on its group-host, for the profile's link slot.",
           "format": "uri",
           "type": "string"
         },
         "viewer": {
           "ref": "#viewerState",
           "type": "ref"
+        },
+        "website": {
+          "description": "The group's own website, from its about record (org.atgrp.about).",
+          "format": "uri",
+          "type": "string"
+        }
+      },
+      "required": [
+        "did",
+        "handle"
+      ],
+      "type": "object"
+    },
+    "groupViewBasic": {
+      "description": "A group named in passing: a pill on a person's profile, an invite, the group a members list or its rules are of.",
+      "properties": {
+        "avatar": {
+          "format": "uri",
+          "type": "string"
+        },
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "handle": {
+          "format": "handle",
+          "type": "string"
+        }
+      },
+      "required": [
+        "did",
+        "handle"
+      ],
+      "type": "object"
+    },
+    "joinRequestView": {
+      "properties": {
+        "avatar": {
+          "format": "uri",
+          "type": "string"
+        },
+        "createdAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "handle": {
+          "format": "handle",
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "did",
+        "handle",
+        "createdAt"
+      ],
+      "type": "object"
+    },
+    "memberCounts": {
+      "description": "How many a getMembers answer finds: all members, and with q, those it matched in each section.",
+      "properties": {
+        "admins": {
+          "type": "integer"
+        },
+        "all": {
+          "description": "Every member, whatever q.",
+          "type": "integer"
+        },
+        "members": {
+          "type": "integer"
+        },
+        "requests": {
+          "description": "Only for a viewer holding admit.",
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "memberView": {
+      "properties": {
+        "avatar": {
+          "format": "uri",
+          "type": "string"
+        },
+        "did": {
+          "format": "did",
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "handle": {
+          "format": "handle",
+          "type": "string"
+        },
+        "role": {
+          "description": "The role to show beside the name, such as Admin or Moderator; none for a plain member.",
+          "type": "string"
         }
       },
       "required": [
@@ -383,7 +561,13 @@
       "type": "object"
     },
     "rule": {
+      "description": "One of a group's rules, an org.atgrp.rule in its meta space, in the group's order.",
       "properties": {
+        "position": {
+          "description": "Its place in the group's order, from 1, as people see it numbered.",
+          "minimum": 1,
+          "type": "integer"
+        },
         "text": {
           "type": "string"
         },
@@ -461,13 +645,48 @@
       "type": "object"
     },
     "viewerState": {
+      "description": "Where the viewer stands with a group. Absent signed out.",
       "properties": {
         "acting": {
-          "description": "The viewer is signed in as this group, so may accept and remove.",
+          "description": "The viewer is signed in as this group, of the opensocial prototype. Not set for an org.atgrp group, which members run by their roles.",
           "type": "boolean"
         },
+        "canPost": {
+          "description": "The viewer may post here: a member, and for members-only galleries, on a PDS that serves spaces.",
+          "type": "boolean"
+        },
+        "connectUrl": {
+          "description": "Where an admin connects Grain to the group, while Grain reads none of it (galleries none): grain-serve's start of the approval at the group's host. For a viewer holding group.configure, or for anyone signed in where Grain knows no roster of the group to tell its admins by; the host lets only those its roles allow approve it.",
+          "format": "uri",
+          "type": "string"
+        },
+        "inviteDismissed": {
+          "description": "The viewer dismissed this group's invite in Grain (social.grain.group.dismissInvite), so Grain shows it no more. Only on a group's profile.",
+          "type": "boolean"
+        },
+        "lastAdmin": {
+          "description": "The viewer is the only member whose role configures the group, its only admin: its host refuses their stepping down or leaving until someone else is one.",
+          "type": "boolean"
+        },
+        "manageUrl": {
+          "description": "Where the viewer runs the group: its page at its group-host, which opens the host's console for it. Only for a member holding a role past membership, such as an admin or a moderator, whose work there is done at the host.",
+          "format": "uri",
+          "type": "string"
+        },
         "member": {
-          "description": "The viewer has accepted membership of this group, as their own PDS lists it. A claim, not access: the host decides that.",
+          "description": "The viewer is a member of this group, as its host says.",
+          "type": "boolean"
+        },
+        "pending": {
+          "description": "The viewer's request to join waits.",
+          "type": "boolean"
+        },
+        "role": {
+          "description": "The role to show beside the viewer's name, such as Admin; none for a plain member.",
+          "type": "string"
+        },
+        "spacesUnsupported": {
+          "description": "Members-only galleries, and the viewer's PDS serves no spaces.",
           "type": "boolean"
         },
         "submission": {

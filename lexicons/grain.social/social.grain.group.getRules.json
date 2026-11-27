@@ -2,42 +2,35 @@
   "$type": "com.atproto.lexicon.schema",
   "defs": {
     "main": {
-      "description": "Submissions to a group that no item has answered yet — the review queue.",
+      "description": "A group's rules, numbered, as its public meta space holds them: the sheet the profile's rules row opens.",
       "output": {
         "encoding": "application/json",
         "schema": {
           "properties": {
-            "cursor": {
-              "type": "string"
+            "group": {
+              "ref": "social.grain.group.defs#groupViewBasic",
+              "type": "ref"
             },
-            "submissions": {
+            "rules": {
               "items": {
-                "ref": "social.grain.group.defs#submissionView",
+                "ref": "social.grain.group.defs#rule",
                 "type": "ref"
               },
               "type": "array"
             }
           },
           "required": [
-            "submissions"
+            "group",
+            "rules"
           ],
           "type": "object"
         }
       },
       "parameters": {
         "properties": {
-          "cursor": {
-            "type": "string"
-          },
           "group": {
-            "format": "did",
+            "format": "at-identifier",
             "type": "string"
-          },
-          "limit": {
-            "default": 30,
-            "maximum": 100,
-            "minimum": 1,
-            "type": "integer"
           }
         },
         "required": [
@@ -48,6 +41,6 @@
       "type": "query"
     }
   },
-  "id": "social.grain.group.getSubmissions",
+  "id": "social.grain.group.getRules",
   "lexicon": 1
 }

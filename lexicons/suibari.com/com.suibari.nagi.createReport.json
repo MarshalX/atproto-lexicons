@@ -28,21 +28,23 @@
             },
             "subject": {
               "type": "object",
-              "required": [
-                "uri"
-              ],
               "properties": {
                 "uri": {
                   "type": "string",
                   "format": "at-uri",
                   "description": "通報する com.suibari.nagi.post。reactor を付けたときは、リアクションが付いた投稿。"
                 },
+                "space": {
+                  "ref": "#spaceSubject",
+                  "type": "ref"
+                },
                 "reactor": {
                   "type": "string",
                   "format": "did",
                   "description": "付けると、この投稿にこの人が付けたリアクションを通報する。"
                 }
-              }
+              },
+              "description": "uri（投稿・リアクション）か space（Nagi Space）のどちらか一方を指定する。"
             }
           }
         },
@@ -71,7 +73,42 @@
         },
         "encoding": "application/json"
       },
-      "description": "Nagi の投稿（botたんの投稿を含む）や、投稿に付いたリアクションを運営に通報する、またはフィードバックを送る。内容は運営の Discord にだけ届き、通報された側には知らされない。"
+      "description": "Nagi の投稿（botたんの投稿を含む）や、投稿に付いたリアクション、Nagi Space の Space とその参加者を運営に通報する、またはフィードバックを送る。内容は運営の Discord にだけ届き、通報された側には知らされない。"
+    },
+    "spaceSubject": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "url",
+        "hostDid"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 2048
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 1000,
+          "maxGraphemes": 100
+        },
+        "member": {
+          "type": "string",
+          "format": "did",
+          "description": "付けると、Space の中のこの参加者を通報する。無ければ Space そのものを通報する。"
+        },
+        "hostDid": {
+          "type": "string",
+          "format": "did"
+        }
+      },
+      "description": "Nagi Space の Space、またはその参加者。Nagi Space の サーバーが組み立てて送る。AppView は存在を確かめられないため、運営への通知にそのまま載せる。"
     }
   },
   "$type": "com.atproto.lexicon.schema",
