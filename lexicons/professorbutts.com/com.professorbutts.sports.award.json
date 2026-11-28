@@ -21,7 +21,9 @@
               "com.professorbutts.sports.award#champion",
               "com.professorbutts.sports.award#runnerUp",
               "com.professorbutts.sports.award#third",
-              "com.professorbutts.sports.award#perfect"
+              "com.professorbutts.sports.award#perfect",
+              "com.professorbutts.sports.award#entrant",
+              "com.professorbutts.sports.award#secret"
             ]
           },
           "rank": {
@@ -115,6 +117,17 @@
             "format": "cid",
             "description": "Optional CID of the contest version the final standings were computed from."
           },
+          "achievement": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "For kind #secret (and other special awards): which achievement this is, a short slug chosen by the issuer."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 3000,
+            "description": "Optional line on how it was earned.",
+            "maxGraphemes": 300
+          },
           "statusReason": {
             "type": "string",
             "maxLength": 1000,
@@ -127,6 +140,14 @@
     "third": {
       "type": "token",
       "description": "Finished third."
+    },
+    "secret": {
+      "type": "token",
+      "description": "A hidden achievement; its name is not published until someone earns it. See achievement."
+    },
+    "entrant": {
+      "type": "token",
+      "description": "Entered the contest (saved an entry before it locked)."
     },
     "perfect": {
       "type": "token",

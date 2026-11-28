@@ -4377,7 +4377,7 @@
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.story.defs": {
-        "cid": "bafyreicwuvx34ngsdxkq7evezs5v2qyill46g3tvhd2nwp3iprde2fx55a",
+        "cid": "bafyreia57joa6eytowllm4rlekg3pfsaimqy2crs7rsqylfqxxzopur2hi",
         "did": "did:plc:e7rftrdyz5e2rw4y6ocszew2"
       },
       "social.grain.story.getArchive": {
@@ -7065,7 +7065,7 @@
         "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
       },
       "com.professorbutts.sports.award": {
-        "cid": "bafyreicgemzafbactdr7s5o3zupzzeci3xi26heewdi6v6pymhxnym6nuy",
+        "cid": "bafyreihzkaa354l7o2vvixbb3f7caeybh7snfgdhhxykgtzcko4bc2mpki",
         "did": "did:plc:x6njyeyi47bqs2kueuv3mrg5"
       },
       "com.professorbutts.sports.badge": {
@@ -9021,7 +9021,7 @@
         "did": "did:plc:uixgxpiqf4i63p6rgpu7ytmx"
       },
       "com.suibari.nagi.appviewAccess": {
-        "cid": "bafyreie2kisdpriag72ef7kkha5sgr5ausqx6tsivv6623tu6xgoyie4ry",
+        "cid": "bafyreihmr55dw747b3podx5gtbymxmyvg32clmh7ecoqz66al66dso7cni",
         "did": "did:plc:uixgxpiqf4i63p6rgpu7ytmx"
       },
       "com.suibari.nagi.bluemoji": {
@@ -10820,7 +10820,7 @@
     "gainforest.app": "2026-11-13",
     "gamesgamesgamesgames.games": "2026-11-16",
     "gamethesky.com": "2026-11-13",
-    "grain.social": "2026-11-27",
+    "grain.social": "2026-11-28",
     "hypercerts.org": "2026-11-17",
     "jgs.me": "2026-11-13",
     "keytrace.dev": "2026-11-13",
@@ -10846,7 +10846,7 @@
     "plyr.fm": "2026-11-13",
     "podping.at": "2026-11-13",
     "postgame.at": "2026-11-13",
-    "professorbutts.com": "2026-11-22",
+    "professorbutts.com": "2026-11-28",
     "publicdomainrelay.com": "2026-11-13",
     "pythonplayer123.dev": "2026-11-13",
     "rcape.org": "2026-11-13",
@@ -10864,7 +10864,7 @@
     "standard.site": "2026-11-13",
     "stream.place": "2026-11-13",
     "substratum.cloud": "2026-11-13",
-    "suibari.com": "2026-11-27",
+    "suibari.com": "2026-11-28",
     "sylvanus.garden": "2026-11-13",
     "syui.ai": "2026-11-13",
     "tangled.org": "2026-11-13",

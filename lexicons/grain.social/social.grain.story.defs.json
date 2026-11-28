@@ -76,6 +76,11 @@
           },
           "type": "array"
         },
+        "latestComment": {
+          "description": "The newest comment on the story the requesting account may see: by an account shown, neither blocking nor blocked by nor muted by the viewer, and not answering a deleted comment. Absent when there is none.",
+          "ref": "social.grain.comment.defs#commentView",
+          "type": "ref"
+        },
         "location": {
           "ref": "community.lexicon.location.hthree",
           "type": "ref"
